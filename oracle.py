@@ -81,7 +81,7 @@ class Oracle:
         choices = self.five_choice if self.choice_granularity == 5 else self.three_choice
         return f'''So based on your reasoning, choose one of the following {choices}''' # So which of the two responses is a better response to the given prompt? 
     
-    def query_gpt_once(self, prompt, model="gpt-3.5", max_tokens=5, tokenizer=None):
+    def query_gpt_once(self, prompt, model="gpt-3.5", tokenizer=None):
         # avoid using max_tokens which can be too short for generating explanations.
         n_attempt = 0
         while n_attempt < 5:

@@ -12,7 +12,7 @@ import re
 DEF_MODEL = "gpt-4"
 MODELS = {"gpt-4": "gpt-4", "gpt-3.5": "gpt-3.5-turbo"}
 TOKENIZERS  = {model : tiktoken.encoding_for_model(MODELS[model]) for model in MODELS }
-load_dotenv(dotenv_path='./.env') # take environment variables from .env with OPENAI_API_TOKEN=<your_key_here>
+load_dotenv(dotenv_path='./.env') # take environment variables from .env with OPENAI_API_KEY=<your_key_here>
 if os.getenv("OPENAI_API_ENDPOINT"):
     openai.api_base = os.getenv("OPENAI_API_ENDPOINT")
 openai.api_key = os.getenv("OPENAI_API_KEY")
