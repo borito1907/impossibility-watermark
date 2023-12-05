@@ -3,7 +3,6 @@ import time
 import torch
 import transformers
 import re
-import math
 import jsonlines
 from cmd_args import get_cmd_args
 from tqdm import tqdm
@@ -12,6 +11,8 @@ from oracle import *
 
 class Attacker:
     def __init__(self) -> None:
+
+        # Number of times a piece of text is resampled or paraphrased.
         self.n_resample = 5
         self.args = get_cmd_args()
         self.mask_filling_model_name = args.mask_filling_model_name
@@ -46,7 +47,10 @@ class Attacker:
             self.n_positions = 512
         print('MOVING MASK MODEL TO GPU...', end='', flush=True)
         start = time.time()
-        if not self.args.random_fills and not self.args.int8:
+
+        # TODO: Notify them that this is a bug.
+        # if not self.args.random_fills and not self.args.int8:
+        if not self.args.int8:
             mask_model.to(self.device)
         print(f'DONE ({time.time() - start:.2f}s)')
         return mask_model
@@ -153,17 +157,19 @@ class Trainer():
         self.steps = 10
         self.args = get_cmd_args()
         self.mask_filling_model_name = self.args.mask_filling_model_name
-        self.n_positions = 512 
+        self.n_positions = 512
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def load_mask_model(self):
         # mask filling t5 model
         int8_kwargs = {}
         half_kwargs = {}
+
         if self.args.int8:
             int8_kwargs = dict(load_in_8bit=True, device_map='auto', torch_dtype=torch.bfloat16)
         elif self.args.half:
             half_kwargs = dict(torch_dtype=torch.bfloat16)
+
         print(f'Loading mask filling model {self.mask_filling_model_name}...')
         mask_model = transformers.AutoModelForSeq2SeqLM.from_pretrained(self.mask_filling_model_name, **int8_kwargs, **half_kwargs, cache_dir=self.args.cache_dir)
         try:
@@ -176,79 +182,94 @@ class Trainer():
         print(f'DONE ({time.time() - start:.2f}s)')
         return mask_model
     
-    def random_walk_attack(self, oracle, attacker):
-        # find a perturbation (through repeated sampling) such that the quality oracle says quality is maintained; then repeat, several times 
-        response = oracle.response
-        dist = -1
-        n_iter, max_rnd_steps = 0, 200
-        rnd_walk_step = 0
-        # set the stopping criterion
-        threshold_dist = self.args.dist_alpha * len(oracle.response)
-        attacker.original_tokens = set(response.replace("\n", " ").split(" ")) 
-        threshold_dist = int(self.args.dist_alpha * len(attacker.original_tokens))
-        checkpoint_dist = int(self.args.checkpoint_alpha * len(attacker.original_tokens))
-        maintain_quality_or_not = True
-        patience = 0
-        ckpt_cnt = 0
-        mixing_patience = 0
-        intermediate_examples = [response]
-        while n_iter < self.args.step_T:
-            last_replaced_tokens = set()
-            attacker.cached_replaced_tokens = set()
-            score = 0
-            n_response = attacker.paraphrase([response], self.args.span_len)[0]
-            n_response = re.sub(r'\s{2,}', ' ', n_response) # strip the extra spaces
-            if oracle.maintain_quality(n_response, model=self.args.oracle_model, tie_threshold=self.args.tie_threshold):
-                response = n_response
-                rnd_walk_step += 1
-                attacker.original_tokens -= attacker.cached_replaced_tokens
-                last_replaced_tokens = attacker.cached_replaced_tokens
-                patience = 0
-                if int(rnd_walk_step*self.args.span_len) // checkpoint_dist > ckpt_cnt:
-                    intermediate_examples.append(n_response)
-                    ckpt_cnt += 1
-                print("Get a better response.")
-            n_iter += 1
-            # dist = Levenshtein.distance(response, oracle.response)
-            if n_iter % 10 == 0:
-                print("Original Text: ")
-                print(oracle.response.__repr__())
-            print(f"Walk {rnd_walk_step} / Iteration {n_iter}, {len(attacker.original_tokens)} > {threshold_dist} unique tokens replaced, Paraphrased Text:")
-            print(n_response.__repr__())
-            if rnd_walk_step >= max_rnd_steps or patience >= 150:
-                print("Max random walk steps reached. Exiting.")
-                break 
-            if len(attacker.original_tokens) <= threshold_dist:
-                mixing_patience += 1
-            if mixing_patience > self.args.step_T/3:
-                print("Mixing patience exceeded. Exiting.")
-                break
-            if patience > 30:
-                print("Remaining tokens to be masked.")
-                print(attacker.original_tokens)
-                print("Patience exceeded. Backtrack.")
-                response = intermediate_examples[-1]
-                attacker.original_tokens = last_replaced_tokens | attacker.original_tokens
-            patience += 1
+def random_walk_attack(self, oracle, attacker):
+    # Initial setup: capturing the original response and initializing variables.
+    response = oracle.response  # The original text to be modified.
+    dist = -1  # A variable to track the distance (possibly Levenshtein distance) between original and modified text.
+    n_iter, max_rnd_steps = 0, 200  # Iteration counter and max steps for the random walk.
+    rnd_walk_step = 0  # Counter for the number of successful walk steps.
+    
+    # Determine the threshold for significant textual change.
+    threshold_dist = self.args.dist_alpha * len(oracle.response)
+    attacker.original_tokens = set(response.replace("\n", " ").split(" ")) 
+    threshold_dist = int(self.args.dist_alpha * len(attacker.original_tokens))
+    checkpoint_dist = int(self.args.checkpoint_alpha * len(attacker.original_tokens))
+    
+    # Variables to track the quality and process of text modification.
+    maintain_quality_or_not = True  # Flag to indicate if quality is maintained.
+    patience = 0  # A variable to track patience, which might be related to retries or attempts.
+    ckpt_cnt = 0  # Counter for checkpoints.
+    mixing_patience = 0  # A variable to track patience regarding the diversity of changes.
+    intermediate_examples = [response]  # Store intermediate versions of the text.
 
-        if patience >= 150:
-            maintain_quality_or_not = False
-        if self.verbose:
-            print("Step: ", n_iter)
+    # Main loop for the random walk attack.
+    while n_iter < self.args.step_T:
+        last_replaced_tokens = set()  # Track the last set of tokens replaced.
+        attacker.cached_replaced_tokens = set()  # Reset the cached replaced tokens.
+        score = 0  # Reset the score (not used in this snippet).
+
+        # Generate a new version of the text.
+        n_response = attacker.paraphrase([response], self.args.span_len)[0]
+        n_response = re.sub(r'\s{2,}', ' ', n_response)  # Regular expression to remove extra spaces.
+
+        # Check if the new version maintains quality as per the oracle.
+        if oracle.maintain_quality(n_response, model=self.args.oracle_model, tie_threshold=self.args.tie_threshold):
+            # Update the response and various counters.
+            response = n_response
+            rnd_walk_step += 1
+            attacker.original_tokens -= attacker.cached_replaced_tokens
+            last_replaced_tokens = attacker.cached_replaced_tokens
+            patience = 0  # Reset patience since a successful step was taken.
+
+            # Checkpoint handling - saving intermediate steps.
+            if int(rnd_walk_step * self.args.span_len) // checkpoint_dist > ckpt_cnt:
+                intermediate_examples.append(n_response)
+                ckpt_cnt += 1
+
+        n_iter += 1  # Increment the main iteration counter.
+
+        # Logging information for every 10 iterations.
+        if n_iter % 10 == 0:
             print("Original Text: ")
             print(oracle.response.__repr__())
-            print("Paraphrase: ")
-            print(response.__repr__())
-            print("Quality: ")
-            print(score)
-            print(f"Quality maintained: {maintain_quality_or_not}")
-            print()
-            
-        result_dict = {"watermarked_response": oracle.response, "paraphrased_response": response, "maintain_quality_or_not": maintain_quality_or_not, "patience": patience}
-        if len(intermediate_examples) > 1: # intermediate steps for checkpointing etc
-            result_dict["intermediate_examples"] = intermediate_examples
+        print(f"Walk {rnd_walk_step} / Iteration {n_iter}, {len(attacker.original_tokens)} > {threshold_dist} unique tokens replaced, Paraphrased Text:")
+        print(n_response.__repr__())
 
-        return result_dict
+        # Handling the maximum steps and patience limits.
+        if rnd_walk_step >= max_rnd_steps or patience >= 150:
+            break  # Exit if max steps or patience exceeded.
+        if len(attacker.original_tokens) <= threshold_dist:
+            mixing_patience += 1  # Increment mixing patience.
+        if mixing_patience > self.args.step_T / 3:
+            break  # Exit if mixing patience is exceeded.
+        if patience > 30:
+            # Backtracking in case of high patience.
+            response = intermediate_examples[-1]
+            attacker.original_tokens = last_replaced_tokens | attacker.original_tokens
+
+        patience += 1  # Increment patience.
+
+    # Final check for quality maintenance.
+    if patience >= 150:
+        maintain_quality_or_not = False
+
+    # Verbose logging of the final result.
+    if self.verbose:
+        print("Step: ", n_iter)
+        print("Original Text: ")
+        print(oracle.response.__repr__())
+        print("Paraphrase: ")
+        print(response.__repr__())
+        print("Quality: ")
+        print(score)
+        print(f"Quality maintained: {maintain_quality_or_not}")
+
+    # Prepare the final result dictionary.
+    result_dict = {"watermarked_response": oracle.response, "paraphrased_response": response, "maintain_quality_or_not": maintain_quality_or_not, "patience": patience}
+    if len(intermediate_examples) > 1:
+        result_dict["intermediate_examples"] = intermediate_examples
+
+    return result_dict
 
 def run_once(query, response=None):
     args = get_cmd_args()
@@ -274,26 +295,48 @@ def run_once(query, response=None):
 
 def main(query, response=None):
     args = get_cmd_args()
+
+    # Set the dataset for processing.
     args.dataset = 'c4_realnews'
+
+    # Create an instance of the Attacker class.
     attacker = Attacker()
+
+    # Store the watermarking scheme from arguments.
     watermark_scheme = args.watermark_scheme
+
+    # Store the dataset name.
     dataset = args.dataset 
+
+    # TODO: Determine the use of gen_len. It might be for specifying the length of generated text.
     gen_len = args.gen_len
+
+    # Define the output folder for results.
     out_folder = 'outs_300'
+
+    # Initialize data with the provided query and response.
+    # This can be extended by loading more data from a JSON lines file.
     data = [
         {
             "query": query,
             "output_with_watermark": response
         }
     ]
-    # load more from the jsonl file...
+
+    # Uncomment to load additional data from a specified JSON lines file.
     # prefix = f'{watermark_scheme}-watermark/{out_folder}' 
     # data = load_data(f"{prefix}/{dataset}_{watermark_scheme}.jsonl") 
+
+    # Initialize a list to store the results of the attacks.
     attack_results = []
     print(args)
+
+    # Iterate over each data item.
     for i, datum in tqdm(enumerate(data), desc="Data Iteration"):
+        # Extract response from the current data item.
         response = datum["output_with_watermark"]
 
+        # Determine the query based on the data item's keys.
         if "prefix" in list(datum.keys()):
             query = datum["prefix"]
         elif "query" in list(datum.keys()):
@@ -301,27 +344,43 @@ def main(query, response=None):
         else:
             query = None
         
+        # Set the query as a prefix in the attacker instance.
         attacker.prefix = query
-        oracle = Oracle(query, response, check_quality=args.check_quality, choice_granuality=args.choice_granularity)
+
+        # Initialize the Oracle with current query and response.
+        oracle = Oracle(query, response, check_quality=args.check_quality, choice_granularity=args.choice_granularity)
+
+        # Log the current iteration and query.
         print(f"Iteration {i}-th data:")
         print(f"Query: {query}")
+
+        # Create an instance of the Trainer class.
         trainer = Trainer(data, oracle, args)
+
+        # Perform the random walk attack.
         result_dict = trainer.random_walk_attack(oracle, attacker)
+
+        # Retrieve and print the paraphrased response.
         paraphrased_response = result_dict["paraphrased_response"]
         print(f"Response: {response}")
         print(f"Paraphrased Response: {paraphrased_response}")
+
+        # Add additional information to result_dict and append it to results.
         result_dict["watermarked_response"] = datum["output_with_watermark"]
         result_dict["query"] = query
         attack_results.append(result_dict)
         
-        # Saved intermediate results
-        output_file = f"{out_folder}/{dataset}/{dataset}_{watermark_scheme}_len{gen_len}_step{args.step_T}_attack.jsonl"
+        # Save intermediate results to a file.
+        output_file = f"./{out_folder}/{dataset}/{dataset}_{watermark_scheme}_len{gen_len}_step{args.step_T}_attack.jsonl"
         print(f"Saving to {output_file}")
         with jsonlines.open(output_file, mode='w') as writer:
             for item in attack_results:
                 writer.write(item)
+
+    # Print the final aggregated results.
     print("Final results:")
     print(attack_results)
+
 
 if __name__ == '__main__':
     args = get_cmd_args()
