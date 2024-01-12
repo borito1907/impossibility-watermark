@@ -3,6 +3,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WORLD_SIZE"] = "1"
 
+from tqdm import tqdm
 import nltk
 import random
 from nltk.tokenize import sent_tokenize
@@ -111,7 +112,7 @@ class TextMutator:
 
         return final_text
     
-    def mutate_with_quality_control(self, text, oracle):
+    def mutate_with_quality_control(self, text, oracle, num_steps=100):
         """
         Mutate the text for a given number of steps with quality control.
 
@@ -123,8 +124,8 @@ class TextMutator:
         - str: The final high-quality mutated text.
         """
         patience = 0
-        for _ in range(self.args.step_T):
-            if patience > self.args.step_T/3: # exit after too many failed perturbations
+        for _ in tqdm(range(num_steps)):
+            if patience > num_steps/3: # exit after too many failed perturbations
                 print("Mixing patience exceeded. Exiting.")
                 break
             mutated_text = self.mutate_2_step(text)
@@ -159,7 +160,7 @@ if __name__ == "__main__":
     quality_oracle = Oracle(query=None, response=original_text, use_query=True, check_quality=True, use_chat_arena_prompt=True)
     # Timing mutate_with_quality_control
     start_time = time.time()
-    mutated_text = text_mutator.mutate_with_quality_control(original_text,quality_oracle)
+    mutated_text = text_mutator.mutate_with_quality_control(original_text, quality_oracle)
     end_time = time.time()
     print("mutated_text"  + "=" * 100)
     print(mutated_text)

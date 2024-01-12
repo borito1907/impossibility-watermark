@@ -360,7 +360,7 @@ class Oracle:
                 # Save the mean score so we can log it to a file
                 self.latest_mean_score = mean_score
                 print(f"Mean Quality Score from GPT: {mean_score}")
-                return (mean_score > 0.0)
+                return (mean_score >= 0.0)
             else:
                 prompt = f"Original response: {self.response}" + "\n" + "New response: " + paraphrased_response + "\n" + self.check_quality_prompt
                 check_quality = chat(prompt, model=model, tokenizer=tokenizer)
