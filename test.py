@@ -42,3 +42,6 @@ def main(cfg):
                 results[f"{oraclabel[j]+{mutalabel[i]}}"] = []
                 mutated = mutator.mutate(response)
                 results[f"{oraclabel[j]+{mutalabel[i]}}"].append(oracle.is_quality_preserved(prompt, response, mutated))
+
+if __name__ == "__main__":
+    main()
