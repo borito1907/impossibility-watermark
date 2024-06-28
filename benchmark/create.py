@@ -62,9 +62,13 @@ Your goal is to provide clear, concise, and accurate assessments of the response
 
 counter = 0
 
-annotator = CategoryBySummary(llm, category_persona)
+annotator = CategoryMinimal(llm, category_persona)
 dataset = annotator.annotate(dataset, f"{counter}_")
 counter += 1
+
+# annotator = CategoryBySummary(llm, category_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
 
 # annotator = CategoryByScores(llm, category_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
@@ -72,9 +76,13 @@ counter += 1
 
 print(f"Dataset after adding category annotation: {dataset}")
 
-annotator = DomainBySummary(llm, domain_persona)
+annotator = DomainMinimal(llm, domain_persona)
 dataset = annotator.annotate(dataset, f"{counter}_")
 counter += 1
+
+# annotator = DomainBySummary(llm, domain_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
 
 # annotator = DomainByScores(llm, domain_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
@@ -82,17 +90,21 @@ counter += 1
 
 print(f"Dataset after adding domain annotation: {dataset}")
 
-annotator = EntropyBySummary(llm, entroy_persona)
+annotator = EntropyMinimal(llm, entroy_persona)
 dataset = annotator.annotate(dataset, f"{counter}_")
 counter += 1
+
+# annotator = EntropyBySummary(llm, entroy_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
 
 # annotator = EntropyByInstructions(llm, entroy_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
 # counter += 1
 
-annotator = EntropyWithExp(llm, entroy_persona)
-dataset = annotator.annotate(dataset, f"{counter}_")
-counter += 1
+# annotator = EntropyWithExp(llm, entroy_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
 
 # annotator = EntropyByInstructionsAndResponses(llm, entroy_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")

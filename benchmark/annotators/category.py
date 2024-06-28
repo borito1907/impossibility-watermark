@@ -2,6 +2,55 @@ import guidance
 from guidance import gen, select, user, system, assistant
 from benchmark.annotators.annotator import Annotator
 
+class CategoryMinimal(Annotator):
+    @property
+    def input_keys(self):
+        return ["prompt"]
+    
+    @property
+    def output_keys(self):
+        return ["best_category", "category_explanation"]
+
+    @staticmethod
+    @guidance
+    def annotation_fn(lm, persona, **kwargs):
+        if persona:
+            with system():
+                lm += f"{persona}"
+        with user():
+            lm += f"""\
+            ### Introduction
+            I am trying to identify the type of task that a given instruction represents in order to study the differences in the structure of responses.
+            You will be grouping the provided instructions into a category based on the type of task they represent.
+            
+            ### Task Description: 
+            1. Please use the following category definitions in your assessment:
+                - Generation: instructions that ask you for creative writing
+                - Brainstorming: instructions that ask you to generate ideas
+                - Classification: instructions that ask you to label or categorize items
+                - Extraction: instructions that ask you to identify certain words present in the instruction
+                - Summarization: instructions that ask you to summarize information present in the instruction
+                - Rewriting: instructions that ask you to rewrite information present in the instruction
+                - Chat: instructions that ask you to engage in a conversation
+                - Open QA: instructions that ask you to answer a question based on your knowledge
+                - Closed QA: instructions that ask you to answer a question based on knowledge provided in the instruction
+
+            2. For the given instructions:
+                - provide a one-sentence summary of the provided instruction.
+                - provide a one-sentence explanation for the best category.
+                - select the best category that fits the instruction.
+
+            ### The instructions to evaluate:
+            {kwargs["prompt"]}
+            """
+        with assistant():
+            lm += f"""\
+            Instruction summary: {gen(f'instruction_summary', stop='.')}
+            Category explanation: {gen(f'category_explanation', stop='.')}
+            Best Category: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA'], name='best_category')}
+            """
+        return lm
+
 class CategoryBySummary(Annotator):
     @property
     def input_keys(self):

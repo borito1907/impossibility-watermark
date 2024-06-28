@@ -2,6 +2,48 @@ import guidance
 from guidance import gen, select, user, system, assistant
 from benchmark.annotators.annotator import Annotator
 
+class EntropyMinimal(Annotator):
+    @property
+    def input_keys(self):
+        return ["prompt"]
+    
+    @property
+    def output_keys(self):
+        return ["entropy_level", "entropy_analysis"]
+    
+    @staticmethod
+    @guidance
+    def annotation_fn(lm, persona, **kwargs):
+        if persona:
+            with system():
+                lm += f"{persona}"
+        with user():
+            lm += f"""\
+            ### Introduction
+            I am trying to assess whether the given instructions have low, medium, or high entropy potential.
+            
+            Please assess the entropy of the instructions based on the following criteria:
+                - How likely are the answers to use varied language and content?
+                - Instructions that are unlikely to produce the same answer when asked again have high entropy.
+            
+            ### Task Description: 
+            For the given instruction:
+                - provide a one-sentence summary of the provided instruction.
+                - provide a one-sentence analysis of the instruction entropy.
+                - use your analysis to assign an entropy score from 0-9, where 0 is low and 9 is high.
+            ### The instructions to evaluate:
+            {kwargs['prompt']}
+            """
+        with assistant():
+            lm += f"""\
+            ### Entropy Assessment: 
+            Instruction summary: {gen(f'instruction_summary', stop='.')}
+            Here is my analysis of the entropy: {gen(f'entropy_analysis', stop='.')}
+            Entropy Score: {gen(regex='[0-9]', name='entropy_level')}
+            """
+            # Entropy: {select(['low', 'medium', 'high'], name='entropy_level')}
+        return lm
+
 class EntropyBySummary(Annotator):
     @property
     def input_keys(self):

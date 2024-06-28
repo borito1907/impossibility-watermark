@@ -2,6 +2,51 @@ import guidance
 from guidance import gen, select, user, system, assistant
 from benchmark.annotators.annotator import Annotator
 
+class DomainMinimal(Annotator):
+    @property
+    def input_keys(self):
+        return ["prompt"]
+
+    @property
+    def output_keys(self):
+        return ["best_domain", "domain_explanation"]
+
+    @staticmethod
+    @guidance
+    def annotation_fn(lm, persona, **kwargs):
+        if persona:
+            with system():
+                lm += f"{persona}"
+        with user():
+            lm += f"""\
+            ### Introduction
+            I am trying to identify if the provided instructions are related to a specific job industry.
+            You will be grouping the provided instructions based on field it is most likely to be used in.
+            If none of the provided domains are a good fit, select Other and provide an explanation.
+            
+            ### Task Description: 
+            1. Please categorize the instructions into one of the following domains: Education, Politics, Sales, Health, Economics, Law, Customer Service, Marketing, Entertainment
+
+            2. For the given instructions:
+                - provide a one-sentence summary of the provided instruction.
+                - repeat back to me the domains I listed.
+                - provide a one-sentence explanation for the best domain.
+                - select the domain that best fits the instructions. 
+            
+            ### The instructions to evaluate:
+            {kwargs["prompt"]}
+            """
+        with assistant():
+            lm += f"""\
+            ### Domain Assessment:
+            Instruction summary: {gen(f'instruction_summary', stop='.')}
+            Here are the domains you listed: Education, Politics, Sales, Health, Economics, Law, Customer Service, Marketing, Entertainment.
+            I have analyzed the instructions and carefully considered which of the domains best represent the industry where the instruction may be used.
+            Here is my reasoning: {gen(f'domain_explanation', stop='.')}
+            Best Domain: {select(['Education', 'Politics', 'Sales', 'Health', 'Economics', 'Law', 'Customer Service', 'Marketing', 'Entertainment', 'Other'], name='best_domain')}
+            """
+        return lm
+
 class DomainBySummary(Annotator):
     @property
     def input_keys(self):
