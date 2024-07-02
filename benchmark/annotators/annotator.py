@@ -17,7 +17,7 @@ class Annotator(ABC):
     def annotation_fn(lm, persona, **kwargs):
         pass
 
-    def annotate(self, dataset, prefix):
+    def annotate(self, dataset, prefix=""):
         return dataset.map(
             partial(apply_annotation, 
                 llm=self.llm, 

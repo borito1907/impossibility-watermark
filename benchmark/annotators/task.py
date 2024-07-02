@@ -2,14 +2,96 @@ import guidance
 from guidance import gen, select, user, system, assistant
 from benchmark.annotators.annotator import Annotator
 
-class CategoryMinimal(Annotator):
+n = '\n'
+
+class FreeTask(Annotator):
+    @property
+    def input_keys(self):
+        return ["prompt"]
+
+    @property
+    def output_keys(self):
+        return ["task"]
+
+    @staticmethod
+    @guidance
+    def annotation_fn(lm, persona, **kwargs):
+        if persona:
+            with system():
+                lm += f"{persona}"
+        with user():
+            lm += f"""
+            ### Introduction: 
+            Your task is to read each instruction given to a language model and identify the specific task it represents. 
+            This involves understanding the intent of the instruction and categorizing it accordingly.
+            Tasks could include summarization, translation, data retrieval, creative writing, etc.
+
+            ### Task Description: 
+            1. Read the Instruction: Carefully read the instruction provided to the language model.
+            2. Identify the Task: Determine the main task that the instruction is asking the language model to perform. 
+            3. If the task does not fit any category perfectly, use 'other'.
+            
+            ### The prompt to evaluate:
+            {kwargs["prompt"]}
+            """
+        with assistant():
+            lm += f"""\
+            Most relevant task: {gen(stop=n, max_tokens=5, name='task')}
+            """
+        return lm
+
+class TaskMinimalist(Annotator):
     @property
     def input_keys(self):
         return ["prompt"]
     
     @property
     def output_keys(self):
-        return ["best_category", "category_explanation"]
+        return ["best_task"]
+
+    @staticmethod
+    @guidance
+    def annotation_fn(lm, persona, **kwargs):
+        if persona:
+            with system():
+                lm += f"{persona}"
+        with user():
+            lm += f"""\
+            ### Introduction
+            You must annotate a prompt as relevant to a particular task. Here are the task options and their definitions:
+            
+            Tasks:
+                - Generation : prompt that ask you for creative writing
+                - Brainstorming : prompt that ask you to generate ideas
+                - Classification : prompt that ask you to label or categorize items
+                - Extraction : prompt that ask you to identify certain words present in the instruction
+                - Summarization : prompt that ask you to summarize information present in the instruction
+                - Rewriting : prompt that ask you to rewrite information present in the instruction
+                - Chat : prompt that ask you to engage in a conversation
+                - Open QA : prompt that ask you to answer a question based on your knowledge
+                - Closed QA : prompt that ask you to answer a question based on knowledge provided in the instruction
+
+            ### Task Description: 
+            1. Carefully read the given prompt and determine the most appropriate task. 
+            2. If no task is appropriate, select "Other".
+
+            ### The prompt to evaluate:
+            {kwargs["prompt"]}
+            """
+        with assistant():
+            lm += f"""\
+            Most relevant task: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA', 'Other'], name='best_task')}
+            """
+        return lm
+
+class TaskMinimal(Annotator):
+    @property
+    def input_keys(self):
+        return ["prompt"]
+    
+    @property
+    def output_keys(self):
+        return ["best_task", "task_explanation"]
 
     @staticmethod
     @guidance
@@ -46,20 +128,20 @@ class CategoryMinimal(Annotator):
         with assistant():
             lm += f"""\
             Instruction summary: {gen(f'instruction_summary', stop='.')}
-            Category explanation: {gen(f'category_explanation', stop='.')}
-            Best Category: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA'], name='best_category')}
+            Category explanation: {gen(f'task_explanation', stop='.')}
+            Best Category: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA'], name='best_task')}
             """
         return lm
 
-class CategoryBySummary(Annotator):
+class TaskBySummary(Annotator):
     @property
     def input_keys(self):
         return ["prompt"]
     
     @property
     def output_keys(self):
-        # return ["best_category", "category_explanation"]
-        return ["best_category", "generation_score", "brainstorming_score", "classification_score", "extraction_score", "summarization_score", "rewriting_score", "chat_score", "open_qa_score", "closed_qa_score", "instruction_summary", "category_explanation"]
+        # return ["best_task", "task_explanation"]
+        return ["best_task", "generation_score", "brainstorming_score", "classification_score", "extraction_score", "summarization_score", "rewriting_score", "chat_score", "open_qa_score", "closed_qa_score", "instruction_summary", "task_explanation"]
 
     @staticmethod
     @guidance
@@ -96,7 +178,7 @@ class CategoryBySummary(Annotator):
         with assistant():
             lm += f"""\
             Instruction summary: {gen(f'instruction_summary', stop='.')}
-            Category explanation: {gen(f'category_explanation', stop='.')}
+            Category explanation: {gen(f'task_explanation', stop='.')}
             Category Scores:
             - Generation: {gen(regex='[0-9]', name='generation_score')}
             - Brainstorming: {gen(regex='[0-9]', name='brainstorming_score')}
@@ -107,18 +189,18 @@ class CategoryBySummary(Annotator):
             - Chat: {gen(regex='[0-9]', name='chat_score')}
             - Open QA: {gen(regex='[0-9]', name='open_qa_score')}
             - Closed QA: {gen(regex='[0-9]', name='closed_qa_score')}
-            Best Category: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA'], name='best_category')}
+            Best Category: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA'], name='best_task')}
             """
         return lm
 
-class CategoryByScores(Annotator):
+class TaskByScores(Annotator):
     @property
     def input_keys(self):
         return ['prompt']
 
     @property
     def output_keys(self):
-        return ["best_category", "generation_score", "brainstorming_score", "classification_score", "extraction_score", "summarization_score", "rewriting_score", "chat_score", "open_qa_score", "closed_qa_score", "other_score", "top_three_categories", "category_explanation"]
+        return ["best_task", "generation_score", "brainstorming_score", "classification_score", "extraction_score", "summarization_score", "rewriting_score", "chat_score", "open_qa_score", "closed_qa_score", "other_score", "top_three_categories", "task_explanation"]
 
     @staticmethod
     @guidance
@@ -171,7 +253,7 @@ class CategoryByScores(Annotator):
 
             ### Category Assessment: 
             Top three categories: {gen(f'top_three_categories', stop='.')}
-            Explanation: {gen(f'category_explanation', stop='.')}
-            Best Category: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA', 'Other'], name='best_category')}
+            Explanation: {gen(f'task_explanation', stop='.')}
+            Best Category: {select(['Generation', 'Brainstorming', 'Classification', 'Extraction', 'Summarization', 'Rewriting', 'Chat', 'Open QA', 'Closed QA', 'Other'], name='best_task')}
             """
         return lm

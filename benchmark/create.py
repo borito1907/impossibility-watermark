@@ -1,7 +1,7 @@
 from datasets import load_dataset
 from guidance import models
 
-from benchmark.annotators.category import *
+from benchmark.annotators.task import *
 from benchmark.annotators.domain import *
 from benchmark.annotators.entropy import *
 from benchmark.preprocess import preprocess
@@ -34,15 +34,15 @@ You approach each task with objectivity and a keen attention to detail, ensuring
 Your goal is to provide clear, concise, and accurate assessments of the responses.
 """
 
-category_persona_old = \
-"""
-You are a task analyst, specializing in categorizing given instructions based on the type of prompt and expected response.
-Your expertise in linguistic analysis allows you to assess what a given prompt is asking for and what type of category it falls under.
-You approach each task with objectivity and a keen attention to detail, ensuring your evaluations are impartial and thorough.
-Your goal is to provide clear, concise, and accurate assessments of the responses.
-"""
+# task_persona_old = \
+# """
+# You are a task analyst, specializing in categorizing given instructions based on the type of prompt and expected response.
+# Your expertise in linguistic analysis allows you to assess what a given prompt is asking for and what type of category it falls under.
+# You approach each task with objectivity and a keen attention to detail, ensuring your evaluations are impartial and thorough.
+# Your goal is to provide clear, concise, and accurate assessments of the responses.
+# """
 
-category_persona = \
+task_persona = \
 """
 You are a task analyst, specializing in analyzing the type of task an instruction represents and the structure of the response.
 You understand that the type of task is more important than the contents of the task itself.
@@ -62,23 +62,31 @@ Your goal is to provide clear, concise, and accurate assessments of the response
 
 counter = 0
 
-annotator = CategoryMinimal(llm, category_persona)
-dataset = annotator.annotate(dataset, f"{counter}_")
-counter += 1
-
-# annotator = CategoryBySummary(llm, category_persona)
+# annotator = FreeTask(llm, task_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
 # counter += 1
 
-# annotator = CategoryByScores(llm, category_persona)
+# annotator = TaskMinimal(llm, task_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
 # counter += 1
 
-print(f"Dataset after adding category annotation: {dataset}")
+# annotator = TaskBySummary(llm, task_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
 
-annotator = DomainMinimal(llm, domain_persona)
-dataset = annotator.annotate(dataset, f"{counter}_")
+# annotator = TaskByScores(llm, task_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+print(f"Dataset after adding task annotation: {dataset}")
+
+annotator = FreeDomain(llm, domain_persona)
+dataset = annotator.annotate(dataset)
 counter += 1
+
+# annotator = DomainMinimal(llm, domain_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
 
 # annotator = DomainBySummary(llm, domain_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
@@ -90,15 +98,14 @@ counter += 1
 
 print(f"Dataset after adding domain annotation: {dataset}")
 
-annotator = EntropyMinimal(llm, entroy_persona)
-dataset = annotator.annotate(dataset, f"{counter}_")
-counter += 1
+annotator = EntropyMinimalist(llm, entroy_persona)
+dataset = annotator.annotate(dataset)
 
-# annotator = EntropyBySummary(llm, entroy_persona)
+# annotator = EntropyMinimal(llm, entroy_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
 # counter += 1
 
-# annotator = EntropyByInstructions(llm, entroy_persona)
+# annotator = EntropyBySummary(llm, entroy_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
 # counter += 1
 
@@ -115,4 +122,4 @@ print(f"Dataset after adding entropy annotation: {dataset}")
 df = dataset.to_pandas()
 df.to_csv("./benchmark/sample.csv")
 
-# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=0 python -m benchmark.create
+# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m benchmark.create

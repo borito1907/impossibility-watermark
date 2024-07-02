@@ -77,7 +77,7 @@ def preprocess(dataset):
     dataset = filter(dataset)
     print(f"Dataset after length filtering: {dataset}")
     # Selects samples from winner_a, winner_b, and winner_tie
-    dataset = select(dataset, 5, 5, 5)
-    print(f"Dataset after winner selection: {dataset}")
+    # dataset = select(dataset, 5000, 5000, 5000)
+    # print(f"Dataset after winner selection: {dataset}")
     dataset = reformat(dataset)
     return dataset
