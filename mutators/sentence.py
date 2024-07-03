@@ -2,7 +2,7 @@ import random
 import nltk
 from nltk.tokenize import sent_tokenize
 import guidance
-from guidance import models, gen, select
+from guidance import models, gen, select, user, assistant
 import hydra
 import logging
 
@@ -14,13 +14,6 @@ def extract_dict(output, keys):
 
 # TODO: There should be a better way to do this.
 import re
-
-def remove_double_triple_commas(text):
-    # Remove triple commas first
-    text = re.sub(r',,,', ',', text)
-    # Then remove double commas
-    text = re.sub(r',,', ',', text)
-    return text
 
 class SentenceMutator:  
     def __init__(self, cfg, llm = None) -> None:
@@ -72,12 +65,10 @@ class SentenceMutator:
             selected_sentence = random.choice(long_sentences)
             log.info(f"Sentence to rephrase: {selected_sentence}")
 
-            output = self.llm + rephrase_sentence(text, selected_sentence)
+            output = self.llm + rephrase_sentence(selected_sentence, text)
+            print(output)
 
             rephrased_sentence = output["paraphrased_sentence"]
-            # TODO: There should be a better way to do this.
-            rephrased_sentence = remove_double_triple_commas(rephrased_sentence)
-
 
             if rephrased_sentence != selected_sentence:
                 log.info(f"Rephrased sentence: {rephrased_sentence}")
@@ -96,24 +87,45 @@ class SentenceMutator:
             "mutated_text": mutated_text,
         }  
 
+# @guidance
+# def rephrase_sentence(lm, sentence, text, stop="\n"):
+#     with user():
+#         lm += f"""\
+#         ### The original text: 
+#         {text}
+
+#         ### The original selected sentence: 
+#         {sentence}
+
+#         ### Task Description: 
+#         Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
+#         Introduce subtle shifts in meaning that are still consistent with the original text. 
+#         Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
+#         """
+#     with assistant():
+#         lm += f"""\
+#         Paraphrased sentence: 
+#         {gen('paraphrased_sentence', stop=stop)}
+#         """
+#     return lm
+
 @guidance
-def rephrase_sentence(lm, text, sentence):
-    lm += f"""\
-    ### The original text: 
-    {text}
+def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE text
+    with user():
+        lm += f"""\
+        ### The original selected sentence: 
+        {sentence}
 
-    ### The original selected sentence: 
-    {sentence}
-
-    ### Task Description: 
-    Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
-    Introduce subtle shifts in meaning that are still consistent with the original text. 
-    Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
-
-    ```json
-    {{
-        "paraphrased_sentence": "{gen('paraphrased_sentence', stop='"')}",
-    }}```"""
+        ### Task Description: 
+        Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
+        Introduce subtle shifts in meaning that are still consistent with the original text. 
+        Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
+        """
+    with assistant():
+        lm += f"""\
+        Paraphrased sentence: 
+        {gen('paraphrased_sentence', stop=stop)}
+        """
     return lm
 
 

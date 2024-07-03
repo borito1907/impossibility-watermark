@@ -15,7 +15,7 @@ class MaskFillMutator:
         self.fill_mask = pipeline(
             "fill-mask", 
             model=self.model_name, 
-            tokenizer=self.model_name
+            tokenizer=self.model_name,
         )
         self.tokenizer_kwargs = {"truncation": True, "max_length": 512}
 

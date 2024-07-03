@@ -99,7 +99,12 @@ class SpanFillMutator:
         elif self.args.half:
             half_kwargs = dict(torch_dtype=torch.bfloat16)
         if self.verbose: log.info(f'Loading mask filling model {self.args.mask_filling_model_name}...')
-        mask_model = transformers.AutoModelForSeq2SeqLM.from_pretrained(self.args.mask_filling_model_name, **int8_kwargs, **half_kwargs)
+        mask_model = transformers.AutoModelForSeq2SeqLM.from_pretrained(
+            self.args.mask_filling_model_name, 
+            cache_dir="/data2/.shared_models",
+            **int8_kwargs, 
+            **half_kwargs,
+        )
         try:
             self.n_positions = self.mask_model.config.n_positions
         except AttributeError:

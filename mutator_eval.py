@@ -119,29 +119,5 @@ def eval(cfg):
                 df = pd.DataFrame(results)
                 df.to_csv("./results/mutator_eval.csv", index=False)
 
-                # for oracle in tqdm(oracles, desc='Oracles'):
-
-                #     # Evaluate Mutation Quality
-                #     try:
-                #         is_quality_preserved, evals = oracle.is_quality_preserved(row["instruction"], row["output"], text, return_evals=True)
-                #     except Exception as e:
-                #         print(e)
-                #         is_quality_preserved = "Unknown"
-                #         evals = {}
-
-                #     out_dict.update({
-                #         "oracle": oracle.__class__.__name__,
-                #         "quality_preserved": is_quality_preserved,
-                #         **evals
-                #     })
-
-                #     log.info(f"Test {index}: {out_dict}")
-                #     results.append(out_dict)
-
-                #     # Incremental saving over time...
-                #     log.info("Saving results to csv...")
-                #     df = pd.DataFrame(results)
-                #     df.to_csv("./results/mutator_eval.csv", index=False)
-
 if __name__ == "__main__":
     eval()
