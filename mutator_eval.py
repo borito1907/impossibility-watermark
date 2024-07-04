@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 @hydra.main(version_base=None, config_path="conf", config_name="config")
 def eval(cfg):
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg.cuda_visible_devices)
+    # os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg.cuda_visible_devices)
     os.environ["WORLD_SIZE"] = str(len(str(cfg.cuda_visible_devices).split(",")))
 
     # Tucking import here because 'import torch' prior to setting CUDA_VISIBLE_DEVICES causes an error
@@ -52,18 +52,18 @@ def eval(cfg):
     #     ("relative.sandpaper.3", RelativeOracle), 
     # ]
     # log.info(f"Initializing oracles: {','.join(t for t,c in templates)}...")
-    prometheus = PrometheusAbsoluteOracle()
+    prometheus = PrometheusAbsoluteOracle(cfg)
     oracles = []
     # for t, c in templates:
     #     cfg.oracle_args.template = t
     #     oracles.append(c(cfg=cfg.oracle_args, pipeline=pipeline))
 
     # Init mutators
-    log.info(f"Initializing mutators: LLMMutator (ours), MaskFillMutator (ours), SpanFillMutator (sandpaper)...")
-    llm_mutator = LLMMutator(cfg.mutator_args, pipeline=pipeline)
+    # log.info(f"Initializing mutators: LLMMutator (ours), MaskFillMutator (ours), SpanFillMutator (sandpaper)...")
+    # llm_mutator = LLMMutator(cfg.mutator_args, pipeline=pipeline)
     mf_mutator = MaskFillMutator()
     sf_mutator = SpanFillMutator()
-    mutators = [llm_mutator, mf_mutator, sf_mutator]
+    mutators = [mf_mutator, sf_mutator]
 
     # Construct eval loop
     results = []
@@ -86,7 +86,9 @@ def eval(cfg):
                 try:
                     text = mutator.mutate(text)
                 except Exception as e:
-                    print(e)
+                    print("-"*20)
+                    print(f"ERROR ERRO ERROR: {e}")
+                    print("-"*20)
                     continue
 
                 mutation_time = time.time() - start
@@ -100,9 +102,12 @@ def eval(cfg):
                 
                     # Evaluate Mutation Quality
                 try:
-                    is_quality_preserved, evals = prometheus.is_quality_preserved(row["prompt"], row[choose], text, return_evals=True)
+                    evals = prometheus.is_quality_preserved(row["prompt"], row[choose], text)
+                    is_quality_preserved = evals["quality_preserved"]
                 except Exception as e:
-                    print(e)
+                    print("-"*20)
+                    print(f"ERROR ERRO ERROR: {e}")
+                    print("-"*20)
                     is_quality_preserved = "Unknown"
                     evals = {}
 
@@ -112,7 +117,7 @@ def eval(cfg):
                     **evals
                 })
 
-                log.info(f"Test {index}: {out_dict}")
+                # log.info(f"Test {index}: {out_dict}")
                 results.append(out_dict)
 
                 # Incremental saving over time...
