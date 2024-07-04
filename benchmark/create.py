@@ -1,70 +1,21 @@
-import ast
-from functools import partial
-from datasets import load_dataset, concatenate_datasets, Dataset
-import time
+from datasets import load_dataset
+from guidance import models
 
-from benchmark.annotators import *
+from benchmark.annotators.task import *
+from benchmark.annotators.domain import *
+from benchmark.annotators.entropy import *
+from benchmark.preprocess import preprocess
 
 # Step 1: Download Dataset
-dataset = load_dataset("lmsys/lmsys-arena-human-preference-55k", split="train", cache_dir="/data2/.shared_datasets/")
+dataset = load_dataset("lmsys/lmsys-arena-human-preference-55k", split="train") #cache_dir="/data2/.shared_datasets/")
 print(f"Original Dataset: {dataset}")
 
-# Step 2: Clean Dataset
-def convert_columns_to_utf8(dataset: Dataset) -> Dataset:
-    def convert_to_utf8(value):
-        if isinstance(value, str):
-            return value.encode('utf-8').decode('utf-8')
-        return value
+# Step 2: Preprocess Dataset
+dataset = preprocess(dataset)
+# df = dataset.to_pandas()
+# df.to_csv("./benchmark/data.csv")
 
-    for column in dataset.column_names:
-        dataset = dataset.map(lambda x: {column: convert_to_utf8(x[column])}, batched=False)
-
-    return dataset
-
-dataset = convert_columns_to_utf8(dataset)
-
-# Step 3: Filter Dataset
-
-# 3.1. Filter dataset for length 
-output_low, output_high = 100, 1000
-dataset = dataset.filter(lambda example: output_low <= len(example["response_a"].split()) <= output_high)
-dataset = dataset.filter(lambda example: output_low <= len(example["response_b"].split()) <= output_high)
-
-print(f"Dataset after length filtering: {dataset}")
-
-# 3.2. Filter dataset for amount of response turns
-num_turns = 1
-dataset = dataset.filter(lambda example: len(ast.literal_eval(example["prompt"])) == num_turns)
-
-print(f"Dataset after response turn filtering: {dataset}")
-
-# 3.3. Control number of winner types
-winner_a_amount, winner_b_amount, winner_tie_amount = 5, 5, 5
-winner_model_a = dataset.filter(lambda x: x['winner_model_a'] == 1).select(range(winner_a_amount))
-winner_model_b = dataset.filter(lambda x: x['winner_model_b'] == 1).select(range(winner_b_amount))
-winner_tie     = dataset.filter(lambda x: x['winner_tie']     == 1).select(range(winner_tie_amount))
-dataset        = concatenate_datasets([winner_model_a,winner_model_b,winner_tie]).shuffle()
-
-print(f"Dataset after winner type filtering: {dataset}")
-
-# Step 4: Reformat Dataset
-def convert_list_to_str(example, key="prompt"):
-    try:
-        return {key: ast.literal_eval(example[key])[0]}
-    except:
-        return None
-
-dataset = dataset.map(partial(convert_list_to_str, key="prompt"))
-dataset = dataset.map(partial(convert_list_to_str, key="response_a"))
-dataset = dataset.map(partial(convert_list_to_str, key="response_b"))
-
-# Step 5: Apply Annotators
-
-def apply_annotation(example, llm, annotation_fn, input_keys, output_keys, persona=None):
-    inputs = {k: example[k] for k in input_keys}
-    output = llm + annotation_fn(**inputs, persona=persona)
-    return {k: output[k] for k in output_keys}
-
+# Step 3: Apply Annotators
 model_id = "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ"
 
 # Load the model
@@ -83,49 +34,100 @@ You approach each task with objectivity and a keen attention to detail, ensuring
 Your goal is to provide clear, concise, and accurate assessments of the responses.
 """
 
-# input_keys = ["prompt"]
-# output_keys = ["entropy_level_prompt"]
-# dataset = dataset.map(
-#     partial(apply_annotation, 
-#             llm=llm, 
-#             annotation_fn=annotate_entropy_by_instructions, 
-#             input_keys=input_keys, 
-#             output_keys=output_keys, 
-#             persona=entroy_persona,
-#     )
-# )
+# task_persona_old = \
+# """
+# You are a task analyst, specializing in categorizing given instructions based on the type of prompt and expected response.
+# Your expertise in linguistic analysis allows you to assess what a given prompt is asking for and what type of category it falls under.
+# You approach each task with objectivity and a keen attention to detail, ensuring your evaluations are impartial and thorough.
+# Your goal is to provide clear, concise, and accurate assessments of the responses.
+# """
 
-# print(f"Dataset after adding entropy annotation: {dataset}")
+task_persona = \
+"""
+You are a task analyst, specializing in analyzing the type of task an instruction represents and the structure of the response.
+You understand that the type of task is more important than the contents of the task itself.
+Your expertise in linguistic analysis allows you to assess what style of response is expected from a given instruction.
+You approach the categorization with objectivity and a keen attention to detail, ensuring your evaluations strictly adhere to the definitions given to you.
+Your goal is to provide clear, concise, and accurate assessments of the provided instructions.
+"""
 
-input_keys = ["prompt"]
-output_keys = ["entropy_level_prompt_w_exp"]
-dataset = dataset.map(
-    partial(apply_annotation, 
-            llm=llm, 
-            annotation_fn=annotate_entropy_by_instructions_w_exp, 
-            input_keys=input_keys, 
-            output_keys=output_keys, 
-            persona=entroy_persona,
-    )
-)
+domain_persona = \
+"""
+You are a domain expert, specializing in identifying the domain of an instruction.
+Your expertise in various domains allows you to best identify which use case the instruction falls under.
+Although often times, none of the provided domains are a perfect fit, you must choose the best possible domain.
+You approach each task with objectivity and a keen attention to detail, ensuring your evaluations are impartial and thorough.
+Your goal is to provide clear, concise, and accurate assessments of the responses.
+"""
+
+counter = 0
+
+# annotator = FreeTask(llm, task_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = TaskMinimal(llm, task_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = TaskBySummary(llm, task_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = TaskByScores(llm, task_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+print(f"Dataset after adding task annotation: {dataset}")
+
+annotator = FreeDomainHeirarchyStructured(llm, domain_persona)
+dataset = annotator.annotate(dataset)
+counter += 1
+
+# annotator = FreeDomainHeirarchy(llm, domain_persona)
+# dataset = annotator.annotate(dataset)
+# counter += 1
+
+# annotator = FreeDomain(llm, domain_persona)
+# dataset = annotator.annotate(dataset)
+# counter += 1
+
+# annotator = DomainMinimal(llm, domain_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = DomainBySummary(llm, domain_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = DomainByScores(llm, domain_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+print(f"Dataset after adding domain annotation: {dataset}")
+
+annotator = EntropyMinimalist(llm, entroy_persona)
+dataset = annotator.annotate(dataset)
+
+# annotator = EntropyMinimal(llm, entroy_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = EntropyBySummary(llm, entroy_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = EntropyWithExp(llm, entroy_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
+
+# annotator = EntropyByInstructionsAndResponses(llm, entroy_persona)
+# dataset = annotator.annotate(dataset, f"{counter}_")
+# counter += 1
 
 print(f"Dataset after adding entropy annotation: {dataset}")
 
-# input_keys = ["prompt", "response_a", "response_b"]
-# output_keys = ["entropy_level_prompt_and_responses"]
-# dataset = dataset.map(
-#     partial(apply_annotation, 
-#             llm=llm, 
-#             annotation_fn=annotate_entropy_by_instructions_and_responses, 
-#             input_keys=input_keys, 
-#             output_keys=output_keys, 
-#             persona=entroy_persona,
-#     )
-# )
-
-# print(f"Dataset after adding entropy annotation: {dataset}")
-
 df = dataset.to_pandas()
-df.to_csv("./benchmark/sample.csv")
+df.to_csv("./benchmark/final.csv")
 
-# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=0 python -m benchmark.create
+# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m benchmark.create
