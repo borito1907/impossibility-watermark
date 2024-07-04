@@ -80,9 +80,17 @@ counter = 0
 
 print(f"Dataset after adding task annotation: {dataset}")
 
-annotator = FreeDomain(llm, domain_persona)
+annotator = FreeDomainHeirarchyStructured(llm, domain_persona)
 dataset = annotator.annotate(dataset)
 counter += 1
+
+# annotator = FreeDomainHeirarchy(llm, domain_persona)
+# dataset = annotator.annotate(dataset)
+# counter += 1
+
+# annotator = FreeDomain(llm, domain_persona)
+# dataset = annotator.annotate(dataset)
+# counter += 1
 
 # annotator = DomainMinimal(llm, domain_persona)
 # dataset = annotator.annotate(dataset, f"{counter}_")
@@ -120,6 +128,6 @@ dataset = annotator.annotate(dataset)
 print(f"Dataset after adding entropy annotation: {dataset}")
 
 df = dataset.to_pandas()
-df.to_csv("./benchmark/sample.csv")
+df.to_csv("./benchmark/final.csv")
 
 # ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m benchmark.create

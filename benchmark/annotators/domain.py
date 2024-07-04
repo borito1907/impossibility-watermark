@@ -4,6 +4,78 @@ from benchmark.annotators.annotator import Annotator
 
 n = '\n'
 
+class FreeDomainHeirarchyStructured(Annotator):
+    @property
+    def input_keys(self):
+        return ["prompt"]
+
+    @property
+    def output_keys(self):
+        return ["high_domain", "mid_domain", "low_domain"]
+
+    @staticmethod
+    @guidance
+    def annotation_fn(lm, persona, **kwargs):
+        if persona:
+            with system():
+                lm += f"{persona}"
+        with user():
+            lm += f"""
+            ### Task Description: 
+            1. Carefully read the given prompt.
+            2. Provide a topic heirarchy in the form of "high-level > mid-level > low-level".
+            Examples:
+                Science > Biology > Genetics
+                Technology > Software Development > Machine Learning
+                Health > Nutrition > Vitamins and Minerals
+            2. If no topic is appropriate, select "other".
+            
+            ### The prompt to evaluate:
+            {kwargs["prompt"]}
+            """
+        with assistant():
+            lm += f"""\
+            Topic Heirarchy: 
+            {gen(max_tokens=5, stop=">", name='high_domain')} > {gen(max_tokens=5, stop=">", name='mid_domain')} > {gen(max_tokens=5, stop=[">", n], name='low_domain')}
+            """
+        return lm
+
+class FreeDomainHeirarchy(Annotator):
+    @property
+    def input_keys(self):
+        return ["prompt"]
+
+    @property
+    def output_keys(self):
+        return ["domain"]
+
+    @staticmethod
+    @guidance
+    def annotation_fn(lm, persona, **kwargs):
+        if persona:
+            with system():
+                lm += f"{persona}"
+        with user():
+            lm += f"""
+            ### Task Description: 
+            1. Carefully read the given prompt.
+            2. Provide a topic heirarchy in the form of "high-level > mid-level > low-level". 
+            Examples:
+                Science > Biology > Genetics
+                Technology > Software Development > Machine Learning
+                Health > Nutrition > Vitamins and Minerals
+            2. If no topic is appropriate, select "other".
+            
+            ### The prompt to evaluate:
+            {kwargs["prompt"]}
+            """
+        with assistant():
+            lm += f"""\
+            Topic Heirarchy: 
+            {gen(max_tokens=10, name='domain')}
+            """
+        return lm
+
 class FreeDomain(Annotator):
     @property
     def input_keys(self):
