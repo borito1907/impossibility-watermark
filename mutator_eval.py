@@ -30,7 +30,7 @@ def eval(cfg):
     from mutators.sentence import SentenceMutator
     from mutators.word import MaskFillMutator
     from mutators.span import SpanFillMutator
-
+    from mutators.dipper import DipperParaphraser
     # Set number of mutation steps to analyze
     mutation_steps = 10
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
@@ -59,11 +59,12 @@ def eval(cfg):
     #     oracles.append(c(cfg=cfg.oracle_args, pipeline=pipeline))
 
     # Init mutators
-    # log.info(f"Initializing mutators: LLMMutator (ours), MaskFillMutator (ours), SpanFillMutator (sandpaper)...")
-    # llm_mutator = LLMMutator(cfg.mutator_args, pipeline=pipeline)
+    log.info(f"Initializing mutators: Document, Sentence, MaskFillMutator (ours), SpanFillMutator (sandpaper)...")
+    s_mutator = SentenceMutator(cfg.oracle_args)
+    dip_mutator = DipperParaphraser()
     mf_mutator = MaskFillMutator()
     sf_mutator = SpanFillMutator()
-    mutators = [mf_mutator, sf_mutator]
+    mutators = [s_mutator, dip_mutator, mf_mutator, sf_mutator]
 
     # Construct eval loop
     results = []
@@ -108,6 +109,8 @@ def eval(cfg):
                     print("-"*20)
                     print(f"ERROR ERRO ERROR: {e}")
                     print("-"*20)
+                    with open("mutator_testing.errors", "a") as f:
+                        f.write(e)
                     is_quality_preserved = "Unknown"
                     evals = {}
 

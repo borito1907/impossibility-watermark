@@ -17,6 +17,7 @@ class DipperParaphraser(object):
         if verbose:
             print(f"{model} model loaded in {time.time() - time1}")
         self.model.cuda()
+        self.model = self.model.to("cuda:5" if torch.cuda.is_available() else "cpu")
         self.model.eval()
 
     def mutate(self, input_text, lex_diversity=60, order_diversity=0, prefix="", sent_interval=3, **kwargs):
