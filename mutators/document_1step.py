@@ -43,93 +43,32 @@ class DocumentMutator:
         except LookupError:
             nltk.download('punkt') 
 
-    def mutate_sentence(self, text):
-
-        # Use NLTK to split the text into sentences
-        sentences = sent_tokenize(text)
-
-        # Generate a creative variation of the sentence
-        num_retries = 0
-        while True:
-
-            if num_retries >= self.cfg.max_retries:
-                raise RuntimeError(f"Failed to successfully rephrase sentence after {num_retries} attempts!")
-
-            # Randomly select a sentence
-            selected_sentence = random.choice(sentences)
-            log.info(f"Sentence to rephrase: {selected_sentence}")
-
-            output = self.llm + rephrase_sentence(selected_sentence, text)
-            rephrased_sentence = output["paraphrased_sentence"]
-
-            if rephrased_sentence != selected_sentence:
-                log.info(f"Rephrased sentence: {rephrased_sentence}")
-                break
-            else:
-                num_retries += 1
-                log.info(f"Failed to rephrase sentence. Trying again...")
-        
-        # Replace the original sentence with its creative variation
-        sentences[sentences.index(selected_sentence)] = rephrased_sentence
-        mutated_text = ' '.join(sentences)
-
-        return {
-            "selected_sentence": selected_sentence,
-            "rephrased_sentence": rephrased_sentence, 
-            "mutated_text": mutated_text,
-        }  
-
     def mutate(self, text):
-        mutated_output = self.mutate_sentence(text)
-        output = self.llm + consistency_edit(original_text=text, **mutated_output)
+        output = self.llm + paraphrase(text)
         print(f"output: {output}")
-        return output["edited_text"]
-@guidance
-def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE text
-    with user():
-        lm += f"""\
-        ### The original selected sentence: 
-        {sentence}
+        return {
+            "paraphrase_text": output["paraphrase_text"],
+        }
 
-        ### Task Description: 
-        Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
-        Introduce subtle shifts in meaning that are still consistent with the original text. 
-        Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
-        """
-    with assistant():
-        lm += f"""\
-        Paraphrased sentence: 
-        {gen('paraphrased_sentence', stop=stop)}
-        """
-    return lm
 
 @guidance
-def consistency_edit(lm, original_text, selected_sentence, rephrased_sentence, mutated_text):
+def paraphrase(lm, text):
     with user():
         lm += f"""\
         ### Task Description: 
-        You are given an original document, a selected sentence from that document, a rephrased version of the selected sentence, and a new document which replaces the selected sentence with its rephrased version. 
-        1. Write a detailed analysis that determines if the rephrased sentence introduces any inconsistencies with content elsewhere in the reponse. 
-        2. After writing the feedback, make the minimal number of edits to make the rest of the document consistent with the rephrased sentence. 
-        3. Please do not generate any other opening, closing, and explanations.
+        1. Carefully read the original text. 
+        2. Paraphrase the original text so that it preserves the meaning and quality while varying the underlying words and sentence structures. 
 
-        ### The original document: 
-        {original_text}
-
-        ### Selected sentence: 
-        {selected_sentence}
-
-        ### Rephrased sentence: 
-        {rephrased_sentence}
-
-        ### New document with rephrased sentence: 
-        {mutated_text}
+        ### The original text: 
+        {text}
         """
     with assistant():
         lm += f"""\
-        ### Edited text with minimal changes for consistency:
-        {gen('edited_text', max_tokens=len(original_text.split()) * 1.5)}
-        """
+        ### Paraphrased text:
+        ```json
+        {{
+            "paraphrase_text": "{gen('paraphrase_text', max_tokens=len(text.split()) * 1.5)}",
+        }}```"""
     return lm
 
 
@@ -154,7 +93,8 @@ if __name__ == "__main__":
         text_mutator = DocumentMutator(cfg.mutator_args)
 
         start = time.time()
-        mutated_text = text_mutator.mutate(text)
+        mutated_output = text_mutator.mutate(text)
+        mutated_text = mutated_output["paraphrase_text"]
         delta = time.time() - start
 
         print(f"Original text: {text}")
