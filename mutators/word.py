@@ -7,7 +7,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
-class MaskFillMutator:
+class WordMutator:
     def __init__(self, model_name="FacebookAI/roberta-large"):
         self.model_name = model_name
         self.max_length = 256
@@ -150,7 +150,7 @@ def test(cfg):
     **5. Samuel L. Jackson's Nick Fury Has a Few Surprises**: In this '90s-set film, Nick Fury is a younger, more optimistic agent."
     """
 
-    text_mutator = MaskFillMutator()
+    text_mutator = WordMutator()
 
     start = time.time()
     mutated_text = text_mutator.mutate(text, num_replacements=0.05)

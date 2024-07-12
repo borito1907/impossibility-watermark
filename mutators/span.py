@@ -75,7 +75,7 @@ class Args:
         self.random_fills = False
         self.verbose = False
 
-class SpanFillMutator:
+class SpanMutator:
     def __init__(self) -> None:
         self.n_resample = 5
         self.args = Args()
@@ -83,7 +83,7 @@ class SpanFillMutator:
         self.mask_filling_model_name = self.args.mask_filling_model_name
         self.n_positions = 512
 
-        self.device = torch.device("cuda:4" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         if 't5' in self.args.mask_filling_model_name:
             self.mask_model = self.load_mask_model()
         self.mask_tokenizer = transformers.AutoTokenizer.from_pretrained(self.args.mask_filling_model_name, model_max_length=self.n_positions)
@@ -277,7 +277,7 @@ def test(cfg):
         """
     )
 
-    text_mutator = SpanFillMutator()
+    text_mutator = SpanMutator()
 
     start = time.time()
     mutated_text = text_mutator.mutate(text)
