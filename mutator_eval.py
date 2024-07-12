@@ -31,8 +31,8 @@ def eval(cfg):
     # )
     from mutators.document import DocumentMutator
     from mutators.sentence import SentenceMutator
-    from mutators.word import MaskFillMutator
-    from mutators.span import SpanFillMutator
+    from mutators.span import SpanMutator
+    from mutators.word import WordMutator
     # Set number of mutation steps to analyze
     mutation_steps = 10
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
