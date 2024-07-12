@@ -63,12 +63,12 @@ def eval(cfg):
     #     oracles.append(c(cfg=cfg.oracle_args, pipeline=pipeline))
 
     # Init mutators
-    log.info(f"Initializing mutators: Document, Sentence, MaskFillMutator (ours), SpanFillMutator (sandpaper)...")
-    s_mutator = SentenceMutator(cfg.oracle_args)
-    dip_mutator = DipperParaphraser()
-    mf_mutator = MaskFillMutator()
-    sf_mutator = SpanFillMutator()
-    mutators = [s_mutator, dip_mutator, mf_mutator, sf_mutator]
+    log.info(f"Initializing mutators...")
+    doc_mutator = DocumentMutator()
+    sent_mutator = SentenceMutator(cfg.oracle_args)
+    span_mutator = SpanMutator()
+    word_mutator = WordMutator()
+    mutators = [word_mutator, span_mutator, sent_mutator, doc_mutator]
 
     # Construct eval loop
     results = []
