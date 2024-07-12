@@ -7,6 +7,8 @@ import logging
 from oracles.absolute import PrometheusAbsoluteOracle
 import matplotlib.pyplot as plt
 
+from extractors import FluencyMetric, GrammarMetric
+
 log = logging.getLogger(__name__)
 
 # from langchain.globals import set_debug; set_debug(True)
@@ -31,7 +33,6 @@ def eval(cfg):
     from mutators.sentence import SentenceMutator
     from mutators.word import MaskFillMutator
     from mutators.span import SpanFillMutator
-    from mutators.dipper import DipperParaphraser
     # Set number of mutation steps to analyze
     mutation_steps = 10
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
@@ -54,6 +55,8 @@ def eval(cfg):
     # ]
     # log.info(f"Initializing oracles: {','.join(t for t,c in templates)}...")
     prometheus = PrometheusAbsoluteOracle(cfg)
+    fluency = FluencyMetric()
+    grammar = GrammarMetric()
     oracles = []
     # for t, c in templates:
     #     cfg.oracle_args.template = t
@@ -102,7 +105,7 @@ def eval(cfg):
                     "mutation_time": mutation_time,
                 })
                 
-                    # Evaluate Mutation Quality
+                # Evaluate Mutation Quality
                 try:
                     evals = prometheus.is_quality_preserved(row["prompt"], row[choose], text)
                     is_quality_preserved = evals["quality_preserved"]
@@ -121,6 +124,17 @@ def eval(cfg):
                     **evals
                 })
 
+                # Evaluate Fluency (via Perplexity)
+                fluency_score = fluency.evaluate([text])
+
+                # Evaluate Grammar Errors
+                count_grammar_errors = grammar.evaluate([text])
+
+                out_dict.update({
+                    "fluency_score": fluency_score,
+                    "count_grammar_errors": count_grammar_errors,
+                })
+
                 # log.info(f"Test {index}: {out_dict}")
                 results.append(out_dict)
 
@@ -128,6 +142,7 @@ def eval(cfg):
                 log.info("Saving results to csv...")
                 df = pd.DataFrame(results)
                 df.to_csv("./results/mutator_eval.csv", index=False)
+
     tests_df = pd.read_csv("./results/mutator_eval.csv")
     data = {}
     output = []
