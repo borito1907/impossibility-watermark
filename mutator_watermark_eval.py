@@ -6,8 +6,7 @@ from tqdm import tqdm
 import logging
 from oracles.absolute import PrometheusAbsoluteOracle
 import matplotlib.pyplot as plt
-
-from extractors import FluencyMetric, GrammarMetric
+from watermarker_factory import get_watermarker
 
 log = logging.getLogger(__name__)
 
@@ -16,7 +15,7 @@ log = logging.getLogger(__name__)
 @hydra.main(version_base=None, config_path="conf", config_name="config")
 def eval(cfg):
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg.cuda_visible_devices)
+    # os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg.cuda_visible_devices)
     os.environ["WORLD_SIZE"] = str(len(str(cfg.cuda_visible_devices).split(",")))
 
     # Tucking import here because 'import torch' prior to setting CUDA_VISIBLE_DEVICES causes an error
@@ -36,7 +35,7 @@ def eval(cfg):
     # Set number of mutation steps to analyze
     mutation_steps = 10
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
-
+    watermarker = get_watermarker(cfg)
     # Load test data
     # NOTE: we will reuse the outputs from the quality oracle tests
     log.info("Loading tests...")
@@ -44,19 +43,6 @@ def eval(cfg):
     log.info(tests_df)
 
     # Init shared pipeline for oracles and LLMMutator
-    log.info("Initializing shared pipeline for oracles and LLMMutator...")
-    # pipeline = PipeLineBuilder(cfg.oracle_args)
-
-    # Init oracles
-    # templates = [
-    #     ("solo.lmsys.ib", SoloOracle), 
-    #     # ("joint.lmsys.ib", JointOracle), 
-    #     ("relative.sandpaper.3", RelativeOracle), 
-    # ]
-    # log.info(f"Initializing oracles: {','.join(t for t,c in templates)}...")
-    prometheus = PrometheusAbsoluteOracle(cfg)
-    fluency = FluencyMetric()
-    grammar = GrammarMetric()
     oracles = []
     # for t, c in templates:
     #     cfg.oracle_args.template = t
@@ -64,21 +50,18 @@ def eval(cfg):
 
     # Init mutators
     log.info(f"Initializing mutators...")
-    doc_mutator = DocumentMutator()
-    sent_mutator = SentenceMutator(cfg.oracle_args)
+    # doc_mutator = DocumentMutator()
+    # sent_mutator = SentenceMutator(cfg.oracle_args)
     span_mutator = SpanMutator()
     word_mutator = WordMutator()
-    mutators = [word_mutator, span_mutator, sent_mutator, doc_mutator]
+    mutators = [word_mutator, span_mutator]
 
     # Construct eval loop
     results = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
+        marked_text = watermarker.generate(row["prompt"])
         for mutator in tqdm(mutators, desc='Mutators'):
-            if row["winner_model_a"] == "1":
-                choose = "response_a"
-            else:
-                choose = "response_b"
-            text = row[choose]
+            text = marked_text
 
             for mutation_step in range(mutation_steps):
 
@@ -105,35 +88,23 @@ def eval(cfg):
                     "mutation_time": mutation_time,
                 })
                 
-                # Evaluate Mutation Quality
                 try:
-                    evals = prometheus.is_quality_preserved(row["prompt"], row[choose], text)
-                    is_quality_preserved = evals["quality_preserved"]
-                except Exception as e:
+                    is_detected, score = watermarker.detect(text)
+                except:
                     print("-"*20)
                     print(f"ERROR ERRO ERROR: {e}")
                     print("-"*20)
                     with open("mutator_testing.errors", "a") as f:
                         f.write(e)
-                    is_quality_preserved = "Unknown"
-                    evals = {}
+                    score = "Unknown"
+                    is_detected = "Unknown"
 
                 out_dict.update({
-                    "oracle": "Prometheus: Relative",
-                    "quality_preserved": is_quality_preserved,
-                    **evals
+                    "watermarker": cfg.watermark_args.name,
+                    "score": score,
+                    "is_detected": is_detected
                 })
 
-                # Evaluate Fluency (via Perplexity)
-                fluency_score = fluency.evaluate([text])
-
-                # Evaluate Grammar Errors
-                count_grammar_errors = grammar.evaluate([text])
-
-                out_dict.update({
-                    "fluency_score": fluency_score,
-                    "count_grammar_errors": count_grammar_errors,
-                })
 
                 # log.info(f"Test {index}: {out_dict}")
                 results.append(out_dict)
@@ -141,9 +112,9 @@ def eval(cfg):
                 # Incremental saving over time...
                 log.info("Saving results to csv...")
                 df = pd.DataFrame(results)
-                df.to_csv("./results/mutator_eval.csv", index=False)
+                df.to_csv("./results/mutator_watermark_eval.csv", index=False)
 
-    tests_df = pd.read_csv("./results/mutator_eval.csv")
+    tests_df = pd.read_csv("./results/mutator_watermark_eval.csv")
     data = {}
     output = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'):
@@ -152,7 +123,7 @@ def eval(cfg):
         if row["mutation_step"] not in data[row["mutator"]]:
             data[row["mutator"]][row["mutation_step"]] = [0,0]
         data[row["mutator"]][row["mutation_step"]][1] += 1
-        if row["quality_preserved"]:
+        if row["is_detected"]:
             data[row["mutator"]][row["mutation_step"]][0] += 1
     print(data)
     for i in data:
@@ -163,12 +134,15 @@ def eval(cfg):
             temp["percent preserved"] = data[i][j][0]/ data[i][j][1]
             output.append(temp)
     df = pd.DataFrame(output)
-    df.to_csv("./results/mutator_percent.csv")
-    
+    df.to_csv("./results/mutator_watermark_percent.csv")
+
     fig, ax = plt.subplots(len(data))
     for i, mut in enumerate(data.keys()):
         ax[i].plot(data[mut].keys(), [i[0]/i[1] for i in data[mut].values()])
         ax[i].set_title(f"Percentage vs steps for {mut}")
+        ax[i].set_xlabel("Number of mutation steps")
+        ax[i].set_ylabel("Percentage of\n  watermarks detected")
+        ax[i].set_ylim([0,1.2])
     fig.tight_layout(pad=5.0)
     plt.show()
     plt.savefig("mutator.png")

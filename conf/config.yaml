@@ -1,6 +1,6 @@
 defaults:
     - _self_
-    - watermark_args: semstamp
+    - watermark_args: umd
     # - attack_args: c4_generation
     # - attack_args: prompt_based_generation
     # - attack_args: mixtral_regular_attack
@@ -9,7 +9,8 @@ defaults:
 
 cuda_visible_devices: "0" # Gary believes this works, if you so choose to use it
 model_cache_dir: "/data2/.shared_models" # "/data2/.shared_models" "../.cache"
-
+is_completion: False
+generation_stats_file_path: "results/dump"
 attack_args:
     max_steps: 300           # how many mutations should the attack try to make
     backtrack_patience: 100   # how many unsuccessful mutations before backtrack (should always be lower than patience)
@@ -20,6 +21,7 @@ attack_args:
 # UMD still needs this to detect, so leaving this here.
 generator_args:
     model_id: "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" # "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" "gpt-4"
+    model_name_or_path: "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ"
     revision: "main" 
     model_cache_dir: "${model_cache_dir}"
     device_map: "auto"
