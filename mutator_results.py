@@ -25,7 +25,7 @@ df.to_csv("./results/mutator_watermark_percent.csv")
 fig, ax = plt.subplots(len(data))
 for i, mut in enumerate(data.keys()):
     ax[i].plot(data[mut].keys(), [i[0]/i[1] for i in data[mut].values()])
-    ax[i].set_title(f"Score vs steps for {mut}")
+    ax[i].set_title(f"Watermark Z-Score vs steps for {mut}")
     ax[i].set_xlabel("Number of mutation steps")
     ax[i].set_ylabel("Average score")
     ax[i].set_ylim([0, 7.2])

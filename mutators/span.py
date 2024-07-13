@@ -83,7 +83,7 @@ class SpanMutator:
         self.mask_filling_model_name = self.args.mask_filling_model_name
         self.n_positions = 512
 
-        self.device = torch.device("cuda:4" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         if 't5' in self.args.mask_filling_model_name:
             self.mask_model = self.load_mask_model()
         self.mask_tokenizer = transformers.AutoTokenizer.from_pretrained(self.args.mask_filling_model_name, model_max_length=self.n_positions)

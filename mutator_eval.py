@@ -64,11 +64,11 @@ def eval(cfg):
 
     # Init mutators
     log.info(f"Initializing mutators...")
-    doc_mutator = DocumentMutator()
-    sent_mutator = SentenceMutator(cfg.oracle_args)
+    # doc_mutator = DocumentMutator()
+    # sent_mutator = SentenceMutator(cfg.oracle_args)
     span_mutator = SpanMutator()
     word_mutator = WordMutator()
-    mutators = [word_mutator, span_mutator, sent_mutator, doc_mutator]
+    mutators = [word_mutator, span_mutator]
 
     # Construct eval loop
     results = []

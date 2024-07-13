@@ -33,9 +33,9 @@ def eval(cfg):
     from mutators.span import SpanMutator
     from mutators.word import WordMutator
     # Set number of mutation steps to analyze
-    mutation_steps = 10
+    mutation_steps = 100
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
-    watermarker = get_watermarker(cfg)
+    watermarker = get_watermarker(cfg, only_detect=False)
     # Load test data
     # NOTE: we will reuse the outputs from the quality oracle tests
     log.info("Loading tests...")
