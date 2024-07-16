@@ -8,7 +8,7 @@ from .base import Oracle
 from prometheus_eval.vllm import VLLM
 from prometheus_eval.litellm import AsyncLiteLLM
 from prometheus_eval import PrometheusEval
-from prometheus_eval.prompts import ABSOLUTE_PROMPT, SCORE_RUBRIC_TEMPLATE
+from prometheus_eval.prompts import ABSOLUTE_PROMPT, SCORE_RUBRIC_TEMPLATE, RELATIVE_PROMPT
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -64,7 +64,8 @@ class PrometheusAbsoluteOracle(Oracle):
                 )
             self.judge = PrometheusEval(
                 model=self.model,
-                absolute_grade_template=ABSOLUTE_PROMPT						
+                relative_grade_template=RELATIVE_PROMPT,
+                absolute_grade_template=ABSOLUTE_PROMPT					
             )
 
     def evaluate(self, instruction, response, reference_answer=None):
@@ -166,48 +167,12 @@ if __name__ == "__main__":
         mutated_text = dataset["response_b"][0]
         label = 3 if dataset["winner_tie"][0] else 1 if dataset["winner_model_a"][0] else 2
 
-        # Initialize Oracle
-        print("Initializing Prometheus with prometheus-8x7b-v2.0...")
-        oracle = PrometheusAbsoluteOracle(
-            model_id="prometheus-eval/prometheus-8x7b-v2.0",
-            download_dir="/data2/.shared_models",
-            num_gpus=4
-        )
-
-        # Run quality assessments
-        start = time.time()
-        quality_eval = oracle.is_quality_preserved(
-            instruction=instruction, 
-            original_text=original_text, 
-            mutated_text=mutated_text, 
-            reference_answer=None
-        )
-        delta = time.time() - start
-        print("EVAL oracle.is_quality_preserved")
-        print("quality_eval:", quality_eval)
-        print("time_taken:", delta)
-
-        print("Test Prometheus Absolute Oracle:")
-        start = time.time()
-        results = oracle.test(instruction, original_text, mutated_text, label)
-        delta = time.time() - start
-        print(results)
-        print("time_taken:", delta)
-
-        # feedback, score = oracle.evaluate(instruction, mutated_text, original_text)
-        # print("Evaluation WITH Reference Answer")
-        # print("Feedback:", feedback)
-        # print("Score:", score)
-
-        # print("Evaluation WITHOUT Reference Answer")
-        # feedback, score = oracle.evaluate(instruction, mutated_text, None)
-        # print("Feedback:", feedback)
-        # print("Score:", score)
-        # Initialize Oracle
-
-        # print("Initializing Prometheus with gpt-4o...")
+        # # Initialize Oracle
+        # print("Initializing Prometheus with prometheus-8x7b-v2.0...")
         # oracle = PrometheusAbsoluteOracle(
-        #     model_id="gpt-4o"
+        #     model_id="prometheus-eval/prometheus-8x7b-v2.0",
+        #     download_dir="/data2/.shared_models",
+        #     num_gpus=4
         # )
 
         # # Run quality assessments
@@ -222,12 +187,48 @@ if __name__ == "__main__":
         # print("EVAL oracle.is_quality_preserved")
         # print("quality_eval:", quality_eval)
         # print("time_taken:", delta)
-        
+
         # print("Test Prometheus Absolute Oracle:")
         # start = time.time()
         # results = oracle.test(instruction, original_text, mutated_text, label)
         # delta = time.time() - start
         # print(results)
+        # print("time_taken:", delta)
+
+        # feedback, score = oracle.evaluate(instruction, mutated_text, original_text)
+        # print("Evaluation WITH Reference Answer")
+        # print("Feedback:", feedback)
+        # print("Score:", score)
+
+        # print("Evaluation WITHOUT Reference Answer")
+        # feedback, score = oracle.evaluate(instruction, mutated_text, None)
+        # print("Feedback:", feedback)
+        # print("Score:", score)
+        # Initialize Oracle
+
+        print("Initializing Prometheus with gpt-4-turbo...")
+        oracle = PrometheusAbsoluteOracle(
+            model_id="gpt-4-turbo"
+        )
+
+        # Run quality assessments
+        start = time.time()
+        quality_eval = oracle.is_quality_preserved(
+            instruction=instruction, 
+            original_text=original_text, 
+            mutated_text=mutated_text, 
+            reference_answer=None
+        )
+        delta = time.time() - start
+        print("EVAL oracle.is_quality_preserved")
+        print("quality_eval:", quality_eval)
+        print("time_taken:", delta)
+        
+        print("Test Prometheus Absolute Oracle:")
+        start = time.time()
+        results = oracle.test(instruction, original_text, mutated_text, label)
+        delta = time.time() - start
+        print(results)
         
 
     test()
