@@ -10,7 +10,8 @@ for index, row in tqdm(tests_df.iterrows(), desc='Tests'):
     if row["mutation_step"] not in data[row["mutator"]]:
         data[row["mutator"]][row["mutation_step"]] = [0,0]
     data[row["mutator"]][row["mutation_step"]][1] += 1
-    data[row["mutator"]][row["mutation_step"]][0] += row['score']
+    if row["is_detected"]:
+        data[row["mutator"]][row["mutation_step"]][0] += 1
 print(data)
 for i in data:
     for j in data[i]:
@@ -25,11 +26,10 @@ df.to_csv("./results/mutator_watermark_percent.csv")
 fig, ax = plt.subplots(len(data))
 for i, mut in enumerate(data.keys()):
     ax[i].plot(data[mut].keys(), [i[0]/i[1] for i in data[mut].values()])
-    ax[i].set_title(f"Watermark Z-Score vs steps for {mut}")
+    ax[i].set_title(f"Percentage vs steps for {mut}")
     ax[i].set_xlabel("Number of mutation steps")
-    ax[i].set_ylabel("Average score")
-    ax[i].set_ylim([0, 7.2])
-    ax[i].set_yticks([0,2,4,6])
+    ax[i].set_ylabel("Percentage of\n  watermarks detected")
+    ax[i].set_ylim([0,1.2])
 fig.tight_layout(pad=5.0)
 plt.show()
 plt.savefig("mutator.png")
