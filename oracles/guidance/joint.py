@@ -5,7 +5,7 @@ from guidance import gen, select, user, system, assistant
 from oracles.base import Oracle, ResponseQuality
 from oracles.utils import add_prefix_to_keys
 
-class RankOracle(Oracle):
+class JointOracle(Oracle):
 
     @property
     def input_keys(self):
@@ -13,12 +13,12 @@ class RankOracle(Oracle):
 
     @property
     def output_keys(self):
-        return ["rank_1", "rank_2", "explanation"] if self.explain else ["rank_1", "rank_2"]
+        return ["assistant_1_score", "assistant_2_score", "explanation"] if self.explain else ["assistant_1_score", "assistant_2_score"]
 
     @staticmethod
     @guidance
     def annotation_fn(lm, explain=False, **kwargs):
-        pattern = '\s*A\s*|\s*B\s*'
+        pattern = '[1-9]|10'
         newline = "\n"
         if kwargs["persona"] is not None:
             with system():
@@ -27,21 +27,18 @@ class RankOracle(Oracle):
             lm += f"""\
             ### Instructions: 
 
-            I want you to create a leaderboard of different of large language models. 
-            You will be given a prompt and two responses, one from Model A and another from Model B.
-            To make a leaderboard, first make a list ranking the models based on which responses would be preferred by humans, then return the ranking. 
-                                    
+            We would like to request your feedback on the performance of two AI assistants in response to the user prompt displayed below.
+            Please rate the grammatical correctness, fluency, accuracy, consistency, and clarity. 
+            Each assistant receives an overall score on a scale of 1 to 10, where a higher score indicates better overall performance.
+
             ### Here is the prompt:
             {kwargs['instruction']}
 
-            ### Model A Response:
+            ### Assistant 1 Response:
             {kwargs['response_A']}
 
-            ### Model B Response:
+            ### Assistant 2 Response:
             {kwargs['response_B']}
-
-            Now make the leaderboard by ranking the models by the quality of their responses. 
-            Please avoid any potential bias and ensuring that the order in which the responses were presented does not affect your judgment.
             """
         with assistant():
             if explain:
@@ -50,13 +47,9 @@ class RankOracle(Oracle):
                 {gen(name='explanation', max_tokens=200, stop=["<|eot_id|>", newline])}
                 """
             lm += f"""\
-            ### Ranking: 
-            ```json
-            {{
-                "rank_1": "Model {gen(name='rank_1', regex=pattern, max_tokens=1)}",
-                "rank_2": "Model {gen(name='rank_2', regex=pattern, max_tokens=1)}"
-            }}
-            ```
+            ### Feedback: 
+            Assistant 1 Score: {gen(name='assistant_1_score', regex=pattern, max_tokens=2)}
+            Assistant 2 Score: {gen(name='assistant_2_score', regex=pattern, max_tokens=2)}
             """
         return lm
 
@@ -70,9 +63,11 @@ class RankOracle(Oracle):
         return evaluation
 
     def extract_label(self, evaluation):
-        if "A" in evaluation["rank_1"] and "B" in evaluation["rank_2"]:
+        assistant_1_score = int(evaluation["assistant_1_score"])
+        assistant_2_score = int(evaluation["assistant_2_score"])
+        if assistant_1_score > assistant_2_score:
             label = ResponseQuality.A_BETTER
-        elif "B" in evaluation["rank_1"] and "A" in evaluation["rank_2"]:
+        elif assistant_1_score < assistant_2_score:
             label = ResponseQuality.B_BETTER
         else:
             label = ResponseQuality.TIE
@@ -160,7 +155,7 @@ if __name__ == "__main__":
             n_ctx=2048
         )
 
-        oracle = RankOracle(llm, explain=False)
+        oracle = JointOracle(llm, explain=False)
 
         # Run quality assessments
         start = time.time()
@@ -189,7 +184,7 @@ if __name__ == "__main__":
         #     model=model_id
         # )
 
-        # oracle = RankOracle(llm, explain=False)
+        # oracle = JointOracle(llm, explain=False)
 
         # # Run quality assessments
         # start = time.time()
