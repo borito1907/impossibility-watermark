@@ -4,23 +4,24 @@ import logging
 import warnings
 from dotenv import load_dotenv
 
-from .base import Oracle
+from oracles.base import Oracle
 from prometheus_eval.vllm import VLLM
 from prometheus_eval.litellm import AsyncLiteLLM
 from prometheus_eval import PrometheusEval
 from prometheus_eval.prompts import RELATIVE_PROMPT, ABSOLUTE_PROMPT
-from .custom import Oracle
+
+log = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG)
 
 class PrometheusRelativeOracle(Oracle):
     """Relative Grading: Outputs A or B"""
     def __init__(
         self, 
-        cfg=None,
         model_id="prometheus-eval/prometheus-8x7b-v2.0",
         download_dir="/data2/.shared_models",
         num_gpus=4, 
     ):
-        self.cfg = cfg
+        super().__init__(model_id, cache_dir=download_dir)
         # Initialize any necessary attributes or models here
         self.model_id = model_id
         self.download_dir = download_dir
