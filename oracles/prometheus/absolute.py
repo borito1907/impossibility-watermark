@@ -106,16 +106,14 @@ class PrometheusAbsoluteOracle:
     def extract_label(self, evaluation):
         return evaluation[1]
 
-    def derive_label(self, output_1_score, output_2_score):
-        diff = output_1_score - output_2_score 
-        pred = -1
-        if 2 <= diff <= 5: # output 1 is better than output_2
-            pred =  ResponseQuality.A_BETTER
-        elif -2 < diff < 2:  # output 1 is about the same as output_2
-            pred = ResponseQuality.TIE
-        elif -5 <= diff <= -2:  # output 1 is worse than output_2
-            pred = ResponseQuality.B_BETTER
-        return pred
+    def derive_label(self, score1, score2):
+        if score1 > score2:
+            label = ResponseQuality.A_BETTER
+        elif score1 < score2:
+            label = ResponseQuality.B_BETTER
+        else:
+            label = ResponseQuality.TIE
+        return label
     
     def test(self, instruction, response_A, response_B, label, **kwargs):
         response_A_evaluation = self.evaluate(instruction, response_A)
