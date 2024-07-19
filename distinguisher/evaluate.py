@@ -1,4 +1,5 @@
 from guidance import models
+from distinguisher.models.aggressive import AggressiveSimple
 from distinguisher.models.simple import SimpleGPT
 import pandas as pd
 import os
@@ -34,7 +35,7 @@ llm = models.Transformers(
     model_id, 
     echo=False,
     cache_dir="/data2/.shared_models/", 
-    device_map='auto'
+    device_map='auto',
 )
 
 load_dotenv(find_dotenv())
@@ -51,10 +52,10 @@ Your goal is to provide a clear, concise, and accurate assessment of the provide
 response_A = AttackParser(get_file(6, 1, 3))
 response_B = AttackParser(get_file(6, 2, 4))
 sd = SimpleGPT(chatgpt, distinguisher_persona, response_A.get_response(), response_B.get_response())
-# sd2 = SimpleGPT(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
+# sd2 = AggressiveSimple(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
 
 dataset = []
-for n in range(50):
+for n in range(5):
     dataset.append({
         "P": response_A.get_nth(n),
         "Num": n,
@@ -67,12 +68,12 @@ for n in range(50):
     })
 
 dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=dataset))
-dataset = sd.distinguish(dataset, "gpt_")
-# dataset = sd2.distinguish(dataset, "llama_")
+dataset = sd.distinguish_majority(dataset, 3, "gpt_")
+# dataset = sd2.distinguish_majority(dataset, 10, "llama_")
 
 df = dataset.to_pandas()
 df["Response_A"] = response_A.get_response()
 df["Response_B"] = response_B.get_response()
-df.to_csv("./distinguisher/results/simple_gpt.csv")
+df.to_csv("./distinguisher/results/multi_gpt.csv")
 
 # ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m distinguisher.evaluate

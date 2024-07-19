@@ -28,7 +28,7 @@ class SimpleGPT(Distinguisher):
             {kwargs["P"]}
             """
         with assistant():
-            lm += f"""{gen(name="choice", regex="A|B", max_tokens=1)}"""
+            lm += f"""{gen(name="choice", regex="A|B", temperature=0.7, max_tokens=1)}"""
         return lm
 
     @property

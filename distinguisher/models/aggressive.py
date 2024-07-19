@@ -27,7 +27,7 @@ class AggressiveSimple(Distinguisher):
             {kwargs["P"]}
             """
         lm += f"""\
-        I believe the perturbed response P was derived from original response {gen(name="choice", regex="A|B", max_tokens=1)}
+        I believe the perturbed response P was derived from original response {gen(name="choice", regex="A|B", temperature=0.7, max_tokens=1)}
         """
         return lm
 
