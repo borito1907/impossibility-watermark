@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from functools import partial
 from enum import Enum
+from oracles.utils import add_prefix_to_keys
 
 class ResponseQuality(Enum):
     A_BETTER = 1
@@ -9,8 +10,6 @@ class ResponseQuality(Enum):
 
 # Abstract base class for all oracles
 class Oracle(ABC):
-    
-    judge = None
 
     def __init__(self, llm, explain=False) -> None:
         self.llm = llm
@@ -58,20 +57,67 @@ class Oracle(ABC):
     )
 
     @abstractmethod
-    def evaluate(self, instruction, response_A, response_B, **kwargs):
-        pass
-
-    @abstractmethod
     def extract_label(self, evaluation):
         pass
 
-    @abstractmethod
-    def is_quality_preserved(self, instruction, original_text, mutated_text, **kwargs):
-        pass
+    def evaluate(self, instruction, response_A, response_B, **kwargs):
+        input_dict = {
+            "instruction": instruction, 
+            "response_A": response_A,
+            "response_B": response_B
+        }
+        evaluation = self.annotate(input_dict)
+        return evaluation
 
-    @abstractmethod
+    def is_quality_preserved(self, instruction, original_text, mutated_text, **kwargs):
+        
+        original = self.evaluate(instruction, response_A=original_text, response_B=mutated_text, **kwargs) 
+        followup = self.evaluate(instruction, response_A=mutated_text, response_B=original_text, **kwargs) # switched outputs
+        
+        original_pred = self.extract_label(original)
+        followup_pred = self.extract_label(followup)
+        
+        if original_pred in [ResponseQuality.B_BETTER, ResponseQuality.TIE] and followup_pred in [ResponseQuality.A_BETTER, ResponseQuality.TIE]:
+            is_quality_preserved = True
+        else:
+            is_quality_preserved = False
+
+        original = add_prefix_to_keys(original, "original_")
+        followup = add_prefix_to_keys(followup, "followup_")
+        original.update({**followup})
+        original.update({"quality_preserved": is_quality_preserved})
+        return original
+
     def test(self, instruction, response_A, response_B, label, **kwargs):
-        pass
+        original_label = label
+        followup_label = self.invert_label(label)
+
+        original = self.evaluate(instruction, response_A, response_B, **kwargs) 
+        followup = self.evaluate(instruction, response_B, response_A, **kwargs) # switched outputs
+
+        original_pred = self.extract_label(original)
+        followup_pred = self.extract_label(followup)
+
+        # assign correctness points
+        pred_correct = 0
+        if (original_label == original_pred) and (followup_label == followup_pred):
+            pred_correct = 1 # both are correct and positionally invariant
+        elif (original_label == original_pred) or (followup_label == followup_pred):
+            pred_correct = 0.5 # one was correct, but some positional bias was present
+
+        # prepare output
+        original = add_prefix_to_keys(original, "original_")
+        followup = add_prefix_to_keys(followup, "followup_")
+        original.update({
+            **followup,
+            "original_label": original_label,
+            "followup_label": followup_label,
+            "original_pred": original_pred, 
+            "followup_pred": followup_pred,
+            "pred_correct": pred_correct,
+        })
+
+        return original
 
     @staticmethod
     def invert_label(label):

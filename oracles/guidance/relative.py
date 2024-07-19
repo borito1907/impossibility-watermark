@@ -3,7 +3,6 @@
 import guidance
 from guidance import gen, select, user, system, assistant
 from oracles.base import Oracle, ResponseQuality
-from oracles.utils import add_prefix_to_keys
 
 class RelativeOracle(Oracle):
 
@@ -20,6 +19,7 @@ class RelativeOracle(Oracle):
     def annotation_fn(lm, explain=False, **kwargs):
         pattern = '\s*A\s*|\s*B\s*|\s*TIE\s*'
         newline = "\n"
+        returns = "\r"
         if kwargs["persona"] is not None:
             with system():
                 lm += f"{kwargs['persona']}"
@@ -47,22 +47,13 @@ class RelativeOracle(Oracle):
             if explain:
                 lm += f"""\
                 ### Explanation:
-                {gen(name='explanation', max_tokens=200, stop=["<|eot_id|>", newline])}
+                {gen(name='explanation', max_tokens=200, stop=["<|eot_id|>", newline, returns])}
                 """
             lm += f"""\
             ### Feedback: 
-            Answer: {gen(name='answer', regex=pattern, max_tokens=2, stop=[newline])}
+            Answer: {gen(name='answer', regex=pattern, max_tokens=2, stop=[newline, returns])}
             """
         return lm
-
-    def evaluate(self, instruction, response_A, response_B, **kwargs):
-        input_dict = {
-            "instruction": instruction, 
-            "response_A": response_A,
-            "response_B": response_B
-        }
-        evaluation = self.annotate(input_dict)
-        return evaluation
 
     def extract_label(self, evaluation):
         if "A" in evaluation["answer"]:
@@ -72,56 +63,6 @@ class RelativeOracle(Oracle):
         else:
             label = ResponseQuality.TIE
         return label
-
-    def is_quality_preserved(self, instruction, original_text, mutated_text, **kwargs):
-        
-        original = self.evaluate(instruction, response_A=original_text, response_B=mutated_text, **kwargs) 
-        followup = self.evaluate(instruction, response_A=mutated_text, response_B=original_text, **kwargs) # switched outputs
-        
-        original_pred = self.extract_label(original)
-        followup_pred = self.extract_label(followup)
-        
-        if original_pred in [ResponseQuality.B_BETTER, ResponseQuality.TIE] and followup_pred in [ResponseQuality.A_BETTER, ResponseQuality.TIE]:
-            is_quality_preserved = True
-        else:
-            is_quality_preserved = False
-
-        original = add_prefix_to_keys(original, "original_")
-        followup = add_prefix_to_keys(followup, "followup_")
-        original.update({**followup})
-        original.update({"quality_preserved": is_quality_preserved})
-        return original
-
-    def test(self, instruction, response_A, response_B, label, **kwargs):
-        original_label = label
-        followup_label = self.invert_label(label)
-
-        original = self.evaluate(instruction, response_A, response_B, **kwargs) 
-        followup = self.evaluate(instruction, response_B, response_A, **kwargs) # switched outputs
-
-        original_pred = self.extract_label(original)
-        followup_pred = self.extract_label(followup)
-
-        # assign correctness points
-        pred_correct = 0
-        if (original_label == original_pred) and (followup_label == followup_pred):
-            pred_correct = 1 # both are correct and positionally invariant
-        elif (original_label == original_pred) or (followup_label == followup_pred):
-            pred_correct = 0.5 # one was correct, but some positional bias was present
-
-        # prepare output
-        original = add_prefix_to_keys(original, "original_")
-        followup = add_prefix_to_keys(followup, "followup_")
-        original.update({
-            **followup,
-            "original_label": original_label,
-            "followup_label": followup_label,
-            "original_pred": original_pred, 
-            "followup_pred": followup_pred,
-            "pred_correct": pred_correct,
-        })
-
-        return original
 
 # Testing
 if __name__ == "__main__":
@@ -140,10 +81,10 @@ if __name__ == "__main__":
         dataset = pd.read_csv("./data/lmsys-14x100-grouped.csv")
         dataset = dataset.sample(frac=1).reset_index(drop=True)
         dataset = dataset[dataset["winner_tie"] == 0].head(1) 
-        instruction = dataset["prompt"][0]
-        original_text = dataset["response_a"][0]
-        mutated_text = dataset["response_b"][0]
-        label = ResponseQuality.TIE if dataset["winner_tie"][0] else ResponseQuality.A_BETTER if dataset["winner_model_a"][0] else ResponseQuality.B_BETTER
+        instruction = dataset["prompt"].iloc[0]
+        original_text = dataset["response_a"].iloc[0]
+        mutated_text = dataset["response_b"].iloc[0]
+        label = ResponseQuality.TIE if dataset["winner_tie"].iloc[0] else ResponseQuality.A_BETTER if dataset["winner_model_a"].iloc[0] else ResponseQuality.B_BETTER
 
         # Initialize Base LLM
         print("Initializing Base LLM with Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf")
