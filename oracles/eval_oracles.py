@@ -82,27 +82,30 @@ def run_eval():
         # Iterate over oracle tests
         for benchmark_id, row in tests_df.iterrows():
 
-            start = time.time()
-            test_eval = oracle.test(
-                instruction=row["prompt"], 
-                response_A=row["response_a"], 
-                response_B=row["response_b"],
-                label=lmsys_row_to_label(row)
-            )
-            time_taken = time.time() - start
-            test_eval.update({
-                **row,
-                "oracle_type": oracle_config['type'],
-                "oracle_class": oracle_config['class'].__name__,
-                "judge_name": model_name,
-                "explain": oracle_config['explain'],
-                "time_taken": time_taken,
-            })
-            log.info(test_eval)
-            eval_results.append(test_eval)
+            try:
+                start = time.time()
+                test_eval = oracle.test(
+                    instruction=row["prompt"], 
+                    response_A=row["response_a"], 
+                    response_B=row["response_b"],
+                    label=lmsys_row_to_label(row)
+                )
+                time_taken = time.time() - start
+                test_eval.update({
+                    **row,
+                    "oracle_type": oracle_config['type'],
+                    "oracle_class": oracle_config['class'].__name__,
+                    "judge_name": model_name,
+                    "explain": oracle_config['explain'],
+                    "time_taken": time_taken,
+                })
+                log.info(test_eval)
+                eval_results.append(test_eval)
 
-            df = pd.DataFrame(eval_results)
-            df.to_csv(f"./oracles/results/oracle_eval.csv")    
+                df = pd.DataFrame(eval_results)
+                df.to_csv(f"./oracles/results/oracle_eval.csv")    
+            except:
+                continue
         
 
 if __name__ == "__main__":
