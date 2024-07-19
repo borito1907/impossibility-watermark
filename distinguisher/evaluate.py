@@ -1,5 +1,5 @@
 from guidance import models
-from distinguisher.models.simple import SimpleDistinguisher, SimpleInstructDistinguisher
+from distinguisher.models.reasoning import ReasoningDistinguisher
 import pandas as pd
 import os
 import datasets
@@ -46,8 +46,8 @@ Your goal is to provide a clear, concise, and accurate assessment of the provide
 
 response_A = AttackParser(get_file(6, 1, 3))
 response_B = AttackParser(get_file(6, 2, 4))
-sd = SimpleDistinguisher(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
-sid = SimpleInstructDistinguisher(llm, None, response_A.get_response(), response_B.get_response())
+sd = ReasoningDistinguisher(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
+# sid = SimpleInstructDistinguisher(llm, None, response_A.get_response(), response_B.get_response())
 
 dataset = []
 for n in range(50):
@@ -64,10 +64,10 @@ for n in range(50):
 
 dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=dataset))
 dataset = sd.distinguish(dataset)
-dataset = sid.distinguish(dataset, "instruct_")
+# dataset = sid.distinguish(dataset, "instruct_")
 df = dataset.to_pandas()
 df["Response_A"] = response_A.get_response()
 df["Response_B"] = response_B.get_response()
-df.to_csv("./distinguisher/results/simple_instruct_test.csv")
+df.to_csv("./distinguisher/results/reason.csv")
 
 # ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m distinguisher.evaluate
