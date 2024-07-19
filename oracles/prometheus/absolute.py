@@ -117,14 +117,14 @@ class PrometheusAbsoluteOracle:
             pred = ResponseQuality.B_BETTER
         return pred
     
-    def test(self, instruction, output_1, output_2, label, **kwargs):
-        output_1_evaluation = self.evaluate(instruction, output_1)
-        output_2_evaluation = self.evaluate(instruction, output_2)
+    def test(self, instruction, response_A, response_B, label, **kwargs):
+        response_A_evaluation = self.evaluate(instruction, response_A)
+        response_B_evaluation = self.evaluate(instruction, response_B)
         
-        output_1_score = self.extract_label(output_1_evaluation)
-        output_2_score = self.extract_label(output_2_evaluation)
+        response_A_score = self.extract_label(response_A_evaluation)
+        response_B_score = self.extract_label(response_B_evaluation)
 
-        pred = self.derive_label(output_1_score, output_2_score)
+        pred = self.derive_label(response_A_score, response_B_score)
         
 		# assign correctness points
         pred_correct = 0
@@ -132,10 +132,10 @@ class PrometheusAbsoluteOracle:
             pred_correct = 1 
             
         results = {
-            "output_1_feedback": output_1_evaluation[0],
-            "output_1_score": output_1_score,  
-            "output_2_feedback": output_2_evaluation[0],
-            "output_2_score": output_2_score,  
+            "response_A_feedback": response_A_evaluation[0],
+            "response_A_score": response_A_score,  
+            "response_B_feedback": response_B_evaluation[0],
+            "response_B_score": response_B_score,  
             "original_label": label,
             "followup_label": "NA",
             "original_pred": pred, 

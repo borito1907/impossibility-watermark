@@ -120,17 +120,17 @@ class PrometheusRelativeOracle:
         else:
             return ResponseQuality.TIE
     
-    def test(self, instruction, output_1, output_2, label, **kwargs):
+    def test(self, instruction, response_A, response_B, label, **kwargs):
         # Prepare evaluation
         if "gpt-" in self.model_id:
-            feedback_1, score_1 = self.evaluate(instruction, output_1, output_2)
-            feedback_2, score_2 = self.evaluate(instruction, output_2, output_1)
+            feedback_1, score_1 = self.evaluate(instruction, response_A, response_B)
+            feedback_2, score_2 = self.evaluate(instruction, response_B, response_A)
             feedbacks = [feedback_1, feedback_2]
             scores = [score_1, score_2]
         else:
             instructions = [instruction] * 2
-            responses_A = [output_1, output_2]
-            responses_B = [output_2, output_1]
+            responses_A = [response_A, response_B]
+            responses_B = [response_B, response_A]
             reference_answers = [None] * 2
             feedbacks, scores = self.evaluate_batch(instructions, responses_A, responses_B, reference_answers)
         
@@ -142,10 +142,10 @@ class PrometheusRelativeOracle:
             pred_correct = 1 
             
         results = {
-            "output_1_feedback": feedbacks[0],
-            "output_1_score": scores[0],  
-            "output_2_feedback": feedbacks[1],
-            "output_2_score": scores[1],  
+            "response_A_feedback": feedbacks[0],
+            "response_A_score": scores[0],  
+            "response_B_feedback": feedbacks[1],
+            "response_B_score": scores[1],  
             "original_label": label,
             "followup_label": "NA",
             "original_pred": pred, 

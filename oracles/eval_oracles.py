@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=4,5,6,7 python -m oracles.eval_oracles
+# RUN: CUDA_VISIBLE_DEVICES=2,3,4,5 python -m oracles.eval_oracles
 
 import logging
 import traceback
@@ -11,7 +11,6 @@ from oracles.base import ResponseQuality
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
-logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 
 def lmsys_row_to_label(row):
     if row["winner_model_a"]:
@@ -28,51 +27,51 @@ def run_eval():
 
     oracles = [
         # don't explain answers before giving them - takes less time and better for efficiency - F16
-        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
-        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
-        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
-        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
-        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
-        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
-        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
-        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
-        # explain answers before giving them - will take longer but should enable higher accuracy - F16
-        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
-        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
-        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
-        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
-        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
-        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
-        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
-        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
-        # # don't explain answers before giving them - takes less time and better for efficiency - Q8
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": False},
+        # # explain answers before giving them - will take longer but should enable higher accuracy - F16
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-f16.gguf", "explain": True},
+        # don't explain answers before giving them - takes less time and better for efficiency - Q8
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": False},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": False},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": False},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": False},
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": False},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": False},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": False},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": False},
         # # explain answers before giving them - will take longer but should enable higher accuracy - Q8
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": True},
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": True},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": True},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": True},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8.gguf", "explain": True},
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": True},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": True},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": True},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8.gguf", "explain": True},
         # # prometheus models always provide an explanation
-        # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
-        # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4o", "explain": True},
-        # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
-        # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4o", "explain": True}, # not working well at the moment: https://github.com/prometheus-eval/prometheus-eval/issues/46
+        {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4o", "explain": True},
+        {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4o", "explain": True}, 
+        {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
+        {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
     ]
 
     tests_df = pd.read_csv("./data/lmsys-150-test-set.csv")
 
-    save_path = "./oracles/results/oracle_eval.csv"
+    save_path = "./oracles/results/oracle_eval_prometheus.csv"
 
     # Check if the save file already exists and load it
     try:
@@ -97,6 +96,7 @@ def run_eval():
             oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
             judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
         elif "prometheus" in oracle_config["type"]:
+            print(f"Loading Prometheus with {oracle_config['llm_path']}...")
             if "gpt-" in oracle_config["llm_path"]:
                 oracle = PrometheusAbsoluteOracle(
                     model_id=oracle_config["llm_path"]
