@@ -48,8 +48,8 @@ class JointOracle(Oracle):
                 """
             lm += f"""\
             ### Feedback: 
-            Assistant 1 Score: {gen(name='assistant_1_score', regex=pattern, max_tokens=2)}
-            Assistant 2 Score: {gen(name='assistant_2_score', regex=pattern, max_tokens=2)}
+            Assistant 1 Score: {gen(name='assistant_1_score', regex=pattern, max_tokens=2, stop=[newline])}
+            Assistant 2 Score: {gen(name='assistant_2_score', regex=pattern, max_tokens=2, stop=[newline])}
             """
         return lm
 

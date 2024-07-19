@@ -5,7 +5,7 @@ from guidance import gen, select, user, system, assistant
 from oracles.base import Oracle, ResponseQuality
 from oracles.utils import add_prefix_to_keys
 
-class RankOracle(Oracle):
+class RelativeOracle(Oracle):
 
     @property
     def input_keys(self):
@@ -13,12 +13,12 @@ class RankOracle(Oracle):
 
     @property
     def output_keys(self):
-        return ["rank_1", "rank_2", "explanation"] if self.explain else ["rank_1", "rank_2"]
+        return ["answer", "explanation"] if self.explain else ["answer"]
 
     @staticmethod
     @guidance
     def annotation_fn(lm, explain=False, **kwargs):
-        pattern = '\s*A\s*|\s*B\s*'
+        pattern = '\s*A\s*|\s*B\s*|\s*TIE\s*'
         newline = "\n"
         if kwargs["persona"] is not None:
             with system():
@@ -27,10 +27,6 @@ class RankOracle(Oracle):
             lm += f"""\
             ### Instructions: 
 
-            I want you to create a leaderboard of different of large language models. 
-            You will be given a prompt and two responses, one from Model A and another from Model B.
-            To make a leaderboard, first make a list ranking the models based on which responses would be preferred by humans, then return the ranking. 
-                                    
             ### Here is the prompt:
             {kwargs['instruction']}
 
@@ -40,8 +36,12 @@ class RankOracle(Oracle):
             ### Model B Response:
             {kwargs['response_B']}
 
-            Now make the leaderboard by ranking the models by the quality of their responses. 
-            Please avoid any potential bias and ensuring that the order in which the responses were presented does not affect your judgment.
+            Compare which of the two above responses is a better response to the given prompt. 
+            Your answer should be chosen from the following three options:
+                A: Response A is better than response B
+                B: Response B is better than response A
+                TIE: Responses A and B have similar quality
+            Please avoid any potential bias and ensuring that the order in which the responses were presented does not affect your judgment.  
             """
         with assistant():
             if explain:
@@ -50,13 +50,8 @@ class RankOracle(Oracle):
                 {gen(name='explanation', max_tokens=200, stop=["<|eot_id|>", newline])}
                 """
             lm += f"""\
-            ### Ranking: 
-            ```json
-            {{
-                "rank_1": "Model {gen(name='rank_1', regex=pattern, max_tokens=2, stop=[newline])}",
-                "rank_2": "Model {gen(name='rank_2', regex=pattern, max_tokens=2, stop=[newline])}"
-            }}
-            ```
+            ### Feedback: 
+            Answer: {gen(name='answer', regex=pattern, max_tokens=2, stop=[newline])}
             """
         return lm
 
@@ -70,9 +65,9 @@ class RankOracle(Oracle):
         return evaluation
 
     def extract_label(self, evaluation):
-        if "A" in evaluation["rank_1"] and "B" in evaluation["rank_2"]:
+        if "A" in evaluation["answer"]:
             label = ResponseQuality.A_BETTER
-        elif "B" in evaluation["rank_1"] and "A" in evaluation["rank_2"]:
+        elif "B" in evaluation["answer"]:
             label = ResponseQuality.B_BETTER
         else:
             label = ResponseQuality.TIE
@@ -160,7 +155,7 @@ if __name__ == "__main__":
             n_ctx=2048
         )
 
-        oracle = RankOracle(llm, explain=False)
+        oracle = RelativeOracle(llm, explain=False)
 
         # Run quality assessments
         start = time.time()
@@ -189,7 +184,7 @@ if __name__ == "__main__":
         #     model=model_id
         # )
 
-        # oracle = RankOracle(llm, explain=False)
+        # oracle = RelativeOracle(llm, explain=False)
 
         # # Run quality assessments
         # start = time.time()
