@@ -5,7 +5,7 @@ from guidance import gen, select, user, system, assistant
 from oracles.base import Oracle, ResponseQuality
 from oracles.utils import add_prefix_to_keys
 
-class JointOracle(Oracle):
+class SoloOracle(Oracle):
 
     @property
     def input_keys(self):
@@ -169,7 +169,7 @@ if __name__ == "__main__":
             n_ctx=2048
         )
 
-        oracle = JointOracle(llm, explain=False)
+        oracle = SoloOracle(llm, explain=False)
 
         # Run quality assessments
         start = time.time()
@@ -198,7 +198,7 @@ if __name__ == "__main__":
         #     model=model_id
         # )
 
-        # oracle = JointOracle(llm, explain=False)
+        # oracle = SoloOracle(llm, explain=False)
 
         # # Run quality assessments
         # start = time.time()

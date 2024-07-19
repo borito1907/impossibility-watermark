@@ -1,5 +1,4 @@
 # Absolute Grading: Outputs score of 1 to 5
-import hydra    
 import logging
 import warnings
 from dotenv import load_dotenv
@@ -153,8 +152,7 @@ if __name__ == "__main__":
     import pandas as pd
     import time
 
-    @hydra.main(version_base=None, config_path="../conf", config_name="config")
-    def test(cfg):
+    def test():
         
 
         # Load sample data row
