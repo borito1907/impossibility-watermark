@@ -1,9 +1,10 @@
 from guidance import models
-from distinguisher.models.reasoning import ReasoningDistinguisher
+from distinguisher.models.simple import SimpleGPT
 import pandas as pd
 import os
 import datasets
 from utils import get_prompt_or_output, get_watermarked_text, get_nth_successful_perturbation
+from dotenv import load_dotenv, find_dotenv
 
 class AttackParser():
     def __init__(self, file):
@@ -36,6 +37,9 @@ llm = models.Transformers(
     device_map='auto'
 )
 
+load_dotenv(find_dotenv())
+chatgpt = models.OpenAI("gpt-4o-mini")
+
 distinguisher_persona = \
 """
 You are an expert in analyzing the similarity of responses.
@@ -46,8 +50,8 @@ Your goal is to provide a clear, concise, and accurate assessment of the provide
 
 response_A = AttackParser(get_file(6, 1, 3))
 response_B = AttackParser(get_file(6, 2, 4))
-sd = ReasoningDistinguisher(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
-# sid = SimpleInstructDistinguisher(llm, None, response_A.get_response(), response_B.get_response())
+sd = SimpleGPT(chatgpt, distinguisher_persona, response_A.get_response(), response_B.get_response())
+# sd2 = SimpleGPT(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
 
 dataset = []
 for n in range(50):
@@ -63,11 +67,12 @@ for n in range(50):
     })
 
 dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=dataset))
-dataset = sd.distinguish(dataset)
-# dataset = sid.distinguish(dataset, "instruct_")
+dataset = sd.distinguish(dataset, "gpt_")
+# dataset = sd2.distinguish(dataset, "llama_")
+
 df = dataset.to_pandas()
 df["Response_A"] = response_A.get_response()
 df["Response_B"] = response_B.get_response()
-df.to_csv("./distinguisher/results/reason.csv")
+df.to_csv("./distinguisher/results/simple_gpt.csv")
 
 # ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m distinguisher.evaluate

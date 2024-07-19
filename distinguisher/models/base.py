@@ -9,7 +9,13 @@ def apply_prompt(datarow, llm, prompt_fn, input_keys, output_keys, origin_A, ori
     return {prefix+k: output[k] for k in output_keys}
 
 def flip_choices(output, prefix=""):
-    output[f"{prefix}choice"] = "A" if output[f"{prefix}choice"] == "B" else "B"
+    if output[f"{prefix}choice"] == "A":
+        output[f"{prefix}choice"] = "B"
+    elif output[f"{prefix}choice"] == "B":
+        output[f"{prefix}choice"] = "A"
+    else:
+        # sad face model didnt work
+        pass
     return output
 
 # Abstract base class for all distinguishers
