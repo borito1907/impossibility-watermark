@@ -51,7 +51,7 @@ def run_eval():
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4o", "explain": True}, # not working well at the moment: https://github.com/prometheus-eval/prometheus-eval/issues/46
     ]
 
-    tests_df = pd.read_csv("./tests/quality_oracle/lmsys_tiny.csv")
+    tests_df = pd.read_csv("./data/lmsys-150-test-set.csv")
 		
     eval_results = []
     for oracle_config in oracles:     
@@ -91,7 +91,7 @@ def run_eval():
             )
             time_taken = time.time() - start
             test_eval.update({
-                "benchmark_id": benchmark_id, 
+                **row,
                 "oracle_type": oracle_config['type'],
                 "oracle_class": oracle_config['class'].__name__,
                 "judge_name": model_name,
