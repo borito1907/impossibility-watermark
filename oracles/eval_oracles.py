@@ -45,16 +45,15 @@ def run_eval():
         {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf", "explain": True},
         {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct/ggml-model-q8_0.gguf", "explain": True},
         # prometheus models always provide an explanation
-        {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
-        {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4o", "explain": True},
-        {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
+        # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
+        # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4o", "explain": True},
+        # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4o", "explain": True}, # not working well at the moment: https://github.com/prometheus-eval/prometheus-eval/issues/46
     ]
 
     tests_df = pd.read_csv("./tests/quality_oracle/lmsys_tiny.csv")
 		
     eval_results = []
-
     for oracle_config in oracles:     
 
         # Initialize Oracle
@@ -80,8 +79,9 @@ def run_eval():
                 )
             model_name = oracle_config["llm_path"]
         
-        results = []
-        for index, row in tests_df.iterrows():
+        # Iterate over oracle tests
+        for benchmark_id, row in tests_df.iterrows():
+
             start = time.time()
             test_eval = oracle.test(
                 instruction=row["prompt"], 
@@ -91,16 +91,17 @@ def run_eval():
             )
             time_taken = time.time() - start
             test_eval.update({
-                "time_taken": time_taken,
+                "benchmark_id": benchmark_id, 
                 "oracle_type": oracle_config['type'],
                 "oracle_class": oracle_config['class'].__name__,
                 "judge_name": model_name,
-                "explain": oracle_config['explain']
+                "explain": oracle_config['explain'],
+                "time_taken": time_taken,
             })
             log.info(test_eval)
-            results.append(test_eval)
+            eval_results.append(test_eval)
 
-            df = pd.DataFrame(results)
+            df = pd.DataFrame(eval_results)
             df.to_csv(f"./oracles/results/oracle_eval.csv")    
         
 

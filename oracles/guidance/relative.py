@@ -46,8 +46,8 @@ class RelativeOracle(Oracle):
         with assistant():
             if explain:
                 lm += f"""\
-                ### Explanation:
-                {gen(name='explanation', max_tokens=200, stop=["<|eot_id|>", newline, returns])}
+                ### Brief Explanation (100 words max):
+                {gen(name='explanation', max_tokens=200, stop=["<|eot_id|>"])}
                 """
             lm += f"""\
             ### Feedback: 

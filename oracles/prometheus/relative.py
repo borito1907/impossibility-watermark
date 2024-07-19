@@ -2,7 +2,7 @@ import logging
 import warnings
 from dotenv import load_dotenv
 
-from oracles.base import Oracle
+from oracles.base import ResponseQuality
 from prometheus_eval.vllm import VLLM
 from prometheus_eval.litellm import AsyncLiteLLM
 from prometheus_eval import PrometheusEval
@@ -11,7 +11,7 @@ from prometheus_eval.prompts import RELATIVE_PROMPT, ABSOLUTE_PROMPT
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
-class PrometheusRelativeOracle(Oracle):
+class PrometheusRelativeOracle:
     """Relative Grading: Outputs A or B"""
     def __init__(
         self, 
@@ -19,7 +19,6 @@ class PrometheusRelativeOracle(Oracle):
         download_dir="/data2/.shared_models",
         num_gpus=4, 
     ):
-        super().__init__(model_id, cache_dir=download_dir)
         # Initialize any necessary attributes or models here
         self.model_id = model_id
         self.download_dir = download_dir
@@ -115,11 +114,11 @@ class PrometheusRelativeOracle(Oracle):
     
     def extract_label(self, scores):
         if "A" in scores[0] and "B" in scores[1]:
-            return 1
+            return ResponseQuality.A_BETTER
         elif "B" in scores[0] and "A" in scores[1]:
-            return 2
+            return ResponseQuality.B_BETTER
         else:
-            return 3
+            return ResponseQuality.TIE
     
     def test(self, instruction, output_1, output_2, label, **kwargs):
         # Prepare evaluation
@@ -147,8 +146,10 @@ class PrometheusRelativeOracle(Oracle):
             "output_1_score": scores[0],  
             "output_2_feedback": feedbacks[1],
             "output_2_score": scores[1],  
-            "label": label,
-            "pred": pred,
+            "original_label": label,
+            "followup_label": "NA",
+            "original_pred": pred, 
+            "followup_pred": "NA",
             "pred_correct": pred_correct,
 		}
 				
@@ -166,16 +167,11 @@ if __name__ == "__main__":
         # Load sample data row
         dataset = pd.read_csv("./data/lmsys-14x100-grouped.csv")
         dataset = dataset.sample(frac=1).reset_index(drop=True)
-        dataset = dataset[dataset["winner_tie"] == 0].head(1) # prometheus relative doesn't support ties
-        instruction = dataset["prompt"][0]
-        original_text = dataset["response_a"][0]
-        mutated_text = dataset["response_b"][0]
-        label = 3 if dataset["winner_tie"][0] else 1 if dataset["winner_model_a"][0] else 2
-
-        print(instruction)
-        print(original_text)
-        print(mutated_text)
-        print(label)
+        dataset = dataset[dataset["winner_tie"] == 0].head(1) 
+        instruction = dataset["prompt"].iloc[0]
+        original_text = dataset["response_a"].iloc[0]
+        mutated_text = dataset["response_b"].iloc[0]
+        label = ResponseQuality.TIE if dataset["winner_tie"].iloc[0] else ResponseQuality.A_BETTER if dataset["winner_model_a"].iloc[0] else ResponseQuality.B_BETTER
 
         # Initialize Oracle
         print("Initializing Prometheus with prometheus-8x7b-v2.0...")

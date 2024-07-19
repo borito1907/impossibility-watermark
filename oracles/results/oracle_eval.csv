@@ -1,4 +1,422 @@
-,original_score,followup_score,original_label,followup_label,original_pred,followup_pred,pred_correct,time_taken,oracle_type,oracle_class,judge_name,explain
-0,4,4,ResponseQuality.B_BETTER,NA,ResponseQuality.TIE,NA,0,0.6036829948425293,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False
-1,4,4,ResponseQuality.A_BETTER,NA,ResponseQuality.TIE,NA,0,0.39200282096862793,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False
-2,4,4,ResponseQuality.TIE,NA,ResponseQuality.TIE,NA,1,0.3784334659576416,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False
+,original_score,followup_score,original_label,followup_label,original_pred,followup_pred,pred_correct,benchmark_id,oracle_type,oracle_class,judge_name,explain,time_taken,original_rank_1,original_rank_2,followup_rank_1,followup_rank_2,original_assistant_1_score,original_assistant_2_score,followup_assistant_1_score,followup_assistant_2_score,original_answer,followup_answer,original_explanation,followup_explanation
+0,4,4,ResponseQuality.B_BETTER,NA,ResponseQuality.TIE,NA,0.0,0,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,2.3521127700805664,,,,,,,,,,,,
+1,4,4,ResponseQuality.A_BETTER,NA,ResponseQuality.TIE,NA,0.0,1,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.38730669021606445,,,,,,,,,,,,
+2,4,4,ResponseQuality.TIE,NA,ResponseQuality.TIE,NA,1.0,2,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.3753628730773926,,,,,,,,,,,,
+3,5,5,ResponseQuality.B_BETTER,NA,ResponseQuality.TIE,NA,0.0,0,guidance,SoloOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,3.4176619052886963,,,,,,,,,,,,
+4,5,4,ResponseQuality.A_BETTER,NA,ResponseQuality.A_BETTER,NA,1.0,1,guidance,SoloOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,2.2376928329467773,,,,,,,,,,,,
+5,4,5,ResponseQuality.TIE,NA,ResponseQuality.B_BETTER,NA,0.0,2,guidance,SoloOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,2.14866304397583,,,,,,,,,,,,
+6,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,0.5,0,guidance,RankOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.9993960857391357,A  ,B  ,A  ,B  ,,,,,,,,
+7,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,RankOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.8726332187652588,A  ,B  ,B  ,A  ,,,,,,,,
+8,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,RankOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.9007596969604492,B  ,A  ,A  ,B  ,,,,,,,,
+9,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,1.0,0,guidance,RankOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,5.431987047195435,B   ,A  	,A   ,B  	,,,,,,,,
+10,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,RankOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,4.540210723876953,A   ,B  	,B   ,A  	,,,,,,,,
+11,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,RankOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,4.461471796035767,B   ,A  	,A   ,B  	,,,,,,,,
+12,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,0.5,0,guidance,JointOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.7315795421600342,,,,,8,6,8,6,,,,
+13,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,JointOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.6292448043823242,,,,,8,6,6,8,,,,
+14,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,JointOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.623877763748169,,,,,7,8,8,6,,,,
+15,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,1.0,0,guidance,JointOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,3.8560590744018555,,,,,8,9,9,7,,,,
+16,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,JointOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,3.494029998779297,,,,,9,6,7,9,,,,
+17,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,JointOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,3.4424550533294678,,,,,8,9,8,4,,,,
+18,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,1.0,0,guidance,RelativeOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.503483772277832,,,,,,,,,B,A,,
+19,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,RelativeOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.3952176570892334,,,,,,,,,A,B,,
+20,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,RelativeOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,False,0.39362573623657227,,,,,,,,,B,A,,
+21,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,1.0,0,guidance,RelativeOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,2.857781410217285,,,,,,,,,B,A,,
+22,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,RelativeOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,2.496084690093994,,,,,,,,,A,B,,
+23,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,RelativeOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,False,2.4454588890075684,,,,,,,,,B,A,,
+24,3,4,ResponseQuality.B_BETTER,NA,ResponseQuality.B_BETTER,NA,1.0,0,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,11.161982536315918,,,,,,,,,,,"
+I will evaluate the response based on the additive 5-point scoring system, considering the criteria outlined. I will assess the response from the AI Assistant's perspective, focusing on its relevance, completeness, organization, and overall helpfulness. I will attribute points accordingly, without bias, and ensure that the order of the responses does not influence my judgment.
+
+### Scoring:
+
+1. Relevance and some information related to the user's prompt: The response provides a clear and concise definition of real estate, covering various types and investment vehicles. It addresses the user's question, providing some information. (1 point)
+2. Addressing a substantial portion of the user's question: The response covers the main aspects of real estate, including its types, investment options, and importance in the economy. It does not provide a direct answer but addresses a substantial portion of the question. (1 point)
+3. Answering the basic elements of the user's question in a useful way: The response provides a comprehensive","
+I will evaluate the response based on the additive 5-point scoring system. I will assess the response's relevance, completeness, and quality, considering the user's prompt ""what do you know about real estate."" I will award points for the response's ability to address the user's question, provide useful information, and demonstrate a clear and comprehensive understanding of the topic."
+25,3,3,ResponseQuality.A_BETTER,NA,ResponseQuality.TIE,NA,0.0,1,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,10.123491048812866,,,,,,,,,,,"
+I will evaluate the response based on the additive 5-point scoring system. I will assess the response from the AI Assistant's perspective, considering the criteria outlined. I will attribute points based on the relevance, completeness, usefulness, clarity, and quality of the response. I will not be influenced by the order in which the responses were presented and will provide an unbiased evaluation.
+
+### Evaluation:
+
+1. Relevance and information provided: The response is relevant and provides some information related to the user's prompt, even if it is a creative interpretation. (1 point)
+2. Addressing the user's question: The response addresses a substantial portion of the user's question, providing a rap song about Phogos. However, it does not provide a direct answer or a factual response. (1 point)
+3. Usefulness and answer quality: The response answers the basic elements of the user's question in a useful way, providing a creative and engaging rap song. The response is well-organized and","
+I will evaluate the response based on the additive 5-point scoring system. The response is an attempt at writing rap lyrics about a person named Phogos. It addresses the user's prompt by providing a rap song with lyrics that describe Phogos' skills as an MC, his popularity with the ladies, and his success in the music industry. The response is well-organized and provides some information related to the user's prompt, but it may not be a comprehensive or expert-level answer."
+26,4,3,ResponseQuality.TIE,NA,ResponseQuality.A_BETTER,NA,0.0,2,guidance,SoloOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,13.626390218734741,,,,,,,,,,,"
+I will evaluate the response based on the additive 5-point scoring system. I will assess the response from the AI Assistant's perspective, considering the criteria outlined. I will attribute points based on the relevance, completeness, clarity, and quality of the response. I will not be influenced by the order in which the responses were presented.
+
+### Scoring:
+
+1. Relevance and information provided: The response is relevant to the prompt, providing some information about the show Rick and Morty and its creative process. I award 1 point.
+
+2. Addressing the user's question: The response addresses a substantial portion of the user's question, providing context about the show and its writers. However, it does not directly answer the question about the writers trying harder. I award 1 point.
+
+3. Answering the basic elements: The response provides a useful answer about the show's creative process and the writers' ability to come up with new storylines. I award 2 points.
+
+4.","
+I will evaluate the response based on the additive 5-point scoring system. I will assess the response from the AI Assistant's perspective, considering the criteria outlined. I will attribute points as follows: 1 point for relevance and some information related to the prompt, 2 points for addressing a substantial portion of the question, 3 points for answering the basic elements of the question in a useful way, 4 points for a clear and comprehensive response, and 5 points for an impeccably tailored response with expert knowledge and high-quality answer.
+
+### Evaluation:
+
+1. Relevance and some information related to the prompt: The response is highly relevant, providing a creative and humorous take on the prompt. I award 1 point.
+
+2. Addressing a substantial portion of the question: The response addresses the main idea of the prompt, which is Rick and Morty telling the writers to try harder. However, it does not provide a direct answer or a comprehensive solution. I award 2 points.
+
+"
+27,5,5,ResponseQuality.B_BETTER,NA,ResponseQuality.TIE,NA,0.0,0,guidance,SoloOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,50.639495849609375,,,,,,,,,,,"The response provides a comprehensive overview of real estate, covering its definition, types, and investment aspects. It addresses the user's question directly and provides relevant information, making it a strong candidate for a high score.
+
+### Score Breakdown:
+1. Relevant and provides some information: 1 point (The response is directly related to the user's question and provides a solid foundation for understanding real estate.)
+2. Addresses a substantial portion of the user's question: 1 point (The response covers multiple aspects of real estate, including its types and investment opportunities.)
+3. Answers the basic elements of the user's question: 1 point (The response provides a clear and concise definition of real estate and its significance.)
+4. Clearly written from an AI Assistant's perspective: 1 point (The response is well-organized, easy to follow, and demonstrates a clear understanding of the topic.)
+5. Impeccably tailored to the user's question: 1 point (The response is comprehensive, engaging","The response provides a comprehensive overview of real estate, covering various aspects such as types of real estate, market, transactions, investment, financing, laws, and trends. The information is well-organized, clear, and concise, making it easy to understand. The response addresses the user's question directly and comprehensively, demonstrating a high level of expertise and knowledge in the field of real estate.
+
+### Score: 5 points
+The response meets all the criteria for a perfect score. It is relevant, addresses a substantial portion of the user's question, answers the basic elements of the question in a useful way, is clearly written from an AI Assistant's perspective, and is impeccably tailored to the user's question, demonstrating expert knowledge and high-quality, engaging, and insightful answers."
+28,5,4,ResponseQuality.A_BETTER,NA,ResponseQuality.A_BETTER,NA,1.0,1,guidance,SoloOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,55.059485912323,,,,,,,,,,,"The response is a well-structured rap song about Phogos, with a clear and consistent theme. The lyrics are creative, and the language is engaging. The song has a clear verse-chorus structure, and the rhymes are well-executed. The response addresses the user's prompt directly and comprehensively, providing a complete rap song about Phogos.
+
+### Score Breakdown:
+1. Relevant and provides some information: 1 point
+2. Addresses a substantial portion of the user's question: 1 point
+3. Answers the basic elements of the user's question in a useful way: 1 point
+4. Clearly written from an AI Assistant's perspective, addressing the user's question directly and comprehensively: 1 point
+5. Impeccably tailored to the user's question, without extraneous information, reflecting expert knowledge, and demonstrating a high-quality, engaging, and insightful answer: 1 point
+
+Total Score: 5 points","The response provides a rap song about Phogos, addressing the user's prompt. The lyrics are coherent, and the assistant attempts to incorporate various themes, such as Phogos' skills as an MC, his popularity, and his success in the music industry. The response is well-organized and easy to follow. Although the lyrics might not be exceptionally creative or original, they demonstrate a clear effort to fulfill the user's request.
+
+### Score (out of 5):
+1. Relevant and provides some information: 1 point
+2. Addresses a substantial portion of the user's question: 1 point
+3. Answers the basic elements of the user's question in a useful way: 1 point
+4. Clearly written from an AI Assistant's perspective, addressing the user's question directly and comprehensively: 1 point
+5. Impeccably tailored to the user's question, without extraneous information, reflecting expert knowledge, and demonstrating a high-quality, engaging, and insightful"
+29,4,3,ResponseQuality.TIE,NA,ResponseQuality.A_BETTER,NA,0.0,2,guidance,SoloOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,54.09245705604553,,,,,,,,,,,"I will evaluate the response based on the additive 5-point scoring system. Here's my assessment:
+
+* 1 point: The response is relevant and provides some information related to the user's prompt, exploring the idea of Rick and Morty opening a portal to the real world.
+* 2 points: The response addresses a substantial portion of the user's question, discussing the creative possibilities and challenges that come with opening a portal to the real world.
+* 3 points: The response answers the basic elements of the user's question in a useful way, providing a clear and coherent narrative.
+* 4 points: The response is well-organized and helpful, demonstrating a clear understanding of the prompt and the show's themes.
+* 5 points: While the response is engaging and creative, it lacks expert knowledge and insight, and doesn't demonstrate a particularly unique or nuanced understanding of the show or its themes.
+
+Total score: 4 points.","This response is a creative and humorous take on the prompt, presenting a fictional scenario where Rick and Morty open a portal to the real world to tell the writers to try harder. The dialogue and scene descriptions are engaging and well-written, making it an entertaining read. However, it doesn't directly address the prompt's underlying concern or provide a meaningful solution, instead opting for a lighthearted and comedic approach.
+
+### Score Breakdown:
+1. Relevance: 1 point (The response is related to the prompt, but doesn't provide a direct answer or solution.)
+2. Substantial portion: 1 point (The response addresses the prompt's idea, but doesn't delve deeper into the issue or provide a comprehensive solution.)
+3. Useful answer: 1 point (The response is an entertaining and creative take on the prompt, but doesn't provide a practical or useful solution.)
+4. AI Assistant perspective: 0 points (The response doesn't demonstrate a clear AI Assistant perspective,"
+30,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,0.5,0,guidance,RankOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,14.067567110061646,A  ,B  ,A  ,B  ,,,,,,,"
+I evaluated the responses based on clarity, coherence, and relevance to the prompt. Model A's response is more comprehensive, covering various aspects of real estate, including its definition, types, investment options, and risks. The response is well-structured and easy to follow. Model B's response is more fragmented, covering different topics such as types of real estate, market conditions, transactions, investment, financing, laws, and trends. While the response is informative, it lacks cohesion and is harder to follow.
+
+### Leaderboard:
+
+1. **Model A**: 9/10
+	* Strengths: Comprehensive coverage, clear structure, and easy to follow.
+	* Weaknesses: Some sections may be too detailed or repetitive.
+2. **Model B**: 7/10
+	* Strengths: Covers a wide range of topics, informative.
+	* Weaknesses: Fragmented structure, harder to follow, and lacks cohesion.
+
+Note: The ranking is subjective and based on","
+I evaluated the responses based on their clarity, completeness, and relevance to the prompt. Model A's response is more comprehensive, covering various aspects of real estate, including types, market, transactions, investment, financing, laws, and trends. The response is well-organized, with clear headings and concise descriptions. Model B's response is more concise, focusing on the definition of real estate and its types, as well as its investment potential. While it provides some useful information, it lacks the depth and breadth of Model A's response.
+
+### Leaderboard:
+
+1. **Model A**: With its comprehensive and well-organized response, Model A takes the top spot.
+2. **Model B**: While Model B's response is concise and provides some useful information, it lacks the depth and breadth of Model A's response, placing it in second.
+
+Note: The ranking is based solely on the quality of the responses and does not take into account any potential biases or external factors."
+31,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,RankOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,14.095405101776123,A  ,B  ,B  ,A  ,,,,,,,"
+To create the leaderboard, I evaluated the responses based on their coherence, creativity, and overall appeal to a human audience. I considered factors such as the use of metaphors, wordplay, and storytelling techniques. I also assessed the responses' ability to engage the listener and convey the intended message. After careful evaluation, I ranked the models based on their performance.
+
+### Leaderboard:
+
+1. **Model A**: The response from Model A stands out for its vivid storytelling, clever wordplay, and engaging flow. The lyrics are well-structured, and the use of metaphors and imagery creates a rich and immersive experience.
+2. **Model B**: While Model B's response is enthusiastic and attempts to convey a sense of energy and confidence, it falls short in terms of creativity and coherence. The lyrics feel more like a collection of individual phrases rather than a cohesive narrative.
+
+Please note that this evaluation is subjective and intended to provide a general ranking based on the provided responses.","
+To create the leaderboard, I evaluated the responses based on their coherence, creativity, and overall appeal to a human audience. I considered factors such as the use of metaphors, wordplay, and storytelling techniques. I also assessed the responses' ability to engage the reader and convey the theme of the prompt. After careful evaluation, I ranked the models based on their performance.
+
+### Leaderboard:
+
+1. **Model B**: The response from Model B showcases a more sophisticated and creative approach to rap lyrics. The use of metaphors, wordplay, and storytelling techniques creates a more engaging and immersive experience for the reader. The response is well-structured, with a clear and consistent flow.
+2. **Model A**: The response from Model A is more straightforward and lacks the creative flair of Model B. While it has some catchy lines and a clear structure, it feels more generic and less engaging. The use of clichés and overused phrases detracts from the overall quality of the response.
+
+###"
+32,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,RankOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,13.423773765563965,B  ,A  ,A  ,B  ,,,,,,,"
+To create the leaderboard, I evaluated the responses based on their coherence, creativity, and engagement. Model A's response is more informative, providing context and background information about the show and its creators. However, it lacks the humor and personality that makes Rick and Morty so beloved. Model B's response, on the other hand, captures the show's tone and humor, with a more engaging and entertaining narrative. The dialogue and character interactions add to the response's charm, making it more enjoyable to read.
+
+### Leaderboard:
+
+1. **Model B**: With its engaging narrative, humor, and character interactions, Model B's response takes the top spot.
+2. **Model A**: While informative, Model A's response lacks the show's tone and humor, placing it second on the leaderboard.
+
+Note: The ranking is based solely on the quality of the responses and not influenced by the order in which they were presented.","
+I evaluated the responses based on their coherence, creativity, and engagement. Model A's response is more engaging, with a clear narrative and dialogue that brings the characters to life. The scene is well-structured, and the writers' reactions are believable. Model B's response is more abstract, focusing on the concept of the portal and the writers' creative freedom. While it's an interesting idea, it lacks the concrete details and character interactions that make Model A's response more compelling.
+
+### Leaderboard:
+
+1. **Model A**: The response is more engaging, with a clear narrative and dialogue that brings the characters to life.
+2. **Model B**: The response is more abstract, focusing on the concept of the portal and the writers' creative freedom, but lacks concrete details and character interactions.
+
+Note: This ranking is based solely on the quality of the responses and does not take into account any potential bias or the order in which the responses were presented."
+33,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,1.0,0,guidance,RankOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,50.09817934036255,B   ,A  	,A   ,B  	,,,,,,,"
+The leaderboard ranks the models based on the quality of their responses. Model A provides a clear and concise overview of real estate, covering its definition, types, and investment aspects. The response is well-structured and easy to follow. Model B, on the other hand, provides a more detailed and comprehensive response, covering various aspects of real estate, including the market, transactions, investment, financing, laws, and trends. The response is well-organized and informative, but may be overwhelming for some readers.
+
+### Leaderboard:
+
+1. **Model B**: Provides a more comprehensive and detailed response, covering a wide range of topics related to real estate.
+2. **Model A**: Offers a clear and concise overview of real estate, but lacks the depth and breadth of information provided by Model B.
+
+Note: The ranking is based on the quality and comprehensiveness of the responses, without any bias towards the order of presentation.","
+The leaderboard is based on the quality, comprehensiveness, and clarity of the responses. Model A's response is more detailed, organized, and covers a wider range of topics related to real estate, including types, market, transactions, investment, financing, laws, and trends. The response is also well-structured and easy to follow. Model B's response is more concise and provides a general overview of real estate, but lacks the depth and breadth of information provided by Model A.
+
+### Leaderboard:
+
+1. **Model A**: Provides a comprehensive and well-structured response that covers a wide range of topics related to real estate.
+2. **Model B**: Provides a concise but less detailed response that lacks the depth and breadth of information provided by Model A."
+34,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,RankOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,55.97311878204346,A   ,B  	,B   ,A  	,,,,,,,"
+After carefully evaluating both responses, I have created a leaderboard ranking the models based on the quality of their responses. The ranking is based on factors such as creativity, coherence, flow, and overall appeal.
+
+**Leaderboard:**
+
+1. **Model A**: Model A's response is a well-structured, cohesive, and engaging rap song with a clear theme and narrative. The lyrics are creative, and the flow is natural, making it an enjoyable read. The use of metaphors, wordplay, and repetition adds depth and complexity to the song.
+2. **Model B**: Model B's response is a good attempt, but it lacks the cohesion and structure of Model A's response. The lyrics are more generic, and the flow is not as natural. While it has some catchy lines, it feels more like a collection of phrases rather than a well-crafted song.
+
+Please note that this ranking is subjective and based on my evaluation of the responses.","
+After carefully evaluating both responses, I have created a leaderboard ranking the models based on the quality of their responses. My judgment is based on factors such as creativity, coherence, flow, and overall appeal.
+
+**Leaderboard:**
+
+1. **Model B**: Model B's response stands out for its well-structured verse-chorus format, clever wordplay, and vivid imagery. The lyrics are catchy, and the language is rich and engaging. The model has successfully captured the essence of a rap song, making it a compelling and enjoyable read.
+
+2. **Model A**: Model A's response is a good attempt, but it lacks the polish and sophistication of Model B's response. The lyrics are somewhat generic, and the language is not as evocative or creative. However, the model has still managed to convey a sense of Phogos' persona and skills as a rapper.
+
+Please note that this ranking is subjective and based on my evaluation of the responses."
+35,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,RankOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,51.69736862182617,B   ,A  	,A   ,B  	,,,,,,,"
+I evaluated the responses based on creativity, coherence, and overall engagement. Model B's response stood out for its creative and humorous take on the prompt, incorporating elements of the Rick and Morty show's style and tone. It presented a clear and engaging narrative, with a well-structured dialogue and scene progression. Model A's response, while coherent and well-written, lacked the creative spark and humor of Model B's response, making it a more generic and less engaging read.
+
+### Leaderboard:
+
+1. **Model B**: 9/10 - Creative, humorous, and engaging response that effectively captured the tone and style of Rick and Morty.
+2. **Model A**: 6/10 - Coherent and well-written response, but lacked creativity and humor, making it a more generic read.
+
+Please note that this evaluation is subjective and based on my understanding of the prompt and the responses.","
+After carefully evaluating both responses, I have created a leaderboard ranking the models based on the quality of their responses. The ranking is based on factors such as creativity, coherence, and overall engagement.
+
+**Leaderboard:**
+
+1. **Model A**: This response is more engaging, creative, and coherent. It provides a clear scenario, dialogue, and character interactions, making it feel like an actual episode of Rick and Morty. The tone and language used are also consistent with the show's style.
+
+2. **Model B**: While this response provides some interesting ideas, it lacks the creativity and engagement of Model A's response. The writing is more generic, and the scenario feels less immersive and less connected to the show's tone and style.
+
+Please note that this ranking is based on the specific prompt and responses provided, and may not reflect the overall capabilities of the models."
+36,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,0.5,0,guidance,JointOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,13.872682809829712,,,,,8,7,8,7,,,"
+I will rate the performance of the two AI assistants based on the prompt ""what do you know about real estate"". I will evaluate their responses in terms of grammatical correctness, fluency, accuracy, consistency, and clarity. Each assistant will receive an overall score on a scale of 1 to 10, where a higher score indicates better overall performance.
+
+### Ratings:
+
+**Assistant 1:**
+
+* Grammatical correctness: 9/10 ( minor errors in sentence structure and punctuation)
+* Fluency: 8/10 (response is clear and concise, but lacks variety in sentence structure)
+* Accuracy: 9/10 (provides a comprehensive overview of real estate, but lacks specific details)
+* Consistency: 8/10 (response is generally consistent, but lacks cohesion between paragraphs)
+* Clarity: 9/10 (response is easy to understand, but could benefit from more concrete examples)
+
+Overall score: 8.5/10
+
+**Assistant ","
+I will evaluate the performance of the two AI assistants in response to the user prompt ""what do you know about real estate"". I will assess their grammatical correctness, fluency, accuracy, consistency, and clarity, and provide an overall score on a scale of 1 to 10.
+
+### Assistant 1 Response:
+
+**Grammatical Correctness:** 9/10 ( minor errors in sentence structure and punctuation)
+**Fluency:** 8/10 (some sentences are lengthy and could be rephrased for better flow)
+**Accuracy:** 9/10 (most information is accurate, but some points could be expanded upon)
+**Consistency:** 8/10 (some sections are more detailed than others, but overall, the information is consistent)
+**Clarity:** 8/10 (some sections could be rephrased for better clarity, but overall, the information is easy to understand)
+
+**Overall Score:** 8.5/10
+
+### Assistant"
+37,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,JointOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,8.62982988357544,,,,,8,6,7,9,,,"
+I will rate the performance of the two AI assistants based on the provided prompt to write rap lyrics about a person named Phogos. I will assess the grammatical correctness, fluency, accuracy, consistency, and clarity of each response.","
+I will evaluate the performance of the two AI assistants based on the provided prompt to write rap lyrics about a dude named Phogos. I will assess the grammatical correctness, fluency, accuracy, consistency, and clarity of each response. Each assistant will receive an overall score on a scale of 1 to 10, where a higher score indicates better overall performance.
+
+### Ratings:
+
+**Assistant 1 Response:**
+
+* Grammatical correctness: 8/10 (some minor errors in sentence structure and punctuation)
+* Fluency: 7/10 (the flow is decent, but some lines feel a bit forced)
+* Accuracy: 8/10 (the lyrics are generally accurate, but some lines could be more specific)
+* Consistency: 8/10 (the tone and style are consistent throughout, but some lines feel a bit repetitive)
+* Clarity: 8/10 (the lyrics are generally clear, but some lines could be more concise)
+
+Overall score:"
+38,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,JointOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,13.45578908920288,,,,,7,8,8,7,,,"
+I will rate the performance of the two AI assistants based on the provided prompt. I will evaluate the grammatical correctness, fluency, accuracy, consistency, and clarity of each response.
+
+**Assistant 1 Response:**
+
+* Grammatical correctness: 9/10 ( minor errors in sentence structure)
+* Fluency: 8/10 (some sentences feel a bit disconnected)
+* Accuracy: 8/10 (some creative liberties taken with the show's premise)
+* Consistency: 7/10 (some inconsistencies in tone and style)
+* Clarity: 8/10 (easy to follow, but some sentences could be rephrased for better clarity)
+
+Overall score: 7.8/10
+
+**Assistant 2 Response:**
+
+* Grammatical correctness: 9/10 (minor errors in dialogue formatting)
+* Fluency: 9/10 (engaging dialogue and scene description)
+* Accuracy: 9/10 (accurate representation of","
+I will rate the performance of the two AI assistants based on the provided prompt. I will evaluate the grammatical correctness, fluency, accuracy, consistency, and clarity of each response.
+
+**Assistant 1 Response:**
+
+* Grammatical correctness: 8/10 (minor errors in sentence structure and punctuation)
+* Fluency: 7/10 (some awkward phrasing and sentence transitions)
+* Accuracy: 9/10 (accurate representation of the prompt and characters)
+* Consistency: 8/10 (consistent tone and character voices, but some inconsistencies in dialogue)
+* Clarity: 8/10 (clear and easy to follow, but some sentences could be rephrased for better clarity)
+
+Overall score: 8.1/10
+
+**Assistant 2 Response:**
+
+* Grammatical correctness: 9/10 (minor errors in sentence structure and punctuation)
+* Fluency: 8/10 (some awkward phrasing and sentence transitions)
+"
+39,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.TIE,ResponseQuality.A_BETTER,0.5,0,guidance,JointOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,55.31566596031189,,,,,8,8,10,7,,,"Assistant 1 provides a clear and concise overview of real estate, covering its definition, types, and investment aspects. The response is well-structured and easy to follow, with a logical flow of ideas. However, it lacks depth and specific examples, making it feel somewhat superficial.
+
+Assistant 2, on the other hand, provides a more comprehensive and detailed response, covering various aspects of real estate, including types, market, transactions, investment, financing, laws, and trends. The use of headings and bullet points makes the response easy to navigate, but it feels more like a list of topics rather than a cohesive narrative.
+
+### Ratings:
+
+**Assistant 1:**
+
+* Grammatical correctness: 9
+* Fluency: 8
+* Accuracy: 8
+* Consistency: 7
+* Clarity: 8
+* Overall score: 8
+
+**Assistant 2:**
+
+* Grammatical correctness: 9
+* Fluency: 7
+*","Assistant 1 provides a comprehensive and well-structured response, covering various aspects of real estate, including types, market, transactions, investment, financing, laws, and trends. The response is detailed, accurate, and easy to follow. Assistant 2 provides a brief overview of real estate, covering its definition, types, and investment aspects. The response is concise but lacks depth and detail compared to Assistant 1.
+
+### Ratings:
+
+**Assistant 1:**
+* Grammatical Correctness: 10
+* Fluency: 10
+* Accuracy: 10
+* Consistency: 10
+* Clarity: 10
+* Overall Score: 10
+
+**Assistant 2:**
+* Grammatical Correctness: 9
+* Fluency: 8
+* Accuracy: 8
+* Consistency: 7
+* Clarity: 7
+* Overall Score: 7.8"
+40,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,JointOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,56.00067615509033,,,,,8,6,7,8,,,"
+I will rate the two AI assistants based on their responses to the prompt ""write the lyrics to a rap song about some dude called 'phogos'"". I will evaluate their grammatical correctness, fluency, accuracy, consistency, and clarity, and provide an overall score out of 10.
+
+### Ratings:
+
+**Assistant 1:**
+
+* Grammatical correctness: 9/10 (minor errors in punctuation)
+* Fluency: 9/10 (smooth flow, but some lines feel forced)
+* Accuracy: 8/10 (some clichés and generic rap phrases)
+* Consistency: 8/10 (consistent structure, but varying quality of lines)
+* Clarity: 9/10 (clear message, but some vague lyrics)
+* Overall score: 8.6/10
+
+**Assistant 2:**
+
+* Grammatical correctness: 8/10 (some errors in punctuation and verb tense)
+* Fluency: 7/10 (","
+I will rate the two AI assistants based on their responses to the prompt ""write the lyrics to a rap song about some dude called 'phogos'"". I will evaluate their grammatical correctness, fluency, accuracy, consistency, and clarity, and provide an overall score out of 10.
+
+### Ratings:
+
+**Assistant 1:**
+
+* Grammatical correctness: 8/10 (some minor errors in punctuation and verb tense)
+* Fluency: 7/10 (some lines feel a bit forced or cliche)
+* Accuracy: 8/10 (stays on topic, but lacks depth and nuance)
+* Consistency: 7/10 (some inconsistent rhyme schemes and meter)
+* Clarity: 8/10 (easy to understand, but lacks complexity)
+* Overall score: 7.6/10
+
+**Assistant 2:**
+
+* Grammatical correctness: 9/10 (near-perfect grammar and punctuation)
+* Fluency"
+41,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,JointOracle,Meta-Llama-3-70B-Instruct-q8_0.gguf,True,50.914389848709106,,,,,8,9,8,5,,,"
+I will rate the two AI assistant responses based on grammatical correctness, fluency, accuracy, consistency, and clarity. 
+
+**Assistant 1 Response:** 
+Score: 8/10
+Strengths: Well-structured, grammatically correct, and easy to follow. 
+Weaknesses: Lacks creativity, feels like a generic summary, and doesn't fully capture the humor and absurdity of the prompt.
+
+**Assistant 2 Response:** 
+Score: 9/10
+Strengths: Engaging, creative, and accurately captures the tone and humor of the prompt. 
+Weaknesses: Some minor errors in formatting and dialogue tags, but overall a more entertaining and immersive response.
+
+Please let me know if you'd like me to elaborate on my ratings or provide further feedback!","
+Assistant 1's response is a script-style dialogue that directly addresses the prompt, showcasing Rick and Morty's personalities and interactions. It's engaging, humorous, and faithful to the show's tone. The dialogue is natural, and the scenario is creative and entertaining.
+
+Assistant 2's response is more of a descriptive passage that explains the concept of Rick and Morty opening a portal to the real world. It lacks the humor and personality of the show, and the writing is more formal and generic. The passage doesn't directly address the prompt and feels like a summary of the show's premise rather than a response to the specific scenario.
+
+### Ratings:
+
+**Assistant 1:**
+
+* Grammatical Correctness: 9
+* Fluency: 9
+* Accuracy: 8 (some minor creative liberties taken)
+* Consistency: 9
+* Clarity: 9
+* Overall Score: 8.8
+
+**Assistant 2:**
+
+* Grammatical Correct"
+42,,,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,0,guidance,RelativeOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,7.4068803787231445,,,,,,,,,A,B,"
+I compared the two responses based on their content, structure, and overall quality. Response A provides a comprehensive overview of real estate, covering its definition, types, and investment aspects. It also discusses the risks and benefits of real estate investment. Response B, on the other hand, is more fragmented, covering various aspects of real estate such as types, market, transactions, investment, financing, laws, and trends. While Response B is informative, it lacks cohesion and a clear structure.
+
+### Recommendation:
+
+Based on the comparison, I recommend that Response A is better than Response B.","
+I would choose option B: Response B is better than response A. Response B provides a more comprehensive and clear overview of real estate, covering its definition, types, and investment options. It also highlights the potential risks and benefits of real estate investment, making it a more informative and helpful response. Response A, on the other hand, is more fragmented, covering different aspects of real estate in separate points, which can make it harder to follow and understand."
+43,,,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,1.0,1,guidance,RelativeOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,8.334269523620605,,,,,,,,,A,B,"
+I compared the two responses based on factors such as creativity, coherence, and overall flow. Response A stands out for its more complex rhyme scheme, vivid imagery, and varied sentence structure. The lyrics paint a clearer picture of Phogos' skills and persona, making him a more relatable and impressive character. Response B, while having some catchy lines, relies heavily on repetitive phrases and lacks the same level of depth and nuance. Overall, Response A is a better response to the prompt due to its more engaging and well-crafted lyrics.
+
+### Recommendation:
+
+A: Response A is better than response B","
+I compared the two responses based on factors such as creativity, coherence, and overall flow. Response B stands out for its more complex rhyme scheme, varied sentence structure, and vivid imagery. The lyrics are more descriptive and paint a clearer picture of Phogos' skills and persona. Response A, while having a catchy chorus, relies more on simple rhymes and repetitive phrases. Response B's use of metaphors, allusions, and wordplay elevates the lyrics to a more sophisticated level, making it a better response to the prompt.
+
+### Recommendation:
+
+B: Response B is better than response A"
+44,,,ResponseQuality.TIE,ResponseQuality.TIE,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,2,guidance,RelativeOracle,Meta-Llama-3-8B-Instruct-q8_0.gguf,True,7.694023847579956,,,,,,,,,B,A,"
+Response B is a better response to the given prompt. It is more engaging, creative, and faithful to the tone and style of the Rick and Morty series. The dialogue between Rick and Morty is witty and humorous, and the scenario is well-conceived and visually appealing. The response also effectively captures the essence of the show's themes, such as the desire for creative freedom and the frustration with the writers' limitations. In contrast, Response A is more generic and lacks the same level of creativity and humor.","
+I evaluate the responses based on their creativity, coherence, and adherence to the prompt. Response A is more engaging and creative, as it presents a humorous scenario where Rick and Morty directly interact with the writers. The dialogue is witty, and the idea of the writers being ""basement-dwelling nerds"" adds a layer of humor. Response B, on the other hand, is more abstract and focuses on the concept of the portal rather than the characters' interactions. While it's an interesting idea, it lacks the humor and creativity of Response A.
+
+### Recommendation:
+
+A: Response A is better than response B."
