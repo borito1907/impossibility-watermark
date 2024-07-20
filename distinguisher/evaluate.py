@@ -1,6 +1,7 @@
 from guidance import models
 from distinguisher.models.aggressive import AggressiveSimple
 from distinguisher.models.simple import SimpleGPT
+from distinguisher.models.reasoning import ReasoningDistinguisher, ReasoningGPT
 import pandas as pd
 import os
 import datasets
@@ -51,11 +52,13 @@ Your goal is to provide a clear, concise, and accurate assessment of the provide
 
 response_A = AttackParser(get_file(6, 1, 3))
 response_B = AttackParser(get_file(6, 2, 4))
-sd = SimpleGPT(chatgpt, distinguisher_persona, response_A.get_response(), response_B.get_response())
-# sd2 = AggressiveSimple(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
+# response_A = AttackParser(get_file(4, 1, "2_1"))
+# response_B = AttackParser(get_file(4, 2, "1_1"))
+sd = ReasoningGPT(chatgpt, distinguisher_persona, response_A.get_response(), response_B.get_response())
+sd2 = ReasoningGPT(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
 
 dataset = []
-for n in range(5):
+for n in range(50):
     dataset.append({
         "P": response_A.get_nth(n),
         "Num": n,
@@ -68,12 +71,13 @@ for n in range(5):
     })
 
 dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=dataset))
-dataset = sd.distinguish_majority(dataset, 3, "gpt_")
-# dataset = sd2.distinguish_majority(dataset, 10, "llama_")
+dataset = sd.distinguish_majority(dataset, 5, "gpt_")
+dataset = sd2.distinguish_majority(dataset, 5, "llama_")
+# dataset = sd2.distinguish(dataset, "llama_")
 
 df = dataset.to_pandas()
 df["Response_A"] = response_A.get_response()
 df["Response_B"] = response_B.get_response()
-df.to_csv("./distinguisher/results/multi_gpt.csv")
+df.to_csv("./distinguisher/results/multi_reason_gpt.csv")
 
-# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m distinguisher.evaluate
+# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=0 python -m distinguisher.evaluate

@@ -60,6 +60,8 @@ class Distinguisher(ABC):
         print(f"Running distinguisher on {dataset.num_rows} rows with a count of {count} for a total of {dataset.num_rows*count} trials")
         for i in range(count):
             dataset = self.distinguish(dataset, prefix=f"{prefix}{i}_")
+            df = dataset.to_pandas()
+            df.to_csv(f"./distinguisher/results/{prefix}_tmp.csv")
         df = dataset.to_pandas()
         df[f"{prefix}A_normal"] = df[[f"{prefix}{i}_choice" for i in range(count)]].apply(lambda row: (row == 'A').sum(), axis=1)
         df[f"{prefix}B_normal"] = df[[f"{prefix}{i}_choice" for i in range(count)]].apply(lambda row: (row == 'B').sum(), axis=1)
