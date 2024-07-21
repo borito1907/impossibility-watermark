@@ -86,43 +86,14 @@ if __name__ == "__main__":
         mutated_text = dataset["response_b"].iloc[0]
         label = ResponseQuality.TIE if dataset["winner_tie"].iloc[0] else ResponseQuality.A_BETTER if dataset["winner_model_a"].iloc[0] else ResponseQuality.B_BETTER
 
-        # Initialize Base LLM
-        print("Initializing Base LLM with Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf")
-        model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf"
-        llm = models.LlamaCpp(
-            model=model_id,
-            echo=False,
-            n_gpu_layers=-1,
-            n_ctx=2048
-        )
-
-        oracle = JointOracle(llm, explain=False)
-
-        # Run quality assessments
-        start = time.time()
-        quality_eval = oracle.is_quality_preserved(
-            instruction=instruction, 
-            original_text=original_text, 
-            mutated_text=mutated_text, 
-            reference_answer=None
-        )
-        delta = time.time() - start
-        print("EVAL oracle.is_quality_preserved")
-        print("quality_eval:", quality_eval)
-        print("time_taken:", delta)
-
-        print("EVAL  oracle.test:")
-        start = time.time()
-        results = oracle.test(instruction, original_text, mutated_text, label)
-        delta = time.time() - start
-        print(results)
-        print("time_taken:", delta)
-
-        # # Initialize Base LLM - FHC: THIS DOES NOT WORK RELIABLY RIGHT NOW. 
-        # print("Initializing Oracle with gpt-4o-mini...")
-        # model_id = "gpt-4o-mini"
-        # llm = models.OpenAI(
-        #     model=model_id
+        # # Initialize Base LLM
+        # print("Initializing Base LLM with Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf")
+        # model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf"
+        # llm = models.LlamaCpp(
+        #     model=model_id,
+        #     echo=False,
+        #     n_gpu_layers=-1,
+        #     n_ctx=2048
         # )
 
         # oracle = JointOracle(llm, explain=False)
@@ -139,12 +110,41 @@ if __name__ == "__main__":
         # print("EVAL oracle.is_quality_preserved")
         # print("quality_eval:", quality_eval)
         # print("time_taken:", delta)
-        
+
         # print("EVAL  oracle.test:")
         # start = time.time()
         # results = oracle.test(instruction, original_text, mutated_text, label)
         # delta = time.time() - start
         # print(results)
+        # print("time_taken:", delta)
+
+        # Initialize Base LLM - FHC: THIS DOES NOT WORK RELIABLY RIGHT NOW. 
+        print("Initializing Oracle with gpt-4o-mini...")
+        model_id = "gpt-4o-mini"
+        llm = models.OpenAI(
+            model=model_id
+        )
+
+        oracle = JointOracle(llm, explain=False)
+
+        # Run quality assessments
+        start = time.time()
+        quality_eval = oracle.is_quality_preserved(
+            instruction=instruction, 
+            original_text=original_text, 
+            mutated_text=mutated_text, 
+            reference_answer=None
+        )
+        delta = time.time() - start
+        print("EVAL oracle.is_quality_preserved")
+        print("quality_eval:", quality_eval)
+        print("time_taken:", delta)
+        
+        print("EVAL  oracle.test:")
+        start = time.time()
+        results = oracle.test(instruction, original_text, mutated_text, label)
+        delta = time.time() - start
+        print(results)
         
 
     test()
