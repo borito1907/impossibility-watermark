@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 @hydra.main(version_base=None, config_path="conf", config_name="config")
 def eval(cfg):
 
-    # os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg.cuda_visible_devices)
+    os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg.cuda_visible_devices)
     os.environ["WORLD_SIZE"] = str(len(str(cfg.cuda_visible_devices).split(",")))
 
     # Tucking import here because 'import torch' prior to setting CUDA_VISIBLE_DEVICES causes an error
@@ -64,11 +64,11 @@ def eval(cfg):
 
     # Init mutators
     log.info(f"Initializing mutators...")
-    doc_mutator = DocumentMutator()
-    sent_mutator = SentenceMutator(cfg.oracle_args)
+    # doc_mutator = DocumentMutator()
+    # sent_mutator = SentenceMutator(cfg.oracle_args)
     span_mutator = SpanMutator()
     word_mutator = WordMutator()
-    mutators = [word_mutator, span_mutator, sent_mutator, doc_mutator]
+    mutators = [word_mutator, span_mutator]
 
     # Construct eval loop
     results = []
