@@ -25,8 +25,6 @@ class RelativeOracle(Oracle):
                 lm += f"{kwargs['persona']}"
         with user():
             lm += f"""\
-            ### Instructions: 
-
             ### Here is the prompt:
             {kwargs['instruction']}
 
@@ -36,6 +34,7 @@ class RelativeOracle(Oracle):
             ### Model B Response:
             {kwargs['response_B']}
 
+            ### Instructions: 
             Compare which of the two above responses is a better response to the given prompt. 
             Your answer should be chosen from the following three options:
                 A: Response A is better than response B
