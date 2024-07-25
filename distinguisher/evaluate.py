@@ -39,8 +39,8 @@ llm = models.Transformers(
     device_map='auto',
 )
 
-load_dotenv(find_dotenv())
-chatgpt = models.OpenAI("gpt-4o-mini")
+# load_dotenv(find_dotenv())
+# chatgpt = models.OpenAI("gpt-4o-mini")
 
 distinguisher_persona = \
 """
@@ -54,11 +54,11 @@ response_A = AttackParser(get_file(6, 1, 3))
 response_B = AttackParser(get_file(6, 2, 4))
 # response_A = AttackParser(get_file(4, 1, "2_1"))
 # response_B = AttackParser(get_file(4, 2, "1_1"))
-sd = ReasoningGPT(chatgpt, distinguisher_persona, response_A.get_response(), response_B.get_response())
-sd2 = ReasoningGPT(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
+# sd = ReasoningGPT(chatgpt, distinguisher_persona, response_A.get_response(), response_B.get_response())
+sd2 = AggressiveSimple(llm, distinguisher_persona, response_A.get_response(), response_B.get_response())
 
 dataset = []
-for n in range(50):
+for n in range(2):
     dataset.append({
         "P": response_A.get_nth(n),
         "Num": n,
@@ -71,8 +71,8 @@ for n in range(50):
     })
 
 dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=dataset))
-dataset = sd.distinguish_majority(dataset, 5, "gpt_")
-dataset = sd2.distinguish_majority(dataset, 5, "llama_")
+# dataset = sd.distinguish_majority(dataset, 5, "gpt_")
+dataset = sd2.distinguish_majority(dataset, 3, "llama_")
 # dataset = sd2.distinguish(dataset, "llama_")
 
 df = dataset.to_pandas()

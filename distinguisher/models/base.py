@@ -2,23 +2,6 @@ from abc import ABC, abstractmethod
 from functools import partial
 import datasets
 
-def apply_prompt(datarow, llm, prompt_fn, input_keys, output_keys, origin_A, origin_B, persona=None, prefix=""):
-    inputs = {k: datarow[k] for k in input_keys}
-    inputs['A'] = origin_A
-    inputs['B'] = origin_B
-    output = llm+prompt_fn(persona=persona, **inputs)
-    return {prefix+k: output[k] for k in output_keys}
-
-def flip_choices(output, prefix=""):
-    if output[f"{prefix}choice"] == "A":
-        output[f"{prefix}choice"] = "B"
-    elif output[f"{prefix}choice"] == "B":
-        output[f"{prefix}choice"] = "A"
-    else:
-        # sad face model didnt work
-        pass
-    return output
-
 # Abstract base class for all distinguishers
 class Distinguisher(ABC):
     def __init__(self, llm, persona, origin_A, origin_B):
@@ -26,34 +9,54 @@ class Distinguisher(ABC):
         self.persona = persona
         self.origin_A = origin_A
         self.origin_B = origin_B
-
+    
+    @staticmethod
     @abstractmethod
-    def prompt_fn(self, lm, persona, **kwargs):
+    def prompt_fn(lm, persona, **kwargs):
         pass
+
+    @staticmethod
+    def flip_choices(output, prefix=""):
+        # ok to override in derived clases
+        choice = f"{prefix}choice"
+        if output[choice] == "A":
+            output[choice] = "B"
+        elif output[choice] == "B":
+            output[choice] = "A"
+        else:
+            # sad face model didnt work
+            output[choice] == "FAIL"
+            pass
+
+    def apply_prompt(self, datarow, flip, prefix=""):
+        # load input dictionary
+        inputs = {k: datarow[k] for k in self.input_keys}
+        inputs['A'] = self.origin_A
+        inputs['B'] = self.origin_B
+        if flip:
+            inputs['A'], inputs['B'] = inputs['B'], inputs['A']
+            prefix+="flipped_"
+
+        # perform inference
+        output = self.llm+self.prompt_fn(persona=self.persona, **inputs)
+        output_dict = {prefix+k: output[k] for k in self.output_keys}
+
+        # flip outputs if needed
+        if flip:
+            self.flip_choices(output_dict, prefix)
+
+        return output_dict
+
+
+    def distinguish_row(self, datarow, prefix=""):
+        output = self.apply_prompt(datarow, flip=False, prefix=prefix)
+        output.update(self.apply_prompt(datarow, flip=True, prefix=prefix))
+        return output
 
     def distinguish(self, dataset, prefix=""):
         return dataset.map(
-            partial(apply_prompt, 
-                llm=self.llm, 
-                prompt_fn=self.prompt_fn, 
-                input_keys=self.input_keys, 
-                output_keys=self.output_keys, 
-                origin_A=self.origin_A,
-                origin_B=self.origin_B,
-                persona=self.persona,
-                prefix=prefix
-        )).map(
-            partial(apply_prompt, 
-                llm=self.llm, 
-                prompt_fn=self.prompt_fn, 
-                input_keys=self.input_keys, 
-                output_keys=self.output_keys, 
-                origin_A=self.origin_B,
-                origin_B=self.origin_A,
-                persona=self.persona,
-                prefix=f"{prefix}flipped_"
-        )).map(
-            partial(flip_choices, prefix=f"{prefix}flipped_")
+            partial(self.distinguish_row, 
+                prefix=prefix)
         )
     
     def distinguish_majority(self, dataset, count, prefix=""):
@@ -61,7 +64,7 @@ class Distinguisher(ABC):
         for i in range(count):
             dataset = self.distinguish(dataset, prefix=f"{prefix}{i}_")
             df = dataset.to_pandas()
-            df.to_csv(f"./distinguisher/results/{prefix}_tmp.csv")
+            df.to_csv(f"./distinguisher/tmp/{prefix}tmp.csv")
         df = dataset.to_pandas()
         df[f"{prefix}A_normal"] = df[[f"{prefix}{i}_choice" for i in range(count)]].apply(lambda row: (row == 'A').sum(), axis=1)
         df[f"{prefix}B_normal"] = df[[f"{prefix}{i}_choice" for i in range(count)]].apply(lambda row: (row == 'B').sum(), axis=1)
@@ -90,12 +93,15 @@ class Distinguisher(ABC):
     @property
     @abstractmethod
     def input_keys(self):
+        """
+        Do not include "A" or "B" as input; they are added automatically
+        """
         pass
 
     @property
     @abstractmethod
     def output_keys(self):
         """
-        Important: must include "choice" property that is either "A" or "B", representing the distinguisher's answer
+        Important: must include "choice" property that returns either "A" or "B", representing the distinguisher's answer
         """
         pass
