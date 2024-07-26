@@ -40,10 +40,10 @@ def compute_metrics(y_pred, y_test):
     metrics = {
         'accuracy': accuracy_score(y_test, y_pred),
         'hamming_accuracy': 1-hamming_loss(y_test, y_pred),
-        'recall': recall_score(y_test, y_pred, average='samples', zero_division=0),
-        'precision': precision_score(y_test, y_pred, average='samples', zero_division=0),
-        'f1_score': f1_score(y_test, y_pred, average='samples', zero_division=0),
-        'jaccard_score': jaccard_score(y_test, y_pred, average='samples', zero_division=0),
+        'recall': recall_score(y_test, y_pred, average='micro', zero_division=0),
+        'precision': precision_score(y_test, y_pred, average='micro', zero_division=0),
+        'f1_score': f1_score(y_test, y_pred, average='micro', zero_division=0),
+        'jaccard_score': jaccard_score(y_test, y_pred, average='micro', zero_division=0),
         'support': len(y_pred)
     }
     return metrics

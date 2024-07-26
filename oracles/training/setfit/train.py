@@ -26,12 +26,12 @@ class SentenceClassifier:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         # Load datasets
-        self.train_dataset = prepare_dataset(load_dataset('csv', data_files=self.cfg.dataset.train_data_path)['train'])
-        self.val_dataset = prepare_dataset(load_dataset('csv', data_files=self.cfg.dataset.val_data_path)['train'])
+        self.train_dataset = prepare_dataset(load_dataset('csv', data_files=self.cfg.dataset.train_data_path)['train'].shuffle())
+        self.val_dataset = prepare_dataset(load_dataset('csv', data_files=self.cfg.dataset.val_data_path)['train'].shuffle())
         if self.cfg.dataset.max_val_size > 0:
             self.val_dataset = self.val_dataset.shuffle()
             self.val_dataset = self.val_dataset.select(range(self.cfg.dataset.max_val_size))
-        self.test_dataset = prepare_dataset(load_dataset('csv', data_files=self.cfg.dataset.test_data_path)['train'])
+        self.test_dataset = prepare_dataset(load_dataset('csv', data_files=self.cfg.dataset.test_data_path)['train'].shuffle())
 
         log.info(f"train_dataset: {self.train_dataset}")
         log.info(f"val_dataset: {self.val_dataset}")
@@ -108,8 +108,11 @@ class SentenceClassifier:
 def main(cfg):
 
     models = [
+        "google-bert/bert-base-uncased",
+        "FacebookAI/roberta-base",
         "microsoft/deberta-v3-base",
-        # "microsoft/deberta-v3-large"
+        # "microsoft/deberta-v3-large",
+        "FacebookAI/xlm-roberta-large",
     ]
 
     performance = []
