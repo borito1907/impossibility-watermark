@@ -16,6 +16,7 @@ class DocumentMutator(object):
         )
         if verbose:
             print(f"{model} model loaded in {time.time() - time1}")
+        self.model = self.model.to(torch.device('cuda:1'))
         self.model.cuda()
         self.model.eval()
 
