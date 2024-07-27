@@ -37,23 +37,22 @@ class PrometheusRelativeOracle:
     
     def load_judge(self):
         # Load or initialize the model used for scoring and feedback
-        if Oracle.judge == None:
-            if "gpt-" in self.model_id:
-                # Assume OpenAI (see https://github.com/prometheus-eval/prometheus-eval/tree/main?tab=readme-ov-file#llm-apis)
-                load_dotenv()
-                self.model = AsyncLiteLLM(self.model_id)
-            else:
-                # Assume Transformers
-                self.model = VLLM(
-                    model=self.model_id, 
-                    tensor_parallel_size=self.num_gpus, 
-                    download_dir=self.download_dir
-                )
-            self.judge = PrometheusEval(
-                model=self.model,
-                relative_grade_template=RELATIVE_PROMPT,
-                absolute_grade_template=ABSOLUTE_PROMPT					
+        if "gpt-" in self.model_id:
+            # Assume OpenAI (see https://github.com/prometheus-eval/prometheus-eval/tree/main?tab=readme-ov-file#llm-apis)
+            load_dotenv()
+            self.model = AsyncLiteLLM(self.model_id, requests_per_minute=100)
+        else:
+            # Assume Transformers
+            self.model = VLLM(
+                model=self.model_id, 
+                tensor_parallel_size=self.num_gpus, 
+                download_dir=self.download_dir
             )
+        self.judge = PrometheusEval(
+            model=self.model,
+            relative_grade_template=RELATIVE_PROMPT,
+            absolute_grade_template=ABSOLUTE_PROMPT					
+        )
 
 
     def evaluate(self, instruction, response_A, response_B, reference_answer=None):

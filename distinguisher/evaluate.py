@@ -2,7 +2,7 @@ from guidance import models
 from distinguisher.models import AggressiveSimple, AggressiveReasoning, SimpleGPT, SimpleDistinguisher, SimpleInstructDistinguisher, ReasoningDistinguisher, ReasoningGPT
 from mutators import DocumentMutator, SentenceMutator, SpanMutator, WordMutator
 from watermarkers import SemStampWatermarker, UMDWatermarker
-from oracles.guidance.relative import RelativeOracle
+from oracles import RelativeOracle
 
 from attack import Attack
 import pandas as pd
@@ -18,10 +18,9 @@ INITIAL_PROMPTS_FILE = './distinguisher/entropy_prompts.csv'
 WATERMARKER = SemStampWatermarker
 WATERMARKED_RESPONSES_FILE = lambda x : f'./distinguisher/watermarked_responses_{WATERMARKER.__name__}_{x}.csv'
 ORACLE = RelativeOracle
-ORACLE_LLM = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf"
-
+ORACLE_LLM = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf"
 RERUN_WATERMARKER = False
-RERUN_MUTATOR = RERUN_WATERMARKER or False
+RERUN_MUTATOR = RERUN_WATERMARKER or True
 NUM_STEPS = 500
 
 
@@ -74,15 +73,15 @@ params_list = [
       # {"mutator": DocumentMutator, "type": "document", "distinguisher": ReasoningDistinguisher},
       # {"mutator": DocumentMutator, "type": "document", "distinguisher": SimpleGPT},
       # {"mutator": DocumentMutator, "type": "document", "distinguisher": SimpleInstructDistinguisher},
-      # {"mutator": DocumentMutator, "type": "document", "distinguisher": SimpleDistinguisher},
+      #{"mutator": DocumentMutator, "type": "document", "distinguisher": SimpleDistinguisher},
       
 			# {"mutator": SentenceMutator, "type": "sentence", "distinguisher": AggressiveSimple},
       # {"mutator": SentenceMutator, "type": "sentence", "distinguisher": AggressiveReasoning},
-      {"mutator": SentenceMutator, "type": "sentence", "distinguisher": ReasoningGPT},
+      # {"mutator": SentenceMutator, "type": "sentence", "distinguisher": ReasoningGPT},
       # {"mutator": SentenceMutator, "type": "sentence", "distinguisher": ReasoningDistinguisher},
       # {"mutator": SentenceMutator, "type": "sentence", "distinguisher": SimpleGPT},
       # {"mutator": SentenceMutator, "type": "sentence", "distinguisher": SimpleInstructDistinguisher},
-      # {"mutator": SentenceMutator, "type": "sentence", "distinguisher": SimpleDistinguisher},
+      {"mutator": SentenceMutator, "type": "sentence", "distinguisher": SimpleDistinguisher},
       
 			# {"mutator": SpanMutator, "type": "span", "distinguisher": AggressiveSimple},
       # {"mutator": SpanMutator, "type": "span", "distinguisher": AggressiveReasoning},
@@ -90,7 +89,7 @@ params_list = [
       # {"mutator": SpanMutator, "type": "span", "distinguisher": ReasoningDistinguisher},
       # {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleGPT},
       # {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleInstructDistinguisher},
-      # {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleDistinguisher},
+      {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleDistinguisher},
       
 			# {"mutator": WordMutator, "type": "word", "distinguisher": AggressiveSimple},
       # {"mutator": WordMutator, "type": "word", "distinguisher": AggressiveReasoning},
@@ -98,7 +97,7 @@ params_list = [
       # {"mutator": WordMutator, "type": "word", "distinguisher": ReasoningDistinguisher},
       # {"mutator": WordMutator, "type": "word", "distinguisher": SimpleGPT},
       # {"mutator": WordMutator, "type": "word", "distinguisher": SimpleInstructDistinguisher},
-      # {"mutator": WordMutator, "type": "word", "distinguisher": SimpleDistinguisher},
+      {"mutator": WordMutator, "type": "word", "distinguisher": SimpleDistinguisher},
                   ]
 
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
@@ -163,7 +162,7 @@ def main(cfg):
               attack.attack(df_b.loc[df_b['entropy'] == entropy].iloc[0]["prompt"], df_b.loc[df_b['entropy'] == entropy].iloc[0]["response"])
               print("Finished mutations.")
               
-
+          continue
           csv_path = f"./distinguisher/results/{Distinguisher.__name__}_{Mutator.__name__}_entropy-{entropy}.csv"
 				
           response_A = AttackParser(mutations_path("a"))
