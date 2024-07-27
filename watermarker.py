@@ -21,7 +21,8 @@ class Watermarker(ABC):
             if not isinstance(self.pipeline, PipeLineBuilder):
                 self.pipeline = PipeLineBuilder(self.cfg.generator_args)
             
-            self.model = self.pipeline.model.to(self.device)
+            # self.model = self.pipeline.model.to(self.device)
+            self.model = self.pipeline.model
             self.tokenizer = self.pipeline.tokenizer
             self.tokenizer.pad_token = self.tokenizer.pad_token or self.tokenizer.eos_token
 

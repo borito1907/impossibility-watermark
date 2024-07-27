@@ -4,6 +4,8 @@ from watermarker import Watermarker
 import torch
 from transformers import LogitsProcessorList
 
+import textwrap
+
 # UMD
 from watermarkers.extended_watermark_processor import WatermarkLogitsProcessor, WatermarkDetector
 
@@ -35,6 +37,15 @@ class UMDWatermarker(Watermarker):
         self.generator_kwargs["logits_processor"] = LogitsProcessorList([self.watermark_processor])
 
     def generate_watermarked_outputs(self, prompt):
+
+        if not self.cfg.is_completion:
+            if "Llama" in self.model.config._name_or_path:
+                prompt = textwrap.dedent(f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>""")
+
         inputs = self.tokenizer(
             prompt, 
             return_tensors="pt", 

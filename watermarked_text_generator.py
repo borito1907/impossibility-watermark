@@ -1,7 +1,7 @@
 import logging
 import hydra
 from watermarker_factory import get_watermarker
-from utils import save_to_csv, get_prompt_or_output, count_csv_entries
+from utils import save_to_csv, get_prompt_or_output, get_prompt_and_id_dev, count_csv_entries
 
 log = logging.getLogger(__name__)
 
@@ -15,10 +15,13 @@ def test(cfg):
     # Read the prompt and the watermarked text from the input files
     prompt=cfg.prompt
 
+    # NOTE: Changed this to work with dev.csv, use the commented out version for prev CSV files. - Boran
     if not prompt:
-        prompt = get_prompt_or_output(cfg.prompt_file, cfg.prompt_num) 
+        # prompt = get_prompt_or_output(cfg.prompt_file, cfg.prompt_num) 
+        prompt, id = get_prompt_and_id_dev(cfg.prompt_file, cfg.prompt_num)
 
     log.info(f"Prompt: {prompt}")
+    log.info(f"Prompt ID: {id}")
 
     log.info(f"Getting the watermarker...")
     watermarker = get_watermarker(cfg, only_detect=False)
@@ -36,12 +39,9 @@ def test(cfg):
         log.info(f"Score: {score}")
         log.info(f"Time taken: {delta}")
 
-    if cfg.watermarked_text_file_name is not None:
-        file_path = f"./inputs/{cfg.watermarked_text_file_name}"
-        num_entries = count_csv_entries(file_path)
-
-        stats = [{'num': num_entries +1, 'text': watermarked_text, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path}]
-        save_to_csv(stats, file_path, True)
+    if cfg.watermarked_text_file_path is not None:
+        stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path}]
+        save_to_csv(stats, cfg.watermarked_text_file_path, rewrite=False)
 
 if __name__ == "__main__":
     test()

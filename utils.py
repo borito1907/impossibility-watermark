@@ -89,6 +89,18 @@ def get_prompt_or_output(csv_path, num):
     
     return story
 
+def get_prompt_and_id_dev(csv_path, num):
+    # Read the CSV file
+    df = pd.read_csv(csv_path)
+    # Get the specific text based on num
+    if num <= len(df) and num > 0:
+        story = df.iloc[num - 1]['prompt']
+        id = df.iloc[num - 1]['id']
+    else:
+        raise Exception(f"Index out of range.")
+    
+    return story, id
+
 def get_watermarked_text(csv_file_path):
     df = pd.read_csv(csv_file_path)
     return df['current_text'].iloc[0]
