@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=4,5,6,7 python -m oracles.guidance.rank
+# RUN: CUDA_VISIBLE_DEVICES=0,1 python -m oracles.guidance.relative
 
 import guidance
 from guidance import gen, select, user, system, assistant
@@ -25,8 +25,6 @@ class RelativeOracle(Oracle):
                 lm += f"{kwargs['persona']}"
         with user():
             lm += f"""\
-            ### Instructions: 
-
             ### Here is the prompt:
             {kwargs['instruction']}
 
@@ -36,6 +34,7 @@ class RelativeOracle(Oracle):
             ### Model B Response:
             {kwargs['response_B']}
 
+            ### Instructions: 
             Compare which of the two above responses is a better response to the given prompt. 
             Your answer should be chosen from the following three options:
                 A: Response A is better than response B
@@ -87,8 +86,8 @@ if __name__ == "__main__":
         label = ResponseQuality.TIE if dataset["winner_tie"].iloc[0] else ResponseQuality.A_BETTER if dataset["winner_model_a"].iloc[0] else ResponseQuality.B_BETTER
 
         # Initialize Base LLM
-        print("Initializing Base LLM with Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf")
-        model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf"
+        print("Initializing Base LLM with Meta-Llama-3-70B-Instruct-q8_0.gguf")
+        model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf"
         llm = models.LlamaCpp(
             model=model_id,
             echo=False,
