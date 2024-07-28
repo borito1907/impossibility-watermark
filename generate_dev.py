@@ -41,7 +41,6 @@ def main():
         if not os.path.exists(path):
             os.makedirs(path)
 
-    # TODO: Change the prompt file path.
     temp = 1
     divp = 0
     gen_type = "prompt"
@@ -49,15 +48,11 @@ def main():
     if gen_type not in ["prompt", "c4"]:
         raise Exception(f"Generation type {gen_type} is not supported.")
 
-    prompts = []
 
-    for prompt_num in range(1,150):
+    for prompt_num in range(150,151):
         log_filepath = f"{base_folder_name}/logs/logfile_{prompt_num}.log"
                     
-        # TODO: Can the current watermarked_text_generator file handle the dev.csv file's format? I don't think so.
-
         command = f"python watermarked_text_generator.py " \
-                f"++watermark_args={watermark_scheme}" \
                 f"++prompt_file='./data/WQE/dev.csv' " \
                 f"++prompt_num={prompt_num} " \
                 f"++is_completion=False " \

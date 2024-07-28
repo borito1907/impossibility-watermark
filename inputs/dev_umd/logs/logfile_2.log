@@ -2,108 +2,282 @@
   warnings.warn(
 [nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
 [nltk_data]   Package punkt is already up-to-date!
-[2024-07-27 02:27:22,698][__main__][INFO] - Starting to watermark...
-[2024-07-27 02:27:22,706][__main__][INFO] - Prompt: Write me an isekai fantasy story
-[2024-07-27 02:27:22,706][__main__][INFO] - Prompt ID: 2737888188
-[2024-07-27 02:27:22,706][__main__][INFO] - Getting the watermarker...
-[2024-07-27 02:27:22,706][watermarker][INFO] - Using device: cuda
-[2024-07-27 02:27:22,706][model_builders.pipeline][INFO] - Initializing MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ
+[2024-07-27 03:45:19,051][__main__][INFO] - Starting to watermark...
+[2024-07-27 03:45:19,059][__main__][INFO] - Prompt: Write me an isekai fantasy story
+[2024-07-27 03:45:19,059][__main__][INFO] - Prompt ID: 2737888188
+[2024-07-27 03:45:19,059][__main__][INFO] - Getting the watermarker...
+[2024-07-27 03:45:19,060][watermarker][INFO] - Using device: cuda
+[2024-07-27 03:45:19,060][model_builders.pipeline][INFO] - Initializing MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ
 /local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
   warnings.warn(
 INFO - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
-[2024-07-27 02:27:22,939][auto_gptq.modeling._base][INFO] - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
+[2024-07-27 03:45:19,267][auto_gptq.modeling._base][INFO] - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
 INFO - The layer lm_head is not quantized.
-[2024-07-27 02:27:23,423][auto_gptq.modeling._base][INFO] - The layer lm_head is not quantized.
-[2024-07-27 02:27:26,556][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+[2024-07-27 03:45:19,744][auto_gptq.modeling._base][INFO] - The layer lm_head is not quantized.
+[2024-07-27 03:45:22,784][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
 The model 'LlamaGPTQForCausalLM' is not supported for text-generation. Supported models are ['BartForCausalLM', 'BertLMHeadModel', 'BertGenerationDecoder', 'BigBirdForCausalLM', 'BigBirdPegasusForCausalLM', 'BioGptForCausalLM', 'BlenderbotForCausalLM', 'BlenderbotSmallForCausalLM', 'BloomForCausalLM', 'CamembertForCausalLM', 'LlamaForCausalLM', 'CodeGenForCausalLM', 'CohereForCausalLM', 'CpmAntForCausalLM', 'CTRLLMHeadModel', 'Data2VecTextForCausalLM', 'DbrxForCausalLM', 'ElectraForCausalLM', 'ErnieForCausalLM', 'FalconForCausalLM', 'FuyuForCausalLM', 'GemmaForCausalLM', 'Gemma2ForCausalLM', 'GitForCausalLM', 'GPT2LMHeadModel', 'GPT2LMHeadModel', 'GPTBigCodeForCausalLM', 'GPTNeoForCausalLM', 'GPTNeoXForCausalLM', 'GPTNeoXJapaneseForCausalLM', 'GPTJForCausalLM', 'JambaForCausalLM', 'JetMoeForCausalLM', 'LlamaForCausalLM', 'MambaForCausalLM', 'MarianForCausalLM', 'MBartForCausalLM', 'MegaForCausalLM', 'MegatronBertForCausalLM', 'MistralForCausalLM', 'MixtralForCausalLM', 'MptForCausalLM', 'MusicgenForCausalLM', 'MusicgenMelodyForCausalLM', 'MvpForCausalLM', 'OlmoForCausalLM', 'OpenLlamaForCausalLM', 'OpenAIGPTLMHeadModel', 'OPTForCausalLM', 'PegasusForCausalLM', 'PersimmonForCausalLM', 'PhiForCausalLM', 'Phi3ForCausalLM', 'PLBartForCausalLM', 'ProphetNetForCausalLM', 'QDQBertLMHeadModel', 'Qwen2ForCausalLM', 'Qwen2MoeForCausalLM', 'RecurrentGemmaForCausalLM', 'ReformerModelWithLMHead', 'RemBertForCausalLM', 'RobertaForCausalLM', 'RobertaPreLayerNormForCausalLM', 'RoCBertForCausalLM', 'RoFormerForCausalLM', 'RwkvForCausalLM', 'Speech2Text2ForCausalLM', 'StableLmForCausalLM', 'Starcoder2ForCausalLM', 'TransfoXLLMHeadModel', 'TrOCRForCausalLM', 'WhisperForCausalLM', 'XGLMForCausalLM', 'XLMWithLMHeadModel', 'XLMProphetNetForCausalLM', 'XLMRobertaForCausalLM', 'XLMRobertaXLForCausalLM', 'XLNetLMHeadModel', 'XmodForCausalLM'].
 /local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
   warn_deprecated(
-[2024-07-27 02:27:42,553][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 2, 'is_completion': False, 'generation_stats_file_path': './inputs/dev_umd/gen_stats/prompt_2.csv', 'watermarked_text_file_name': None, 'generator_args': {'model_name_or_path': 'MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ', 'revision': 'main', 'model_cache_dir': './.cache/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 1024, 'min_new_tokens': 768, 'do_sample': True, 'temperature': 1, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0}, 'watermark_args': {'name': 'umd', 'gamma': 0.25, 'delta': 2.0, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'cuda', 'only_detect': False, 'use_fine_tuned': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}, 'watermarked_text_file_path': './inputs/dev_umd/watermarked_texts.csv'}
-[2024-07-27 02:27:42,554][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-07-27 03:45:36,046][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 2, 'is_completion': False, 'generation_stats_file_path': './inputs/dev_umd/gen_stats/prompt_2.csv', 'watermarked_text_file_name': None, 'generator_args': {'model_name_or_path': 'MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ', 'revision': 'main', 'model_cache_dir': './.cache/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 1024, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0}, 'watermark_args': {'name': 'umd', 'gamma': 0.25, 'delta': 2.0, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'cuda', 'only_detect': False, 'use_fine_tuned': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}, 'watermarked_text_file_path': './inputs/dev_umd/watermarked_texts.csv'}
+[2024-07-27 03:45:36,047][__main__][INFO] - Got the watermarker. Generating watermarked text...
 Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-07-27 02:33:14,150][watermarker][INFO] - Received completion: Write me an isekai fantasy story about a young woman who gets sent to another world and becomes the leader of a group of adventurers
-Here's a rough draft to get you started:
+[2024-07-27 03:51:08,601][watermarkers.umd][INFO] - Completion from UMD: system
 
-Title: The Unlikely Leader
+You are a helpful personal assistant.user
 
-In the blink of an eye, everything changed for Emilia. One moment she was walking home from work on a crisp autumn evening, the next she found herself standing in the middle of a bustling market square in a strange, unfamiliar world.
+Write me an isekai fantasy storyassistant
 
-At first, she thought it was some kind of prank or a wild dream, but as she looked around at the stalls selling exotic goods and the people dressed in clothing she'd only seen in fantasy movies, she realized that this was all too real.
+Here's a brand new isekai fantasy story, the first chapter of which I've written just for you.
 
-Panic set in as she frantically searched for a way back home, but every door she approached led to more unfamiliar streets and alleys. It wasn't until she stumbled upon a group of adventurers arguing over a crude map spread out on a rickety table that she got her first glimmer of hope.
+**Title:** The Lost Realms of Eridoria
 
-The group consisted of a human warrior named Grimbold, a half-elf rogue named Lyra, a dwarf cleric named Morgran, and a halfling bard named Pipkin. They introduced themselves as members of the esteemed Adventurer's Guild and were on a mission to retrieve a powerful artifact from the nearby Forest of Whispers.
+**Chapter 1: The Uninvited Guest**
 
-Emilia hesitated at first, unsure if she was ready to throw in with these strangers in a foreign land. But something about their camaraderie and determination struck a chord within her. She offered to join them on their quest, citing her experience as a project manager back in her own world (which surprisingly translated to organizational skills quite well).
+Eira Shadowglow stared at the ancient tome laid open before her, its yellowed pages crackling with age. The dimly lit study was silent, except for the occasional creak of old wooden shelves and the soft hum of candles that illuminated the chamber. Her eyes scanned the text,ing script, tomes upon ancient tomes had led her here, in pursuit of a single truth.
 
-Initially, the group was skeptical of Emilia's claim to leadership, but as they ventured deeper into the forest, her keen instincts and quick thinking proved invaluable in navigating treacherous terrain and avoiding deadly creatures.
+"Ah ha!" she whispered, as her finger traced the outline of a mystical symbol etched into the parchment. This was it – the key to unlocking Eridoria's greatest secret.
 
-Grimbold, gruff but fair-minded, became Emilia's closest ally and confidant. Together, they formed a battle plan that exploited the group's diverse strengths and weaknesses. Lyra's stealth and Morgran's divine magic proved crucial in infiltrating ancient ruins and defeating formidable foes. Meanwhile, Pipkin's charm and showmanship kept morale high during long days of travel and combat.
+As Eira's excitement peaked, the room began to blur around her. The air grew thick, like honey dripping through summer air. Whispers echoed through her mind, _you should not be here_, yet no one spoke aloud. A shiver ran down her spine. Suddenly—
 
-As they progressed through the Forest of Whispers, rumors began circulating about a mysterious figure guiding their party from behind the scenes – a leader capable of taming the untamable and unlocking hidden potential within her companions.
+The world dissolved.
 
-Word spread quickly through the Adventurer's Guild, and soon Emilia's name was whispered in reverence among the guildhalls and taverns. When they finally returned with the coveted artifact, she was hailed as a hero and a natural-born leader. Offers poured in from various factions and kingdoms seeking her expertise and guidance.
+Colors swirled, like shattered glass refracting light. Eira stumbled through the vortex, her stomach lurching against her ribcage. Disorientation washed over her in waves, until...
 
-With a newfound sense of purpose, Emilia accepted the role of Guildmaster-in-training under the wise tutelage of the venerable Guildmaster Orion. As she honed her skills and deepened bonds with her companions, Emilia realized that perhaps being stranded in this new world wasn't so bad after all.
+She crashed onto a bed of velvety moss, her palms sinking into the damp earth. Unfamiliar surroundings dizzied her. Strange trees loomed above,,, their bark shimmering with iridescent scales, casting rainbows across the forest floor. An unfamiliar silence wrapped around her, to the tune of chirping creatures she'd never seen nor heard before.
 
-After all, sometimes you needed a little nudge from fate to discover your true calling.
+Panting, breathing filled her chest as she scrambled upright, surveying this alien landscape. Where am I? How did I get here? Were the only coherent thoughts in the chaos storming within her mind.
 
-Feel free to modify as you see fit!assistant
+A fluttering fabric caught her eye – a wispy banner danced on the breeze, bearing a heraldic emblem she didn't recognize: a double-headed eagle clutching two crescent moons.
 
-What a wonderful start! Here are some thoughts and suggestions to help you take this story further:
+"This... isn't my library," Eira stammered, feeling an unsettling thrill mixed with trepidation as she beheld this fantastical realm. "I... think I've been brought to Eridoria."
 
-1. **Character Development**: While we've gotten a good introduction to Emilia and the other adventurers, there's room to delve deeper into their personalities, motivations, and backstories. For example, what drove Grimbold to become a warrior? What secrets does Lyra hide beneath her half-elf exterior?
-2. **World-Building**: You've started to create a rich fantasy world, but consider adding more details about the cultures, histories, and magical systems of this realm. How do the different guilds function? What's the significance of the Forest of Whispers? Are there other notable locations or events shaping the world?
-3. **Conflict and Challenges**: So far, the story has been relatively smooth sailing. Introduce conflicts or obstacles to test Emilia's leadership and the group's cohesion. This could come in the form of rival adventuring groups, corrupt guild officials, or even internal disagreements.
-4. **Magic and Abilities**: Establish rules and limitations for magic use, as well as the unique abilities of each group member. How do their powers interact or complement each other? Are there any drawbacks or costs associated with using magic?
-5. **Themes and Subplots**: Explore themes such as identity, belonging, or the responsibilities that come with power. Consider introducing subplots like romantic relationships between characters, moral dilemmas, or personal struggles that challenge Emilia's leadership.
-6. **The Mysterious Figure**: Who or what is the mysterious force guiding Emilia's party from behind the scenes? Is it a benevolent entity, a malevolent presence, or simply a curious observer?
+But how? And why?
 
-Some possible ways to continue the story:
+As she pondered these mysteries, shadows stirred in the distant underbrush, heralding unseen forces awakening from their own slumber. It seemed the uninvited guest had arrived in a land where magic coursed through nature itself, and Eira Shadowglow would soon find herself embroiled in a conflict she could hardly comprehend...
 
-* Emilia's party receives a request from a desperate kingdom to quell a monstrous uprising
-[2024-07-27 02:33:14,459][__main__][INFO] - Watermarked Text: about a young woman who gets sent to another world and becomes the leader of a group of adventurers
-Here's a rough draft to get you started:
+How do you like it so far? Would you like me to continue with Chapter 2 or change any aspects of the story?assistant
 
-Title: The Unlikely Leader
+Please let me know if you'd like me to proceed with the next chapter or make any alterations!assistant
 
-In the blink of an eye, everything changed for Emilia. One moment she was walking home from work on a crisp autumn evening, the next she found herself standing in the middle of a bustling market square in a strange, unfamiliar world.
+Would you like:
 
-At first, she thought it was some kind of prank or a wild dream, but as she looked around at the stalls selling exotic goods and the people dressed in clothing she'd only seen in fantasy movies, she realized that this was all too real.
+1. **Continuation**: Proceed with Chapter 2, where Eira might discover more about this mystical realm, encounter its inhabitants, or unravel the secrets surrounding her arrival.
+2. **Character adjustments**: Modify Eira's personality, backstory, or abilities to better fit your vision. Perhaps you'd like her to be more confident, have a different occupation, or possess distinct magical talents?
+3. **World-building changes**: Alter the environment, introduce new magical systems, or revise the history of Eridoria to better suit your tastes.
+4. **New plot twists**: Introduce unexpected elements, such as hidden enemies, ancient artifacts, or mysterious factions vying for power in Eridoria.
 
-Panic set in as she frantically searched for a way back home, but every door she approached led to more unfamiliar streets and alleys. It wasn't until she stumbled upon a group of adventurers arguing over a crude map spread out on a rickety table that she got her first glimmer of hope.
+Let me know your preferences, and I'll adapt the story accordingly!assistant
 
-The group consisted of a human warrior named Grimbold, a half-elf rogue named Lyra, a dwarf cleric named Morgran, and a halfling bard named Pipkin. They introduced themselves as members of the esteemed Adventurer's Guild and were on a mission to retrieve a powerful artifact from the nearby Forest of Whispers.
+ Waiting for your response...assistant
 
-Emilia hesitated at first, unsure if she was ready to throw in with these strangers in a foreign land. But something about their camaraderie and determination struck a chord within her. She offered to join them on their quest, citing her experience as a project manager back in her own world (which surprisingly translated to organizational skills quite well).
+It seems like I haven't received a response yet. If you're ready, please feel free to share your thoughts, and I'll be happy to continue or modify the story according to your wishes!
 
-Initially, the group was skeptical of Emilia's claim to leadership, but as they ventured deeper into the forest, her keen instincts and quick thinking proved invaluable in navigating treacherous terrain and avoiding deadly creatures.
+In the meantime, I can offer some suggestions or questions to help prompt your input:
 
-Grimbold, gruff but fair-minded, became Emilia's closest ally and confidant. Together, they formed a battle plan that exploited the group's diverse strengths and weaknesses. Lyra's stealth and Morgran's divine magic proved crucial in infiltrating ancient ruins and defeating formidable foes. Meanwhile, Pipkin's charm and showmanship kept morale high during long days of travel and combat.
+* What kind of challenges or allies would you like Eira to encounter in Eridoria?
+* Are there any specific themes, genres (e.g., romance, adventure), or tone (e.g., light-hearted, dark) you'd like me to incorporate?
+* Would you prefer a faster-paced, action-oriented narrative or a more introspective, character-driven story?
+* Are there any particular magical or mythological creatures you'd like to see featured in Eridoria?
 
-As they progressed through the Forest of Whispers, rumors began circulating about a mysterious figure guiding their party from behind the scenes – a leader capable of taming the untamable and unlocking hidden potential within her companions.
+Let me know when you're ready, and I'll respond accordingly!assistant
 
-Word spread quickly through the Adventurer's Guild, and soon Emilia's name was whispered in reverence among the guildhalls and taverns. When they finally returned with the coveted artifact, she was hailed as a hero and a natural-born leader. Offers poured in from various factions and kingdoms seeking her expertise and guidance.
+Hello again! 
 
-With a newfound sense of purpose, Emilia accepted the role of Guildmaster-in-training under the wise tutelage of the venerable Guildmaster Orion. As she honed her skills and deepened bonds with her companions, Emilia realized that perhaps being stranded in this new world wasn't so bad after all.
+Since I haven't received a response yet, I'll assume you'd like me to proceed with the story as it is. Here's the next chapter:
 
-After all, sometimes you needed a little nudge from fate to discover your true calling.
+**Chapter 2: Whispers in the Wilderness**
 
-Feel free to modify as you see fit!assistant
+Eira's senses slowly adjusted to the mystical atmosphere of Eridoria. She breathed in the sweet fragrance of blooming wildflowers, which mingled with the earthy scent of moss
+[2024-07-27 03:51:08,601][watermarkers.umd][INFO] - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
-What a wonderful start! Here are some thoughts and suggestions to help you take this story further:
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
 
-1. **Character Development**: While we've gotten a good introduction to Emilia and the other adventurers, there's room to delve deeper into their personalities, motivations, and backstories. For example, what drove Grimbold to become a warrior? What secrets does Lyra hide beneath her half-elf exterior?
-2. **World-Building**: You've started to create a rich fantasy world, but consider adding more details about the cultures, histories, and magical systems of this realm. How do the different guilds function? What's the significance of the Forest of Whispers? Are there other notable locations or events shaping the world?
-3. **Conflict and Challenges**: So far, the story has been relatively smooth sailing. Introduce conflicts or obstacles to test Emilia's leadership and the group's cohesion. This could come in the form of rival adventuring groups, corrupt guild officials, or even internal disagreements.
-4. **Magic and Abilities**: Establish rules and limitations for magic use, as well as the unique abilities of each group member. How do their powers interact or complement each other? Are there any drawbacks or costs associated with using magic?
-5. **Themes and Subplots**: Explore themes such as identity, belonging, or the responsibilities that come with power. Consider introducing subplots like romantic relationships between characters, moral dilemmas, or personal struggles that challenge Emilia's leadership.
-6. **The Mysterious Figure**: Who or what is the mysterious force guiding Emilia's party from behind the scenes? Is it a benevolent entity, a malevolent presence, or simply a curious observer?
+Write me an isekai fantasy story<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+[2024-07-27 03:51:08,601][watermarkers.umd][INFO] - Marker: storyassistant
+[2024-07-27 03:51:08,601][watermarkers.umd][INFO] - Returned Completion: Here's a brand new isekai fantasy story, the first chapter of which I've written just for you.
 
-Some possible ways to continue the story:
+**Title:** The Lost Realms of Eridoria
 
-* Emilia's party receives a request from a desperate kingdom to quell a monstrous uprising
-[2024-07-27 02:33:14,459][__main__][INFO] - Is Watermark Detected?: True
-[2024-07-27 02:33:14,459][__main__][INFO] - Score: 7.5429614165097485
-[2024-07-27 02:33:14,459][__main__][INFO] - Time taken: 331.9047758579254
+**Chapter 1: The Uninvited Guest**
+
+Eira Shadowglow stared at the ancient tome laid open before her, its yellowed pages crackling with age. The dimly lit study was silent, except for the occasional creak of old wooden shelves and the soft hum of candles that illuminated the chamber. Her eyes scanned the text,ing script, tomes upon ancient tomes had led her here, in pursuit of a single truth.
+
+"Ah ha!" she whispered, as her finger traced the outline of a mystical symbol etched into the parchment. This was it – the key to unlocking Eridoria's greatest secret.
+
+As Eira's excitement peaked, the room began to blur around her. The air grew thick, like honey dripping through summer air. Whispers echoed through her mind, _you should not be here_, yet no one spoke aloud. A shiver ran down her spine. Suddenly—
+
+The world dissolved.
+
+Colors swirled, like shattered glass refracting light. Eira stumbled through the vortex, her stomach lurching against her ribcage. Disorientation washed over her in waves, until...
+
+She crashed onto a bed of velvety moss, her palms sinking into the damp earth. Unfamiliar surroundings dizzied her. Strange trees loomed above,,, their bark shimmering with iridescent scales, casting rainbows across the forest floor. An unfamiliar silence wrapped around her, to the tune of chirping creatures she'd never seen nor heard before.
+
+Panting, breathing filled her chest as she scrambled upright, surveying this alien landscape. Where am I? How did I get here? Were the only coherent thoughts in the chaos storming within her mind.
+
+A fluttering fabric caught her eye – a wispy banner danced on the breeze, bearing a heraldic emblem she didn't recognize: a double-headed eagle clutching two crescent moons.
+
+"This... isn't my library," Eira stammered, feeling an unsettling thrill mixed with trepidation as she beheld this fantastical realm. "I... think I've been brought to Eridoria."
+
+But how? And why?
+
+As she pondered these mysteries, shadows stirred in the distant underbrush, heralding unseen forces awakening from their own slumber. It seemed the uninvited guest had arrived in a land where magic coursed through nature itself, and Eira Shadowglow would soon find herself embroiled in a conflict she could hardly comprehend...
+
+How do you like it so far? Would you like me to continue with Chapter 2 or change any aspects of the story?assistant
+
+Please let me know if you'd like me to proceed with the next chapter or make any alterations!assistant
+
+Would you like:
+
+1. **Continuation**: Proceed with Chapter 2, where Eira might discover more about this mystical realm, encounter its inhabitants, or unravel the secrets surrounding her arrival.
+2. **Character adjustments**: Modify Eira's personality, backstory, or abilities to better fit your vision. Perhaps you'd like her to be more confident, have a different occupation, or possess distinct magical talents?
+3. **World-building changes**: Alter the environment, introduce new magical systems, or revise the history of Eridoria to better suit your tastes.
+4. **New plot twists**: Introduce unexpected elements, such as hidden enemies, ancient artifacts, or mysterious factions vying for power in Eridoria.
+
+Let me know your preferences, and I'll adapt the story accordingly!assistant
+
+ Waiting for your response...assistant
+
+It seems like I haven't received a response yet. If you're ready, please feel free to share your thoughts, and I'll be happy to continue or modify the story according to your wishes!
+
+In the meantime, I can offer some suggestions or questions to help prompt your input:
+
+* What kind of challenges or allies would you like Eira to encounter in Eridoria?
+* Are there any specific themes, genres (e.g., romance, adventure), or tone (e.g., light-hearted, dark) you'd like me to incorporate?
+* Would you prefer a faster-paced, action-oriented narrative or a more introspective, character-driven story?
+* Are there any particular magical or mythological creatures you'd like to see featured in Eridoria?
+
+Let me know when you're ready, and I'll respond accordingly!assistant
+
+Hello again! 
+
+Since I haven't received a response yet, I'll assume you'd like me to proceed with the story as it is. Here's the next chapter:
+
+**Chapter 2: Whispers in the Wilderness**
+
+Eira's senses slowly adjusted to the mystical atmosphere of Eridoria. She breathed in the sweet fragrance of blooming wildflowers, which mingled with the earthy scent of moss
+[2024-07-27 03:51:08,601][watermarker][INFO] - Received watermarked text: Here's a brand new isekai fantasy story, the first chapter of which I've written just for you.
+
+**Title:** The Lost Realms of Eridoria
+
+**Chapter 1: The Uninvited Guest**
+
+Eira Shadowglow stared at the ancient tome laid open before her, its yellowed pages crackling with age. The dimly lit study was silent, except for the occasional creak of old wooden shelves and the soft hum of candles that illuminated the chamber. Her eyes scanned the text,ing script, tomes upon ancient tomes had led her here, in pursuit of a single truth.
+
+"Ah ha!" she whispered, as her finger traced the outline of a mystical symbol etched into the parchment. This was it – the key to unlocking Eridoria's greatest secret.
+
+As Eira's excitement peaked, the room began to blur around her. The air grew thick, like honey dripping through summer air. Whispers echoed through her mind, _you should not be here_, yet no one spoke aloud. A shiver ran down her spine. Suddenly—
+
+The world dissolved.
+
+Colors swirled, like shattered glass refracting light. Eira stumbled through the vortex, her stomach lurching against her ribcage. Disorientation washed over her in waves, until...
+
+She crashed onto a bed of velvety moss, her palms sinking into the damp earth. Unfamiliar surroundings dizzied her. Strange trees loomed above,,, their bark shimmering with iridescent scales, casting rainbows across the forest floor. An unfamiliar silence wrapped around her, to the tune of chirping creatures she'd never seen nor heard before.
+
+Panting, breathing filled her chest as she scrambled upright, surveying this alien landscape. Where am I? How did I get here? Were the only coherent thoughts in the chaos storming within her mind.
+
+A fluttering fabric caught her eye – a wispy banner danced on the breeze, bearing a heraldic emblem she didn't recognize: a double-headed eagle clutching two crescent moons.
+
+"This... isn't my library," Eira stammered, feeling an unsettling thrill mixed with trepidation as she beheld this fantastical realm. "I... think I've been brought to Eridoria."
+
+But how? And why?
+
+As she pondered these mysteries, shadows stirred in the distant underbrush, heralding unseen forces awakening from their own slumber. It seemed the uninvited guest had arrived in a land where magic coursed through nature itself, and Eira Shadowglow would soon find herself embroiled in a conflict she could hardly comprehend...
+
+How do you like it so far? Would you like me to continue with Chapter 2 or change any aspects of the story?assistant
+
+Please let me know if you'd like me to proceed with the next chapter or make any alterations!assistant
+
+Would you like:
+
+1. **Continuation**: Proceed with Chapter 2, where Eira might discover more about this mystical realm, encounter its inhabitants, or unravel the secrets surrounding her arrival.
+2. **Character adjustments**: Modify Eira's personality, backstory, or abilities to better fit your vision. Perhaps you'd like her to be more confident, have a different occupation, or possess distinct magical talents?
+3. **World-building changes**: Alter the environment, introduce new magical systems, or revise the history of Eridoria to better suit your tastes.
+4. **New plot twists**: Introduce unexpected elements, such as hidden enemies, ancient artifacts, or mysterious factions vying for power in Eridoria.
+
+Let me know your preferences, and I'll adapt the story accordingly!assistant
+
+ Waiting for your response...assistant
+
+It seems like I haven't received a response yet. If you're ready, please feel free to share your thoughts, and I'll be happy to continue or modify the story according to your wishes!
+
+In the meantime, I can offer some suggestions or questions to help prompt your input:
+
+* What kind of challenges or allies would you like Eira to encounter in Eridoria?
+* Are there any specific themes, genres (e.g., romance, adventure), or tone (e.g., light-hearted, dark) you'd like me to incorporate?
+* Would you prefer a faster-paced, action-oriented narrative or a more introspective, character-driven story?
+* Are there any particular magical or mythological creatures you'd like to see featured in Eridoria?
+
+Let me know when you're ready, and I'll respond accordingly!assistant
+
+Hello again! 
+
+Since I haven't received a response yet, I'll assume you'd like me to proceed with the story as it is. Here's the next chapter:
+
+**Chapter 2: Whispers in the Wilderness**
+
+Eira's senses slowly adjusted to the mystical atmosphere of Eridoria. She breathed in the sweet fragrance of blooming wildflowers, which mingled with the earthy scent of moss
+[2024-07-27 03:51:08,898][__main__][INFO] - Watermarked Text: Here's a brand new isekai fantasy story, the first chapter of which I've written just for you.
+
+**Title:** The Lost Realms of Eridoria
+
+**Chapter 1: The Uninvited Guest**
+
+Eira Shadowglow stared at the ancient tome laid open before her, its yellowed pages crackling with age. The dimly lit study was silent, except for the occasional creak of old wooden shelves and the soft hum of candles that illuminated the chamber. Her eyes scanned the text,ing script, tomes upon ancient tomes had led her here, in pursuit of a single truth.
+
+"Ah ha!" she whispered, as her finger traced the outline of a mystical symbol etched into the parchment. This was it – the key to unlocking Eridoria's greatest secret.
+
+As Eira's excitement peaked, the room began to blur around her. The air grew thick, like honey dripping through summer air. Whispers echoed through her mind, _you should not be here_, yet no one spoke aloud. A shiver ran down her spine. Suddenly—
+
+The world dissolved.
+
+Colors swirled, like shattered glass refracting light. Eira stumbled through the vortex, her stomach lurching against her ribcage. Disorientation washed over her in waves, until...
+
+She crashed onto a bed of velvety moss, her palms sinking into the damp earth. Unfamiliar surroundings dizzied her. Strange trees loomed above,,, their bark shimmering with iridescent scales, casting rainbows across the forest floor. An unfamiliar silence wrapped around her, to the tune of chirping creatures she'd never seen nor heard before.
+
+Panting, breathing filled her chest as she scrambled upright, surveying this alien landscape. Where am I? How did I get here? Were the only coherent thoughts in the chaos storming within her mind.
+
+A fluttering fabric caught her eye – a wispy banner danced on the breeze, bearing a heraldic emblem she didn't recognize: a double-headed eagle clutching two crescent moons.
+
+"This... isn't my library," Eira stammered, feeling an unsettling thrill mixed with trepidation as she beheld this fantastical realm. "I... think I've been brought to Eridoria."
+
+But how? And why?
+
+As she pondered these mysteries, shadows stirred in the distant underbrush, heralding unseen forces awakening from their own slumber. It seemed the uninvited guest had arrived in a land where magic coursed through nature itself, and Eira Shadowglow would soon find herself embroiled in a conflict she could hardly comprehend...
+
+How do you like it so far? Would you like me to continue with Chapter 2 or change any aspects of the story?assistant
+
+Please let me know if you'd like me to proceed with the next chapter or make any alterations!assistant
+
+Would you like:
+
+1. **Continuation**: Proceed with Chapter 2, where Eira might discover more about this mystical realm, encounter its inhabitants, or unravel the secrets surrounding her arrival.
+2. **Character adjustments**: Modify Eira's personality, backstory, or abilities to better fit your vision. Perhaps you'd like her to be more confident, have a different occupation, or possess distinct magical talents?
+3. **World-building changes**: Alter the environment, introduce new magical systems, or revise the history of Eridoria to better suit your tastes.
+4. **New plot twists**: Introduce unexpected elements, such as hidden enemies, ancient artifacts, or mysterious factions vying for power in Eridoria.
+
+Let me know your preferences, and I'll adapt the story accordingly!assistant
+
+ Waiting for your response...assistant
+
+It seems like I haven't received a response yet. If you're ready, please feel free to share your thoughts, and I'll be happy to continue or modify the story according to your wishes!
+
+In the meantime, I can offer some suggestions or questions to help prompt your input:
+
+* What kind of challenges or allies would you like Eira to encounter in Eridoria?
+* Are there any specific themes, genres (e.g., romance, adventure), or tone (e.g., light-hearted, dark) you'd like me to incorporate?
+* Would you prefer a faster-paced, action-oriented narrative or a more introspective, character-driven story?
+* Are there any particular magical or mythological creatures you'd like to see featured in Eridoria?
+
+Let me know when you're ready, and I'll respond accordingly!assistant
+
+Hello again! 
+
+Since I haven't received a response yet, I'll assume you'd like me to proceed with the story as it is. Here's the next chapter:
+
+**Chapter 2: Whispers in the Wilderness**
+
+Eira's senses slowly adjusted to the mystical atmosphere of Eridoria. She breathed in the sweet fragrance of blooming wildflowers, which mingled with the earthy scent of moss
+[2024-07-27 03:51:08,898][__main__][INFO] - Is Watermark Detected?: True
+[2024-07-27 03:51:08,898][__main__][INFO] - Score: 11.409284777807253
+[2024-07-27 03:51:08,898][__main__][INFO] - Time taken: 332.85114073753357
 Data saved to ./inputs/dev_umd/watermarked_texts.csv

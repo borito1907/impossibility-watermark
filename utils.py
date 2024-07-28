@@ -101,6 +101,18 @@ def get_prompt_and_id_dev(csv_path, num):
     
     return story, id
 
+def get_prompt_from_id(csv_path, id):
+    # Read the CSV file
+    df = pd.read_csv(csv_path)
+
+    matching_row = df[df['id'] == id]
+
+    if not matching_row.empty:
+        prompt = matching_row.iloc[0]['prompt']
+        return prompt
+    else:
+        raise Exception(f"No match found for ID {id}")
+
 def get_watermarked_text(csv_file_path):
     df = pd.read_csv(csv_file_path)
     return df['current_text'].iloc[0]

@@ -50,7 +50,7 @@ class Watermarker(ABC):
         while n_attempts < self.n_attempts:
             completion = self.generate_watermarked_outputs(prompt)
 
-            log.info(f"Received completion: {completion}")
+            log.info(f"Received watermarked text: {completion}")
 
             if not self.cfg.is_completion:
                 completion = completion.replace(prompt, '', 1).strip()

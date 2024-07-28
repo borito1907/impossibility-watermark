@@ -1,7 +1,7 @@
 import logging
 import hydra
 from watermarker_factory import get_watermarker
-from utils import save_to_csv, get_prompt_or_output, get_prompt_and_id_dev, count_csv_entries
+from utils import save_to_csv, get_prompt_or_output, get_prompt_and_id_dev, get_prompt_from_id, count_csv_entries
 
 log = logging.getLogger(__name__)
 
@@ -17,8 +17,13 @@ def test(cfg):
 
     # NOTE: Changed this to work with dev.csv, use the commented out version for prev CSV files. - Boran
     if not prompt:
-        # prompt = get_prompt_or_output(cfg.prompt_file, cfg.prompt_num) 
-        prompt, id = get_prompt_and_id_dev(cfg.prompt_file, cfg.prompt_num)
+        if cfg.prompt_num == -1:
+            id = cfg.id
+            prompt = get_prompt_from_id(cfg.prompt_file, id)
+        else:
+            # prompt = get_prompt_or_output(cfg.prompt_file, cfg.prompt_num) 
+            prompt, id = get_prompt_and_id_dev(cfg.prompt_file, cfg.prompt_num)
+        
 
     log.info(f"Prompt: {prompt}")
     log.info(f"Prompt ID: {id}")
