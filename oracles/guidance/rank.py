@@ -92,8 +92,8 @@ if __name__ == "__main__":
         label = ResponseQuality.TIE if dataset["winner_tie"].iloc[0] else ResponseQuality.A_BETTER if dataset["winner_model_a"].iloc[0] else ResponseQuality.B_BETTER
 
         # Initialize Base LLM
-        print("Initializing Base LLM with Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf")
-        model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct/ggml-model-q8_0.gguf"
+        print("Initializing Base LLM with Meta-Llama-3-70B-Instruct-q8_0.gguf")
+        model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf"
         llm = models.LlamaCpp(
             model=model_id,
             echo=False,

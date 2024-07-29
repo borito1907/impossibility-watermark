@@ -13,7 +13,7 @@ class Watermarker(ABC):
         self.n_attempts = n_attempts
         self.pipeline = pipeline
         self.only_detect = only_detect
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
         log.info(f"Using device: {self.device}")
 

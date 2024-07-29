@@ -7,12 +7,11 @@ dataset:
     max_val_size: 150
 
 model:
-    name: "microsoft/deberta-v3-base"
+    name: "microsoft/deberta-v3-large"
     cache_dir: "/data2/.shared_models/"
 
 trainer:
-    training_type: "setfit"
-    output_dir: "${results_dir}/finetuned_models/${model.name}-WQE-0.1"
+    output_dir: "${results_dir}/finetuned_models/${model.name}-WQE-0.3"
     cuda_visible_devices: "0"
     device_map: "auto"
     num_train_epochs: 20
@@ -23,7 +22,7 @@ trainer:
     save_steps: ${trainer.logging_steps}
     save_total_limit: 1
     load_best_model_at_end: True
-    early_stopping_patience: 3
+    early_stopping_patience: 10
     seed: 42
     trust_remote_code: True
     per_device_train_batch_size: 1
