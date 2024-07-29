@@ -5,6 +5,7 @@ import guidance
 from guidance import models, gen, select, user, assistant
 import hydra
 import logging
+import torch
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -34,7 +35,7 @@ class SentenceMutator:
                     echo=False,
                     cache_dir=self.cfg.model_cache_dir, 
                     device_map=self.cfg.device_map
-                )
+                ).to("cuda:4" if torch.cuda.is_available() else "cpu")
         return llm
 
     def _ensure_nltk_data(self):
