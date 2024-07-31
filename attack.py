@@ -29,7 +29,7 @@ class Attack:
     # TODO: Handle csv save path more elegantly, right now everything is going to the same file. 
     # TODO: Verify that mutators and oracles are working well.
 
-    def __init__(self, cfg):
+    def __init__(self, cfg, param_oracle=None, param_mutator=None, param_watermarker=None):
         self.cfg = cfg
         self.base_step_metadata = {
             "step_num": -1,
@@ -54,18 +54,18 @@ class Attack:
         from watermarker_factory import get_watermarker
         # TODO: We should update the other oracles and mutators to work with guidance. Currently, only RelativeOracle3 works.
         from oracles import (
-            # RankOracle,
-            # JointOracle,
-            RelativeOracle3,
-            # SoloOracle,
+            RankOracle,
+            JointOracle,
+            RelativeOracle,
+            SoloOracle,
             PrometheusAbsoluteOracle,
             PrometheusRelativeOracle,
         )
         from mutators import (
             DocumentMutator,
             SentenceMutator, 
-            MaskFillMutator,
-            SpanFillMutator
+            WordMutator,
+            SpanMutator
         )
 
         # Helper function to create or reuse model.
@@ -97,56 +97,64 @@ class Attack:
         # else:
         #     self.generator_pipeline = None
         self.generator_pipeline = None
-
-        self.oracle_model = get_or_create_model(cfg.oracle_args.model_id, cfg.oracle_args)
         
-        # Configure Oracle
-        oracle_class = None
-        if "prometheus" in cfg.oracle_args.template:
-            if "relative" in cfg.oracle_args.template:
-                oracle_class = PrometheusRelativeOracle
-            elif "absolute" in cfg.oracle_args.template:
-                oracle_class = PrometheusAbsoluteOracle
-            else:
-                raise ValueError(f"Invalid Prometheus oracle. Choise either 'prometheus.absolute' or 'prometheus.relative'.")
-
-            self.quality_oracle = oracle_class(
-                model_id=self.cfg.oracle_args.model_id,
-                download_dir=self.cfg.oracle_args.model_cache_dir,
-                num_gpus=self.cfg.oracle_args.num_gpus, 
-            )
+        if param_oracle:
+            self.quality_oracle = param_oracle
         else:
-            # TODO: Update these to work with guidance.
-            # if "joint" in cfg.oracle_args.template:
-            #     oracle_class = JointOracle
-            # elif "rank" in cfg.oracle_args.template:
-            #     oracle_class = RankOracle
-            if "relative" in cfg.oracle_args.template:
-                oracle_class = RelativeOracle3
-            # elif "solo" in cfg.oracle_args.template:
-            #     oracle_class = SoloOracle
-            else:
-                raise ValueError(f"Invalid oracle template. See {cfg.oracle_args.template_dir} for options.")
-            # TODO: Fix.
-            self.quality_oracle = oracle_class(cfg=cfg.oracle_args, llm=self.oracle_model)
 
-        # NOTE: We pass the pipe_builder to to watermarker, but we pass the pipeline to the other objects.
-        # TODO: Update this after adjusting the watermarkers to work with guidance.
-        self.watermarker = get_watermarker(cfg, pipeline=self.generator_pipeline, only_detect=True)
+          self.oracle_model = get_or_create_model(cfg.oracle_args.model_id, cfg.oracle_args)
+        
+          # Configure Oracle
+          oracle_class = None
+          if "prometheus" in cfg.oracle_args.template:
+              if "relative" in cfg.oracle_args.template:
+                  oracle_class = PrometheusRelativeOracle
+              elif "absolute" in cfg.oracle_args.template:
+                  oracle_class = PrometheusAbsoluteOracle
+              else:
+                  raise ValueError(f"Invalid Prometheus oracle. Choise either 'prometheus.absolute' or 'prometheus.relative'.")
+
+              self.quality_oracle = oracle_class(
+                  model_id=self.cfg.oracle_args.model_id,
+                  download_dir=self.cfg.oracle_args.model_cache_dir,
+                  num_gpus=self.cfg.oracle_args.num_gpus, 
+              )
+          else:
+              if "joint" in cfg.oracle_args.template:
+                  oracle_class = JointOracle
+              elif "rank" in cfg.oracle_args.template:
+                  oracle_class = RankOracle
+              elif "relative" in cfg.oracle_args.template:
+                  oracle_class = RelativeOracle
+              elif "solo" in cfg.oracle_args.template:
+                  oracle_class = SoloOracle
+              else:
+                  raise ValueError(f"Invalid oracle template. See {cfg.oracle_args.template_dir} for options.")
+              # TODO: Fix.
+              self.quality_oracle = oracle_class(cfg=cfg.oracle_args, llm=self.oracle_model)
+
+        if param_watermarker:
+            self.watermarker = param_watermarker
+        else:
+            # NOTE: We pass the pipe_builder to to watermarker, but we pass the pipeline to the other objects.
+            # TODO: Update this after adjusting the watermarkers to work with guidance.
+            self.watermarker = get_watermarker(cfg, pipeline=self.generator_pipeline, only_detect=True)
 
         # Configure Mutator
-        if "document" in cfg.mutator_args.type:
-            self.mutator_model = get_or_create_model(cfg.mutator_args.model_id, cfg.mutator_args)
-            self.mutator = DocumentMutator(cfg.mutator_args, llm=self.mutator_model)
-        elif "sentence" in cfg.mutator_args.type:
-            self.mutator_model = get_or_create_model(cfg.mutator_args.model_id, cfg.mutator_args)
-            self.mutator = SentenceMutator(cfg.mutator_args, llm=self.mutator_model)
-        elif "span" in cfg.mutator_args.type:
-            self.mutator = SpanFillMutator()
-        elif "word" in cfg.mutator_args.type:
-            self.mutator = MaskFillMutator()
+        if param_mutator:
+            self.mutator = param_mutator
         else:
-            raise ValueError("Invalid mutator type. Choose 'word', 'span', 'sentence' or 'document'.")
+            if "document" in cfg.mutator_args.type:
+                self.mutator = DocumentMutator()
+            elif "sentence" in cfg.mutator_args.type:
+                self.mutator_model = get_or_create_model(cfg.mutator_args.model_id, cfg.mutator_args)
+                self.mutator = SentenceMutator(cfg.mutator_args, llm=self.mutator_model)
+            elif "span" in cfg.mutator_args.type:
+                self.mutator = SpanMutator()
+            elif "word" in cfg.mutator_args.type:
+                self.mutator = WordMutator()
+            else:
+                raise ValueError("Invalid mutator type. Choose 'word', 'span', 'sentence' or 'document'.")
 
     def attack(self, prompt, watermarked_text):
         current_text = watermarked_text

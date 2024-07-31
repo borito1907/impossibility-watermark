@@ -1,13 +1,13 @@
 defaults:
     - _self_
-    - watermark_args: umd
+    - watermark_args: semstamp
     # - attack_args: c4_generation
     # - attack_args: prompt_based_generation
     # - attack_args: mixtral_regular_attack
     # - generator_args: large_mixtrals
     # - oracle_args: llama3
 
-cuda_visible_devices: "0,1,2,3,4" # Gary believes this works, if you so choose to use it
+cuda_visible_devices: "0,1,2,3,4,5" # Gary believes this works, if you so choose to use it
 model_cache_dir: "/data2/.shared_models" # "/data2/.shared_models" "../.cache"
 is_completion: False
 generation_stats_file_path: "results/dump"
@@ -20,8 +20,8 @@ attack_args:
 
 # UMD still needs this to detect, so leaving this here.
 generator_args:
-    model_id: "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" # "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" "gpt-4"
-    model_name_or_path: "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ"
+    model_id: "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ" # "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" "gpt-4"
+    model_name_or_path: "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ" # "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ"
     revision: "main" 
     model_cache_dir: "${model_cache_dir}"
     device_map: "auto"

@@ -4,11 +4,12 @@ import pandas as pd
 import hydra
 from tqdm import tqdm
 import logging
-from oracles.absolute import PrometheusAbsoluteOracle
 import matplotlib.pyplot as plt
-
+from guidance import models 
 from extractors import FluencyMetric, GrammarMetric
-
+from oracles import (
+    RelativeOracle
+)
 log = logging.getLogger(__name__)
 
 # from langchain.globals import set_debug; set_debug(True)
@@ -34,27 +35,24 @@ def eval(cfg):
     from mutators.span import SpanMutator
     from mutators.word import WordMutator
     # Set number of mutation steps to analyze
-    mutation_steps = 10
+    mutation_steps = 100
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
 
     # Load test data
     # NOTE: we will reuse the outputs from the quality oracle tests
     log.info("Loading tests...")
-    tests_df = pd.read_csv("./tests/mutator/tests_v2.csv")
+    tests_df = pd.read_csv("data/lmsys-150-test-set.csv")
     log.info(tests_df)
+    oracle_config = {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False}
+    llm = models.LlamaCpp(
+                model=oracle_config["llm_path"],
+                echo=False,
+                n_gpu_layers=-1,
+                n_ctx=2048
+            )
+    oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
+    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
 
-    # Init shared pipeline for oracles and LLMMutator
-    log.info("Initializing shared pipeline for oracles and LLMMutator...")
-    # pipeline = PipeLineBuilder(cfg.oracle_args)
-
-    # Init oracles
-    # templates = [
-    #     ("solo.lmsys.ib", SoloOracle), 
-    #     # ("joint.lmsys.ib", JointOracle), 
-    #     ("relative.sandpaper.3", RelativeOracle), 
-    # ]
-    # log.info(f"Initializing oracles: {','.join(t for t,c in templates)}...")
-    prometheus = PrometheusAbsoluteOracle(cfg)
     fluency = FluencyMetric()
     grammar = GrammarMetric()
     oracles = []
@@ -66,19 +64,28 @@ def eval(cfg):
     log.info(f"Initializing mutators...")
     # doc_mutator = DocumentMutator()
     # sent_mutator = SentenceMutator(cfg.oracle_args)
-    span_mutator = SpanMutator()
-    word_mutator = WordMutator()
-    mutators = [word_mutator, span_mutator]
+    # span_mutator = SpanMutator()
+    # word_mutator = WordMutator()
+    mutators = ["doc", "sent", "span", "word"]
 
     # Construct eval loop
     results = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
-        for mutator in tqdm(mutators, desc='Mutators'):
-            if row["winner_model_a"] == "1":
-                choose = "response_a"
-            else:
-                choose = "response_b"
-            text = row[choose]
+        for mutator_name in tqdm(mutators, desc='Mutators'):
+            if mutator_name == "doc":
+                mutator = DocumentMutator()
+            elif mutator_name == "sent":
+                mutator = SentenceMutator(cfg.oracle_args) 
+            elif mutator_name == "span":
+                mutator = SpanMutator()
+            elif mutator_name == "word":
+                mutator = WordMutator()
+            choose = "response_a"
+            # if row["winner_model_a"] == "1":
+            #     choose = "response_a"
+            # else:
+            #     choose = "response_b"
+            # text = row[choose]
 
             for mutation_step in range(mutation_steps):
 
@@ -107,7 +114,7 @@ def eval(cfg):
                 
                 # Evaluate Mutation Quality
                 try:
-                    evals = prometheus.is_quality_preserved(row["prompt"], row[choose], text)
+                    evals = oracle.is_quality_preserved(row["prompt"], row[choose], text)
                     is_quality_preserved = evals["quality_preserved"]
                 except Exception as e:
                     print("-"*20)
@@ -142,6 +149,7 @@ def eval(cfg):
                 log.info("Saving results to csv...")
                 df = pd.DataFrame(results)
                 df.to_csv("./results/mutator_eval.csv", index=False)
+            del mutator
 
     tests_df = pd.read_csv("./results/mutator_eval.csv")
     data = {}
