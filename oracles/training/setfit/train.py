@@ -62,6 +62,7 @@ class SentenceClassifier:
 
         training_args = TrainingArguments(
             output_dir=self.cfg.trainer.output_dir,
+            batch_size=(self.cfg.trainer.per_device_train_batch_size, self.cfg.trainer.per_device_eval_batch_size),
             max_steps=self.cfg.trainer.max_steps,
             logging_steps=self.cfg.trainer.logging_steps,
             evaluation_strategy=self.cfg.trainer.evaluation_strategy,
@@ -70,6 +71,7 @@ class SentenceClassifier:
             save_steps=self.cfg.trainer.save_steps,
             load_best_model_at_end=self.cfg.trainer.load_best_model_at_end,
             seed=self.cfg.trainer.seed,
+            use_amp=self.cfg.trainer.use_amp,
         )
         self.trainer = Trainer(
             model=self.model,
@@ -108,6 +110,9 @@ class SentenceClassifier:
 def main(cfg):
 
     models = [
+        "allenai/longformer-base-4096",
+        "google/bigbird-roberta-base",
+        "transfo-xl/transfo-xl-wt103",
         "google-bert/bert-base-uncased",
         "FacebookAI/roberta-base",
         "microsoft/deberta-v3-base",
@@ -127,11 +132,12 @@ def main(cfg):
             })
             performance.append(metrics)
             print(f"Metrics: {metrics}")
+            df = pd.DataFrame(performance)
+            df.to_csv("./oracles/training/setfit/metrics.csv", index=False)
+            
         except Exception:
             print(traceback.format_exc())
 
-    df = pd.DataFrame(performance)
-    df.to_csv("./oracles/training/setfit/metrics.csv", index=False)
 
 if __name__ == "__main__":
 
