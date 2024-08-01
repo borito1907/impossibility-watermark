@@ -1,0 +1,80 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Creating a full-fledged video player with GUI and support for multiple video formats is a complex task that requires a significant amount of code.",True,7,"7,2",True,1
+2," However, (pyQt5) and the VLC library to create a basic video player.",True,7,"6,3",True,1
+3," Here's an example implementation using Python,ous Tkinter library for the GUI and the VLC library for playing videos:
+```
+import tkinter as tkfrom tkinter import filedialog, from tkinter import messagebox 
+import vlc 
+
+class VideoPlayer: 
+    def __init__(self, master): 
+        self.master = master 
+        master.title(""Video Player"") 
+        self.frame = tk.Frame(master) 
+        self.frame.pack() 
+ 
+        self.video_list = [] 
+        self.current_video = 0 
+ 
+        # Create GUI components 
+        self.video_label = tk.Label(self.frame, text=""No video selected"") 
+        self.video_label.pack() 
+ 
+        self.open_button = tk.Button(self.frame, text=""Open Video"", command=self.open_video) 
+        self.open_button.pack() 
+ 
+        self.play_button = tk.Button(self.frame, text=""Play"", command=self.play_video) 
+        self.play_button.pack() 
+ 
+        self.stop_button = tk.Button(self.frame, text=""Stop"", command=self.stop_video) 
+        self.stop_button.pack() 
+ 
+        self.next_button = tk.Button(self.frame, text=""Next"", command=self.next_video) 
+        self.next_button.pack() 
+ 
+        self.prev_button = tk.Button(self.frame, text=""Previous"", command=self.prev_video) 
+        self.prev_button.pack() 
+ 
+        # Create VLC instance 
+        self.vlc_instance = vlc.Instance() 
+        self.media_player = self.vlc_instance.media_player_new() 
+ 
+    def open_video(self): 
+        filename = filedialog.askopenfilename(filetypes=[(""Video Files"", "".mp4.mkv.avi.mov"")]) 
+        if filename: 
+            self.video_list.append(filename) 
+            self.video_label.config(text=filename) 
+            self.current_video = len(self.video_list) - 1 
+ 
+    def play_video(self): 
+        if self.video_list: 
+            media = self.vlc_instance.media_new(self.video_list[self.current_video]) 
+            self.media_player.set_media(media) 
+            self.media_player.play() 
+ 
+    def stop_video(self): 
+        self.media_player.stop() 
+ 
+    def next_video(self): 
+        if self.video_list: 
+            self.current_video += 1 
+            if self.current_video >= len(self.video_list): 
+                self.current_video = 0 
+            self.video_label.config(text=self.video_list[self.current_video]) 
+            self.play_video() 
+ 
+    def prev_video(self): 
+        if self.video_list: 
+            self.current_video -= 1 
+            if self.current_video < 0: 
+                self.current_video = len(self.video_list) - 1 
+            self.video_label.config(text=self.video_list[self.current_video]) 
+            self.play_video() 
+ 
+root = tk.Tk() 
+video_player = VideoPlayer(root) 
+root.mainloop()
+```
+This script creates a GUI with buttons to open, play, stop, next, and previous videos.",True,6,"6,3",True,2

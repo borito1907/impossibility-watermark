@@ -124,9 +124,9 @@ class SemStampWatermarker(Watermarker):
         
         return candidate_text, candidate_text_ids
 
-    def generate_watermarked_outputs(self, prompt):
+    def generate_watermarked_outputs(self, prompt, stats_file_path = None):
         if self.cfg.watermark_args.sp_mode == "lsh":
-            return self._lsh_generate_watermarked_outputs(prompt)
+            return self._lsh_generate_watermarked_outputs(prompt, stats_file_path = stats_file_path)
         if self.cfg.watermark_args.sp_mode == "kmeans":
             return self._kmeans_generate_watermarked_outputs(prompt)
         raise NotImplementedError
@@ -291,14 +291,20 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         text = parse_llama_output(text)
         return text, total_sentences
     
-    def _lsh_generate_watermarked_outputs(self,prompt):
+    def _lsh_generate_watermarked_outputs(self,prompt, **kwargs):
         # If it's a completion, only use the first len_prompt many tokens.
         if self.cfg.is_completion:
             log.info(f"Since this is a completion, extracting the prompt from the original text.")
             prompt = extract_prompt_from_text(prompt, self.cfg.watermark_args.len_prompt)
 
         log.info(f"Passing the following prompt to the LSH reject completion function:\n {prompt}")
-        response = self._lsh_reject_completion(prompt, stats_csv_path = self.cfg.generation_stats_file_path)
+
+        # TODO: The code could be cleaner.
+        if 'stats_file_path' in kwargs:
+            response = self._lsh_reject_completion(prompt, stats_csv_path = kwargs['stats_file_path'])
+        else:
+            response = self._lsh_reject_completion(prompt, stats_csv_path = self.cfg.generation_stats_file_path)
+
         
         log.info(f"Prompt: {prompt}")
         log.info(f"Response: {response}")

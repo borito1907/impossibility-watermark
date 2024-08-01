@@ -1,6 +1,6 @@
 # This is here to fix circular imports.
 
-from watermarkers import UMDWatermarker, UnigramWatermarker, EXPWatermarker, SemStampWatermarker
+from watermarkers import UMDWatermarker, UnigramWatermarker, EXPWatermarker, SemStampWatermarker, AdaptiveWatermarker
 
 def get_watermarker(cfg, **kwargs):
     if cfg.watermark_args.name == "umd":
@@ -11,5 +11,7 @@ def get_watermarker(cfg, **kwargs):
         return EXPWatermarker(cfg, **kwargs)
     elif "semstamp" in cfg.watermark_args.name:
         return SemStampWatermarker(cfg, **kwargs)
+    elif cfg.watermark_args.name == "adaptive":
+        return AdaptiveWatermarker(cfg, **kwargs)
     else:
-        raise NotImplementedError
+        raise NotImplementedError(f"Watermarker with name {cfg.watermark_args.name}.")

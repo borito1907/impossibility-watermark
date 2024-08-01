@@ -29,7 +29,7 @@ def save_to_csv_with_filepath(data, file_path, rewrite=False):
     if os.path.exists(file_path) and not rewrite:
         df_out.to_csv(file_path, mode='a', header=False, index=False)  # Append without writing headers
     else:
-        # os.makedirs(dir, exist_ok=True)
+        os.makedirs(dir, exist_ok=True)
         df_out.to_csv(file_path, index=False)  # Create new file with headers
     print(f"Data appended to {file_path}")
 

@@ -45,10 +45,10 @@ class Watermarker(ABC):
     def generate_watermarked_outputs(self, prompt):
         pass
 
-    def generate(self, prompt):
+    def generate(self, prompt, **kwargs):
         n_attempts = 0
         while n_attempts < self.n_attempts:
-            completion = self.generate_watermarked_outputs(prompt)
+            completion = self.generate_watermarked_outputs(prompt, **kwargs)
 
             log.info(f"Received watermarked text: {completion}")
 
@@ -56,7 +56,10 @@ class Watermarker(ABC):
                 completion = completion.replace(prompt, '', 1).strip()
 
             # Check if watermark succeeded
-            is_detected, _ = self.detect(completion)
+            if self.cfg.watermark_args.name == "adaptive":
+                is_detected = self.detect(completion)
+            else:
+                is_detected, _ = self.detect(completion)
             if is_detected:
                 return completion
             else:

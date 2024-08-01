@@ -26,7 +26,7 @@ def run_command(command, filepath):
 # this was so i could parallelize it better with gpus
 def main():
     # TODO: Don't forget to change this. This should ideally, be a command line arg, but it's 11 pm. - Boran
-    watermark_scheme = 'semstamp_last_2'
+    watermark_scheme = 'real_umd_speed'
 
     dir_name = f'dev_{watermark_scheme}'
     base_folder_name = f'./inputs/{dir_name}'
@@ -50,24 +50,8 @@ def main():
 
     for prompt_num in range(1,151):
         log_filepath = f"{base_folder_name}/logs/logfile_{prompt_num}.log"
-                    
+           
         command = f"python watermarked_text_generator.py " \
-            f"++watermark_args.name=semstamp_lsh " \
-            f"++watermark_args.embedder='' " \
-            f"++watermark_args.delta=0.01 " \
-            f"++watermark_args.sp_mode=lsh " \
-            f"++watermark_args.sp_dim=3 " \
-            f"++watermark_args.lmbd=0.25 " \
-            f"++watermark_args.max_new_tokens=255 " \
-            f"++watermark_args.min_new_tokens=245 " \
-            f"++watermark_args.max_trials=50 " \
-            f"++watermark_args.critical_max_trials=75 " \
-            f"++watermark_args.cc_path='' " \
-            f"++watermark_args.train_data='' " \
-            f"++watermark_args.device=auto " \
-            f"++watermark_args.len_prompt=32 " \
-            f"++watermark_args.z_threshold=0.5 " \
-            f"++watermark_args.use_fine_tuned=True " \
             f"++prompt_file='./data/WQE/dev.csv' " \
             f"++prompt_num={prompt_num} " \
             f"++is_completion=False " \

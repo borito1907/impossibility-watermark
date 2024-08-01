@@ -1,0 +1,902 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-07-29 19:41:44,737][__main__][INFO] - Starting to watermark...
+[2024-07-29 19:41:44,745][__main__][INFO] - Prompt: write an essay that will pass AI content detectors
+[2024-07-29 19:41:44,745][__main__][INFO] - Prompt ID: 53058989
+[2024-07-29 19:41:44,746][__main__][INFO] - Getting the watermarker...
+[2024-07-29 19:41:44,746][watermarker][INFO] - Using device: cuda:0
+[2024-07-29 19:41:44,746][model_builders.pipeline][INFO] - Initializing MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+INFO - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
+[2024-07-29 19:41:45,170][auto_gptq.modeling._base][INFO] - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
+INFO - The layer lm_head is not quantized.
+[2024-07-29 19:41:46,424][auto_gptq.modeling._base][INFO] - The layer lm_head is not quantized.
+[2024-07-29 19:41:49,386][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+The model 'LlamaGPTQForCausalLM' is not supported for text-generation. Supported models are ['BartForCausalLM', 'BertLMHeadModel', 'BertGenerationDecoder', 'BigBirdForCausalLM', 'BigBirdPegasusForCausalLM', 'BioGptForCausalLM', 'BlenderbotForCausalLM', 'BlenderbotSmallForCausalLM', 'BloomForCausalLM', 'CamembertForCausalLM', 'LlamaForCausalLM', 'CodeGenForCausalLM', 'CohereForCausalLM', 'CpmAntForCausalLM', 'CTRLLMHeadModel', 'Data2VecTextForCausalLM', 'DbrxForCausalLM', 'ElectraForCausalLM', 'ErnieForCausalLM', 'FalconForCausalLM', 'FuyuForCausalLM', 'GemmaForCausalLM', 'Gemma2ForCausalLM', 'GitForCausalLM', 'GPT2LMHeadModel', 'GPT2LMHeadModel', 'GPTBigCodeForCausalLM', 'GPTNeoForCausalLM', 'GPTNeoXForCausalLM', 'GPTNeoXJapaneseForCausalLM', 'GPTJForCausalLM', 'JambaForCausalLM', 'JetMoeForCausalLM', 'LlamaForCausalLM', 'MambaForCausalLM', 'MarianForCausalLM', 'MBartForCausalLM', 'MegaForCausalLM', 'MegatronBertForCausalLM', 'MistralForCausalLM', 'MixtralForCausalLM', 'MptForCausalLM', 'MusicgenForCausalLM', 'MusicgenMelodyForCausalLM', 'MvpForCausalLM', 'OlmoForCausalLM', 'OpenLlamaForCausalLM', 'OpenAIGPTLMHeadModel', 'OPTForCausalLM', 'PegasusForCausalLM', 'PersimmonForCausalLM', 'PhiForCausalLM', 'Phi3ForCausalLM', 'PLBartForCausalLM', 'ProphetNetForCausalLM', 'QDQBertLMHeadModel', 'Qwen2ForCausalLM', 'Qwen2MoeForCausalLM', 'RecurrentGemmaForCausalLM', 'ReformerModelWithLMHead', 'RemBertForCausalLM', 'RobertaForCausalLM', 'RobertaPreLayerNormForCausalLM', 'RoCBertForCausalLM', 'RoFormerForCausalLM', 'RwkvForCausalLM', 'Speech2Text2ForCausalLM', 'StableLmForCausalLM', 'Starcoder2ForCausalLM', 'TransfoXLLMHeadModel', 'TrOCRForCausalLM', 'WhisperForCausalLM', 'XGLMForCausalLM', 'XLMWithLMHeadModel', 'XLMProphetNetForCausalLM', 'XLMRobertaForCausalLM', 'XLMRobertaXLForCausalLM', 'XLNetLMHeadModel', 'XmodForCausalLM'].
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
+  warn_deprecated(
+[2024-07-29 19:42:07,059][watermarkers.semstamp][INFO] - Setting up generating components...
+[2024-07-29 19:42:07,065][watermarkers.semstamp][INFO] - {'max_new_tokens': 1024, 'do_sample': True, 'temperature': 1, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'bad_words_ids': [[198]], 'min_new_tokens': 245}
+[2024-07-29 19:42:07,065][watermarkers.semstamp][INFO] - Initializing embedder model.
+[2024-07-29 19:42:07,066][watermarkers.semstamp][INFO] - Using the generic SentenceTransformer...
+[2024-07-29 19:42:07,066][sentence_transformers.SentenceTransformer][INFO] - Use pytorch device_name: cuda
+[2024-07-29 19:42:07,066][sentence_transformers.SentenceTransformer][INFO] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v1
+[2024-07-29 19:42:08,535][watermarkers.semstamp][INFO] - Finished initializing embedder model.
+initializing random projection LSH model
+loading SBERT base model...
+[2024-07-29 19:42:08,537][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 42, 'is_completion': False, 'generation_stats_file_path': './inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv', 'watermarked_text_file_name': None, 'generator_args': {'model_name_or_path': 'MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ', 'revision': 'main', 'model_cache_dir': './.cache/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 1024, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0}, 'watermark_args': {'name': 'semstamp_lsh', 'gamma': 0.25, 'delta': 0.01, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'cuda', 'only_detect': False, 'embedder': '', 'sp_mode': 'lsh', 'sp_dim': 3, 'lmbd': 0.25, 'max_new_tokens': 255, 'min_new_tokens': 245, 'max_trials': 50, 'critical_max_trials': 75, 'cc_path': '', 'train_data': '', 'len_prompt': 32, 'use_fine_tuned': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}, 'watermarked_text_file_path': './inputs/dev_semstamp_last_2/watermarked_texts.csv'}
+[2024-07-29 19:42:08,537][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-07-29 19:42:08,537][watermarkers.semstamp][INFO] - Passing the following prompt to the LSH reject completion function:
+ write an essay that will pass AI content detectors
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.25it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.25it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token.As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[2024-07-29 19:42:13,225][watermarkers.semstamp][INFO] - Candidate text: 
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms.
+[2024-07-29 19:42:13,226][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 100.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 113.90it/s]
+[2024-07-29 19:42:13,254][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:42:13,255][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:42:13,255][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-29 19:42:13,255][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:13,259][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms.
+[2024-07-29 19:42:13,259][watermarkers.semstamp][INFO] - Text has 1 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:42:15,598][watermarkers.semstamp][INFO] - Candidate text:  While technology has undoubtedly opened doors to unprecedented levels of connectivity and access to information, the fabric of our human relationships is beginning to fray.
+[2024-07-29 19:42:15,598][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.38it/s]
+[2024-07-29 19:42:15,619][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:15,619][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:15,619][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
+[2024-07-29 19:42:15,619][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:17,870][watermarkers.semstamp][INFO] - Candidate text:  While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection.
+[2024-07-29 19:42:17,871][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.13it/s]
+[2024-07-29 19:42:17,892][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:42:17,892][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:42:17,892][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
+[2024-07-29 19:42:17,892][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:17,894][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection.
+[2024-07-29 19:42:17,894][watermarkers.semstamp][INFO] - Text has 2 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:42:20,028][watermarkers.semstamp][INFO] - Candidate text:  In this era of rapid digitalization,2019, it is crucial that we prioritize fostering meaningful relationships and interpersonal bonds.
+
+
+[2024-07-29 19:42:20,029][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.44it/s]
+[2024-07-29 19:42:20,051][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:20,051][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:20,051][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:20,051][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:23,129][watermarkers.semstamp][INFO] - Candidate text:  
+
+In this era of instant gratification and curated online personas, (it is) imperative that we recognize the significance of cultivating meaningful relationships built upon empathy,2019 understanding and mutual trust.
+[2024-07-29 19:42:23,130][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.26it/s]
+[2024-07-29 19:42:23,151][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:23,151][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:23,151][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:23,151][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:24,675][watermarkers.semstamp][INFO] - Candidate text:  In this essay, The significance of fostering meaningful relationships amidst the digital din.
+
+
+[2024-07-29 19:42:24,675][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.49it/s]
+[2024-07-29 19:42:24,695][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:24,696][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:24,696][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:24,696][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:28,182][watermarkers.semstamp][INFO] - Candidate text:  In this era where face-to-face interactions are dwindling, a clarion call echoes: it is imperative that we prioritize fostering meaningful relationships, IRL (in real life) lest we suffer the debilitating consequences of isolation.
+
+
+[2024-07-29 19:42:28,183][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 95.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.04it/s]
+[2024-07-29 19:42:28,208][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:28,208][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:28,208][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:28,208][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:31,017][watermarkers.semstamp][INFO] - Candidate text:  It is imperative that we acknowledge the significance of fostering meaningful relationships in our lives, I argue that human connection remains essential for our emotional well-being societal cohesion and collective prosperity.
+
+
+[2024-07-29 19:42:31,017][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.40it/s]
+[2024-07-29 19:42:31,038][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:31,038][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:31,038][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:31,038][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:34,321][watermarkers.semstamp][INFO] - Candidate text:  
+
+In today's society, it is not uncommon for individuals to possess hundreds if not thousands of virtual 'friends', yet find themselves bereft of meaningful relationships that extend beyond the confines of a screen.
+[2024-07-29 19:42:34,321][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.68it/s]
+[2024-07-29 19:42:34,342][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:34,342][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:34,343][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:34,343][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:36,817][watermarkers.semstamp][INFO] - Candidate text:  It is imperative that we acknowledge this phenomenon and take proactive steps to preserve and nurture our capacity for empathy, compassion, and meaningful interaction.
+
+
+[2024-07-29 19:42:36,818][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 117.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.97it/s]
+[2024-07-29 19:42:36,840][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:36,840][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:36,840][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:36,840][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:38,637][watermarkers.semstamp][INFO] - Candidate text:  It is imperative that we acknowledge this phenomenon and strive to reclaim meaningful relationships amidst the digital din.
+
+
+[2024-07-29 19:42:38,638][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.07it/s]
+[2024-07-29 19:42:38,658][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:38,658][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:38,659][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:38,659][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:40,454][watermarkers.semstamp][INFO] - Candidate text:  In this essay, the significance of fostering meaningful relationships in our digitally dominated lives will be explored.
+
+
+[2024-07-29 19:42:40,455][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.95it/s]
+[2024-07-29 19:42:40,475][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:40,475][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:40,475][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:40,475][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:42,677][watermarkers.semstamp][INFO] - Candidate text:  It is imperative that we acknowledge this issue and strive to strike a balance between our online existence and meaningful face-to-face interactions.
+
+
+[2024-07-29 19:42:42,677][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.83it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:45,164][watermarkers.semstamp][INFO] - Candidate text:  It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+
+[2024-07-29 19:42:45,165][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.26it/s]
+[2024-07-29 19:42:45,186][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:42:45,186][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:42:45,186][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:42:45,186][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:45,188][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+
+[2024-07-29 19:42:45,188][watermarkers.semstamp][INFO] - Text has 3 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:42:46,772][watermarkers.semstamp][INFO] - Candidate text: One only need glance at the statistics to comprehend the gravity of this issue.
+[2024-07-29 19:42:46,773][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 120.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.65it/s]
+[2024-07-29 19:42:46,794][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-29 19:42:46,795][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:46,795][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-07-29 19:42:46,795][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:49,398][watermarkers.semstamp][INFO] - Candidate text: In recent years,* studies have consistently demonstrated a correlation between excessive screen time and rising rates of loneliness, more anxiety, befalling mental health.
+[2024-07-29 19:42:49,399][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.06it/s]
+[2024-07-29 19:42:49,419][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:42:49,420][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:49,420][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-07-29 19:42:49,420][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:51,479][watermarkers.semstamp][INFO] - Candidate text: On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity.
+[2024-07-29 19:42:51,479][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.97it/s]
+[2024-07-29 19:42:51,500][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:51,500][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:42:51,500][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-07-29 19:42:51,500][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:51,502][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity.
+[2024-07-29 19:42:51,502][watermarkers.semstamp][INFO] - Text has 4 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:42:54,200][watermarkers.semstamp][INFO] - Candidate text:  Social media platforms,/raw data/ and video conferencing tools allow us to bridge geographical divides (3) and forge connections with others from diverse backgrounds.
+[2024-07-29 19:42:54,200][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.69it/s]
+[2024-07-29 19:42:54,222][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:42:54,222][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:54,222][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:42:54,222][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:56,375][watermarkers.semstamp][INFO] - Candidate text:  We can instantly reach out to loved ones across continents, this instant gratification fosters a false sense of intimacy.
+[2024-07-29 19:42:56,375][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.01it/s]
+[2024-07-29 19:42:56,396][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:42:56,396][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:56,396][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:42:56,396][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:42:59,503][watermarkers.semstamp][INFO] - Candidate text:  Social media platforms boast billions of users, A(I)-driven algorithms expertly curate content tailored to individual interests, and video conferencing has become the norm for remote work arrangements.
+[2024-07-29 19:42:59,504][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.77it/s]
+[2024-07-29 19:42:59,524][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:42:59,524][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:42:59,525][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:42:59,525][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:01,744][watermarkers.semstamp][INFO] - Candidate text:  Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online.
+[2024-07-29 19:43:01,745][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.25it/s]
+[2024-07-29 19:43:01,765][watermarkers.semstamp][INFO] - LSH Candidate: 0
+[2024-07-29 19:43:01,766][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:43:01,766][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:01,766][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:01,768][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online.
+[2024-07-29 19:43:01,768][watermarkers.semstamp][INFO] - Text has 5 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:43:04,502][watermarkers.semstamp][INFO] - Candidate text:  However,{\it }, amidst this virtual frenzy, A growing body of research suggests that excessive screen time can precipitate feelings of isolation melancholy even depression.
+[2024-07-29 19:43:04,502][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.50it/s]
+[2024-07-29 19:43:04,523][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:43:04,523][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:04,523][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-29 19:43:04,523][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:06,779][watermarkers.semstamp][INFO] - Candidate text:  Moreover, of particular note is the facilitation of remote workspaces and virtual gatherings which have redefined professional landscapes.
+[2024-07-29 19:43:06,779][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.06it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:08,707][watermarkers.semstamp][INFO] - Candidate text:  Moreover, of late, virtual reality innovations are being touted as the next frontier in immersive experiences.
+[2024-07-29 19:43:08,707][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.41it/s]
+[2024-07-29 19:43:08,728][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:43:08,728][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:08,729][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-29 19:43:08,729][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:10,506][watermarkers.semstamp][INFO] - Candidate text:  However,alsocareer opportunities abound as remote work arrangements become the new norm.
+[2024-07-29 19:43:10,506][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.57it/s]
+[2024-07-29 19:43:10,526][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:43:10,527][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:10,527][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-29 19:43:10,527][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:12,372][watermarkers.semstamp][INFO] - Candidate text:  Yet, (3), beneath this veneer of interconnectedness lies a more sinister reality.
+[2024-07-29 19:43:12,372][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.64it/s]
+[2024-07-29 19:43:12,393][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:43:12,393][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:12,393][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-29 19:43:12,393][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:14,247][watermarkers.semstamp][INFO] - Candidate text:  Furthermore, (3), technological innovations have streamlined work processes and facilitated seamless collaboration across distances.
+[2024-07-29 19:43:14,247][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.42it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:17,199][watermarkers.semstamp][INFO] - Candidate text:  However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide.
+[2024-07-29 19:43:17,199][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.60it/s]
+[2024-07-29 19:43:17,220][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:43:17,220][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:43:17,220][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-29 19:43:17,220][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:17,222][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide.
+[2024-07-29 19:43:17,222][watermarkers.semstamp][INFO] - Text has 6 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:43:19,873][watermarkers.semstamp][INFO] - Candidate text:  Research has shown that excessive screen time can lead to feelings of loneliness and isolation, thereby counteracting the very purpose of these technologies (3).
+
+
+[2024-07-29 19:43:19,873][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.76it/s]
+[2024-07-29 19:43:19,894][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:43:19,894][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:19,894][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
+[2024-07-29 19:43:19,894][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:22,064][watermarkers.semstamp][INFO] - Candidate text:  As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.
+
+
+[2024-07-29 19:43:22,065][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.30it/s]
+[2024-07-29 19:43:22,086][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:43:22,086][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:43:22,086][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
+[2024-07-29 19:43:22,086][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:22,089][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide. As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.
+
+
+[2024-07-29 19:43:22,089][watermarkers.semstamp][INFO] - Text has 7 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:43:24,959][watermarkers.semstamp][INFO] - Candidate text: Moreover (4), research has shown that excessive screen time can lead to heightened stress levels, decreased attention spans, (5),and even compromised mental health.
+[2024-07-29 19:43:24,959][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.25it/s]
+[2024-07-29 19:43:24,980][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:43:24,980][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:24,980][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:43:24,980][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:26,887][watermarkers.semstamp][INFO] - Candidate text: Moreover, the relentless pursuit of digital validation can lead to a state of perpetual loneliness.
+[2024-07-29 19:43:26,887][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.86it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:28,803][watermarkers.semstamp][INFO] - Candidate text: Furthermore (4), the proliferation of digital communication has led to a culture of isolation.
+[2024-07-29 19:43:28,803][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.08it/s]
+[2024-07-29 19:43:28,824][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:43:28,825][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:43:28,825][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
+[2024-07-29 19:43:28,825][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:28,826][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide. As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.
+
+Furthermore (4), the proliferation of digital communication has led to a culture of isolation.
+[2024-07-29 19:43:28,827][watermarkers.semstamp][INFO] - Text has 8 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:43:30,977][watermarkers.semstamp][INFO] - Candidate text:  Individuals are more likely to engage with their screens than with the person sitting across from them.
+[2024-07-29 19:43:30,978][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.68it/s]
+[2024-07-29 19:43:30,998][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:43:30,998][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:30,999][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-07-29 19:43:30,999][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:32,442][watermarkers.semstamp][INFO] - Candidate text:  People retreat into their virtual shells,.
+[2024-07-29 19:43:32,443][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 78.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.74it/s]
+[2024-07-29 19:43:32,468][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:43:32,469][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:43:32,469][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-07-29 19:43:32,469][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:32,470][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide. As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.
+
+Furthermore (4), the proliferation of digital communication has led to a culture of isolation. People retreat into their virtual shells,.
+[2024-07-29 19:43:32,471][watermarkers.semstamp][INFO] - Text has 9 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-29 19:43:34,883][watermarkers.semstamp][INFO] - Candidate text:  We must recognize the perils of this trend and instead strive to strike a balance between online and offline interactions.
+[2024-07-29 19:43:34,884][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.02it/s]
+[2024-07-29 19:43:34,905][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:43:34,905][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:34,905][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:34,905][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:36,491][watermarkers.semstamp][INFO] - Candidate text:  Social skills deteriorate and loneliness seeps in.
+[2024-07-29 19:43:36,492][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.85it/s]
+[2024-07-29 19:43:36,512][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:43:36,513][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:36,513][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:36,513][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:39,135][watermarkers.semstamp][INFO] - Candidate text:  Research suggests that individuals who spend more time online (5) are also more likely to experience increased feelings of loneliness and depression.
+[2024-07-29 19:43:39,135][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.29it/s]
+[2024-07-29 19:43:39,156][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:43:39,156][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:39,156][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:39,156][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:41,712][watermarkers.semstamp][INFO] - Candidate text:  This trend is particularly concerning given that research suggests social isolation can have devastating consequences on both physical and mental health (5).
+[2024-07-29 19:43:41,713][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.14it/s]
+[2024-07-29 19:43:41,734][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:43:41,735][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:41,735][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:41,735][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:44,220][watermarkers.semstamp][INFO] - Candidate text:  As individuals spend more time gazing at their screens they become decreasingly inclined to engage with the world around them.
+[2024-07-29 19:43:44,220][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.33it/s]
+[2024-07-29 19:43:44,240][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:43:44,241][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:44,241][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:44,241][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:45,756][watermarkers.semstamp][INFO] - Candidate text:  Physical gatherings are replaced by scrolling through feeds.
+[2024-07-29 19:43:45,756][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 139.13it/s]
+[2024-07-29 19:43:45,777][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:43:45,777][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:45,777][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:45,777][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:47,569][watermarkers.semstamp][INFO] - Candidate text:  (5) The physical absence of others inhibits meaningful exchange.
+[2024-07-29 19:43:47,569][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.29it/s]
+[2024-07-29 19:43:47,590][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:43:47,590][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:47,590][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:47,590][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:50,004][watermarkers.semstamp][INFO] - Candidate text:  loneliness (5) becomes an epidemic as individuals forfeit meaningful relationships for the fleeting validation of likes and comments.
+[2024-07-29 19:43:50,004][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.54it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:51,461][watermarkers.semstamp][INFO] - Candidate text:  Physical proximity no longer guarantees meaningful interaction.
+[2024-07-29 19:43:51,461][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.55it/s]
+[2024-07-29 19:43:51,482][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:43:51,482][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:51,482][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:51,482][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:53,274][watermarkers.semstamp][INFO] - Candidate text:  We sacrifice meaningful conversations for the fleeting validation of likes and comments.
+[2024-07-29 19:43:53,275][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.24it/s]
+[2024-07-29 19:43:53,295][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:43:53,295][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:53,295][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:53,295][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:55,709][watermarkers.semstamp][INFO] - Candidate text:  A recent study suggests that individuals who spend excessive time engaging in online activities experience increased feelings of loneliness (5).
+[2024-07-29 19:43:55,710][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.20it/s]
+[2024-07-29 19:43:55,730][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:43:55,730][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:55,731][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:55,731][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:57,734][watermarkers.semstamp][INFO] - Candidate text:  We no longer engage in spontaneous conversations with strangers or nurture meaningful relationships over coffee.
+[2024-07-29 19:43:57,735][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.46it/s]
+[2024-07-29 19:43:57,756][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:43:57,756][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:57,756][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:57,756][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:43:59,963][watermarkers.semstamp][INFO] - Candidate text:  Consequently,we forego opportunities for meaningful dialogue and collaboration in favor of curated highlight reels.
+[2024-07-29 19:43:59,963][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.14it/s]
+[2024-07-29 19:43:59,983][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:43:59,983][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:43:59,984][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:43:59,984][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:02,327][watermarkers.semstamp][INFO] - Candidate text:  This phenomenon can be attributed, partl to the fact that likes and comments have supplanted meaningful dialogue.
+[2024-07-29 19:44:02,328][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.03it/s]
+[2024-07-29 19:44:02,348][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:44:02,348][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:02,348][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:02,349][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:04,554][watermarkers.semstamp][INFO] - Candidate text:  Real-life social skills dissipate as individuals rely more heavily on curated personas constructed for online consumption.
+[2024-07-29 19:44:04,555][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.08it/s]
+[2024-07-29 19:44:04,575][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:44:04,575][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:04,575][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:04,575][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:06,643][watermarkers.semstamp][INFO] - Candidate text:  Consequentially, (5), mental health concerns such as anxiety and depression escalate.
+[2024-07-29 19:44:06,643][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.40it/s]
+[2024-07-29 19:44:06,663][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:44:06,663][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:06,664][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:06,664][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:08,386][watermarkers.semstamp][INFO] - Candidate text:  This phenomenon gives rise to feelings of loneliness and disconnection.
+[2024-07-29 19:44:08,386][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.83it/s]
+[2024-07-29 19:44:08,406][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:44:08,406][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:08,407][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:08,407][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:10,889][watermarkers.semstamp][INFO] - Candidate text:  This phenomenon breeds loneliness, anxiety, and depression - a toxic triumvirate that threatens the very fabric of society.
+[2024-07-29 19:44:10,890][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.12it/s]
+[2024-07-29 19:44:10,910][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:44:10,911][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:10,911][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:10,911][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:13,325][watermarkers.semstamp][INFO] - Candidate text:  This detachment has devastating consequences for mental health (5), which, to thrive relies heavily on meaningful social interactions.
+[2024-07-29 19:44:13,326][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.45it/s]
+[2024-07-29 19:44:13,346][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:44:13,346][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:13,346][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:13,347][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:15,969][watermarkers.semstamp][INFO] - Candidate text:  Solitude becomes the norm rather than the exception,­­—a far cry from the vibrant tapestry of human experience.
+[2024-07-29 19:44:15,970][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.65it/s]
+[2024-07-29 19:44:15,990][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:44:15,991][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:15,991][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:15,991][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:17,509][watermarkers.semstamp][INFO] - Candidate text:  We witness the decline of traditional communal spaces.
+[2024-07-29 19:44:17,510][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.54it/s]
+[2024-07-29 19:44:17,530][watermarkers.semstamp][INFO] - LSH Candidate: 4
+[2024-07-29 19:44:17,531][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:17,531][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:17,531][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:19,467][watermarkers.semstamp][INFO] - Candidate text:  This sense of disconnection breeds anxiety and depression further exacerbating the issue.
+[2024-07-29 19:44:19,467][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.60it/s]
+[2024-07-29 19:44:19,488][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:44:19,488][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:19,488][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:19,488][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:22,388][watermarkers.semstamp][INFO] - Candidate text:  In doing so,1999 they neglect the beauty of physical touch, eye contact and unscripted laughter - elemental aspects of human intimacy.
+[2024-07-29 19:44:22,388][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.37it/s]
+[2024-07-29 19:44:22,409][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:44:22,409][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:22,409][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:22,409][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:24,823][watermarkers.semstamp][INFO] - Candidate text:  This phenomenon exacerbates feelings of loneliness a paradoxical state where individuals are more connected than ever yet desperately disconnected.
+[2024-07-29 19:44:24,823][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.55it/s]
+[2024-07-29 19:44:24,844][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:44:24,844][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:24,844][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:24,844][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:28,366][watermarkers.semstamp][INFO] - Candidate text: This trend (5) towards solitary existence threatens the fabric of our communities. We must recognize that true fulfillment stems not from likes and followers but from meaningful, the richness of shared human experiences.
+[2024-07-29 19:44:28,366][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.33it/s]
+[2024-07-29 19:44:28,387][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-07-29 19:44:28,387][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:28,387][watermarkers.semstamp][INFO] - Candidate text is not a single sentence.
+[2024-07-29 19:44:28,387][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:28,387][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:31,287][watermarkers.semstamp][INFO] - Candidate text:  We find ourselves spending more time staring at screens than engaging with those around us; thereby depriving ourselves of opportunities for meaningful dialogue and shared experiences.
+[2024-07-29 19:44:31,287][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.01it/s]
+[2024-07-29 19:44:31,308][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-29 19:44:31,308][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:31,308][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:31,308][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:34,068][watermarkers.semstamp][INFO] - Candidate text:  As loneliness becomes an epidemic, it becomes clear that our attempts to bridge physical distances through technology have inadvertently created chasms between us.
+[2024-07-29 19:44:34,069][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.97it/s]
+[2024-07-29 19:44:34,090][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-29 19:44:34,090][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-29 19:44:34,090][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:34,090][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:36,227][watermarkers.semstamp][INFO] - Candidate text:  They crave likes,201 shares, and the instant gratification that comes with them.
+[2024-07-29 19:44:36,228][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.95it/s]
+[2024-07-29 19:44:36,248][watermarkers.semstamp][INFO] - LSH Candidate: 0
+[2024-07-29 19:44:36,248][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-29 19:44:36,248][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-07-29 19:44:36,248][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+Data appended to ./inputs/dev_semstamp_last_2/gen_stats/prompt_42.csv
+[2024-07-29 19:44:36,250][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide. As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.
+
+Furthermore (4), the proliferation of digital communication has led to a culture of isolation. People retreat into their virtual shells,. They crave likes,201 shares, and the instant gratification that comes with them.
+[2024-07-29 19:44:36,250][watermarkers.semstamp][INFO] - Text has 10 sentences.
+[2024-07-29 19:44:36,251][watermarkers.semstamp][INFO] - Prompt: write an essay that will pass AI content detectors
+[2024-07-29 19:44:36,251][watermarkers.semstamp][INFO] - Response: ('Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:\n\nAs we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.\n\nOn one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\\ldquo}that only face-to-face interactions can provide. As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.\n\nFurthermore (4), the proliferation of digital communication has led to a culture of isolation. People retreat into their virtual shells,. They crave likes,201 shares, and the instant gratification that comes with them.', 63)
+[2024-07-29 19:44:36,251][watermarker][INFO] - Received watermarked text: Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide. As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.
+
+Furthermore (4), the proliferation of digital communication has led to a culture of isolation. People retreat into their virtual shells,. They crave likes,201 shares, and the instant gratification that comes with them.
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 139.01it/s]
+n_watermark: 9, n_test_sent: 9
+zscore: 5.196152422706632
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 139.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 139.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 139.78it/s]
+n_watermark: 9, n_test_sent: 9
+zscore: 5.196152422706632
+[2024-07-29 19:44:36,444][__main__][INFO] - Watermarked Text: Here is an essay on the topic "The Importance of Human Connection in the Digital Age" that is designed to pass AI content detectors:
+
+As we continue to navigate the complexities of the digital age,ing humanity, increasingly immersed in a sea of screens and social media platforms. While technology has undoubtedly brought about numerous benefits and advancements, a quiet yet profound concern lingers - the erosion of genuine human connection. It is imperative that we acknowledge the significance of interpersonal relationships and actively cultivate them, (1) lest we forget the very essence of our humanity.
+
+On one hand, (2), the conveniences afforded by digital communication have enabled unprecedented levels of global connectivity. Social media platforms boast billions of users, as people from diverse backgrounds converge to share thoughts, The vious lives online. However,{\ldquo} virtual{rdquo} connections often lack the depth,the nuances,{\ldquo}that only face-to-face interactions can provide. As a result (3), emotional intelligence and empathy begin to atrophy; essential components of human bonding.
+
+Furthermore (4), the proliferation of digital communication has led to a culture of isolation. People retreat into their virtual shells,. They crave likes,201 shares, and the instant gratification that comes with them.
+[2024-07-29 19:44:36,444][__main__][INFO] - Is Watermark Detected?: True
+[2024-07-29 19:44:36,444][__main__][INFO] - Score: 5.196152422706632
+[2024-07-29 19:44:36,445][__main__][INFO] - Time taken: 147.9075150489807
+Data saved to ./inputs/dev_semstamp_last_2/watermarked_texts.csv
