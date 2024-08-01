@@ -100,7 +100,7 @@ def get_mutated_text(csv_file_path):
 
     return success_df['mutated_text'].iloc[-1]
 
-def get_nth_successful_perturbation(csv_file_path, mutation_num):
+def get_all_successful_mutations(csv_file_path):
     df = pd.read_csv(csv_file_path)
         
     unique_texts = []
@@ -111,6 +111,10 @@ def get_nth_successful_perturbation(csv_file_path, mutation_num):
             unique_texts.append(current_text)
             seen_texts.add(current_text)
     
+    return unique_texts
+
+def get_nth_successful_perturbation(csv_file_path, mutation_num):
+    unique_texts = get_all_successful_mutations(csv_file_path)
     return unique_texts[mutation_num]
 
 def get_last_step_num(csv_file_path):

@@ -4,9 +4,13 @@ import datasets
 
 # Abstract base class for all distinguishers
 class Distinguisher(ABC):
-    def __init__(self, llm, persona, origin_A, origin_B):
+    def __init__(self, llm, persona, origin_A=None, origin_B=None):
         self.llm = llm
         self.persona = persona
+        self.origin_A = origin_A
+        self.origin_B = origin_B
+
+    def set_origin(self, origin_A, origin_B):
         self.origin_A = origin_A
         self.origin_B = origin_B
     
@@ -29,6 +33,8 @@ class Distinguisher(ABC):
             pass
 
     def apply_prompt(self, datarow, flip, prefix=""):
+        if self.origin_A is None or self.origin_B is None:
+            raise ValueError("origin_A and origin_B must be set before calling apply_prompt")
         # load input dictionary
         inputs = {k: datarow[k] for k in self.input_keys}
         inputs['A'] = self.origin_A

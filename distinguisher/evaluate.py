@@ -1,24 +1,13 @@
+# RUN: CUDA_VISIBLE_DEVICES=0,1,2,3 python -m distinguisher.evaluate
+
 from guidance import models
-from distinguisher.models import (AggressiveSimple)
+from distinguisher.models import (AggressiveSimple, SimpleGPT, ReasoningGPT)
 import pandas as pd
 import os
 import datasets
-from utils import get_prompt_or_output, get_watermarked_text, get_nth_successful_perturbation
 from dotenv import load_dotenv, find_dotenv
 
-class AttackParser():
-    def __init__(self, file):
-        self.file = file
-        self.response = get_watermarked_text(self.file)
-    
-    def get_response(self):
-        return self.response
-    
-    def get_nth(self, n):
-        text = get_nth_successful_perturbation(self.file, n)
-        # clean up the text
-        text = text.replace("Revised Text:\n\n", "")
-        return text
+
         
     
 def get_file(entropy, output_num, attack_id):
@@ -38,11 +27,9 @@ Your expertise in linguistic analysis allows you to distinguish which responses 
 Your goal is to provide a clear, concise, and accurate assessment of the provided instructions.
 """
 
-response_A = AttackParser(get_file(6, 1, 3))
-response_B = AttackParser(get_file(6, 2, 4))
 
 trials = [
-    {"votes": 3, "mutations": 10, "class": AggressiveSimple, "origin_A": response_A, "origin_B": response_B, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf"},
+    {"votes": 5, "mutations": 50, "class": ReasoningGPT, "origin_A": response_A, "origin_B": response_B, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf"},
 ]
 
 for config in trials:
@@ -53,9 +40,9 @@ for config in trials:
                 n_gpu_layers=-1,
                 n_ctx=2048
             )
-        sd = config["class"](llm, distinguisher_persona, origin_A.get_response(), origin_B.get_response())
         origin_A = config["origin_A"]
         origin_B = config["origin_B"]
+        sd = config["class"](llm, distinguisher_persona, origin_A.get_response(), origin_B.get_response())
         dataset = []
         for n in range(config["mutations"]):
             dataset.append({
@@ -79,4 +66,3 @@ df["Response_A"] = response_A.get_response()
 df["Response_B"] = response_B.get_response()
 df.to_csv("./distinguisher/results/llama_cpp_test.csv")
 
-# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=0 python -m distinguisher.evaluate
