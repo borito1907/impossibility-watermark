@@ -10,7 +10,7 @@ def test(cfg):
     import time
     import textwrap
 
-    cfg.generator_args.model_name_or_path = 'facebook/opt-6.7b'
+    # cfg.generator_args.model_name_or_path = 'facebook/opt-6.7b'
 
     # TODO: Stupid workaround because I'm a bad programmer. - Boran
     # cfg.watermark_args.name = "adaptive_opt"

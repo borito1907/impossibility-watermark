@@ -48,26 +48,26 @@ class AdaptiveWatermarker(Watermarker):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         # This is from their Github.
-        if 'opt' in self.cfg.generator_args.model_name_or_path:
-            log.info(f"Using OPT as the generator.")
-            self.measure_tokenizer = AutoTokenizer.from_pretrained(self.cfg.watermark_args.measure_model_name)
-            self.measure_model = AutoModelForCausalLM.from_pretrained(self.cfg.watermark_args.measure_model_name, device_map='auto')
-            self.measure_model.eval()
+        # if 'opt' in self.cfg.generator_args.model_name_or_path:
+        # log.info(f"Using OPT as the generator.")
+        self.measure_tokenizer = AutoTokenizer.from_pretrained(self.cfg.watermark_args.measure_model_name)
+        self.measure_model = AutoModelForCausalLM.from_pretrained(self.cfg.watermark_args.measure_model_name, device_map='auto')
+        self.measure_model.eval()
 
-            # load semantic embedding model
-            self.embedding_model = SentenceTransformer(self.cfg.watermark_args.embedding_model_name).to(device)
-            self.embedding_model.eval()
+        # load semantic embedding model
+        self.embedding_model = SentenceTransformer(self.cfg.watermark_args.embedding_model_name).to(device)
+        self.embedding_model.eval()
 
-            # load semantic mapping model
-            self.transform_model = TransformModel()
-            # TODO: This path should be more flexible.
-            self.transform_model.load_state_dict(torch.load('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/transform_model.pth'))
-            self.transform_model.to(device)
-            self.transform_model.eval()
+        # load semantic mapping model
+        self.transform_model = TransformModel()
+        # TODO: This path should be more flexible.
+        self.transform_model.load_state_dict(torch.load('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/transform_model.pth'))
+        self.transform_model.to(device)
+        self.transform_model.eval()
 
-            # Load mapping list for the transform model
-            with open('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/mapping_opt.json', 'r') as f:
-                self.mapping_list = json.load(f)
+        # Load mapping list for the transform model
+        with open('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/mapping_opt.json', 'r') as f:
+            self.mapping_list = json.load(f)
 
         # TODO: Make it work with Llama.
         # if 'Llama' in self.cfg.generator_args.model_name_or_path:
