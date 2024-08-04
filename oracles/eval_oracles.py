@@ -5,7 +5,7 @@ import traceback
 from guidance import models 
 from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle,
-    PrometheusAbsoluteOracle, PrometheusRelativeOracle
+    PrometheusAbsoluteOracle, PrometheusRelativeOracle, BinaryOracle
 )
 from oracles.base import ResponseQuality
 
@@ -69,11 +69,13 @@ def run_eval():
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4o", "explain": True}, 
         # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
     ]
 
     tests_df = pd.read_csv("./data/lmsys-150-test-set.csv")
 
-    save_path = "./oracles/results/oracle_eval_prometheus.csv"
+    save_path = "./oracles/results/binary_test.csv"
 
     # Check if the save file already exists and load it
     try:

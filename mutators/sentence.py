@@ -5,6 +5,7 @@ import guidance
 from guidance import models, gen, select, user, assistant
 import hydra
 import logging
+import torch
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)

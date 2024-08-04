@@ -55,7 +55,7 @@ def eval(cfg):
     # sent_mutator = SentenceMutator(cfg.oracle_args)
     # span_mutator = SpanMutator()
     # word_mutator = WordMutator()
-    mutators = ["doc", "sent", "span", "word"]
+    mutators = [ "sent", "span", "word", "doc"]
 
     # Construct eval loop
     results = []
@@ -85,8 +85,12 @@ def eval(cfg):
 
                 # Mutate text
                 start = time.time()
+                # print(text)
+                # print(type(text))
                 try:
                     text = mutator.mutate(text)
+                    if mutator_name == "sent":
+                        text = text['mutated_text']
                 except Exception as e:
                     print("-"*20)
                     print(f"ERROR ERRO ERROR: {e}")
@@ -110,7 +114,7 @@ def eval(cfg):
                 # Incremental saving over time...
                 log.info("Saving results to csv...")
                 df = pd.DataFrame(results)
-                df.to_csv("./results/mutated_text.csv", index=False)
+                df.to_csv("./results/mutated_text2.csv", index=False)
         del mutator
         
 if __name__ == "__main__":
