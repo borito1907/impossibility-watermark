@@ -1,0 +1,830 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is a fully working C program that detects DLL injection using the Unlink PEB evasion tactic:
+```c++
+#include <windows.h>
+#include <tlhelp32.h>
+
+int main() {
+    HANDLE hProcessSnap;
+    PROCESSENTRY32 pe32;
+    DWORD dwPID = GetCurrentProcessId();
+    int count = 0;
+
+    hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwPID);
+    if (hProcessSnap == INVALID_HANDLE_VALUE) {
+        return 1;
+    }
+
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+
+    if (!Module32First(hProcessSnap, &pe32)) {
+        CloseHandle(hProcessSnap);
+        return 1;
+    }
+
+    do {
+        if (pe32.modBaseAddr!= GetModuleHandleA(pe32.szExePath)) {
+            count++;
+        }
+    } while (Module32Next(hProcessSnap, &pe32));
+
+    CloseHandle(hProcessSnap);
+
+    if (count > 0) {
+        printf(""DLL Injection Detected!",True,7,"1,4",True,1
+2,"
+
+Here is a C program that detects DLL injection using the `Unlink` method to evade detection by iterating through the Process Environment Block (PEB) and checking for inconsistencies:
+```c
+#include <Windows.h>
+#include <tlhelp32.h>
+#include <stdio.h>
+
+int main()
+{
+    PEB *peb = (PEB *)GetProcAddress(GetModuleHandle(""ntdll""), ""PEB"");
+    PEB_LDR_DATA *ldrData = peb->Ldr;
+    LIST_ENTRY *head = &ldrData->InMemoryOrderModuleList;
+    LIST_ENTRY *cur = head->Flink;
+
+    while (cur!= head)
+    {
+        LDR_DATA_TABLE_ENTRY *moduleEntry = CONTAINING_RECORD(cur, in LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks);
+        WCHAR moduleName[MAX_PATH];
+        GetModuleFileNameExW(GetCurrentProcess(), moduleEntry->DllBase, moduleName, MAX_PATH);
+
+        // Check if the module is not a system module
+        if (!GetModuleFileNameExW(GetCurrentProcess(), moduleEntry->DllBase, NULL, 0))
+        {
+            printf(""%ws is injected!\n"", moduleName);
+        }
+
+        cur = cur->Flink;
+    }
+
+    return 0;
+}
+```
+Note: This code requires administrative privileges to run.
+
+",True,5,"1,4",True,2
+3,"
+
+Here is a C program that detects DLL injection using the `Unlink` PEb evasion tactic:
+```c
+
+#include <Windows.h>
+#include <TlHelp32.h>
+
+DWORD WINAPI GetPidByName(PCWSTR szProcessName) {
+    PROCESSENTRY32 pe;
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnapshot == INVALID_HANDLE_VALUE) return 0;
+
+    pe.dwSize = sizeof(PROCESSENTRY32);
+    if (!Process32First(hSnapshot, &pe)) {
+        CloseHandle(hSnapshot);
+        return 0;
+    }
+
+    do {
+        if (!wcsncmp(pe.szExeFile, szProcessName, wcslen(szProcessName))) {
+            CloseHandle(hSnapshot);
+            return pe.th32ProcessID;
+        }
+    } while (Process32Next(hSnapshot, &pe));
+
+    CloseHandle(hSnapshot);
+    return 0;
+}
+
+int main() {
+    DWORD pid = GetCurrentProcessId();
+    HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+
+    if (!hProcess) {
+        printf(""Failed to open process\n"");
+        return -1;
+    }
+
+    HMODULE hModule;
+    WCHAR szProcessPath[MAX_PATH];
+    GetModuleFileNameExW(hProcess, NULL, szProcessPath, MAX_PATH);
+
+    MODULEENTRY32 me;
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid);
+    if (hSnapshot == INVALID_HANDLE_VALUE) {
+        printf(""Failed to create snapshot\n"");
+        return -1;
+    }
+
+    me.dwSize = sizeof(MODULEENTRY32);
+    if (!Module32First(hSnapshot, &me)) {
+        CloseHandle(hSnapshot);
+        CloseHandle(hProcess);
+        printf(""No modules found\n"");
+        return -1;
+    }
+
+    do {
+        if ((me.modBaseAddr!= NULL) && (me.modBaseAddr!= (HMODULE)0x7ff00000)) { // skip unloadable modules like kernel32.dll and friends)
+            WCHAR szModuleName[MAX_PATH];
+            GetModuleBaseNameW(hProcess, me.hModule, szModuleName, MAX_PATH);
+            printf(""%ws @ %p\n"", szModuleName, me.modBaseAddr);
+
+            // check if module has Unlink PEB flag set (indicates possible evasion attempt)
+            PEB* pPeb = (PEB*)GetThreadInformation(GetCurrentThreadId(), 0, 0);
+            if (pPeb->Reserved3[2] & 0x01) {
+                printf(""Suspicious module detected: %ws (%p)\n"", szModuleName, me.modBaseAddr);
+                // take action here (e.g., terminate process or alert user)
+            }
+        }
+    } while (Module32Next(hSnapshot, &me));
+
+    CloseHandle(hSnapshot);
+    CloseHandle(hProcess);
+    return 0;
+}
+```
+This program:
+
+1.",False,,,,3
+4,"
+
+Here is a C program that detects DLL injection using the `Unlink` technique to evade detection by checking the `InLoadedModulesList` of the Process Environment Block (PEB):
+```c++
+#include <Windows.h>
+#include <TlHelp32.h>
+
+int main()
+{
+    // Get the current process ID and snapshot of all modules in the system.
+   ",True,1,"1,4",True,4
+5," DWORD pid = GetCurrentProcessId();
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid);
+
+    // Check if the snapshot was created successfully.
+   ",True,6,"6,2",True,1
+6," if (hSnapshot == INVALID_HANDLE_VALUE) {
+        return 1;
+    }
+
+    // Initialize the MODULEENTRY32 structure.
+   ",True,4,"0,3",True,1
+7," if (hSnapshot == INVALID_HANDLE_VALUE) {
+        printf(""Failed to create snapshot.\n"");
+        return 1;
+    }
+
+    // Initialize the module structure to store information about each module.
+   ",True,4,"0,3",True,2
+8," if (hSnapshot == INVALID_HANDLE_VALUE)
+        return 1;
+
+    MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the system.
+   ",True,6,"0,3",True,3
+9," if (hSnapshot == INVALID_HANDLE_VALUE)
+    {
+        return 1;
+    }
+
+    // Initialize the MODULEENTRY32 structure.
+   ",True,4,"0,3",True,4
+10," if (hSnapshot == INVALID_HANDLE_VALUE)
+    {
+        printf(""Failed to create module snapshot.\n"");
+        return 1;
+    }
+
+    // Initialize the MODULEENTRY32 structure.
+   ",True,4,"0,3",True,5
+11," if (hSnapshot == INVALID_HANDLE_VALUE) {
+        return 1;
+    }
+
+    // Initialize the MODULEENTRY32 structure.
+   ",True,4,"0,3",True,6
+12," if (hSnapshot == INVALID_HANDLE_VALUE)
+        return 1;
+
+    // Initialize the module entry structure.
+   ",True,0,"0,3",True,7
+13," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,1
+14," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through the modules in the snapshot.
+   ",False,,,,2
+15," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over the modules in the snapshot.
+   ",False,,,,3
+16," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the snapshot.
+   ",True,3,"5,2",True,4
+17," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through each module in the snapshot.
+   ",True,3,"5,2",True,5
+18," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all loaded modules.
+   ",True,3,"5,2",True,6
+19," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through the list of modules.
+   ",True,3,"5,2",True,7
+20," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through the list of modules.
+   ",True,3,"5,2",True,8
+21," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the snapshot.
+   ",True,3,"5,2",True,9
+22," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,10
+23," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,11
+24," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,12
+25," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,13
+26," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the snapshot.
+   ",True,3,"5,2",True,14
+27," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,15
+28," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,16
+29," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through the list of modules in the snapshot.
+   ",True,3,"5,2",True,17
+30," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate through the list of loaded modules.
+   ",True,3,"5,2",True,18
+31," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,19
+32," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,20
+33," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,21
+34," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,22
+35," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through each module in the snapshot.
+   ",True,3,"5,2",True,23
+36," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate through the list of loaded modules.
+   ",True,3,"5,2",True,24
+37," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,25
+38," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,26
+39," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through the list of modules in the snapshot.
+   ",True,3,"5,2",True,27
+40," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,28
+41," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,29
+42," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through the list of loaded modules.
+   ",True,3,"5,2",True,30
+43," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,31
+44," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the snapshot.
+   ",True,3,"5,2",True,32
+45," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,33
+46," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,34
+47," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the snapshot.
+   ",True,3,"5,2",True,35
+48," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,36
+49," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,37
+50," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the snapshot.
+   ",True,3,"5,2",True,38
+51," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,39
+52," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,40
+53," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,41
+54," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,42
+55," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all loaded modules in the current process.
+   ",False,,,,43
+56," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the process.
+   ",False,,,,44
+57," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over each module in the snapshot.
+   ",False,,,,45
+58," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate through the list of loaded modules.
+   ",True,3,"5,2",True,46
+59," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,47
+60," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate all modules in the snapshot.
+   ",True,3,"5,2",True,48
+61," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all modules in the snapshot.
+   ",True,3,"5,2",True,49
+62," MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules in the snapshot.
+   ",True,3,"5,2",True,50
+63," Module32First(hSnapshot, &me);
+    do {
+        // Get the PEB for the current process.
+       ",True,5,"6,0",True,1
+64," Module32First(hSnapshot, &me);
+    do {
+        // Open the module's file handle for querying.
+       ",True,4,"6,0",True,2
+65," for (Module32First(hSnapshot, &me); Module32Next(hSnapshot, &me); )
+    {
+        // Open the module file to query its information.
+       ",True,7,"6,0",True,3
+66," Module32First(hSnapshot, &me);
+    do {
+        // Open the module's file handle.
+       ",True,4,"6,0",True,4
+67," Module32First(hSnapshot, &me);
+    do {
+        // Check if the module is loaded.
+       ",True,0,"6,0",True,5
+68," if (me.szModule[0]!= '\0') {
+            // Open the module file.
+           ",False,,,,1
+69," if (me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,2
+70," if (me.szModule[0]!= '\0' && me.modBaseAddr!= NULL) {
+            // Get the PEB address.
+           ",True,1,"5,2",True,3
+71," if (me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,4
+72," if (me.th32i.module!= NULL) {
+            // Open the module file.
+           ",True,1,"5,2",True,5
+73," if ((me.szModule[0]!= '\0') && (me.modBaseAddr!= NULL)) {
+            // Get the PEB address.
+           ",True,1,"5,2",True,6
+74," if (me.modBaseAddr!= NULL) {
+            // Get the PEB for the current process.
+           ",True,1,"5,2",True,7
+75, if,False,,,,8
+76," if (me.modBaseAddr!= NULL) {
+            // Get the PEB.
+           ",True,1,"5,2",True,9
+77," if (me.modBaseAddr!= NULL) {
+            // Get the PEB address.
+           ",True,1,"5,2",True,10
+78," if (me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,11
+79," if (me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,12
+80," if ((me.dwFlags & MODULE_ENTRY_FLAGS_LOADED)!= 0) {
+            // Get the PEB (Process Environment Block).
+           ",True,1,"5,2",True,13
+81," if (me.modBaseAddr!= NULL) {
+            // Get the PEB address.
+           ",True,1,"5,2",True,14
+82," if (me.modBaseAddr!= NULL) {
+            // Get the PEB for the current process.
+           ",True,1,"5,2",True,15
+83," if (me.th32i mdl == 0x10000000) { // 0x10000000 is the magic value for InLoadedModulesList being set.
+           ",True,1,"5,2",True,16
+84," if (me.th32i mdlst) {
+            // Get the base address of the module.
+           ",True,1,"5,2",True,17
+85," if (me.modBaseAddr!= NULL) {
+            // Open the module file.
+           ",False,,,,18
+86," if (me.modBaseAddr!= NULL) {
+            // Get the PEB.
+           ",True,1,"5,2",True,19
+87," if (me.modBaseAddr!= NULL) {
+            // Get the PEB.
+           ",True,1,"5,2",True,20
+88, if,False,,,,21
+89," if (me.modBaseAddr!= NULL) {
+            // Get the PEB for the current process.
+           ",True,1,"5,2",True,22
+90," if (me.szModule[0]!= '\0') {
+            // Get the base address of the module.
+           ",False,,,,23
+91," if (me.szModule[0]!= '\0' && me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",False,,,,24
+92, if,False,,,,25
+93," if ((me.modBaseAddr!= NULL) && (GetModuleFileNameEx(GetCurrentProcess(), me.hModule, 0, me.szExePath, MAX_PATH))) {
+            // Open the module handle to get its PE header.
+           ",True,0,"5,2",True,26
+94," if (me.modBaseAddr!= NULL) {
+            // Open the module's file.
+           ",True,0,"5,2",True,27
+95," if (me.th32i.modBaseAddr!= NULL) {
+            // Open the module file to get its path.
+           ",True,0,"5,2",True,28
+96," if (me.th32iModID!= 0) {
+            // Open the process to access its PEB.
+           ",True,1,"5,2",True,29
+97," if (me.modBaseAddr!= NULL) {
+            // Open the module's handle.
+           ",True,0,"5,2",True,30
+98," if (me.modBaseAddr!= NULL) {
+            // Get the PEB address.
+           ",True,1,"5,2",True,31
+99," if (me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,32
+100," if (me.modBaseAddr!= NULL) {
+            // Get the PEB.
+           ",True,1,"5,2",True,33
+101," if (me.modBaseAddr!= NULL) {
+            // Open the module file.
+           ",False,,,,34
+102," if (me.modBaseAddr!= NULL) {
+            // Get the PEB for the current process.
+           ",True,1,"5,2",True,35
+103," if (me.szModule[0]!= '\0') {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,36
+104," if (me.modBaseAddr!= NULL) {
+            // Get the PEB address from the TEB.
+           ",True,1,"5,2",True,37
+105," if ((me.modBaseAddr!= NULL) && (me.modBaseAddr!= (HMODULE)me.hModule))
+        {
+            // Open the module file.
+           ",True,0,"5,2",True,38
+106," if (me.modBaseAddr!= NULL) {
+            // Get the PEB.
+           ",True,1,"5,2",True,39
+107," if ((me.modBaseAddr!= NULL) && (me.modBaseSize!= 0)) {
+            // Open the module file for reading.
+           ",True,1,"5,2",True,40
+108," if (me.modBaseAddr!= NULL) {
+            // Get the PEB.
+           ",True,1,"5,2",True,41
+109," if (me.modBaseAddr!= NULL) {
+            // Get the PEB of the current process.
+           ",True,1,"5,2",True,42
+110," if (me.szModule[0]!= '\0') {
+            // Open the process to read its PEB.
+           ",True,1,"5,2",True,43
+111," if (me.modBaseAddr!= NULL) {
+            // Open the module file to check its PE header.
+           ",False,,,,44
+112," if (me.modBaseAddr!= NULL) {
+            // Get the PEB of the current process.
+           ",True,1,"5,2",True,45
+113," if (me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,46
+114," if (me.modBaseAddr!= NULL) {
+            // Open the process's PEB.
+           ",True,1,"5,2",True,47
+115," if ((me.dwFlags & MODULE_GLOBAL)!= MODULE_GLOBAL) continue;
+
+        // Open the module's file handle.
+       ",True,1,"5,2",True,48
+116," if (me.modBaseAddr!= NULL) {
+            // Open the process.
+           ",False,,,,49
+117," if (me.th32iModID!= 0) {
+            // Open the module file.
+           ",True,1,"5,2",True,50
+118," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module file into memory.
+               ",True,4,"6,2",True,1
+119," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FILE_SHARE_READ, FALSE, me.szExePath);
+            if (hModule!= NULL) {
+                // Get the PEB.
+               ",False,,,,2
+120," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, TO_UNICODE(me.szExePath), 0);
+            if (hModule!= NULL) {
+                // Map the module into our address space.
+               ",True,4,"6,2",True,3
+121," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, PAGES_READONLY, FALSE, me.szExePath, NULL);
+            if (hModule!= NULL) {
+                // Map the module into the address space.
+               ",True,4,"6,2",True,4
+122," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, false, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module into our address space.
+               ",True,4,"6,2",True,5
+123," HANDLE hFile = CreateFile(me.szExePath, &dwDesiredAccess,
+                FILE_SHARE_READ | FILE_SHARE_DELETE, NULL,
+                OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+            // Check if the file exists.
+           ",True,4,"6,2",True,6
+124," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, PFILE_MAPPED_SECTION, me.szExePath, 0);
+            if (hModule!= NULL) {
+                // Get the NT header of the PE file.
+               ",True,1,"6,2",True,7
+125," HANDLE hFile = CreateFileA(me.szExePath, ""r"", FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, 0, NULL);
+
+            // Check if the file was opened successfully.
+           ",False,,,,8
+126," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, TO_NATIVE_INSTANCE(me.szExePath));
+            if (hModule!= NULL) {
+                // Get the PEB address.
+               ",True,1,"6,2",True,9
+127," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, me.szExePath);
+
+            // Check if the module file was opened successfully.
+           ",True,0,"6,2",True,10
+128," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FILE_SHARE_READ, FALSE, me.szExePath);
+            if (hModule!= NULL) {
+                // Get the PEB.
+               ",False,,,,11
+129," WCHAR szModulePath[MAX_PATH];
+            GetModuleFileNameEx(GetCurrentProcess(), me.th32iModID, szModulePath, MAX_PATH);
+
+            // Check if the module is linked or not.
+           ",False,,,,12
+130," HANDLE hFile = CreateFileA(me.szExePath, OFFSET_MAX, FILE_SHARE_READ, GENERIC_READ, NULL);
+
+            // Check if the module file was opened successfully.
+           ",False,,,,13
+131," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, ME_TH32_modName, 0);
+            if (hModule!= NULL) {
+                // Map the module into the address space of our process.
+               ",True,4,"6,2",True,14
+132," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, NULL, me.szExePath);
+
+            // Check if the module file was opened successfully.
+           ",False,,,,15
+133," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, ToAscii(me.szExePath));
+            if (hModule!= NULL) {
+                // Get the PEB of the current process.
+               ",True,5,"6,2",True,16
+134," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, 'C', me.szExePath);
+            if (hModule!= NULL) {
+                // Get the PEB address from the NT global variable.
+               ",False,,,,17
+135," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, ToAscii(me.szExePath));
+            if (hModule!= NULL) {
+                // Map the module file into memory.
+               ",True,4,"6,2",True,18
+136," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module into memory.
+               ",True,4,"6,2",True,19
+137," HANDLE hFile = OpenFile(me.szExePath, PATH_MAX, OF_READ);
+            if (hFile!= INVALID_HANDLE_VALUE) {
+                // Map the module file into memory.
+               ",True,4,"6,2",True,20
+138," HANDLE hFile = OpenFile(me.szExePath, strlen(me.szExePath), GENERIC_READ, FILE_SHARE_READ, NULL);
+            if (hFile!= INVALID_HANDLE_VALUE) {
+                // Read the PE header from the module file.
+               ",True,5,"6,2",True,21
+139," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, ""Global\\\\"" + std::string(me.szModule));
+            if (hModule!= NULL) {
+                // Get the PEB address from the NT global variable.
+               ",False,,,,22
+140," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, false, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module into memory.
+               ",True,4,"6,2",True,23
+141," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, NULL, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module file into memory.
+               ",True,4,"6,2",True,24
+142," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module into memory.
+               ",True,4,"6,2",True,25
+143," HANDLE hModuleFile = CreateFile(me.szExePath, TEXT(""r""), 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+            if (hModuleFile!= INVALID_HANDLE_VALUE) {
+                // Get the module's PE header.
+               ",True,4,"6,2",True,26
+144," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, false, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module file into memory.
+               ",True,4,"6,2",True,27
+145," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, P AGE_READONLY, FALSE, me.szExePath, 0);
+            if (hModule!= NULL) {
+                // Get the module's PE header.
+               ",False,,,,28
+146," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, false, me.szExePath);
+
+            // Check if the module file was opened successfully.
+           ",True,0,"6,2",True,29
+147," HANDLE hFile = OpenFile(me.szExePath, sizeof(me.szExePath), GENERIC_READ, FILE_SHARE_READ, NULL);
+
+            // Check if the module file was opened successfully.
+           ",False,,,,30
+148," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, PAGE_READONLY, FALSE, me.szExePath, 0);
+            if (hModule!= NULL) {
+                // Map the module file into memory.
+               ",False,,,,31
+149," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, me.szExePath, 0);
+
+            // Check if the module file was opened successfully.
+           ",False,,,,32
+150," HANDLE hFile = CreateFile(me.szExePath, char[MAX_PATH], GENERIC_READ, FILE_SHARE_READ, NULL);
+
+            // If the file can't be opened, it might be hidden from us.
+           ",False,,,,33
+151," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, false, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module into our address space.
+               ",True,4,"6,2",True,34
+152," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, toUpper(me.szExePath));
+            if (hModule!= NULL) {
+                // Get the PEB address.
+               ",True,5,"6,2",True,35
+153," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, ""Global\\"" + std::string(me.szExePath), 0);
+
+            // Check if the module file was opened successfully.
+           ",True,4,"6,2",True,36
+154," TCHAR szModulePath[MAX_PATH];
+            GetModuleFileNameEx(GetCurrentProcess(), me.th32iModID, szModulePath, MAX_PATH);
+
+            // Get the PEB.
+           ",True,1,"6,2",True,37
+155," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, NULL, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module into our address space.
+               ",True,4,"6,2",True,38
+156," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, me.szExePath, 0);
+            if (hModule!= NULL) {
+                // Map the module into the address space of our process.
+               ",True,4,"6,2",True,39
+157," TCHAR szModuleFileName[MAX_PATH];
+            GetModuleFileName(me.hProcess, me.th32iModID, szModuleFileName, MAX_PATH);
+
+            // Read the PE header from the module file.
+           ",True,1,"6,2",True,40
+158," TCHAR szModulePath[MAX_PATH];
+            GetModuleFileNameEx(GetCurrentProcess(), me.hModule, szModulePath, MAX_PATH);
+
+            // Get the PEB.
+           ",True,1,"6,2",True,41
+159," HANDLE hModuleFile = CreateFile(me.szExePath, GetLastError(), 0, FILE_SHARE_READ | FILE_SHARE_DELETE, 0);
+            if (hModuleFile!= INVALID_HANDLE_VALUE) {
+                // Map the module into memory.
+               ",True,4,"6,2",True,42
+160," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, NULL, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module file into memory.
+               ",True,4,"6,2",True,43
+161," HANDLE hModule = OpenFileMapping(FILE_MAP_READ, FALSE, 0, me.szExePath);
+            if (hModule!= NULL) {
+                // Map the module into memory.
+               ",True,4,"6,2",True,44
+162," HANDLE hFile = CreateFile(me.szExePath, ULONG_MAX, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+            if (hFile!= INVALID_HANDLE_VALUE) {
+                // Get the file object and check its attributes.
+               ",True,4,"6,2",True,45
+163," TCHAR szModName[MAX_PATH];
+            GetModuleFileNameEx(GetCurrentProcess(), me.hModule, szModName, MAX_PATH);
+
+            // Get the PEB.
+           ",True,1,"6,2",True,46
+164," HANDLE hFile = CreateFile(me.szExePath, WCHAR(NULL), GENERIC_READ, FILE_SHARE_READ, NULL);
+            if (hFile!= INVALID_HANDLE_VALUE) {
+                // Read the PE header.
+               ",True,5,"6,2",True,47
+165," HANDLE hFile = CreateFile(me.szExePath, strLen(me.szExePath)), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+
+            // Check if the file was opened successfully.
+           ",True,6,"6,2",True,48

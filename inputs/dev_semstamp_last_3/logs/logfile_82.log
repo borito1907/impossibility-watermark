@@ -1,0 +1,2183 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-07-30 02:52:29,423][__main__][INFO] - Starting to watermark...
+[2024-07-30 02:52:29,431][__main__][INFO] - Prompt: A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?
+[2024-07-30 02:52:29,431][__main__][INFO] - Prompt ID: 3234214630
+[2024-07-30 02:52:29,431][__main__][INFO] - Getting the watermarker...
+[2024-07-30 02:52:29,431][watermarker][INFO] - Using device: cuda:0
+[2024-07-30 02:52:29,431][model_builders.pipeline][INFO] - Initializing MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+INFO - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
+[2024-07-30 02:52:29,623][auto_gptq.modeling._base][INFO] - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
+INFO - The layer lm_head is not quantized.
+[2024-07-30 02:52:30,081][auto_gptq.modeling._base][INFO] - The layer lm_head is not quantized.
+[2024-07-30 02:52:32,942][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+The model 'LlamaGPTQForCausalLM' is not supported for text-generation. Supported models are ['BartForCausalLM', 'BertLMHeadModel', 'BertGenerationDecoder', 'BigBirdForCausalLM', 'BigBirdPegasusForCausalLM', 'BioGptForCausalLM', 'BlenderbotForCausalLM', 'BlenderbotSmallForCausalLM', 'BloomForCausalLM', 'CamembertForCausalLM', 'LlamaForCausalLM', 'CodeGenForCausalLM', 'CohereForCausalLM', 'CpmAntForCausalLM', 'CTRLLMHeadModel', 'Data2VecTextForCausalLM', 'DbrxForCausalLM', 'ElectraForCausalLM', 'ErnieForCausalLM', 'FalconForCausalLM', 'FuyuForCausalLM', 'GemmaForCausalLM', 'Gemma2ForCausalLM', 'GitForCausalLM', 'GPT2LMHeadModel', 'GPT2LMHeadModel', 'GPTBigCodeForCausalLM', 'GPTNeoForCausalLM', 'GPTNeoXForCausalLM', 'GPTNeoXJapaneseForCausalLM', 'GPTJForCausalLM', 'JambaForCausalLM', 'JetMoeForCausalLM', 'LlamaForCausalLM', 'MambaForCausalLM', 'MarianForCausalLM', 'MBartForCausalLM', 'MegaForCausalLM', 'MegatronBertForCausalLM', 'MistralForCausalLM', 'MixtralForCausalLM', 'MptForCausalLM', 'MusicgenForCausalLM', 'MusicgenMelodyForCausalLM', 'MvpForCausalLM', 'OlmoForCausalLM', 'OpenLlamaForCausalLM', 'OpenAIGPTLMHeadModel', 'OPTForCausalLM', 'PegasusForCausalLM', 'PersimmonForCausalLM', 'PhiForCausalLM', 'Phi3ForCausalLM', 'PLBartForCausalLM', 'ProphetNetForCausalLM', 'QDQBertLMHeadModel', 'Qwen2ForCausalLM', 'Qwen2MoeForCausalLM', 'RecurrentGemmaForCausalLM', 'ReformerModelWithLMHead', 'RemBertForCausalLM', 'RobertaForCausalLM', 'RobertaPreLayerNormForCausalLM', 'RoCBertForCausalLM', 'RoFormerForCausalLM', 'RwkvForCausalLM', 'Speech2Text2ForCausalLM', 'StableLmForCausalLM', 'Starcoder2ForCausalLM', 'TransfoXLLMHeadModel', 'TrOCRForCausalLM', 'WhisperForCausalLM', 'XGLMForCausalLM', 'XLMWithLMHeadModel', 'XLMProphetNetForCausalLM', 'XLMRobertaForCausalLM', 'XLMRobertaXLForCausalLM', 'XLNetLMHeadModel', 'XmodForCausalLM'].
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
+  warn_deprecated(
+[2024-07-30 02:52:48,696][watermarkers.semstamp][INFO] - Setting up generating components...
+[2024-07-30 02:52:48,700][watermarkers.semstamp][INFO] - {'max_new_tokens': 1024, 'do_sample': True, 'temperature': 1, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'bad_words_ids': [[198]], 'min_new_tokens': 245}
+[2024-07-30 02:52:48,700][watermarkers.semstamp][INFO] - Initializing embedder model.
+[2024-07-30 02:52:48,700][watermarkers.semstamp][INFO] - Using the generic SentenceTransformer...
+[2024-07-30 02:52:48,700][sentence_transformers.SentenceTransformer][INFO] - Use pytorch device_name: cuda
+[2024-07-30 02:52:48,700][sentence_transformers.SentenceTransformer][INFO] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v1
+[2024-07-30 02:52:49,751][watermarkers.semstamp][INFO] - Finished initializing embedder model.
+initializing random projection LSH model
+loading SBERT base model...
+[2024-07-30 02:52:49,752][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 82, 'is_completion': False, 'generation_stats_file_path': './inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv', 'watermarked_text_file_name': None, 'generator_args': {'model_name_or_path': 'MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ', 'revision': 'main', 'model_cache_dir': './.cache/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 1024, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0}, 'watermark_args': {'name': 'semstamp_lsh', 'gamma': 0.25, 'delta': 0.01, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'cuda', 'only_detect': False, 'embedder': '', 'sp_mode': 'lsh', 'sp_dim': 3, 'lmbd': 0.25, 'max_new_tokens': 255, 'min_new_tokens': 245, 'max_trials': 50, 'critical_max_trials': 75, 'cc_path': '', 'train_data': '', 'len_prompt': 32, 'use_fine_tuned': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}, 'watermarked_text_file_path': './inputs/dev_semstamp_last_3/watermarked_texts.csv'}
+[2024-07-30 02:52:49,752][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-07-30 02:52:49,752][watermarkers.semstamp][INFO] - Passing the following prompt to the LSH reject completion function:
+ A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.18it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.18it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token.As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[2024-07-30 02:52:51,821][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's use some basic physics to solve this problem.
+
+
+[2024-07-30 02:52:51,822][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 83.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.02it/s]
+[2024-07-30 02:52:51,851][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:52:51,851][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:52:51,851][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:52:51,851][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:52:53,472][watermarkers.semstamp][INFO] - Candidate text: 
+
+To solve this problem, we can use the concept of conservation of energy. 
+
+
+[2024-07-30 02:52:53,473][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.18it/s]
+[2024-07-30 02:52:53,494][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-07-30 02:52:53,494][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:52:53,494][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:52:53,494][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:52:54,312][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic problem!
+
+
+[2024-07-30 02:52:54,313][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.98it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:52:55,142][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic problem!
+
+
+[2024-07-30 02:52:55,142][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.32it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:52:57,987][watermarkers.semstamp][INFO] - Candidate text: 
+
+To find the skier's speed at the bottom, to conserve energy, we can use the concept that potential energy (PE) is converted into kinetic energy (KE).
+
+
+[2024-07-30 02:52:57,987][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 120.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.56it/s]
+[2024-07-30 02:52:58,009][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:52:58,009][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:52:58,009][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:52:58,009][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:52:59,229][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's break this problem down step by step.
+
+
+[2024-07-30 02:52:59,229][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.35it/s]
+[2024-07-30 02:52:59,250][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:52:59,250][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:52:59,250][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:52:59,250][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:00,809][watermarkers.semstamp][INFO] - Candidate text: 
+
+To find the skier's speed at the bottom, to conserve energy.
+
+
+[2024-07-30 02:53:00,809][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.96it/s]
+[2024-07-30 02:53:00,831][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:00,831][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:00,831][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:00,831][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:01,717][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:01,717][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.28it/s]
+[2024-07-30 02:53:01,738][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:01,738][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:01,738][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:01,738][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:03,294][watermarkers.semstamp][INFO] - Candidate text: 
+
+To solve this problem, we can use the concept of conservation of energy.
+[2024-07-30 02:53:03,294][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.64it/s]
+[2024-07-30 02:53:03,315][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-07-30 02:53:03,316][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:03,316][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:03,316][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:04,268][watermarkers.semstamp][INFO] - Candidate text: 
+
+Sounds like a fun problem!
+
+
+[2024-07-30 02:53:04,269][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.46it/s]
+[2024-07-30 02:53:04,289][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:04,289][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:04,289][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:04,289][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:05,178][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:05,179][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.88it/s]
+[2024-07-30 02:53:05,199][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:05,200][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:05,200][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:05,200][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:06,152][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic problem in physics!
+
+
+[2024-07-30 02:53:06,152][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 130.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.89it/s]
+[2024-07-30 02:53:06,173][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:06,173][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:06,173][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:06,173][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:07,394][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's use some physics to solve this problem.
+
+
+[2024-07-30 02:53:07,394][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.84it/s]
+[2024-07-30 02:53:07,415][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:07,415][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:07,415][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:07,415][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:08,301][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:08,301][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.19it/s]
+[2024-07-30 02:53:08,323][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:08,323][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:08,323][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:08,323][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:09,142][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic problem!
+
+
+[2024-07-30 02:53:09,142][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 131.16it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:10,375][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's break this problem down step by step.
+
+
+[2024-07-30 02:53:10,375][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.18it/s]
+[2024-07-30 02:53:10,396][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:10,396][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:10,396][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:10,396][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:11,952][watermarkers.semstamp][INFO] - Candidate text: 
+
+To solve this problem, we can use the concept of conservation of energy.
+[2024-07-30 02:53:11,952][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.63it/s]
+[2024-07-30 02:53:11,973][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-07-30 02:53:11,973][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:11,973][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:11,973][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:12,859][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:12,859][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.14it/s]
+[2024-07-30 02:53:12,879][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:12,880][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:12,880][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:12,880][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:13,767][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:13,768][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.73it/s]
+[2024-07-30 02:53:13,788][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:13,788][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:13,789][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:13,789][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:15,009][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's break this problem down step by step.
+
+
+[2024-07-30 02:53:15,009][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.88it/s]
+[2024-07-30 02:53:15,030][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:15,030][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:15,030][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:15,030][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:15,983][watermarkers.semstamp][INFO] - Candidate text: 
+
+Sounds like a fun problem!
+
+
+[2024-07-30 02:53:15,984][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.76it/s]
+[2024-07-30 02:53:16,004][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:16,004][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:16,004][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:16,004][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:17,227][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's use some physics to solve this problem.
+
+
+[2024-07-30 02:53:17,228][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.86it/s]
+[2024-07-30 02:53:17,248][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:17,248][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:17,249][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:17,249][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:18,201][watermarkers.semstamp][INFO] - Candidate text: 
+
+Sounds like a fun problem!
+[2024-07-30 02:53:18,202][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 130.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.65it/s]
+[2024-07-30 02:53:18,222][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:18,222][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:18,222][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:18,222][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:19,779][watermarkers.semstamp][INFO] - Candidate text: 
+
+To solve this problem, we can use the concept of conservation of energy.
+
+
+[2024-07-30 02:53:19,780][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.84it/s]
+[2024-07-30 02:53:19,800][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-07-30 02:53:19,801][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:19,801][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:19,801][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:21,357][watermarkers.semstamp][INFO] - Candidate text: 
+
+To solve this problem, we can use the concept of conservation of energy.
+
+
+[2024-07-30 02:53:21,357][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.96it/s]
+[2024-07-30 02:53:21,378][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-07-30 02:53:21,378][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:21,378][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:21,378][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:22,937][watermarkers.semstamp][INFO] - Candidate text: 
+
+To solve this problem, we can use the concept of conservation of energy.
+[2024-07-30 02:53:22,938][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.34it/s]
+[2024-07-30 02:53:22,959][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-07-30 02:53:22,959][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:22,959][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:22,959][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:23,779][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic problem!
+
+
+[2024-07-30 02:53:23,779][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 131.29it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:24,675][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:24,676][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.35it/s]
+[2024-07-30 02:53:24,696][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:24,696][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:24,696][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:24,697][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:25,920][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's use some physics to solve this problem.
+
+
+[2024-07-30 02:53:25,920][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.88it/s]
+[2024-07-30 02:53:25,941][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:25,941][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:25,941][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:25,941][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:26,827][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:26,827][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 130.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.45it/s]
+[2024-07-30 02:53:26,848][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:26,848][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:26,848][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:26,848][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:27,734][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:27,734][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 139.04it/s]
+[2024-07-30 02:53:27,755][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:27,755][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:27,755][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:27,755][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:28,641][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:28,641][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.24it/s]
+[2024-07-30 02:53:28,661][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:28,661][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:28,662][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:28,662][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:29,682][watermarkers.semstamp][INFO] - Candidate text: 
+
+Sounds like an exciting skiing adventure!
+
+
+[2024-07-30 02:53:29,682][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.37it/s]
+[2024-07-30 02:53:29,703][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-30 02:53:29,703][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:29,703][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:29,703][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:30,658][watermarkers.semstamp][INFO] - Candidate text: 
+
+Sounds like a fun problem!
+
+
+[2024-07-30 02:53:30,659][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 139.08it/s]
+[2024-07-30 02:53:30,679][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:30,679][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:30,680][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:30,680][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:31,566][watermarkers.semstamp][INFO] - Candidate text: 
+
+What a thrilling question!
+
+
+[2024-07-30 02:53:31,567][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.04it/s]
+[2024-07-30 02:53:31,587][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:31,587][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:31,587][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:31,587][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:33,145][watermarkers.semstamp][INFO] - Candidate text: 
+
+To solve this problem, we can use the concept of conservation of energy.
+[2024-07-30 02:53:33,145][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.44it/s]
+[2024-07-30 02:53:33,166][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-07-30 02:53:33,166][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:33,166][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:33,166][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:34,053][watermarkers.semstamp][INFO] - Candidate text: 
+
+What a thrilling question!
+
+
+[2024-07-30 02:53:34,053][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.40it/s]
+[2024-07-30 02:53:34,074][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:34,074][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:34,074][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:34,074][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:35,296][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's break this problem down step by step.
+
+
+[2024-07-30 02:53:35,296][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.55it/s]
+[2024-07-30 02:53:35,317][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:35,318][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:35,318][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:35,318][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:36,204][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:36,204][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.76it/s]
+[2024-07-30 02:53:36,224][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:36,225][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:36,225][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:36,225][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:37,446][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's break this problem down step by step.
+
+
+[2024-07-30 02:53:37,446][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.73it/s]
+[2024-07-30 02:53:37,467][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:37,467][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:37,467][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:37,467][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:38,691][watermarkers.semstamp][INFO] - Candidate text: 
+
+Let's break this problem down step by step.
+
+
+[2024-07-30 02:53:38,691][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.57it/s]
+[2024-07-30 02:53:38,712][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:38,712][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:38,712][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:38,712][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:39,599][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:39,599][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.60it/s]
+[2024-07-30 02:53:39,619][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:39,619][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:39,620][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:39,620][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:40,506][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:40,506][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.93it/s]
+[2024-07-30 02:53:40,526][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:40,527][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:40,527][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:40,527][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:41,413][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic physics problem!
+
+
+[2024-07-30 02:53:41,414][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.82it/s]
+[2024-07-30 02:53:41,434][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:41,435][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:41,435][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:41,435][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:42,388][watermarkers.semstamp][INFO] - Candidate text: 
+
+A classic problem in physics!
+
+
+[2024-07-30 02:53:42,388][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.99it/s]
+[2024-07-30 02:53:42,408][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:42,409][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:42,409][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:42,409][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:43,431][watermarkers.semstamp][INFO] - Candidate text: 
+
+Sounds like an exciting ski run!
+
+
+[2024-07-30 02:53:43,431][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.69it/s]
+[2024-07-30 02:53:43,452][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:53:43,452][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-30 02:53:43,452][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:43,452][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:43,454][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+
+[2024-07-30 02:53:43,454][watermarkers.semstamp][INFO] - Text has 2 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-30 02:53:45,353][watermarkers.semstamp][INFO] - Candidate text: To find the skier's speed at the bottom, we can use the concept of conservation of energy.
+[2024-07-30 02:53:45,353][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.21it/s]
+[2024-07-30 02:53:45,374][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:45,374][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:45,374][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:45,374][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:47,272][watermarkers.semstamp][INFO] - Candidate text: To find the skier's speed at the bottom, we can use the concept of conservation of energy.
+[2024-07-30 02:53:47,272][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.25it/s]
+[2024-07-30 02:53:47,294][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:47,294][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:47,294][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:47,294][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:49,191][watermarkers.semstamp][INFO] - Candidate text: To find the skier's speed at the bottom, we can use the concept of conservation of energy.
+[2024-07-30 02:53:49,192][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.39it/s]
+[2024-07-30 02:53:49,213][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:49,213][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:49,213][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:49,213][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:51,111][watermarkers.semstamp][INFO] - Candidate text: To find the skier's speed at the bottom, we can use the concept of conservation of energy.
+[2024-07-30 02:53:51,112][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.99it/s]
+[2024-07-30 02:53:51,132][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:51,132][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:51,133][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:51,133][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:53,030][watermarkers.semstamp][INFO] - Candidate text: To calculate the skier's speed at the bottom, we can use the concept of conservation of energy.
+[2024-07-30 02:53:53,031][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.01it/s]
+[2024-07-30 02:53:53,052][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:53,052][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:53,052][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:53,052][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:54,278][watermarkers.semstamp][INFO] - Candidate text: Let's break it down step by step:
+
+1.
+[2024-07-30 02:53:54,278][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.71it/s]
+[2024-07-30 02:53:54,299][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-07-30 02:53:54,299][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:54,299][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:54,299][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:56,197][watermarkers.semstamp][INFO] - Candidate text: To find the skier's speed at the bottom, we can use the concept of conservation of energy.
+[2024-07-30 02:53:56,197][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.18it/s]
+[2024-07-30 02:53:56,217][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:53:56,218][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:53:56,218][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:56,218][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:58,183][watermarkers.semstamp][INFO] - Candidate text: Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+
+[2024-07-30 02:53:58,183][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.74it/s]
+[2024-07-30 02:53:58,204][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:53:58,204][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-30 02:53:58,204][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:53:58,204][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:53:58,206][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+
+[2024-07-30 02:53:58,206][watermarkers.semstamp][INFO] - Text has 3 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-30 02:54:00,330][watermarkers.semstamp][INFO] - Candidate text: At the top of the slope, the skier has potential energy (PE) due to their height above the ground.
+[2024-07-30 02:54:00,331][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.20it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:06,058][watermarkers.semstamp][INFO] - Candidate text: Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+
+[2024-07-30 02:54:06,059][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 112.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.23it/s]
+[2024-07-30 02:54:06,081][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:54:06,081][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-30 02:54:06,081][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:06,081][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:06,083][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+
+[2024-07-30 02:54:06,084][watermarkers.semstamp][INFO] - Text has 4 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-30 02:54:08,305][watermarkers.semstamp][INFO] - Candidate text: At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+
+[2024-07-30 02:54:08,306][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.66it/s]
+[2024-07-30 02:54:08,327][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:54:08,328][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-30 02:54:08,328][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:08,328][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:08,330][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+
+[2024-07-30 02:54:08,330][watermarkers.semstamp][INFO] - Text has 5 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-30 02:54:10,181][watermarkers.semstamp][INFO] - Candidate text: As the skier slides down the slope, their potential energy is converted into kinetic energy.
+[2024-07-30 02:54:10,182][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.05it/s]
+[2024-07-30 02:54:10,203][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:54:10,203][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-30 02:54:10,203][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:10,203][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:10,205][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+As the skier slides down the slope, their potential energy is converted into kinetic energy.
+[2024-07-30 02:54:10,206][watermarkers.semstamp][INFO] - Text has 6 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-30 02:54:12,162][watermarkers.semstamp][INFO] - Candidate text:  At the bottom of the slope, all the potential energy has been converted into kinetic energy.
+
+
+[2024-07-30 02:54:12,162][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.07it/s]
+[2024-07-30 02:54:12,183][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:54:12,183][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-30 02:54:12,184][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:12,184][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:12,185][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+As the skier slides down the slope, their potential energy is converted into kinetic energy. At the bottom of the slope, all the potential energy has been converted into kinetic energy.
+
+
+[2024-07-30 02:54:12,186][watermarkers.semstamp][INFO] - Text has 7 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-30 02:54:16,847][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:16,848][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 115.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.94it/s]
+[2024-07-30 02:54:16,870][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:16,870][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:16,870][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:16,870][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:20,700][watermarkers.semstamp][INFO] - Candidate text: We can set up the equation:
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:20,701][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.89it/s]
+[2024-07-30 02:54:20,722][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:20,722][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:20,722][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:20,722][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:24,484][watermarkers.semstamp][INFO] - Candidate text: We can set up the equation:
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:24,484][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.85it/s]
+[2024-07-30 02:54:24,505][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:24,505][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:24,505][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:24,505][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:29,167][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:29,168][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 96.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.80it/s]
+[2024-07-30 02:54:29,192][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:29,192][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:29,192][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:29,192][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:33,852][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:33,853][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.58it/s]
+[2024-07-30 02:54:33,875][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:33,876][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:33,876][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:33,876][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:38,606][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:38,606][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 109.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.96it/s]
+[2024-07-30 02:54:38,629][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:38,629][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:38,630][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:38,630][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:42,946][watermarkers.semstamp][INFO] - Candidate text: So, let's set up the equation:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:42,946][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 108.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.37it/s]
+[2024-07-30 02:54:42,969][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:42,969][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:42,969][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:42,969][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:47,699][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:47,700][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 49.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 116.68it/s]
+[2024-07-30 02:54:47,735][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:47,735][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:47,735][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:47,735][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:52,476][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:52,477][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 105.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.07it/s]
+[2024-07-30 02:54:52,500][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:52,500][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:52,500][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:52,501][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:54:56,196][watermarkers.semstamp][INFO] - Candidate text: We can set up the equation:
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:54:56,196][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 132.55it/s]
+[2024-07-30 02:54:56,218][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:54:56,219][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:54:56,219][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:54:56,219][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:00,536][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:00,536][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 107.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.85it/s]
+[2024-07-30 02:55:00,560][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:00,560][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:00,560][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:00,560][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:05,365][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = 0.5 × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:05,365][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 109.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.06it/s]
+[2024-07-30 02:55:05,388][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:05,388][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:05,389][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:05,389][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:10,051][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:10,052][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.80it/s]
+[2024-07-30 02:55:10,075][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:10,075][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:10,075][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:10,075][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:14,875][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:14,876][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 109.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.12it/s]
+[2024-07-30 02:55:14,899][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:14,899][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:14,899][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:14,899][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:19,097][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation:
+
+Initial PE = Final KE
+
+m × g × h = 0.5 × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:19,098][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.77it/s]
+[2024-07-30 02:55:19,119][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:19,119][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:19,119][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:19,119][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:23,447][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation based on the law of conservation of energy:
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:23,447][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.84it/s]
+[2024-07-30 02:55:23,470][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:23,470][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:23,471][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:23,471][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:27,861][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:27,861][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 109.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.68it/s]
+[2024-07-30 02:55:27,884][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:27,884][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:27,884][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:27,884][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:32,620][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:32,620][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.00it/s]
+[2024-07-30 02:55:32,643][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:32,643][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:32,644][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:32,644][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:36,268][watermarkers.semstamp][INFO] - Candidate text: So, we can set up the equation:
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:36,268][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.10it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:39,835][watermarkers.semstamp][INFO] - Candidate text: We can set up the equation:
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:39,835][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.21it/s]
+[2024-07-30 02:55:39,856][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:39,856][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:39,857][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:39,857][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:44,518][watermarkers.semstamp][INFO] - Candidate text: Let's set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:44,518][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 109.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.85it/s]
+[2024-07-30 02:55:44,541][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:44,541][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:44,541][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:44,541][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:49,065][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation based on the law of conservation of energy:
+
+PE_top = KE_bottom
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:49,065][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 108.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.17it/s]
+[2024-07-30 02:55:49,088][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:49,089][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:49,089][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:49,089][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:53,891][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:53,891][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 107.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.63it/s]
+[2024-07-30 02:55:53,914][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:53,915][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:53,915][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:53,915][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:55:58,646][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:55:58,646][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 107.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.39it/s]
+[2024-07-30 02:55:58,669][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:55:58,669][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:55:58,670][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:55:58,670][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:03,332][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = 0.5 × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:03,332][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.15it/s]
+[2024-07-30 02:56:03,355][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:03,355][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:03,355][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:03,355][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:07,187][watermarkers.semstamp][INFO] - Candidate text: So, we can set up the following equation:
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:07,187][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.13it/s]
+[2024-07-30 02:56:07,208][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:07,208][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:07,208][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:07,208][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:11,178][watermarkers.semstamp][INFO] - Candidate text: We can set up the equation:
+
+PE_top = KE_bottom
+
+m × g × h = (1/2) × m × v^2
+
+where v is the velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:11,178][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 111.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.59it/s]
+[2024-07-30 02:56:11,201][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:11,201][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:11,201][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:11,201][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:15,862][watermarkers.semstamp][INFO] - Candidate text: Let's set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:15,863][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 111.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.22it/s]
+[2024-07-30 02:56:15,885][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:15,886][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:15,886][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:15,886][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:20,755][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:20,756][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.47it/s]
+[2024-07-30 02:56:20,778][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:20,779][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:20,779][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:20,779][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:25,440][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = 0.5 × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:25,441][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.79it/s]
+[2024-07-30 02:56:25,464][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:25,464][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:25,464][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:25,464][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:29,573][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation based on the law of conservation of energy:
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:29,573][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.58it/s]
+[2024-07-30 02:56:29,596][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:29,596][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:29,596][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:29,596][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:33,498][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation:
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:33,499][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.52it/s]
+[2024-07-30 02:56:33,521][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:33,522][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:33,522][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:33,522][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:38,184][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:38,184][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.50it/s]
+[2024-07-30 02:56:38,207][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:38,207][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:38,207][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:38,207][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:42,801][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = ½ × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:42,801][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 109.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.66it/s]
+[2024-07-30 02:56:42,824][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:42,824][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:42,824][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:42,824][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:47,417][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = 0.5 × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:47,417][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 116.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.96it/s]
+[2024-07-30 02:56:47,439][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:47,439][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:47,439][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:47,439][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:51,963][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the conservation of energy principle:
+
+Initial PE = Final KE
+
+m × g × h = 0.5 × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:51,963][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.64it/s]
+[2024-07-30 02:56:51,985][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:51,985][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:51,985][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:51,985][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:56:56,301][watermarkers.semstamp][INFO] - Candidate text: So, we can set up the equation:
+
+PE_top = KE_bottom
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:56:56,302][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 117.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.67it/s]
+[2024-07-30 02:56:56,324][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:56:56,324][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:56:56,324][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:56:56,324][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:00,156][watermarkers.semstamp][INFO] - Candidate text: So, we can set up the equation:
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:00,156][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.28it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:04,833][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:04,834][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 116.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.94it/s]
+[2024-07-30 02:57:04,855][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:04,856][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:04,856][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:04,856][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:09,519][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:09,519][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 117.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.29it/s]
+[2024-07-30 02:57:09,541][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:09,541][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:09,542][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:09,542][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:13,512][watermarkers.semstamp][INFO] - Candidate text: So, we can set up the equation:
+
+m × g × h = (1/2) × m × v^2
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:13,512][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 115.30it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:18,187][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the principle of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:18,188][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.24it/s]
+[2024-07-30 02:57:18,209][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:18,210][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:18,210][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:18,210][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:22,180][watermarkers.semstamp][INFO] - Candidate text: So, we can set up the following equation:
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:22,181][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 117.78it/s]
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:26,163][watermarkers.semstamp][INFO] - Candidate text: We can set up the equation:
+
+PE_top = KE_bottom
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:26,164][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.76it/s]
+[2024-07-30 02:57:26,185][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:26,185][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:26,185][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:26,185][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:30,847][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:30,848][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.45it/s]
+[2024-07-30 02:57:30,869][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:30,869][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:30,869][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:30,869][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:35,600][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:35,600][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 116.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.06it/s]
+[2024-07-30 02:57:35,622][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:35,622][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:35,622][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:35,622][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:40,215][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:40,215][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.49it/s]
+[2024-07-30 02:57:40,236][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:40,237][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:40,237][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:40,237][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:43,999][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation:
+
+m × g × h = (1/2) × m × v²
+
+where v is the velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:43,999][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.08it/s]
+[2024-07-30 02:57:44,020][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:44,020][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:44,020][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:44,020][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:48,543][watermarkers.semstamp][INFO] - Candidate text: We can set up the following equation using the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = ½ × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:48,543][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 114.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.87it/s]
+[2024-07-30 02:57:48,565][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:48,565][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:48,566][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:48,566][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:53,296][watermarkers.semstamp][INFO] - Candidate text: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:53,297][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 117.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.35it/s]
+[2024-07-30 02:57:53,318][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-07-30 02:57:53,318][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:57:53,318][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-07-30 02:57:53,319][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:57:53,320][watermarkers.semstamp][INFO] - WARNING: desired semantic signature can't be sampled after max_trials 50
+[2024-07-30 02:57:53,320][watermarkers.semstamp][INFO] - CONTEXT: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+As the skier slides down the slope, their potential energy is converted into kinetic energy. At the bottom of the slope, all the potential energy has been converted into kinetic energy.
+
+
+[2024-07-30 02:57:53,320][watermarkers.semstamp][INFO] - NOTE: use regular (non-filtered-by-sig) continuation: We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:53,320][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+As the skier slides down the slope, their potential energy is converted into kinetic energy. At the bottom of the slope, all the potential energy has been converted into kinetic energy.
+
+We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+
+[2024-07-30 02:57:53,321][watermarkers.semstamp][INFO] - Text has 8 sentences.
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-07-30 02:58:05,803][watermarkers.semstamp][INFO] - Candidate text: Now, let's plug in the values:
+
+9.8 m/s² × 40 m = (1/2) × v²
+
+Simplify the equation:
+
+392 = (1/2) × v²
+
+Multiply both sides by 2 to eliminate the fraction:
+
+784 = v²
+
+Take the square root of both sides:
+
+v ≈ √784 ≈ 28 m/s
+
+So, the skier's speed at the bottom of the slope is approximately 28 meters per second!assistant
+
+Note: The length of the slope (80m) isn't needed for this calculation, as the problem only involves the conversion of potential energy into kinetic energy, which depends on the height of the slope.assistant
+
+I'm glad I could help you with that ski-related physics problem!
+[2024-07-30 02:58:05,803][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 106.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.58it/s]
+[2024-07-30 02:58:05,827][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:58:05,827][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:58:05,827][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-07-30 02:58:05,827][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:58:14,129][watermarkers.semstamp][INFO] - Candidate text: Simplifying the equation by canceling out the mass (m) and rearranging to solve for v,:
+
+v = √(2 × g × h)
+
+Plugging in the values:
+
+v = √(2 × 9.8 m/s² × 40 m)
+v ≈ 28.07 m/s
+
+So, the skier's speed at the bottom of the frictionless slope is approximately 28.07 m/s or 63.4 mph!assistant
+
+I hope that helps!
+[2024-07-30 02:58:14,130][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 107.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 129.81it/s]
+[2024-07-30 02:58:14,153][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:58:14,153][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:58:14,153][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-07-30 02:58:14,153][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:58:26,911][watermarkers.semstamp][INFO] - Candidate text: Now, let's plug in the values and simplify:
+
+g × h = (1/2) × v²
+
+9.8 m/s² × 40 m = (1/2) × v²
+
+391.2 = (1/2) × v²
+
+Multiply both sides by 2 to get rid of the fraction:
+
+782.4 = v²
+
+Take the square root of both sides to find the final velocity (speed):
+
+v ≈ √782.4 ≈ 28.0 m/s
+
+So, to answer your question, the skier's speed at the bottom of the frictionless slope is approximately 28.0 meters per second!assistant
+
+Let me know if you have any follow-up questions or need further clarification!assistant
+
+I hope that answer was spot on!
+[2024-07-30 02:58:26,912][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 106.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.81it/s]
+[2024-07-30 02:58:26,935][watermarkers.semstamp][INFO] - LSH Candidate: 2
+[2024-07-30 02:58:26,936][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-07-30 02:58:26,936][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-07-30 02:58:26,936][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:58:38,204][watermarkers.semstamp][INFO] - Candidate text: Since the masses cancel out, we're left with:
+
+g × h = (1/2) × v²
+
+Now, plug in the given values:
+
+9.8 m/s² × 40 m = (1/2) × v²
+
+Solve for v:
+
+v ≈ √(2 × 9.8 m/s² × 40 m)
+v ≈ √(784 m²/s²)
+v ≈ 28.07 m/s
+
+So, the skier's speed at the bottom of the slope is approximately 28.07 m/s or 63.4 mph.assistant
+
+I hope that helps you tackle that slope!assistant
+
+I see what I did there.
+[2024-07-30 02:58:38,204][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 106.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.80it/s]
+[2024-07-30 02:58:38,227][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-07-30 02:58:38,227][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-07-30 02:58:38,227][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-07-30 02:58:38,227][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/dev_semstamp_last_3/gen_stats/prompt_82.csv
+[2024-07-30 02:58:38,229][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+As the skier slides down the slope, their potential energy is converted into kinetic energy. At the bottom of the slope, all the potential energy has been converted into kinetic energy.
+
+We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+Since the masses cancel out, we're left with:
+
+g × h = (1/2) × v²
+
+Now, plug in the given values:
+
+9.8 m/s² × 40 m = (1/2) × v²
+
+Solve for v:
+
+v ≈ √(2 × 9.8 m/s² × 40 m)
+v ≈ √(784 m²/s²)
+v ≈ 28.07 m/s
+
+So, the skier's speed at the bottom of the slope is approximately 28.07 m/s or 63.4 mph.assistant
+
+I hope that helps you tackle that slope!assistant
+
+I see what I did there.
+[2024-07-30 02:58:38,230][watermarkers.semstamp][INFO] - Text has 9 sentences.
+[2024-07-30 02:58:38,230][watermarkers.semstamp][INFO] - Prompt: A skier slides down a frictionless slope of height 40m and length 80m. What's the skier's speed at the bottom?
+[2024-07-30 02:58:38,230][watermarkers.semstamp][INFO] - Response: ("Sounds like an exciting ski run!\n\nSince it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.\n\nInitially, the skier has potential energy (PE) due to their height above the ground:\n\nPE = m × g × h\n\nwhere m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).\n\nAt the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.\n\nAs the skier slides down the slope, their potential energy is converted into kinetic energy. At the bottom of the slope, all the potential energy has been converted into kinetic energy.\n\nWe can set up an equation based on the law of conservation of energy:\n\nInitial PE = Final KE\n\nm × g × h = (1/2) × m × v²\n\nwhere v is the final velocity (speed) of the skier at the bottom of the slope.\n\nSince the masses cancel out, we're left with:\n\ng × h = (1/2) × v²\n\nNow, plug in the given values:\n\n9.8 m/s² × 40 m = (1/2) × v²\n\nSolve for v:\n\nv ≈ √(2 × 9.8 m/s² × 40 m)\nv ≈ √(784 m²/s²)\nv ≈ 28.07 m/s\n\nSo, the skier's speed at the bottom of the slope is approximately 28.07 m/s or 63.4 mph.assistant\n\nI hope that helps you tackle that slope!assistant\n\nI see what I did there.", 113)
+[2024-07-30 02:58:38,230][watermarker][INFO] - Received watermarked text: Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+As the skier slides down the slope, their potential energy is converted into kinetic energy. At the bottom of the slope, all the potential energy has been converted into kinetic energy.
+
+We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+Since the masses cancel out, we're left with:
+
+g × h = (1/2) × v²
+
+Now, plug in the given values:
+
+9.8 m/s² × 40 m = (1/2) × v²
+
+Solve for v:
+
+v ≈ √(2 × 9.8 m/s² × 40 m)
+v ≈ √(784 m²/s²)
+v ≈ 28.07 m/s
+
+So, the skier's speed at the bottom of the slope is approximately 28.07 m/s or 63.4 mph.assistant
+
+I hope that helps you tackle that slope!assistant
+
+I see what I did there.
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 130.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 132.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.89it/s]
+n_watermark: 6, n_test_sent: 7
+zscore: 3.709704134011871
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 131.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.62it/s]
+n_watermark: 6, n_test_sent: 7
+zscore: 3.709704134011871
+[2024-07-30 02:58:38,388][__main__][INFO] - Watermarked Text: Sounds like an exciting ski run!
+
+Since it's a frictionless slope, we can use the concept of conservation of energy to solve this problem.
+
+Initially, the skier has potential energy (PE) due to their height above the ground:
+
+PE = m × g × h
+
+where m is the mass of the skier (which we don't need to know in this case), g is the acceleration due to gravity (approximately 9.8 m/s²), and h is the height of the slope (40 m).
+
+At the top of the slope, the skier has no kinetic energy (KE) since they're not moving yet.
+
+As the skier slides down the slope, their potential energy is converted into kinetic energy. At the bottom of the slope, all the potential energy has been converted into kinetic energy.
+
+We can set up an equation based on the law of conservation of energy:
+
+Initial PE = Final KE
+
+m × g × h = (1/2) × m × v²
+
+where v is the final velocity (speed) of the skier at the bottom of the slope.
+
+Since the masses cancel out, we're left with:
+
+g × h = (1/2) × v²
+
+Now, plug in the given values:
+
+9.8 m/s² × 40 m = (1/2) × v²
+
+Solve for v:
+
+v ≈ √(2 × 9.8 m/s² × 40 m)
+v ≈ √(784 m²/s²)
+v ≈ 28.07 m/s
+
+So, the skier's speed at the bottom of the slope is approximately 28.07 m/s or 63.4 mph.assistant
+
+I hope that helps you tackle that slope!assistant
+
+I see what I did there.
+[2024-07-30 02:58:38,388][__main__][INFO] - Is Watermark Detected?: True
+[2024-07-30 02:58:38,388][__main__][INFO] - Score: 3.709704134011871
+[2024-07-30 02:58:38,388][__main__][INFO] - Time taken: 348.63602113723755
+Data saved to ./inputs/dev_semstamp_last_3/watermarked_texts.csv

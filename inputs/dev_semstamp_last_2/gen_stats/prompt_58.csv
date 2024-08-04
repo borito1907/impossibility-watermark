@@ -1,0 +1,326 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+A drastic measure!
+
+",False,,,,1
+2,"
+
+A drastic measure, a clean sweep of all Python processes!
+
+",True,3,"0,3",True,2
+3,"To kill all Python processes on your Ubuntu server, a few methods come to mind:
+
+**Method 1: Using `pkill`**
+```
+sudo pkill -9 python3  # or python2 if you're using Python 2.x 
+```
+This command sends a SIGKILL signal (signal 9) to all processes named ""python3"" (or ""python2"").",True,6,"6,0",True,1
+4," The `-9` option forces the process to terminate immediately.
+
+",True,7,"0,3",True,1
+5," This will force-terminate the processes.
+
+",True,7,"0,3",True,2
+6," This will forcefully terminate them.
+
+",True,7,"0,3",True,3
+7," This will forcefully terminate all Python processes.
+
+",False,,,,4
+8," This will forcefully terminate all Python processes.
+
+",False,,,,5
+9," This will force-terminate all matching processes.
+
+",True,3,"0,3",True,6
+10,"**Method 2: Using `pgrep` and `xargs`**
+```
+sudo pgrep -f python | xargs sudo kill -9 
+```
+Here, `pgrep` searches for processes containing the string ""python"", and `xargs` takes the output and passes it as arguments to the `kill -9` command.
+
+",True,7,"6,0",True,1
+11,"**Method 2: Using `ps` and `kill`**
+```
+ps aux | grep python | awk '{print $2}' | xargs sudo kill -9 
+```
+Here, we use `ps` to list all processes, then `grep` to find lines containing ""python"", `awk` to extract the process IDs (PID), and finally `xargs` to pass those PIDs to `kill -9`.
+
+",True,7,"6,0",True,2
+12,"**Method 2: Using `pgrep` and `xargs`**
+```
+pgrep python | xargs sudo kill -9 
+```
+Here, `pgrep` searches for all processes containing the string ""python"" in their command line, and pipes the results to `xargs`, which then executes the `kill -9` command on each process ID.
+
+",True,7,"6,0",True,3
+13,"**Method 2: Using `ps` and `grep` with `kill`**
+```
+ps aux | grep python | awk '{print $2}' | xargs sudo kill -9 
+```
+Here, we:
+
+1.",False,,,,4
+14,"**Method 2: Using `pgrep` and `xargs`**
+```
+sudo pgrep python | xargs sudo kill -9  
+```
+Here, `pgrep` searches for processes containing the string ""python"", and `xargs` takes the output and passes it as arguments to the `kill` command with the `-9` option (SIGKILL).
+
+",False,,,,5
+15,"**Method 2: Using `pgrep` and `xargs`**
+```
+pgrep python | xargs sudo kill -9 
+```
+Here, `pgrep` searches for all processes containing the word ""python"" and pipes the process IDs to `xargs`, which then executes the `kill -9` command on each PID.",True,7,"6,0",True,6
+16,"**Method 2: Using `ps` and `grep` with `kill`**
+```
+ps aux | grep python | awk '{print $2}' | xargs sudo kill -9 
+```
+Here's how it works:
+
+* `ps aux` lists all running processes.
+",True,6,"6,0",True,7
+17,"* `grep python` filters the output to only show lines containing the word ""python"".
+",True,2,"0,3",True,1
+18,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,2
+19,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,3
+20,"* `grep python` filters the output to show only lines containing the string ""python"".
+",True,2,"0,3",True,4
+21,"* `grep python` searches for lines containing ""python"".
+",True,2,"0,3",True,5
+22,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,6
+23,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,7
+24,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,8
+25,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,9
+26,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,10
+27,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,11
+28,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,12
+29,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,13
+30,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,14
+31,"* `grep python` filters the output to show only lines containing ""python"".
+",True,2,"0,3",True,15
+32,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,16
+33,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,17
+34,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,18
+35,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,19
+36,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,20
+37,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,21
+38,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,22
+39,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,23
+40,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,24
+41,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,25
+42,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,26
+43,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,27
+44,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,28
+45,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,29
+46,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,30
+47,"* `grep python` filters the output to show only lines containing ""python"".
+",True,2,"0,3",True,31
+48,"* `grep python` filters the output to show only lines containing ""python"".
+",True,2,"0,3",True,32
+49,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,33
+50,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,34
+51,"* `grep python` searches for lines containing ""python"".
+",True,2,"0,3",True,35
+52,"* `grep python` searches for lines containing ""python"".
+",True,2,"0,3",True,36
+53,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,37
+54,"* `grep python` filters the output to show only lines containing the string ""python"".
+",True,2,"0,3",True,38
+55,"* `grep python` filters the output to show only lines containing ""python"".
+",True,2,"0,3",True,39
+56,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,40
+57,"* `grep python` searches for lines containing the string ""python"".
+",True,2,"0,3",True,41
+58,"* `grep python` filters the output to only show lines containing the word ""python"".
+",True,2,"0,3",True,42
+59,"* `grep python` filters the output to show only lines containing ""python"".
+",True,2,"0,3",True,43
+60,"* `grep python` searches for lines containing the word ""python"".
+",True,2,"0,3",True,44
+61,"* `grep python` filters the output to only show lines containing the word ""python"".
+",True,2,"0,3",True,45
+62,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,46
+63,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,47
+64,"* `grep python` filters the output to show only lines containing the word ""python"".
+",True,2,"0,3",True,48
+65,"* `grep python` filters the output to only show lines containing ""python"".
+",True,2,"0,3",True,49
+66,"* `grep python` filters the output to only show lines containing the word ""python"".
+",True,2,"0,3",True,50
+67,"* `awk '{print $2}'` extracts the second column (the process ID).
+",True,5,"5,2",True,1
+68,"* `xargs sudo kill -9` takes the process IDs as input and kills each process with a SIGKILL signal (signal 9).
+
+",True,1,"1,4",True,1
+69,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+`pgrep` is similar to `grep`, but specifically designed for searching process names.",True,7,"6,2",True,1
+70,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` (a variant of `grep` that searches for patterns in process names) to find Python processes, and then pipes the results to `pkill` to terminate them.
+
+",False,,,,2
+71,"**Method 3: Using `pgrep`**
+```
+sudo pgrep -f python | xargs sudo kill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` and `grep`.",True,7,"6,2",True,3
+72,"**Method 3: Using `pidof`**
+```
+sudo kill -9 $(pidof python3)  # or python2 if you're using Python 2.x 
+```
+`pidof` finds the process ID(s) of the specified program (in this case, ""python3"" or ""python2"").",False,,,,4
+73,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` (a more efficient version of `grep` for process names) to search for processes containing the string ""python"".
+
+",True,7,"6,2",True,5
+74,"**Method 3: Using `pidof` and `kill`**
+```
+sudo kill -9 $(pidof python3)
+```
+This method uses `pidof` to find the process IDs of all ""python3"" processes and then passes them to `kill -9` to terminate them.
+
+",True,7,"6,2",True,6
+75,"**Method 3: Using `pgrep`**
+```
+sudo pgrep -f python | xargs sudo kill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` and `grep`.",True,7,"6,2",True,7
+76,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+`pgrep` is like `grep`, but for process names.",True,7,"6,2",True,8
+77,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep python | xargs sudo pkill -9 
+```
+This method is similar to Method 2, but uses `pgrep` (a utility that searches for patterns in process names) instead of `ps` and `grep`.
+
+",True,7,"6,2",True,9
+78,"**Method 3: Using `pgrep`**
+```
+sudo pgrep -f python | xargs sudo kill -9 
+```
+`pgrep` is similar to `grep`, but searches for patterns in the command line arguments of running processes.",True,7,"6,2",True,10
+79,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` + `grep`.",True,7,"6,2",True,11
+80,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` and `grep`.",True,7,"6,2",True,12
+81,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep python | xargs sudo pkill -9 
+```
+This method is similar to Method 2, but uses `pgrep` (a variant of `grep` that searches for patterns in process names) to find the Python processes.
+
+",True,3,"6,2",True,13
+82,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` and `grep`.
+
+",True,7,"6,2",True,14
+83,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` to search for processes with the name ""python"".
+
+",True,7,"6,2",True,15
+84,"**Method 3: Using `pgrep`**
+```
+sudo pgrep -f python | xargs sudo kill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` and `grep`.",True,7,"6,2",True,16
+85,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` (a utility that searches for patterns in the process table) to find processes with ""python"" in their command line arguments.
+
+",False,,,,17
+86,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` and `grep`.",True,7,"6,2",True,18
+87,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` to search for processes by name, and then pipes the results to `pkill` with a SIGKILL signal.
+
+",True,5,"6,2",True,19
+88,"**Method 3: Using `pidof`**
+```
+sudo kill -9 $(pidof python3)
+```
+`pidof` is a command that finds the process ID of a given executable name.",False,,,,20
+89,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep -f python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` to search for processes with names or arguments matching ""python"".
+
+",True,7,"6,2",True,21
+90,"**Method 3: Using `pgrep` and `pkill`**
+```
+sudo pgrep python | xargs sudo pkill -9 
+```
+Similar to Method 2, but uses `pgrep` instead of `ps` and `grep`.
+
+",True,7,"6,2",True,22
+91,"**Method 3: Using `fuser`**
+```
+sudo fuser -k /usr/bin/python3  # or /usr/bin/python2 if you're using Python 2.x 
+```
+`fuser` is a command that identifies processes using a specific file (in this case, the Python executable).",True,2,"6,2",True,23
