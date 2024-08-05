@@ -20,6 +20,7 @@ class RankOracle(Oracle):
         pattern = '\s*A\s*|\s*B\s*'
         newline = "\n"
         returns = "\r"
+        end_token = "<|end_header_id>"
         if kwargs["persona"] is not None:
             with system():
                 lm += f"{kwargs['persona']}"
