@@ -3,6 +3,8 @@ import hydra
 from watermarker_factory import get_watermarker
 import os
 from utils import save_to_csv, get_prompt_or_output, get_prompt_and_id_dev, get_prompt_from_id, count_csv_entries
+from omegaconf import OmegaConf
+from hydra import initialize, compose
 
 log = logging.getLogger(__name__)
 
@@ -23,9 +25,6 @@ def test(cfg):
     cfg.prompt_file='./data/WQE/test.csv'
 
     cfg.is_completion=False
-
-    # TODO: Have to log the stats for SemStamp, but not for UMD. This is here so I remember
-    # to do it for SemStamp.
     
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 

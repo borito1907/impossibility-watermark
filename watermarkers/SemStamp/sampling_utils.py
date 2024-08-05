@@ -85,7 +85,10 @@ def discard_final_token_in_outputs(outputs):
     # Discard the final token in the sequences within the 'outputs' object.
     # Assuming 'outputs.sequences' is a 2D array where each row is a sequence and each column is a token,
     # this line removes the last token from each sequence.
-    outputs.sequences = outputs.sequences[:, :-1]  # (bz, seqlen)
+    if hasattr(outputs, 'sequences'):
+        outputs.sequences = outputs.sequences[:, :-1]  # (bz, seqlen)
+    else:
+        outputs = outputs[:, :-1]
     return outputs
 
 def extract_prompt_from_text(text, len_prompt):
@@ -113,11 +116,15 @@ def gen_sent(model, tokenizer, text_ids, gen_config, stopping_criteria):
             gen_config,
             stopping_criteria=stopping_criteria,
         )
-    
+    # log.info(f"Outputs: {outputs}")
+    # log.info(f"Outputs Type: {type(outputs)}")
     outputs = discard_final_token_in_outputs(outputs)
-    new_text_ids = outputs.sequences
+    new_text_ids = outputs.sequences if hasattr(outputs, 'sequences') else outputs
+    # log.info(f"New Text IDs: {new_text_ids}")
+    # log.info(f"New Text IDs Shape: {new_text_ids.shape}")
     new_text = tokenizer.decode(
         new_text_ids[0, text_ids.size(1):], skip_special_tokens=True)
+    # log.info(f"New Text: {new_text}")
     return new_text, new_text_ids
 
 def well_formed_sentence(sent, end_sent=False):
