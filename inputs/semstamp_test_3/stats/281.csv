@@ -1,0 +1,2131 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here's a simple, minimalistic GUI library in C99 that supports windows, buttons, and text labels.",True,6,"7,2",True,1
+2,"
+
+What a challenging task!
+
+",False,,,,2
+3,"
+
+What a fascinating task!
+
+",True,1,"7,2",True,3
+4,"
+
+Here is a minimalistic C GUI library from scratch, using the X11 library for rendering and handling user input.",True,4,"7,2",True,4
+5,"
+
+What a challenging task!",False,,,,5
+6,"
+
+Here is a basic, minimalistic C GUI library from scratch using the Xlib library for windowing and event handling.",False,,,,6
+7,"
+
+What a delightful challenge!
+
+",True,1,"7,2",True,7
+8,"
+
+What a challenge!
+
+",False,,,,8
+9,"
+
+What a fascinating task!
+
+",True,1,"7,2",True,9
+10,"
+
+What a challenging task!",False,,,,10
+11,"
+
+Here's a simple GUI library in C, using the Xlib library for windowing and user interaction.",True,7,"7,2",True,11
+12," This is a very basic implementation and does not include many features you would expect from a full-fledged GUI library.
+
+",True,6,"6,3",True,1
+13,"```c99gui.h```:
+
+```c99gui.c```:
+```c99gui.h```:
+```c
+
+#ifndef __C99GUI_H__
+#define __C99GUI_H__
+
+#include <X11/Xlib.h>
+#include <string.h>
+
+typedef struct {
+    Display *d;
+    Window w;
+} gui_t;
+
+gui_t* gui_init(const char* title);
+void gui_run(gui_t* gui);
+void gui_draw_string(gui_t* gui, const char* str, int x, int y);
+
+#endif // __C99GUI_H__
+```
+
+```c99gui.c```:
+```c
+
+#include ""c99gui.h""
+
+gui_t* gui_init(const char* title) {
+    gui_t* gui = malloc(sizeof(gui_t));
+    gui->d = XOpenDisplay(NULL);
+    gui->w = XCreateSimpleWindow(
+        gui->d,
+        DefaultRootWindow(gui->d),
+        100, 100, 500, 300,
+        0,
+        BlackPixel(gui->d, DefaultScreen(gui->d)),
+        WhitePixel(gui->d, DefaultScreen(gui->d))
+    );
+    XStoreName(gui->d, gui->w, title);
+    XMapWindow(gui->d, gui->w);
+    return gui;
+}
+
+void gui_run(gui_t* gui) {
+    XEvent e;
+    while (1) {
+        XNextEvent(gui->d, &e);
+        if (e.type == Expose) {
+            XClearWindow(gui->d, gui->w);
+        }
+    }
+}
+
+void gui_draw_string(gui_t* gui, const char* str, int x, int y) {
+    XGCValues gv;
+    gc = XCreateGC(gui->d, gui->w, 0, &gv);
+    XSetFont(gui->d, gc, XLoadFont(""fixed""));
+    XSetForeground(gui->d, gc, BlackPixel(gui->d, DefaultScreen(gui->d)));
+    XDrawString(gui->d, gui->w, gc, x, y, str, strlen(str));
+    XFreeGC(gui->d, gc);
+}
+```
+
+To use this GUI library, create a main function like so:
+```c
+
+#include ""c99gui.h""
+
+int main() {
+    gui_t* gui = gui_init(""My GUI"");
+    gui_draw_string(gui, ""Hello, world",True,7,"0,3",True,1
+14,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to hold GUI components (for now, just windows)
+typedef struct {
+    Display *display;
+    Window window;
+} GUI;
+
+// Create a new GUI with a single window of size widthxheight at position x,y.
+",False,,,,2
+15,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to represent a GUI window.
+",False,,,,3
+16,"```c99gui.h```
+```c99gui.c```
+
+**Note:** This is just a starting point, and there are many ways to improve and expand upon this code.
+
+",True,7,"0,3",True,4
+17,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to hold GUI components (windows, buttons, etc.)
+",True,5,"0,3",True,5
+18,"```c99gui.h```
+```c99gui.c```
+
+**c99gui.h**
+```c99gui.h:
+#ifndef C99GUI_H_
+#define C99GUI_H_
+
+#include <X11/Xlib.h>
+
+// Define some constants for GUI elements.
+",True,7,"0,3",True,6
+19,"```c99gui.h```
+```c99gui.c```
+
+**c99gui.h**
+```c99gui.h```:
+```c99gui.h```:
+
+```c99gui.c```:
+
+
+
+To use this library, you would do something like this:
+
+```main.c```:
+
+
+
+Please note that this is a simplified example and may need modifications to fit your specific needs.",True,7,"0,3",True,7
+20,"```c99clave```
+**Note:** This code assumes you have the `X11` development libraries installed on your system.
+
+",True,7,"0,3",True,8
+21,"**Note:** This code assumes that you have the Xlib development libraries installed on your system.
+
+",False,,,,9
+22,"```c99gui.h```
+```c
+#ifndef _C99GUI_H_
+#define _C99GUI_H_
+
+#include <X11/Xlib.h>
+#include <string.h>
+
+typedef struct {
+    Display *display;
+    Window window;
+} GUI;
+
+GUI *gui_create(char *title, int width, int height);
+void gui_destroy(GUI *gui);
+void gui_loop(GUI *gui);
+void gui_on_close(GUI *gui);
+
+#endif
+```
+
+```c99gui.c```
+```c
+#include ""c99gui.h""
+#include <stdlib.h>
+#include <stdio.h>
+
+
+GUI *gui_create(char *title, int width, int height) {
+    GUI *gui = (GUI *)malloc(sizeof(GUI));
+    
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        fprintf(stderr, ""Failed to open display\n"");
+        return NULL;
+    }
+    
+    gui->window = XCreateSimpleWindow(
+        gui->display,
+        DefaultRootWindow(gui->display),
+        100, 100, width, height, 0,
+        BlackPixel(gui->display, DefaultScreen(gui->display)),
+        WhitePixel(gui->display, DefaultScreen(gui->display))
+    );
+    
+    XStoreName(gui->display, gui->window, title);
+    
+    return gui;
+}
+
+
+void gui_destroy(GUI *gui) {
+    XCloseDisplay(gui->display);
+    free(gui);
+}
+
+
+void gui_on_close(GUI *gui) {
+    XDestroyWindow(gui->display, gui->window);
+    gui_destroy(gui);
+}
+
+
+void gui_loop(GUI *gui) {
+    XEvent event;
+    
+    XMapWindow(gui->display, gui->window);
+    
+    while (1) {
+        XNextEvent(gui->display, &event);
+        
+        switch (event.type) {
+            case ClientMessage:
+                if (*((long *)event.xclient.data.l) == 16)
+                    gui_on_close(gui);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
+int main() {
+    GUI *gui = gui_create(""My GUI"", 400, 300);
+    
+    gui_loop(gui);
+    
+    return 0;
+}
+```
+
+Please note that this code should be compiled with -lX11 flag to link against X11 library.
+
+",True,7,"0,3",True,10
+23,"```c99gui.h```
+
+```c
+
+#ifndef C99GUI_H_INCLUDED
+
+#define C99GUI_H_INCLUDED
+
+#include <X11/Xlib.h>
+
+// Window types
+
+typedef enum {
+    WINDOW_TYPE_NORMAL,
+    WINDOW_TYPE_BUTTON,
+} WindowType;
+
+// Window structure
+
+typedef struct {
+    Display* display;
+    Window window;
+    int width;
+    int height;
+    WindowType type;
+    char* title;
+} Window;
+
+// Functions
+
+void init_gui(void);
+
+Window* create_window(int width, int height, const char* title);
+
+void show_window(Window* window);
+
+void set_background_color(Window* window, unsigned long color);
+
+unsigned long create_rgb_color(Display* display, unsigned char r, unsigned char g, unsigned char b);
+
+#endif // C99GUI_H_INCLUDED
+
+```
+
+```c99gui.c```
+
+```c
+
+#include ""c99gui.h""
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+// Global variables
+
+Display* display = NULL;
+
+int screen_num = 0;
+
+Screen* screen = NULL;
+
+// Function to initialize the GUI library
+
+void init_gui() {
+    display = XOpenDisplay(NULL);
+    if (!display) {
+        printf(""Failed to open display\n"");
+        exit(1);
+    }
+
+    screen_num = DefaultScreen(display);
+    screen = ScreenOfDisplay(display, screen_num);
+}
+
+// Create a new window
+
+Window* create_window(int width, int height, const char* title) {
+    Window* window = malloc(sizeof(Window));
+    window->width = width;
+    window->height = height;
+    window->title = strdup(title);
+
+    window->window = XCreateSimpleWindow(display, RootWindow(display, screen_num), 100, 100, width, height, 0, WhitePixel(display, screen_num), BlackPixel(display, screen_num));
+    XSelectInput(display, window->window, ExposureMask | ButtonPressMask | ButtonReleaseMask);
+    return window;
+}
+
+// Show a window
+
+void show_window(Window* window) {
+    XMapRaised(display, window->window);
+    XFlush(display);
+}
+
+// Set the background color of a window
+
+void set_background_color(Window* window, unsigned long color) {
+    XSetWindowBackground(display, window->window, color);
+    XClearWindow(display, window->window);
+}
+
+// Create an RGB color
+
+unsigned long create_rgb_color(Display* display, unsigned char r, unsigned char g, unsigned char b) {
+    XColor color;
+    color.red = r << 8;
+    color.green = g << 8;
+    color.blue = b << 8;
+    XAllocColor(display, DefaultColormap(display, screen_num), &color);
+    return color.pixel;
+}
+
+```
+
+Here is how you can use this library:
+
+```main.c```
+
+```c
+
+#include ""c99gui.h""
+
+int main() {
+    init_gui();
+
+    Window* window = create_window(640, 480, ""My Window"");
+    show_window(window);
+
+    set_background_color(window, create_rgb_color(display, 255, 255, 255));
+
+    XEvent event;
+    while (1) {
+        XNextEvent(display, &event);
+        if (event.type == Expose) {
+            XFillRectangle(display, window->window, DefaultGC(display, screen_num), 0, 0, window->width, window->height);
+        }
+    }
+
+    return 0;
+}
+
+```
+
+This will create a window with a white background.",True,7,"0,3",True,11
+24,"```c99 gui.c```
+```c99 lib.h```
+
+**gui.c**
+```c99 gui.c```
+```c99 gui.c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include ""lib.h""
+
+// Define some constants for our GUI library
+
+#define WIDTH 400 
+#define HEIGHT 300 
+
+typedef struct {
+    Display *display;
+    Window window;
+    GC gc;
+} gui_t;
+
+void gui_init(gui_t *gui) {
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        printf(""Failed to open display\n"");
+        exit(1);
+    }
+}
+
+void gui_create_window(gui_t *gui, int width, int height) {
+    gui->window = XCreateSimpleWindow(
+        gui->display,
+        DefaultRootWindow(gui->display),
+        100, 100, // x, y position on screen 
+        width, height, 
+        0,
+        BlackPixel(gui->display, DefaultScreen(gui->display)),
+        WhitePixel(gui->display, DefaultScreen(gui->display))
+    );
+    XSelectInput(gui->display, gui->window, ExposureMask | KeyPressMask);
+    XMapWindow(gui->display, gui->window);
+}
+
+void gui_set_gc(gui_t *gui) {
+    gui->gc = XCreateGC(gui->display, gui->window, 0, NULL);
+    XSetBackground(gui->display, gui->gc, WhitePixel(gui->display, DefaultScreen(gui->display)));
+    XSetForeground(gui->display, gui->gc, BlackPixel(gui->display, DefaultScreen(gui->display)));
+}
+
+void gui_draw_text(gui_t *gui, char *text, int x, int y) {
+    XDrawString(gui->display, gui->window, gui->gc, x, y, text, strlen(text));
+    XFlush(gui->display);
+}
+
+int main() {
+    gui_t gui;
+    gui_init(&gui);
+    gui_create_window(&gui, WIDTH, HEIGHT);
+    gui_set_gc(&gui);
+
+    while (1) {
+        XEvent event;
+        XNextEvent(gui.display, &event);
+
+        switch (event.type) {
+            case Expose:
+                gui_draw_text(&gui, ""Hello, World",True,6,"0,3",True,12
+25,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define some colors we'll use later.
+",True,1,"0,3",True,13
+26,"```c99.h```
+```c99.c```
+
+This library provides the following functionality:
+
+*   Creates a window of specified size.
+",True,7,"0,3",True,14
+27,"```c99gui.h```
+```c98
+
+#ifndef C99GUI_H_INCLUDED
+#define C99GUI_H_INCLUDED
+
+#include <X11/Xlib.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct {
+    Display *dpy;
+    Window win;
+    int width, height;
+} Gui;
+
+Gui *gui_init(char *title, int width, int height);
+void gui_cleanup(Gui *gui);
+
+void gui_add_button(Gui *gui, char *text, int x, int y, int width, int height);
+void gui_event_loop(Gui *gui);
+
+#endif // C99GUI_H_INCLUDED
+```
+
+```c99gui.c```
+```c
+#include ""c99gui.h""
+
+Gui *gui_init(char *title, int width, int height) {
+    Gui *gui = (Gui *)malloc(sizeof(Gui));
+
+    gui->dpy = XOpenDisplay(NULL);
+    if (!gui->dpy) {
+        fprintf(stderr, ""Failed to open display\n"");
+        exit(1);
+    }
+
+    gui->win = XCreateSimpleWindow(
+        gui->dpy,
+        DefaultRootWindow(gui->dpy),
+        0, 0, /* x, y */
+        width, height, /* width, height */
+        0, /* border width */
+        BlackPixel(gui->dpy, DefaultScreen(gui->dpy)),
+        WhitePixel(gui->dpy, DefaultScreen(gui->dpy))
+    );
+
+    XStoreName(gui->dpy, gui->win, title);
+    XSelectInput(gui->dpy, gui->win, ButtonPressMask | ExposureMask);
+    XMapWindow(gui->dpy, gui->win);
+
+    gui->width = width;
+    gui->height = height;
+
+    return gui;
+}
+
+void gui_cleanup(Gui *gui) {
+    XDestroyWindow(gui->dpy, gui->win);
+    XCloseDisplay(gui->dpy);
+    free(gui);
+}
+
+void gui_add_button(Gui *gui, char *text, int x, int y, int width, int height) {
+    XFontStruct *font = XLoadQueryFont(gui->dpy, ""-*-*-*-*-*-20-*-*-*-*-*"");
+    XGCValues gcv;
+    GC gc;
+    Pixmap pixmap;
+    XRectangle rect;
+
+    gc = XCreateGC(gui->dpy, gui->win, 0, &gcv);
+    pixmap = XCreatePixmap(gui->dpy, gui->win, width, height, DefaultDepth(gui->dpy, DefaultScreen(gui->dpy)));
+    XSetForeground(gui->dpy, gc, BlackPixel(gui->dpy, DefaultScreen(gui->dpy)));
+    XDrawString(gui->dpy, pixmap, font, gc, x, y + 15, text, strlen(text));
+    XCopyArea(gui->dpy, pixmap, gui->win, gc, 0, 0, width, height, x, y);
+    XFreePixmap(gui->dpy, pixmap);
+    XFreeGC(gc);
+    XFreeFontStruct(font);
+}
+
+void gui_event_loop(Gui *gui) {
+    XEvent ev;
+    while (1) {
+        XNextEvent(gui->dpy, &ev);
+        switch (ev.type) {
+            case Expose:
+                break;
+            case ButtonPress:
+                printf(""Button press at (%i, %i)\n"", ev.xbutton.x, ev.xbutton.y);
+                break;
+            default:
+                break;
+        }
+    }
+}
+```
+
+Example usage:
+
+```main.c```
+```c
+#include ""c99gui.h""
+
+int main() {
+    Gui *gui = gui",True,7,"0,3",True,15
+28,"**gui.h**
+```c
+
+#ifndef GUI_H INCLUDED 
+#define GUI_H_INCLUDED 
+
+#include <X11/Xlib.h>
+
+typedef struct {
+    Display *display;
+    Window window;
+    int width;
+    int height;
+} Gui;
+
+Gui* gui_create(int width, int height);
+void gui_destroy(Gui *gui);
+
+void gui_run(Gui *gui);
+
+#endif // GUI_H_INCLUDED 
+```
+
+**gui.c**
+```c
+
+#include ""gui.h""
+#include <stdlib.h>
+#include <string.h>
+
+Gui* gui_create(int width, int height) {
+    Gui *gui = (Gui*)malloc(sizeof(Gui));
+
+    gui->width = width;
+    gui->height = height;
+
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        free(gui);
+        return NULL;
+    }
+
+    int screen = DefaultScreen(gui->display);
+    gui->window = XCreateSimpleWindow(
+        gui->display,
+        RootWindow(gui->display, screen),
+        100, 100, // x, y coordinates of the window on the screen.
+       ",True,7,"0,3",True,16
+29,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to hold GUI elements (windows, buttons, etc.)
+",True,1,"0,3",True,17
+30,"```c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <X11/Xlib.h>
+
+// Structure to represent a GUI element (widget)
+typedef struct {
+    int x, y, w, h; // position and size of the widget on screen 
+    char *text; // text displayed by the widget 
+    void (*onclick)(void); // callback function for when the widget is clicked 
+} Widget;
+
+// Structure to represent the GUI application itself 
+typedef struct {
+    Display *display; 
+    Window win; 
+    GC gc; 
+    Widget **widgets; 
+    int num_widgets; 
+} App;
+
+App *app_init(); 
+void app_cleanup(App *app); 
+
+Widget *widget_new(int x, int y, int w, int h, const char *text, void (*onclick)(void)); 
+void widget_draw(Widget *w, App *app); 
+void handle_events(App *app);
+
+int main() {
+    App *app = app_init();
+    
+    Widget *button1 = widget_new(10, 20, 100, 30, ""Click me",False,,,,18
+31,"```c
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define some constants for our GUI library.
+",True,5,"0,3",True,19
+32,"```c++
+#include <X11/Xlib.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure to hold a GUI element (for now, and forever)
+typedef struct {
+    int x, y, w, h;
+    char *text;
+} GUIElement;
+
+// Function to create a new GUI element (for now and forever)
+GUIElement* guielement_new(int x, int y, int w, int h, char *text) {
+    GUIElement *e = malloc(sizeof(GUIElement));
+    e->x = x; e->y = y; e->w = w; e->h = h; e->text = text;
+    return e;
+}
+
+// Initialize the GUI system (open the display connection)
+Display *dpy;
+void gui_init() {
+    dpy = XOpenDisplay(NULL);
+}
+
+// Create a new window with a single GUI element on it (for now and forever)
+Window win;
+void gui_create_window(char *title, GUIElement *element) {
+    int screen = DefaultScreen(dpy);
+    unsigned long white = WhitePixel(dpy, screen);
+    unsigned long black = BlackPixel(dpy, screen);
+
+    win = XCreateSimpleWindow(dpy, RootWindow(dpy, screen), 
+                             10, 10, 400, 200, 0, 
+                             black, white);
+
+    XMapWindow(dpy, win);
+    XStoreName(dpy, win, title);
+}
+
+// Draw the GUI element onto the window (for now and forever)
+void gui_draw_element(Window win, GUIElement *element) {
+    XSetForeground(dpy, DefaultGC(dpy, 0), BlackPixel(dpy, 0));
+    XDrawRectangle(dpy, win, DefaultGC(dpy, 0), 
+                   element->x, element->y, element->w, element->h);
+    XDrawString(dpy, win, DefaultGC(dpy, 0), 
+                element->x + 5, element->y + 20, 
+                element->text, strlen(element->text));
+}
+
+int main() {
+    gui_init();
+
+    GUIElement *element = guielement_new(50, 50, 100, 30, ""Click me",True,5,"0,3",True,20
+33,"Please note that this is a minimalist example and might not work on all platforms or with all compilers.
+
+",True,5,"0,3",True,21
+34,"Please note that this code should be compiled with the `-lX11` flag to link against the Xlib library.
+
+",True,7,"0,3",True,22
+35,"```c99.h```
+```c99.c```
+
+Note that this will only compile on Unix-based systems that have the Xlib library installed.
+
+",True,7,"0,3",True,23
+36,"```c99gui.h```
+```c99gui.c```
+
+**c99gui.h**
+```c99gui.h```
+```c99gui.h```
+
+```c99gui.h```
+```c99gui.h```
+```c99gui.h```
+
+```c99gui.h```
+
+```c99gui.h```
+
+
+
+```c99gui.c```
+```c99gui.c```
+
+```c99gui.c```
+
+
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+```c99gui.c```
+
+To compile and run the example:
+
+`gcc -o example example.c c99gui.c -lX11`
+
+Then run `./example` to see the GUI in action.
+
+",True,2,"0,3",True,24
+37,This example creates a window with a button.,True,5,"0,3",True,25
+38,"```c 
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Window structure to hold information about each window.
+",True,1,"0,3",True,26
+39,"```c99gui.h```
+```c++
+#ifndef _C99GUI_H_
+#define _C99GUI_H_
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+
+// Define some colors for our GUI elements.
+",True,7,"0,3",True,27
+40,"```c99
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to hold our GUI elements (windows)
+typedef struct {
+    Display *display;
+    Window window;
+} GUI;
+
+// Function to create a new GUI element (window)
+GUI* gui_create(int width, int height) {
+    GUI* gui = malloc(sizeof(GUI));
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        fprintf(stderr, ""Failed to open display\n"");
+        exit(1);
+    }
+
+    gui->window = XCreateSimpleWindow(
+        gui->display,
+        DefaultRootWindow(gui->display),
+        100, 100, // x, y coords of top left corner of window on screen.
+       ",False,,,,28
+41,"```c 
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to hold GUI elements (for now, just windows)
+typedef struct {
+    Display *dpy;
+    Window w;
+    int width, int height;
+} GUI;
+
+// Create a new GUI element (window)
+GUI *gui_create(int width, int height) {
+    GUI *g = malloc(sizeof(GUI));
+    g->dpy = XOpenDisplay(NULL);
+    g->w = XCreateSimpleWindow(g->dpy, DefaultRootWindow(g->dpy), 100, 100, width, height, 0, 0x000000, 0xffffff);
+    XSelectInput(g->dpy, g->w, ExposureMask | KeyPressMask);
+    XMapWindow(g->dpy, g->w);
+    return g;
+}
+
+// Process events ( keyboard input and expose )
+void gui_process_events(GUI *g) {
+    XEvent e;
+    while(XPending(g->dpy)) {
+        XNextEvent(g->dpy, &e);
+        if(e.type == Expose) {
+            XFillRectangle(g->dpy, g->w, DefaultGC(g->dpy, 0), 0, 0, g->width, g->height);
+        } else if(e.type == KeyPress) {
+            printf(""Key press: %c\n"", e.xkey.keycode);
+        }
+    }
+}
+
+int main() {
+    GUI *g = gui_create(400, 300);
+    while(1) {
+        gui_process_events(g);
+    }
+    XCloseDisplay(g->dpy);
+    free(g);
+    return 0;
+}
+```
+
+This program creates a GUI with one window of size 400x300, and enters an event loop where it waits for key presses or exposure events.",True,5,"0,3",True,29
+42,"```c99gui.h```
+```c
+
+#ifndef C99GUI_H_INCLUDED
+
+#define C99GUI_H_INCLUDED
+
+#include <X11/Xlib.h>
+
+typedef struct {
+    Display *display;
+    Window window;
+} gui_t;
+
+void gui_init(gui_t *, char *);
+void gui_run(gui_t *);
+void gui_destroy(gui_t *);
+
+#endif // C99GUI_H_INCLUDED
+
+```
+
+```c99gui.c```
+```c
+
+#include ""c99gui.h""
+
+void gui_init(gui_t *gui, char *title) {
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        fprintf(stderr, ""Cannot open display\n"");
+        exit(1);
+    }
+
+    int screen = DefaultScreen(gui->display);
+    gui->window = XCreateSimpleWindow(gui->display,
+                                    RootWindow(gui->display, screen),
+                                    100, 100, 400, 300, 0,
+                                    BlackPixel(gui->display, screen),
+                                    WhitePixel(gui->display, screen));
+
+    XStoreName(gui->display, gui->window, title);
+
+    XSelectInput(gui->display, gui->window, ExposureMask | ButtonPressMask);
+
+    XMapWindow(gui->display, gui->window);
+}
+
+void gui_run(gui_t *gui) {
+    XEvent event;
+
+    while (1) {
+        XNextEvent(gui->display, &event);
+
+        if (event.type == Expose) {
+            XClearWindow(gui->display, gui->window);
+        } else if (event.type == ButtonPress) {
+            printf(""Button press at (%d, %d)\n"", event.xbutton.x, event.xbutton.y);
+        }
+    }
+}
+
+void gui_destroy(gui_t *gui) {
+    XDestroyWindow(gui->display, gui->window);
+    XCloseDisplay(gui->display);
+}
+
+```
+
+Example usage:
+```c
+
+#include ""c99gui.h""
+
+int main() {
+    gui_t gui;
+    gui_init(&gui, ""My GUI"");
+    gui_run(&gui);
+    gui_destroy(&gui);
+    return 0;
+}
+
+```
+
+This is a very simple example that creates a window with the specified title, and then enters a loop where it waits for events (in this case, exposure events which occur when the window needs to be redrawn, and button press events).",True,7,"0,3",True,30
+43,"This code assumes that you have the Xlib development libraries installed on your system (`libx11-dev` on Debian-based systems).
+
+",True,1,"0,3",True,31
+44,"```c
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure to hold a widget
+typedef struct {
+    Display *display;
+    Window window;
+    int x, y,width, height;
+    char *label;
+} Widget;
+
+// Function to create a new widget
+Widget* create_widget(Display *dpy, int x, int y, int width, int height, char *label) {
+    Widget *w = (Widget*)malloc(sizeof(Widget));
+    w->display = dpy;
+    w->window = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), x, y, width, height, 0, 0);
+    XMapWindow(dpy, w->window);
+    w->x = x;
+    w->y = y;
+    w->width = width;
+    w->height = height;
+    w->label = label;
+    return w;
+}
+
+// Function to draw text on a widget
+void draw_text(Widget *w, const char *text, int x, int y) {
+    XSetFont(w->display, w->window, XLoadFont(""fixed""));
+    XDrawString(w->display, w->window, DefaultGC(w->display, 0), x, y, text, strlen(text));
+    XFlush(w->display);
+}
+
+// Function to handle events
+void handle_events(Widget *w) {
+    XEvent event;
+    while (1) {
+        XNextEvent(w->display, &event);
+        if (event.type == Expose) {
+            draw_text(w, w->label, 10, 20);
+        }
+    }
+}
+
+int main() {
+    // Open the display
+    Display *dpy = XOpenDisplay(NULL);
+    if (!dpy) {
+        fprintf(stderr, ""Failed to open display\n"");
+        return 1;
+    }
+
+    // Create a new widget
+    Widget *widget = create_widget(dpy, 100, 100, 300, 200, ""Hello World"");
+
+    // Handle events for the widget
+    handle_events(widget);
+
+    return 0;
+}
+```
+
+This code creates a window with a ""Hello World"" label.",True,1,"0,3",True,32
+45,"**gui.h**
+```c
+
+#ifndef GUI_H_
+#define GUI_H_
+
+#include <X11/Xlib.h>
+#include <stdlib.h>
+
+typedef struct {
+    Display *display;
+    Window window;
+} Gui;
+
+Gui* gui_init();
+void gui_run(Gui* gui);
+void gui_clean_up(Gui* gui);
+
+#endif // GUI_H_
+```
+
+**gui.c**
+```c
+
+#include ""gui.h""
+
+Gui* gui_init() {
+    Gui* gui = (Gui*)malloc(sizeof(Gui));
+
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        fprintf(stderr, ""Failed to open display\n"");
+        exit(1);
+    }
+
+    int screen_num = DefaultScreen(gui->display);
+    gui->window = XCreateSimpleWindow(
+        gui->display,
+        RootWindow(gui->display, screen_num),
+        100, 100, // x, y coordinates of window position.
+        ",True,7,"0,3",True,33
+46,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Struct to represent a GUI element (window)
+typedef struct {
+    Display *display;
+    Window window;
+    int width, height;
+} gui_element;
+
+// Create a new GUI element (window)
+gui_element* gui_create_element(int width, int height) {
+    gui_element *element = malloc(sizeof(gui_element));
+    element->width = width;
+    element->height = height;
+
+    // Open connection with X server 
+    element->display = XOpenDisplay(NULL);
+    if (!element->display) {
+        fprintf(stderr, ""Cannot open display\n"");
+        exit(1);
+    }
+
+    // Create the window 
+    element->window = XCreateSimpleWindow(element->display, DefaultRootWindow(element->display), 0, 0,
+                                         element->width, element->height, 0,
+                                         BlackPixel(element->display, DefaultScreen(element->display)),
+                                         WhitePixel(element->display, DefaultScreen(element->display)));
+
+    // Select events we're interested in 
+    XSelectInput(element->display, element->window, ExposureMask | ButtonPressMask);
+
+    return element;
+}
+
+// Show the GUI element (map the window)
+void gui_show_element(gui_element *element) {
+    XMapWindow(element->display, element->window);
+    XFlush(element->display);
+}
+
+// Handle events (here, only exposure and button press)
+void gui_handle_events(gui_element *element) {
+    XEvent event;
+    while (XPending(element->display) > 0) {
+        XNextEvent(element->display, &event);
+        switch (event.type) {
+            case Expose:
+                printf(""Exposed!\n"");
+                break;
+            case ButtonPress:
+                printf(""Button pressed at (%d,%d)\n"", event.xbutton.x, event.xbutton.y);
+                break;
+        }
+    }
+}
+
+// Clean up and free resources 
+void gui_free_element(gui_element *element) {
+    XDestroyWindow(element->display, element->window);
+    XCloseDisplay(element->display);
+    free(element);
+}
+
+int main() {
+    gui_element *element = gui_create_element(400, 300);
+    gui_show_element(element);
+
+    while (1) {
+        gui_handle_events(element);
+    }
+
+    gui_free_element(element);
+
+    return 0;
+}
+```
+
+This library provides functions to create, show, handle events, and free GUI elements.",True,5,"0,3",True,34
+47,"```c99
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define some constants for our GUI library.
+",True,5,"0,3",True,35
+48,"Please note that this is a simplified example and may need adjustments based on your specific needs.
+
+",True,5,"0,3",True,36
+49,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define some constants for colors and dimensions.
+",True,1,"0,3",True,37
+50,"```c
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// GUI Library
+
+typedef struct {
+    Display *dpy;
+    Window win;
+} Gui;
+
+Gui* gui_init();
+void gui_loop(Gui* gui);
+void gui_create_window(Gui* gui, int width, int height, const char* title);
+
+Gui* gui_init() {
+    Gui* gui = malloc(sizeof(Gui));
+    gui->dpy = XOpenDisplay(NULL);
+    return gui;
+}
+
+void gui_create_window(Gui* gui, int width, int height, const char* title) {
+    XSetWindowAttributes attributes;
+    unsigned long mask = CWEventMask | CWBackPixel | CWColormap;
+    
+    // Create a colormap
+    Colormap cmap = DefaultColormap(gui->dpy, DefaultScreen(gui->dpy));
+    attributes.colormap = cmap;
+    
+    // Set the background color to black
+    attributes.background_pixel = BlackPixel(gui->dpy, DefaultScreen(gui->dpy));
+    
+    // Set the event mask to receive Expose events
+    attributes.event_mask = ExposureMask;
+    
+    gui->win = XCreateWindow(
+        gui->dpy,
+        DefaultRootWindow(gui->dpy),
+        0, 0, width, height, 0,
+        CopyFromParent, InputOutput, CopyFromParent,
+        &mask, &attributes
+    );
+    
+    XStoreName(gui->dpy, gui->win, title);
+    XMapWindow(gui->dpy, gui->win);
+}
+
+void gui_loop(Gui* gui) {
+    XEvent e;
+    while (1) {
+        XNextEvent(gui->dpy, &e);
+        
+        if (e.type == Expose) {
+            printf(""Expose event\n"");
+        }
+    }
+}
+```
+
+To use this library, create a `main` function like this:
+
+```c
+int main() {
+    Gui* gui = gui_init();
+    gui_create_window(gui, 400, 300, ""My GUI Window"");
+    gui_loop(gui);
+    
+    return 0;
+}
+```
+
+This will create a window with the title ""My GUI Window"" of size 400x300.
+
+",True,5,"0,3",True,38
+51,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Define some colors we'll use later.
+",True,1,"0,3",True,39
+52,"```c99.h:
+#ifndef MINIMAL_GUI_LIBRARY_H_
+#define MINIMAL_GUI_LIBRARY_H_
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+
+typedef struct {
+    Display *display;
+    Window window;
+} GuiContext;
+
+GuiContext* gui_init(char* title);
+void gui_cleanup(GuiContext* ctx);
+void gui_run(GuiContext* ctx);
+
+#endif //MINIMAL_GUI_LIBRARY_H_
+```
+
+`gui.c:`
+
+```c99.cpp:
+#include ""minimal_gui_library.h""
+
+GuiContext* gui_init(char* title) {
+    GuiContext* ctx = (GuiContext*)malloc(sizeof(GuiContext));
+    ctx->display = XOpenDisplay(NULL);
+    if (!ctx->display) {
+        fprintf(stderr, ""Failed to open display\n"");
+        return NULL;
+    }
+
+    int screen_num = DefaultScreen(ctx->display);
+    ctx->window = XCreateSimpleWindow(ctx->display, 
+                                     RootWindow(ctx->display, screen_num), 
+                                     10, 10, /* x, y */
+                                     400, 300, /* w, h */
+                                     0, /* border width */
+                                     BlackPixel(ctx->display, screen_num), 
+                                     WhitePixel(ctx->display, screen_num));
+
+    XStoreName(ctx->display, ctx->window, title);
+    XSelectInput(ctx->display, ctx->window, ExposureMask | ButtonPressMask);
+    return ctx;
+}
+
+void gui_cleanup(GuiContext* ctx) {
+    XCloseDisplay(ctx->display);
+    free(ctx);
+}
+
+void gui_run(GuiContext* ctx) {
+    XMapWindow(ctx->display, ctx->window);
+
+    while (1) {
+        XEvent e;
+        XNextEvent(ctx->display, &e);
+
+        switch (e.type) {
+            case Expose:
+                printf(""Expose event\n"");
+                break;
+            case ButtonPress:
+                printf(""Button press at (%d, %d)\n"", e.xbutton.x, e.xbutton.y);
+                break;
+            default:
+                printf(""Unknown event type %d\n"", e.type);
+        }
+    }
+}
+```
+
+This library creates a window with the given title, handles exposure events, and button presses.",False,,,,40
+53,"```c99gui.h```:
+
+```c99gui.c```
+
+```c
+
+#include ""c99gui.h""
+
+// Private structures and functions
+
+typedef struct {
+    Display *dpy;
+    Window win;
+} Gui;
+
+static void handleExpose(Gui *gui, XEvent *event);
+static void handleButtonPress(Gui *gui, XEvent *event);
+
+Gui* guiCreate(Display *dpy, int width, int height) {
+    Gui *gui = malloc(sizeof(Gui));
+    gui->dpy = dpy;
+
+    gui->win = XCreateSimpleWindow(gui->dpy, DefaultRootWindow(gui->dpy), 
+                                100, 100, width, height, 0, 
+                                WhitePixel(gui->dpy, 0), WhitePixel(gui->dpy, 0));
+
+    XSelectInput(gui->dpy, gui->win, ExposureMask | ButtonPressMask);
+    XMapWindow(gui->dpy, gui->win);
+
+    return gui;
+}
+
+void guiRun(Gui *gui) {
+    XEvent event;
+
+    while (1) {
+        XNextEvent(gui->dpy, &event);
+        switch (event.type) {
+            case Expose:
+                handleExpose(gui, &event);
+                break;
+            case ButtonPress:
+                handleButtonPress(gui, &event);
+                break;
+        }
+    }
+}
+
+void guiDestroy(Gui *gui) {
+    XDestroyWindow(gui->dpy, gui->win);
+    free(gui);
+}
+
+// Private functions
+
+static void handleExpose(Gui *gui, XEvent *event) {
+    XExposeEvent *expose = (XExposeEvent*) event;
+    if (expose->count == 0) {
+        XClearWindow(gui->dpy, gui->win);
+        XDrawString(gui->dpy, gui->win, DefaultGC(gui->dpy, 0), 10, 20, ""Hello, World",True,5,"0,3",True,41
+54,"```c99gui.h:
+#ifndef _C99GUI_H_
+#define _C99GUI_H_
+
+#include <X11/Xlib.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    Display *display;
+    int screen;
+    Window window;
+} gui_t;
+
+void gui_init(gui_t *gui);
+void gui_cleanup(gui_t *gui);
+
+void gui_create_window(gui_t *gui, int width, int height);
+void gui_set_title(gui_t *gui, const char *title);
+void gui_show(gui_t *gui);
+
+#endif //_C99GUI_H_
+```
+
+```c99gui.c:
+#include ""c99gui.h""
+
+void gui_init(gui_t *gui) {
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        fprintf(stderr, ""Failed to open display\n"");
+        exit(1);
+    }
+    gui->screen = DefaultScreen(gui->display);
+}
+
+void gui_cleanup(gui_t *gui) {
+    XCloseDisplay(gui->display);
+}
+
+void gui_create_window(gui_t *gui, int width, int height) {
+    gui->window = XCreateSimpleWindow(
+        gui->display,
+        RootWindow(gui->display, gui->screen),
+        100, 100, // initial x, y position (you can change these)
+        width, height,
+        0, // border width (you can change this)
+        BlackPixel(gui->display, gui->screen), // border color (you can change this)
+        WhitePixel(gui->display, gui->screen) // background color (you can change this)
+    );
+}
+
+void gui_set_title(gui_t *gui, const char *title) {
+    XStoreName(gui->display, gui->window, title);
+}
+
+void gui_show(gui_t *gui) {
+    XMapRaised(gui->display, gui->window);
+}
+```
+
+Example usage:
+
+```example.c:
+#include ""c99gui.h""
+
+int main() {
+    gui_t gui;
+    gui_init(&gui);
+    
+    gui_create_window(&gui, 400, 300); // create a window with size 400x300 pixels
+    
+    gui_set_title(&gui, ""My First GUI""); // set the title of the window
+    
+    gui_show(&gui); // show the window on the screen
+    
+    XEvent event;
+    while (1) {
+        XNextEvent(gui.display, &event);
+        if (event.type == Expose) {
+            // Handle expose events here (for example, redraw your window contents)
+        } else if (event.type == ClientMessage) {
+            // Handle client messages here (for example, handle window close events)
+            if (event.xclient.data.l[0] == gui.window) {
+                break; // Stop event loop when window is closed.
+            }
+       ",False,,,,42
+55,"This library provides:
+
+* A `gui_window` struct to represent a window with a title and a dimensions.
+",True,7,"0,3",True,43
+56,"```c99.gui.h```
+```c99.gui.c```
+
+**gui.h**
+```c99.gui.h```
+```c99.gui.h```
+```c99.gui.h```
+
+```c99.gui.h```
+```c99
+
+#ifndef GUI_H_
+#define GUI_H_
+
+#include <X11/Xlib.h>
+
+typedef struct {
+    Display *display;
+    Window window;
+    int width,int height;
+} GUI;
+
+GUI* gui_init(int width,int height);
+void gui_run(GUI* gui);
+void gui_cleanup(GUI* gui);
+
+#endif /* GUI_H_ */
+```
+
+**gui.c**
+
+```c99.gui.c```
+```c99.gui.c```
+```c99.gui.c```
+
+```c99.gui.c```
+```c
+
+#include ""gui.h""
+#include <stdlib.h>
+#include <string.h>
+
+GUI* gui_init(int width,int height) {
+    GUI* gui = (GUI*)malloc(sizeof(GUI));
+
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        fprintf(stderr,""Cannot open display\n"");
+        exit(1);
+    }
+
+    gui->window = XCreateSimpleWindow(gui->display,
+                                      DefaultRootWindow(gui->display),
+                                      100,100,width,height,
+                                      0,NULL);
+
+    XSelectInput(gui->display,gui->window,
+                  ExposureMask | ButtonPressMask | KeyPressMask);
+
+    XMapWindow(gui->display,gui->window);
+
+    return gui;
+}
+
+void gui_run(GUI* gui) {
+    XEvent ev;
+    while (1) {
+        XNextEvent(gui->display,&ev);
+        switch (ev.type) {
+            case Expose:
+                /* Handle expose event */
+                break;
+            case ButtonPress:
+                /* Handle button press event */
+                break;
+            case KeyPress:
+                /* Handle key press event */
+                break;
+        }
+    }
+}
+
+void gui_cleanup(GUI* gui) {
+    XDestroyWindow(gui->display,gui->window);
+    XCloseDisplay(gui->display);
+    free(gui);
+}
+```
+
+You can use this GUI library like so:
+
+**main.c**
+```c99.main.c```
+```c99.main.c```
+```c99.main.c```
+
+```c99.main.c```
+```c
+
+#include ""gui.h""
+
+int main() {
+    GUI* gui = gui_init(400,300);
+    gui_run(gui);
+    gui_cleanup(gui);
+    return 0;
+}
+```
+
+This will create a window of size 400x300 and run an event loop until the window is closed.",True,7,"0,3",True,44
+57,"```c99gui.h```:
+```c99gui.c```
+
+```c99gui.h```:
+```c99gui.h```
+```c99gui.h```
+
+
+
+```c99gui.c```:
+
+
+
+```c99gui.c```
+
+
+
+
+```c99gui.c```
+
+
+
+
+
+
+
+The following example uses this GUI library to create a simple window with a label:
+
+```example.c```:
+```example.c```
+
+
+
+```example.c```
+
+```example.c```
+
+```example.c```
+
+
+
+This will compile to create a `gui_example` executable that displays a window with the text ""Hello, World!""",True,6,"0,3",True,45
+58,"```c99gui.h```:
+
+```c
+
+#ifndef C99GUI_H_INCLUDED
+
+#define C99GUI_H_INCLUDED
+
+#include <X11/Xlib.h>
+
+// Define some constants for GUI elements
+
+typedef enum {
+    BUTTON,
+    LABEL,
+    TEXTFIELD,
+    WINDOW,
+} GUIElementType;
+
+typedef struct GUIElement {
+    Display *display;
+    Window window;
+    GC gc;
+    char text[256];
+    int x, A, a y a w a h;
+    GUIElementType type;
+    struct GUIElement* next;
+} GUIElement;
+
+void init_gui(GUIElement** head);
+GUIElement* create_element(Display*, Window, GC, const char*, int, int, int, int, GUIElementType);
+void add_element(GUIElement**, GUIElement*);
+void show_elements(GUIElement*);
+int handle_events(GUIElement*);
+
+#endif // C99GUI_H_INCLUDED
+
+```
+
+`c99gui.c:`
+
+```c
+
+#include ""c99gui.h""
+#include <string.h>
+#include <stdio.h>
+
+void init_gui(GUIElement** head) {
+    *head = NULL;
+}
+
+GUIElement* create_element(Display *dpy, Window win, GC gc, const char* text, int x, int y, int w, int h, GUIElementType type) {
+    GUIElement* element = (GUIElement*)malloc(sizeof(GUIElement));
+    element->display = dpy;
+    element->window = win;
+    element->gc = gc;
+    strcpy(element->text, text);
+    element->x = x;
+    element->y = y;
+    element->w = w;
+    element->h = h;
+    element->type = type;
+    element->next = NULL;
+    return element;
+}
+
+void add_element(GUIElement** head, GUIElement* element) {
+    if (*head == NULL) {
+        *head = element;
+    } else {
+        GUIElement* temp = *head;
+        while (temp->next!= NULL) {
+            temp = temp->next;
+        }
+        temp->next = element;
+    }
+}
+
+void show_elements(GUIElement* head) {
+    while (head!= NULL) {
+        switch (head->type) {
+            case BUTTON:
+                XDrawRectangle(head->display, head->window, head->gc, head->x, head->y, head->w, head->h);
+                break;
+            case LABEL:
+                XDrawString(head->display, head->window, head->gc, head->x + 5, head->y + 20, head->text, strlen(head->text));
+                break;
+            case TEXTFIELD:
+                XDrawRectangle(head->display, head->window, head->gc, head->x, head->y, head->w, head->h);
+                break;
+            default:
+                break;
+        }
+        head = head->next;
+    }
+    XFlush(head->display);
+}
+
+int handle_events(GUIElement* head) {
+    XEvent event;
+    int running = 1;
+    while (running) {
+        XNextEvent(head->display, &event);
+        if (event.type == Expose) {
+            show_elements(head);
+        } else if (event.type == ButtonPress) {
+            printf(""Button press at (%d, %d)\n"", event.xbutton.x, event.xbutton.y);
+        } else if (event.type == KeyPress) {
+            if (event.xkey.keycode == XKeysymToKeycode(head->display, XK_Escape)) {
+                running = 0;
+            }
+        }
+    }
+    return 0;
+}
+
+```
+
+`main.c:`
+
+```c
+
+#include ""c99gui.h""
+
+int main() {
+    // Open connection to the server.
+",True,7,"0,3",True,46
+59,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define some constants for our GUI elements
+
+#define WIDTH 200 
+#define HEIGHT 100
+
+typedef struct {
+    Display *display;
+    Window window;
+} Gui;
+
+Gui* gui_init(const char* title) {
+    // Create a new GUI instance
+
+    Gui* gui = malloc(sizeof(Gui));
+
+    // Open a connection to the display server
+
+    gui->display = XOpenDisplay(NULL);
+    if (!gui->display) {
+        fprintf(stderr, ""Failed to open display\n"");
+        exit(1);
+    }
+
+    // Create a window with the specified title
+
+    gui->window = XCreateSimpleWindow(
+        gui->display,
+        DefaultRootWindow(gui->display),
+        100, 100, // x, y coordinates of the window on the screen 
+        WIDTH, HEIGHT, // width and height of the window 
+        0, NULL // border width, border colour 
+    );
+
+    XStoreName(gui->display, gui->window, title);
+
+    return gui;
+}
+
+void gui_show(Gui* gui) {
+    // Show the GUI window
+
+    XMapWindow(gui->display, gui->window);
+    XFlush(gui->display); // flush the buffer to make it visible 
+
+    // Get ready to handle events!
+
+   ",True,5,"0,3",True,47
+60,"```c
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to hold GUI elements (windows)
+typedef struct {
+    Display *display;
+    Window window;
+    int width, height;
+} GUI;
+
+// Function to create a new GUI element (window)
+GUI* gui_create(int width, int height) {
+    GUI* gui = malloc(sizeof(GUI));
+    gui->width = width;
+    gui->height = height;
+    
+    // Open display connection (X11)
+    gui->display = XOpenDisplay(NULL);
+    
+    // Create window 
+    gui->window = XCreateSimpleWindow(gui->display,
+                                    DefaultRootWindow(gui->display),
+                                    0, 0, width, height, 0,
+                                    0L, 0L);
+
+    // Show window 
+    XMapWindow(gui->display, gui->window);
+
+    return gui;
+}
+
+// Function to handle events (e.g., mouse clicks, key presses)
+void gui_handle_events(GUI* gui) {
+    XEvent event;
+    
+    while(1) {
+        XNextEvent(gui->display, &event);
+        
+        switch(event.type) {
+            case ButtonPress:
+                printf(""Mouse button pressed at (%d, %d)\n"", event.xbutton.x, event.xbutton.y);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+int main() {
+    GUI* gui = gui_create(400, 300);
+    gui_handle_events(gui);
+    
+    return 0;
+}
+```
+
+Please note that:
+
+1.",True,5,"0,3",True,48
+61,"```c99 gui_library.h```
+```c99 gui_library.c```
+
+Here is the code:
+
+**gui_library.h**
+```c99 gui_library.h```:
+```c99 gui_library.h```:
+```c99 gui_library.h```:
+```c99 gui_library.h```
+```c99 gui_library.h```
+
+
+```c99 gui_library.h```
+
+```c99 gui_library.h```
+
+```c99 gui_library.h```
+
+
+
+**gui_library.c**
+
+```c99 gui_library.c```:
+
+
+
+```c99 gui_library.c```
+
+
+
+
+
+```c99 gui_library.c```
+
+```c99 gui_library.c```
+
+```c99 gui_library.c```
+
+
+
+
+
+
+
+```c99 gui_library.c```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+To use this library, create a new file `main.c` with the following content:
+
+```c main.c```
+```c main.c```
+
+```c main.c```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```c main.c```
+
+Then compile it with the following command:
+```
+gcc -o main main.c gui_library.c -lX11 -L/usr/lib -I/usr/include/X11/
+```
+This will create an executable `main` that creates a window with a button.",True,6,"0,3",True,49
+62,"**gui.h**
+```c
+
+#ifndef GUI_H_INCLUDED
+
+#define GUI_H_INCLUDED
+
+#include <X11/Xlib.h>
+#include <stdio.h>
+
+// GUI constants
+
+#define WIN_WIDTH 400 
+#define WIN_HEIGHT 300 
+
+// Function to create a new window
+
+void createWindow(Display *dpy);
+
+#endif // GUI_H_INCLUDED
+
+```
+
+**gui.c**
+
+```c
+
+#include ""gui.h""
+
+static Display *dpy; 
+static Window win;
+
+void createWindow(Display *dpy) {
+    int screen;
+    
+    dpy = XOpenDisplay(NULL);
+    
+    if (!dpy) {
+        fprintf(stderr, ""Cannot open display\n"");
+        exit(1);
+    }
+    
+    screen = DefaultScreen(dpy);
+    
+    win = XCreateSimpleWindow(dpy, RootWindow(dpy, screen), 
+                            100, 100, WIN_WIDTH, WIN_HEIGHT, 0, 
+                            BlackPixel(dpy, screen), WhitePixel(dpy, screen));
+        
+    XMapWindow(dpy, win);
+    XFlush(dpy);
+}
+
+int main() {
+    createWindow(dpy);
+    
+    while (1) {
+        XEvent e;
+        XNextEvent(dpy, &e);
+        
+        switch (e.type) {
+            case Expose:
+                break;
+            case ButtonPress:
+                printf(""Button press at (%d,%d)\n"", e.xbutton.x, e.xbutton.y);
+                break;
+            case KeyPress:
+                printf(""Key press: %x\n"", e.xkey.keycode);
+                break;
+            default:
+                printf(""Unknown event type: %d\n"", e.type);
+        }
+    }
+    
+    return 0;
+}
+```
+This code will create a window with a size of 400x300, positioned at (100,100) on the screen.",True,5,"0,3",True,50

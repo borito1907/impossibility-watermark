@@ -1,0 +1,260 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+I see you're looking for some Java code to detect download requests in a GeckoView (a.k.a.",True,2,"7,2",True,1
+2," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,1
+3," Mozilla's Android WebView) on Android versions 100 and above.
+
+",False,,,,2
+4," Android Browser) on Android versions above 100.
+
+",True,3,"5,2",True,3
+5," Mozilla's Android WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,4
+6," Mozilla's Android browser component) in Android, specific to versions above 100.
+
+",True,3,"5,2",True,5
+7," Mozilla's Android browser component) on Android,10 (API level 29) or higher.
+
+",True,1,"5,2",True,6
+8," Mozilla's Android browser component) on Android,10 (API level 29) and above.
+
+",True,1,"5,2",True,7
+9," Mozilla's Android WebView) on Android versions above 100 (API level 29).
+
+",True,1,"5,2",True,8
+10," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,9
+11," Mozilla WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,10
+12," Mozilla's Android browser component) on Android version 100 or higher.
+
+",True,1,"5,2",True,11
+13," Mozilla's Android WebView) on Android API level 100 and above.
+
+",True,1,"5,2",True,12
+14," Mozilla's WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,13
+15," Mozilla's Android browser component) on Android,11 (API level 30) and later.
+
+",False,,,,14
+16," Mozilla's Android browser component) on Android,10 (API level 29) or higher.
+
+",True,1,"5,2",True,15
+17," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,16
+18," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,17
+19," Mozilla's Android browser) on Android versions 100 and above.
+
+",False,,,,18
+20," Mozilla's Android browser component) on Android,10 (API level 29) or higher.
+
+",True,1,"5,2",True,19
+21," Mozilla's Android browser component) on Android versions above 100 (i.e., Android 11 and later).
+
+",True,1,"5,2",True,20
+22," Mozilla's Android browser component) on Android versions above 100.
+
+",True,3,"5,2",True,21
+23," Android WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,22
+24," Mozilla's Android browser component) on Android,11 (API level 30) or later.
+
+",False,,,,23
+25," Android WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,24
+26," Mozilla's Android WebView) on versions above 100.
+
+",True,3,"5,2",True,25
+27," Mozilla's Android browser) on Android versions above 100.
+
+",True,3,"5,2",True,26
+28," Mozilla's Android browser component) on Android,10 (API level 29) and above.
+
+",True,1,"5,2",True,27
+29," Mozilla's Android browser engine) on Android, specifically targeting API level 100 and above.
+
+",True,1,"5,2",True,28
+30," Mozilla's Android WebView) on Android versions 100 and above.
+
+",False,,,,29
+31," Mozilla's Android browser) on Android versions above 100.
+
+",True,3,"5,2",True,30
+32," Mozilla's Android browser component) on Android versions greater than or equal to 100.
+
+",True,1,"5,2",True,31
+33," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,32
+34," Mozilla's Android WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,33
+35," Mozilla's Android WebView) for Android versions above 100.
+
+",False,,,,34
+36," Mozilla's Android browser) on Android versions above 100.
+
+",True,3,"5,2",True,35
+37," Mozilla's Android browser) on Android versions above 100.
+
+",True,3,"5,2",True,36
+38," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,37
+39," Firefox for Android) on Android versions above 100 (i.e., Android 11 and later).
+
+",True,1,"5,2",True,38
+40," Firefox browser view) on Android, particularly for versions above 100.
+
+",True,3,"5,2",True,39
+41," Mozilla Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,40
+42," Mozilla's Android browser component) on Android,11 or later.
+
+",False,,,,41
+43," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,42
+44," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,43
+45," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,44
+46," Mozilla's Android browser component) on Android, versions above 100.
+
+",True,3,"5,2",True,45
+47," Mozilla's Android browser component) on Android,10 (API level 29) or later.
+
+",False,,,,46
+48," Mozilla's Android browser) on Android versions above 100 (Android 11 and later).
+
+",True,1,"5,2",True,47
+49," Mozilla's Android WebView) on Android, version 100 or higher.
+
+",True,1,"5,2",True,48
+50," Firefox WebView) on Android, specifically for versions above 100.
+
+",True,3,"5,2",True,49
+51," Firefox for Android) on Android versions 100 and above.
+
+",True,1,"5,2",True,50
+52,"Here's an example code snippet that should do the trick:
+```javaandroid-java-fragment)
+```javaFragment.java)
+import android.os.Build;
+import mozilla.telescope.autocommit.AutoCommitActivity;
+
+public class DownloadDetector {
+    private static final String TAG = ""DownloadDetector"";
+
+    public boolean isDownloadRequest(GeckoSession session, LoadUrlEvent event) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) { // Android 11 and above (API level 30)
+            return event.getFlags()!= 0 && (event.getFlags() & GeckoSession.LOAD_FLAGS_IS_DOWNLOAD)!= 0;
+        } else {
+            // For Android 10 and below, we need to inspect the URL and HTTP headers manually.
+           ",True,2,"6,2",True,1
+53," // This might not cover all cases, but it's a good starting point.
+           ",True,5,"5,2",True,1
+54," Uri uri = event.getUrl().getUri();
+            String mimeType = event.getResponseHeaders().get(""Content-Type"");
+            if (uri.getLastPathSegment().endsWith("".apk"") || mimeType.startsWith(""application/vnd.android.package-archive"")) {
+                Log.d(TAG, ""Detected APK download request: "" + uri);
+                return true;
+            }
+            return false;
+        }
+    }
+}
+```
+
+**Explanation**:
+
+1.",False,,,,1
+55," Uri uri = Uri.parse(event.getUrl());
+            if (""application/octet-stream"".equals(session.getUserAgent().getResponseHeader(""Content-Type""))) {
+                Log.d(TAG, ""Possible download request detected: "" + event.getUrl());
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
+In this code:
+
+1.",False,,,,2
+56," Uri uri = Uri.parse(event.getUrl());
+            String userAgent = session.getUserAgent();
+            boolean isMobileBrowser = userAgent.contains(""Firefox"") || userAgent.contains(""Android"");
+
+            if (uri.getScheme().equals(""http"") || uri.getScheme().equals(""https"")) {
+                String contentType = event.getResponseHeaders().get(""Content-Type"");
+                if (contentType!= null &&!contentType.isEmpty()) {
+                    if (contentType.startsWith(""application/"") || contentType.startsWith(""text/"")) {
+                        // Check for specific MIME types or file extensions that indicate a downloadable resource.
+                       ",True,7,"1,4",True,3
+57," Uri uri = Uri.parse(event.getUrl());
+            String mimeType = event.getResponseHeaders().get(""Content-Type"");
+            if (uri.getPath().endsWith("".apk"") || mimeType.startsWith(""application/vnd.android.package-archive"")) {
+                return true; // APK file or Android package archive MIME type - likely a download request.
+            }
+       ",True,3,"1,4",True,4
+58," String url = event.getUrl();
+            if (url.startsWith(""http://"") || url.startsWith(""https://"")) {
+                GeckoSession.NetworkLoad load = session.getNetworkLoad(url);
+                if (load!= null) {
+                    Map<String, String> headers = load.getRequestHeaders();
+                    if (headers.containsKey(""Accept-Ranges"") && headers.get(""Accept-Ranges"").equals(""bytes"")) {
+                        Log.d(TAG, ""Detected download request: "" + url);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
+```
+This `DownloadDetector` class provides a `isDownloadRequest` method that takes a `GeckoSession` and a `LoadUrlEvent` as parameters.",True,2,"1,4",True,5
+59," String url = event.getUrl();
+            if (url!= null && url.startsWith(""http"")) {
+                String disposition = session.getHeader(""Content-Disposition"");
+                if (disposition!= null && disposition.contains(""attachment"")) {
+                    Log.d(TAG, ""Detected download request: "" + url);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+```
+In this code:
+
+1.",True,2,"1,4",True,6
+60," Uri uri = event.getUrl().getUri();
+            String mimeType = event.getResponseHeaders().get(""Content-Type"");
+            boolean isDownloadableMimeType = mimeType!= null && mimeType.startsWith(""application/"");
+
+            return uri.getPath().endsWith("".apk"") || isDownloadableMimeType;
+        }
+    }
+}
+```
+Here's how the code works:
+
+1.",True,1,"1,4",True,7

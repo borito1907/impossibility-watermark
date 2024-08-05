@@ -1,0 +1,591 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is a complete HTML, some CSS and JavaScript to create a functional Tic Tac Toe game:
+
+```htmlcssjavascriptify
+
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Tic Tac Toe</title>
+    <style>
+       .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+       .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+        }
+
+       .cell {
+            background-color: #eee;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+       .cell:hover {
+            background-color: #ddd;
+        }
+
+       .cell.x {
+            background-color: #ff9999;
+        }
+
+       .cell.o {
+            background-color: #99ff99;
+        }
+    </style>
+</head>
+<body>
+    <div class=""container"">
+        <div class=""game-board"" id=""game-board"">
+            <!-- Cells will be generated dynamically -->
+        </div>
+        <p id=""result""></p>
+        <button id=""reset-button"">Reset Game</button>
+    </div>
+
+    <script>
+        let gameBoard = document.getElementById('game-board');
+        let resultElement = document.getElementById('result');
+        let resetButton = document.getElementById('reset-button');
+        let cells = [];
+        let currentPlayer = 'X';
+        let gameOver = false;
+
+        // Create game board cells dynamically 
+        for (let i = 0; i < 9; i++) {
+            let cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.addEventListener('click', handleCellClick);
+            gameBoard.appendChild(cell);
+            cells.push(cell);
+        }
+
+        function handleCellClick(event) {
+            if (gameOver) return;
+            let cellIndex = cells.indexOf(event.target);
+            if (cells[cellIndex].classList.contains('x') || cells[cellIndex].classList.contains('o')) return;
+            markCell(cellIndex, currentPlayer);
+            checkGameStatus();
+            switchPlayer();
+        }
+
+        function markCell(index, player) {
+            cells[index].classList.add(player.toLowerCase());
+        }
+
+        function checkGameStatus() {
+            let winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8]
+            ];
+
+            for (let combination of winningCombinations) {
+                let cell1 = cells[combination[0]];
+                let cell2 = cells[combination[1]];
+                let cell3 = cells[combination[2]];
+
+                if (cell1.classList.contains(currentPlayer.toLowerCase()) &&
+                    cell2.classList.contains(currentPlayer.toLowerCase()) &&
+                    cell3.classList.contains(currentPlayer.toLowerCase())) {
+
+                    declareWinner(currentPlayer);
+                    return;
+                }
+            }
+
+            // Check for draw game condition: no more empty cells left.
+           ",False,,,,1
+2,"
+
+Here is a complete HTML-based Tic-Tac-Toe game:
+```
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe</title>
+	<style>
+		/* Add some basic styling to make the game look decent */
+		table {
+			border-collapse: collapse;
+			margin: 40px auto;
+		}
+		th, td {
+			width: 50px;
+			height: 50px;
+			border: 1px solid #ccc;
+			text-align: center;
+			font-size: 24px;
+		}
+		td:hover {
+			background-color: #f0f0f0;
+		}
+	</style>
+</head>
+<body>
+	<h1>Tic Tac Toe</h1>
+	<table id=""game-board"">
+		<tr>
+			<td id=""cell-0"" onclick=""makeMove(this)"">&nbsp;</td>
+			<td id=""cell-1"" onclick=""makeMove(this)"">&nbsp;</td>
+			<td id=""cell-2"" onclick=""makeMove(this)"">&nbsp;</td>
+		</tr>
+		<tr>
+			<td id=""cell-3"" onclick=""makeMove(this)"">&nbsp;</td>
+			<td id=""cell-4"" onclick=""makeMove(this)"">&nbsp;</td>
+			<td id=""cell-5"" onclick=""makeMove(this)"">&nbsp;</td>
+		</tr>
+		<tr>
+			<td id=""cell-6"" onclick=""makeMove(this)"">&nbsp;</td>
+			<td id=""cell-7"" onclick=""makeMove(this)"">&nbsp;</td>
+			<td id=""cell-8"" onclick=""makeMove(this)"">&nbsp;</td>
+		</tr>
+	</table>
+	<p id=""result""></p>
+
+	<script>
+		let currentPlayer = 'X';
+		let gameBoard = [];
+		let gameOver = false;
+
+		// Initialize the game board array with empty cells 
+		for (let i = 0; i < 9; i++) {
+			gameBoard.push('');
+		}
+
+		function makeMove(cell) {
+			if (gameOver) return;
+			const cellId = cell.id.replace('cell-', '');
+			const index = parseInt(cellId);
+
+			if (gameBoard[index] === '') {
+				gameBoard[index] = currentPlayer;
+				cell.innerText = currentPlayer;
+
+				checkForWinner();
+
+				currentPlayer = currentPlayer === 'X'? '",True,0,"5,2",True,2
+3,"
+
+Here is a complete HTML, CSS, and JavaScript code for a Tic-Tac-Toe game:
+
+**HTML:**
+```
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Tic Tac Toe</title>
+    <link rel=""stylesheet"" href=""style.css"">
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class=""game-board"">
+        <div class=""row"">
+            <div class=""cell"" id=""cell-1""></div>
+            <div class=""cell"" id=""cell-2""></div>
+            <div class=""cell"" id=""cell-3""></div>
+        </div>
+        <div class=""row"">
+            <div class=""cell"" id=""cell-4""></div>
+            <div class=""cell"" id=""cell-5""></div>
+            <div class=""cell"" id=""cell-6""></div>
+        </div>
+        <div class=""row"">
+            <div class=""cell"" id=""cell-7""></div>
+            <div class=""cell"" id=""cell-8""></div>
+            <div class=""cell"" id=""cell-9""></div>
+        </div>
+    </div>
+    <button id=""reset-button"">Reset</button>
+
+    <script src=""script.js""></script>
+</body>
+</html>
+```
+**CSS (in style.css file):**
+```
+.game-board {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+}
+
+.cell {
+    width: 33.33%;
+    height: 100px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #f0f0f0;
+}
+
+#reset-button {
+    margin-top: 20px;
+}
+```
+**JavaScript (in script.js file):**
+```
+let gameOver = false;
+let currentPlayer = ""X"";
+let board = Array(9).fill(null);
+
+document.addEventListener(""DOMContentLoaded"", () => {
+    const cells = document.querySelectorAll("".cell"");
+    cells.forEach((cell) => {
+        cell.addEventListener(""click"", handleCellClick);
+    });
+
+    document.getElementById(""reset-button"").addEventListener(""click"", resetGame);
+});
+
+function handleCellClick(event) {
+    if (gameOver) return;
+
+    const cellIndex = parseInt(event.target.id.split(""-"")[1]) - 1;
+    if (board[cellIndex]!== null) return;
+
+    board[cellIndex] = currentPlayer;
+    event.target.textContent = currentPlayer;
+
+    checkForWin();
+    currentPlayer = currentPlayer === ""X""? """,True,3,"5,2",True,3
+4,"
+
+Here is a complete HTML,2013;based Tic-Tac-Toe game:
+
+```html
+
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Tic Tac Toe</title>
+    <style>
+       .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+       .cell {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+       .cell:hover {
+            background-color: #d0d0d0;
+        }
+        
+       .win {
+            background-color: #c6efce;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class=""container"" id=""game-board"">
+        <div class=""cell"" data-cell-index=""0""></div>
+        <div class=""cell"" data-cell-index=""1""></div>
+        <div class=""cell"" data-cell-index=""2""></div>
+        <div class=""cell"" data-cell-index=""3""></div>
+        <div class=""cell"" data-cell-index=""4""></div>
+        <div class=""cell"" data-cell-index=""5""></div>
+        <div class=""cell"" data-cell-index=""6""></div>
+        <div class=""cell"" data-cell-index=""7""></div>
+        <div class=""cell"" data-cell-index=""8""></div>
+    </div>
+    <p id=""result""></p>
+
+    <script>
+        let currentPlayer = ""X"";
+        let board = Array(9).fill(null);
+        let gameWon = false;
+
+        document.addEventListener(""DOMContentLoaded"", () => {
+            const cells = document.querySelectorAll("".cell"");
+            cells.forEach((cell) => {
+                cell.addEventListener(""click"", (event) => {
+                    if (gameWon) return;
+                    const index = event.target.getAttribute(""data-cell-index"");
+                    if (board[index]) return;
+                    board[index] = currentPlayer;
+                    event.target.textContent = currentPlayer;
+                    checkWin();
+                    currentPlayer = currentPlayer === ""X""? """,True,3,"5,2",True,4
+5,"
+
+Here is an HTML-based Tic-Tac-Toe game:
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tic Tac Toe</title>
+  <style>
+    /* Add some basic styling to make the game look decent */
+    table {
+      border-collapse: collapse;
+      width: 300px;
+      height: 300px;
+      margin: 40px auto;
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+    }
+    td {
+      border: 1px solid #ccc;
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      vertical-align: middle;
+    }
+   .game-cell:hover {
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+   .winning-cell {
+      background-color: #ffff00; /* Yellow background for winning cells */
+    }
+  </style>
+</head>
+<body>
+  <h1>Tic Tac Toe</h1>
+  <table id=""game-board"">
+    <!-- Create a 3x3 grid of table cells -->
+    <tr>
+      <td class=""game-cell"" data-index=""0""></td>
+      <td class=""game-cell"" data-index=""1""></td>
+      <td class=""game-cell"" data-index=""2""></td>
+    </tr>
+    <tr>
+      <td class=""game-cell"" data-index=""3""></td>
+      <td class=""game-cell"" data-index=""4""></td>
+      <td class=""game-cell"" data-index=""5""></td>
+    </tr>
+    <tr>
+      <td class=""game-cell"" data-index=""6""></td>
+      <td class=""game-cell"" data-index=""7""></td>
+      <td class=""game-cell"" data-index=""8""></td>
+    </tr>
+  </table>
+
+  <!-- JavaScript code to handle game logic -->
+  <script>
+    let gameBoard = [];
+    let currentPlayer = 'X';
+    let winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    // Initialize game board with empty cells []
+    for (let i = 0; i < 9; i++) {
+      gameBoard.push('');
+    }
+
+    // Add event listener to each cell in the game board []
+    document.querySelectorAll('.game-cell').forEach((cell) => {
+      cell.addEventListener('click', () => {
+        const index = parseInt(cell.dataset.index);
+        if (gameBoard[index] === '') {
+          gameBoard[index] = currentPlayer;
+          cell.textContent = currentPlayer;
+          checkWin();
+          switchPlayer();
+        }
+      });
+    });
+
+    // Check for a win by iterating through the winning combinations []
+    function checkWin() {
+      winningCombinations.forEach((combination) => {
+        const cellValues = combination.map((index) => gameBoard[index]);
+        if (cellValues.every((value) => value === 'X')) {
+          declareWinner('X');
+        } else if (cellValues.every((value) => value === 'O')) {
+          declareWinner('O');
+        }
+      });
+    }
+
+    // Declare the winner and highlight the winning cells []
+    function declareWinner(winner) {
+      winningCombinations.forEach((combination) => {
+        if (
+          combination.every((index) =>
+            gameBoard[index] === winner &&
+",False,,,,5
+6,"
+
+Here is an HTML,2014; CSS3; and JavaScript-based implementation of Tic-Tac-Toe:
+
+```
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width,1960;, initial-scale=1.0"">
+    <title>Tic Tac Toe</title>
+    <style>
+       .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+       .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+       .cell {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+       .cell:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class=""container"">
+        <div class=""board"" id=""board"">
+            <!-- cells will be generated dynamically -->
+        </div>
+        <p id=""result""></p>
+        <button onclick=""resetGame()"">Reset Game</button>
+    </div>
+
+    <script>
+        let board = [];
+        let currentPlayer = ""X"";
+        let gameOver = false;
+
+        function createBoard() {
+            for (let i = 0; i < 3; i++) {
+                board[i] = [];
+                for (let j = 0; j < 3; j++) {
+                    const cell = document.createElement(""div"");
+                    cell.className = ""cell"";
+                    cell.addEventListener(""click"", () => handleCellClick(i, j));
+                    document.getElementById(""board"").appendChild(cell);
+                    board[i][j] = """";
+                }
+            }
+        }
+
+        function handleCellClick(i, j) {
+            if (gameOver) return;
+            if (board[i][j]) return;
+            board[i][j] = currentPlayer;
+            document.querySelector(`.cell:nth-child(${i * 3 + j + 1})`).textContent = currentPlayer;
+            checkWin();
+            currentPlayer = currentPlayer === ""X""? """,True,3,"5,2",True,6
+7,"
+
+Here is a complete HTML, a CSS and JavaScript-based Tic Tac Toe game:
+
+**HTML:**
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <link rel=""stylesheet"" href=""style.css"">
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <table id=""game-board"">
+        <tr>
+            <td class=""cell"" id=""0""></td>
+            <td class=""cell"" id=""1""></td>
+            <td class=""cell"" id=""2""></td>
+        </tr>
+        <tr>
+            <td class=""cell"" id=""3""></td>
+            <td class=""cell"" id=""4""></td>
+            <td class=""cell"" id=""5""></td>
+        </tr>
+        <tr>
+            <td class=""cell"" id=""6""></td>
+            <td class=""cell"" id=""7""></td>
+            <td class=""cell"" id=""8""></td>
+        </tr>
+    </table>
+    <p id=""result""></p>
+    <script src=""script.js""></script>
+</body>
+</html>
+```
+**CSS (in style.css file):**
+```
+#game-board {
+    border-collapse: collapse;
+    margin: 40px auto;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 60px;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #ccc;
+}
+```
+**JavaScript (in script.js file):**
+```
+let gameBoard = [];
+let currentPlayer = ""X"";
+let gameOver = false;
+
+// Initialize game board array with empty strings.
+",True,2,"5,2",True,7

@@ -99,6 +99,7 @@ class SemStampWatermarker(Watermarker):
         
     def generate_sentence(self, text, text_ids, stopping_criteria):
         if "opt" in self.model.config._name_or_path:
+            log.info(f"Generating with an OPT model...")
             candidate_text, candidate_text_ids = gen_sent(model = self.model, 
                 tokenizer = self.tokenizer, 
                 text_ids = text_ids,
@@ -106,6 +107,7 @@ class SemStampWatermarker(Watermarker):
                 stopping_criteria = stopping_criteria
             )
         elif "Mixtral" in self.model.config._name_or_path:
+            log.info(f"Generating with a Mixtral model...")
             self.generator_kwargs['stopping_criteria'] = stopping_criteria
             outputs = self.model.generate(text_ids, self.gen_config, **self.generator_kwargs)
             log.info(f"Outputs: {outputs}")
@@ -113,6 +115,7 @@ class SemStampWatermarker(Watermarker):
             candidate_text_ids = outputs.sequences
             candidate_text = self.tokenizer.decode(candidate_text_ids[0, text_ids.size(1):], skip_special_tokens=True)
         elif "Llama" in self.model.config._name_or_path:
+            log.info(f"Generating with a Llama model...")
             self.generator_kwargs['stopping_criteria'] = stopping_criteria
             outputs = self.model.generate(inputs=text_ids, generation_config=self.gen_config, **self.generator_kwargs)
             outputs = outputs[:, :-1]  # Remove the last token from each sequence

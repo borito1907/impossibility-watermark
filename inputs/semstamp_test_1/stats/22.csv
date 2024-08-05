@@ -1,0 +1,5633 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,1
+2,"
+
+Here is an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 (Microcontroller)
+* Laser Diode modules x6 (Connected to Digital Pins D2-D7)
+* Breadboard and Jumper Wires for connections
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Array of laser pins (D2-D7)
+
+void setup() {
+  // Initialize laser pins as output pins:
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Fancy Feature 1: Alternating Lasers (Left-Right-Left-Right...)
+  alternateLasers(100);
+
+  // Fancy Feature 2: Spiral Pattern (Laser 1->2->3->4->5->6->1...)
+  spiralPattern(50);
+
+  // Fancy Feature 3: Randomized Flashing (each laser flashes randomly)
+  randomizedFlash(20, 100);
+
+  // Fancy Feature 4: Gradual Brightness Increase/Decrease (for each laser)
+  gradualBrightness(10, 500);
+
+  // Fancy Feature 5: Scanner Effect (lasers move from left to right and back)
+  scannerEffect(10, 200);
+
+  // Fancy Feature 6: Strobe Light Effect (all lasers flash rapidly)
+  strobeLight(5, 100);
+}
+
+// Functions for each fancy feature:
+
+void alternateLasers(int delayTime) {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(delayTime);
+    digitalWrite(laserPins[i], LOW);
+    if (i % 2 == 0) {
+      i++; // Skip one laser if current index is even.
+    }
+ ",True,4,"7,2",True,2
+3,"
+
+Here is an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Feature List:**
+
+1.",False,,,,3
+4,"
+
+Here is an example Arduino Nano code that incorporates 6 fancy features for a multi-laser setup:
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // define the pins for each laser module
+
+void setup() {
+  Serial.begin(9600);
+  
+  // Initialize all laser pins as output and turn them off initially 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+    digitalWrite(laserPins[i], LOW);
+  }
+}
+
+void loop() {
+  // Fancy Feature 1: Sequential Laser Lighting Effect 
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+
+  // Fancy Feature 2: Random Laser Pattern 
+  randomSeed(analogRead(A0)); // use analog pin A0 to generate random values 
+  for (int i = 0; i < 10; i++) {
+    int randomLaser = random(0, 6);
+    digitalWrite(laserPins[randomLaser], HIGH);
+    delay(random(20, 100));
+    digitalWrite(laserPins[randomLaser], LOW);
+    delay(random(20, 100));
+  }
+
+  // Fancy Feature 3: Sound-Reactive Laser Patterns (using a microphone) 
+  int soundLevel = analogRead(A1); // read audio signal from microphone connected to A1 
+  if (soundLevel > 500) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], HIGH);
+      delay(20);
+      digitalWrite(laserPins[i], LOW);
+      delay(20);
+    }
+  }
+
+  // Fancy Feature 4: Button-Controlled Laser Selection (using a pushbutton) 
+  int buttonState = digitalRead(8); // read pushbutton state on digital pin 8 
+  if (buttonState == HIGH) {
+    static int currentLaser = 0;
+    digitalWrite(laserPins[currentLaser], HIGH);
+    delay(200);
+    digitalWrite(laserPins[currentLaser], LOW);
+    currentLaser = (currentLaser + 1) % 6;
+  }
+
+  // Fancy Feature 5: Potentiometer-Controlled Laser Brightness (using a potentiometer) 
+  int potValue = analogRead(A2); // read potentiometer value on analog pin A2 
+  int brightness = map(potValue, 0, 1023, 0, 255);
+  for (int i = 0; i < 6; i++) {
+    analogWrite(laserPins[i], brightness);
+  }
+
+  // Fancy Feature 6: Serial Command-Controlled Laser Patterns (via serial monitor) 
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n');
+    if (command.equals(""ALL_ON"")) {
+      for (int i = 0; i < 6; i++) {
+        digitalWrite(laserPins[i], HIGH);
+      }
+    } else if (command.equals(""ALL_OFF"")) {
+      for (int i = 0; i < 6; i++) {
+        digitalWrite(laserPins[i], LOW);
+      }
+    } else if (command.startsWith(""LASER_"")) {
+      int laserNumber = command.substring(6).toInt();
+      digitalWrite(laserPins[laserNumber - 1], HIGH);
+    }
+  }
+}
+```
+This code",True,4,"7,2",True,4
+5,"
+
+Here's an Arduino Nano code that controls a multi-laser module with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or any compatible Arduino board)
+* Multi-laser module (with 6 individual laser diodes or LEDs)
+* 6 resistors (1kΩ each) for current limiting on the lasers/LEDs)
+* Breadboard and jumper wires for connections
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Assign pins to control each laser/LED
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set each pin as an output for laser control 
+  }
+}
+
+void loop() {
+  // Fancy Feature 1: Alternate Laser Pattern 
+  alternateLaserPattern();
+  
+  delay(2000); // Wait 2 seconds before moving to next feature
+  
+  // Fancy Feature 2: Sequential Laser Pattern 
+  sequentialLaserPattern();
+  
+  delay(2000);
+  
+  // Fancy Feature 3: Random Laser Selection 
+  randomLaserSelection();
+  
+  delay(2000);
+  
+  // Fancy Feature 4: Laser Chasing Effect 
+  laserChasingEffect();
+  
+  delay(2000);
+  
+  // Fancy Feature 5: Strobe Light Effect 
+  strobeLightEffect();
+  
+  delay(2000);
+  
+  // Fancy Feature 6: Laser Sweep Effect 
+  laserSweepEffect();
+  
+  delay(2000);
+}
+
+// Functions for each fancy feature:
+void alternateLaserPattern() {
+  for (int i = 0; i < 6; i += 2) {
+    digitalWrite(laserPins[i], HIGH);
+    digitalWrite(laserPins[i+1], LOW);
+    delay(100);
+    digitalWrite(laserPins[i], LOW);
+    digitalWrite(laserPins[i+1], HIGH);
+    delay(100);
+  }
+}
+
+void sequentialLaserPattern() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+}
+
+void randomLaserSelection() {
+  int randomIndex = random(0, 6);
+  digitalWrite(laserPins[randomIndex], HIGH);
+  delay(500);
+  digitalWrite(laserPins[randomIndex], LOW);
+  delay(500);
+}
+
+void laserChasingEffect() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(20);
+    digitalWrite(laserPins[i], LOW);
+    delay(20);
+  }
+  for (int i = 5; i >= 0; i--) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(20);
+    digitalWrite(laserPins[i], LOW);
+    delay(20);
+  }
+}
+
+void strobeLightEffect() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], HIGH);
+    }
+    delay(50);
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], LOW);
+    }
+    delay(50);
+  }
+}
+
+void laserSweepEffect() {
+  for (int i = 0; i < 6; i++) {
+    for (int j = ",True,4,"7,2",True,5
+6,"
+
+Here's an Arduino Nano code for a multi-laser project with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 
+* Laser diode modules (with resistors and capacitors) x6 
+* Breadboard x1 
+* Jumper wires x12 
+
+**Software Requirements:**
+
+* Arduino IDE (latest version)
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Assign pins to laser diodes (D2-D7)
+int currentLaser = 0; // Keep track of the current laser being controlled
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set laser pins as outputs 
+  }
+}
+
+void loop() {
+  // Feature 1: Sequential Laser Activation ( press button on pin D8 )
+  if (digitalRead(8) == HIGH) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[currentLaser], HIGH);
+      delay(500); 
+      digitalWrite(laserPins[currentLaser], LOW);
+      currentLaser = (currentLaser + 1) % 6;
+      delay(500); 
+    }
+  }
+
+  // Feature 2: Random Laser Flicker (every 100ms)
+  else if (millis() % 100 == 0) {
+    int randomLaser = random(0, 6);
+    digitalWrite(laserPins[randomLaser], HIGH);
+    delay(20);
+    digitalWrite(laserPins[randomLaser], LOW);
+  }
+
+  // Feature 3: Laser Sweep (from left to right, every 2s)
+  else if (millis() % 2000 == 0) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], HIGH);
+      delay(50);
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+
+  // Feature 4: Alternating Lasers (every 500ms)
+  else if (millis() % 500 == 0) {
+    for (int i = 0; i < 3; i++) {
+      digitalWrite(laserPins[2 * i], HIGH);
+      digitalWrite(laserPins[2 * i + 1], LOW);
+    }
+    delay(250);
+    for (int i = 0; i < 3; i++) {
+      digitalWrite(laserPins[2 * i], LOW);
+      digitalWrite(laserPins[2 * i + 1], HIGH);
+    }
+  }
+
+  // Feature 5: User-Defined Pattern (using serial input)
+  else if (Serial.available() > 0) {
+    String pattern = Serial.readStringUntil('\n');
+    for (char c : pattern.toCharArray()) {
+      if (c == '1') {
+        digitalWrite(laserPins[currentLaser], HIGH);
+      } else {
+        digitalWrite(laserPins[currentLaser], LOW);
+      }
+      currentLaser = (currentLaser + 1) % 6;
+    }
+  }
+
+  // Feature 6: Automatic Shutdown (after 10 minutes of inactivity)
+  else if (millis() > 600000 &&!digitalRead(8)) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+}
+```
+**How it works:**
+
+1.",True,4,"7,2",True,6
+7,"
+
+Here is an example Arduino Nano code that integrates multiple laser modules and features six fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or compatible)
+* 6 x Laser Diode Modules (e.g., LD-005, LD-010, or similar)
+* 6 x Resistor arrays for current limiting (1 kΩ - 10 kΩ range)
+* 1 x Breadboard for prototyping
+
+**Code Features:**
+
+1.",True,4,"7,2",True,7
+8,"
+
+Here's an example Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 
+* Laser diodes (multiple) x6 
+* Resistors (current-limiting) x6 
+* Breadboard and jumper wires for connections 
+
+**Software:**
+```cpp 
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Define the pins connected to the lasers
+
+void setup() {
+  // Initialize all laser pins as output 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Fancy Feature 1: Alternate Laser Blinking 
+  alternateBlink();
+
+  // Fancy Feature 2: Sequential Laser Scanning 
+  sequentialScan();
+
+  // Fancy Feature 3: Random Laser Pattern Generation 
+  randomPattern();
+
+  // Fancy Feature 4: Laser Strobe Effect 
+  strobeEffect();
+
+  // Fancy Feature 5: Breath-In/Breath-Out Laser Animation 
+  breatheAnimation();
+
+  // Fancy Feature 6: User-Controlled Laser Dimming 
+  userDimming();
+}
+
+// Function for Alternate Laser Blinking 
+void alternateBlink() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j += 2) {
+      digitalWrite(laserPins[j], HIGH);
+    }
+    delay(50);
+    for (int j = 0; j < 6; j += 2) {
+      digitalWrite(laserPins[j], LOW);
+    }
+    for (int j = 1; j < 6; j += 2) {
+      digitalWrite(laserPins[j], HIGH);
+    }
+    delay(50);
+    for (int j = 1; j < 6; j += 2) {
+      digitalWrite(laserPins[j], LOW);
+    }
+  }
+}
+
+// Function for Sequential Laser Scanning 
+void sequentialScan() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], HIGH);
+      delay(20);
+      digitalWrite(laserPins[j], LOW);
+    }
+  }
+}
+
+// Function for Random Laser Pattern Generation 
+void randomPattern() {
+  for (int i = 0; i < 100; i++) {
+    int randPin = random(6);
+    digitalWrite(laserPins[randPin], HIGH);
+    delay(random(10, 50));
+    digitalWrite(laserPins[randPin], LOW);
+  }
+}
+
+// Function for Laser Strobe Effect 
+void strobeEffect() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], HIGH);
+    }
+    delay(10);
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], LOW);
+    }
+    delay(10);
+  }
+}
+
+// Function for Breath-In/Breath-Out Laser Animation 
+void breatheAnimation() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j++) {
+      for (int k = 0; k < 255; k++) {
+        analogWrite(laserPins[j], k);
+        delay(5);
+      }
+",True,4,"7,2",True,8
+9,"
+
+Here's an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 
+* Laser diode modules (red, green, blue) x3 
+* Resistors (1kΩ, 2kΩ, 3kΩ) x3 
+* Breadboard x1 
+* Jumper wires x10 
+
+**Software:**
+```c++
+const int redLaserPin = 2;  // Pin for Red laser diode module 
+const int greenLaserPin = 4;  // Pin for Green laser diode module 
+const int blueLaserPin = 7;  // Pin for Blue laser diode module 
+
+void setup() {
+  pinMode(redLaserPin, OUTPUT);
+  pinMode(greenLaserPin, OUTPUT);
+  pinMode(blueLaserPin, OUTPUT);
+}
+
+void loop() {
+  // Feature 1: Alternate flashing of lasers 
+  alternateLasers();
+  
+  delay(500);
+
+  // Feature 2: Color Cycling (Red -> Green -> Blue -> Red...) 
+  colorCycle();
+  
+  delay(2000);
+
+  // Feature 3: Individual laser control using serial input 
+  individualControl();
+
+  // Feature 4: Pattern display ( Horizontal, Vertical, Diagonal )
+  patternDisplay();
+
+  delay(3000);
+
+  // Feature 5: Laser beam intensity adjustment 
+  adjustIntensity();
+
+  delay(2000);
+
+  // Feature 6: Automatic shutdown after inactivity 
+  autoShutdown();
+}
+
+// Feature 1: Alternate flashing of lasers 
+void alternateLasers() {
+  for(int i=0; i<5; i++) {
+    digitalWrite(redLaserPin, HIGH);
+    digitalWrite(greenLaserPin, LOW);
+    digitalWrite(blueLaserPin, LOW);
+    delay(100);
+    
+    digitalWrite(redLaserPin, LOW);
+    digitalWrite(greenLaserPin, HIGH);
+    digitalWrite(blueLaserPin, LOW);
+    delay(100);
+    
+    digitalWrite(redLaserPin, LOW);
+    digitalWrite(greenLaserPin, LOW);
+    digitalWrite(blueLaserPin, HIGH);
+    delay(100);
+  }
+}
+
+// Feature 2: Color Cycling (Red -> Green -> Blue -> Red...) 
+void colorCycle() {
+  for(int i=0; i<3; i++) {
+    digitalWrite(redLaserPin, HIGH);
+    digitalWrite(greenLaserPin, LOW);
+    digitalWrite(blueLaserPin, LOW);
+    delay(500);
+    
+    digitalWrite(redLaserPin, LOW);
+    digitalWrite(greenLaserPin, HIGH);
+    digitalWrite(blueLaserPin, LOW);
+    delay(500);
+    
+    digitalWrite(redLaserPin, LOW);
+    digitalWrite(greenLaserPin, LOW);
+    digitalWrite(blueLaserPin, HIGH);
+    delay(500);
+  }
+}
+
+// Feature 3: Individual laser control using serial input 
+void individualControl() {
+  if(Serial.available()>0) {
+    char c = Serial.read();
+    if(c == 'r') digitalWrite(redLaserPin, HIGH);
+    else if(c == 'g') digitalWrite(greenLaserPin, HIGH);
+    else if(c == 'b') digitalWrite(blueLaserPin, HIGH);
+    else if(c == 'R') digitalWrite(redLaserPin, LOW);
+    else if(c == 'G') digitalWrite(greenLaserPin, LOW);
+    else if(c == 'B') digitalWrite(blueLaserPin, LOW);
+  }
+}
+
+// Feature 4: Pattern display (Horizontal, Vertical, Diagonal) 
+void patternDisplay() {
+  for(int i=0; i<5; i++)",True,4,"7,2",True,9
+10,"
+
+Here is an example Arduino Nano code for a multi-laser system with 6 fancy features:
+```
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // define the pins connected to the lasers
+
+// Feature 1: Strobe mode - flash all lasers at 10Hz frequency 
+int strobeDelay = 50; 
+
+// Feature 2: Rainbow effect - cycle through RGB colors on each laser 
+int rainbowSpeed = 20; // adjust speed of color change 
+
+// Feature 3: Chase effect - turn on and off lasers in sequence 
+int chaseDelay = 100; 
+
+// Feature 4: Twinkle effect - randomly twinkle individual lasers 
+int twinkleProb = 30; // probability of twinkling (0-100) 
+
+// Feature 5: Siren effect - oscillate brightness of lasers 
+int sirenSpeed = 10; 
+
+// Feature 6: Dimming effect - smoothly fade in and out 
+int dimTime = 500; 
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Strobe mode 
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(strobeDelay);
+    digitalWrite(laserPins[i], LOW);
+    delay(strobeDelay);
+  }
+
+  // Rainbow effect 
+  for (int j = 0; j < 256; j++) {
+    for (int i = 0; i < 6; i++) {
+      analogWrite(laserPins[i], j);
+      delay(rainbowSpeed);
+    }
+  }
+
+  // Chase effect 
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(chaseDelay);
+    digitalWrite(laserPins[i], LOW);
+    delay(chaseDelay);
+  }
+
+  // Twinkle effect 
+  for (int i = 0; i < 6; i++) {
+    if (random(0, 100) < twinkleProb) {
+      digitalWrite(laserPins[i],!digitalRead(laserPins[i]));
+      delay(50);
+    }
+  }
+
+  // Siren effect 
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 256; j++) {
+      analogWrite(laserPins[i], j);
+      delay(sirenSpeed);
+    }
+    for (int j = 255; j >= 0; j--) {
+      analogWrite(laserPins[i], j);
+      delay(sirenSpeed);
+    }
+  }
+
+  // Dimming effect 
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 256; j++) {
+      analogWrite(laserPins[i], j);
+      delay(dimTime / 256);
+    }
+    for (int j = 255; j >= 0; j--) {
+      analogWrite(laserPins[i], j);
+      delay(dimTime / 256);
+    }
+  }
+}
+```
+This code uses digital and analog output to control six lasers, each connected to a separate pin on the Arduino Nano.",True,4,"7,2",True,10
+11,"
+
+Here is an example Arduino Nano code that controls a multi-laser module with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or any other Arduino board)
+* Multi-laser module (with 6 laser diodes)
+* Breadboard and jumper wires for connections
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Pin assignments for each laser diode
+
+void setup() {
+  // Initialize all laser pins as outputs 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Fancy Feature 1: Sequential Laser Activation 
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+
+  // Fancy Feature 2: Alternate Laser Blinking 
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j += 2) {
+      digitalWrite(laserPins[j], HIGH);
+      digitalWrite(laserPins[j + 1], LOW);
+    }
+    delay(50);
+    for (int j = 0; j < 6; j += 2) {
+      digitalWrite(laserPins[j], LOW);
+      digitalWrite(laserPins[j + 1], HIGH);
+    }
+    delay(50);
+  }
+
+  // Fancy Feature 3: Random Laser Flicker 
+  randomSeed(analogRead(A0));
+  for (int i = 0; i < 20; i++) {
+    int randLaser = random(0, 6);
+    digitalWrite(laserPins[randLaser], HIGH);
+    delay(random(10, 50));
+    digitalWrite(laserPins[randLaser], LOW);
+    delay(random(10, 50));
+  }
+
+  // Fancy Feature 4: Synchronized Laser Sweep 
+  for (int i = 0; i < 180; i++) {
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], i % 2 == 0?",True,4,"7,2",True,11
+12,"
+
+Here's an Arduino Nano code that controls a multi-laser module with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or any other compatible board)
+* Multi-laser module (with 6 individual laser diodes)
+* Breadboard and jumper wires for connections
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Define the pins connected to each laser diode
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Feature 1: Alternate Laser Beams (Toggle between lasers 1-3 and 4-6)
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+  }
+  for (int i = 3; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+  }
+
+  // Feature 2: Sequential Laser Sweep (Sweep from laser 1 to 6)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(20);
+    digitalWrite(laserPins[i], LOW);
+    delay(20);
+  }
+
+  // Feature 3: Random Laser Flashing (Randomly select and flash a laser)
+  int randomLaser = random(6);
+  digitalWrite(laserPins[randomLaser], HIGH);
+  delay(50);
+  digitalWrite(laserPins[randomLaser], LOW);
+
+  // Feature 4: Laser Chase Effect (Simulate a moving laser beam)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(10);
+    digitalWrite(laserPins[i], LOW);
+    delay(10);
+  }
+  for (int i = 5; i >= 0; i--) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(10);
+    digitalWrite(laserPins[i], LOW);
+    delay(10);
+  }
+
+  // Feature 5: Laser Breathing Effect (Simulate breathing by slowly fading in/out)
+  for (int i = 0; i < 256; i++) {
+    analogWrite(laserPins[0], i);
+    delay(2);
+  }
+  for (int i = 255; i >= 0; i--) {
+    analogWrite(laserPins[0], i);
+    delay(2);
+  }
+
+  // Feature 6: Patterned Laser Sequencing (Cycle through a custom sequence of lasers)
+  int pattern[] = {0, 2, 4, 1, 3, 5};
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[pattern[i]], HIGH);
+    delay(50);
+    digitalWrite(laserPins[pattern[i]], LOW);
+    delay(50);
+  }
+}
+```
+**Explanation:**
+
+In this code, we first define an array `laserPins` to store the pin numbers connected to each laser diode.
+
+",True,4,"7,2",True,12
+13,"
+
+Here is an Arduino Nano code that incorporates 6 fancy features for a multi-laser system:
+
+**Multi-Laser System with 6 Fancy Features**
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 
+* Laser modules (6) 
+* LEDs (6) 
+* Resistors (6) 
+* Breadboard and jumper wires 
+
+**Software Requirements:**
+
+* Arduino IDE v1.8.x or higher
+
+**Code:**
+```cpp 
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Define pins for laser modules 
+const int ledPins[] = {8, 9, 10, 11, 12, 13}; // Define pins for status LEDs 
+
+void setup() {
+  Serial.begin(9600);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set laser pins as outputs 
+    pinMode(ledPins[i], OUTPUT); // Set LED pins as outputs 
+  }
+}
+
+void loop() {
+  feature1_Strobe(); // Strobing effect on laser 1 
+  delay(500);
+
+  feature2_Sweep(); // Sweeping effect on lasers 2-3 
+  delay(500);
+
+  feature3_FadeIn(); // Fade-in effect on laser 4 
+  delay(1000);
+
+  feature4_RandomPattern(); // Random pattern on lasers 5-6 
+  delay(2000);
+
+  feature5_Blinking(); // Blinking effect on all lasers 
+  delay(1000);
+
+  feature6_LaserShow(); // Custom laser show 
+  delay(3000);
+}
+
+// Feature 1: Strobing effect on laser 1 
+void feature1_Strobe() {
+  for (int i = 0; i < 10; i++) {
+    digitalWrite(laserPins[0], HIGH);
+    digitalWrite(ledPins[0], HIGH);
+    delay(50);
+    digitalWrite(laserPins[0], LOW);
+    digitalWrite(ledPins[0], LOW);
+    delay(50);
+  }
+}
+
+// Feature 2: Sweeping effect on lasers 2-3 
+void feature2_Sweep() {
+  for (int i = 0; i < 180; i++) {
+    analogWrite(laserPins[1], map(i, 0, 179, 0, 255));
+    analogWrite(laserPins[2], map(i, 0, 179, 0, 255));
+    delay(10);
+  }
+  for (int i = 179; i >= 0; i--) {
+    analogWrite(laserPins[1], map(i, 0, 179, 0, 255));
+    analogWrite(laserPins[2], map(i, 0, 179, 0, 255));
+    delay(10);
+  }
+}
+
+// Feature 3: Fade-in effect on laser 4 
+void feature3_FadeIn() {
+  for (int i = 0; i <= 255; i++) {
+    analogWrite(laserPins[3], i);
+    delay(10);
+  }
+}
+
+// Feature 4: Random pattern on lasers 5-6 
+void feature4_RandomPattern() {
+  randomSeed(analogRead(A0)); // Initialize random seed 
+  for (int i = 0; i < 20; i++) {
+    digitalWrite(laserPins[4], random(2));
+    digitalWrite(laserPins[5], random(2));
+    delay(random(50, 150));
+ ",True,4,"7,2",True,13
+14,"
+
+I'd be happy to help you with that!
+
+",False,,,,14
+15,"
+
+Here is an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Note:** This code assumes you have the necessary hardware connected to your Arduino Nano, including the laser modules, LEDs, and buttons.
+
+",True,4,"7,2",True,15
+16,"
+
+Here is an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Feature 1: Laser Pattern Sequencer**
+The first feature allows the user to sequence through different laser patterns, including a single beam, a dual beam, and a triple beam.
+
+",True,0,"7,2",True,16
+17,"
+
+Here is an Arduino Nano code that controls a multi-laser module with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board 
+* Multi-laser module (with 6 laser diodes)
+* 6 x Resistors (1kΩ each) for current limiting 
+* 6 x Breadboard jumper wires 
+
+**Code:**
+```cpp 
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Define pins for laser control
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set laser pins as output 
+  }
+}
+
+void loop() {
+  // Feature 1: Flashing Lasers ( Alternate flashing of all lasers )
+  flashingLasers();
+
+  delay(2000);
+
+  // Feature 2: Laser Chase (Sequentially lighting up the lasers from left to right )
+  laserChase();
+
+  delay(2000);
+
+  // Feature 3: Random Laser Blink (Randomly blinking individual lasers )
+  randomBlink();
+
+  delay(2000);
+
+  // Feature 4: Laser Scanner (Simulating a scanner effect by rapidly switching between lasers )
+  laserScanner();
+
+  delay(2000);
+
+  // Feature 5: Twinkling Stars (Simulating twinkling stars by randomly turning on/off lasers with varying intensity )
+  twinklingStars();
+
+  delay(2000);
+
+  // Feature 6: Laser Wave (Creating a wave-like pattern by gradually increasing/decreasing the brightness of adjacent lasers )
+  laserWave();
+  
+  delay(2000);
+}
+
+// Function implementations:
+void flashingLasers() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+}
+
+void laserChase() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(100);
+    digitalWrite(laserPins[i], LOW);
+  }
+}
+
+void randomBlink() {
+  for (int i = 0; i < 10; i++) {
+    int randomLaser = random(0, 6);
+    digitalWrite(laserPins[randomLaser], HIGH);
+    delay(random(50, 200));
+    digitalWrite(laserPins[randomLaser], LOW);
+    delay(random(50, 200));
+  }
+}
+
+void laserScanner() {
+  for (int i = 0; i < 20; i++) {
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], HIGH);
+      delay(20);
+      digitalWrite(laserPins[j], LOW);
+    }
+  }
+}
+
+void twinklingStars() {
+  for (int i = 0; i < 30; i++) {
+    int randomLaser = random(0, 6);
+    int randomIntensity = random(50, 255);
+    analogWrite(laserPins[randomLaser], randomIntensity);
+    delay(random(50, 200));
+    analogWrite(laserPins[randomLaser], 0);
+    delay(random(50, 200));
+  }
+}
+
+void laserWave() {
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j++) {
+      analogWrite(laserPins[j], map(i % 2 == 0?",True,4,"7,2",True,17
+18,"
+
+I'd be delighted to help you with that!
+
+",True,4,"7,2",True,18
+19,"
+
+Here is an Arduino Nano code for a multi-laser module with 6 fancy features:
+
+**Features:**
+
+1.",True,4,"7,2",True,19
+20,"
+
+I'd be delighted to help you with that!
+
+",True,4,"7,2",True,20
+21,"
+
+Here's an Arduino Nano code that controls a multi-laser module with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or any other Arduino board)
+* Multi-laser module (with individual pins for each laser)
+* Breadboard and jumper wires for connections
+
+**Software Features:**
+
+1.",True,4,"7,2",True,21
+22,"
+
+Here is an example Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Hardware Requirements:**
+
+* 1 x Arduino Nano board 
+* 6 x Laser diodes (with resistors and capacitors for each)
+* 6 x Transistor arrays or dedicated laser drivers (e.g., ULN2003A)
+* 1 x Button or sensor module (for feature 5)
+
+**Code:**
+```cpp`
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Assign pins to each laser diode
+
+// Feature 1: Alternating lasers ( Left-Right )
+int altDelay = 50; // Adjust delay between alternating lasers
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Feature 1: Alternating lasers ( Left-Right )
+  for (int i = 0; i < 6; i += 2) {
+    digitalWrite(laserPins[i], HIGH);
+    digitalWrite(laserPins[i + 1], LOW);
+    delay(altDelay);
+    digitalWrite(laserPins[i], LOW);
+    digitalWrite(laserPins[i + 1], HIGH);
+    delay(altDelay);
+  }
+
+  // Feature 2: Spiral pattern (CW)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(20);
+    digitalWrite(laserPins[i], LOW);
+  }
+
+  // Feature 3: Random flashing lasers ( individual )
+  for (int i = 0; i < 10; i++) {
+    int randLaser = random(0, 6);
+    digitalWrite(laserPins[randLaser], HIGH);
+    delay(random(50, 150));
+    digitalWrite(laserPins[randLaser], LOW);
+  }
+
+  // Feature 4: Laser ""chase"" effect ( sequential )
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+  }
+
+  // Feature 5: Button-controlled single laser ( toggle )
+  int buttonState = digitalRead(A0); // Connect button to A0 pin on Nano board 
+  if (buttonState == HIGH) {
+    static int currLaser = 0;
+    digitalWrite(laserPins[currLaser],!digitalRead(laserPins[currLaser]));
+    currLaser = (currLaser + 1) % 6;
+  }
+
+  // Feature 6: Strobe light effect ( all lasers )
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], HIGH);
+    }
+    delay(20);
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], LOW);
+    }
+    delay(20);
+  }
+}
+```
+**Explanation:**
+
+This code utilizes the Arduino Nano's digital pins to control six laser diodes.",True,4,"7,2",True,22
+23,"
+
+Here is an example Arduino Nano code that controls a multi-laser module with 6 fancy features:
+
+**Feature 1: Laser Pattern Sequencing**
+The laser will sequence through a series of patterns (e.g., circles, lines, dots) using a custom-designed pattern array.
+
+",True,4,"7,2",True,23
+24,"
+
+Here is an example Arduino Nano code that uses multiple lasers to create a system with 6 fancy features:
+
+**Laser System Features:**
+
+1.",False,,,,24
+25,"
+
+Here's an example Arduino Nano code that controls a multi-laser setup with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or compatible)
+* 6 Laser Diodes (e.g., 650nm, 5V, 20mA each)
+* 6 Resistor arrays (1kΩ, 2kΩ, 4kΩ, 8kΩ, 16kΩ, 32kΩ) for current limiting and laser intensity control)
+* Jumper wires, breadboard, etc.
+
+",True,4,"7,2",True,25
+26,"
+
+I'd be delighted to assist you with that!
+
+",True,4,"7,2",True,26
+27,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,27
+28,"
+
+I see you're excited about creating a multi-laser Arduino Nano project!
+
+",True,4,"7,2",True,28
+29,"
+
+Here is an Arduino Nano code that incorporates 6 fancy features for a multi-laser project:
+
+**Note:** This code assumes you have 6 laser modules connected to digital pins 2-7 on the Arduino Nano.
+
+",False,,,,29
+30,"
+
+Here is an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Feature 1: Laser Strobe Mode**
+Toggles all lasers on and off at a rapid pace, creating a strobe effect.
+
+",True,4,"7,2",True,30
+31,"
+
+I'd be happy to help you with that!
+
+",False,,,,31
+32,"
+
+I'd be delighted to provide you with an Arduino Nano code that incorporates multiple lasers and features six fancy functionalities!
+
+",True,4,"7,2",True,32
+33,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,33
+34,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,34
+35,"
+
+Here is an Arduino Nano code for a multi-laser setup with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 
+* Laser diode modules (red, green, blue) x3 
+* LDR (Light Dependent Resistor) x1 
+* Button x2 
+* Jumper wires x10 
+* Breadboard x1 
+
+**Software Features:**
+
+1.",True,4,"7,2",True,35
+36,"
+
+I'd be happy to help you with that!
+
+",False,,,,36
+37,"
+
+Here's an example Arduino Nano code that controls a multi-laser module with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 
+* Multi-Laser Module (e.g., 6 individual laser diodes) x1 
+* Breadboard and jumper wires for connections 
+
+**Code:**
+```cpp 
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // define pins for each laser diode 
+bool laserStates[] = {false, false, false, false, false, false}; // track states of each laser diode 
+
+void setup() { 
+    for (int i = 0; i < 6; i++) { 
+        pinMode(laserPins[i], OUTPUT); 
+    } 
+} 
+
+void loop() { 
+    feature1_SingleLaserBlink(); 
+    delay(1000); 
+    feature2_LaserChase(); 
+    delay(1500); 
+    feature3_AlternatingLasers(); 
+    delay(2000); 
+    feature4_RandomLaserPattern(); 
+    delay(2500); 
+    feature5_LaserSequence(); 
+    delay(3000); 
+    feature6_LaserFader(); 
+    delay(3500); 
+} 
+
+// FEATURE 1: Single Laser Blink 
+void feature1_SingleLaserBlink() { 
+    for (int i = 0; i < 10; i++) { 
+        digitalWrite(laserPins[0], HIGH); 
+        delay(50); 
+        digitalWrite(laserPins[0], LOW); 
+        delay(50); 
+    } 
+} 
+
+// FEATURE 2: Laser Chase 
+void feature2_LaserChase() { 
+    for (int i = 0; i < 6; i++) { 
+        digitalWrite(laserPins[i], HIGH); 
+        delay(50); 
+        digitalWrite(laserPins[i], LOW); 
+        delay(50); 
+    } 
+} 
+
+// FEATURE 3: Alternating Lasers 
+void feature3_AlternatingLasers() { 
+    for (int i = 0; i < 20; i++) { 
+        for (int j = 0; j < 6; j += 2) { 
+            digitalWrite(laserPins[j], HIGH); 
+        } 
+        delay(50); 
+        for (int j = 0; j < 6; j += 2) { 
+            digitalWrite(laserPins[j], LOW); 
+        } 
+        for (int j = 1; j < 6; j += 2) { 
+            digitalWrite(laserPins[j], HIGH); 
+        } 
+        delay(50); 
+        for (int j = 1; j < 6; j += 2) { 
+            digitalWrite(laserPins[j], LOW); 
+        } 
+    } 
+} 
+
+// FEATURE 4: Random Laser Pattern 
+void feature4_RandomLaserPattern() { 
+    randomSeed(analogRead(A0)); 
+    for (int i = 0; i < 20; i++) { 
+        int randLaser = random(0, 6); 
+        digitalWrite(laserPins[randLaser], HIGH); 
+        delay(50); 
+        digitalWrite(laserPins[randLaser], LOW); 
+        delay(50); 
+    } 
+} 
+
+// FEATURE 5: Laser Sequence 
+void feature5_LaserSequence() { 
+    int sequence[] = {0, 2, 4, 1, 3,",True,4,"7,2",True,37
+38,"
+
+Here's an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Feature 1: Laser Pointer**
+
+* Uses digital pin 2 to control the laser pointer's on/off state
+
+**Feature 2: Color-Changing LED Strip**
+
+* Uses digital pins 3, 4, and 5 to control the red, green, and blue LEDs of the strip, respectively
+
+**Feature 3: Button-Controlled Patterns**
+
+* Uses analog pin A0 to read the state of a button (connected to GND and VCC)
+* When pressed, cycles through 5 pre-programmed patterns:
+	+ Pattern 1: Alternate lasers 1 and 2 rapidly (500ms interval)
+	+ Pattern 2: Sweep laser 1 from left to right (1s duration)
+	+ Pattern 3: Strobe laser 2 at 10Hz frequency (infinite duration)
+	+ Pattern 4: Simultaneous laser flash (100ms duration)
+	+ Pattern 5: Laser 1 steady on, laser 2 off (indefinite duration)
+
+**Feature 4: Potentiometer-Controlled Brightness**
+
+* Uses analog pin A1 to read the potentiometer's value (connected to GND and VCC)
+* Maps the potentiometer's value to adjust the brightness of both lasers (0-255 range)
+
+**Feature 5: Automatic Laser Calibration**
+
+* Uses a built-in timer to automatically calibrate the lasers every 30 minutes (or any other desired interval)
+* During calibration, laser 1 is turned on for 500ms, then off for 500ms, and repeated 5 times
+
+**Feature 6: Audio-Reactive Laser Show**
+
+* Uses the built-in microphone on the Arduino Nano to detect ambient noise levels (via analog pin A2)
+* Maps the noise level to a dynamic laser show:
+	+ Low noise: slow, sweeping pattern on laser 1 (1s duration)
+	+ Medium noise: alternating rapid flashes on lasers 1 and 2 (500ms interval)
+	+ High noise: intense strobe effect on both lasers (20Hz frequency, infinite duration)
+
+Here's the code:
+```c++
+const int laserPin = 2;   // Digital pin for laser pointer control (HIGH = on, LOW = off)
+const int ledStripPins[] = {3, 4, 5};  // Digital pins for color-changing LED strip (R, G, B)
+const int buttonPin = A0;  // Analog pin for button input (HIGH = pressed, LOW = not pressed)
+const int potPin = A1;    // Analog pin for potentiometer input (maps to laser brightness)
+const int micPin = A2;    // Analog pin for microphone input (detects ambient noise levels)
+const int numPatterns = 5;  // Number of pre-programmed patterns
+
+int currentPattern = 0;  // Keeps track of the currently active pattern
+
+void setup() {
+  pinMode(laserPin, OUTPUT);
+  for (int i = 0; i < 3; i++) {
+    pinMode(ledStripPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Read button state and cycle through patterns if pressed:
+  int buttonState = analogRead(buttonPin) > 512?",True,5,"7,2",True,38
+39,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,39
+40,"
+
+Here is an example Arduino Nano code that controls a multilaser system with 6 fancy features:
+
+**Features:**
+
+1.",True,4,"7,2",True,40
+41,"
+
+Here's an Arduino Nano code for a multi-laser project with 6 fancy features:
+
+**Project Description:**
+This project uses 6 laser modules connected to an Arduino Nano board.",True,0,"7,2",True,41
+42,"
+
+I'd be happy to help you with that!
+
+",False,,,,42
+43,"
+
+Here's an example Arduino Nano code that controls a multi-laser setup with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or any other compatible Arduino board)
+* 6 x Laser diodes (with built-in resistors or separate resistors for each laser)
+* 6 x Digital pins on the Arduino board (for controlling individual lasers)
+
+**Software Features:**
+
+1.",True,4,"7,2",True,43
+44,"
+
+Here's an example Arduino Nano code that controls a multi-laser system with 6 fancy features:
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // pins for 6 lasers
+
+// Feature 1: Individual Laser Control 
+bool individualControl = true;
+
+// Feature 2: Laser Pattern Sequencing (stored in PROGMEM)
+const char pattern[][8] PROGMEM = {
+  ""10101010"",
+  ""11001100"",
+  ""10110101"",
+  ""11110000""
+};
+
+int patternIndex = 0;
+int patternDelay = 500; // milliseconds
+
+// Feature 3: Random Laser Flicker 
+bool randomFlicker = true;
+int flickerSpeed = 50; // milliseconds
+
+// Feature 4: Sound-Reactive Lasers (using analog input from microphone)
+const int soundPin = A0;
+int soundThreshold = 500;
+bool soundReactive = true;
+
+// Feature 5: Automatic Laser Dimming (based on ambient light)
+const int lightPin = A1;
+int dimmingThreshold = 500;
+bool autoDimming = true;
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  if (individualControl) {
+    // control each laser individually using serial commands (not shown)
+  }
+
+  // Feature 2: Laser Pattern Sequencing 
+  if (millis() % patternDelay < 50) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], pgm_read_byte(&pattern[patternIndex][i]) - '0');
+    }
+    patternIndex = (patternIndex + 1) % sizeof(pattern) / sizeof(pattern[0]);
+  }
+
+  // Feature 3: Random Laser Flicker 
+  if (randomFlicker && millis() % flickerSpeed < 25) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], random(2));
+    }
+  }
+
+  // Feature 4: Sound-Reactive Lasers 
+  int soundLevel = analogRead(soundPin);
+  if (soundReactive && soundLevel > soundThreshold) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], HIGH);
+    }
+  } else {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+
+  // Feature 5: Automatic Laser Dimming 
+  int lightLevel = analogRead(lightPin);
+  if (autoDimming && lightLevel > dimmingThreshold) {
+    for (int i = 0; i < 6; i++) {
+      analogWrite(laserPins[i], map(lightLevel, 0, 1023, 0, 255));
+    }
+  } else {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], HIGH);
+    }
+  }
+
+  // Feature 6: Master On/Off Switch (using digital input from button)
+  const int buttonPin = 8;
+  bool masterOn = digitalRead(buttonPin);
+  if (!masterOn) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+}
+```
+This code assumes you have:
+
+* 6 lasers connected to digital pins ",True,4,"7,2",True,44
+45,"
+
+Here is an Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Multi-Laser System Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Pin assignments for 6 lasers
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Feature 1: Alternating Lasers (1 second interval)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(1000);
+    digitalWrite(laserPins[i], LOW);
+    delay(1000);
+  }
+
+  // Feature 2: Sequential Lasers (500ms interval)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(500);
+    digitalWrite(laserPins[i], LOW);
+  }
+
+  // Feature 3: Random Laser Selection (1 second interval)
+  randomSeed(analogRead(A0));
+  int randomLaser = random(0, 6);
+  digitalWrite(laserPins[randomLaser], HIGH);
+  delay(1000);
+  digitalWrite(laserPins[randomLaser], LOW);
+
+  // Feature 4: Wave Effect (50ms interval)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+
+  // Feature 5: Symmetrical Pattern (200ms interval)
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    digitalWrite(laserPins[5 - i], HIGH);
+    delay(200);
+    digitalWrite(laserPins[i], LOW);
+    digitalWrite(laserPins[5 - i], LOW);
+  }
+
+  // Feature 6: Audio-Responsive Lasers (using analog input A1)
+  int audioValue = analogRead(A1);
+  if (audioValue > 512) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], HIGH);
+    }
+  } else {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+}
+```
+**Explanation:**
+
+This code uses an array `laserPins` to store the pin assignments for each of the 6 lasers.
+
+",True,4,"7,2",True,45
+46,"
+
+Here is an Arduino Nano code for a multi-laser system with 6 fancy features:
+
+**Note:** This code assumes you have 6 laser diodes connected to digital pins 2-7 of your Arduino Nano, and a button connected to digital pin 8.
+
+",True,6,"7,2",True,46
+47,"
+
+Here is an example Arduino Nano code that controls a multi-laser system with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 (connected to the computer via USB)
+* Laser diodes x6 (connected to digital pins D2-D7)
+* Resistors x6 (current-limiting resistors for laser diodes)
+* Breadboard and jumper wires for connections
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Array of digital pins connected to laser diodes
+
+void setup() {
+  Serial.begin(9600); // Initialize serial communication at 9600 bps
+  
+  // Set all laser pins as output and initialize them to LOW (off)
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+    digitalWrite(laserPins[i], LOW);
+  }
+}
+
+void loop() {
+  // Fancy Feature 1: Alternate Laser Blinking (1 Hz)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(500);
+    digitalWrite(laserPins[i], LOW);
+    delay(500);
+  }
+
+  // Fancy Feature 2: Sequential Laser Activation (100 ms interval)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(100);
+  }
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], LOW);
+    delay(100);
+  }
+
+  // Fancy Feature 3: Random Laser Selection (10 Hz)
+  for (int i = 0; i < 50; i++) {
+    int randomLaser = random(0, 6);
+    digitalWrite(laserPins[randomLaser], HIGH);
+    delay(10);
+    digitalWrite(laserPins[randomLaser], LOW);
+    delay(10);
+  }
+
+  // Fancy Feature 4: Laser Chase Effect (50 ms interval)
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+  }
+  for (int i = 5; i >= 0; i--) {
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+
+  // Fancy Feature 5: Laser Strobe Effect (20 Hz)
+  for (int i = 0; i < 20; i++) {
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], HIGH);
+    }
+    delay(25);
+    for (int j = 0; j < 6; j++) {
+      digitalWrite(laserPins[j], LOW);
+    }
+    delay(25);
+  }
+
+  // Fancy Feature 6: User-Input Controlled Laser (via serial monitor)
+  if (Serial.available() > 0) {
+    char user-input = Serial.read();
+    if (user-input == 'a') {
+      digitalWrite(laserPins[0], HIGH);
+    } else if (user-input == 'b') {
+      digitalWrite(laserPins[1], HIGH);
+    } else if (user-input == 'c') {
+      digitalWrite(laserPins[2], HIGH);
+    } else if (user-input == 'd') {
+      digitalWrite(laserPins[3], HIGH);
+    } else if (user-input == 'e') {
+      digitalWrite(laserPins[4], HIGH);
+",True,4,"7,2",True,47
+48,"
+
+Here is an Arduino Nano code that controls a multilaser system with 6 fancy features:
+
+**Hardware Requirements:**
+
+* 1 x Arduino Nano Board 
+* 6 x Laser Diodes (with resistors and diodes for safety)
+* 6 x Digital Pins on the Arduino Nano Board (for laser control)
+* 1 x Potentiometer (for adjusting laser intensity)
+* 1 x Button (for switching between modes)
+* 1 x Buzzer (for sound effects)
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Digital pins for laser control 
+const int potPin = A0; // Analog pin for potentiometer input 
+const int buttonPin = 8; // Digital pin for mode switch button 
+const int buzzerPin = 9; // Digital pin for buzzer output 
+
+int currentMode = 0; // Initial mode (0-5) 
+int laserIntensity = 128; // Initial laser intensity (0-255) 
+bool isLaserOn = false; // Initial laser state 
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set laser pins as outputs 
+  }
+  pinMode(buttonPin, INPUT_PULLUP); // Set mode switch button as input with pull-up 
+  pinMode(buzzerPin, OUTPUT); // Set buzzer pin as output 
+}
+
+void loop() {
+  int potValue = analogRead(potPin); // Read potentiometer value (0-1023) 
+  laserIntensity = map(potValue, 0, 1023, 0, 255); // Map pot value to laser intensity 
+
+  if (digitalRead(buttonPin) == LOW) { // Check for mode switch button press 
+    currentMode = (currentMode + 1) % 6; // Increment mode (wrap around at 5) 
+    tone(buzzerPin, 1000, 50); // Play a short beep for feedback 
+  }
+
+  switch (currentMode) {
+    case 0: // Single laser mode 
+      for (int i = 0; i < 6; i++) {
+        digitalWrite(laserPins[i], (i == 0)?",True,4,"7,2",True,48
+49,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,49
+50,"
+
+I'd be happy to help you with that!
+
+",True,4,"7,2",True,50
+51,"Here's an Arduino Nano code for a multi-laser system with 6 fancy features:
+
+**Hardware Requirements:**
+
+* Arduino Nano board x1 (https://store.arduino.cc/usa/nano)
+* Laser diodes x6 (Choose your favorite color and power rating!)
+",False,,,,1
+52,"Here's an example Arduino Nano code for a multilaser system with 6 fancy features:
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Define the pins connected to the lasers
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set the laser pins as outputs
+    
+    // Feature 1: Initialize all lasers to off state 
+    digitalWrite(laserPins[i], LOW);
+  }
+}
+
+void loop() {
+  // Feature 2: Strobe mode - toggle all lasers at 10 Hz 
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+
+  // Feature 3: Scanner mode - sweep lasers from left to right 
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(100);
+    digitalWrite(laserPins[i], LOW);
+  }
+
+  // Feature 4: Randomized pattern - turn on/off lasers randomly 
+  for (int i = 0; i < 6; i++) {
+    if (random(2) == 0) {
+      digitalWrite(laserPins[i], HIGH);
+    } else {
+      digitalWrite(laserPins[i], LOW);
+    }
+    delay(50);
+  }
+
+  // Feature 5: Fade-in/fade-out effect - gradually increase/decrease brightness 
+  for (int j = 0; j < 256; j++) {
+    for (int i = 0; i < 6; i++) {
+      analogWrite(laserPins[i], j);
+    }
+    delay(10);
+  }
+  for (int j = 255; j >= 0; j--) {
+    for (int i = 0; i < 6; i++) {
+      analogWrite(laserPins[i], j);
+    }
+    delay(10);
+  }
+
+  // Feature 6: Sound-sensitive mode - respond to ambient noise 
+  int sensorValue = analogRead(A0); // Read ambient noise level from microphone connected to A0 pin 
+  if (sensorValue > 500) { // Adjust threshold value based on your microphone sensitivity 
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], HIGH);
+      delay(20);
+      digitalWrite(laserPins[i], LOW);
+      delay(20);
+    }
+  }
+}
+```
+This code uses an array `laserPins` to store the digital output pins connected to each laser module.",True,4,"7,2",True,2
+53,"Here's an example Arduino Nano code for a multi-laser project with 6 fancy features:
+
+**Feature 1: Laser Pointer Movement**
+
+* Use 2 servo motors to control the movement of the laser pointers in X and Y axes.
+
+",False,,,,3
+54,"Here's an example Arduino Nano code that utilizes a multi-laser module (assuming it has 6 individual laser diodes) and incorporates 6 fancy features:
+
+**Feature 1: Alternating Laser Pattern**
+The code will create an alternating pattern of lasers, where each laser turns on and off in sequence.
+
+",True,4,"7,2",True,4
+55,"Here's an Arduino Nano code for a multi-laser system with 6 fancy features:
+
+**Feature 1: Sequential Laser Firing**
+The lasers will fire in sequence, to create a ""scanning"" effect.
+
+",True,2,"7,2",True,5
+56,"**Feature 2: Adjustable Brightness**
+The brightness of each laser can be adjusted using a potentiometer (connected to A0).
+
+",True,5,"5,2",True,1
+57,"**Feature 3: Color-Changing LEDs**
+The onboard LED on the Arduino Nano will change colors depending on which laser is currently firing.
+
+",True,1,"1,4",True,1
+58,"**Feature 4: Sound Effects**
+A buzzer connected to D13 will produce different tones when each laser fires.
+
+",True,1,"6,2",True,1
+59,"**Feature 4: Automatic Mode**
+The system can switch between automatic and manual modes using a push-button (connected to D2).
+
+",False,,,,2
+60,"**Feature 4: Automatic Laser Shutdown**
+If any of the lasers are blocked or malfunctioning, they will automatically shut down after a set period of time (5 seconds).
+
+",False,,,,3
+61,"**Feature 4: Sound Effects**
+A piezo buzzer (connected to D5) will play a different tone for each laser as it fires.
+
+",True,5,"6,2",True,4
+62,"**Feature 4: Sound Effects**
+A buzzer (connected to D13) will produce different tones for each laser, creating a ""laser sound"" effect.
+
+",True,1,"6,2",True,5
+63,"**Feature 4: External Trigger Input**
+A button or sensor can be connected to digital pin D2 to trigger the laser sequence.
+
+",True,5,"6,2",True,6
+64,"**Feature 4: Automatic Shutdown**
+The lasers will automatically shut down after a set period of inactivity (10 seconds in this example).
+
+",True,1,"6,2",True,7
+65,"**Feature 4: Randomized Firing Pattern**
+A button press (connected to D2) will trigger a randomized firing pattern for all lasers.
+
+",False,,,,8
+66,"**Feature 4: Automatic Shut-Off**
+If any of the lasers exceed a certain temperature threshold, they will automatically shut off to prevent overheating.
+
+",True,1,"6,2",True,9
+67,"**Feature 4: Sound Effects**
+A buzzer connected to pin D13 will produce different sound effects when each laser fires.
+
+",True,5,"6,2",True,10
+68,"**Feature 4: Automatic Mode**
+A toggle switch (connected to D2) allows the user to switch between manual and automatic mode.",True,7,"6,2",True,11
+69,"**Feature 4: Randomized Firing Pattern**
+Pressing a button (connected to D2) will randomize the firing pattern of the lasers.
+
+",True,5,"6,2",True,12
+70,"**Feature 4: Automatic Shutdown**
+The system will shut down after 5 minutes of inactivity to conserve power.
+
+",False,,,,13
+71,"**Feature 4: Randomized Patterns**
+The system can generate randomized patterns by randomly selecting which laser to fire next.
+
+",True,1,"6,2",True,14
+72,"**Feature 4: Sound Effects**
+A buzzer connected to digital pin 13 will play different sound effects when each laser fires.
+
+",True,5,"6,2",True,15
+73,"**Feature 4: Sound Effects**
+A small speaker (connected to pin D9) will play different tones when each laser fires.
+
+",True,5,"6,2",True,16
+74,"**Feature 4: Timer-Based Fading**
+Each laser will fade in and out over a set period of time (adjustable via the timer variable).
+
+",True,1,"6,2",True,17
+75,"**Feature 4: Sound Effects**
+A small speaker will produce different tones when each laser fires (connected to pin D13).
+
+",True,5,"6,2",True,18
+76,"**Feature 4: Automatic Mode**
+A toggle switch (connected to D2) allows the user to switch between manual and automatic mode.
+
+",True,7,"6,2",True,19
+77,"**Feature 4: Automatic Shut-Off**
+If any of the lasers exceed a certain temperature threshold (monitored by a DS18B20 temperature sensor), they will automatically shut off.
+
+",True,1,"6,2",True,20
+78,"**Feature 4: Automatic Mode Switching**
+Using a button (connected to D2), you can switch between automatic sequential firing and manual control.
+
+",True,5,"6,2",True,21
+79,"**Feature 4: Sound Effects**
+A piezo buzzer will play different tones when each laser fires.
+
+",True,5,"6,2",True,22
+80,"**Feature 4: Sound Effects**
+A piezo buzzer (connected to D13) will play a short tone when each laser fires.
+
+",True,5,"6,2",True,23
+81,"**Feature 4: Remote Control**
+A remote control (using an IR receiver connected to D2) can be used to turn the lasers on/off.
+
+",False,,,,24
+82,"**Feature 4: Sound Effects**
+A built-in speaker (connected to pin 9) will play different sound effects when each laser fires.
+
+",True,5,"6,2",True,25
+83,"**Feature 4: Automatic Mode**
+The system will automatically switch between different modes ( sequential, random, and all-on) based on a timer ( adjustable via a second potentiometer connected to A1).
+
+",True,5,"6,2",True,26
+84,"**Feature 4: Automatic Laser Shutdown**
+If any of the lasers exceed a certain temperature threshold (monitored by a temperature sensor connected to A1), they will automatically shut down to prevent overheating.
+
+",True,1,"6,2",True,27
+85,"**Feature 4: Sound Effects**
+A small speaker (connected to D9) will play a different tone for each laser.
+
+",True,5,"6,2",True,28
+86,"**Feature 4: Automatic Shut-Off**
+The lasers will automatically shut off after a set period of time (adjustable via a second potentiometer connected to A1) to conserve power.
+
+",True,5,"6,2",True,29
+87,"**Feature 4: Sound Effects**
+A buzzer (connected to D13) will play different sound effects when each laser fires.
+
+",True,1,"6,2",True,30
+88,"**Feature 4: Randomized Laser Pattern**
+A button press (connected to D2) will trigger a randomized pattern of laser firings.
+
+",False,,,,31
+89,"**Feature 4: Automatic Pattern Switching**
+Every 5 seconds, the pattern of laser firings will switch between sequential and random modes.
+
+",True,1,"6,2",True,32
+90,"**Feature 4: Automatic Shutdown**
+After 30 seconds of inactivity, the lasers will shut down automatically to conserve power.
+
+",True,1,"6,2",True,33
+91,"**Feature 4: Sound Effects**
+A piezo buzzer (connected to D13) will produce different tones when each laser fires.
+
+",True,5,"6,2",True,34
+92,"**Feature 4: Sound Effects**
+A small speaker or buzzer can be connected to produce sound effects when each laser fires.
+
+",True,5,"6,2",True,35
+93,"**Feature 4: Automatic Shut-Off**
+After 10 minutes of inactivity, the lasers will automatically shut off to conserve power.
+
+",True,1,"6,2",True,36
+94,"**Feature 4: Randomized Laser Pattern**
+A random number generator will determine the order and duration of the laser firings, creating a unique pattern each time.
+
+",True,1,"6,2",True,37
+95,"**Feature 4: Randomized Laser Patterns**
+A random pattern will be generated and displayed by the lasers.
+
+",True,1,"6,2",True,38
+96,"**Feature 4: Music Synchronization**
+The lasers will fire in sync with the beat of music played through a speaker connected to digital pin 9.
+
+",True,5,"6,2",True,39
+97,"**Feature 4: Automatic Mode**
+In automatic mode, the lasers will cycle through the sequence without manual input.
+
+",True,1,"6,2",True,40
+98,"**Feature 4: Sound Effects**
+A buzzer (connected to D13) will produce different tones when each laser fires.
+
+",True,1,"6,2",True,41
+99,"**Feature 4: Laser Speed Control**
+The speed at which the lasers fire can be controlled using a second potentiometer (connected to A1).
+
+",True,5,"6,2",True,42
+100,"**Feature 4: Automatic Mode Switching**
+Using a button (connected to D2), you can switch between automatic mode (lasers fire in sequence) and manual mode (individual laser control).
+
+",False,,,,43
+101,"**Feature 4: Automatic Shut-Off**
+The lasers will automatically shut off after a set period of time (10 seconds in this example) to conserve power.
+
+",True,1,"6,2",True,44
+102,"**Feature 4: Laser Speed Control**
+The speed at which the lasers fire can be controlled using another potentiometer (connected to A1).
+
+",True,5,"6,2",True,45
+103,"**Feature 4: Automatic Shut-Off**
+After a set period of time (5 minutes), the lasers will automatically shut off to conserve power.
+
+",True,1,"6,2",True,46
+104,"**Feature 4: Laser Speed Control**
+A second potentiometer (connected to A1) allows for adjustment of the delay between laser firings.
+
+",False,,,,47
+105,"**Feature 4: Sound Effects**
+A piezo buzzer (connected to D13) will play different tones when each laser fires.
+
+",True,5,"6,2",True,48
+106,"**Feature 4: Automatic Laser Calibration**
+The system will automatically calibrate the laser timings at startup to ensure proper synchronization.
+
+",True,1,"6,2",True,49
+107,"**Feature 4: Automatic Mode**
+In this mode, the lasers will automatically cycle through their sequence at a set interval (adjustable via a second potentiometer connected to A1).
+
+",True,1,"6,2",True,50
+108,"**Feature 5: Manual Mode**
+A button press will allow manual control over the lasers, allowing the user to trigger each one individually.
+
+",True,5,"6,2",True,1
+109,"**Feature 5: Manual Triggering**
+A push button (connected to D2) allows the user to manually trigger the next laser in the sequence.
+
+",True,5,"6,2",True,2
+110,"**Feature 5: Manual Mode**
+A button (connected to D2) allows the user to manually advance to the next laser in the sequence.
+
+",True,5,"6,2",True,3
+111,"**Feature 5: Manual Override**
+A button press (connected to D2) allows manual override of the automatic mode, allowing users to trigger individual lasers on demand.
+
+",True,5,"6,2",True,4
+112,"**Feature 5: Manual Override**
+A push button (connected to D2) allows the user to manually override the automatic mode and control the lasers individually.
+
+",True,5,"6,2",True,5
+113,"**Feature 5: Manual Override**
+A push-button (connected to D2) allows the user to manually override the automatic mode and control the lasers directly.
+
+",True,5,"6,2",True,6
+114,"**Feature 5: Manual Override**
+A push button (connected to D2) allows manual control over the laser firing sequence.
+
+",True,5,"6,2",True,7
+115,"**Feature 5: Manual Triggering**
+A push button (connected to D2) allows manual triggering of the next laser in the sequence.
+
+",True,5,"6,2",True,8
+116,"**Feature 5: Manual Override**
+A button press (connected to D2) allows manual override of the automatic mode, allowing the user to control the lasers manually.
+
+",True,5,"6,2",True,9
+117,"**Feature 5: Manual Control**
+A button (connected to D2) allows manual control over the lasers.",True,5,"6,2",True,10
+118,"**Feature 5: Manual Override**
+A pushbutton (connected to D2) allows the user to manually override the automatic sequence and control the lasers individually.
+
+",True,5,"6,2",True,11
+119,"**Feature 5: Manual Override**
+A button (connected to D2) allows manual control over the lasers, overriding the automatic mode.
+
+",True,5,"6,2",True,12
+120,"**Feature 5: Manual Override**
+A button press (connected to D2) allows manual control over the lasers, overriding the automatic mode.
+
+",True,5,"6,2",True,13
+121,"**Feature 5: Manual Override**
+A push-button (connected to D2) allows the user to manually override the automatic mode and control the lasers directly.
+
+",True,5,"6,2",True,14
+122,"**Feature 5: Manual Control**
+A button press will allow manual control over the lasers, enabling individual control.
+
+",True,5,"6,2",True,15
+123,"**Feature 5: Manual Mode**
+A button press (connected to D2) allows the user to manually advance to the next laser in the sequence.
+
+",True,5,"6,2",True,16
+124,"**Feature 5: Manual Override**
+A button (connected to D2) allows manual override of the automatic mode, allowing the user to select which laser fires next.
+
+",True,5,"6,2",True,17
+125,"**Feature 5: Manual Override**
+A push-button (connected to D2) allows manual override of the automatic mode, allowing the user to control the lasers directly.
+
+",True,5,"6,2",True,18
+126,"**Feature 5: Manual Control**
+A button press (connected to D2) allows manual control over the lasers, advancing to the next one in sequence with each press.
+
+",True,7,"6,2",True,19
+127,"**Feature 5: Manual Mode**
+A push-button (connected to D2) allows manual control over the lasers, firing each one individually when pressed.
+
+",True,5,"6,2",True,20
+128,"**Feature 5: Manual Control**
+A push button (connected to D2) allows the user to manually control the laser sequence.
+
+",True,5,"6,2",True,21
+129,"**Feature 5: Manual Override**
+A button (connected to D2) allows the user to manually trigger any laser.
+
+",True,5,"6,2",True,22
+130,"**Feature 5: Manual Override**
+A pushbutton (connected to D2) allows the user to manually trigger any laser, overriding the automatic sequence.
+
+",True,5,"6,2",True,23
+131,"**Feature 5: Manual Override**
+A push button (connected to D2) allows manual override of the automatic mode, allowing users to manually trigger each laser.
+
+",True,5,"6,2",True,24
+132,"**Feature 5: Manual Override**
+A button press (connected to D2) allows the user to manually advance to the next laser in the sequence.
+
+",True,5,"6,2",True,25
+133,"**Feature 5: Manual Mode**
+A button press (connected to D2) allows manual control over the laser sequence.
+
+",True,5,"6,2",True,26
+134,"**Feature 5: Manual Mode**
+Allows the user to manually control the lasers using three pushbuttons (connected to D2, D3, and D4).
+
+",True,5,"6,2",True,27
+135,"**Feature 5: Manual Override**
+A pushbutton connected to D2 allows the user to manually override the automatic mode and control the lasers directly.
+
+",True,5,"6,2",True,28
+136,"**Feature 5: Manual Override**
+A push-button (connected to D2) allows the user to manually control the laser sequence.
+
+",True,5,"6,2",True,29
+137,"**Feature 5: Manual Override**
+A push button (connected to D2) allows manual override of the automatic mode, allowing the user to control the lasers directly.
+
+",True,5,"6,2",True,30
+138,"**Feature 5: Manual Override**
+A push-button (connected to D2) allows the user to manually override the automatic mode and select a specific laser to fire.
+
+",True,5,"6,2",True,31
+139,"**Feature 5: Manual Override**
+A button (connected to D2) allows manual override, where the user can select which laser to fire.
+
+",True,5,"6,2",True,32
+140,"**Feature 5: Manual Trigger**
+A push button (connected to D2) allows manual triggering of the next laser in the sequence.
+
+",True,5,"6,2",True,33
+141,"**Feature 5: Manual Override**
+A button press (connected to D2) will allow manual control of the lasers, overriding the automatic mode.
+
+",True,5,"6,2",True,34
+142,"**Feature 5: Manual Control**
+A push-button (connected to D2) allows manual control of the laser sequence.
+
+",True,5,"6,2",True,35
+143,"**Feature 5: Manual Override**
+A push-button (connected to D2) allows the user to manually override the automatic sequence and control the lasers individually.
+
+",True,5,"6,2",True,36
+144,"**Feature 5: Manual Override**
+A button (connected to D2) allows the user to manually trigger the next laser in the sequence.
+
+",True,5,"6,2",True,37
+145,"**Feature 5: Manual Override**
+A push button (connected to D2) allows the user to manually override the automatic mode and control the lasers directly.
+
+",True,5,"6,2",True,38
+146,"**Feature 5: Manual Override**
+A push button (connected to D2) allows the user to manually override the automatic mode and control the lasers directly.
+
+",True,5,"6,2",True,39
+147,"**Feature 5: Manual Control**
+A button press will allow manual control over the laser selection (using a third potentiometer connected to A2).
+
+",True,5,"6,2",True,40
+148,"**Feature 5: Manual Mode**
+A push-button (connected to D2) allows the user to manually step through the laser sequence.
+
+",True,5,"6,2",True,41
+149,"**Feature 5: Manual Mode**
+In this mode, you can manually control which laser is firing using a button (connected to D2).
+
+",True,5,"6,2",True,42
+150,"**Feature 5: Manual Override**
+A button press (connected to D2) allows manual control over the laser selection.
+
+",True,5,"6,2",True,43
+151,"**Feature 5: Manual Override**
+A pushbutton (connected to D2) allows the user to manually override the automatic mode and select a specific laser to fire.
+
+",True,5,"6,2",True,44
+152,"**Feature 5: Manual Control**
+A pushbutton (connected to D2) allows manual control of the lasers, allowing the user to step through the sequence.
+
+",True,7,"6,2",True,45
+153,"**Feature 5: Manual Control**
+A button (connected to D2) allows manual control over the laser sequence.
+
+",True,5,"6,2",True,46
+154,"**Feature 5: Manual Override**
+A button press (connected to D2) will allow manual control over which laser is fired.
+
+",True,5,"6,2",True,47
+155,"**Feature 5: Manual Override**
+A button press (connected to D2) will allow manual control of the lasers, overriding the automatic mode.
+
+",True,5,"6,2",True,48
+156,"**Feature 5: Manual Triggering**
+A push button (connected to D2) allows the user to manually trigger the next laser in the sequence.
+
+",True,5,"6,2",True,49
+157,"**Feature 5: Manual Override**
+A push-button (connected to D2) allows manual override to select a specific laser.
+
+",True,5,"6,2",True,50
+158,"**Feature 6: Audio Synchronization**
+An audio input (connected to A2) will synchronize the laser sequence with music or other audio signals.
+
+",True,3,"1,4",True,1
+159,"**Feature 6: Sound-Reactive Mode**
+When a sound sensor (connected to A2) detects a loud noise, the lasers will enter a special ""sound-reactive"" mode, where they rapidly flash in synchronization.
+
+",False,,,,2
+160,"**Feature 6: Sound-Reactive Mode**
+The system will respond to sound inputs from a microphone (connected to A2), making the lasers dance to the beat!
+
+",True,5,"1,4",True,3
+161,"**Feature 6: Laser Strobe Effect**
+When a third button (connected to D3) is pressed, all lasers will strobe rapidly.
+
+",True,7,"1,4",True,4
+162,"**Feature 6: Remote Control (via Serial Input)**
+The system can receive serial commands to control the lasers remotely.
+
+",True,5,"1,4",True,5
+163,"**Feature 6: Sound-Reactive Mode**
+The lasers will respond to sound input from a microphone (connected to A2), creating a music-synchronized light show.
+
+",True,5,"1,4",True,6
+164,"**Feature 6: Sound Effects**
+A piezo buzzer (connected to D13) will play different sound effects depending on which laser is firing.
+
+",True,5,"1,4",True,7
+165,"**Feature 6: Power-Saving Sleep Mode**
+If no laser has been fired for a set period of time (adjustable via a third potentiometer connected to A2), the system enters sleep mode to conserve power.
+
+",True,5,"1,4",True,8
+166,"**Feature 6: Status Indicator**
+The onboard LED will blink rapidly when the system is active and steady when it's not.
+
+",True,1,"1,4",True,9
+167,"```cpp
+
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Define the pins for each laser (max 6)
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+const int potPin = A0; // Pin for brightness adjustment potentiometer 
+const int autoModePotPin = A1; // Pin for automatic mode interval adjustment potentiometer 
+const int buttonPin = 2; // Pin for manual override push-button 
+
+int currentLaser = 0;
+int brightness = 255;
+bool autoMode = false;
+unsigned long lastAutoFireTime = 0;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // Initialize onboard LED as output
+  
+  // Initialize all laser pins as outputs 
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(potPin, INPUT); // Initialize brightness adjustment potentiometer pin as input 
+  pinMode(autoModePotPin, INPUT); // Initialize automatic mode interval adjustment potentiometer pin as input 
+  pinMode(buttonPin, INPUT_PULLUP); // Initialize manual override push-button pin as input with internal pull-up 
+}
+
+void loop() {
+  // Read brightness potentiometer value 
+  int potValue = analogRead(potPin);
+  brightness = map(potValue, 0, 1023, 0, 255);
+
+  // Check if manual override button is pressed 
+  if (!digitalRead(buttonPin)) {
+    autoMode = false;
+    currentLaser = 0; // Reset to first laser 
+  }
+
+  // Auto-mode logic 
+  if (autoMode) {
+    unsigned long currentTime = millis();
+    int autoModeInterval = map(analogRead(autoModePotPin), 0, 1023, 50, 1000); // Adjust interval based on potentiometer value 
+    if (currentTime - lastAutoFireTime >= autoModeInterval) {
+      lastAutoFireTime = currentTime;
+      
+      // Fire next laser in sequence 
+      digitalWrite(laserPins[currentLaser], LOW);
+      delay(10); // For smooth transition 
+      digitalWrite(laserPins[currentLaser], HIGH);
+      
+      // Update color-changing LED 
+      switchColor(currentLaser % 3); // Cycle between 3 colors
+      
+      currentLaser = (currentLaser + 1) % numLasers; // Increment and wrap around 
+    }
+  }
+  
+  // Fire currently selected laser (if auto-mode is off or we're waiting for the next auto-fire interval) 
+  digitalWrite(laserPins[currentLaser], brightness);
+  
+  // Blink status indicator LED when system is active 
+  digitalWrite(LED_BUILTIN, (millis() % 500 < 250?",True,1,"6,2",True,1
+168,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust pins to match your setup 
+const int potPin = A0; 
+const int autoPotPin = A1;
+const int buttonPin = 2;
+
+int currentLaser = 0;
+bool autoMode = false;
+int autoInterval = 500; // milliseconds 
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(potPin, INPUT);
+  pinMode(autoPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (digitalRead(buttonPin) == LOW) {
+    // Manual override 
+    currentLaser = map(analogRead(potPin), 0, 1023, 0, 5);
+    analogWrite(laserPins[currentLaser], 255);
+    digitalWrite(LED_BUILTIN, HIGH); // white 
+    delay(100);
+    digitalWrite(LED_BUILTIN, LOW);
+  } else if (autoMode) {
+    // Automatic mode 
+    currentLaser = (currentLaser + 1) % 6;
+    analogWrite(laserPins[currentLaser], map(analogRead(potPin), 0, 1023, 0, 255));
+    switch (currentLaser) {
+      case 0: digitalWrite(LED_BUILTIN, HIGH); break; // red 
+      case 1: digitalWrite(LED_BUILTIN, LOW); delay(1); digitalWrite(LED_BUILTIN, HIGH); break; // green 
+      case 2: analogWrite(LED_BUILTIN, 128); break; // blue 
+      case 3: digitalWrite(LED_BUILTIN, LOW); delay(2); digitalWrite(LED_BUILTIN, HIGH); break; // yellow 
+      case 4: analogWrite(LED_BUILTIN, 64); break; // cyan 
+      case 5: digitalWrite(LED_BUILTIN, HIGH); delay(1); analogWrite(LED_BUILTIN, 128); break; // magenta 
+    }
+    delay(autoInterval);
+  } else {
+    // Idle mode 
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+
+  // Adjust auto-interval based on potentiometer value 
+  autoInterval = map(analogRead(autoPotPin), 0, 1023, 200, 2000);
+
+  // Toggle auto-mode every 5 seconds 
+  static unsigned long lastToggle = 0;
+  if (millis() - lastToggle > 5000) {
+    autoMode =!autoMode;
+    lastToggle = millis();
+  }
+}
+```
+Note that you'll need to adjust the pin assignments and the color-mapping in the `switch` statement to match your specific hardware configuration.
+
+",True,5,"6,2",True,2
+169,"```cpp
+
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // adjust pin numbers according to your setup
+
+const int ledPin = 13; // onboard LED pin
+
+const int potPinBrightness = A0;
+const int potPinInterval = A1;
+
+const int buttonPinManualOverride = 2;
+
+int currentLaserIndex = 0;
+bool autoModeEnabled = true;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(potPinBrightness, INPUT);
+  pinMode(potPinInterval, INPUT);
+  pinMode(buttonPinManualOverride, INPUT_PULLUP);
+}
+
+void loop() {
+  if (autoModeEnabled) {
+    automaticMode();
+  } else {
+    manualOverrideMode();
+  }
+}
+
+void automaticMode() {
+  int intervalValue = analogRead(potPinInterval);
+  int interval = map(intervalValue, 0, 1023, 100, 2000); // adjust mapping according to your preferences
+  
+  static unsigned long lastSwitchTime = 0;
+  if (millis() - lastSwitchTime > interval) {
+    lastSwitchTime = millis();
+    switchLaser();
+  }
+  
+  blinkStatusIndicator(); // show that we're in auto mode
+  
+  delay(10);
+}
+
+void manualOverrideMode() {
+  int buttonState = digitalRead(buttonPinManualOverride);
+  if (buttonState == LOW) {
+    autoModeEnabled = false;
+    currentLaserIndex = (currentLaserIndex + 1) % 6;
+    switchLaser();
+    delay(50); // debouncing delay 
+  }
+  
+  digitalWrite(ledPin, HIGH); // show that we're in manual mode 
+  delay(10);
+}
+
+void switchLaser() {
+  for (int i = 0; i < 6; i++) {
+    if (i == currentLaserIndex) {
+      int brightnessValue = analogRead(potPinBrightness);
+      int brightness = map(brightnessValue, 0, 1023, 0, 255);
+      
+      analogWrite(laserPins[i], brightness);
+      changeLEDColor(i); // adjust the color based on current laser index 
+    } else {
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+}
+
+void changeLEDColor(int laserIndex) {
+  // use a switch-case statement or if-else statements to change the LED color based on the current laser index 
+  // for example:
+  switch (laserIndex) {
+    case 0:
+      digitalWrite(ledPin, HIGH); // red 
+      break;
+    case 1:
+      digitalWrite(ledPin, LOW); // off 
+      break;
+    case 2:
+      digitalWrite(ledPin, HIGH); // green 
+      break;
+    //... and so on for all 6 lasers...
+  }
+}
+
+void blinkStatusIndicator() {
+  static bool ledState = LOW;
+  digitalWrite(ledPin, ledState);
+  ledState =!ledState;
+  delay(50);
+}
+```
+
+Remember to adjust the pin numbers and mappings according to your specific hardware setup.",True,5,"6,2",True,3
+170,"```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Define laser pins (PWM capable)
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+const int potPin = A0; // Potentiometer for adjusting brightness (0-1023 range)
+const int autoPotPin = A1; // Potentiometer for adjusting auto-mode interval (0-1023 range)
+const int buttonPin = 2; // Push-button for manual override
+
+int currentLaser = 0; // Keep track of the current laser index
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // Onboard LED for status indicator
+  
+  // Set up lasers as outputs and initialize them to LOW (off)
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+    digitalWrite(laserPins[i], LOW);
+  }
+  
+  pinMode(buttonPin, INPUT_PULLUP); // Initialize push-button pin with internal pull-up resistor
+  
+  Serial.begin(9600); // For debugging purposes only (comment out if not needed)
+}
+
+void loop() {
+  static unsigned long lastToggleTime = 0; // Keep track of last toggle time for auto-mode
+  
+  int autoModeInterval = map(analogRead(autoPotPin), 0, 1023, 100, 5000); // Map auto-mode interval from pot value (0-1023 range)
+  
+  // Check for manual override button press (active-low)
+  if (!digitalRead(buttonPin)) {
+    currentLaser = constrain(analogRead(potPin) / (1023 / numLasers), 0, numLasers - 1);
+    delay(20); // Debounce delay
+    
+    // Update LED color based on selected laser (just for fun!)
+   ",False,,,,4
+171,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust pin numbers as needed for your laser modules
+
+const int ledPin = 13; // onboard LED pin
+
+const int brightPotPin = A0;
+const int autoModePotPin = A1;
+const int buttonPin = 2;
+
+int laserBrightness[] = {0, 0, 0, 0, 0, 0}; // store individual brightness levels for each laser
+
+bool autoModeEnabled = false;
+bool manualOverride = false;
+unsigned long autoCycleInterval = 500; // adjust interval time as needed (in milliseconds)
+unsigned long lastAutoCycleTime = 0;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(brightPotPin, INPUT);
+  pinMode(autoModePotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  int brightReading = analogRead(brightPotPin);
+  int autoModeReading = analogRead(autoModePotPin);
+  
+  // Adjust brightness based on potentiometer reading (map to 0-255 range)
+  for (int i = 0; i < 6; i++) {
+    laserBrightness[i] = map(brightReading, 0, 1023, 0, 255);
+  }
+  
+  // Enable/Disable automatic mode based on potentiometer reading (threshold 512)
+  if (autoModeReading > 512) {
+    autoModeEnabled = true;
+  } else {
+    autoModeEnabled = false;
+  }
+  
+  // Check for manual override button press (active low)
+  bool buttonState = digitalRead(buttonPin);
+  if (!buttonState &&!manualOverride) {
+    manualOverride = true;
+  } else if (buttonState && manualOverride) {
+    manualOverride = false;
+  }
+  
+  // Perform sequential laser firing (or manual override)
+  static int currentLaserIndex = 0;
+  if (manualOverride) {
+    // Manually selected laser index (add functionality for user input here)
+    int manualLaserIndex = 0; 
+    digitalWrite(laserPins[manualLaserIndex], HIGH);
+    setLedColor(manualLaserIndex);
+  } else if (autoModeEnabled) {
+    unsigned long currentTime = millis();
+    if (currentTime - lastAutoCycleTime >= autoCycleInterval) {
+      lastAutoCycleTime = currentTime;
+      digitalWrite(laserPins[currentLaserIndex], HIGH);
+      setLedColor(currentLaserIndex);
+      
+      delay(50); // adjust duration as needed
+      
+      digitalWrite(laserPins[currentLaserIndex], LOW);
+      currentLaserIndex = (currentLaserIndex + 1) % 6; // wrap around to start of array after 6th element
+      
+      // Blink onboard LED during auto-mode operation (every 50ms)
+      digitalWrite(ledPin,!digitalRead(ledPin));
+    }
+  }
+  
+  // Steady-state status indicator (blink rapidly when active, steady otherwise)
+  if (autoModeEnabled || manualOverride) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+}
+
+void setLedColor(int laserIndex) {
+  // Map color changes based on laser index (use bitwise operations or separate functions for R, G, B components)
+  switch (laserIndex) {
+    case 0:
+      // Set RGB values for red,",True,5,"6,2",True,5
+172,"Here's the code:
+```c++
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // Assign pins to the 6 lasers (digital outputs)
+const int potPin = A0; // Potentiometer for adjusting brightness (analog input)
+const int autoPotPin = A1; // Potentiometer for setting automatic cycle interval (analog input)
+const int buttonPin = 2; // Push-button for manual override (digital input)
+int currentLaser = 0; // Keep track of the currently active laser
+
+void setup() {
+  // Initialize laser pins as outputs and set them low initially 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+    digitalWrite(laserPins[i], LOW);
+  }
+  
+  // Initialize the button pin as an input with a pull-up resistor 
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  // Read potentiometers for brightness and automatic cycle interval 
+  int brightness = map(analogRead(potPin), 0, 1023, 0, 255); 
+  int autoInterval = map(analogRead(autoPotPin), 0, 1023, 100, 5000);
+
+  // Check if manual override is pressed 
+  if (!digitalRead(buttonPin)) {
+    // Select a random laser if the button is held down 
+    if (currentLaser == -1) {
+      currentLaser = random(0, 6);
+    } else {
+      currentLaser = (currentLaser + 1) % 6;
+    }
+  } else {
+    currentLaser = -1; // Release manual override 
+  }
+
+  // Fire the selected laser (or the next one in sequence) 
+  if (currentLaser >= 0 && currentLaser < 6) {
+    analogWrite(laserPins[currentLaser], brightness);
+    delay(50); // Hold the laser on for a short time 
+    analogWrite(laserPins[currentLaser], 0); 
+  }
+
+  // Cycle through the lasers in sequence (automatic mode) 
+  if (millis() % autoInterval < 50 && currentLaser == -1) {
+    currentLaser = (currentLaser + 1) % 6;
+    analogWrite(laserPins[currentLaser], brightness);
+    delay(50);
+    analogWrite(laserPins[currentLaser], 0);
+  }
+
+  // Update the status indicator (onboard LED) 
+  if (currentLaser!= -1) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(20);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(20);
+  } else {
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+}
+```
+This code assumes you have the following components connected to your Arduino Nano:
+
+* 6 lasers connected to digital pins 3-8 (use appropriate resistors for the lasers!)
+",True,5,"6,2",True,6
+173,"```cpp++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Pin assignments for the lasers (digital)
+const int ledPin = 13; // Pin assignment for the onboard LED (digital)
+const int brightPotPin = A0; // Pin assignment for brightness potentiometer (analog)
+const int autoModePotPin = A1; // Pin assignment for automatic mode interval potentiometer (analog)
+const int buttonPin = 2; // Pin assignment for manual override push-button (digital)
+
+int currentLaser = 0; // Keep track of the current laser index
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  Serial.begin(9600); // Initialize serial communication for debugging purposes (optional)
+}
+
+void loop() {
+  int brightness = map(analogRead(brightPotPin), 0, 1023, 0, 255); // Read and scale the brightness potentiometer value
+  
+  if (digitalRead(buttonPin) == LOW) {
+    // Manual override - select a specific laser based on button press duration (not implemented in this example)
+  } else {
+    if (autoModeEnabled()) {
+      automaticMode();
+    } else {
+      sequentialFiring();
+    }
+  }
+
+  statusIndicator(); // Update the status indicator LED
+
+  delay(20); // Small delay for stability (adjust as needed)
+}
+
+bool autoModeEnabled() {
+  return analogRead(autoModePotPin) > 500; // Simple threshold-based auto-mode enablement (adjust as needed)
+}
+
+void automaticMode() {
+  static unsigned long lastToggle;
+  unsigned long toggleInterval = map(analogRead(autoModePotPin), 0, 1023, 50, 1000); // Adjust the toggle interval based on the auto-mode potentiometer value
+
+  if (millis() - lastToggle >= toggleInterval) {
+    lastToggle = millis();
+    nextLaser();
+  }
+}
+
+void sequentialFiring() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[currentLaser], HIGH);
+    delay(50); // Adjust the dwell time as needed
+
+    digitalWrite(laserPins[currentLaser], LOW);
+    delay(50); // Adjust the dwell time as needed
+
+    nextLaser();
+  }
+}
+
+void nextLaser() {
+  currentLaser = (currentLaser + 1) % 6; // Cycle through the laser array indices
+
+  colorChangingLED(currentLaser); // Update the color-changing LED based on the current laser index
+
+  // Optional: Add a short beep or tone here to indicate laser switch (using the built-in buzzer or an external speaker)
+}
+
+void colorChangingLED(int laserIndex) {
+  // Use the onboard LED to display a different color for each laser (example uses binary-coded decimal notation)
+  switch (laserIndex) {
+    case 0:
+      digitalWrite(ledPin, B01010101); // Red-ish color (adjust as needed)
+      break;
+    case 1:
+      digitalWrite(ledPin, B10101010); // Green-ish color (adjust as needed)
+      break;
+    // Add cases for the remaining lasers...
+    default:
+      digitalWrite(ledPin, B11111111); // Default white color (adjust as needed)
+  }
+}
+
+void statusIndicator() {
+  static bool ledState;
+  ledState =!ledState;
+
+  digitalWrite(ledPin,",True,5,"6,2",True,7
+174,"Here's the code:
+```c++
+const int numLasers = 6; // adjust this to match your number of lasers!
+",False,,,,8
+175,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // pin assignments for 6 lasers 
+const int ledPin = 13; // onboard LED pin 
+const int potPin = A0; // brightness adjustment potentiometer pin 
+const int autoPotPin = A1; // automatic mode interval adjustment potentiometer pin 
+const int buttonPin = 2; // manual override push-button pin 
+
+int laserState = 0; // current laser index 
+int brightnessValue = 0; // current brightness value 
+bool autoMode = false; // automatic mode flag 
+unsigned long lastAutoFireTime = 0; // timestamp for last automatic firing 
+
+void setup() {
+  pinMode(ledPin, OUTPUT); 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP); 
+}
+
+void loop() {
+  // read brightness potentiometer value 
+  int sensorValue = analogRead(potPin); 
+  brightnessValue = map(sensorValue, 0, 1023, 0, 255); 
+
+  // handle automatic mode 
+  if (autoMode) {
+    unsigned long currentTime = millis(); 
+    if (currentTime - lastAutoFireTime >= map(analogRead(autoPotPin), 0, 1023, 100, 2000)) {
+      laserState++; 
+      if (laserState >= 6) laserState = 0; 
+      lastAutoFireTime = currentTime;
+    }  
+  }
+
+  // handle manual override 
+  bool buttonState = digitalRead(buttonPin); 
+  if (!buttonState &&!autoMode) {
+    laserState = (laserState + 1) % 6;
+    delay(50); // debounce 
+  }
+
+  // update laser state 
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], i == laserState?",True,5,"6,2",True,9
+176,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Pin assignments for 6 lasers (Digital)
+const int ledPin = 13; // Onboard LED pin (Digital)
+const int potPinBright = A0; // Potentiometer for adjusting brightness (Analog)
+const int potPinInterval = A1; // Potentiometer for adjusting auto-mode interval (Analog)
+const int buttonPin = 2; // Push-button for manual override (Digital)
+
+int currentLaser = 0; // Keep track of the current laser being fired
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  int brightValue = analogRead(potPinBright); // Read brightness adjustment value (0-1023)
+  int intervalValue = analogRead(potPinInterval); // Read auto-mode interval adjustment value (0-1023)
+  
+  if (digitalRead(buttonPin) == LOW) { // Check for manual override request 
+    currentLaser = map(analogRead(A2), 0, 1023, 0, 5); // Map A2 analog input to laser selection (0-5)
+  } else {
+    if (millis() % (intervalValue * 10) == 0) { // Auto-mode interval logic 
+      currentLaser = (currentLaser + 1) % 6;
+    }
+  }
+  
+  // Fire selected laser and adjust brightness 
+  for (int i = 0; i < 6; i++) {
+    if (i == currentLaser) {
+      analogWrite(laserPins[i], brightValue / 4); // Scale brightness adjustment value (0-255)
+    } else {
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+  
+  // Update color-changing LED 
+  switch (currentLaser) {
+    case 0:
+      setColor(RED);
+      break;
+    case 1:
+      setColor(GREEN);
+      break;
+    case 2:
+      setColor(BLUE);
+      break;
+    case 3:
+      setColor(YELLOW);
+      break;
+    case 4:
+      setColor(CYAN);
+      break;
+    case 5:
+      setColor(MAGENTA);
+      break;
+  }
+  
+  // Status indicator (blink when active) 
+  if (currentLaser!= -1) {
+    digitalWrite(ledPin, HIGH);
+    delay(50);
+    digitalWrite(ledPin, LOW);
+    delay(50);
+  } else {
+    digitalWrite(ledPin, HIGH);
+  }
+}
+
+// Helper function for setting RGB LED colors 
+void setColor(int r, int g, int b) {
+  analogWrite(ledPin, r);
+  analogWrite(ledPin + 1, g);
+  analogWrite(ledPin + 2, b);
+}
+```
+Please note that you'll need to connect:
+
+* Lasers to digital pins 3, 5, 6, 9, 10, and 11.
+",False,,,,10
+177,"Here's the code:
+```c++
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // Pins for the 6 lasers (adjust as needed)
+const int ledPin = 13; // Onboard LED pin (Arduino Nano)
+const int potPinBrightness = A0; // Pin for brightness potentiometer (adjust as needed)
+const int potPinInterval = A1; // Pin for interval potentiometer (adjust as needed)
+const int buttonPin = 2; // Pin for manual override push-button (adjust as needed)
+
+int currentLaser = 0; // Current laser index (0-5)
+bool autoMode = true; // Automatic mode enabled by default
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+  
+  // Initialize laser pins as outputs (adjust as needed)
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  int brightnessValue = analogRead(potPinBrightness); // Read brightness pot value (0-1023)
+  int intervalValue = analogRead(potPinInterval); // Read interval pot value (0-1023)
+  bool buttonState = digitalRead(buttonPin); // Read manual override button state
+  
+  if (autoMode &&!buttonState) {
+    // Automatic mode: cycle through lasers with adjustable interval (10ms - 500ms)
+    unsigned long interval = map(intervalValue, 0, 1023, 10, 500);
+    delay(interval);
+    digitalWrite(laserPins[currentLaser], HIGH);
+    changeLEDColor(currentLaser); // Update onboard LED color based on current laser
+    
+    currentLaser = (currentLaser + 1) % 6; // Increment laser index (wrap around at 6)
+    digitalWrite(laserPins[currentLaser - 1], LOW); // Turn off previous laser
+    
+    // Blink onboard LED to indicate system activity (rapid blinking during auto-mode)
+    blinkOnboardLED();
+  } else {
+    // Manual override: direct control over selected laser (and its brightness)
+    int desiredLaser = map(analogRead(A2), 0, 1023, 0, 5); // Map pot value to laser index (0-5)
+    
+    digitalWrite(laserPins[desiredLaser], HIGH);
+    analogWrite(laserPins[desiredLaser], map(brightnessValue, 0, 1023, 0, 255));
+    changeLEDColor(desiredLaser); // Update onboard LED color based on selected laser
+    
+    digitalWrite(laserPins[currentLaser], LOW); // Turn off previously selected laser
+    
+    currentLaser = desiredLaser; // Update current laser index
+    
+    // Steady onboard LED indicates manual mode (no blinking)
+    digitalWrite(ledPin, HIGH);
+  }
+}
+
+void blinkOnboardLED() {
+  digitalWrite(ledPin,!digitalRead(ledPin)); // Toggle onboard LED quickly (100ms)
+  delay(50);
+  digitalWrite(ledPin,!digitalRead(ledPin));
+  delay(50);
+}
+
+void changeLEDColor(int laserIndex) {
+  switch (laserIndex) {
+    case 0:
+      digitalWrite(ledPin, LOW); // Red (turn off RGB components)
+      break;
+    case 1:
+      digitalWrite(ledPin, HIGH); // Green (activate green component only)
+      break;
+    case 2:
+      digitalWrite(ledPin, LOW); // Blue (activate blue component only)
+      break;
+    // Add more cases",True,5,"6,2",True,11
+178,"```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Pins for the 6 lasers (digital PWM)
+const int potPin = A0; // Pin for the brightness adjustment potentiometer (analog)
+const int autoPotPin = A1; // Pin for the automatic mode interval adjustment potentiometer (analog)
+const int buttonPin = 2; // Pin for the manual override push-button (digital)
+
+int currentLaser = 0;
+bool autoMode = false;
+bool buttonState = HIGH;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // Initialize the onboard LED as an output
+
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Initialize the laser pins as outputs
+
+    digitalWrite(laserPins[i], LOW); // Initially turn off all lasers
+
+    analogWrite(laserPins[i], 0); // Set initial brightness to 0 (off)
+  }
+}
+
+void loop() {
+  if (autoMode) {
+    automaticMode();
+  } else {
+    manualOverride();
+  }
+
+  // Read the brightness adjustment potentiometer value (0-1023)
+  int brightness = analogRead(potPin);
+  
+  // Map the potentiometer value to a brightness level (0-255)
+  brightness = map(brightness, 0, 1023, 0, 255);
+
+  // Adjust the brightness of the currently selected laser 
+  analogWrite(laserPins[currentLaser], brightness);
+}
+
+void automaticMode() {
+  static unsigned long lastChangeTime = 0;
+  const int interval = map(analogRead(autoPotPin), 0, 1023, 50, 500); // Adjust interval based on potentiometer value
+
+  if (millis() - lastChangeTime >= interval) {
+    lastChangeTime = millis();
+
+    // Cycle to the next laser in sequence 
+    currentLaser = (currentLaser + 1) % 6;
+    
+    // Update the color-changing LED (onboard LED)
+    switch (currentLaser) {
+      case 0:
+        digitalWrite(LED_BUILTIN, HIGH); // Red ( HIGH )
+        break;
+      case 1:
+        digitalWrite(LED_BUILTIN, LOW); // Green ( LOW )
+        break;
+      case 2:
+        analogWrite(LED_BUILTIN, 128); // Blue ( dimmed )
+        break;
+      default:
+        // Cycle through the remaining colors ( Orange, Yellow, Cyan )
+        // You can add more cases or use a different method to generate colors!
+       ",True,5,"6,2",True,12
+179,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // define laser pins (up to 6)
+const int ledPin = 13; // onboard LED pin (Nano)
+const int buttonPin = 2; // push-button pin for manual override
+
+int brightnessPot = A0; // potentiometer for adjustable brightness (A0)
+int autoModePot = A1; // potentiometer for automatic mode interval (A1)
+
+boolean autoMode = false; // default to manual mode
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+  
+  // Set up lasers as outputs and turn them off initially 
+  for (int i = 0; i < sizeof(laserPins); i++) {
+    pinMode(laserPins[i], OUTPUT);
+    digitalWrite(laserPins[i], LOW);
+  }
+}
+
+void loop() {
+  // Read potentiometers and adjust settings accordingly 
+  int brightnessVal = analogRead(brightnessPot);
+  int autoModeInterval = analogRead(autoModePot);
+  autoModeInterval = map(autoModeInterval, 0, 1023, 100, 5000);
+
+  if (!autoMode && digitalRead(buttonPin) == LOW) {
+    // Manual override - select a specific laser 
+    int selectedLaser = random(sizeof(laserPins));
+    for (int i = 0; i < sizeof(laserPins); i++) {
+      if (i == selectedLaser) {
+        analogWrite(laserPins[i], brightnessVal / 4); // adjust brightness 
+        changeLEDColor(i); // update status indicator color 
+      } else {
+        digitalWrite(laserPins[i], LOW);
+      }
+    }
+  } else {
+    // Auto mode - cycle through lasers 
+    static int currentLaser = 0;
+    analogWrite(laserPins[currentLaser], brightnessVal / 4);
+    changeLEDColor(currentLaser);
+    
+    delay(autoModeInterval);
+    digitalWrite(laserPins[currentLaser], LOW);
+    currentLaser = (currentLaser + 1) % sizeof(laserPins);
+  }
+
+  // Blink status indicator if auto mode active 
+  if (autoMode) {
+    digitalWrite(ledPin, HIGH);
+    delay(50);
+    digitalWrite(ledPin, LOW);
+    delay(50);
+  } else {
+    digitalWrite(ledPin, autoMode?",False,,,,13
+180,"Here's the code:
+```cpp
+
+// Define pins for laser control, potentiometers, and button 
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust according to your setup 
+const int potPinBrightness = A0; 
+const int potPinInterval = A1; 
+const int buttonPin = 2; 
+
+// Define variables for tracking state 
+int currentLaserIndex = 0; 
+bool automaticMode = true; 
+bool systemActive = false; 
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP); 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  if (automaticMode) {
+    automaticCycle();
+  } else {
+    manualOverride();
+  }
+}
+
+void automaticCycle() {
+  int interval = map(analogRead(potPinInterval), 0, 1023, 50, 500); // adjust interval based on potentiometer value 
+  static unsigned long lastSwitchTime = 0;
+  if (millis() - lastSwitchTime >= interval) {
+    lastSwitchTime = millis();
+    currentLaserIndex = (currentLaserIndex + 1) % 6; // advance to next laser 
+    analogWrite(laserPins[currentLaserIndex], map(analogRead(potPinBrightness), 0, 1023, 0, 255)); // adjust brightness based on potentiometer value 
+    setLEDColor(currentLaserIndex); // update LED color 
+  }
+  blinkStatusIndicator(); // indicate system activity 
+}
+
+void manualOverride() {
+  if (!digitalRead(buttonPin)) {
+    currentLaserIndex = (analogRead(potPinBrightness) / 170) % 6; // calculate selected laser index based on potentiometer value 
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], i == currentLaserIndex?",True,5,"6,2",True,14
+181,"```cpp
+
+const int numLasers = 6; // Number of lasers in the system
+
+// Pin assignments for lasers, button, and pots 
+int laserPins[] = {3, 4, 5, 6, 7, 8}; // Pins for individual lasers 
+int buttonPin = 2; // Pin for manual override button 
+int brightPotPin = A0; // Pin for adjustable brightness potentiometer 
+int autoPotPin = A1; // Pin for automatic mode interval potentiometer 
+
+// Variables for system state 
+bool autoMode = true; // Automatic mode enabled by default 
+int currentLaser = 0; // Current laser index 
+unsigned long lastToggleTime = 0; // Last toggle time for auto mode 
+
+void setup() {
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set laser pins as outputs 
+  }
+  pinMode(buttonPin, INPUT_PULLUP); // Set button pin as input with pull-up resistor 
+}
+
+void loop() {
+  if (autoMode) {
+    automaticMode();
+  } else {
+    manualOverride();
+  }
+}
+
+void automaticMode() {
+  unsigned long currentTime = millis(); // Get current time 
+  int interval = map(analogRead(autoPotPin), 0, 1023, 50, 2000); // Read auto pot value 
+  if (currentTime - lastToggleTime >= interval) {
+    lastToggleTime = currentTime; // Update last toggle time 
+    toggleLasers(); // Toggle lasers 
+  }
+}
+
+void manualOverride() {
+  int buttonState = digitalRead(buttonPin); // Read button state 
+  if (buttonState == LOW) {
+    autoMode = false; // Switch to manual mode 
+    delay(20); // Debounce delay 
+  } else {
+    controlLasersManually();
+  }
+}
+
+void controlLasersManually() {
+  int selectedLaser = analogRead(brightPotPin) / (1023 / numLasers); // Read brightness pot value 
+  selectedLaser = constrain(selectedLaser, 0, numLasers - 1); // Constrain selection 
+  currentLaser = selectedLaser; // Update current laser 
+  updateLED(); // Update color-changing LED 
+  fireSelectedLaser(); // Fire selected laser 
+}
+
+void toggleLasers() {
+  fireNextLaser(); // Fire next laser in sequence 
+  updateLED(); // Update color-changing LED 
+  currentLaser++; // Increment current laser index 
+  currentLaser %= numLasers; // Wrap around to beginning of sequence 
+}
+
+void fireSelectedLaser() {
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], i == currentLaser?",True,5,"6,2",True,15
+182,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust pin numbers according to your setup 
+const int ledPin = 13; // onboard LED pin 
+const int brightnessPotPin = A0; // potentiometer for adjusting brightness 
+const int autoModePotPin = A1; // potentiometer for adjusting auto mode interval 
+const int buttonPin = 2; // push-button pin 
+
+int currentLaser = 0; // keep track of the current laser 
+bool autoModeEnabled = true; // toggle for auto mode 
+unsigned long autoModeInterval = 500; // adjustable interval for auto mode (in ms) 
+unsigned long lastAutoModeTime = 0; // timestamp for auto mode 
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  // initialize lasers as outputs 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // read brightness potentiometer value 
+  int brightnessValue = analogRead(brightnessPotPin);
+  int brightness = map(brightnessValue, 0, 1023, 0, 255);
+
+  // check for manual override 
+  if (digitalRead(buttonPin) == LOW) {
+    autoModeEnabled = false;
+    currentLaser = (currentLaser + 1) % 6; // cycle through lasers on button press 
+  }
+
+  // automatic mode logic 
+  if (autoModeEnabled) {
+    unsigned long currentTime = millis();
+    if (currentTime - lastAutoModeTime >= autoModeInterval) {
+      lastAutoModeTime = currentTime;
+      currentLaser = (currentLaser + 1) % 6; // increment laser index every interval 
+    }
+  }
+
+  // update status indicator (onboard LED) 
+  digitalWrite(ledPin, (autoModeEnabled)?",False,,,,16
+183,"Here's the code:
+```cpp
+
+const int numLasers = 6; // Number of lasers in the system
+
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // Pins for each laser
+
+const int ledPin = 13; // Onboard LED pin
+
+const int brightPotPin = A0; // Pin for brightness potentiometer
+
+const int autoModePotPin = A1; // Pin for automatic mode interval potentiometer
+
+const int buttonPin = 2; // Pin for manual override push-button
+
+int currentLaser = 0; // Current laser index
+
+int brightnessValues[numLasers]; // Array to store individual brightness values
+
+bool autoModeEnabled = false; // Flag for automatic mode
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+
+  pinMode(brightPotPin, INPUT);
+
+  pinMode(autoModePotPin, INPUT);
+
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (!autoModeEnabled) {
+    // Manual override mode
+
+    if (!digitalRead(buttonPin)) {
+      // Button pressed, toggle laser selection
+
+      currentLaser = (currentLaser + 1) % numLasers;
+
+      updateLEDColor();
+    }
+  } else {
+    // Automatic mode
+
+    static unsigned long lastCycleTime = 0;
+
+    unsigned long currentTime = millis();
+
+    if (currentTime - lastCycleTime >= map(analogRead(autoModePotPin), 0, 1023, 100, 5000)) {
+      // Cycle to next laser after set interval
+
+      lastCycleTime = currentTime;
+
+      currentLaser = (currentLaser + 1) % numLasers;
+    }
+  }
+
+  // Update brightness values from potentiometer readings
+
+  for (int i = 0; i < numLasers; i++) {
+    brightnessValues[i] = map(analogRead(brightPotPin), 0, 1023, 0, 255);
+  }
+
+  // Fire current laser
+
+  analogWrite(laserPins[currentLaser], brightnessValues[currentLaser]);
+
+  // Update status indicator (onboard LED)
+
+  digitalWrite(ledPin,!digitalRead(ledPin));
+
+  delay(50); // Brief pause between updates
+
+  digitalWrite(laserPins[currentLaser], LOW); // Turn off previous laser
+
+  delay(50); // Brief pause before updating again
+
+  updateLEDColor(); // Update onboard LED color
+
+  delay(10); // Brief pause to allow for color settling
+
+  // Toggle status indicator (onboard LED)
+
+  digitalWrite(ledPin,!digitalRead(ledPin));
+}
+
+void updateLEDColor() {
+  // Update onboard LED color based on current laser index
+
+  switch (currentLaser) {
+    case 0:
+      digitalWrite(ledPin, HIGH);
+      delay(5);
+      digitalWrite(ledPin, LOW);
+      break;
+
+    case 1:
+      digitalWrite(ledPin, LOW);
+      delay(5);
+      digitalWrite(ledPin, HIGH);
+      break;
+
+    default:
+      // Alternate between high and low every 5ms
+
+      digitalWrite(ledPin, digitalRead(ledPin)?",True,5,"6,2",True,17
+184,"Here's the code:
+```c++
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // pins for 6 lasers (digital)
+const int ledPin = 13; // onboard LED pin (digital)
+const int potPinA0 = A0; // adjust brightness (analog)
+const int potPinA1 = A1; // adjust auto mode interval (analog)
+const int buttonPin = 2; // manual override button (digital)
+
+int currentLaser = 0; // keep track of current laser index
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  int brightness = analogRead(potPinA0); // read brightness potentiometer value (0-1023)
+  brightness = map(brightness, 0, 1023, 0, 255); // scale brightness to 0-255 range
+  
+  if (!digitalRead(buttonPin)) { // check manual override button state 
+    manualOverride();
+  } else {
+    automaticMode();
+  }
+  
+  // update status indicator (onboard LED)
+  digitalWrite(ledPin, digitalRead(buttonPin)); // LED on when auto mode off
+  
+  delay(10); // short delay to reduce flicker 
+}
+
+void manualOverride() {
+  static bool prevButtonState = true;
+  bool currButtonState =!digitalRead(buttonPin);
+  
+  if (currButtonState &&!prevButtonState) {
+    currentLaser++;
+    if (currentLaser >= 6) {
+      currentLaser = 0;
+    }
+  }
+  
+  prevButtonState = currButtonState;
+  
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], (i == currentLaser));
+  }
+  
+  colorChangingLED(currentLaser);
+}
+
+void automaticMode() {
+  int interval = analogRead(potPinA1); // read auto mode interval potentiometer value (0-1023)
+  interval = map(interval, 0, 1023, 50, 1000); // scale interval to 50-1000 ms range 
+  
+  static unsigned long lastFireTime = 0;
+  unsigned long currentTime = millis();
+  
+  if (currentTime - lastFireTime >= interval) {
+    lastFireTime = currentTime;
+    currentLaser++;
+    if (currentLaser >= 6) {
+      currentLaser = 0;
+    }
+    
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], (i == currentLaser));
+    }
+    
+    colorChangingLED(currentLaser);
+  }
+}
+
+void colorChangingLED(int laserIndex) {
+  switch (laserIndex % 3) {
+    case 0:
+      analogWrite(ledPin, 255, 0, 0); // red when lasers 0, 3, or 5 are on 
+      break;
+    case 1:
+      analogWrite(ledPin, 0, 255, 0); // green when lasers 1 or 4 are on 
+      break;
+    default:
+      analogWrite(ledPin, 0, 0, 255); // blue when lasers 2 or 5 are on 
+  }
+}
+```
+**Note:** This code assumes you have connected the lasers to digital pins 3-8, the onboard LED to pin 13, the brightness",False,,,,18
+185,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust to your laser pin connections
+
+const int potPin = A0; // adjust to your potentiometer pin connection (brightness)
+const int autoPotPin = A1; // adjust to your second potentiometer pin connection (auto mode interval)
+const int buttonPin = 2; // adjust to your push-button pin connection (manual override)
+
+int currentLaser = 0;
+int autoModeInterval = 500; // adjust to your desired auto mode interval (ms)
+bool autoModeEnabled = false;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // onboard LED for status indicator and color-changing effects
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(potPin, INPUT);
+  pinMode(autoPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (!digitalRead(buttonPin)) { // manual override enabled?
+   ",True,5,"6,2",True,19
+186,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Define pins for 6 lasers (adjust as needed)
+const int ledPin = 13; // Onboard LED pin (built-in LED on most Arduinos)
+const int potPin1 = A0; // Potentiometer for adjusting brightness (analog input)
+const int potPin2 = A1; // Potentiometer for setting auto-mode interval (analog input)
+const int buttonPin = 2; // Push-button pin for manual override (digital input)
+
+int currentLaser = 0; // Store the current laser index (0-5)
+bool autoModeEnabled = true; // Flag for automatic mode
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (autoModeEnabled) {
+    // Auto-mode: Cycle through lasers with adjustable interval (via potPin2)
+    static unsigned long lastTime = 0;
+    unsigned long currentTime = millis();
+    int interval = map(analogRead(potPin2), 0, 1023, 50, 1000); // Adjust interval based on potPin2 value (50-1000ms)
+    if (currentTime - lastTime >= interval) {
+      lastTime = currentTime;
+      currentLaser = (currentLaser + 1) % 6; // Increment and wrap around if necessary (0-5)
+    }
+  }
+
+  int brightness = map(analogRead(potPin1), 0, 1023, 0, 255); // Adjust brightness based on potPin1 value (0-255)
+  analogWrite(laserPins[currentLaser], brightness); // Write brightness to current laser pin
+
+  // Update color-changing LED based on current laser (uses built-in LED on most Arduinos)
+  switch (currentLaser) {
+    case 0:
+      digitalWrite(ledPin, LOW); // Red (off)
+      break;
+    case 1:
+      analogWrite(ledPin, 128); // Orange (half-brightness)
+      break;
+    case 2:
+      analogWrite(ledPin, 255); // Yellow (full-brightness)
+      break;
+    case 3:
+      digitalWrite(ledPin, HIGH); // Green (on)
+      break;
+    case 4:
+      analogWrite(ledPin, 128); // Cyan (half-brightness)
+      break;
+    case 5:
+      digitalWrite(ledPin, LOW); // Blue (off)
+      break;
+  }
+
+  // Check for manual override (button press)
+  if (!digitalRead(buttonPin)) {
+    // Button pressed: Enter manual override mode and allow user selection of laser (0-5)
+    autoModeEnabled = false;
+    while (!digitalRead(buttonPin)); // Wait for button release before proceeding
+
+    // Blink onboard LED rapidly during manual override mode (status indicator)
+    while (!autoModeEnabled) {
+      digitalWrite(ledPin, HIGH);
+      delay(50);
+      digitalWrite(ledPin, LOW);
+      delay(50);
+
+      // Read user-selected laser from serial monitor (for simplicity, assume user enters 0-5)
+      Serial.println(""Enter laser number (0-5):"");
+      int userInput = Serial.parseInt();
+      if (userInput >= 0 && userInput <= 5) {
+        currentLaser = userInput;
+        analogWrite(laserPins[currentLaser],",True,1,"6,2",True,20
+187,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust these to match your laser pins
+
+const int ledPin = 13; // onboard LED pin
+
+const int potPin = A0; // brightness adjustment potentiometer pin
+
+const int autoPotPin = A1; // automatic mode interval potentiometer pin
+
+const int buttonPin = 2; // manual override push-button pin
+
+int currentLaser = 0; // keep track of the current laser
+
+bool autoMode = false; // automatic mode flag
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  if (digitalRead(buttonPin) == LOW) {
+    // manual override mode - select a specific laser using the button press count
+
+    static int buttonPressCount = 0;
+    buttonPressCount++;
+
+    if (buttonPressCount > 5) {
+      buttonPressCount = 0;
+    }
+
+    currentLaser = buttonPressCount;
+  } else {
+    // automatic mode
+
+    if (!autoMode) {
+      // initialize automatic mode
+
+      autoMode = true;
+
+      unsigned long interval = map(analogRead(autoPotPin), 0, 1023, 50, 500); // adjustable interval (50-500ms)
+
+      Timer.setInterval(interval, laserSequence);
+    }
+  }
+
+  // common functionality for both modes
+
+  analogWrite(laserPins[currentLaser], map(analogRead(potPin), 0, 1023, 0, 255)); // adjust brightness based on potentiometer value
+
+  statusIndicator();
+  colorChangingLEDs();
+  delay(20); // small delay to prevent excessive CPU usage
+
+  currentLaser = (currentLaser + 1) % 6; // increment the current laser index, wrapping around to 0 if necessary
+
+  digitalWrite(laserPins[currentLaser], LOW); // turn off the previous laser before moving to the next one
+
+  Timer.update(); // update the timer for automatic mode
+
+  yield(); // allow other tasks to run (if needed)
+}
+
+void laserSequence() {
+  currentLaser = (currentLaser + 1) % 6; // increment the current laser index, wrapping around to 0 if necessary
+
+  digitalWrite(laserPins[currentLaser], HIGH); // turn on the next laser
+
+  digitalWrite(ledPin,!digitalRead(ledPin)); // toggle the onboard LED as a visual indicator
+
+  delay(20); // small delay to prevent excessive CPU usage
+
+  digitalWrite(laserPins[currentLaser], LOW); // turn off the previous laser before moving to the next one
+
+  Timer.update(); // update the timer for automatic mode
+
+  yield(); // allow other tasks to run (if needed)
+}
+
+void statusIndicator() {
+  if (autoMode) {
+    digitalWrite(ledPin,!digitalRead(ledPin)); // rapid blinking in automatic mode
+
+    delay(100);
+  } else {
+    digitalWrite(ledPin, HIGH); // steady state in manual override mode
+
+    delay(200);
+  }
+}
+
+void colorChangingLEDs() {
+  switch (currentLaser % 3) {
+    case 0:
+      analogWrite(ledPin, 0xFF); // red (255, 0, 0)
+
+      break;
+
+    case 1:
+      analogWrite(ledPin, 0x7F);",False,,,,21
+188,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Adjust these pins to match your setup!
+",True,5,"6,2",True,22
+189,"Here's the code:
+```c++
+const int numLasers = 6; // adjust according to your setup
+
+// pin assignments for lasers, potentiometers, and button 
+int laserPins[] = {3, 4, 5, 6, 7, 8}; // adjust according to your setup 
+int brightPotPin = A0;
+int autoModePotPin = A1;
+int buttonPin = 2;
+
+// variables to store states and values 
+int currentLaser = 0;
+int brightnessValue = 0;
+bool autoModeEnabled = false;
+boolmanualOverride = false;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // status indicator 
+
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  // read potentiometers 
+  brightnessValue = analogRead(brightPotPin);
+  int autoModeInterval = analogRead(autoModePotPin);
+
+  // handle manual override 
+  if (digitalRead(buttonPin) == LOW &&!manualOverride) {
+    manualOverride = true;
+  } else if (digitalRead(buttonPin) == HIGH && manualOverride) {
+    manualOverride = false;
+  }
+
+  // automatic mode logic 
+  if (!manualOverride &&!autoModeEnabled) {
+    autoModeEnabled = true;
+    unsigned long previousMillis = millis();
+    
+    while (autoModeEnabled) {
+      unsigned long currentMillis = millis();
+      
+      if (currentMillis - previousMillis >= autoModeInterval) {
+        previousMillis = currentMillis;
+        
+        // increment and wrap around 
+        currentLaser = (currentLaser + 1) % numLasers;
+        
+        // update LEDs and brightness 
+        digitalWrite(LED_BUILTIN, (currentLaser % 2 == 0)?",True,5,"6,2",True,23
+190,"```c++
+const int numLasers = 6; // Number of lasers in the system
+
+const int laserPins[numLasers] = {3, 4, 5, 6, 7, 8}; // Pins for each laser
+
+const int potPinBrightness = A0; // Pin for brightness adjustment potentiometer
+
+const int potPinInterval = A1; // Pin for interval adjustment potentiometer
+
+const int buttonPinOverride = 2; // Pin for manual override push-button
+
+int brightnessValue = 0;
+int intervalValue = 0;
+
+bool automaticMode = true; // Automatic mode enabled by default
+
+int currentLaserIndex = 0; // Current laser being fired
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // Set up onboard LED as output
+  
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(buttonPinOverride, INPUT_PULLUP);
+}
+
+void loop() {
+  readPotentiometers();
+  
+  if (automaticMode) {
+    autoCycleLasers();
+  } else {
+    manualOverride();
+  }
+  
+  delay(10);
+}
+
+void readPotentiometers() {
+  brightnessValue = analogRead(potPinBrightness);
+  brightnessValue = map(brightnessValue, 0, 1023, 0, 255);
+  
+  intervalValue = analogRead(potPinInterval);
+  intervalValue = map(intervalValue, 0, 1023, 50, 500);
+}
+
+void autoCycleLasers() {
+  static unsigned long lastChangeTime = 0;
+  unsigned long currentTime = millis();
+  
+  if (currentTime - lastChangeTime > intervalValue) {
+    lastChangeTime = currentTime;
+    
+    digitalWrite(laserPins[currentLaserIndex], HIGH);
+    setLEDColor(currentLaserIndex);
+    delay(100);
+    digitalWrite(laserPins[currentLaserIndex], LOW);
+    
+    currentLaserIndex = (currentLaserIndex + 1) % numLasers;
+  }
+  
+  // Blink status indicator when in automatic mode:
+  static bool ledState = false;
+  if (ledState) {
+    digitalWrite(LED_BUILTIN, LOW);
+  } else {
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+  ledState =!ledState;
+  delay(10);
+}
+
+void manualOverride() {
+  int buttonState = digitalRead(buttonPinOverride);
+  
+  if (!buttonState) {
+    automaticMode = false;
+    
+    while (!digitalRead(buttonPinOverride)) {}
+    automaticMode = true;
+  }
+  
+  // Select laser manually:
+  static int selectedLaser = 0;
+  
+  selectedLaser = (selectedLaser + 1) % numLasers;
+  
+  digitalWrite(laserPins[selectedLaser], HIGH);
+  setLEDColor(selectedLaser);
+  delay(500);
+  digitalWrite(laserPins[selectedLaser], LOW);
+}
+
+void setLEDColor(int index) {
+  switch (index) {
+    case 0:
+      digitalWrite(LED_BUILTIN, HIGH);
+      break;
+    case 1:
+      analogWrite(LED_BUILTIN, 128);
+      break;
+    case 2:
+      digitalWrite(LED_BUILTIN, LOW);
+      break;
+    case 3:
+      digitalWrite(LED_BUILTIN, HIGH);
+      break;
+    case 4:
+      analogWrite(LED_BUILTIN, 64);
+      break;
+    case 5:
+      digitalWrite(LED_BUILTIN, LOW);
+      break;
+  }
+}
+```
+**Note:** You'll need to adjust the pin assignments according to your specific hardware connections.",True,1,"6,2",True,24
+191,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // define pins for 6 lasers (analog PWM capable)
+const int ledPin = 13; // onboard LED pin (for color-changing)
+const int pot1Pin = A0; // potentiometer for adjustable brightness (0-1023 range)
+const int pot2Pin = A1; // potentiometer for automatic mode interval (0-1023 range)
+const int buttonPin = 2; // push-button pin for manual override
+
+int currentLaser = 0; // keep track of the current laser being fired (sequential)
+int brightValues[] = {0, 0, 0, 0, 0, 0}; // store brightness values for each laser (0-255 range)
+
+void setup() {
+  // initialize laser pins as outputs and set to LOW initially 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+    digitalWrite(laserPins[i], LOW);
+  }
+
+  pinMode(ledPin, OUTPUT); // set onboard LED as output
+
+  pinMode(pot1Pin, INPUT); // set potentiometer pin as input (for adjustable brightness)
+  pinMode(pot2Pin, INPUT); // set potentiometer pin as input (for automatic mode interval)
+
+  pinMode(buttonPin, INPUT_PULLUP); // set push-button pin as input with internal pull-up resistor
+  
+}
+
+void loop() {
+  // read potentiometers for adjustable brightness and automatic mode interval 
+  int brightValue = map(analogRead(pot1Pin), 0, 1023, 0, 255);
+  int autoInterval = map(analogRead(pot2Pin), 0, 1023, 500, 5000);
+
+  // adjust brightness for each laser 
+  for (int i = 0; i < 6; i++) {
+    brightValues[i] = brightValue;
+  }
+
+  // check if manual override button is pressed 
+  if (digitalRead(buttonPin) == LOW) {
+    // manual override - turn off all lasers except the one selected by the user (via serial input)
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], LOW);
+    }
+    Serial.println(""Enter laser number (1-6): "");
+    int selection = Serial.parseInt();
+    if (selection >= 1 && selection <= 6) {
+      digitalWrite(laserPins[selection - 1], HIGH);
+      setColor(selection);
+    } else {
+      Serial.println(""Invalid selection.",True,5,"6,2",True,25
+192,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust these to your laser pin connections
+
+const int potPin = A0; // adjust to your potentiometer pin connection for brightness control
+
+const int autoPotPin = A1; // adjust to your potentiometer pin connection for auto-mode interval control
+
+const int buttonPin = 2; // adjust to your push-button pin connection
+
+int currentLaser = 0;
+bool autoMode = true;
+int autoInterval = 500; // adjustable auto-mode interval in ms
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(potPin, INPUT);
+  pinMode(autoPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (autoMode) {
+    automaticMode();
+  } else {
+    manualOverride();
+  }
+  
+  statusIndicator();
+}
+
+void automaticMode() {
+  static unsigned long lastChangeTime = 0;
+  int interval = map(analogRead(autoPotPin), 0, 1023, 100, 2000); // map auto-interval from 100ms to 2000ms
+  
+  if (millis() - lastChangeTime > interval) {
+    lastChangeTime = millis();
+    nextLaser();
+  }
+}
+
+void manualOverride() {
+  if (!digitalRead(buttonPin)) {
+    currentLaser = (currentLaser + 1) % 6;
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(50);
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+}
+
+void nextLaser() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], LOW);
+  }
+  analogWrite(laserPins[currentLaser], map(analogRead(potPin), 0, 1023, 0, 255));
+  currentLaser = (currentLaser + 1) % 6;
+  
+  // color-changing LED code goes here!
+ ",True,5,"6,2",True,26
+193,"```cpp
+
+// Define pin connections:
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // Digital pins for each laser (up to 6)
+const int potPin = A0; // Analog pin for brightness adjustment potentiometer 
+const int autoModePotPin = A1; // Analog pin for automatic mode interval potentiometer 
+const int buttonPin = 2; // Digital pin for manual override push-button 
+
+int currentLaser = 0; // Keep track of which laser is currently firing 
+bool autoModeEnabled = false; // Flag for automatic mode enable/disable 
+
+void setup() {
+    pinMode(LED_BUILTIN, OUTPUT); // Use onboard LED for status indicator 
+    for (int i = 0; i < 6; i++) {
+        pinMode(laserPins[i], OUTPUT);
+    }
+    pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+    int brightness = analogRead(potPin) / 4; // Read brightness potentiometer (0-1023) and scale to 0-255 
+    if (!autoModeEnabled) {
+        // Manual override mode: fire laser corresponding to button press 
+        if (digitalRead(buttonPin) == LOW) {
+            currentLaser = constrain(map(analogRead(potPin), 0, 1023, 0, 5), 0, 5);
+            for (int i = 0; i < 6; i++) {
+                digitalWrite(laserPins[i], (i == currentLaser)?",True,5,"6,2",True,27
+194,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Laser pins (digital)
+const int ledPin = 13; // Onboard LED pin (digital)
+const int potPin1 = A0; // Potentiometer pin for brightness adjustment (analog)
+const int potPin2 = A1; // Potentiometer pin for automatic mode interval adjustment (analog)
+const int buttonPin = 2; // Push-button pin (digital)
+
+int laserState = 0; // Current laser index (0-5)
+int brightness = 128; // Initial brightness value (0-255)
+int autoInterval = 500; // Initial automatic mode interval (ms)
+bool autoMode = true; // Automatic mode enabled by default
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (autoMode) {
+    // Automatic mode: cycle through lasers at set interval    
+    delay(autoInterval);
+    laserState = (laserState + 1) % 6;
+  } else {
+    // Manual override: select laser based on button press    
+    if (!digitalRead(buttonPin)) {
+      laserState = (laserState + 1) % 6;
+      delay(50); // Debounce delay      
+    }
+  }
+
+  // Adjust brightness based on potentiometer reading    
+  brightness = map(analogRead(potPin1), 0, 1023, 0, 255);
+
+  // Set current laser state    
+  digitalWrite(laserPins[laserState], HIGH);
+  analogWrite(laserPins[laserState], brightness);
+
+  // Update color-changing LED    
+  switch (laserState) {
+    case 0:
+      setColor(255, 0, 0); // Red  
+      break;
+    case 1:
+      setColor(0, 255, 0); // Green  
+      break;
+    case 2:
+      setColor(0, 0, 255); // Blue  
+      break;
+    case 3:
+      setColor(255, 255, 0); // Yellow  
+      break;
+    case 4:
+      setColor(0, 255, 255); // Cyan  
+      break;
+    case 5:
+      setColor(255, 0, 255); // Magenta  
+      break;
+  }
+
+  // Update status indicator (onboard LED)    
+  if (autoMode) {
+    digitalWrite(ledPin, HIGH);
+    delay(20);
+    digitalWrite(ledPin, LOW);
+    delay(20);
+  } else {
+    digitalWrite(ledPin, HIGH);
+  }
+}
+
+void setColor(int r, int g, int b) {
+  analogWrite(ledPin, r);
+  analogWrite(ledPin + 1, g);
+  analogWrite(ledPin + 2, b);
+}
+```
+Please note that you'll need to connect the lasers, potentiometers, and push-button according to the pin assignments specified in the code.",True,5,"6,2",True,28
+195,"```cpp linenums=""1""
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Pins for the 6 lasers ( PWM-capable pins)
+const int ledPin = 13; // Onboard LED pin (optional)
+const int brightnessPotPin = A0; // Potentiometer for adjusting laser brightness (analog input)
+const int autoModePotPin = A1; // Potentiometer for adjusting auto-mode interval (analog input)
+const int buttonPin = 2; // Push-button for manual override (digital input)
+
+int currentLaser = 0; // Current laser index (starts from 0)
+bool autoModeEnabled = true; // Auto-mode enabled by default
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT);
+}
+
+void loop() {
+  if (autoModeEnabled) {
+    automaticMode();
+  } else {
+    manualOverride();
+  }
+}
+
+void automaticMode() {
+  static unsigned long lastFireTime = 0;
+  unsigned long currentTime = millis();
+  int interval = map(analogRead(autoModePotPin), 0, 1023, 100, 500); // Adjust interval based on potentiometer reading
+  
+  if (currentTime - lastFireTime >= interval) {
+    lastFireTime = currentTime;
+    fireNextLaser();
+  }
+  
+  statusIndicator(); // Blink LED to indicate system activity
+  
+  delay(10); // Small delay to avoid overwhelming the system 
+}
+
+void manualOverride() {
+  if (digitalRead(buttonPin) == HIGH) {
+    fireSpecificLaser(map(analogRead(brightnessPotPin), 0, 1023, 0, 5));
+    statusIndicator(); // Steady LED to indicate manual override 
+  }
+}
+
+void fireNextLaser() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], LOW); // Turn off all lasers except the next one 
+  }
+  
+  analogWrite(laserPins[currentLaser], map(analogRead(brightnessPotPin), 0, 1023, 0, 255)); // Fire the next laser with adjustable brightness 
+  
+  colorChangingLED(currentLaser % 3); // Change the onboard LED color based on laser index (cycle through 3 colors)
+  
+  currentLaser = (currentLaser + 1) % 6; // Increment laser index (wrap around to 0 after 5)
+}
+
+void fireSpecificLaser(int laserIndex) {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], LOW); // Turn off all lasers except the selected one 
+  }
+  
+  analogWrite(laserPins[laserIndex], map(analogRead(brightnessPotPin), 0, 1023, 0, 255)); // Fire the selected laser with adjustable brightness 
+  
+  colorChangingLED(laserIndex % 3); // Change the onboard LED color based on laser index (cycle through 3 colors)
+}
+
+void colorChangingLED(int colorIndex) {
+  switch (colorIndex) {
+    case 0:
+      digitalWrite(ledPin, HIGH);
+      break;
+    case 1:
+      digitalWrite(ledPin, LOW);
+      delayMicroseconds(100);
+      digitalWrite(ledPin, HIGH);
+      break;
+    case 2:
+      digitalWrite(ledPin, LOW);
+      delayMicroseconds(200);
+      digitalWrite(ledPin,",True,5,"6,2",True,29
+196,"Here's the code:
+```cpp
+
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Pin assignments for lasers 1-6
+
+const int ledPin = 13; // Onboard LED pin
+
+const int brightnessPotPin = A0; // Potentiometer for adjusting brightness
+
+const int autoIntervalPotPin = A1; // Potentiometer for adjusting automatic interval
+
+const int buttonPin = 2; // Push-button for manual override
+
+int currentLaser = 0; // Current laser being fired
+
+int autoInterval = 500; // Default interval for automatic mode
+
+bool autoMode = true; // Default state for automatic mode
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(brightnessPotPin, INPUT);
+  pinMode(autoIntervalPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  int brightness = map(analogRead(brightnessPotPin), 0, 1023, 0, 255);
+  
+  if (autoMode) {
+    autoInterval = map(analogRead(autoIntervalPotPin), 0, 1023, 100, 2000);
+    delay(autoInterval);
+    currentLaser = (currentLaser + 1) % 6;
+  } else {
+    int buttonState = digitalRead(buttonPin);
+    if (buttonState == LOW) {
+      currentLaser = (currentLaser + 1) % 6;
+      delay(50); // Debounce delay for button press 
+    }
+  }
+  
+  analogWrite(laserPins[currentLaser], brightness);
+  
+  // Change onboard LED color based on current laser 
+  switch (currentLaser) {
+    case 0:
+      digitalWrite(ledPin, HIGH);
+      break;
+    case 1:
+      analogWrite(ledPin, 128);
+      break;
+    case 2:
+      digitalWrite(ledPin, LOW);
+      break;
+    case 3:
+      analogWrite(ledPin, 64);
+      break;
+    case 4:
+      analogWrite(ledPin, 192);
+      break;
+    case 5:
+      digitalWrite(ledPin, HIGH);
+      break;
+  }
+  
+  if (!autoMode) {
+    // Blink status indicator when in manual mode 
+    digitalWrite(ledPin,!digitalRead(ledPin));
+    delay(50);
+  }
+}
+```
+Connect your components as follows:
+
+* Lasers 1-6 to digital pins 3, 5, 6, 9, 10, and 11 respectively.
+",True,1,"6,2",True,30
+197,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 7, 9, 11, 13}; // adjust pins according to your laser connections
+
+const int potPin = A0; // adjust pin according to your potentiometer connection (brightness)
+const int autoPotPin = A1; // adjust pin according to your potentiometer connection (auto mode interval)
+
+const int buttonPin = 2; // adjust pin according to your push-button connection (manual override)
+
+int currentLaser = 0; // keep track of the current laser index
+
+boolean autoModeEnabled = false; // automatic mode toggle
+
+void setup() {
+  // initialize laser pins as outputs, and button pin as input with pull-up resistor enabled 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  // enable status indicator (onboard LED)
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  // read brightness from potentiometer and apply to current laser 
+  int brightness = map(analogRead(potPin), 0, 1023, 0, 255);
+  analogWrite(laserPins[currentLaser], brightness);
+
+  // handle automatic mode 
+  if (autoModeEnabled) {
+    static unsigned long autoInterval = millis(); // interval between laser cycles ( adjustable via potentiometer )
+    if (millis() - autoInterval > map(analogRead(autoPotPin), 0, 1023, 100, 2000)) {
+      currentLaser = (currentLaser + 1) % 6;
+      autoInterval = millis();
+    }
+  }
+
+  // handle manual override 
+  if (!digitalRead(buttonPin)) {
+    currentLaser = (currentLaser + 1) % 6;
+    delay(50); // debounce delay 
+  }
+
+  // update color-changing LED indicator 
+  switch (currentLaser) {
+    case 0:
+      digitalWrite(LED_BUILTIN, LOW);
+      break;
+    case 1:
+      analogWrite(LED_BUILTIN, 128);
+      break;
+    case 2:
+      digitalWrite(LED_BUILTIN, HIGH);
+      break;
+    case 3:
+      analogWrite(LED_BUILTIN, 64);
+      break;
+    case 4:
+      digitalWrite(LED_BUILTIN, LOW);
+      delay(20);
+      digitalWrite(LED_BUILTIN, HIGH);
+      delay(20);
+      break;
+    default:
+      digitalWrite(LED_BUILTIN, HIGH);
+      delay(10);
+      digitalWrite(LED_BUILTIN, LOW);
+      delay(10);
+  }
+
+  // blinking status indicator 
+  if (autoModeEnabled) {
+    digitalWrite(LED_BUILTIN,!digitalRead(LED_BUILTIN));
+    delay(50);
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  
+  delay(50); // maintain a consistent scan rate 
+}
+```
+Feel free to modify the pin assignments, feature settings, or add more functionality as per your requirements!
+
+",True,5,"6,2",True,31
+198,"Here's the code:
+```c++
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // adjust pins according to your setup)
+const int ledPin = 13; // onboard LED pin on Arduino Nano)
+const int potPin = A0; // potentiometer for brightness adjustment)
+const int autoPotPin = A1; // potentiometer for automatic mode interval adjustment)
+const int buttonPin = 2; // push-button for manual override)
+
+int currentLaser = 0;
+int brightnessValue = 0;
+int autoInterval = 1000; // initial automatic mode interval (1 second))
+bool isAutoMode = true;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  if (isAutoMode) {
+    automaticMode();
+  } else {
+    manualOverride();
+  }
+
+  updateStatusIndicator();
+}
+
+void automaticMode() {
+  static unsigned long lastSwitchTime = 0;
+  unsigned long currentTime = millis();
+
+  if (currentTime - lastSwitchTime >= autoInterval) {
+    lastSwitchTime = currentTime;
+    currentLaser = (currentLaser + 1) % 6;
+    analogWrite(laserPins[currentLaser], map(analogRead(potPin), 0, 1023, 0, 255));
+    changeLEDColor(currentLaser);
+  }
+}
+
+void manualOverride() {
+  if (!digitalRead(buttonPin)) {
+    while (!digitalRead(buttonPin)); // wait for button release
+
+    currentLaser = (currentLaser + 1) % 6;
+    analogWrite(laserPins[currentLaser], map(analogRead(potPin), 0, 1023, 0, 255));
+    changeLEDColor(currentLaser);
+  }
+}
+
+void updateStatusIndicator() {
+  if (isAutoMode) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+    delay(50);
+    digitalWrite(ledPin, HIGH);
+    delay(50);
+  }
+}
+
+void changeLEDColor(int laserIndex) {
+  switch (laserIndex) {
+    case 0:
+      digitalWrite(ledPin, LOW); // Red color)
+      break;
+    case 1:
+      analogWrite(ledPin, 128); // Orange color)
+      break;
+    case 2:
+      analogWrite(ledPin, 192); // Yellow color)
+      break;
+    case 3:
+      analogWrite(ledPin, 255); // Green color)
+      break;
+    case 4:
+      analogWrite(ledPin, 128); // Blue color)
+      break;
+    case 5:
+      digitalWrite(ledPin, LOW); // Violet color)
+      break;
+  }
+}
+```
+**Note:** You'll need to adjust the `laserPins` array to match the digital pins you're using for the lasers.
+
+",True,5,"6,2",True,32
+199,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust pin numbers as needed for your setup 
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+const int potPin = A0; // adjust pin number as needed for your setup 
+const int autoPotPin = A1; // adjust pin number as needed for your setup 
+const int buttonPin = 2; // adjust pin number as needed for your setup 
+
+int currentLaser = 0;
+bool autoMode = true;
+unsigned long lastFireTime = 0;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(potPin, INPUT);
+  pinMode(autoPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  int brightness = map(analogRead(potPin), 0, 1023, 0, 255);
+  
+  if (autoMode) {
+    unsigned long currentTime = millis();
+    if (currentTime - lastFireTime >= analogRead(autoPotPin)) {
+      lastFireTime = currentTime;
+      nextLaser();
+    }
+  } else {
+    checkButton();
+  }
+
+  digitalWrite(LED_BUILTIN, (currentLaser % 3 == 0)?",True,5,"6,2",True,33
+200,"Here's the code:
+```c++
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // Adjust pins according to your setup 
+const int potPin = A0; // Potentiometer for brightness adjustment 
+const int autoPotPin = A1; // Potentiometer for automatic mode interval 
+const int buttonPin = 2; // Push-button for manual override 
+
+int currentLaser = 0;
+bool autoMode = true;
+int autoInterval = 500; // Initial automatic mode interval (milliseconds)
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(potPin, INPUT);
+  pinMode(autoPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (autoMode) {
+    autoFire();
+  } else {
+    manualOverride();
+  }
+
+  // Update status indicator (onboard LED)
+  digitalWrite(LED_BUILTIN, autoMode?",False,,,,34
+201,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 7, 9, 11, 13}; // adjust these pins according to your setup)
+const int ledPin = 17; // onboard LED pin on Arduino Nano)
+const int potBrightnessPin = A0;
+const int potIntervalPin = A1;
+const int buttonPin = 2;
+
+int currentLaser = 0;
+int brightnessVal = 0;
+int intervalVal = 0;
+bool autoMode = true;
+bool manualOverride = false;
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(ledPin, OUTPUT);
+  pinMode(potBrightnessPin, INPUT);
+  pinMode(potIntervalPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (!manualOverride) {
+    autoMode = digitalRead(potIntervalPin > 512);
+  }
+
+  if (autoMode) {
+    intervalVal = analogRead(potIntervalPin);
+    delay(intervalVal);
+    currentLaser = (currentLaser + 1) % 6;
+  } else {
+    if (digitalRead(buttonPin) == LOW) {
+      manualOverride = true;
+      while (digitalRead(buttonPin) == LOW) {}
+      currentLaser = (currentLaser + 1) % 6;
+    }
+  }
+
+  brightnessVal = analogRead(potBrightnessPin);
+  analogWrite(laserPins[currentLaser], map(brightnessVal, 0, 1023, 0, 255));
+
+  // color-changing LED effect 
+  switch (currentLaser) {
+    case 0:
+      digitalWrite(ledPin, HIGH);
+      break;
+    case 1:
+      digitalWrite(ledPin, LOW);
+      break;
+    case 2:
+      analogWrite(ledPin, 128);
+      break;
+    // add more cases for each laser...
+  }
+
+  // status indicator blinking 
+  static bool ledState = true;
+  if (autoMode || manualOverride) {
+    ledState =!ledState;
+    digitalWrite(ledPin, ledState);
+    delay(50);
+  } else {
+    digitalWrite(ledPin, HIGH);
+  }
+}
+```
+Please note that you'll need to adjust the `laserPins` array to match the actual pins connected to your lasers.",True,5,"6,2",True,35
+202,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust these pins to match your setup 
+const int ledPin = 13; // onboard LED pin 
+const int potPin = A0; // adjust brightness 
+const int autoPotPin = A1; // adjust automatic mode interval 
+const int buttonPin = 2; // manual override 
+
+int currentLaser = 0; 
+bool autoMode = true; 
+unsigned long lastFireTime = 0; 
+unsigned long autoInterval = 500; // adjust automatic mode interval (ms) 
+
+void setup() {
+  pinMode(ledPin, OUTPUT); 
+  pinMode(buttonPin, INPUT_PULLUP); 
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  int brightness = map(analogRead(potPin), 0, 1023, 0, 255); 
+  if (autoMode && millis() - lastFireTime >= autoInterval) {
+    nextLaser();
+  }
+
+  int buttonState = digitalRead(buttonPin);
+  if (buttonState == LOW) {
+    autoMode = false;
+    currentLaser = constrain(map(analogRead(potPin), 0, 1023, 0, 5), 0, 5);
+  } else {
+    autoMode = true;
+  }
+
+  fireCurrentLaser(brightness);
+
+  updateStatusLED();
+  delay(10);
+}
+
+void nextLaser() {
+  currentLaser = (currentLaser + 1) % 6;
+  lastFireTime = millis();
+}
+
+void fireCurrentLaser(int brightness) {
+  digitalWrite(laserPins[currentLaser], HIGH);
+  analogWrite(LED_BUILTIN, brightness); // adjust color based on current laser 
+  delay(50);
+  digitalWrite(laserPins[currentLaser], LOW);
+}
+
+void updateStatusLED() {
+  if (autoMode) {
+    digitalWrite(LED_BUILTIN, millis() % 1000 < 500?",True,5,"6,2",True,36
+203,"**Hardware Requirements:**
+
+* Arduino Nano x1 
+* Potentiometer x2 (10kΩ) 
+* Push-button x1 
+* Lasers x6 (with corresponding resistors and transistors)
+* Breadboard and jumper wires 
+
+**Code:**
+```cpp
+
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Define pins for lasers 1-6 
+const int ledPin = 13; // Onboard LED pin 
+const int buttonPin = 2; // Push-button pin 
+const int potA0 = A0; // Potentiometer for brightness control 
+const int potA1 = A1; // Potentiometer for auto-mode interval 
+
+int currentLaser = 0; // Current laser being fired 
+int autoModeInterval = 500; // Auto-mode interval in ms (initially 0.5s) 
+bool autoModeEnabled = true; // Auto-mode enabled by default 
+
+void setup() {
+  pinMode(ledPin, OUTPUT); 
+  pinMode(buttonPin, INPUT_PULLUP);
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); 
+  }
+}
+
+void loop() {
+  if (autoModeEnabled) {
+    autoMode();
+  } else {
+    manualOverride();
+  }
+  
+  statusIndicator(); 
+}
+
+void autoMode() {
+  static unsigned long lastAutoModeTime = 0;
+  unsigned long currentTime = millis();
+  
+  if (currentTime - lastAutoModeTime >= autoModeInterval) {
+    lastAutoModeTime = currentTime;
+    
+    analogWrite(potA0, map(analogRead(potA1), 0, 1023, 0, 255)); // Adjust auto-mode interval based on pot A1
+    
+    // Fire next laser in sequence 
+    digitalWrite(currentLaser, LOW);
+    currentLaser = (currentLaser + 1) % 6;
+    digitalWrite(laserPins[currentLaser], HIGH);
+    
+    // Change LED color based on current laser 
+    switch (currentLaser) {
+      case 0:
+        setColorRgb(255, 0, 0); break; // Red 
+      case 1:
+        setColorRgb(0, 255, 0); break; // Green 
+      case 2:
+        setColorRgb(0, 0, 255); break; // Blue 
+      case 3:
+        setColorRgb(255, 255, 0); break; // Yellow 
+      case 4:
+        setColorRgb(0, 255, 255); break; // Cyan 
+      case 5:
+        setColorRgb(255, 0, 255); break; // Magenta 
+    }
+  }
+}
+
+void manualOverride() {
+  if (digitalRead(buttonPin) == LOW) {
+    // User pressed the button, enable manual override 
+    autoModeEnabled = false;
+    
+    // Read pot A0 value to determine which laser to fire 
+    int desiredLaser = map(analogRead(potA0), 0, 1023, 0, 5);
+    
+    digitalWrite(currentLaser, LOW);
+    currentLaser = desiredLaser;
+    digitalWrite(laserPins[currentLaser], HIGH);
+    
+    // Update LED color based on selected laser 
+    switch (desiredLaser) {
+      case 0:
+        setColorRgb(255, 0, 0); break; // Red 
+      case 1:
+        setColorRgb(0, 255, 0); break; // Green 
+      case 2:
+        setColorRgb(0",True,5,"6,2",True,37
+204,"```cpp
+
+// Define constants for pins and variables
+
+const int LASER_PINS[] = {3, 5, 6, 9, 10, 11}; // Adjust these pin numbers as needed for your setup
+
+const int POT_PIN_A0 = A0;
+const int POT_PIN_A1 = A1;
+const int BUTTON_PIN_D2 = 2;
+
+const int AUTOMATIC_INTERVAL = 500; // adjust this value to change the automatic interval (in milliseconds)
+
+int currentLaserIndex = 0;
+bool manualOverride = false;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // onboard LED for status indicator
+  
+  // Initialize all laser pins as outputs and set them low initially 
+  for (int i = 0; i < sizeof(LASER_PINS) / sizeof(int); i++) {
+    pinMode(LASER_PINS[i], OUTPUT);
+    digitalWrite(LASER_PINS[i], LOW);
+  }
+
+  pinMode(POT_PIN_A0, INPUT);
+  pinMode(POT_PIN_A1, INPUT);
+  pinMode(BUTTON_PIN_D2, INPUT_PULLUP);
+}
+
+void loop() {
+  
+  // Read potentiometers for adjustable brightness and automatic interval 
+  int brightness = map(analogRead(POT_PIN_A0), 0, 1023, 0, 255);
+  int automaticInterval = map(analogRead(POT_PIN_A1), 0, 1023, 100, 2000);
+
+  // Check for manual override 
+  if (digitalRead(BUTTON_PIN_D2) == LOW &&!manualOverride) {
+    manualOverride = true;
+    currentLaserIndex = -1;
+  }
+  
+  if (manualOverride) {
+    // Display current laser index using onboard LED (different color for each laser)
+    switch (currentLaserIndex) {
+      case 0:
+        analogWrite(LED_BUILTIN, 255, 0, 0); // red for laser 1 
+        break;
+      case 1:
+        analogWrite(LED_BUILTIN, 0, 255, 0); // green for laser 2 
+        break;
+      // Add cases for more lasers...
+    }
+    
+    // Increment or decrement laser index based on button press duration 
+    while (digitalRead(BUTTON_PIN_D2) == LOW) {
+      delay(50);
+      if (digitalRead(BUTTON_PIN_D2) == LOW) {
+        currentLaserIndex = (currentLaserIndex + 1) % (sizeof(LASER_PINS) / sizeof(int));
+      } else {
+        currentLaserIndex = (currentLaserIndex - 1 + (sizeof(LASER_PINS) / sizeof(int))) % (sizeof(LASER_PINS) / sizeof(int));
+      }
+    }
+    manualOverride = false;
+  }
+
+  // Automatic mode 
+  if (!manualOverride) {
+    // Fire next laser in sequence 
+    digitalWrite(LASER_PINS[currentLaserIndex], HIGH);
+    analogWrite(LASER_PINS[currentLaserIndex], brightness);
+    
+    // Display current laser index using onboard LED (different color for each laser) 
+    switch (currentLaserIndex) {
+      case 0:
+        analogWrite(LED_BUILTIN, 255, 0, 0); // red for laser 1 
+        break;
+      case 1:
+        analogWrite(LED_BUILTIN, 0, 255, 0); // green for laser 2 
+        break;
+      // Add cases for more lasers...
+    }
+    
+    delay(automaticInterval);
+    
+    // Turn off current laser 
+    digitalWrite(LASER_PINS[currentLaserIndex], LOW);
+    
+    // Move to",True,5,"6,2",True,38
+205,"Here's the code:
+```c++
+const int LASER_PIN[] = {3, 5, 6, 9, 10, 11}; // pins for the 6 lasers (adjust according to your setup)
+const int POT_PIN = A0; // pin for adjustable brightness potentiometer (optional)
+const int AUTO_MODE_POT_PIN = A1; // pin for auto-mode interval potentiometer (optional)
+const int MANUAL OVERRIDE_BTN_PIN = 2; // pin for manual override button
+
+int currentLaserIndex = 0;
+bool manualOverrideMode = false;
+bool autoModeActive = false;
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // onboard LED for status indicator
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(LASER_PIN[i], OUTPUT);
+  }
+  
+  pinMode(POT_PIN, INPUT);
+  pinMode(AUTO_MODE_POT_PIN, INPUT);
+  pinMode(MANUAL_OVERRIDE_BTN_PIN, INPUT_PULLUP);
+}
+
+void loop() {
+  if (!manualOverrideMode &&!autoModeActive) {
+    // automatic mode not active, idle state 
+    digitalWrite(LED_BUILTIN, LOW);
+  } else {
+    // automatic mode or manual override active, update laser states
+    
+    if (autoModeActive) {
+      // read auto-mode interval from potentiometer and calculate delay 
+      int autoDelay = map(analogRead(AUTO_MODE_POT_PIN), 0, 1023, 50, 500);
+      
+      // sequential laser firing with calculated delay 
+      for (int i = 0; i < 6; i++) {
+        digitalWrite(LASER_PIN[currentLaserIndex], HIGH);
+        analogWrite(LASER_PIN[currentLaserIndex], map(analogRead(POT_PIN), 0, 1023, 0, 255));
+        
+        // color-changing LED indicator 
+        switch (currentLaserIndex) {
+          case 0:
+            digitalWrite(LED_BUILTIN, HIGH);
+            break;
+          case 1:
+            analogWrite(LED_BUILTIN, 128);
+            break;
+          // add more cases for each laser index...
+          default:
+            digitalWrite(LED_BUILTIN, LOW);
+        }
+        
+        delay(autoDelay);
+        digitalWrite(LASER_PIN[currentLaserIndex], LOW);
+        currentLaserIndex = (currentLaserIndex + 1) % 6;
+      }
+    } else {
+      // manual override mode, set laser accordingly 
+      int manualSelectedLaser = digitalRead(MANUAL_OVERRIDE_BTN_PIN);
+      
+      for (int i = 0; i < 6; i++) {
+        if (i == manualSelectedLaser) {
+          digitalWrite(LASER_PIN[i], HIGH);
+          analogWrite(LASER_PIN[i], map(analogRead(POT_PIN), 0, 1023, 0, 255));
+        } else {
+          digitalWrite(LASER_PIN[i], LOW);
+        }
+      }
+    }
+    
+    // blinking status indicator during active modes 
+    if (millis() % 200 < 100) {
+      digitalWrite(LED_BUILTIN,!digitalRead(LED_BUILTIN));
+    }
+  }
+}
+```
+Note: This code assumes you have the necessary components connected correctly.",True,5,"6,2",True,39
+206,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // pins for the lasers (digital outputs)
+const int ledPin = 13; // onboard LED pin (digital output)
+const int potPin = A0; // potentiometer pin for adjusting brightness (analog input)
+const int autoPotPin = A1; // potentiometer pin for setting automatic mode interval (analog input)
+const int buttonPin = 2; // push-button pin for manual override (digital input)
+
+int laserStates[] = {LOW, LOW, LOW, LOW, LOW, LOW}; // initial states of the lasers (off)
+int currentLaser = 0; // keep track of the current laser being fired
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(potPin, INPUT);
+  pinMode(autoPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  // read potentiometers and update settings accordingly
+  
+  int brightness = analogRead(potPin);
+  int autoInterval = analogRead(autoPotPin);
+
+  // adjust brightness for all lasers based on potentiometer value 
+  for (int i = 0; i < 6; i++) {
+    analogWrite(laserPins[i], map(brightness, 0, 1023, 0, 255));
+  }
+
+  if (digitalRead(buttonPin) == HIGH) {
+    // manual override - allow user to select a specific laser
+    
+    int buttonState = digitalRead(buttonPin);
+    
+    while (buttonState == HIGH) {
+      delay(50); // debounce delay
+      
+      if (digitalRead(buttonPin) == LOW) break;
+      
+      currentLaser++;
+      if (currentLaser > 5) currentLaser = 0; // wrap around to first laser if max reached
+            
+      // update LED color based on selected laser 
+      switch(currentLaser) {
+        case 0:
+          digitalWrite(ledPin, HIGH);
+          break;
+        case 1:
+          digitalWrite(ledPin, LOW);
+          delayMicroseconds(200); // simulate color change by flashing quickly 
+          digitalWrite(ledPin, HIGH);
+          break;
+        case 2:
+          analogWrite(ledPin, 128);
+          break;
+        // add more cases for each additional laser...
+      }
+    }
+    
+    // turn off all lasers except the selected one 
+    for (int i = 0; i < 6; i++) {
+      if (i!= currentLaser) {
+        digitalWrite(laserPins[i], LOW);
+      } else {
+        digitalWrite(laserPins[i], HIGH);
+      }
+    }
+    
+    delay(500); // give user time to react before resuming automatic mode 
+  }
+
+  
+  // automatic mode logic 
+  static unsigned long lastFireTime = 0;
+  
+  if ((millis() - lastFireTime) >= autoInterval) {
+    lastFireTime = millis();
+    currentLaser++;
+    if (currentLaser > 5) currentLaser = 0; // wrap around to first laser if max reached
+    
+    // update LED color based on new laser selection 
+    switch(currentLaser) {
+      case 0:
+        digitalWrite(ledPin, HIGH);
+        break;
+      case 1:
+        digitalWrite(ledPin, LOW);
+        delayMicroseconds(200); // simulate color change by flashing quickly 
+        digitalWrite(ledPin, HIGH);
+        break;
+",True,5,"6,2",True,40
+207,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Adjust these to match your laser connections!
+",True,7,"6,2",True,41
+208,"```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Define the pins for the 6 lasers (digital)
+const int ledPin = 13;          // Define the pin for the onboard LED (digital)
+const int pot1Pin = A0;       // Define the pin for the first potentiometer (analog)
+const int pot2Pin = A1;       // Define the pin for the second potentiometer (analog)
+const int buttonPin = 2;      // Define the pin for the push-button (digital)
+
+int currentLaser = 0;        // Variable to keep track of the current laser index
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  // Initialize the first potentiometer value (brightness)
+  int brightness = map(analogRead(pot1Pin), 0, 1023, 0, 255);
+  analogWrite(laserPins[0], brightness);
+
+  // Initialize the second potentiometer value (auto-cycle interval)
+  int autoInterval = map(analogRead(pot2Pin), 0, 1023, 100, 2000);
+}
+
+void loop() {
+  if (digitalRead(buttonPin) == LOW) {
+    // Manual override - choose a laser by pressing the button repeatedly 
+    while (digitalRead(buttonPin) == LOW) {
+      digitalWrite(ledPin, HIGH);
+      delay(50);
+      digitalWrite(ledPin, LOW);
+      delay(50);
+      currentLaser = (currentLaser + 1) % 6;
+      analogWrite(laserPins[currentLaser], brightness);
+    }
+  } else {
+    // Automatic mode - cycle through lasers at set interval 
+    analogWrite(laserPins[currentLaser], brightness);
+    delay(autoInterval);
+    digitalWrite(laserPins[currentLaser], LOW);
+    currentLaser = (currentLaser + 1) % 6;
+
+    // Change color of onboard LED based on current laser 
+    switch (currentLaser) {
+      case 0:
+        digitalWrite(ledPin, LOW);
+        break;
+      case 1:
+        digitalWrite(ledPin, HIGH);
+        delay(1);
+        digitalWrite(ledPin, LOW);
+        delay(1);
+        break;
+      case 2:
+        analogWrite(ledPin, 128);
+        break;
+      // Add more cases for the remaining lasers...
+    }
+  }
+
+  // Blink status indicator 
+  if (currentLaser > 0) {
+    digitalWrite(ledPin, HIGH);
+    delay(20);
+    digitalWrite(ledPin, LOW);
+    delay(20);
+  }
+}
+```
+Please note that you'll need to adjust the pin assignments, potentiometer mappings, and laser brightness values according to your specific hardware setup.",True,5,"6,2",True,42
+209,"Here's the code:
+```c++
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // Pin assignments for the 6 lasers (digital)
+const int potPin = A0; // Analog pin for brightness adjustment (Potentiometer)
+const int autoModePotPin = A1; // Analog pin for automatic mode interval adjustment (Potentiometer)
+const int buttonPin = 2; // Digital pin for manual override button (Push-button)
+const int ledPin = LED_BUILTIN; // Onboard LED pin for status indicator and color-changing
+
+int currentLaser = 0;
+int brightnessValue = 0;
+bool autoModeEnabled = false;
+bool systemActive = false;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  // Read brightness value from potentiometer (0-1023)
+  brightnessValue = analogRead(potPin);
+  brightnessValue = map(brightnessValue, 0, 1023, 0, 255);
+
+  // Check if manual override button is pressed (active-low)
+  if (!digitalRead(buttonPin)) {
+    systemActive = true;
+    currentLaser = constrain(map(analogRead(autoModePotPin), 0, 1023, 0, 5), 0, 5);
+  } else {
+    // Check if auto-mode is enabled (based on second potentiometer reading)
+    if (analogRead(autoModePotPin) > 512) {
+      autoModeEnabled = true;
+    } else {
+      autoModeEnabled = false;
+    }
+
+    if (autoModeEnabled) {
+      currentLaser = (currentLaser + 1) % 6;
+      delay(map(analogRead(autoModePotPin), 0, 1023, 50, 500)); // Adjust interval based on potentiometer reading (50-500ms)
+    }
+  }
+
+  // Fire current laser with adjusted brightness and update color-changing LED state accordinglyassistant
+
+```
+  analogWrite(laserPins[currentLaser], brightnessValue);
+  digitalWrite(ledPin, HIGH); // Set LED to red (initially)
+
+  switch (currentLaser) {
+    case 0:
+      analogWrite(ledPin, 0); // Set LED to blue (laser 1)
+      break;
+    case 1:
+      analogWrite(ledPin, 128); // Set LED to green (laser 2)
+      break;
+    case 2:
+      analogWrite(ledPin, 192); // Set LED to yellow (laser 3)
+      break;
+    case 3:
+      analogWrite(ledPin, 64); // Set LED to cyan (laser 4)
+      break;
+    case 4:
+      analogWrite(ledPin, 255); // Set LED to magenta (laser 5)
+      break;
+    case 5:
+      analogWrite(ledPin, 32); // Set LED to white (laser 6)
+      break;
+  }
+
+  delay(50); // Small delay between laser firings
+
+  // Deactivate all lasers except the current one (for power saving)
+  for (int i = 0; i < 6; i++) {
+    if (i!= currentLaser) {
+      digitalWrite(laserPins[i], LOW);
+    }
+  }
+
+  if (!systemActive &&!autoModeEnabled) {
+    digitalWrite(",True,5,"6,2",True,43
+210,"Here's the code:
+```cpp hl_lines=[25, 35, 42, 53, 61, 70]
+const int LASER_COUNT = 6; // Number of lasers
+
+// Pin assignments for lasers and push-button 
+int laserPins[] = {D3, D4, D5, D6, D7, D8};
+int buttonPin = D2;
+
+// Potentiometers for brightness and auto-mode interval 
+int brightnessPotPin = A0;
+int intervalPotPin = A1;
+
+// Variables to store the current state 
+int currentLaser = 0;
+bool autoModeEnabled = true;
+int interval = 1000; // Initial interval value 
+
+void setup() {
+  // Initialize laser pins as outputs 
+  for (int i = 0; i < LASER_COUNT; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  
+  pinMode(buttonPin, INPUT);
+  
+  // Set up analog inputs for potentiometers 
+  pinMode(brightnessPotPin, INPUT);
+  pinMode(intervalPotPin, INPUT);
+}
+
+void loop() {
+  if (autoModeEnabled) {
+    // Read interval potentiometer 
+    interval = map(analogRead(intervalPotPin), 0, 1023, 500, 2000);
+    
+    // Cycle through lasers 
+    for (currentLaser = 0; currentLaser < LASER_COUNT; currentLaser++) {
+      digitalWrite(laserPins[currentLaser], HIGH);
+      
+      // Adjust brightness based on potentiometer reading 
+      int brightness = map(analogRead(brightnessPotPin), 0, 1023, 0, 255);
+      analogWrite(laserPins[currentLaser], brightness);
+      
+      delay(interval); // Wait for the set interval
+      
+      digitalWrite(laserPins[currentLaser], LOW);
+    }
+  } else {
+    // Manual override mode 
+    if (digitalRead(buttonPin) == HIGH) {
+      currentLaser = (currentLaser + 1) % LASER_COUNT;
+      digitalWrite(laserPins[currentLaser], HIGH);
+      
+      // Adjust brightness based on potentiometer reading 
+      int brightness = map(analogRead(brightnessPotPin), 0, 1023, 0, 255);
+      analogWrite(laserPins[currentLaser], brightness);
+    } else {
+      digitalWrite(laserPins[currentLaser], LOW);
+    }
+  }
+  
+  // Update status LED 
+  if (autoModeEnabled) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(50);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(50);
+  } else {
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+}
+```
+**Note:** This code assumes you have the necessary hardware connections in place (lasers, potentiometers, push-button, etc",True,5,"6,2",True,44
+211,"```cpp`
+const int laserPins[] = {3, 4, 5, 6, 7, 8}; // Pin assignments for the 6 lasers (digital pins)
+const int ledPin = 13; // Onboard LED pin (digital)
+const int potPinBrightness = A0; // Potentiometer pin for adjusting brightness (analog)
+const int potPinInterval = A1; // Potentiometer pin for adjusting automatic interval (analog)
+const int buttonPin = 2; // Push-button pin for manual override (digital)
+
+int currentLaser = 0; // Current laser being fired (initially 0)
+bool autoMode = true; // Automatic mode enabled by default
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (autoMode) {
+    automaticMode();
+  } else {
+    manualOverride();
+  }
+}
+
+void automaticMode() {
+  static unsigned long lastChange = 0;
+  int interval = map(analogRead(potPinInterval), 0, 1023, 50, 500); // Map pot value to interval range (50-500ms)
+  
+  if (millis() - lastChange >= interval) {
+    lastChange = millis();
+    nextLaser();
+  }
+}
+
+void manualOverride() {
+  if (!digitalRead(buttonPin)) {
+    autoMode = false;
+    currentLaser = (currentLaser + 1) % 6; // Cycle through lasers on button press
+    
+    // Update status indicator (LED)
+    digitalWrite(ledPin, LOW);
+    delay(50);
+    digitalWrite(ledPin, HIGH);
+    delay(50);
+  }
+}
+
+void nextLaser() {
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(laserPins[i], LOW);
+  }
+  
+  currentLaser = (currentLaser + 1) % 6;
+  
+  // Adjust laser brightness based on pot value (0-255)
+  analogWrite(laserPins[currentLaser], map(analogRead(potPinBrightness), 0, 1023, 0, 255));
+  
+  // Change color of onboard LED depending on which laser is firing (example: red, green, blue, yellow, cyan, magenta)
+  switch (currentLaser) {
+    case 0:
+      setColor(red);
+      break;
+    case 1:
+      setColor(green);
+      break;
+    case 2:
+      setColor(blue);
+      break;
+    case 3:
+      setColor(yellow);
+      break;
+    case 4:
+      setColor(cyan);
+      break;
+    case 5:
+      setColor(magenta);
+      break;
+  }
+  
+  digitalWrite(ledPin, HIGH);
+}
+
+void setColor(int r, int g, int b) {
+  // Example implementation for color changing (not included for brevity)
+}
+```
+
+Please note that:
+
+* This code assumes you have already connected the necessary components (lasers, resistors, potentiometers, push-button, etc.)",True,5,"6,2",True,45
+212,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Define pins for each laser (digital output)
+const int ledPin = 13; // Onboard LED pin (digital output)
+const int potPin1 = A0; // Potentiometer for brightness control (analog input)
+const int potPin2 = A1; // Potentiometer for auto-mode interval control (analog input)
+const int buttonPin = 2; // Push-button for manual override (digital input)
+
+int laserStates[] = {LOW, LOW, LOW, LOW, LOW, LOW}; // Initial states of each laser (off)
+int currentLaser = 0; // Keep track of the current laser being fired
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  // Read potentiometers for brightness and auto-mode interval control  
+  int brightness = analogRead(potPin1);
+  int autoInterval = analogRead(potPin2);
+
+  // Calculate brightness levels (0-255) from potentiometer reading (0-1023)
+  brightness = map(brightness, 0, 1023, 0, 255);
+
+  // Auto-mode: Cycle through lasers at adjustable interval 
+  if (autoInterval > 500) {
+    for (int i = 0; i < 6; i++) {
+      laserStates[currentLaser] = HIGH;
+      analogWrite(laserPins[currentLaser], brightness);
+      delay(autoInterval - 500); // adjust delay based on potentiometer reading
+
+      // Update onboard LED color based on current laser 
+      switch (currentLaser) {
+        case 0:
+          digitalWrite(ledPin, HIGH); // Red (no need for PWM)
+          break;
+        case 1:
+          analogWrite(ledPin, 128); // Yellow (50% duty cycle)
+          break;
+        case 2:
+          analogWrite(ledPin, 64); // Green (25% duty cycle)
+          break;
+        case 3:
+          analogWrite(ledPin, 32); // Cyan (12.5% duty cycle)
+          break;
+        case 4:
+          analogWrite(ledPin, 16); // Blue (6.25% duty cycle)
+          break;
+        case 5:
+          analogWrite(ledPin, 8); // Violet (3.125% duty cycle)
+          break;
+      }
+
+      laserStates[currentLaser] = LOW;
+      analogWrite(laserPins[currentLaser], 0);
+      currentLaser = (currentLaser + 1) % 6; // Loop around after 6 lasers
+
+      // Blink onboard LED rapidly while system is active 
+      digitalWrite(ledPin,!digitalRead(ledPin));
+      delay(20);
+    }
+  } else {
+    // Manual override mode: Select a specific laser using the push-button 
+    int buttonState = digitalRead(buttonPin);
+    if (buttonState == LOW) {
+      currentLaser = (currentLaser + 1) % 6;
+      laserStates[currentLaser] = HIGH;
+      analogWrite(laserPins[currentLaser], brightness);
+    }
+  }
+
+  // Steady onboard LED when system is inactive 
+  digitalWrite(ledPin, LOW);
+}
+```
+This code assumes you have connected:
+
+* 6 lasers to digital pins 3, 5, 6",True,5,"6,2",True,46
+213,"```cpp
+
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Define laser pins (digital)
+const int ledPin = 13; // Onboard LED pin (digital)
+const int potPin = A0; // Potentiometer for brightness adjustment (analog)
+const int autoPotPin = A1; // Potentiometer for automatic mode interval adjustment (analog)
+const int buttonPin = 2; // Push-button pin (digital)
+
+int currentLaser = 0; // Current laser being fired (index into laserPins array)
+bool autoMode = true; // Automatic mode enabled?
+",True,5,"6,2",True,47
+214,"Here's the code:
+```c++
+const int laserPins[] = {9, 10, 11, 12, 13}; // adjust pins as needed for your laser connections
+
+const int potPin = A0; // adjust pin for your brightness adjustment potentiometer
+
+const int autoPotPin = A1; // adjust pin for your automatic mode interval potentiometer
+
+const int buttonPin = 2; // adjust pin for your manual override push-button
+
+int currentLaser = 0;
+bool autoModeEnabled = true;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  for (int i = 0; i < sizeof(laserPins); i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+  pinMode(potPin, INPUT);
+  pinMode(autoPotPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (autoModeEnabled) {
+    autoCycleLasers();
+  } else {
+    manualOverride();
+  }
+  checkButtonPress();
+}
+
+void autoCycleLasers() {
+  static unsigned long lastCycle = 0;
+  unsigned long currentTime = millis();
+  if (currentTime - lastCycle >= map(analogRead/autoPotPin), 0, 1023, 100, 10000)) {
+    lastCycle = currentTime;
+    nextLaser();
+  }
+}
+
+void manualOverride() {
+  digitalWrite(currentLaser, HIGH);
+  analogWrite(currentLaser, map(analogRead(potPin), 0, 1023, 0, 255));
+  showColorIndicator(currentLaser);
+}
+
+void checkButtonPress() {
+  if (!digitalRead(buttonPin)) {
+    autoModeEnabled =!autoModeEnabled;
+    if (autoModeEnabled) {
+      digitalWrite(currentLaser, LOW);
+    } else {
+      manualOverride();
+    }
+  }
+}
+
+void nextLaser() {
+  digitalWrite(currentLaser, LOW);
+  currentLaser = (currentLaser + 1) % sizeof(laserPins);
+  manualOverride();
+}
+
+void showColorIndicator(int laserNum) {
+  switch (laserNum) {
+    case 0:
+      RGB_LED(R, G, B); // adjust LED color for each laser number as needed break;
+    case 1:
+      RGB_LED(G, R, B);
+      break;
+    //...
+    default:
+      RGB_LED(B, G, R);
+  }
+}
+
+void RGB_LED(int r, int g, int b) {
+  analogWrite(LED_BUILTIN, r);
+  analogWrite(LED_BUILTIN, g);
+  analogWrite(LED_BUILTIN, b);
+}
+```
+This code assumes you have the necessary components connected to your Arduino Nano:
+
+* Lasers connected to digital pins 9-13 (or adjust as needed)
+* Potentiometer for brightness adjustment connected to A0 (or adjust as needed)
+* Potentiometer for automatic mode interval adjustment connected to A1 (or adjust as needed)
+* Push-button for manual override connected to D2 (or adjust as needed)
+
+Adjust the code as needed for your specific setup, and don't forget to upload it to your Arduino Nano!
+
+",False,,,,48
+215,"```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // adjust to your laser pins (digital)
+const int ledPin = 13; // onboard LED pin (digital)
+const int potBrightPin = A0; // potentiometer for brightness control (analog)
+const int potAutoPin = A1; // potentiometer for automatic mode interval (analog)
+const int buttonPin = 2; // push-button for manual override (digital)
+
+int currentLaser = 0;
+bool autoMode = false;
+unsigned long lastFireTime = 0;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  static unsigned long autoInterval = map(analogRead(potAutoPin), 0, 1023, 50, 500); // adjustable auto-mode interval
+
+  if (autoMode && millis() - lastFireTime > autoInterval) {
+    nextLaser();
+  }
+
+  int brightness = map(analogRead(potBrightPin), 0, 1023, 0, 255); // adjustable brightness
+
+  if (digitalRead(buttonPin) == LOW) {
+    manualOverride();
+  }
+
+  updateLED();
+
+  analogWrite(laserPins[currentLaser], brightness);
+  delay(20); // simulate laser firing duration
+
+  digitalWrite(laserPins[currentLaser], LOW);
+}
+
+void nextLaser() {
+  digitalWrite(laserPins[currentLaser], LOW);
+  currentLaser = (currentLaser + 1) % 6;
+  lastFireTime = millis();
+}
+
+void manualOverride() {
+  while (digitalRead(buttonPin) == LOW) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(laserPins[i], HIGH);
+      delay(50);
+      digitalWrite(laserPins[i], LOW);
+      delay(50);
+    }
+  }
+}
+
+void updateLED() {
+  static byte ledColor[] = {B00001000, B00000010, B00100000, B01000000, B10000000, B00000001}; // red, green, blue, yellow, cyan, magenta
+
+  analogWrite(ledPin, ledColor[currentLaser]);
+}
+```
+
+**Note:** This code assumes you have the necessary components connected to the specified pins.",True,5,"6,2",True,49
+216,"Here's the code:
+```c++
+const int laserPins[] = {3, 5, 6, 9, 10, 11}; // Pins for the 6 lasers (digital PWM capable)
+const int ledPin = 13; // Onboard LED pin (for status indicator and color-changing effects)
+const int potPin = A0; // Potentiometer pin for adjustable brightness (analog input)
+const int autoPotPin = A1; // Potentiometer pin for automatic mode interval adjustment (analog input)
+const int buttonPin = 2; // Push-button pin for manual override (digital input)
+
+int currentLaser = 0; // Current laser being fired (0-5)
+bool autoMode = true; // Auto-mode enabled/disabled flag
+
+void setup() {
+  pinMode(ledPin, OUTPUT); // Set onboard LED as output
+  
+  for (int i = 0; i < 6; i++) {
+    pinMode(laserPins[i], OUTPUT); // Set laser pins as outputs  
+  }
+  
+  pinMode(buttonPin, INPUT_PULLUP); // Set push-button as input w/ internal pull-up  
+}
+
+void loop() {
+  if (autoMode) {
+    // Automatic mode: Cycle through lasers at adjustable interval    
+    static unsigned long lastSwitch = 0;
+    unsigned long currTime = millis();
+    int interval = map(analogRead(autoPotPin), 0, 1023, 50, 500); // Adjust interval based on pot value (50ms - 500ms)
+    if (currTime - lastSwitch >= interval) {
+      lastSwitch = currTime;
+      nextLaser();
+    }
+  } else {
+    // Manual override: Fire selected laser immediately    
+    int buttonState = digitalRead(buttonPin);
+    if (buttonState == LOW) {
+      currentLaser = (currentLaser + 1) % 6; // Increment and wrap around if needed    
+    }
+  }
+
+  // Set laser brightness based on pot value (0-255)    
+  int brightness = map(analogRead(potPin), 0, 1023, 0, 255);
+  analogWrite(laserPins[currentLaser], brightness);
+
+  // Update status LED color and blinking state    
+  updateStatusLED();
+
+  delay(20); // Debouncing and stability delay    
+}
+
+// Advance to the next laser in sequence    
+void nextLaser() {
+  currentLaser = (currentLaser + 1) % 6;
+  updateStatusLED(); // Update status LED color    
+}
+
+// Update status LED color and blinking state    
+void updateStatusLED() {
+  digitalWrite(ledPin, LOW); // Clear previous state  
+  switch (currentLaser) {
+    case 0:
+      // Red    
+      analogWrite(ledPin, 255);
+      break;
+    case 1:
+      // Green    
+      analogWrite(ledPin, 128);
+      break;
+    case 2:
+      // Blue    
+      analogWrite(ledPin, 64);
+      break;
+    case 3:
+      // Yellow    
+      analogWrite(ledPin, 191);
+      break;
+    case 4:
+      // Cyan    
+      analogWrite(ledPin, 224);
+      break;
+    case 5:
+      // Magenta    
+      analogWrite(ledPin, 160);
+      break;
+  }
+
+  // Blinking status indicator    
+  if (autoMode) {
+    static unsigned long blinkTime = 0;
+    unsigned long currTime = millis();
+    if (currTime - blinkTime >= 200) {
+      blinkTime = currTime;
+      digitalWrite(ledPin,!digitalRead",True,5,"6,2",True,50
