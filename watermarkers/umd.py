@@ -4,10 +4,21 @@ from watermarker import Watermarker
 import torch
 from transformers import LogitsProcessorList
 
+import textwrap
+
 # UMD
 from watermarkers.extended_watermark_processor import WatermarkLogitsProcessor, WatermarkDetector
 
 log = logging.getLogger(__name__)
+
+def strip_prompt(text, prompt):
+    last_word = prompt.split()[-1]
+    assistant_marker = f"{last_word}assistant"
+    log.info(f"Marker: {assistant_marker}")
+    if assistant_marker in text:
+        stripped_text = text.split(assistant_marker, 1)[1].strip()
+        return stripped_text
+    return text
 
 class UMDWatermarker(Watermarker):
     def __init__(self, cfg, pipeline=None, n_attempts=10, **kwargs):
@@ -35,6 +46,15 @@ class UMDWatermarker(Watermarker):
         self.generator_kwargs["logits_processor"] = LogitsProcessorList([self.watermark_processor])
 
     def generate_watermarked_outputs(self, prompt):
+        og_prompt = prompt
+        if not self.cfg.is_completion:
+            if "Llama" in self.model.config._name_or_path:
+                prompt = textwrap.dedent(f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>""")
+
         inputs = self.tokenizer(
             prompt, 
             return_tensors="pt", 
@@ -44,6 +64,15 @@ class UMDWatermarker(Watermarker):
         outputs = self.model.generate(**inputs, **self.generator_kwargs)
 
         completion = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+        log.info(f"Completion from UMD: {completion}")
+        log.info(f"Prompt: {prompt}")
+
+        # NOTE: Stripping here as well since we change the prompt here.
+        if not self.cfg.is_completion:
+            completion = strip_prompt(completion, og_prompt)
+
+        log.info(f"Returned Completion: {completion}")
         
         return completion
 

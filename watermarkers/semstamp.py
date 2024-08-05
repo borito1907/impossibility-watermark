@@ -99,6 +99,7 @@ class SemStampWatermarker(Watermarker):
         
     def generate_sentence(self, text, text_ids, stopping_criteria):
         if "opt" in self.model.config._name_or_path:
+            log.info(f"Generating with an OPT model...")
             candidate_text, candidate_text_ids = gen_sent(model = self.model, 
                 tokenizer = self.tokenizer, 
                 text_ids = text_ids,
@@ -106,6 +107,7 @@ class SemStampWatermarker(Watermarker):
                 stopping_criteria = stopping_criteria
             )
         elif "Mixtral" in self.model.config._name_or_path:
+            log.info(f"Generating with a Mixtral model...")
             self.generator_kwargs['stopping_criteria'] = stopping_criteria
             outputs = self.model.generate(text_ids, self.gen_config, **self.generator_kwargs)
             log.info(f"Outputs: {outputs}")
@@ -113,6 +115,7 @@ class SemStampWatermarker(Watermarker):
             candidate_text_ids = outputs.sequences
             candidate_text = self.tokenizer.decode(candidate_text_ids[0, text_ids.size(1):], skip_special_tokens=True)
         elif "Llama" in self.model.config._name_or_path:
+            log.info(f"Generating with a Llama model...")
             self.generator_kwargs['stopping_criteria'] = stopping_criteria
             outputs = self.model.generate(inputs=text_ids, generation_config=self.gen_config, **self.generator_kwargs)
             outputs = outputs[:, :-1]  # Remove the last token from each sequence
@@ -124,9 +127,9 @@ class SemStampWatermarker(Watermarker):
         
         return candidate_text, candidate_text_ids
 
-    def generate_watermarked_outputs(self, prompt):
+    def generate_watermarked_outputs(self, prompt, stats_file_path = None):
         if self.cfg.watermark_args.sp_mode == "lsh":
-            return self._lsh_generate_watermarked_outputs(prompt)
+            return self._lsh_generate_watermarked_outputs(prompt, stats_file_path = stats_file_path)
         if self.cfg.watermark_args.sp_mode == "kmeans":
             return self._kmeans_generate_watermarked_outputs(prompt)
         raise NotImplementedError
@@ -291,14 +294,20 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         text = parse_llama_output(text)
         return text, total_sentences
     
-    def _lsh_generate_watermarked_outputs(self,prompt):
+    def _lsh_generate_watermarked_outputs(self,prompt, **kwargs):
         # If it's a completion, only use the first len_prompt many tokens.
         if self.cfg.is_completion:
             log.info(f"Since this is a completion, extracting the prompt from the original text.")
             prompt = extract_prompt_from_text(prompt, self.cfg.watermark_args.len_prompt)
 
         log.info(f"Passing the following prompt to the LSH reject completion function:\n {prompt}")
-        response = self._lsh_reject_completion(prompt, stats_csv_path = self.cfg.generation_stats_file_path)
+
+        # TODO: The code could be cleaner.
+        if 'stats_file_path' in kwargs:
+            response = self._lsh_reject_completion(prompt, stats_csv_path = kwargs['stats_file_path'])
+        else:
+            response = self._lsh_reject_completion(prompt, stats_csv_path = self.cfg.generation_stats_file_path)
+
         
         log.info(f"Prompt: {prompt}")
         log.info(f"Response: {response}")
