@@ -16,29 +16,29 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"umd_test_regen_1"
+    dir_name = f"umd_test_regen_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
 
     cfg.prompt_file='./data/WQE/test.csv'
 
     cfg.is_completion=False
-
-    # TODO: Have to log the stats for SemStamp, but not for UMD. This is here so I remember
-    # to do it for SemStamp.
     
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    # TODO: Get the code to load the DF here.
-    df = pd.read_csv('blabla')
+    path = f"/local1/borito1907/impossibility-watermark/inputs/test_umd/stripped_watermarked_texts.csv"
+    df = pd.read_csv(path)
+    df = df[df['zscore'] < 3]
 
-    for row in df.iterrows():
-        if row['zscore'] >= 3:
-            continue
+    # Calculate the start and end index based on the partition
+    start_index = (cfg.partition - 1) * 100
+    end_index = start_index + 100
 
-        # TODO: Get the prompt and the ID.
+    # Slice the DataFrame to get only the rows for the current partition
+    df_partition = df.iloc[start_index:end_index]
 
-
-        prompt, id = get_prompt_and_id_dev(cfg.prompt_file, prompt_num)
+    for _, row in df_partition.iterrows():
+        id = row['id']
+        prompt = get_prompt_from_id(cfg.prompt_file, id)
             
         log.info(f"Prompt: {prompt}")
         log.info(f"Prompt ID: {id}")
