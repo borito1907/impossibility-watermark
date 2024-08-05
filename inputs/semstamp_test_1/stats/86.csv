@@ -1,0 +1,92 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is an example Galvo code in Arduino for controlling 4 stepper motors, including X, Y, focus lens, and one Z-axis:
+
+```c++
+#include <Stepper.h>
+
+// Define the pin connections for each stepper motor:
+#define X_DIR_PIN 2 
+#define X_STEP_PIN 3 
+#define Y_DIR_PIN 4 
+#define Y_STEP_PIN 5 
+#define FOCUS_DIR_PIN 6 
+#define FOCUS_STEP_PIN 7 
+#define Z_AXIS_DIR_PIN 8 
+#define Z_AXIS_STEP_PIN 9 
+
+// Define the number of steps per revolution for each stepper motor:
+#define X_STEPS_PER_REV 200 
+#define Y_STEPS_PER_REV 200 
+#define FOCUS_STEPS_PER_REV 100 
+#define Z_AXIS_STEPS_PER_REV 400 
+
+// Create stepper objects:
+Stepper x_stepper(X_STEPS_PER_REV, X_DIR_PIN, X_STEP_PIN);
+Stepper y_stepper(Y_STEPS_PER_REV, Y_DIR_PIN, Y_STEP_PIN);
+Stepper focus_stepper(FOCUS_STEPS_PER_REV, FOCUS_DIR_PIN, FOCUS_STEP_PIN);
+Stepper z_axis_stepper(Z_AXIS_STEPS_PER_REV, Z_AXIS_DIR_PIN, Z_AXIS_STEP_PIN);
+
+void setup() {
+  // Set the initial speed for each stepper motor (in RPM):
+  x_stepper.setSpeed(10);
+  y_stepper.setSpeed(10);
+  focus_stepper.setSpeed(5);
+  z_axis_stepper.setSpeed(15);
+}
+
+void loop() {
+  // Move to specific coordinates on the X-Y plane:
+  moveXY(100, 50); // Replace with desired values
+  
+  // Focus the lens:
+  focusMove(20); // Replace with desired value
+  
+  // Move along the Z-axis:
+  zAxisMove(30); // Replace with desired value
+  
+  delay(5000); // Wait for 5 seconds before repeating the sequence:
+}
+
+void moveXY(int newX, int newY) {
+  // Calculate the number of steps required to move from current position to new position:
+  int xSteps = (newX - x_stepper.currentPosition()) * X_STEPS_PER_REV / 360;
+  int ySteps = (newY - y_stepper.currentPosition()) * Y_STEPS_PER_REV / 360;
+
+  // Move the X and Y steppers simultaneously:
+  while (xSteps > 0 || ySteps > 0) {
+    if (xSteps > 0) {
+      x_stepper.step(1);
+      xSteps--;
+    }
+    if (ySteps > 0) {
+      y_stepper.step(1);
+      ySteps--;
+    }
+    delayMicroseconds(500); // Adjust this delay to control the movement speed:
+  }
+}
+
+void focusMove(int newFocus) {
+  // Calculate the number of steps required to move from current position to new position:
+  int focusSteps = (newFocus - focus_stepper.currentPosition()) * FOCUS_STEPS_PER_REV / 360;
+
+  // Move the focus stepper:
+  while (focusSteps > 0) {
+    focus_stepper.step(1);
+    focusSteps--;
+    delayMicroseconds(500); // Adjust this delay to control the movement speed:
+  }
+}
+
+void zAxisMove(int newZ) {
+  // Calculate the number of steps required to move from current position to new position:
+  int zSteps = (newZ - z_axis_stepper.currentPosition()) * Z_AXIS_STEPS_PER_REV / 360;
+
+  // Move the Z-axis stepper:
+  while (zSteps > 0) {
+    z_axis_stepper.step(1);
+    zSteps--;
+    delayMicroseconds(500); // Adjust this delay to control the movement speed:
+ ",True,2,"5,2",True,1

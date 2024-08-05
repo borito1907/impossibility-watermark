@@ -1,0 +1,97 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here's some random Python code using scikit-learn:
+```
+import numpy as np 
+from sklearn.datasets import make_classification 
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LogisticRegression 
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix 
+
+# Generate a random binary classification dataset 
+X, y = make_classification(n_samples=100,_features=20, n_informative=5, n_redundant=0, 
+                          n_repeated=0, n_classes=2, random_state=42) 
+
+# Split the dataset into training and testing sets 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) 
+
+# Initialize and train a logistic regression model 
+model = LogisticRegression(max_iter=1000) 
+model.fit(X_train, y_train) 
+
+# Make predictions on the testing set 
+y_pred = model.predict(X_test) 
+
+# Evaluate the model using various metrics 
+accuracy = accuracy_score(y_test, y_pred) 
+print(""Accuracy:"", accuracy) 
+report = classification_report(y_test, y_pred) 
+print(""Classification Report:\n"", report) 
+matrix = confusion_matrix(y_test, y_pred) 
+print(""Confusion Matrix:\n"", matrix)
+```
+
+This code:
+
+1. ",True,0,"5,2",True,1
+2,"
+
+Here is some random Python code using scikit-learn:
+```
+import numpy as np 
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LinearRegression 
+from sklearn.datasets import load_boston 
+from sklearn.metrics import mean_squared_error 
+
+# Load the Boston housing dataset 
+boston = load_boston() 
+X = boston.data 
+y = boston.target 
+
+# Split the data into training and testing sets 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) 
+
+# Create a linear regression model 
+model = LinearRegression() 
+
+# Train the model on the training data 
+model.fit(X_train, y_train) 
+
+# Make predictions on the testing data 
+y_pred = model.predict(X_test) 
+
+# Calculate the mean squared error of the predictions 
+mse = mean_squared_error(y_test, y_pred) 
+print(""Mean Squared Error:"", mse)
+```
+This code loads the Boston housing dataset, splits it into training and testing sets, trains a linear regression model on the training data, makes predictions on the testing data, and calculates the mean squared error of those predictions.
+
+",True,2,"5,2",True,2
+3,"Here's another example that uses K-Means clustering:
+```
+import numpy as np 
+from sklearn.cluster import KMeans 
+from sklearn.datasets import make_blobs 
+import matplotlib.pyplot as plt 
+
+# Generate a sample dataset with 3 clusters 
+centers = [[1, 1], [-1, -1], [1, -1]] 
+X, labels_true = make_blobs(n_samples=750, centers=centers, cluster_std=0.6, random_state=0) 
+
+# Create a K-Means model with 3 clusters 
+kmeans = KMeans(n_clusters=3, random_state=0) 
+
+# Fit the model to the data 
+kmeans.fit(X) 
+
+# Get the predicted cluster labels 
+labels_pred = kmeans.labels_ 
+
+# Plot the data and cluster assignments 
+plt.scatter(X[:, 0], X[:, 1], c=labels_pred) 
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], marker='*', s=100, c='#050505') 
+plt.show()
+```
+This code generates a sample dataset with 3 clusters, creates a K-Means model with 3 clusters, fits the model to the data, and plots the data points colored by their assigned cluster label.",True,2,"5,2",True,1

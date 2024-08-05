@@ -33,7 +33,6 @@ def test(cfg):
     cfg_dict['generator_args']['max_length'] = cfg_dict['watermark_args']['max_new_tokens']
     cfg = OmegaConf.create(cfg_dict)
     cfg.is_completion=True # TODO: CHANGE
-
     
     import time
     import textwrap
@@ -74,7 +73,10 @@ def test(cfg):
                 save_to_csv(stats, watermarked_text_file_path, rewrite=False)
         except Exception as e:
             log.info(f"Exception with Prompt {prompt_num}.")
+<<<<<<< Updated upstream
             log.info(f"Exception: {e}")
+=======
+>>>>>>> Stashed changes
 
 if __name__ == "__main__":
     test()

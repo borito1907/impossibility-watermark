@@ -1,0 +1,187 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+A very specific and technical question!
+
+",False,,,,1
+2,"
+
+A very specific and technical question!
+
+",False,,,,2
+3,"
+
+A very specific and technical question!
+
+",False,,,,3
+4,"
+
+A very specific and technical question!
+
+",False,,,,4
+5,"
+
+A very specific and technical question!
+
+",False,,,,5
+6,"
+
+A very specific and technical question!
+
+",False,,,,6
+7,"
+
+A very specific and technical question!
+
+",False,,,,7
+8,"
+
+A very specific and technical question!
+
+",False,,,,8
+9,"
+
+A very specific and technical question!
+
+",False,,,,9
+10,"
+
+A very specific and technical question!
+
+",False,,,,10
+11,"
+
+A very specific and technical question!
+
+",False,,,,11
+12,"
+
+A very specific and technical question!
+
+",False,,,,12
+13,"
+
+A very specific and technical question!
+
+",False,,,,13
+14,"
+
+A very specific and technical question!
+
+",False,,,,14
+15,"
+
+What a fascinating question!
+
+",True,1,"1,4",True,15
+16,"The commit `5c0930ccaad5` with the title ""hrtimers: Push pending hrtimers away from outgoing CPU earlier"" seems to be related to High-Resolution Timers (hrtimers) and Read-Copy Update (RCU) writer stalls.
+
+",True,6,"6,2",True,1
+17,"Here's a breakdown of the possible reasons behind this issue:
+
+**HRTimers and their relation to RCU**: HRTimers are used in Linux to implement high-resolution timers,esponsible for executing timer events with high precision.",True,3,"0,3",True,1
+18," When an hrtimer expires, timer event handlers are executed on the CPU that was running when the timer expired.",True,1,"6,0",True,1
+19," To ensure correct operation, hrtimers need to access and update various data structures, as part of their operation.
+
+",True,4,"6,0",True,2
+20," In the context of RCU, scheduling,hrtimers can interact with RCU writer stalls. 
+
+",True,7,"6,0",True,3
+21," When an hrimer expires, to ensure that the timer event is executed on the correct CPU, it may need to migrate the timer to another CPU.",True,1,"6,0",True,4
+22," These timers are scheduled on specific CPUs, which can lead to contention between CPUs when accessing shared data structures.
+
+",True,3,"6,0",True,5
+23," They are integrated with the RCU mechanism, (Read-Copy Update), which allows multiple readers to access shared data without locks while writers perform updates.
+
+",False,,,,6
+24," When an hrtimer expires, it may need to execute a callback function, which can involve synchronizing with other CPUs.
+
+",True,4,"6,0",True,7
+25," To ensure timely execution, hrtimers use a per-CPU data structure to store pending timer events.",True,1,"6,0",True,8
+26," To ensure correctness, to the timer wheel data structure, (which is updated by multiple CPUs), the hrtimer implementation uses RCU (Read-Copy Update) synchronization.
+
+",True,7,"6,0",True,9
+27," When an hrimer expires, to process the timer event.",False,,,,10
+28," To ensure timely execution of these events, of, A hrtimer_list data structure, which is protected by an RCU lock.",False,,,,11
+29," To ensure that timer events are processed correctly, Amd efficiently,2013), hrtimers use a mechanism called ""pending timers"" which allows them to push timer events to other CPUs.
+
+",True,2,"6,0",True,12
+30," To ensure timely execution, hrtimers need to be executed on specific CPUs.",True,6,"6,0",True,13
+31," When an hrimer needs to be pushed to another CPU,16, it involves some synchronization mechanisms to avoid races.
+
+",True,5,"0,3",True,1
+32," When an hrtimer expires, it needs to be pushed to the corresponding CPU for execution.
+
+",True,4,"0,3",True,2
+33," In a multi-core system, when a CPU goes offline or becomes idle, its hrtimers need to be migrated to another CPU to maintain timeliness.",False,,,,3
+34," When an hrtimer is scheduled to run on a different CPU, than the one it was originally scheduled on, the kernel needs to migrate the hrtimer to the new CPU.",True,6,"0,3",True,4
+35," When an hrtimer is scheduled to run on a particular CPU, it's added to that CPU's timer queue.
+
+",True,3,"0,3",True,5
+36,**Pushing pending hrtimers away from outgoing CPU earlier**: The commit in question aims to prevent hrtimers from being executed on a CPU that's about to go offline or become idle.,True,6,"6,0",True,1
+37, This is done by pushing pending hrtimers to other CPUs before the current CPU goes offline.,True,7,"0,3",True,1
+38," By pushing pending hrtimers away from the outgoing CPU earlier, during the CPU hot-unplug process, to other available CPUs, the system ensures that these timers will still be executed in a timely manner.
+
+",True,7,"0,3",True,2
+39," By pushing pending hrtimers away from the outgoing CPU earlier, before it becomes idle, the system ensures that these timers are executed on other available CPUs,1) reducing latency and preventing potential timer-related issues.
+
+",True,3,"0,3",True,3
+40,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,1
+41,"**RCU Writer Stalls**: Now, to explain why this change might cause RCU writer stalls:
+
+Read-Copy Update (RCU) is a synchronization mechanism used in Linux to protect data structures from concurrent access.",False,,,,2
+42,**RCU Writer Stalls**: RCU (Read-Copy Update) is a synchronization mechanism in Linux that allows multiple readers to access shared data concurrently while writers perform updates.,True,7,"6,0",True,3
+43,"**RCU Writer Stalls**: Now, to address why this change might cause RCU writer stalls.",True,7,"6,0",True,4
+44,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,5
+45,"**RCU Writer Stalls**: Now, to address the RCU writer stalls part.",True,7,"6,0",True,6
+46,"**RCU Writer Stalls**: Now, to RCU writer stalls... RCU (Read-Copy Update) is a synchronization mechanism in Linux that allows multiple readers to access shared data without locks while still permitting writers to update the data.",False,,,,7
+47,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,8
+48,**RCU Writer Stalls**: Read-Copy Update (RCU) is a synchronization mechanism in Linux that allows for efficient and scalable updates to shared data structures while minimizing interruptions to readers.,True,7,"6,0",True,9
+49,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,10
+50,**RCU Writer Stalls**: RCU (Read-Copy Update) is a synchronization mechanism used in Linux to manage concurrent access to shared data structures.,True,7,"6,0",True,11
+51,"**RCU Writer Stalls**: Now, to RCU writer stalls, which occur when a write-side critical section in the RCU (Read-Copy Update) mechanism takes too long to complete.",True,7,"6,0",True,12
+52,"**RCU writer stalls**: Now, let's connect this to RCU writer stalls.",True,7,"6,0",True,13
+53,"**RCU Writer Stalls**: Now, to RCU writer stalls, Read-Copy Update (RCU) is a synchronization mechanism used in Linux to protect data structures from concurrent access.",False,,,,14
+54,"**RCU Writer Stalls**: Now, to understand why this change might cause RCU writer stalls:
+
+Read-Copy Update (RCU) is a synchronization mechanism in Linux used to protect read-mostly data structures.",False,,,,15
+55,**RCU writer stalls**: RCU (Read-Copy Update) is a synchronization mechanism in Linux that allows multiple readers to access shared data concurrently while writers update the data.,True,7,"6,0",True,16
+56,"**RCU Writer Stalls**: Now, to the RCU writer stalls part.",True,7,"6,0",True,17
+57,"**RCU Writer Stalls**: Now, to why this commit might cause RCU writer stalls.
+
+",False,,,,18
+58,"**RCU Writer Stalls**: Now, to explain why this might lead to RCU writer stalls:
+
+Read-Copy Update (RCU) is a synchronization mechanism used in Linux to allow readers to access shared data without acquiring locks, to maintain low-latency operations.",False,,,,19
+59,**RCU Writer Stalls**: RCU (Read-Copy Update) is a synchronization mechanism in Linux used to protect data structures accessed by multiple CPUs.,True,7,"6,0",True,20
+60,"**RCU Writer Stalls**: Now, to RCU writer stalls, which occur when the garbage collector for RCU (Read-Copy Update) detects a stall condition.",True,7,"6,0",True,21
+61,"**RCU Writer Stalls**: RCU (Read-Copy Update) is a synchronization mechanism in Linux that allows readers to access shared data without taking locks, while writers update the data using a copy-on-write approach.",True,7,"6,0",True,22
+62,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,23
+63,"**RCU Writer Stalls**: Now, to the RCU writer stalls part.",True,7,"6,0",True,24
+64,"**RCU Writer Stalls**: Now, to RCU writer stalls!",True,7,"6,0",True,25
+65,**RCU writer stalls**: RCU (Read-Copy Update) is a synchronization mechanism in Linux that allows multiple readers to access shared data concurrently while permitting writers to update the data without using locks.,True,7,"6,0",True,26
+66,"**RCU Writer Stalls**: Now,ing back to RCU (Read-Copy Update), which is a synchronization mechanism in Linux.",True,7,"6,0",True,27
+67,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,28
+68,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,29
+69,"**RCU Writer Stalls**: Now, to explain why this change might lead to RCU writer stalls:
+
+Read-Copy Update (RCU) is a synchronization mechanism in Linux that allows multiple readers to access shared data without acquiring locks, while still permitting writers to update the data.",True,7,"6,0",True,30
+70,"**RCU Writer Stalls**: Now, to RCU writer stalls.",True,7,"6,0",True,31
+71,**RCU Writer Stalls**: RCU (Read-Copy Update) is a synchronization mechanism used in Linux to protect data structures from concurrent modifications.,True,7,"6,0",True,32
+72,"**RCU Writer Stalls**: Now, onto RCU writer stalls.",True,7,"6,0",True,33
+73,"**RCU Writer Stalls**: Now, about RCU writer stalls.",True,7,"6,0",True,34
+74,"**RCU Writer Stalls**: RCU (Read-Copy Update) is a synchronization mechanism used in Linux to allow readers to access shared data without acquiring locks, to minimize contention between readers and writers2).",True,7,"6,0",True,35
+75,"**RCU Writer Stalls**: Now, to address your primary concern - RCU writer stalls.",True,7,"6,0",True,36
+76,"**RCU Writer Stalls**: RCU (Read-Copy Update) is a synchronization mechanism in the Linux kernel that allows readers to access shared data without taking locks, while writers modify the data by creating new versions.",True,7,"6,0",True,37
+77,"**RCU writer stalls**: Now, let's talk about RCU (Read-Copy Update) writer stalls.",True,7,"6,0",True,38
+78,**RCU Writer Stalls**: Read-Copy Update (RCU) is a synchronization mechanism in Linux that allows multiple readers to access shared data while writers are updating the same data.,True,7,"6,0",True,39
+79,"**RCU Writer Stalls**: Now, to understand why this commit might cause RCU writer stalls, We need to dive deeper into RCU's functioning.
+
+",True,7,"6,0",True,40
+80,"**RCU writer stalls**: Now, let's connect this to RCU writer stalls.",True,7,"6,0",True,41
+81,"**RCU Writer Stalls**: Now,ing to RCU writer stalls, which occur when a writer thread holds onto a resource (e.g., a lock), preventing other writers from making progress.",True,7,"6,0",True,42
+82,"**RCU Writer Stalls**: Now, to the RCU writer stalls part.",True,7,"6,0",True,43
+83,"**RCU Writer Stalls**: Now, to understand why this commit might cause RCU writer stalls.",True,7,"6,0",True,44
+84,"**RCU Writer Stalls**: Now, to understand why this change might lead to RCU writer stalls...
+
+RCU (Read-Copy Update) is a synchronization mechanism used in Linux to protect shared data structures against concurrent access by multiple CPUs.",True,6,"6,0",True,45
