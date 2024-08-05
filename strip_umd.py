@@ -17,23 +17,22 @@ def remove_after_assistant(input_string):
 
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def main(cfg):
-    folder = 'dev_umd_long'
-    new_file_path = f'/local1/borito1907/impossibility-watermark/inputs/{folder}/stripped_watermarked_texts.csv'
+    new_file_path = f'/local1/borito1907/impossibility-watermark/inputs/test_umd/stripped_watermarked_texts.csv'
 
     cfg.watermark_args.only_detect = True
 
-    # folders = [f"umd_test_{partition}" for partition in range(1,8)]
+    folders = [f"umd_test_{partition}" for partition in range(1,8)]
     
-    # test_dfs = []
+    test_dfs = []
 
-    # for folder in folders:
-    #     path = f"/local1/borito1907/impossibility-watermark/inputs/{folder}/watermarked_texts.csv"
-    #     df = pd.read_csv(path)
-    #     test_dfs.append(df)
-    # df = pd.concat(test_dfs, axis=0)
+    for folder in folders:
+        path = f"/local1/borito1907/impossibility-watermark/inputs/{folder}/watermarked_texts.csv"
+        df = pd.read_csv(path)
+        test_dfs.append(df)
+    df = pd.concat(test_dfs, axis=0)
 
-    path = f'/local1/borito1907/impossibility-watermark/inputs/{folder}/watermarked_texts.csv'
-    df = pd.read_csv(path)
+    # path = f'/local1/borito1907/impossibility-watermark/inputs/{folder}/watermarked_texts.csv'
+    # df = pd.read_csv(path)
 
     df['text_stripped'] = df['text'].apply(remove_after_assistant)
 
