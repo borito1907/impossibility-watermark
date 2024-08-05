@@ -1,0 +1,2691 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here's an example of a complex Roblox Lua script that simulates a Luau-themed game:
+
+**Luau Game Script**
+```lua
+
+-- // Services \\
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- // Configuration \\
+local luauDuration = 30 -- minutes 
+local playerCooldown = 10 -- seconds 
+local maxPlayersPerTeam = 4 
+local teams = {""Hawaiians"", ""Surfers"", ""BeachBums""}
+
+-- // Tables \\
+local playersInGame = {}
+local teamScores = {}
+
+for i, v in pairs(teams) do 
+    teamScores[v] = 0 
+end 
+
+-- // Functions \\
+
+local function getTeam(player)
+    for i, v in pairs(playersInGame) do 
+        if v == player then 
+            return i 
+        end 
+    end 
+    return nil 
+end 
+
+local function updateScore(team, points)
+    teamScores[team] = teamScores[team] + points 
+end 
+
+local function checkWinningCondition()
+    local winningTeam = nil 
+    local highestScore = 0 
+    
+    for team, score in pairs(teamScores) do 
+        if score > highestScore then 
+            winningTeam = team 
+            highestScore = score 
+        end 
+    end 
+    
+    if winningTeam then 
+        print(winningTeam.. "" wins the Luau!"") 
+       ",True,4,"7,2",True,1
+2,"
+
+Here is a complex example of a Roblox Lua script for a Luau-themed game:
+```lua
+
+-- // Services \\
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- // Variables \\
+local Island = workspace:Island -- the island model in the workspace
+
+-- // Tables \\
+local CoconutTrees = {
+    [1] = {Position = Vector3.new(-20, 30, 10), TreeType = ""Palm""},
+    [2] = {Position = Vector3.new(15, 25, -5), TreeType = ""Coconut""},
+    [3] = {Position = Vector3.new(-35, 40, 0), TreeType = ""Date""}
+}
+
+local HulaDancers = {
+    [1] = {Model = ""HulaDancer1"", Position = Vector3.new(-10, 0, 5)},
+    [2] = {Model = ""HulaDancer2"", Position = Vector3.new(5, 0, -5)}
+}
+
+local Leis = {
+    [1] = {Color = BrickColor.new(""Pastel Pink""), Material = ""Fabric""},
+    [2] = {Color = BrickColor.new(""Neon Green""), Material = ""Glitter""}
+}
+
+-- // Functions \\
+local function SpawnCoconutTree(treeData)
+    local tree = Instance.new(""Part"")
+    tree.Anchored = true 
+    tree.Position = treeData.Position 
+    tree.BrickColor = BrickColor.new(""Wood"") 
+    tree.Transparency = 0 
+    tree.Parent = Island 
+end 
+
+local function SpawnHulaDancer(dancerData) 
+    local dancer = Instance.new(""Model"") 
+    dancer.Name = dancerData.Model 
+    dancer.Parent = Island 
+    local humanoid = dancer:WaitForChild(""Humanoid"") 
+    humanoid.WalkSpeed = 5 
+    humanoid.JumpPower = 50 
+    local animator = humanoid:FindFirstChild(""Animator"") 
+    animator:LoadAnimation(animator:FindFirstChild(""Hula Dance"")).Looped = true 
+    dancer.PrimaryPartCFrame = CFrame.new(dancerData.Position) 
+end 
+
+local function GiveLei(player, leiData) 
+    local lei = Instance.new(""Accessory"") 
+    lei.Name = ""Lei"" 
+    lei.Parent = player.Character 
+    local handle = Instance.new(""Part"") 
+    handle.FormFactor = Enum.FormFactor.Custom 
+    handle.Size = Vector3.new(0.5, 0.5, 0.5) 
+    handle.CFrame = CFrame.new(Vector3.new(0, 1.5, 0)) 
+    handle.Parent = lei 
+    local deco = Instance.new(""Decal"") 
+    deco.Texture = ""http://www.roblox.com/asset/?id=12345678"" 
+    deco.Parent = handle 
+    handle.BrickColor = leiData.Color 
+    handle.Material = leiData.Material 
+end 
+
+-- // Script \\
+while wait() do 
+    -- Spawn coconut trees every 30 seconds 
+    for _, treeData in pairs(CoconutTrees) do 
+        spawn(function() 
+            wait(30) 
+            SpawnCoconutTree(treeData) 
+        end) 
+    end 
+
+    -- Spawn hula dancers every 60 seconds 
+    for _, dancerData in pairs(HulaDancers) do 
+        spawn(function() 
+            wait(60) 
+            SpawnHulaDancer(dancerData) 
+        end) 
+    end 
+
+    -- Give players leis when they join 
+    Players.PlayerAdded:Connect",True,4,"7,2",True,2
+3,"
+
+Here's an example of a Roblox Lua script that creates a luau-themed game with several features:
+```lua
+
+-- Define the luau game settings
+
+local LuauSettings = {
+    IslandName = ""Lava Island"",
+    StartTime = 10,00, -- 10:00 AM in-game time when the luau starts 
+    EndTime = 16,00, -- 4:00 PM in-game time when the luau ends 
+    MusicVolume = 50,
+    CoconutTreeSpawnRate = 30, -- every 30 seconds, a new coconut tree spawns 
+    HulaGirlSpawnRate = 60, -- every 60 seconds, a new hula girl spawns 
+}
+
+-- Create the island terrain and objects
+
+local IslandTerrain = Instance.new(""Part"")
+IslandTerrain.Size = Vector3.new(1000, 20, 1000)
+IslandTerrain.Position = Vector3.new(0, -10, 0)
+IslandTerrain.Anchored = true
+
+local CoconutTrees = {}
+local function spawnCoconutTree()
+    local CoconutTree = Instance.new(""Model"")
+    CoconutTree.Parent = workspace
+    
+    -- Load coconut tree model from the Models folder 
+    local CoconutTreeModel = game.Models.CoconutTree:Clone()
+    CoconutTreeModel.Parent = CoconutTree
+    
+    -- Randomly position the coconut tree on the island 
+    local IslandSize = IslandTerrain.Size.x * IslandTerrain.Size.z 
+    local SpawnX = math.random(IslandSize) - (IslandSize / 2)
+    local SpawnZ = math.random(IslandSize) - (IslandSize / 2)
+    CoconutTree.Position = Vector3.new(SpawnX, 0, SpawnZ)
+    
+    table.insert(CoconutTrees, CoconutTree)
+end
+
+spawnCoconutTree() -- initial coconut tree spawn 
+
+while wait(LuauSettings.CoconutTreeSpawnRate) do 
+    spawnCoconutTree() 
+end 
+
+local HulaGirls = {}
+local function spawnHulaGirl()
+    local HulaGirl = Instance.new(""Character"")
+    HulaGirl.Parent = workspace
+    
+    -- Load hula girl model from the Models folder 
+    local HulaGirlModel = game.Models.HulaGirl:Clone()
+    HulaGirlModel.Parent = HulaGirl
+    
+    -- Randomly position the hula girl on the island 
+    local IslandSize = IslandTerrain.Size.x * IslandTerrain.Size.z 
+    local SpawnX = math.random(IslandSize) - (IslandSize / 2)
+    local SpawnZ = math.random(IslandSize) - (IslandSize / 2)
+    HulaGirl.HumanoidRootPart.Position = Vector3.new(SpawnX, 0, SpawnZ)
+    
+    table.insert(HulaGirls, HulaGirl)
+end
+
+spawnHulaGirl() -- initial hula girl spawn 
+
+while wait(LuauSettings.HulaGirlSpawnRate) do 
+    spawnHulaGirl() 
+end 
+
+-- Play music and ambient sounds 
+
+local MusicPlayer = Instance.new(""Sound"")
+MusicPlayer.Volume = LuauSettings.MusicVolume / 100 
+MusicPlayer.SoundId = ""rbxassetid://123456789"" -- your custom music asset ID 
+MusicPlayer.Looped = true 
+MusicPlayer:Play()
+
+local AmbientSounds = {}
+
+table.insert(AmbientSounds, Instance.new(""Sound""))
+AmbientSounds[1].Volume = 20 
+AmbientSounds[1].SoundId = ""rbxassetid://987654321"" -- your custom ambient sound 1 asset ID 
+AmbientSounds[1].Looped = true 
+AmbientSounds[1]:Play()
+
+table.insert(AmbientSounds, Instance.new(""Sound",True,4,"7,2",True,3
+4,"
+
+Here's an example of a complex Roblox Lua script for a Luau game:
+
+**Title:** ""Tropical Treasure Hunt""
+
+**Objective:** Players must search for hidden treasures across the island, a tropical paradise filled with obstacles and challenges.
+
+",True,4,"7,2",True,4
+5,"
+
+Here is an example of a complex Roblox Lua script that creates a Luau-themed game where players can participate in a Hawaiian-style dance competition:
+```lua
+
+-- Services --
+local Players = game:GetService(""Players"")
+local UserInputService = game:GetService(""UserInputService"")
+local TweenService = game:GetService(""TweenService"")
+local SoundService = game:GetService(""SoundService"")
+
+-- Game Variables --
+local dancerModels = {} -- stores player models with dancer animation loaded 
+local currentDanceMove = ""Hula"" -- default dance move 
+local danceMoves = {""Hula"", ""Tahitian"", ""Maori""} -- available dance moves 
+local score = 0 -- player's score 
+local leaderboards = {} -- stores player scores 
+
+-- Load Dancer Animation --
+local function loadDancerAnimation(player)
+    local character = player.Character 
+    if character then 
+        local animator = character:FindFirstChild(""Humanoid"") 
+        if animator then 
+            local hulaAnimation = Instance.new(""Animation"") 
+            hulaAnimation.Name = ""Hula"" 
+            hulaAnimation.AnimationId = ""rbxassetid://123456789"" 
+            animator:LoadAnimation(hulaAnimation) 
+            
+            table.insert(dancerModels, {player, character}) 
+        end 
+    end 
+end 
+
+-- Dance Move Functions --
+local function doHula()
+    for _, model in pairs(dancerModels) do 
+        local animator = model[2]:FindFirstChild(""Humanoid"") 
+        if animator then 
+            animator:PlayAnimation(currentDanceMove) 
+        end 
+    end 
+end 
+
+local function doTahitian() 
+    for _, model in pairs(dancerModels) do 
+        local animator = model[2]:FindFirstChild(""Humanoid"") 
+        if animator then 
+            animator:StopAnimation(currentDanceMove) 
+            wait(0.5) 
+            animator:PlayAnimation(""Tahitian"") 
+        end 
+    end 
+    currentDanceMove = ""Tahitian"" 
+end 
+
+local function doMaori() 
+    for _, model in pairs(dancerModels) do 
+        local animator = model[2]:FindFirstChild(""Humanoid"") 
+        if animator then 
+            animator:StopAnimation(currentDanceMove) 
+            wait(0.5) 
+            animator:PlayAnimation(""Maori"") 
+        end 
+    end 
+    currentDanceMove = ""Maori"" 
+end 
+
+-- Score Tracking --
+local function updateScore(deltaTime) 
+    score = score + deltaTime * 10 
+end 
+
+-- Input Handling --
+UserInputService.InputBegan:Connect(function(inputObject) 
+    if inputObject.KeyCode == Enum.KeyCode.E then 
+        doHula() 
+    elseif inputObject.KeyCode == Enum.KeyCode.T then 
+        doTahitian() 
+    elseif inputObject.KeyCode == Enum.KeyCode.M then 
+        doMaori() 
+    end 
+end) 
+
+-- Spawn Dancers and Initialize Leaderboard --
+for _, player in pairs(Players:GetPlayers()) do 
+    loadDancerAnimation(player) 
+    table.insert(leaderboards, {player.Name, 0}) 
+end 
+
+-- Main Loop --
+while true do 
+    wait(1) 
+    updateScore(1) 
+    print(""Current Score:"", score) 
+    for _, board in pairs(leaderboards) do 
+        print(board[1], "" - "", board[2]) 
+    end 
+end 
+
+-- Clean up --
+game:BindToClose(function() 
+    for _, model in pairs(dancerModels) do 
+        model[2]:Destroy() 
+    end 
+end)
+
+```
+This script assumes you have already set up the following:
+
+* A",True,4,"7,2",True,5
+6,"
+
+Here's an example of a complex Roblox Lua script for a Luau-themed game:
+```lua
+
+-- ///////////////////////////////////////////////////////////////////////////////
+-- LUAU ISLAND ADVENTURE GAME SCRIPT 
+-- ///////////////////////////////////////////////////////////////////////////
+
+-- Game Variables 
+
+local IslandName = ""Lava Lagoon""
+local PlayerStartLocation = Vector3.new(-100, 50, 0)
+local CoconutTreeSpawnRate = 5 -- seconds 
+local CoconutsPerTree = 3 
+local MaxCoconutsInInventory = 10 
+local SurfboardSpeedBoost = 2 
+
+-- Services 
+
+local PlayersService = game:GetService(""Players"")
+local ServerStorage = game:GetService(""ServerStorage"")
+local TweenService = game:GetService(""TweenService"")
+
+-- Game Objects 
+
+local IslandModel = ServerStorage:FindFirstChild(IslandName.. "" Model"")
+local CoconutTreeModel = ServerStorage:FindFirstChild(""Coconut Tree Model"")
+local SurfboardModel = ServerStorage:FindFirstChild(""Surfboard Model"")
+local CoconutObject = ServerStorage:FindFirstChild(""Coconut Object"")
+
+-- Player Functions 
+
+local function givePlayerCoconuts(player, amount) 
+    local playerCharacter = player.Character 
+    if playerCharacter then 
+        local inventory = playerCharacter:FindFirstChild(""Inventory"") 
+        if inventory then 
+            local coconutCount = inventory:FindFirstChild(""Coconuts"") or 0 
+            coconutCount.Value = math.min(coconutCount.Value + amount, MaxCoconutsInInventory) 
+        end 
+    end 
+end 
+
+local function givePlayerSurfboard(player) 
+    local playerCharacter = player.Character 
+    if playerCharacter then 
+        local surfboardHandle = playerCharacter:FindFirstChild(""Surfboard Handle"") 
+        if not surfboardHandle then 
+            local surfboardInstance = SurfboardModel:Clone() 
+            surfboardInstance.Parent = playerCharacter 
+            surfboardInstance.Name = ""Surfboard"" 
+            local humanoidRootPart = playerCharacter:FindFirstChild(""HumanoidRootPart"") 
+            local attachment = Instance.new(""Attachment"") 
+            attachment.Parent = humanoidRootPart 
+            attachment.Position = Vector3.new(0, 1, 0) 
+            local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out) 
+            TweenService:CreateTween(surfboardInstance, tweenInfo):Play() 
+        end 
+    end 
+end 
+
+-- Coconut Tree Spawner 
+
+while true do 
+    wait(CoconutTreeSpawnRate) 
+    local treeInstance = CoconutTreeModel:Clone() 
+    treeInstance.Parent = IslandModel 
+    treeInstance.Position = Vector3.new(math.random(-100, 100), 0, math.random(-100, 100)) 
+    for i = 1, CoconutsPerTree do 
+        local coconutInstance = CoconutObject:Clone() 
+        coconutInstance.Parent = treeInstance 
+        coconutInstance.Position = Vector3.new(math.random(-5, 5), 2, math.random(-5, 5)) 
+    end 
+end 
+
+-- Player Joined 
+
+PlayersService.PlayerAdded:Connect(function(player) 
+    player.CharacterAdded:Wait() 
+    local character = player.Character 
+    character.HumanoidRootPart.CFrame = PlayerStartLocation 
+    givePlayerSurfboard(player) 
+end)
+
+-- Player Interacted with Coconut Tree 
+
+IslandModel.Touched:Connect(function(hit) 
+    local player = PlayersService:GetPlayerFromCharacter(hit.Parent) 
+    if player then 
+        local tree = hit.Parent 
+        for _, coconut in pairs(tree:GetChildren()) do 
+            if coconut:IsA(""MeshPart"") then 
+                givePlayerCoconuts(player, 1) 
+                coconut:Destroy",True,4,"7,2",True,6
+7,"
+
+Here's an example of a Roblox Lua script that creates a functional Luau-themed game with multiple features:
+```lua
+-- Services
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local HttpService = game:GetService(""HttpService"")
+
+-- Config
+local GAME_NAME = ""Roblox Luau""
+local MAX_PLAYERS = 10
+local COCONUT_SPAWN_RATE = 5 -- seconds
+local HULA_HOOP_SPAWN_RATE = 10 -- seconds
+local LEI_SPAWN_RATE = 15 -- seconds
+
+-- Game state
+local coconutCount = 0
+local hulaHoopCount = 0
+local leiCount = 0
+local playersInGame = {}
+local scores = {}
+
+-- Coconut spawn function
+local function spawnCoconut()
+    local coconut = Instance.new(""Part"")
+    coconut.Anchored = true
+    coconut.CanCollide = false
+    coconut.Size = Vector3.new(1, 1, 1)
+    coconut.Position = Vector3.new(math.random(-50, 50), 2, math.random(-50, 50))
+    coconut.Parent = workspace
+    coconut.Name = ""Coconut""
+    coconut:WaitForChild(""TouchInterest"").Parent = coconut
+    coconut.Touched:Connect(function(hit)
+        if hit.Parent and hit.Parent:FindFirstChild(""Humanoid"") then
+            local player = Players:GetPlayerFromCharacter(hit.Parent)
+            if player then
+                scores[player.UserId] = (scores[player.UserId] or 0) + 1
+                coconut:Destroy()
+            end
+        end
+    end)
+    coconutCount += 1
+end
+
+-- Hula hoop spawn function
+local function spawnHulaHoop()
+    local hulaHoop = Instance.new(""MeshPart"")
+    hulaHoop.Anchored = true
+    hulaHoop.CanCollide = false
+    hulaHoop.Size = Vector3.new(2, 0.5, 2)
+    hulaHoop.Position = Vector3.new(math.random(-50, 50), 2, math.random(-50, 50))
+    hulaHoop.MeshId = ""rbxassetid://123456789"" -- Replace with your own mesh ID
+    hulaHoop.Parent = workspace
+    hulaHoop.Name = ""HulaHoop""
+    hulaHoop:WaitForChild(""TouchInterest"").Parent = hulaHoop
+    hulaHoop.Touched:Connect(function(hit)
+        if hit.Parent and hit.Parent:FindFirstChild(""Humanoid"") then
+            local player = Players:GetPlayerFromCharacter(hit.Parent)
+            if player then
+                scores[player.UserId] = (scores[player.UserId] or 0) + 2
+                hulaHoop:Destroy()
+            end
+        end
+    end)
+    hulaHoopCount += 1
+end
+
+-- Lei spawn function
+local function spawnLei()
+    local lei = Instance.new(""Accessory"")
+    lei.Parent = workspace
+    lei.Name = ""Lei""
+    lei:WaitForChild(""Handle"").Transparency = 0
+    lei:WaitForChild(""Handle"").CanCollide = false
+    lei.Handle.CFrame = CFrame.new(Vector3.new(math.random(-50, 50), 2, math.random(-50, 50)))
+    lei:WaitForChild(""TouchInterest"").Parent = lei.Handle
+    lei.Handle.Touched:Connect(function(hit)
+        if hit.Parent and hit.Parent:FindFirstChild(""Humanoid"") then
+           ",True,4,"7,2",True,7
+8,"
+
+Here's an example of a Roblox Lua script that creates a luau-themed game with several features:
+```lua
+
+-- // SERVICES \\
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- // VARIABLES \\
+local islandModel = workspace:IslandModel -- the main island model 
+local coconutTreeModel = workspace:CoconutTreeModel -- the coconut tree model 
+local playerModelsFolder = workspace:PlayerModels -- folder containing player models 
+
+local maxPlayers = 20 -- maximum number of players allowed in the game 
+local gameDuration = 60 -- game duration in minutes 
+local roundDuration = 5 -- duration of each round in minutes 
+local scorePerCoconut = 10 -- score earned per coconut collected 
+local coconutsSpawned = {} -- table to store spawned coconut objects 
+
+-- // FUNCTIONS \\
+
+-- spawn Coconut function 
+local function spawnCoconut(position) 
+    local coconut = coconutTreeModel.Coconut:Clone() 
+    coconut.CFrame = position 
+    coconut.Parent = workspace 
+    table.insert(coconutsSpawned, coconut) 
+end 
+
+-- remove Coconut function 
+local function removeCoconut(coconut) 
+    for i, v in pairs(coconutsSpawned) do 
+        if v == coconut then 
+            table.remove(coconutsSpawned, i) 
+            break 
+        end 
+    end 
+    coconut:Destroy() 
+end 
+
+-- player Joined function 
+local function onPlayerJoined(player) 
+    print(""Player "".. player.Name.. "" joined the game!"") 
+   ",True,4,"7,2",True,8
+9,"
+
+Here is a complex example of a Roblox Lua script that demonstrates various concepts and techniques:
+```lua
+
+--// Services \\--
+
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+--// Variables \\--
+
+local islandModel = workspace:IslandModel -- assume this exists in the workspace
+
+local tropicalFruitFolder = ReplicatedStorage.TropicalFruitFolder -- assume this exists in ReplicatedStorage
+
+local playerDataStore = {} -- store player data, e.g., score, health, etc.
+
+",True,5,"7,2",True,9
+10,"
+
+Here's an example of a Roblox Lua script that demonstrates some complex concepts:
+
+**Example: ""Treasure Hunt"" Game**
+
+In this game, the player must find and collect three hidden treasures within a certain time limit.",False,,,,10
+11,"
+
+Here's an example of a Roblox Lua script that demonstrates various concepts, (Note: this is just an example and may not be optimized for performance or best practices):
+```lua
+
+-- Define a service to handle player interactions with the Luau game mode
+
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+
+local LuauService = {}
+LuauService.__index = LuauService
+
+function LuauService.new()
+    local self = setmetatable({}, LuauService)
+    self.PlayersInGame = {} -- store players currently playing in the Luau game mode
+    
+    -- Set up the game environment
+    
+    self.LuauWorld = Instance.new(""Workspace"")
+    self.LuauWorld.Name = ""Luau World""
+    
+    self.IslandModel = Instance.new(""Model"")
+    self.IslandModel.Parent = self.LuauWorld
+    
+    self.TreeModel = Instance.new(""Model"")
+    self.TreeModel.Parent = self.IslandModel
+    
+    -- Load custom assets from ReplicatedStorage
+    
+    self.LuauMusic = ReplicatedStorage:WaitForChild(""LuauMusic"")
+    self.LuauSFX = ReplicatedStorage:WaitForChild(""LuauSFX"")
+    
+    -- Initialize the Luau scoreboard
+    
+    self.Scoreboard = Instance.new(""Folder"")
+    self.Scoreboard.Parent = self.LuauWorld
+    
+    -- Create leaderboards for top 3 coconut throwers
+    
+    self.CoconutLeaderboard = Instance.new(""Leaderboard"")
+    self.CoconutLeaderboard.Name = ""Coconut Leaderboard""
+    self.CoconutLeaderboard.Parent = self.Scoreboard
+    
+    -- Add score tracking
+    
+    self.CoconutScores = {}
+    
+    return self end
+
+function LuauService:startGame(player)
+    -- Teleport the player to the Luau world
+    
+    player.Character.HumanoidRootPart.CFrame = self.IslandModel.PrimaryPart.CFrame
+    
+    -- Give the player a Coconut Thrower tool
+    
+    local CoconutThrower = ReplicatedStorage:WaitForChild(""CoconutThrower""):Clone()
+    CoconutThrower.Parent = player.Backpack
+    
+    -- Play Luau music
+    
+    self.LuauMusic:Play()
+    
+    -- Notify other players of new player joining
+    
+    self:broadcastMessage(""Welcome "".. player.Name.. "" to the Luau!"")
+    
+   ",True,5,"7,2",True,11
+12,"
+
+Here's an example of a complex Roblox Lua script that creates a tropical island-themed game with various features:
+```lua
+
+-- Load necessary services and modules
+
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local HttpService = game:GetService(""HttpService"")
+local TweenService = game:GetService(""TweenService"")
+
+-- Create a table to store player data
+
+local playersData = {}
+
+-- Function to initialize player data when they join the game
+
+local function onPlayerAdded(player)
+    local character = player.Character or player.CharacterAdded:Wait()
+    if not character then return end
+    
+    -- Get the player's username and create a unique ID for them
+
+    local username = player.Name 
+    local playerId = username.. ""_"".. tostring(math.random(1, 100000))
+    
+    -- Initialize player data
+
+    playersData[playerId] = {
+        coins = 100,
+        experience = 0,
+        level = 1,
+        health = 100,
+        inventory = {},
+        equippedTool = nil,
+    }
+    
+    -- Send initial data to the client
+
+    local initData = {
+        coins = playersData[playerId].coins,
+        experience = playersData[playerId].experience,
+        level = playersData[playerId].level,
+        health = playersData[playerId].health,
+    }
+    
+    ReplicatedStorage.PlayerData:FireClient(player, initData)
+end
+
+-- Connect the onPlayerAdded function to the PlayerAdded event
+
+Players.PlayerAdded:Connect(onPlayerAdded)
+
+-- Create a server-side timer to handle day/night cycles and weather effects
+
+while true do
+    
+    -- Toggle between day and night every 30 minutes (1800 seconds)
+
+    local timeOfDay = os.time() % 3600 > 1800 and ""Night"" or ""Day""
+    local weatherEffect = math.random(1, 5) == 1 and ""Rain"" or math.random(1, 3) == 1 and ""Thunderstorm"" or ""ClearSkies""
+
+    -- Broadcast the current time of day and weather effect to all clients
+
+    ReplicatedStorage.TimeOfDay:FireAllClients(timeOfDay)
+    ReplicatedStorage.WeatherEffect:FireAllClients(weatherEffect)
+
+    wait(10) -- Wait 10 seconds before checking again
+    
+end
+
+-- Function to handle player tool equipping/un-equipping
+
+local function onEquipTool(player, toolName)
+    local playerId = player.Name.. ""_"".. tostring(math.random(1, 100000))
+    local playerData = playersData[playerId]
+    local oldTool = playerData.equippedTool
+    
+    -- Un-equip the previous tool
+
+    if oldTool then 
+        oldTool.Parent = nil 
+        playerData.inventory[oldTool.Name] = oldTool 
+    end
+    
+    -- Equip the new tool
+
+    local newTool = game.ReplicatedStorage.Tools:FindFirstChild(toolName)
+    if newTool then 
+        newTool.Parent = player.Character 
+        playerData.equippedTool = newTool 
+        table.remove(playerData.inventory, newTool.Name) 
+    end
+    
+    -- Update the player's data
+
+    ReplicatedStorage.PlayerData:FireClient(player, {
+        equippedTool = toolName,
+        inventory = playerData.inventory,
+    })
+end
+
+-- Connect the onEquipTool function to the ToolEquipped event
+
+ReplicatedStorage.ToolEquipped.OnServerEvent:Connect(onEquipTool)
+
+-- Function to handle player coin collection
+
+local function onCoinCollected(player, coinValue)
+    local playerId = player.Name.. ""_"".. tostring(math.random(1, 100000))
+    local playerData = playersData[player",True,5,"7,2",True,12
+13,"
+
+Here's an example of a complex Roblox Lua script that combines multiple concepts, in this case, a tropical island-themed game with various features:
+```lua
+
+--// Services and Variables \\
+local Players = game:GetService(""Players"")
+local Workspace = game:GetService(""Workspace"")
+local ServerStorage = game:GetService(""ServerStorage"")
+local HttpService = game:GetService(""HttpService"")
+local RunService = game:GetService(""RunService"")
+
+local IslandModel = Workspace:IslandModel -- main island model
+
+--// Configurations \\
+local MaxPlayers = 10 -- max players allowed on the island at once 
+local CoconutsPerMinute = 5 -- coconuts spawned per minute 
+local TreasureChance = 0.2 -- chance for treasure chest to spawn 
+local CoconutCurrencyName = ""Coconut Coins"" -- name of currency 
+
+--// Functions \\
+local function SpawnCoconuts() 
+    local coconutFolder = IslandModel:FindFirstChild(""Coconuts"") 
+    if not coconutFolder then 
+        coconutFolder = Instance.new(""Folder"") 
+        coconutFolder.Name = ""Coconuts"" 
+        coconutFolder.Parent = IslandModel 
+    end 
+    for i = 1, CoconutsPerMinute do 
+        local coconut = ServerStorage.Coconuts:Clone() 
+        coconut.Anchored = true 
+        coconut.Parent = coconutFolder 
+        coconut.Position = Vector3.new(math.random(-50, 50), 0, math.random(-50, 50)) 
+    end 
+end 
+
+local function SpawnTreasureChest() 
+    if math.random(1, 100) <= (TreasureChance * 100) then 
+        local treasureChest = ServerStorage.TreasureChests:Clone() 
+        treasureChest.Anchored = true 
+        treasureChest.Parent = IslandModel 
+        treasureChest.Position = Vector3.new(math.random(-50, 50), 0, math.random(-50, 50)) 
+    end 
+end 
+
+local function GivePlayerMoney(player, amount) 
+    local playerData = player:WaitForChild(""playerData"") 
+    playerData[CoconutCurrencyName].Value += amount 
+end 
+
+local function OnPlayerJoin(player) 
+    -- initialize player data 
+    local playerData = Instance.new(""Folder"") 
+    playerData.Name = ""playerData"" 
+    playerData.Parent = player 
+    playerData[CoconutCurrencyName] = Instance.new(""IntValue"") 
+    playerData[CoconutCurrencyName].Value = 0 
+
+    -- give starting money 
+    GivePlayerMoney(player, 50) 
+end 
+
+local function OnPlayerLeave(player) 
+    -- save player data 
+    local playerData = player:WaitForChild(""playerData"") 
+    local data = {} 
+    data[CoconutCurrencyName] = playerData[CoconutCurrencyName].Value 
+    HttpService:PostAsync(""https://example.com/roblox-api/save-player-data"", HttpService:JSONEncode(data)) 
+end 
+
+--// Main Script \\
+while true do 
+    -- limit players on the island 
+    while #Players:GetPlayers() > MaxPlayers do 
+        Players:GetPlayers()[1]:Kick(""Too many players!"") 
+       ",True,5,"7,2",True,13
+14,"
+
+Here's an example of a complex Roblox Lua script that simulates a Luau event:
+```lua
+
+-- Luau Event Script
+
+-- Configuration variables
+
+local.luauDuration = 30 -- duration of the luau in minutes
+
+local.foodStalls = {""Hawaiian BBQ"", ""Coconut Shrimp"", ""Poi Bar""} -- list of food stalls
+
+local.activity Stations = {""Limbo Contest"", ""Hula Dancing"", ""Coconut Toss""} -- list of activity stations
+
+local.prizeTable = { -- prize table for participants
+
+    [1] = ""Golden Coconut"",
+    [2] = ""Surfboard"",
+    [3] = ""Lua Ukelele""
+
+}
+
+-- Game Services
+
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+
+local Players = game:GetService(""Players"")
+
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- Luau Event Functions
+
+local function spawnFoodStall(stallName, stallPosition)
+
+    local stallModel = Instance.new(""Model"")
+
+    stallModel.Name = stallName
+
+    stallModel.Parent = workspace.LuauArea.FoodStalls
+
+    local stallPart = Instance.new(""Part"")
+
+    stallPart.Size = Vector3.new(2, 2, 2)
+
+    stallPart.Position = stallPosition
+
+    stallPart.Anchored = true
+
+    stallPart.CanCollide = false
+
+    stallPart.Parent = stallModel
+
+end
+
+local function spawnActivityStation(stationName, stationPosition)
+
+    local stationModel = Instance.new(""Model"")
+
+    stationModel.Name = stationName
+
+    stationModel.Parent = workspace.LuauArea.ActivityStations
+
+    local stationPart = Instance.new(""Part"")
+
+    stationPart.Size = Vector3.new(3, 3, 3)
+
+    stationPart.Position = stationPosition
+
+    stationPart.Anchored = true
+
+    stationPart.CanCollide = false
+
+    stationPart.Parent = stationModel
+
+end
+
+local function awardPrize(winner, prizeRank)
+
+    local prize = prizeTable[prizeRank]
+
+    local winnerPlayer = Players:FindFirstChild(winner)
+
+    if winnerPlayer then
+
+        winnerPlayer.Backpack:WaitForChild(prize).Parent = winnerPlayer.Character
+
+    else
+
+        error(""Error: Winner not found!"")
+
+   ",True,4,"7,2",True,14
+15,"
+
+Here's a complex example of a Roblox Lua script for a Luau event:
+```lua
+
+-- // Services \\
+local Players = game:GetService(""Players"")
+local ServerStorage = game:GetService(""ServerStorage"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+
+-- // Modules \\
+local luauModule = require(ServerStorage:WaitForChild(""LuauModule""))
+local rewardSystem = require(ServerStorage:WaitForChild(""RewardSystem""))
+
+-- // Variables \\
+local islandData = {
+    [""coconutTree""] = {
+        spawnChance = 0.5,
+        rewards = {""Coconut"", ""Pineapple""}
+    },
+    [""volcano""] = {
+        spawnChance = 0.2,
+        rewards = {""LavaRock"", ""Obsidian""}
+    },
+    [""beachHut""] = {
+        spawnChance = 0.3,
+        rewards = {""Seashell"", ""Driftwood""}
+    }
+}
+
+local playerRewards = {}
+
+-- // Functions \\
+local function onPlayerSpawn(player)
+    -- Give the player a random reward from the island data when they spawn 
+    local reward = getRewardFromIsland()
+    player.Backpack:WaitForChild(reward).Parent = player.Character
+    
+    -- Update their rewards list 
+    table.insert(playerRewards, player.UserId, {reward})
+end
+
+local function getRewardFromIsland()
+    -- Get a random reward from the island data based on spawn chance 
+    local randomNumber = math.random(1, 100)
+    local cumulativeProbability = 0
+    
+    for _, location in pairs(islandData) do 
+        cumulativeProbability = cumulativeProbability + (location.spawnChance * 100)
+        
+        if randomNumber <= cumulativeProbability then 
+            return location.rewards[math.random(#location.rewards)]
+        end 
+    end 
+end 
+
+local function updateLeaderboards()
+    -- Update the leaderboards with the latest rewards 
+    for _, player in pairs(Players:GetPlayers()) do 
+        local playerRewardsString = """"
+        
+        for _, reward in pairs(playerRewards[player.UserId]) do 
+            playerRewardsString = playerRewardsString.. reward.. "", ""
+        end 
+        
+        local leaderboardEntry = script.Parent:FindFirstChild(""Leaderboard""):FindFirstChild(player.Name)
+        leaderboardEntry.TextLabel.Text = playerRewardsString 
+    end 
+end 
+
+-- // Script \\
+script.Parent.Touched:Connect(function(hit)
+    -- Check if the player touched the Luau island 
+    local player = Players:GetPlayerFromCharacter(hit.Parent)
+    
+    if player then 
+        -- Reset their rewards list and give them a new reward 
+        playerRewards[player.UserId] = {}
+        onPlayerSpawn(player)
+        
+        -- Update the leaderboards after a short delay 
+        wait(5)
+        updateLeaderboards() 
+    end 
+end)
+
+```
+This script assumes you have:
+
+* A `LuauModule` script in ServerStorage that contains utility functions for the Luau event.
+",True,5,"7,2",True,15
+16,"
+
+Here is an example of a complex Roblox Lua script that simulates a game of capture the flag:
+```lua
+
+-- Game Variables --
+local teamRed = workspace.Teams.TeamRed -- Red Team spawn location 
+local teamBlue = workspace.Teams.TeamBlue -- Blue Team spawn location 
+local redFlag = workspace.Flags.RedFlag -- Red Flag model 
+local blueFlag = workspace.Flags.BlueFlag -- Blue Flag model 
+local scoreBoard = workspace.ScoreBoard -- Scoreboard GUI 
+
+-- Functions --
+function checkForFlagCapture(player, flag) 
+    if player.TeamColor == ""Bright red"" and flag == redFlag then 
+        print(""Red Flag Captured by "".. player.Name.. ""!",True,4,"7,2",True,16
+17,"
+
+Here's an example of a Roblox Lua script that creates a Luau-themed game with multiple features:
+```lua
+
+-- Services and Variables --
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local TweenService = game:GetService(""TweenService"")
+
+local IslandModel = game.Workspace.IslandModel -- The island model in the workspace
+
+local PlayerData = {} -- Store player data (e.g., score,
+
+-- Functions --
+
+-- Function to initialize player data when they join the game --
+local function initPlayerData(player)
+    local pdata = {
+        Score = 0,
+        CoconutCount = 5,
+        Leis = {},
+    }
+    table.insert(PlayerData, player.UserId, pdata)
+end
+
+-- Function to give players a lei when they collect coconuts --
+local function giveLei(player)
+    local pdata = PlayerData[player.UserId]
+    if pdata.CoconutCount >= 3 then -- Require at least 3 coconuts to get a lei 
+        pdata.Leis[#pdata.Leis + 1] = Instance.new(""Accessory"") -- Create a new lei accessory 
+        pdata.Leis[#pdata.Leis].Parent = player.Character -- Parent it to the player's character 
+        pdata.CoconutCount -= 3 -- Deduct 3 coconuts from their count 
+    end 
+end 
+
+-- Function to spawn coconuts around the island --
+local function spawnCoconuts()
+    for i = 1, 10 do -- Spawn 10 coconuts 
+        local coconut = Instance.new(""Part"") -- Create a new part for the coconut 
+        coconut.Size = Vector3.new(1, 1, 1) 
+        coconut.Anchored = true 
+        coconut.Parent = IslandModel -- Parent it to the island model 
+
+        local pos = IslandModel.Surface:GetRandomPoint() -- Get a random position on the island surface 
+        coconut.CFrame = CFrame.new(pos) -- Set the coconut's CFrame to the random position 
+
+        local clickDetector = Instance.new(""ClickDetector"") -- Create a click detector for the coconut 
+        clickDetector.Parent = coconut 
+        clickDetector.MouseClick:Connect(function(player) -- Connect a function to the mouse click event 
+            local pdata = PlayerData[player.UserId] 
+            pdata.CoconutCount += 1 -- Increment the player's coconut count 
+            giveLei(player) -- Give the player a lei if they have enough coconuts 
+            coconut:Destroy() -- Destroy the coconut after it's clicked 
+        end)
+    end 
+end 
+
+-- Main Script --
+
+Players.PlayerAdded:Connect(initPlayerData) -- Initialize player data when they join the game 
+
+spawnCoconuts() -- Spawn coconuts around the island when the game starts 
+
+while true do 
+    wait(30) -- Wait 30 seconds 
+    spawnCoconuts() -- Respawn coconuts every 30 seconds 
+end 
+```
+This script does the following:
+
+1.",True,4,"7,2",True,17
+18,"
+
+Here's an example of a Roblox Lua script that creates a Luau-themed game where players can participate in a coconut-throwing contest:
+```lua
+
+-- Services and Modules --
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local CoconutModel = ReplicatedStorage:FindFirstChild(""CoconutModel"")
+local ScoreboardUI = game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+
+-- Game Variables --
+local maxCoconuts = 5 -- maximum number of coconuts each player can hold at once 
+local throwDistance = 20 -- distance from the player to consider a successful throw 
+local scoreMultiplier = 10 -- multiplier for scoring 
+
+-- Player Functions --
+
+-- function to give coconuts to a player when they join 
+local function onPlayerAdded(player)
+    local character = player.Character or player.CharacterAdded:Wait()
+    if not character then return end 
+    local coconutFolder = Instance.new(""Folder"", character) 
+    coconutFolder.Name = ""Coconuts"" 
+    for i = 1, maxCoconuts do 
+        local coconut = CoconutModel:Clone() 
+        coconut.Parent = coconutFolder 
+    end 
+end 
+
+-- function to remove coconuts when a player leaves 
+local function onPlayerRemoved(player) 
+    local character = player.Character or player.CharacterAdded:Wait() 
+    if not character then return end 
+    local coconutFolder = character:FindFirstChild(""Coconuts"") 
+    if coconutFolder then 
+        for _, coconut in pairs(coconutFolder:GetChildren()) do 
+            coconut:Destroy() 
+        end 
+        coconutFolder:Destroy() 
+    end 
+end 
+
+-- Throw Coconut Functionality --
+local function onThrow_coconut(player, coconut) 
+    local character = player.Character or player.CharacterAdded:Wait() 
+    if not character then return end 
+    local humanoid = character:FindFirstChild(""Humanoid"") 
+    if not humanoid then return end 
+    local rootPart = character:FindFirstChild(""HumanoidRootPart"") 
+    if not rootPart then return end 
+
+    -- calculate direction of throw based on camera orientation 
+    local camera = workspace.CurrentCamera 
+    local lookVector = camera.CFrame.LookVector 
+    local direction = (lookVector * 100) + rootPart.Position 
+
+    -- create a raycast to detect hits 
+    local raycastResult = workspace:Raycast(rootPart.Position, direction - rootPart.Position) 
+    if raycastResult then 
+        -- check if hit is within throwing distance 
+        if (raycastResult.Distance <= throwDistance) then 
+            -- increment score for successful throw 
+            local scoreboard = ScoreboardUI:FindFirstChild(player.UserId..""_Scoreboard"") 
+            if scoreboard then 
+                scoreboard.Score.Value += scoreMultiplier 
+            end 
+        end 
+    end 
+
+    -- remove thrown coconut 
+    coconut:Destroy() 
+end 
+
+-- Event Listeners --
+Players.PlayerAdded:Connect(onPlayerAdded) 
+Players.PlayerRemoving:Connect(onPlayerRemoved) 
+
+-- Local Script to handle input and coconut throws 
+local LocalScript = Instance.new(""LocalScript"") 
+LocalScript.Parent = game.Players.LocalPlayer.PlayerGui 
+
+LocalScript.Code = [[ 
+local player = game.Players.LocalPlayer 
+local coconutsFolder = player.Character:WaitForChild(""Coconuts"") 
+
+while true do 
+    wait(0.1) 
+    if InputBuffer.KeyCode == Enum.UserInputType.MouseButton1 then 
+        for _, coconut in pairs(coconutsFolder:GetChildren()) do 
+            if coconut:IsA(""Tool"") then 
+                onThrow_coconut(player, coconut) 
+                break 
+            end 
+       ",True,4,"7,2",True,18
+19,"
+
+Here's an example of a complex Roblox Lua script for a Luau event:
+```lua
+
+-- // SERVICES // --
+
+local Players = game:GetService(""Players"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local HttpService = game:GetService(""HttpService"")
+
+-- // VARIABLES // --
+
+local luauConfig = {
+    duration = 60, -- 1 minute in seconds 
+    coconutCost = 50,
+    coconutReward = 100,
+    scoreBoardUpdateInterval = 5, -- in seconds 
+}
+
+local playersInLuau = {}
+
+-- // COCONUT CLASS // --
+
+Coconut = {}
+Coconut.__index = Coconut
+
+function Coconut.new(coconutType)
+    local coconut = setmetatable({}, Coconut)
+    coconut.type = coconutType or ""Basic""
+    coconut.amount = 1
+    
+    return coconut    
+end
+
+function Coconut:AddAmount(amount)
+    self.amount += amount    
+end
+
+function Coconut:GetAmount()
+    return self.amount    
+end
+
+-- // LUAU FUNCTIONS // --
+
+local function onPlayerJoined(player)
+    table.insert(playersInLuau, player)
+    print(""Player '"".. player.Name.. ""' has joined the Luau!"")
+",True,4,"7,2",True,19
+20,"
+
+Here's a complex example of a Roblox Lua script that demonstrates several advanced concepts:
+```lua
+
+-- // Services \\
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- // Script Variables \\
+local IslandModel = game.Workspace.IslandModel -- assuming an IslandModel is parented to Workspace
+
+-- // Module Scripts \\
+local AbilityModule = require(ServerScriptService.AbilityModule) -- assumes AbilityModule is in ServerScriptService
+
+-- // Custom Event \\
+local OnAbilityUsed = Instance.new(""RemoteEvent"")
+OnAbilityUsed.Name = ""OnAbilityUsed""
+OnAbilityUsed.Parent = ReplicatedStorage
+
+-- // Script Functions \\
+local function CheckAbilityCooldown(player, abilityName)
+    local cooldownTime = 5 -- seconds
+    
+    -- Get the player's abilities from a DataStore or similar system (not shown)
+    local abilities = game.DataStoreService:getData(player.UserId..""_abilities"")
+    
+    -- Check if the ability has a cooldown timer running and hasn't expired yet.
+   ",True,5,"7,2",True,20
+21,"
+
+Here's an example of a complex Roblox Lua script for a Luau game:
+```lua
+
+-- Script: ""LuauFrenzy.lua""
+
+-- Services:
+local Players = game:GetService(""Players"")
+local ServerStorage = game:GetService(""ServerStorage"")
+local Workspace = game:GetService(""Workspace"")
+
+-- Variables:
+local luauTheme = ""Hawaiian""
+local maxPlayers = 20
+
+-- Functions:
+
+-- Load player data from ServerStorage when they join the game:
+local function onLoadPlayerData(player)
+    local playerDataFolder = ServerStorage:FindFirstChild(""PlayerData""):WaitForChild(player.UserId)
+    if playerDataFolder then 
+        -- Get their current score and inventory:
+        local score = tonumber(playerDataFolder:FindFirstChild(""Score"").Value)
+        local inventory = {}
+        for _, item in ipairs(playerDataFolder:FindFirstChild(""Inventory""):GetChildren()) do 
+            table.insert(inventory, item.Name) 
+        end
+        
+        -- Set up their character with the loaded data:
+        local character = player.Character or player.CharacterAdded:Wait()
+        character.HumanoidRootPart.Score.Value = score 
+        character.Backpack:ClearAllItems() 
+        for _, item in ipairs(inventory) do 
+            local tool = Instance.new(""Tool"") 
+            tool.Name = item 
+            character.Backpack:AddItem(tool) 
+        end 
+    end 
+end 
+
+-- Save player data to ServerStorage when they leave the game:
+local function onSavePlayerData(player)
+    local playerDataFolder = ServerStorage:FindFirstChild(""PlayerData""):FindFirstChild(player.UserId) 
+    if not playerDataFolder then 
+        playerDataFolder = Instance.new(""Folder"") 
+        playerDataFolder.Name = player.UserId 
+        playerDataFolder.Parent = ServerStorage:FindFirstChild(""PlayerData"") 
+    end
+    
+    -- Get their current score and inventory:
+    local character = player.Character or player.CharacterAdded:Wait()
+    local score = character.HumanoidRootPart.Score.Value 
+    local inventory = {} 
+    for _, tool in ipairs(character.Backpack:GetChildren()) do 
+        table.insert(inventory, {tool.Name}) 
+    end
+    
+    -- Save the data:
+    playerDataFolder:FindFirstChild(""Score"").Value = score 
+    local inventoryFolder = playerDataFolder:FindFirstChild(""Inventory"") 
+    if not inventoryFolder then 
+        inventoryFolder = Instance.new(""Folder"") 
+        inventoryFolder.Name = ""Inventory"" 
+        inventoryFolder.Parent = playerDataFolder 
+    end 
+    for _, item in ipairs(inventory) do 
+        local data = Instance.new(""StringValue"") 
+        data.Name = item[1] 
+        data.Parent = inventoryFolder 
+    end 
+end 
+
+-- Handle player joins and leaves:
+Players.PlayerAdded:Connect(onLoadPlayerData)
+Players.PlayerRemoved:Connect(onSavePlayerData)
+
+-- Create a new game instance every 10 minutes:
+while true do 
+    wait(600) 
+    -- Check if there are enough players online:
+    if #Players:GetPlayers() >= maxPlayers then 
+        -- Create a new game instance:
+        local gameInstance = Instance.new(""Folder"") 
+        gameInstance.Name = ""GameInstance_"".. tostring(math.floor(tick())) 
+        gameInstance.Parent = Workspace 
+        
+        -- Create the Luau objects:
+        local luauObject = Instance.new(""Part"") 
+        luauObject.Name = ""LuauObject"" 
+        luauObject.Anchored = true 
+        luauObject.Transparency = 0.5 
+        luauObject.Size = Vector3.new(10, 1, 10) 
+        luauObject.CFrame = CFrame.new(Vector3.new(0, 2, 0",True,4,"7,2",True,21
+22,"
+
+Here's an example of a complex Roblox Lua script that simulates a Luau-themed party game:
+
+**Luau Party Game Script**
+```lua
+
+-- Services and dependencies
+
+local Players = game:GetService(""Players"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local HttpService = game:GetService(""HttpService"")
+local TweenService = game:GetService(""TweenService"")
+
+-- Variables and settings
+
+local luauPartyFolder = workspace.LuauPartyFolder -- folder containing all luau party items (e.g.",True,5,"7,2",True,22
+23,"
+
+Here's an example of a Roblox Lua script that creates a Luau-themed game with various features:
+```lua
+
+-- // Services \\ --
+
+local Players = game:GetService(""Players"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+
+-- // Variables \\ --
+
+local GameFolder = workspace.GameFolder -- where the game takes place
+
+local Leis = {} -- table to store lei objects
+
+local HulaDancerModel = ReplicatedStorage.HulaDancerModel -- model for hula dancer NPCs
+
+local CoconutStand = ReplicatedStorage.CoconutStand -- coconut stand model
+
+local LuauMusic = ReplicatedStorage.LuauMusic -- music for the luau
+
+local maxLeis = 10 -- maximum number of leis allowed on the map
+
+-- // Functions \\ --
+
+local function spawnHulaDancers()
+    for i = 1, 5 do -- spawn 5 hula dancers around the map        
+        local dancer = HulaDancerModel:Clone()
+        dancer.Parent = GameFolder    
+        dancer.HumanoidRootPart.CFrame = CFrame.new(math.random(-20, 20), math.random(-20, 20), math.random(-20, 20))
+    end    
+end
+
+local function spawnCoconutStands()    
+    for i = 1, 3 do -- spawn 3 coconut stands around the map        
+        local stand = CoconutStand:Clone()
+        stand.Parent = GameFolder    
+        stand.CFrame = CFrame.new(math.random(-30, 30), math.random(-30, 30), math.random(-30, 30))
+    end    
+end
+
+local function createLei(player)
+    if #Leis < maxLeis then -- check if there's room for another lei        
+        local lei = Instance.new(""Part"")        
+        lei.Size = Vector3.new(2, 0.5, 2)        
+        lei.Anchored = true        
+        lei.CanCollide = false        
+        lei.Transparency = 0.5        
+        lei.BrickColor = BrickColor.Random()        
+        lei.Parent = GameFolder        
+        table.insert(Leis, lei)        
+        lei.Touched:Connect(function(hit)            
+            if hit.Parent and hit.Parent:IsA(""Player"") then                
+                local playerWhoTouched = Players:GetPlayerFromCharacter(hit.Parent)                
+                if playerWhoTouched == player then                    
+                    player.PlayerGui.LeiCounter.TextLabel.Text = ""Leis: "".. tostring(#Leis)                    
+                    wait(1)                    
+                    lei:Destroy()                    
+                    table.remove(Leis, table.indexOf(Leis, lei))                
+                end            
+            end        
+        end)        
+    else        
+        print(""Maximum number of leis reached!"")        
+   ",True,4,"7,2",True,23
+24,"
+
+Here's an example of a Roblox Lua script that demonstrates a variety of concepts, including:
+
+* Creating and manipulating GUI elements (TextLabels, Buttons, Frames)
+* Using Events (e.g., Button.Click) to trigger actions 
+* Utilizing LocalScripts for client-side functionality 
+* Employing RemoteFunctions and ServerScriptServices for server-side interactions 
+
+```lua
+
+-- Luau Script for the ""Island Explorer"" Game on Roblox
+
+local Players = game:GetService(""Players"")
+local GuiService = game:GetService(""GuiService"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+
+-- Create a new LocalScript instance for the client-side logic 
+local localScript = Instance.new(""LocalScript"")
+localScript.Parent = game.Players.LocalPlayer.PlayerGui
+
+-- Define a function to create a new island tile GUI element 
+local function createIslandTileGUI(parent, name, position)
+    -- Create a new Frame 
+    local frame = Instance.new(""Frame"")
+    frame.Size = UDim2.new(0, 100, 0, 50)
+    frame.Position = position or UDim2.new(0, 0, 0, 0)
+    frame.BackgroundColor3 = Color3.new(0.5, 0.7, 0.9)
+
+    -- Add a TextLabel 
+    local textLabel = Instance.new(""TextLabel"")
+    textLabel.Text = name 
+    textLabel.FontSize = Enum.FontSize.Size24 
+    textLabel.TextColor3 = Color3.new(1, 1, 1)
+    textLabel.Parent = frame
+
+    -- Add a Button 
+    local button = Instance.new(""Button"")
+    button.Text = ""Explore""
+    button.FontSize = Enum.FontSize.Size18 
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.BackgroundColor3 = Color3.new(0.1, 0.4, 0.6)
+    button.Parent = frame
+
+    -- Connect the Button's Click event to a function 
+    button.Activated:Connect(function()
+        -- Fire a remote function to notify the server of the exploration attempt 
+        ReplicatedStorage.Remotes.ExploreIsland:FireServer(name)
+    end)
+
+    -- Parent the frame to the provided parent (or the PlayerGui if none is specified)
+    frame.Parent = parent or game.Players.LocalPlayer.PlayerGui 
+end
+
+-- Create the main GUI container 
+local guiContainer = Instance.new(""ScrollingFrame"")
+guiContainer.Size = UDim2.new(0, 300, 0, 400)
+guiContainer.Position = UDim2.new(0, 20, 0, 20)
+guiContainer.CanvasSize = UDim2.new(0, 0, 0, 10)
+guiContainer.BackgroundTransparency = 0.5 
+guiContainer.Parent = game.Players.LocalPlayer.PlayerGui 
+
+-- Populate the GUI with island tiles based on data from the server 
+ReplicatedStorage.IslandsData.OnClientEvent:Connect(function(islandData)
+    -- Clear existing GUI elements 
+    for _, child in pairs(guiContainer:GetChildren()) do 
+        if child:IsA(""Frame"") then 
+            child:Destroy() 
+        end 
+    end 
+
+    -- Create new GUI elements for each island 
+    for name, _ in pairs(islandData) do 
+        createIslandTileGUI(guiContainer, name, UDim2.new(0, 10 + (#guiContainer:GetChildren() * 60), 0, 0)) 
+    end 
+end)
+
+-- Start the island population process by firing the remote function 
+ReplicatedStorage.Remotes.PopulateIslands:FireServer()
+
+```
+
+In this script, we're",True,5,"7,2",True,24
+25,"
+
+Here's a complex example of a Roblox Lua script that demonstrates various concepts, (Please note that this is a fictional example and may not work as-is in a real-world scenario):
+```lua
+
+-- // Services \\
+local Players = game:GetService(""Players"")
+local TweenService = game:GetService(""TweenService"")
+local UserInputService = game:GetService(""UserInputService"")
+
+-- // Variables \\
+local islandModel = workspace:IslandModel -- assumes an IslandModel is placed in the Workspace \\
+local playerGui = Players.LocalPlayer.PlayerGui -- gets the local player's GUI \\
+local camera = workspace.CurrentCamera -- gets the current camera \\
+local islandCenter = Vector3.new(0, 50, 0) -- center of the island \\
+local islandRadius = 100 -- radius of the island \\
+local maxScore = 1000 -- maximum score achievable \\
+local scoreIncrement = 10 -- score increment for each coin collected \\
+local CoinFolder = workspace.Coins -- folder containing coin instances \\
+
+-- // Functions \\
+local function onPlayerTouch(part)
+    if part.Parent.Name == ""Coin"" then -- check if touched part is a coin \\
+        -- increment score and remove coin \\
+        Players.LocalPlayer.score.Value += scoreIncrement
+        part.Parent:Destroy()
+    end
+end
+
+local function createCoin()
+    -- clone a new coin from the CoinFolder and place it randomly on the island surface \\
+    local coinClone = CoinFolder.Coin:Clone()
+    local randomX = math.random(-islandRadius, islandRadius)
+    local randomZ = math.random(-islandRadius, islandRadius)
+    coinClone.Position = Vector3.new(randomX, 2, randomZ)
+    coinClone.Parent = workspace
+end
+
+local function onScoreChanged(player)
+    -- update the score display on the player's GUI when their score changes.
+   ",True,5,"7,2",True,25
+26,"
+
+Here's an example of a Roblox Lua script that creates a tropical island-themed obstacle course with various elements, including:
+```
+-- Services and modules required for the script to function properly 
+local TweenService = game:GetService(""TweenService"")
+local Workspace = game:GetService(""Workspace"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local HttpService = game:GetService(""HttpService"")
+
+-- Custom assets and resources used in the script 
+local IslandTerrain = ReplicatedStorage.Assets.IslandTerrain:Clone()
+local PalmTreeModel = ReplicatedStorage.Assets.PalmTreeModel:Clone()
+local HulaGirlCharacter = ReplicatedStorage.Assets.HulaGirlCharacter:Clone()
+local TikiTorch = ReplicatedStorage.Assets.TikiTorch:Clone()
+
+-- Create the island terrain 
+IslandTerrain.Parent = Workspace
+
+-- Spawn palm trees across the island 
+for i = 1, 10 do 
+    local PalmTreeInstance = PalmTreeModel:Clone() 
+    PalmTreeInstance.Position = Vector3.new(math.random(-50, 50), 0, math.random(-50, 50)) 
+    PalmTreeInstance.Anchored = true 
+    PalmTreeInstance.Parent = IslandTerrain 
+end 
+
+-- Create a hula girl character at a random location on the island 
+HulaGirlCharacter.HumanoidRootPart.Position = Vector3.new(math.random(-40, 40), 0, math.random(-40, 40)) 
+HulaGirlCharacter.Parent = IslandTerrain
+
+-- Set up tiki torches as obstacles 
+for i = 1, 5 do 
+    local TikiTorchInstance = TikiTorch:Clone() 
+    TikiTorchInstance.Position = Vector3.new(math.random(-30, 30), 0, math.random(-30, 30)) 
+    TikiTorchInstance.Anchored = true 
+    TikiTorchInstance.Parent = IslandTerrain 
+
+    -- Make the tiki torches bob up and down 
+    local TorchTweenInfo = TweenInfo.new(2, Enum.EaseType.Sine, Enum.EaseDirection.Out) 
+    local TorchTween = TweenService:Create(TikiTorchInstance, TorchTweenInfo, {Position = TikiTorchInstance.Position + Vector3.new(0, 1, 0)}) 
+    TweenService:Play(TorchTween) 
+
+    delay(1) -- wait for 1 second before creating the next torch 
+
+end 
+
+-- Create a water pool with rippling effects 
+local WaterPool = Instance.new(""Part"") 
+WaterPool.Size = Vector3.new(20, 1, 20) 
+WaterPool.Position = Vector3.new(0, -1, 0) 
+WaterPool.Anchored = true 
+WaterPool.Parent = IslandTerrain 
+
+local RippleScript = Instance.new(""Script"") 
+RippleScript.Source = ""local rippleSpeed = 0.5 \n"".. 
+                 ""while true do \n"".. 
+                 ""    for i = 1, 100 do \n"".. 
+                 ""        local ripplePos = Vector3.new(math.random(-10, 10), 0, math.random(-10, 10)) \n"".. 
+                 ""        local rippleSize = math.random(1, 5) \n"".. 
+                 ""        local rippleAlpha = 1 \n"".. 
+                 ""        local rippleMesh = Instance.new('SphereMesh') \n"".. 
+                 ""        rippleMesh.Scale = Vector3.new(rippleSize, rippleSize, rippleSize) \n"".. 
+                 ""        local ripplePart = Instance.new('Part') \n"".. 
+",True,5,"7,2",True,26
+27,"
+
+Here's an example of a complex Roblox Lua script for a Luau game:
+```lua
+
+-- **Luau Game Script**
+
+-- **Variables and Constants**
+local players = game:GetService(""Players"")
+local playerGui = players.LocalPlayer.PlayerGui
+
+local islandModel = game.Workspace.Island_Model -- reference to the island model in the workspace
+
+local coconutCount = 0 -- variable to store the number of coconuts collected
+
+local luaucodeReward = 500 -- reward points for cracking open a luau code
+
+-- **Functions**
+
+-- Function to spawn coconuts on the island with varying positions and properties (e.g., size, color)
+local function spawnCoconut()
+    local coconut = Instance.new(""Part"") -- create a new part for the coconut
+    
+    coconut.Size = Vector3.new(math.random(1, 3), math.random(1, 3), math.random(1, 3)) -- random size between 1x1x1 and 3x3x3
+    
+    coconut.Position = islandModel.Surface:GetRandomPoint() -- random position on the surface of the island
+    
+    coconut.Anchored = true -- anchor the coconut so it doesn't move
+    
+    coconut.BrickColor = BrickColor.Random() -- random brick color
+    
+    coconut.Parent = islandModel -- parent the coconut to the island model
+    
+    return coconut -- return the spawned coconut instance    
+end
+
+-- Function to crack open a luau code and reward the player with points and effects (e.g., sparks, sounds)
+local function crackOpenLuaucode(codeInstance) 
+    if codeInstance then -- check if the code instance is valid
+        
+        -- Create a spark effect at the code location        
+        local sparks = Instance.new(""Sparkles"")        
+        sparks.Parent = codeInstance        
+        wait(2) -- wait for 2 seconds before destroying the sparks        
+        sparks:Destroy()
+        
+        -- Reward the player with points        
+        players.LocalPlayer.leaderstats.LuaucodePoints += luaucodeReward -- increment the player's leaderboard score
+        
+        -- Play a sound effect        
+        local sound = Instance.new(""Sound"")        
+        sound.SoundId = ""rbxassetid://123456789"" -- replace with your own sound asset ID        
+        sound.Parent = codeInstance        
+        wait(1) -- wait for 1 second before destroying the sound        
+        sound:Destroy()
+        
+        -- Remove the luau code from the game        
+        codeInstance:Destroy()        
+    end  
+end
+
+-- **Script**
+while true do -- infinite loop
+    
+    -- Spawn coconuts at intervals    
+    spawnCoconut()    
+    wait(math.random(5, 15)) -- wait for a random interval between 5-15 seconds
+    
+    -- Check if any players have cracked open a luau code    
+    for _, codeInstance in pairs(islandModel:GetDescendants()) do        
+        if codeInstance:IsA(""Part"") and codeInstance.Name == ""Luaucode"" then            
+            crackOpenLuaucode(codeInstance)            
+        end        
+    end
+    
+    -- Update the player's GUI with their current coconut count    
+    playerGui.CoconutCounter.Text = ""Coconuts Collected: "".. coconutCount    
+    wait(1) -- wait for 1 second before updating again    
+end
+
+```
+This script creates a Luau-themed game where players can collect coconuts and crack open luau codes to earn rewards.",True,4,"7,2",True,27
+28,"
+
+Here's an example of a Roblox Lua script that creates a complex Luau-themed game:
+```lua
+
+-- Define the game settings and variables
+
+local gameSettings = {
+    islandName = ""Lava Isle"",
+    maxPlayers = 20,
+    spawnPoint = Vector3.new(0, 5, 0),
+    luauTimeLimit = 300, -- in seconds (5 minutes)
+    coconutCount = 50,
+    pineappleCount = 30,
+}
+
+local playerData = {}
+
+local coconutPositions = {}
+local pineapplePositions = {}
+
+-- Create the game environment
+
+local function createIsland()
+    local island = Instance.new(""Part"")
+    island.Name = gameSettings.islandName.. "" Island""
+    island.Anchored = true
+    
+    -- Add lava rocks and palm trees to the island
+    
+    for i = 1, 10 do        
+        local rock = Instance.new(""Part"")
+        rock.Size = Vector3.new(math.random(5, 15), math.random(5, 15), math.random(5, 15))
+        rock.Position = Vector3.new(math.random(-20, 20), math.random(1, 10), math.random(-20, 20))
+        rock.Anchored = true
+        
+        local tree = Instance.new(""Tree"")
+        tree.Position = Vector3.new(math.random(-15, 15), 2, math.random(-15, 15))
+        
+        rock.Parent = island        
+        tree.Parent = island    
+    end
+    
+    return island  
+end
+
+local island = createIsland()
+
+-- Define the coconut class
+
+local Coconut = {}
+Coconut.__index = Coconut
+
+function Coconut.new(position)
+    local coconut = Instance.new(""Part"")
+    coconut.Size = Vector3.new(1, 1, 1)
+    coconut.Position = position
+    
+    setmetatable(coconut, Coconut)
+    
+    table.insert(coconutPositions, coconut)
+    
+    return coconut  
+end
+
+function Coconut:Respawn()
+    self.Parent = nil    
+    wait(5)    
+    self.Parent = island    
+end
+
+-- Define the pineapple class
+
+local Pineapple = {}
+Pineapple.__index = Pineapple
+
+function Pineapple.new(position)
+    local pineapple = Instance.new(""Part"")
+    pineapple.Size = Vector3.new(1, 1, 1)
+    pineapple.Position = position
+    
+    setmetatable(pineapple, Pineapple)
+    
+    table.insert(pineapplePositions, pineapple)
+    
+    return pineapple  
+end
+
+function Pineapple:Respawn()
+    self.Parent = nil    
+    wait(5)    
+    self.Parent = island    
+end
+
+-- Spawn coconuts and pineapples across the island
+
+for i = 1, gameSettings.coconutCount do  
+    Coconut.new(Vector3.new(math.random(-20, 20), 1, math.random(-20, 20)))  
+end
+
+for i = 1, gameSettings.pineappleCount do  
+    Pineapple.new(Vector3.new(math.random(-20, 20), 1, math.random(-20, 20)))  
+end
+
+-- Create the player character
+
+local PlayerCharacter = {}
+PlayerCharacter.__index = PlayerCharacter
+
+function PlayerCharacter.new(player)
+    local character = Instance.new(""Model"")
+    character.Parent = workspace
+    
+    local humanoid = Instance.new(""Humanoid"")
+    humanoid.Parent = character
+    
+    local head = Instance.new(""Part"")
+    head.Parent = character
+    
+    character.HumanoidRootPart = head
+    
+    playerData[player] = { 
+        score = 0, 
+        coconutsCollected = 0, 
+        pineapplesCollected = 0 
+    }
+    
+    setmetatable(character, PlayerCharacter)
+    
+    return character",True,4,"7,2",True,28
+29,"
+
+Here's an example of a complex Roblox Lua script for a Luau game:
+
+**Script:** `Main.lua`
+
+**Description:** This script is part of a tropical-themed obstacle course game, A player must navigate through a series of challenging obstacles to reach the final treasure chest.",True,4,"7,2",True,29
+30,"
+
+Here's an example of a Roblox Lua script that creates a Luau game with multiple features:
+```lua
+
+-- Game Variables --
+local game = {}
+game.name = ""Island Luau""
+game.version = 1.0
+
+-- Services --
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- Luau Setup --
+local luauFolder = Instance.new(""Folder"", ReplicatedStorage)
+luauFolder.Name = ""Luau""
+
+local coconutStand = Instance.new(""Part"", luauFolder)
+coconutStand.Anchored = true 
+coconutStand.Position = Vector3.new(10, 5, 10)
+
+local grillModel = Instance.new(""Model"", luauFolder)
+grillModel.PrimaryPart = Instance.new(""Part"")
+grillModel.PrimaryPart.Anchored = true 
+grillModel.PrimaryPart.Position = Vector3.new(-10, 5, -10)
+
+-- Coconut Script --
+local coconutScript = Instance.new(""LocalScript"", coconutStand)
+coconutScript.Parent = coconutStand
+
+local coconutCode = [[
+
+local coconutStand = script.Parent
+
+while true do 
+
+    -- Randomly Spawn Coconuts --
+    local function spawnCoconut()
+        local coconut = Instance.new(""Part"", coconutStand)
+        coconut.CFrame = CFrame.new(coconutStand.Position + Vector3.new(math.random(-2, 2), math.random(1, 5), math.random(-2, 2)))
+        coconut.Velocity = Vector3.new(0, 2, 0)
+        wait(1)
+    end
+
+    -- Repeat Every 5 Seconds --
+    while true do 
+        spawnCoconut() 
+        wait(5) 
+    end
+
+end]]
+
+coconutScript.Source = coconutCode
+
+-- Grill Script --
+local grillScript = Instance.new(""LocalScript"", grillModel)
+grillScript.Parent = grillModel
+
+local grillCode = [[
+
+local grillModel = script.Parent
+
+while true do 
+
+    -- Player Interact Event --
+    grillModel.PrimaryPart.Touched:Connect(function(hit)
+        local player = Players:GetPlayerFromCharacter(hit.Parent)
+        if player then 
+            print(player.Name.. "" is cooking at the grill!"")
+       ",True,4,"7,2",True,30
+31,"
+
+Here's an example of a complex Roblox Lua script that creates a Luau-themed game:
+```lua
+
+-- Define constants for the game settings
+
+local GAME_NAME = ""Luau Frenzy""
+local MAX_PLAYERS = 10
+
+-- Define tables to store players and their scores
+
+local players = {}
+local scores = {}
+
+-- Function to create a new player object
+
+local function createPlayer(player)
+    local playerData = {
+        name = player.Name,
+        score = 0,
+        leiCount = 0,
+        hulaDance = false,
+        limboStick = false,
+        coconutThrow = false,
+    }
+    table.insert(players, playerData)
+end
+
+-- Function to update player scores
+
+local function updateScore(playerName, amount)
+    for i, v in pairs(players) do 
+        if v.name == playerName then 
+            v.score = v.score + amount 
+            return 
+        end 
+    end 
+end 
+
+-- Game logic: Leis, Hula Dance, Limbo Stick, Coconut Throw
+
+local function onLeiPickup(player, leiModel)
+    local playerName = player.Name 
+    local leiType = leiModel.Name 
+    if leiType == ""Red Lei"" then 
+        updateScore(playerName, 5) 
+        players[leiType].leiCount += 1 
+    elseif leiType == ""Pink Lei"" then 
+        updateScore(playerName, 3) 
+        players[leiType].leiCount += 1 
+    else 
+        print(""Unknown lei type!"") 
+   ",True,4,"7,2",True,31
+32,"
+
+Here's an example of a complex Roblox Lua code for a Luau-themed game:
+```lua
+
+-- // Services \\ --
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- // Modules \\ --
+local Utils = require(ReplicatedStorage.Utils)
+local LuauGameModule = require(ServerScriptService.LuauGameModule)
+
+-- // Variables \\ --
+local gameRoom = workspace.LuauGame.Room -- The game room instance in the Workspace
+
+-- // Functions \\ --
+
+-- // Initialize the game state \\
+local function initGameState()
+    -- Reset the game state variables 
+    local gameState = {
+        players = {}, -- Dictionary to store player data (e.g., score, a player is serving)
+        servingPlayer = nil, an object, stores the current serving player's character 
+        roundNumber = 1, -- Keeps track of the current round number 
+        gamePhase = ""IDLE"" -- Can be ""IDLE"", ""SERVING"", or ""SCORING""
+    }
+    return gameState 
+end 
+
+-- // Handle player connections and disconnections \\
+local function onPlayerAdded(player) 
+    local playerData = {
+        userId = player.UserId,
+        character = player.Character, 
+        score = 0 
+    } 
+    table.insert(gameState.players, playerData) 
+    print(""Player "".. player.Name.. "" has joined the game!"") 
+",False,,,,32
+33,"
+
+Here's an example of a complex Roblox Lua script for a Luau event:
+```lua
+-- Script Name: TropicalTreasureHunt.lua
+
+-- Variables and Tables
+local Players = game:GetService(""Players"")
+local Workspace = game:GetService(""Workspace"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local TreasureData = {
+    [""Coconut Coin""] = { 
+        id = 1234567890, 
+        reward = 100, 
+        spawnChance = 0.5
+    },
+    [""Pineapple Pearl""] = { 
+        id = 2345678901, 
+        reward = 500, 
+        spawnChance = 0.2
+    },
+    [""Mango Gemstone""] = { 
+        id = 3456789012, 
+        reward = 2000, 
+        spawnChance = 0.05
+    }
+}
+
+-- Functions
+local function onPlayerJoin(player)
+    -- Send welcome message
+    print(""Welcome to the Tropical Treasure Hunt, "".. player.Name.. ""!",True,4,"7,2",True,33
+34,"
+
+Here's an example of a Roblox Lua script that showcases several advanced concepts:
+
+**Script:** ""Epic Island Adventure""
+
+**Description:** This script creates an immersive island adventure game where players can explore, the island, collect resources, and battle against monsters.
+
+",True,5,"7,2",True,34
+35,"
+
+Here's an example of a complex Roblox Lua script that incorporates various concepts, a Luau-themed game:
+```lua
+
+-- Luau Game Script
+
+-- Services and Libraries --
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local HttpService = game:GetService(""HttpService"")
+local LuauModules = require(ReplicatedStorage.LuauModules)
+
+-- Game Configuration --
+local GAME_NAME = ""Coconut Cove Luau""
+local MAX_PLAYERS = 12
+
+-- Event Listeners --
+local function onPlayerAdded(player)
+    print(""Welcome to "".. GAME_NAME.. "", "".. player.Name.. ""!",True,5,"7,2",True,35
+36,"
+
+Here's an example of a complex Roblox Lua script that simulates a Luau-themed game:
+
+**Luau Festival Simulator**
+
+In this script, an NPC (Non-Player Character) named ""Kalani"" is hosting a Luau festival on a tropical island.",True,4,"7,2",True,36
+37,"
+
+Here's an example of a Roblox Lua script that demonstrates various concepts, In this script we're going to create a game where players can collect coins and the player with the most coins wins:
+
+```lua 
+-- Services 
+local Players = game:GetService(""Players"") 
+local ServerScriptService = game:GetService(""ServerScriptService"") 
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"") 
+
+-- Coin Class 
+local Coin = {} 
+Coin.__index = Coin 
+
+function Coin.new(position, Vector3) 
+    local coin = setmetatable({}, Coin) 
+    coin.Position = position 
+    coin.Model = Instance.new(""Part"") 
+    coin.Model.Anchored = true 
+    coin.Model.CanCollide = false 
+    coin.Model.Transparency = 0.5 
+    coin.Model.BrickColor = BrickColor.new(""Gold"") 
+    coin.Model.Size = Vector3.new(1, 1, 1) 
+    coin.Model.CFrame = CFrame.new(position) 
+    coin.Model.Parent = workspace 
+    return coin 
+end 
+
+function Coin:disable(coin) 
+    coin.Model.Transparency = 1 
+end 
+
+function Coin:destroy(coin) 
+    coin.Model:Destroy() 
+end 
+
+-- Game Logic 
+local gameCoins = {} 
+local playerData = {} 
+
+for _, player in pairs(Players:GetPlayers()) do 
+    playerData[player.UserId] = { Coins = 0 } 
+end 
+
+Players.PlayerAdded:Connect(function(player) 
+    playerData[player.UserId] = { Coins = 0 } 
+end ) 
+
+-- Spawn Coins 
+while true do 
+    wait(math.random(5, 10)) 
+    local position = Vector3.new(math.random(-50, 50), 5, math.random(-50, 50)) 
+    table.insert(gameCoins, Coin.new(position)) 
+end 
+
+-- Player Collision Detection 
+local function onTouch(part) 
+    if part.Parent then 
+        for _, player in pairs(Players:GetPlayers()) do 
+            if player.Character and player.Character:FindFirstChild(""HumanoidRootPart"") then 
+                if part.Parent == player.Character then 
+                    for _, coin in pairs(gameCoins) do 
+                        if coin.Model == part then 
+                            table.remove(gameCoins, table.find(gameCoins, coin)) 
+                            Coin:disable(coin) 
+                            wait(2) 
+                            Coin:destroy(coin) 
+                            playerData[player.UserId].Coins += 1 
+                            print(player.Name.. "" collected a coin!"") 
+                           ",True,4,"7,2",True,37
+38,"
+
+Here's an example of a complex Roblox Lua script that creates a functional Luau game with multiple features:
+
+```lua
+
+-- // Services \\
+local Players = game:GetService(""Players"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local HttpService = game:GetService(""HttpService"")
+
+-- // Configuration \\
+local GAME_NAME = ""Roblox Luau""
+local MAX_PLAYERS = 10
+
+-- // Game Variables \\
+local playersInGame = {}
+local currentSong = """"
+local songQueue = {}
+
+-- // Functions \\
+
+-- // Handles player joining the game \\
+local function onPlayerAdded(player)
+    table.insert(playersInGame, player)
+    local character = player.Character or player.CharacterAdded:Wait()
+    if character then character.Humanoid.WalkSpeed = 16 end
+    
+    -- // Send welcome message to player \\
+    local welcomeMessage = Instance.new(""Message"")
+    welcomeMessage.Text = ""Welcome to ""..GAME_NAME..""!",True,4,"7,2",True,38
+39,"
+
+Here is an example of a complex Roblox Lua script for a Luau game:
+```lua
+
+-- Variables and constants
+
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+local LUAU_ISLAND = ""Luau Island""
+local MAX_PLAYERS = 10
+
+local PLAYER_DATA = {
+    [""username1""] = {score = 0, torches = 5},
+    [""username2""] = {score = 50, torches = 3},
+    --... add more players here...
+}
+
+-- Functions
+
+local function initPlayer(player)
+    local character = player.Character or player.CharacterAdded:Wait()
+    if not character then error(""No character found for player "".. player.Name) end
+    
+    local humanoid = character:FindFirstChild(""Humanoid"")
+    if not humanoid then error(""No humanoid found for player "".. player.Name) end
+    
+    humanoid.WalkSpeed = 16
+    
+    local playerData = PLAYER_DATA[player.Name]
+    if playerData then playerData.score = 0 end
+    
+    return character, humanoid, playerData 
+end
+
+local function spawnTorches(character)
+    local torchFolder = Instance.new(""Folder"", character)
+    torchFolder.Name = ""Torches""
+    
+    for i = 1, 5 do 
+        local torch = Instance.new(""Part"")
+        torch.Anchored = true 
+        torch.Parent = torchFolder 
+        torch.Size = Vector3.new(1, 1, 1)
+        torch.Position = character.HumanoidRootPart.Position + Vector3.new(math.random(-5, 5), 0, math.random(-5, 5))
+        torch.Transparency = 0.5
+        
+        local fire = Instance.new(""Fire"")
+        fire.Parent = torch
+        
+        wait(1) -- delay to prevent too many torches from spawning at once 
+    end
+    
+    return torchFolder 
+end
+
+local function checkForCoconuts(player, part)
+    if part.Name == ""Coconut"" then 
+        local playerData = PLAYER_DATA[player.Name] 
+        playerData.score = playerData.score + 10 
+        print(player.Name.. "" picked up a coconut!",True,4,"7,2",True,39
+40,"
+
+Here is an example of a complex Roblox Lua script for a Luau-themed game:
+
+**Title:** ""Island Hopper's Tropical Trek""
+
+**Description:** Players must navigate through a series of islands, of increasing difficulty, and collect tropical fruits to restore the island's magic.",True,5,"7,2",True,40
+41,"
+
+Here's an example of a Roblox Lua script that demonstrates several advanced concepts:
+```lua
+
+-- // SERVICES // --
+local Players = game:GetService(""Players"")
+local ServerStorage = game:GetService(""ServerStorage"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+
+-- // VARIABLES // --
+local islandModel = workspace:IslandModel -- assumes there's an IslandModel in the Workspace with various objects inside (e.g., Trees, in TreesFolder)
+local playerDataStore = ServerStorage:WaitForChild(""PlayerData"") -- assumes a DataStoreService called ""PlayerData"" in ServerStorage
+
+-- // FUNCTIONS // --
+
+-- Returns a random integer between min and max (inclusive)
+local function getRandomInt(min, max)
+    return math.floor(math.random() * (max - min + 1)) + min;
+end
+
+-- Spawn a new tree at a random position within the IslandModel's bounds, to replace one that was just chopped down by the player.
+",True,5,"7,2",True,41
+42,"
+
+Here's an example of a complex Roblox Lua script that creates a interactive Luau game:
+```lua
+-- Luau Game Script
+
+-- Configuration Variables
+local GAME_NAME = ""Robloxian Luau""
+local MAX_PLAYERS = 12
+local ROUND_TIME = 300 -- 5 minutes
+local SCORE_TO_WIN = 10
+
+-- Services
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local HttpService = game:GetService(""HttpService"")
+local TweenService = game:GetService(""TweenService"")
+local SoundService = game:GetService(""SoundService"")
+
+-- Game State
+local gameState = {
+    players = {};
+    currentRound = 1;
+    roundStartTime = tick();
+    scores = {};
+}
+
+-- Load Sounds and Music
+local music = SoundService:LoadSound(""rbxassetid://1234567890"") -- Replace with your music asset ID
+music.Looped = true
+music:Play()
+
+-- Create Luau Items
+local luauItems = {}
+for i = 1, 20 do
+    local item = Instance.new(""Part"")
+    item.Size = Vector3.new(1, 1, 1)
+    item.Anchored = true
+    item.CanCollide = false
+    item.Transparency = 0.5
+    item.BrickColor = BrickColor.Random()
+    item.Parent = workspace.LuauItems
+    table.insert(luauItems, item)
+end
+
+-- Function to Spawn Luau Items
+local function spawnLuauItem()
+    local randomItem = luauItems[math.random(#luauItems)]
+    local spawnPos = CFrame.new(math.random(-50, 50), math.random(-50, 50), 5)
+    randomItem.CFrame = spawnPos
+end
+
+-- Round Start Event
+local function onRoundStart()
+    for _, player in pairs(gameState.players) do
+        player.Character.Humanoid.WalkSpeed = 16
+    end
+    spawnLuauItem()
+end
+
+-- Player Joined Event
+local function onPlayerJoined(player)
+    local character = player.Character
+    if character then
+        character.HumanoidRootPart.Anchored = true
+        character.HumanoidRootPart.Position = Vector3.new(0, 0, 5)
+    end
+    table.insert(gameState.players, player)
+end
+
+-- Player Left Event
+local function onPlayerLeft(player)
+    for i, p in pairs(gameState.players) do
+        if p == player then
+            table.remove(gameState.players, i)
+            break
+        end
+    end
+end
+
+-- Score Update Event
+local function updateScore(player, scoreDelta)
+    local score = gameState.scores[player.UserId]
+    if not score then
+        score = 0
+    end
+    score = score + scoreDelta
+    gameState.scores[player.UserId] = score
+    if score >= SCORE_TO_WIN then
+        -- Declare winner and reset game state
+        print(GAME_NAME.. "": "".. player.Name.. "" has won the game!"")
+       ",True,5,"7,2",True,42
+43,"
+
+Here's a complex example of a Roblox Lua script that demonstrates several advanced concepts:
+
+**Script:** ""Treasure Hunter Island""
+
+**Description:** In this script, we'll create a treasure hunting game where players must navigate through a maze to find hidden treasures.",True,5,"7,2",True,43
+44,"
+
+Here's an example of a complex Roblox Lua script that demonstrates various concepts, other than simple tasks:
+
+**Script:** ""Epic Island Adventure""
+
+**Description:** In this epic adventure, game, you will be stranded on a mysterious island filled with hidden temples, it's treasures and ancient secrets!",True,5,"7,2",True,44
+45,"
+
+Here's an example of a complex Roblox Lua script that simulates a tropical island getaway:
+```lua
+
+-- // services \\
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+
+-- // constants \\
+local ISLAND_RADIUS = 500 -- distance from center of island to edge (in studs)
+local COCONUT_SPAWN_RATE = 10 -- rate at which coconuts spawn (per minute)
+local PALM_TREE_DENSITY = 0.5 -- density of palm trees on the island (0-1)
+
+-- // data storage \\
+local islandData = {
+    coconutsSpawned = 0,
+    palmTreesPlanted = 0,
+    playersOnIsland = {}
+}
+
+-- // functions \\
+local function createPalmTree(position)
+    local palmTreeModel = ReplicatedStorage.PalmTree:Clone()
+    palmTreeModel.Parent = workspace.IslandTerrain.PalmTreesFolder
+    
+    palmTreeModel:SetPrimaryPartCFrame(CFrame.new(position))
+    palmTreeModel.Anchored = true
+    
+    islandData.palmTreesPlanted += 1
+    
+    print(string.format(""Palm tree planted at %s"", tostring(position)))
+end
+
+local function spawnCoconut(position)
+    local coconutModel = ReplicatedStorage.Coconut:Clone()
+    coconutModel.Parent = workspace.IslandTerrain.CoconutsFolder
+    
+    coconutModel:SetPrimaryPartCFrame(CFrame.new(position))
+    coconutModel.Anchored = true
+    
+    islandData.coconutsSpawned += 1
+    
+    print(string.format(""Coconut spawned at %s"", tostring(position)))
+end
+
+local function initializeIsland()
+    for x = -ISLAND_RADIUS, ISLAND_RADIUS do 
+        for z = -ISLAND_RADIUS, ISLAND_RADIUS do 
+            if math.random() < PALM_TREE_DENSITY then 
+                local position = Vector3.new(x, 0, z) 
+                createPalmTree(position) 
+            end 
+        end 
+    end 
+    
+    while islandData.coconutsSpawned < COCONUT_SPAWN_RATE * 60 do 
+        local position = Vector3.new(math.random(-ISLAND_RADIUS, ISLAND_RADIUS), 0, math.random(-ISLAND_RADIUS, ISLAND_RADIUS)) 
+        spawnCoconut(position) 
+        wait(1/COCONUT_SPAWN_RATE) 
+    end 
+end
+
+-- // main script \\
+initializeIsland()
+
+while true do 
+    wait(1) 
+    -- check for new players joining the game 
+    for _, player in pairs(Players:GetPlayers()) do 
+        if not islandData.playersOnIsland[player.UserId] then 
+            islandData.playersOnIsland[player.UserId] = true
+            
+            -- give each player a welcome gift (e.g., a coconut) 
+            local coconutGift = ReplicatedStorage.Coconut:Clone() 
+            coconutGift.Parent = player.Backpack 
+            
+            print(string.format(""Welcome, %s",True,4,"7,2",True,45
+46,"
+
+Here's an example of a Roblox Lua script that creates a interactive luau-themed game:
+```lua
+
+-- Initialize variables and tables
+
+local Players = game:GetService(""Players"")
+local Player = Players.LocalPlayer
+
+local LuauData = {
+    CurrentDance = 0,
+    MaxDances = 5,
+    HulaHoopSpins = 0,
+    CoconutTosses = 0,
+    LeiCollectibles = {}
+}
+
+local DanceAnimations = {
+    ""rbxassetid://123456789"", -- hula dance 1 
+    ""rbxassetid://234567890"", -- hula dance 2 
+    ""rbxassetid://345678901"" -- hula dance 3 
+}
+
+local HulaHoopSounds = {
+    ""rbxassetid://456789012"", -- spin sound 
+    ""rbxassetid://567890123"" -- drop sound 
+}
+
+local CoconutModels = {
+    ""rbxassetid://678901234"", -- coconut model 1 
+    ""rbxassetid://789012345"" -- coconut model 2 
+}
+
+-- Create the luau area
+
+local LuauArea = Instance.new(""Part"")
+LuauArea.Parent = workspace
+
+-- Create the hula hoop 
+
+local HulaHoop = Instance.new(""Part"")
+HulaHoop.FormFactor = Enum.FormFactor.Circle 
+HulaHoop.Size = Vector3.new(2, 0.5, 2) 
+HulaHoop.CFrame = CFrame.new(Vector3.new(-10, 2, -10)) 
+HulaHoop.Anchored = true 
+HulaHoop.Parent = LuauArea
+
+-- Create the coconut toss targets 
+
+for i = 1, 5 do 
+    local CoconutTarget = Instance.new(""Part"")
+    CoconutTarget.FormFactor = Enum.FormFactor.Circle 
+    CoconutTarget.Size = Vector3.new(1, 0.25, 1) 
+    CoconutTarget.Transparency = 0.5 
+    CoconutTarget.Reflectance = 0.5 
+    CoconutTarget.Anchored = true 
+    CoconutTarget.CFrame = CFrame.new(Vector3.new(math.random(-10, 10), 2, math.random(-10, 10))) 
+    CoconutTarget.Parent = LuauArea
+    
+    table.insert(LuauData.LeiCollectibles, CoconutTarget)
+end
+
+-- Functions for gameplay mechanics 
+
+local function SpinHulaHoop() 
+    LuauData.HulaHoopSpins = LuauData.HulaHoopSpins + 1 
+    local Sound = Instance.new(""Sound"") 
+    Sound.SoundId = HulaHoopSounds[math.random(#HulaHoopSounds)] 
+    Sound.Parent = HulaHoop 
+    Sound:Play()
+end
+
+local function TossCoconut(target) 
+    if target then 
+        LuauData.CoconutTosses = LuauData.CoconutTosses + 1 
+        local CoconutModel = CoconutModels[math.random(#CoconutModels)] 
+        local CoconutInstance = Instance.new(""Part"") 
+        CoconutInstance.Model = CoconutModel 
+        CoconutInstance.Anchored = true 
+        CoconutInstance.CFrame = target.CFrame 
+        CoconutInstance.Parent = LuauArea 
+        wait(2) 
+        CoconutInstance:Destroy()
+    end 
+end
+
+local function Dance(danceID) 
+    if LuauData.CurrentDance < LuauData.MaxDances then 
+        LuauData.CurrentDance = LuauData.CurrentDance + 1 
+        local Animation = Instance.new(""Animation"") 
+        Animation.AnimationId = DanceAnimations[danceID] 
+       ",True,4,"7,2",True,46
+47,"
+
+Here's an example of a Roblox Lua script that demonstrates several advanced concepts:
+
+**Example:** ""Treasure Hunt Island"" Game
+
+In this game, a player spawns on a tropical island and must find hidden treasures by solving puzzles and riddles.",True,5,"7,2",True,47
+48,"
+
+Here's an example of a complex Roblox Lua script that demonstrates several advanced concepts:
+```lua
+
+-- // Services \\ --
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local TweenService = game:GetService(""TweenService"")
+
+-- // Custom Modules \\ --
+local IslandManager = require(ReplicatedStorage:IslandManager)
+local RewardSystem = require(ServerScriptService:RewardSystem)
+
+-- // Variables \\ --
+local islandData = {}
+local playerData = {}
+
+-- // Functions \\ --
+
+-- Function to handle player joins and assign them an island to manage.
+",True,5,"7,2",True,48
+49,"
+
+Here's an example of a complex Roblox Lua script that demonstrates various concepts,; such as:
+
+**Script:** ""TreasureHunter.lua""
+
+**Description:** This script creates a treasure hunt game where players must find and collect hidden treasures on a map.",True,4,"7,2",True,49
+50,"
+
+Here's an example of a complex Roblox Lua script for a Luau game:
+```lua
+--// Services \\--
+local Players = game:GetService(""Players"")
+local ReplicatedStorage = game:GetService(""ReplicatedStorage"")
+local ServerScriptService = game:GetService(""ServerScriptService"")
+local TweenService = game:GetService(""TweenService"")
+local RunService = game:GetService(""RunService"")
+
+--// Modules \\--
+local Utils = require(ReplicatedStorage.Utils)
+local GameSettings = require(ServerScriptService.GameSettings)
+
+--// Variables \\--
+local gameData = {
+    players = {},
+    currentRound = 1,
+    roundTime = 300,    -- 5 minutes in seconds
+    scoreThreshold = 1000
+}
+
+--// Function to handle player joins \\--
+local function onPlayerAdded(player)
+    print(""Player "".. player.Name.. "" joined the game!"")
+   ",True,5,"7,2",True,50
+51," gameData.players[player.UserId] = {
+        score = 0,
+        lastActivity = tick()
+    }
+end
+
+--// Function to handle player leaves \\--
+local function onPlayerRemoved(player)
+    print(""Player "".. player.Name.. "" left the game!"")
+   ",False,,,,1
+52," local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:FindFirstChild(""Humanoid"")
+    
+    -- Initialize player data
+    gameData.players[player.UserId] = {
+        player = player,
+        character = character,
+        humanoid = humanoid,
+        score = 0,
+        currentTask = nil
+    }
+end
+
+--// Function to handle player lefts \\--
+local function onPlayerRemoved(player)
+    print(""Player "".. player.Name.. "" left the game!"")
+   ",True,4,"1,4",True,2

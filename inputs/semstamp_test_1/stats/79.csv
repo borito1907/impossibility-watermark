@@ -1,0 +1,2720 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Smart Auction Contract
+
+struct Bid:
+    bidder: address 
+    amount: uint256 
+
+ Auction: event({bidder: address, amount: uint256 })
+
+@public 
+def __init__(owner: address):
+    self.owner = owner 
+    self.highest_bid = 0 
+    self.highest_bidder = address(0) 
+    self.bids: public(map(address, uint256)) 
+
+@public 
+def place_bid(amount: uint256):
+    assert msg.sender!= self.owner, ""Owner cannot bid""
+    assert amount > 0 ""Invalid bid amount""
+    assert amount > self.highest_bid ""Bid not high enough""
+    
+    # Refund previous highest bidder if they were outbid 
+    if self.highest_bid > 0:
+        send(self.highest_bidder, self.highest_bid)
+        
+    # Update new highest bid and bidder 
+    self.highest_bid = amount 
+    self.highest_bidder = msg.sender 
+    self.bids[msg.sender] = amount
+    
+    log Auction(msg.sender, amount)
+
+@public 
+def end_auction():
+    assert msg.sender == self.owner ""Only owner can end auction""
+    
+    # Send highest bid to owner 
+    send(self.owner, self.highest_bid)
+    
+    # Reset state 
+    self.highest_bid = 0 
+    self.highest_bidder = address(0) 
+    self.bids.clear()
+```
+Let me explain what this contract does:
+
+**Initialization**
+
+The contract is initialized with the owner's address as input.
+
+",True,4,"7,2",True,1
+2,"
+
+Here is a basic example of a smart auction contract written in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address[constant]
+    amount: uint256[constant]
+
+auction: {
+    # Mapping of bids to bidders and amounts (bidder => amount)
+    bids: map(address, I, uint256)
+
+    # The highest bid so far (initialized to er, at the start)
+    highest_bid: uint256 [ constant ]
+
+    # The winner of the auction (initialized to none at the start)
+    winner: address [ constant ]
+
+    # The seller of the item being auctioned (set when the auction starts)
+    seller: address [constant]
+
+    # The item being auctioned (set when the auction starts)
+    item: string [ constant ]
+}
+
+@internal()
+def __init__(seller: address, item: string):
+    self.auction.seller = seller 
+    self.auction.item = item 
+
+@ payable(""ETH"")
+@ external()
+def bid(amount: uint256) :
+    assert msg.sender!= self.auction.seller, ""Seller cannot bid""
+    assert self.auction.highest_bid < amount, ""Bid must be higher than previous highest""
+    self.auction.bids[msg.sender] = amount 
+    self.auction.highest_bid = amount 
+
+@ external()
+def withdraw() -> uint256:
+    if msg.sender == self.auction.winner:
+        transfer(msg.sender, self.auction.highest_bid )
+        return self.auction.highest_bid 
+    else:
+        return 0
+
+@ external()
+def end_auction():
+    assert msg.sender == self.auction.seller, ""Only seller can end auction""
+    self.auction.winner = max(self.auction.bids, key=self.auction.bids.get)
+    emit AuctionEnded(self.auction.item, self.auction.winner, self.auction.highest_bid )
+
+@ event()
+def AuctionEnded(item : string, winner : address, amount : uint256 ):
+    pass
+
+# Only allow the seller to call this function after the auction has ended.
+",True,4,"7,2",True,2
+3,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Auction Contract
+
+# Owner of the contract (the one who creates it)
+owner: public(address)
+
+# The highest bidder and their bid amount 
+highest_bidder: public(address)
+highest_bid: public(wei_value)
+
+# Start time of the auction 
+start_time: public(timestamp)
+
+# End time of the auction 
+end_time: public(timestamp)
+
+# Is the auction currently open? 
+",True,0,"7,2",True,3
+4,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Vyper v0.2.10
+
+struct Bid:
+    bidder: address[public]
+    amount: uint256[public]
+
+auction_manager: public(address)
+bidders: public(map(address, for(Bid)))
+
+highest_bid: public(uint256)
+highest_bidder: public(address)
+
+@external 
+def __init__(manager: address):
+    self.auction_manager = manager
+
+@internal 
+@payable(""ETH"") 
+def bid(amount: uint256) -> bool:
+    # Only allow bids from non-zero addresses 
+    assert msg.sender!= ZERO_ADDRESS, 
+    # Check if the bid is higher than the current highest bid 
+    if amount > self.highest_bid: 
+        # Update the highest bid and bidder 
+        self.highest_bid = amount 
+        self.highest_bidder = msg.sender 
+        # Store the bid 
+        self.bidders[msg.sender] = Bid({ 
+            bidder: msg.sender, 
+            amount: amount 
+        }) 
+    return True 
+
+@internal 
+@only(owner=auction_manager) 
+def close_auction() -> uint256: 
+    # Send the highest bid to the auction manager 
+    send(auction_manager, self.highest_bid) 
+    # Reset the highest bid and bidder 
+    self.highest_bid = 0 
+    self.highest_bidder = ZERO_ADDRESS 
+    # Return the highest bid 
+    return self.highest_bid 
+
+@view 
+@external 
+def get_highest_bid() -> uint256: 
+    # Return the highest bid 
+    return self.highest_bid 
+
+@view 
+@external 
+def get_highest_bidder() -> address: 
+    # Return the highest bidder 
+    return self.highest_bidder 
+```
+This contract allows users to place bids on an auction,ing system.",True,4,"7,2",True,4
+5,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+# Auction settings:
+AUCTION_DURATION: timedelta = 30 minutes  # duration of the auction in minutes
+
+# Event emitted when a bid is placed:
+event BidPlaced(address,er,er, uint256 amount)
+
+# Event emitted when the auction is ended and the winner is declared:
+event AuctionEnded(address winner, uint256 amount)
+
+# Mapping of bidder addresses to their bids:
+bidders: public(map(address, uint256))
+
+# Current highest bid:
+highest_bid: public(uint256) = 0
+
+# Address of the auction owner:
+owner: public(address)
+
+# Timestamp of when the auction starts:
+start_time: public(uint256)
+
+# Function to initialize the auction:
+@external()
+def __init__(owner_address: address):
+    self.owner = owner_address
+
+# Function to place a bid:
+@payable()
+@external()
+def place_bid(amount: uint256):
+    # Check if the auction has already ended:
+    assert block.timestamp - self.start_time <= AUCTION_DURATION * 60
+    
+    # Update the bidder's bid:
+    self.bidders[msg.sender] += amount
+    
+    # Update the current highest bid:
+    if amount > self.highest_bid:
+        self.highest_bid = amount
+    
+    # Emit event:
+    log BidPlaced(msg.sender, amount)
+
+# Function to end the auction:
+@external()
+def end_auction():
+    # Check if the auction has ended:
+    assert block.timestamp - self.start_time >= AUCTION_DURATION * 60
+    
+    # Determine the winner:
+    winner: address = None 
+    max_bid: uint256 = 0 
+    for bidder, bid_amount in self.bidders.items():
+        if bid_amount > max_bid:
+            winner = bidder 
+            max_bid = bid_amount 
+    
+    # Emit event:
+    log AuctionEnded(winner, max_bid)
+    
+    # Transfer funds to the winner:
+    send(winner, max_bid)
+    
+    # Reset the auction state:
+    self.bidders.clear()
+    self.highest_bid = 0
+    
+# Function to withdraw funds by the auction owner:
+@external()
+def withdraw():
+    # Only allow the auction owner to withdraw:
+    assert msg.sender == self.owner
+    
+    # Send all remaining funds to the auction owner:
+    send(self.owner, self.balance())
+```
+This contract allows users to place bids on an item during a fixed period of time (defined by `AUCTION_DURATION`).",True,4,"7,2",True,5
+6,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address/public_key[address]
+    amount: uint256
+
+auction_start_time: public(uint256)
+auction_end_time: public(uint256)
+highest_bid: public(Bid)
+owner: public(address)
+
+@external  
+def __init__(owner: address):
+    self.owner = owner 
+    self.auction_start_time = block.timestamp 
+    self.auction_end_time = self.auction_start_time + 30 minutes 
+
+@view 
+@internal   
+def get_highest_bid() -> Bid:
+    return self.highest_bid
+
+@view 
+@internal   
+def get_auction_status() -> bool:
+    if block.timestamp < self.auction_start_time:
+        return ""Auction has not started""
+    elif block.timestamp > self.auction_end_time:
+        return ""Auction has ended""
+    else:
+        return ""Auction is ongoing""
+
+@payable  
+@external   
+def place_bid(amount: uint256) -> bytes32:
+    # Check that the auction is still open and bid is valid 
+    assert block.timestamp >= self.auction_start_time, ""Auction has not started""
+    assert block.timestamp <= self.auction_end_time, ""Auction has ended""
+    assert amount > 0, ""Bid must be greater than zero"" 
+
+    # Create new bid struct 
+    new_bid: Bid = { 
+        bidder: msg.sender,
+        amount: amount 
+    } 
+
+    # If this is the highest bid so far, update highest_bid 
+    if self.highest_bid == empty or new_bid.amount > self.highest_bid.amount:
+        self.highest_bid = new_bid 
+        return ""New highest bid placed"" 
+    else: 
+        return ""Bid not high enough"" 
+
+@internal    
+def _transfer_ownership(new_owner: address): 
+    self.owner = new_owner
+
+@view 
+@internal 
+def _get_owner() -> address: 
+    return self.owner
+
+@view 
+@internal 
+def _is_owner() -> bool: 
+    return msg.sender == self._get_owner()
+
+@external   
+def end_auction(): 
+    # Only the owner can end the auction 
+    assert msg.sender == self.owner, ""Only owner can end the auction"" 
+    # Check that the auction is over 
+    assert block.timestamp > self.auction_end_time, ""Auction is still ongoing"" 
+    # Transfer ownership to the highest bidder 
+    if self.highest_bid!= empty: 
+        self._transfer_ownership(self.highest_bid.bidder) 
+        return ""Auction ended and ownership transferred"" 
+    else: 
+        return ""No bids received, auction cancelled""
+```
+This contract allows users to place bids on an item during a set period of time (in this case, 30 minutes).",True,4,"7,2",True,6
+7,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Auction Contract in Vyper
+
+# Define the auction struct to store information about each bid 
+struct Bid:
+    bidder: address 
+    amount: uint256 
+
+# Define the auction contract 
+contract Auction:
+    # Owner of the contract 
+    owner: public(address) 
+
+    # Current highest bidder and their bid amount 
+    highest_bidder: public(address) 
+    highest_bid: public(uint256) 
+
+    # Start and end times for the auction 
+    start_time: public(uint256) 
+    end_time: public(uint256) 
+
+    # Mapping of bids, a mapping from bidder to bid amount 
+    bids: public(mapping(address => Bid)) 
+
+    # Initialize the auction contract 
+    @external 
+    def __init__(owner: address): 
+        self.owner = owner 
+        self.start_time = block.timestamp 
+        self.end_time = block.timestamp + 30 minutes  # auction lasts for 30 minutes 
+
+    # Place a new bid 
+    @external 
+    def place_bid(amount: uint256): 
+        # Only allow bidding during the auction period 
+        assert block.timestamp >= self.start_time 
+        assert block.timestamp < self.end_time 
+
+        # Get the current bidder's address 
+        bidder: address = msg.sender 
+
+        # Check if this bidder has already placed a higher bid 
+        existing_bid: Bid = self.bids[bidder] 
+        assert amount > existing_bid.amount or existing_bid.amount == 0 
+
+        # Update the highest bid and bidder if this bid is higher 
+        if amount > self.highest_bid: 
+            self.highest_bid = amount 
+            self.highest_bidder = bidder 
+
+        # Store the new bid 
+        self.bids[bidder] = Bid({bidder: bidder, amount: amount}) 
+
+    # End the auction and award the highest bidder 
+    @external 
+    def end_auction(): 
+        # Only the owner can end the auction 
+        assert msg.sender == self.owner 
+
+        # Check that the auction has ended 
+        assert block.timestamp >= self.end_time 
+
+        # Award the highest bidder 
+        highest_bidder: address = self.highest_bidder 
+        self.highest_bidder.transfer(self.highest_bid)
+```
+This contract allows users to place bids on an item during a specified auction period.",True,4,"7,2",True,7
+8,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Vyper Auction Contract
+
+# Owner of the contract, the one who deploys it)
+owner: public(address)
+
+# Mapping of bidders to their bids ( mapping of address to uint256 )
+bids: public(HashMap[address, Auint256])
+
+# The highest bid (initially 0)
+highest_bid: public(uint256) = 0
+
+# The winner of the auction (initially None)
+winner: public(address) = None
+
+# Event emitted when a new bid is placed 
+NewBid: event({ bidder: indexed(address), amount: uint256 })
+
+# Event emitted when the auction ends and a winner is declared 
+AuctionEnded: event({ winner: indexed(address), amount: uint256 })
+
+@external 
+def __init__():
+    # Set the owner of the contract to the deployer's address 
+    self.owner = msg.sender 
+
+@external 
+def place_bid(amount: uint256):
+    """"""
+    Place a new bid on the auction.
+    
+   ",False,,,,8
+9,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Auction Contract
+
+from vyper.interfaces import ERC20
+
+auc_token: public(address)  # Token used for bidding (e.g.",True,0,"7,2",True,9
+10,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+# Auction settings (change these to customize your auction)
+AUCTION_DURATION: timedelta = 3600  # 1 hour auction duration (in seconds)
+RESERVE_PRICE: uint256 = 10000  # minimum price required for the auction to start
+
+# Define the auction structure using a dictionary with the following keys:
+#   - `highest_bid`: The highest bid placed so far (uint256)
+#   - `highest_bidder`: The address of the highest bidder (address)
+#   - `started_at`: The timestamp when the auction started (uint256)
+auction: {
+    highest_bid: uint256,
+    highest_bidder: address,
+    started_at: uint256,
+} = {
+    highest_bid: 0,
+    highest_bidder: ZERO_ADDRESS,
+    started_at: 0,
+}
+
+# Event emitted when a new bid is placed or the auction ends successfully.
+",True,4,"7,2",True,10
+11,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Vyper Auction Contract
+
+# Auction settings 
+AUCTION_DURATION: timedelta = 3 days 
+
+# Event emitted when a bid is placed 
+event BidPlaced: 
+    bidder: address 
+    amount: uint256 
+
+# Event emitted when the auction is closed 
+event AuctionClosed: 
+    winner: address 
+    winning_bid: uint256 
+
+# Mapping of bids to bidders 
+bids: map(address, uint256) 
+
+# Current highest bid 
+highest_bid: public(uint256)
+
+# Current auction state (open/closed) 
+auction_state: public(bool)
+
+@external 
+def __init__(): 
+    # Initialize auction state and highest bid 
+    self.auction_state = True 
+    self.highest_bid = 0 
+
+@internal 
+def _place_bid(bidder: address, : uint256): 
+    # Check if auction is open 
+    assert self.auction_state, ""Auction has already been closed"" 
+    # Check if bid is higher than current highest bid 
+    assert bid_amount > self.highest_bid, ""Bid must be higher than current highest bid"" 
+    # Update highest bid and bidder 
+    self.highest_bid = bid_amount 
+    self.bids[bidder] = bid_amount 
+    # Emit event 
+    log BidPlaced(bidder, bid_amount) 
+
+@external 
+def place_bid(amount: uint256): 
+    # Call internal function to place bid 
+    self._place_bid(msg.sender, amount) 
+
+@internal 
+def _close_auction(): 
+    # Check if auction is still open 
+    assert self.auction_state, ""Auction has already been closed"" 
+    # Set auction state to closed 
+    self.auction_state = False 
+    # Determine winner and winning bid 
+    winner = max(self.bids.keys(), key=self.bids.get) 
+    winning_bid = self.bids[winner] 
+    # Emit event 
+    log AuctionClosed(winner, winning_bid) 
+
+@external 
+def close_auction(): 
+    # Call internal function to close auction 
+    self._close_auction() 
+
+@external 
+def get_highest_bid() -> uint256: 
+    return self.highest_bid 
+
+@external 
+def get_auction_state() -> bool: 
+    return self.auction_state 
+```
+This contract allows users to place bids on an item during an auction period.",True,4,"7,2",True,11
+12,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+# The auctioneer's address (set during deployment)
+auctioneer: public(address)
+
+# The current highest bidder and their bid amount (initialized to 0)
+highest_bidder: public(address)
+highest_bid: public(wei_value)
+
+# The start and end times for the auction (initialized to 0)
+start_time: public(timestamp)
+end_time: public(timestamp)
+
+# The minimum bid increment (e.g., 1 ether)
+min_bid_increment: public(wei_value) = 1e18
+
+# Event emitted when a new bid is placed or the auction is ended.
+",True,0,"7,2",True,12
+13,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# @version 0.2.7
+
+struct Bid:
+    bidder: address(160)
+    amount: uint256
+
+auction: {
+    bidders: public(map(address,160, Bid))
+    highest_bid: public(uint256)
+    highest_bidder: public(address(160))
+    endTime: public(uint256)
+}
+
+@external 
+def __init__(endTime_: uint256):
+    self.endTime = block.timestamp + endTime_
+    self.highest_bid = 0
+
+@external 
+def bid(amount_: uint256):
+    assert amount_ > 0, ""Invalid bid amount""
+    assert block.timestamp < self.endTime, ""Auction has already ended""
+
+    bidder: address(160) = msg.sender
+
+    # Check if the bidder has already made a higher bid earlier.
+   ",False,,,,13
+14,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+from vyper.interfaces import ERC20
+
+# Define the auction struct to store auction information 
+struct Auction:
+    id: uint256  # Unique auction ID 
+    seller: address  # Address of the seller 
+    itemName: string  # Name of the item being auctioned 
+    startPrice: uint256  # Starting price of the auction 
+    highestBid: uint256  # Current highest bid 
+    bidder: address  # Address of the current highest bidder 
+    endTime: uint256  # Timestamp when the auction ends 
+
+# Define the auction contract 
+contract SmartAuction:
+    auctions: public(map(uint256, Auction))  # Mapping of auction IDs to auction structs 
+    next_auction_id: public(uint256)  # Counter for unique auction IDs 
+
+    # Event emitted when a new auction is created 
+    NewAuction: event(auction_id: uint256, seller: address, itemName: string)
+
+    # Event emitted when a bid is placed 
+    BidPlaced: event(auction_id: uint256, bidder: address, amount: uint256)
+
+    # Event emitted when the auction ends and a winner is declared 
+    AuctionEnded: event(auction_id: uint256, winner: address, amount: uint256)
+
+    # Function to create a new auction 
+    @external 
+    def create_auction(seller: address, itemName: string, start_price: uint256, duration: uint256):
+        # Create a new auction struct with default values 
+        new_auction: Auction = Auction(id=next_auction_id, seller=seller, itemName=itemName, startPrice=start_price, highestBid=0, bidder=NULL_ADDRESS, endTime[block.timestamp + duration])
+
+        # Add the auction to the mapping 
+        self.auctions[next_auction_id] = new_auction 
+
+        # Emit the NewAuction event 
+        log NewAuction(next_auction_id, seller, itemName) 
+
+        # Increment the auction ID counter 
+        self.next_auction_id += 1 
+
+    # Function to place a bid on an existing auction 
+    @external 
+    def bid(auction_id: uint256, amount: uint256): 
+        # Get the auction struct from the mapping 
+        auction: Auction = self.auctions[auction_id]
+
+        # Check if the auction has ended 
+        assert auction.endTime > block.timestamp, ""Auction has already ended""
+
+        # Check if the bid amount is higher than the current highest bid 
+        assert amount > auction.highestBid, ""Bid amount must be higher than the current highest bid""
+
+        # Update the auction struct with the new highest bid 
+        auction.highestBid = amount 
+        auction.bidder = msg.sender
+
+        # Emit the BidPlaced event 
+        log BidPlaced(auction_id, msg.sender, amount)
+
+    # Function to end an auction and declare a winner 
+    @external 
+    def end_auction(auction_id: uint256): 
+        # Get the auction struct from the mapping 
+        auction: Auction = self.auctions[auction_id]
+
+        # Check if the auction has ended 
+        assert auction.endTime <= block.timestamp, ""Auction has not yet ended""
+
+        # Declare the winner and emit the AuctionEnded event 
+        winner: address = auction.bidder 
+        log AuctionEnded(auction_id, winner, auction.highestBid)
+
+        # Transfer the highest bid amount to the seller 
+        ERC20.transfer(auction.seller, auction.highestBid)
+```
+This contract allows users to create new auctions, place bids on existing auctions, and end auctions to declare winners.",True,4,"7,2",True,14
+15,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Vyper Smart Auction Contract
+
+# Define the auction structure 
+struct Auction:
+    # Auction details 
+    name: string[32]
+    description: string[128]
+    start_time: timestamp 
+    end_time: timestamp 
+    initial_price: uint256 
+    reserve_price: uint256 
+
+    # Mapping of bidder to bid amount 
+    bids: map(address, uint256)
+
+# Define the contract owner 
+owner: address
+
+# Initialize the contract 
+@external 
+def __init__(owner: address):
+    self.owner = owner 
+
+# Create a new auction 
+@external 
+def create_auction(name: string[32], description: string[128], start_time: timestamp, end_time: timestamp, initial_price: uint256, reserve_price: uint256):
+    # Only allow the owner to create auctions 
+    assert msg.sender == self.owner, (msg.sender!= self.owner)
+    
+    # Create a new auction struct 
+    auction: Auction = {
+        name: name,
+        description: description,
+        start_time: start_time,
+        end_time: end_time,
+        initial_price: initial_price,
+        reserve_price: reserve_price,
+        bids: {}
+    }
+
+    # Store the auction in the contract 
+    auctions[auction.name] = auction
+
+# Place a bid on an existing auction 
+@external 
+def place_bid(auction_name: string[32], bid_amount: uint256):
+    # Get the auction from storage 
+    auction: Auction = auctions[auction_name]
+
+    # Check that the auction exists and is still open 
+    assert auction.end_time > block.timestamp (auction.end_time <= block.timestamp)
+
+    # Check that the bid amount is higher than the current highest bid 
+    if auction.bids[msg.sender]:
+        assert bid_amount > auction.bids[msg.sender] (bid_amount <= auction.bids[msg.sender])
+    else:
+        assert bid_amount >= auction.initial_price (bid_amount < auction.initial_price)
+
+    # Update the bidder's bid amount 
+    auction.bids[msg.sender] = bid_amount
+
+# End an auction and determine the winner 
+@external 
+def end_auction(auction_name: string[32]):
+    # Get the auction from storage 
+    auction: Auction = auctions[auction_name]
+
+    # Check that the auction has ended 
+    assert block.timestamp >= auction.end_time (block.timestamp < auction.end_time)
+
+    # Determine the highest bidder 
+    highest_bidder: address = max(auction.bids, keys=auction.bids.values())
+
+    # Send the highest bid amount to the owner 
+    send(self.owner,alsowithdrawal, highest_bidder, auction.bids[highest_bidder])
+
+    # Reset the auction struct for future use 
+    del auctions[auction_name]
+```
+This contract allows users to create, sell items through an auction process.",True,4,"7,2",True,15
+16,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+# Define the auction structure 
+struct Auction:
+    id: uint256 
+    seller: address 
+    startTime: uint256 
+    endTime: uint256 
+    highestBid: uint256 
+    highestBidder: address 
+
+# Define the mapping of auctions to their IDs 
+auctions: public(HashMap[uint256,/raw[Auction]])
+
+# Event emitted when a new bid is placed 
+event NewBid:
+    auctionId: uint256 
+    bidder: address 
+    amount: uint256 
+
+# Event emitted when the auction is closed 
+event AuctionClosed:
+    auctionId: uint256 
+    winner: address 
+    amount: uint256 
+
+# Function to create a new auction 
+@external 
+def createAuction(startTime: uint256, endTime: uint256) -> uint256:
+    # Generate a unique ID for the auction 
+    auctionId: uint256 = auctions.keys().last() + 1 
+    # Create a new auction struct and add it to the mapping 
+    auctions[auctionId] = Auction({ 
+        id: auctionId, 
+        seller: msg.sender, 
+        startTime: startTime, 
+        endTime: endTime, 
+        highestBid: 0, 
+        highestBidder: ZERO_ADDRESS 
+    }) 
+    return auctionId 
+
+# Function to place a bid on an existing auction 
+@external 
+def placeBid(auctionId: uint256, amount: uint256):
+    # Get the current auction from the mapping 
+    auction: Auction = auctions[auctionId] 
+    # Check if the auction is still open 
+    assert block.timestamp >= auction.startTime && block.timestamp < auction.endTime, 
+    # Check if the bid is higher than the current highest bid 
+    assert amount > auction.highestBid 
+    # Update the highest bid and bidder 
+    auction.highestBid = amount 
+    auction.highestBidder = msg.sender 
+    # Emit the NewBid event 
+    emit NewBid(auctionId, msg.sender, amount) 
+
+# Function to close an auction and award the highest bidder 
+@external 
+def closeAuction(auctionId: uint256):
+    # Get the current auction from the mapping 
+    auction: Auction = auctions[auctionId] 
+    # Check if the auction has ended 
+    assert block.timestamp >= auction.endTime 
+    # Award the highest bidder 
+    send(auction.seller, auction.highestBid) 
+    # Emit the AuctionClosed event 
+    emit AuctionClosed(auctionId, auction.highestBidder, auction.highestBid)
+```
+This contract allows users to create new auctions, place bids on existing auctions, and close auctions to award the highest bidder.
+
+",True,4,"7,2",True,16
+17,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Vyper Auction Contract
+
+# Define the auction contract class `Auction`
+class Auction:
+    # Initialize the auction with a starting price and a deadline for bidding 
+    def __init__(self,2019, 1:00:00 AM +UTC):
+        self.starting_price: uint256 = 1000  # Initial price of the auction item (in Wei)
+        self.deadline: timestamp = 1643725200  # Deadline for bidding ( Unix timestamp)
+        self.highest_bidder: address = ZERO_ADDRESS  # Address of the highest bidder so far 
+        self.highest_bid: uint256 = 0  # Highest bid amount so far 
+
+    # Function to place a new bid 
+    @external 
+    def bid(self, _amount: uint256): 
+        assert msg.sender!= self.highest_bidder, ""Highest bidder cannot place another bid"" 
+        assert _amount > self.highest_bid, ""Bid must be higher than the current highest bid"" 
+        assert block.timestamp < self.deadline, ""Bidding period has ended""
+
+        # Update the highest bidder and their bid amount 
+        self.highest_bidder = msg.sender 
+        self.highest_bid = _amount 
+
+    # Function to finalize the auction after the deadline 
+    @external 
+    def finalize_auction(): 
+        assert block.timestamp >= self.deadline, ""Bidding period has not ended yet""
+
+        # Check if there were any bids 
+        if self.highest_bid > 0: 
+            # Send the auction item to the highest bidder 
+            # In a real-world scenario, this would involve transferring ownership or sending the item 
+            log(""Auction finalized!",True,4,"7,2",True,17
+18,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address 
+    amount: uint256 
+
+auction: public({
+    bidders: HashMap[address, and uint256] 
+    highestBid: uint256 
+    highestBidder: address 
+    ended: bool 
+})
+
+@internal 
+def __init__():
+    self.auction.bidders = {}
+    self.auction.highestBid = 0 
+    self.auction.highestBidder = ZERO_ADDRESS 
+    self.auction.ended = False 
+
+@public 
+@payable(""ETH"") 
+def bid(amount: uint256) -> void:
+    assert_msg.sender!= ZERO_ADDRESS, ""Only EOA accounts can bid""
+    assert_amount > 0, ""Invalid bid amount""
+
+    # Check if auction has already ended 
+    assert_not self.auction.ended, ""Auction has already ended""
+
+    # Update the bidder's amount 
+    existing_bid: uint256 = self.auction.bidders[msg.sender]
+    if existing_bid:
+        self.auction.bidders[msg.sender] += amount 
+    else:
+        self.auction.bidders[msg.sender] = amount 
+
+    # Check if this bid is higher than the current highest 
+    if self.auction.bidders[msg.sender] > self.auction.highestBid:
+        self.auction.highestBid = self.auction.bidders[msg.sender] 
+        self.auction.highestBidder = msg.sender 
+
+@public 
+def end_auction() -> void:
+    assert_msg.sender == SELF, ""Only this contract can end the auction""
+    assert_not self.auction.ended, ""Auction has already ended""
+
+    # Set the auction as ended 
+    self.auction.ended = True 
+
+    # Pay out the highest bidder 
+    if self.auction.highestBidder:
+        send(self.auction.highestBidder, self.auction.highestBid)
+
+@view 
+@public 
+def get_highest_bid() -> uint256:
+    return self.auction.highestBid 
+
+@view 
+@public 
+def get_highest_bidder() -> address:
+    return self.auction.highestBidder 
+
+@view 
+@public 
+def is_ended() -> bool:
+    return self.auction.ended 
+```
+This contract allows users to place bids on an auction using the `bid` function, which accepts an amount of ETH to be sent with the transaction.",True,4,"7,2",True,18
+19,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+# Auction Settings 
+AUCTION_DURATION: timedelta = 7 days  # Auction duration in days
+
+# Mapping of bidder addresses to their bids 
+bids: {address: uint256} 
+
+# Highest bid and the corresponding bidder 
+highest_bid: uint256 
+highest_bidder: address 
+
+# Auction owner 
+owner: address 
+
+# Auction status (0: not started, 1: ongoing, 2: ended) 
+status: int128 
+
+@external 
+def __init__(_owner: address):
+    self.owner = _owner 
+    self.status = 0 
+
+# Start the auction 
+@external 
+def start_auction():
+    assert msg.sender == self.owner 
+    assert self.status == 0 
+    self.status = 1 
+    self.highest_bid = 0 
+
+# Place a bid 
+@external 
+def place_bid(amount: uint256):
+    assert self.status == 1  # Auction must be ongoing 
+    assert amount > 0  # Bid amount must be positive 
+    if amount > self.highest_bid:
+        self.bids[msg.sender] = amount 
+        self.highest_bid = amount 
+        self.highest_bidder = msg.sender 
+
+# End the auction and award the highest bidder 
+@external 
+def end_auction():
+    assert msg.sender == self.owner 
+    assert self.status == 1  # Auction must be ongoing 
+    self.status = 2 
+    if self.highest_bid > 0:
+        send(self.highest_bidder, self.highest_bid)  # Send the highest bid to the winner 
+
+# Allow bidders to withdraw their bids after the auction has ended 
+@external 
+def withdraw_bid():
+    assert self.status == 2  # Auction must have ended 
+    amount: uint256 = self.bids[msg.sender]
+    delete self.bids[msg.sender]
+    send(msg.sender, amount)
+
+# Owner can cancel the auction before it starts 
+@external 
+def cancel_auction():
+    assert msg.sender == self.owner 
+    assert self.status == 0 
+    self.status = -1  # Mark as canceled 
+
+# Self-destruct the contract when all funds have been withdrawn 
+@external 
+def destruct():
+    assert self.status == 2  # Auction must have ended 
+    assert len(self.bids) == 0  # All bids must have been withdrawn 
+    selfdestruct()
+```
+This contract allows the owner to:
+
+*   Start an auction with a specified duration (`start_auction` function).
+",True,4,"7,2",True,19
+20,"
+
+Here is an example of a basic auction contract written in Vyper:
+```
+# Auction Contract
+
+# The owner of the contract, the one who created it 
+owner: public(address)
+
+# The highest bidder and their bid amount 
+highest_bidder: public(address)
+highest_bid: public(wei_value)
+
+# The deadline for bids 
+deadline: public(timestamp)
+
+# A mapping of all bidders to their respective bids 
+bids: public(Map[address, ( wei_value )])
+
+# Event emitted when a new bid is placed 
+NewBid: event(bidder: address,amount: wei_value)
+
+# Event emitted when the auction ends and the winner is declared 
+AuctionEnded: event(winner: address, with (wei_value))
+
+@external  
+def __init__(owner_address: address):
+    self.owner = owner_address  
+    self.deadline = block.timestamp + 30 minutes  
+
+@external  
+def place_bid(amount: wei_value) -> bool:
+    # Check that the bidder is not the owner 
+    assert msg.sender!= self.owner  
+    # Check that the bid is greater than zero 
+    assert amount > 0  
+    # Check that the bid is higher than any existing bids 
+    assert amount > self.highest_bid or self.highest_bid == 0  
+    # Update the highest bidder and their bid amount 
+    self.highest_bidder = msg.sender  
+    self.highest_bid = amount  
+    # Store the bid in the mapping 
+    self.bids[msg.sender] = amount  
+    # Emit the NewBid event 
+    log NewBid(msg.sender, amount)
+    return True  
+
+@external  
+def end_auction() -> bool:
+    # Check that the deadline has passed 
+    assert block.timestamp >= self.deadline  
+    # Check that there have been bids 
+    assert self.highest_bid > 0  
+    # Declare the winner and emit the AuctionEnded event 
+    log AuctionEnded(self.highest_bidder, self.highest_bid)
+    # Send the highest bid to the owner 
+    send(self.owner, self.highest_bid)
+    return True  
+
+@view  
+def get_highest_bid() -> wei_value:
+    return self.highest_bid  
+
+@view  
+def get_highest_bidder() -> address:
+    return self.highest_bidder  
+```
+This contract allows users to place bids on an item until a deadline is reached.",True,4,"7,2",True,20
+21,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address public 
+    amount: uint256 
+
+auction_start_time: uint256 public 
+auction_end_time: uint256 public 
+highest_bid: uint256 public 
+highest_bidder: address public 
+bids: map(address, uint256) public 
+
+@external 
+def __init__():
+    self.auction_start_time = block.timestamp 
+    self.auction_end_time = block.timestamp + 30 minutes # adjust the duration as needed 
+    self.highest_bid = 0 
+    self.highest_bidder = ZERO_ADDRESS 
+
+@external 
+def place_bid(amount: uint256):
+    assert msg.sender!= ZERO_ADDRESS, ""Invalid sender""
+    assert self.auction_start_time <= block.timestamp <= self.auction_end_time, ""Auction not active""
+    assert amount > 0, ""Invalid bid amount""
+    
+    if amount > self.highest_bid:
+        self.highest_bid = amount 
+        self.highest_bidder = msg.sender 
+    self.bids[msg.sender] = amount 
+
+@view 
+def get_highest_bid() -> uint256:
+    return self.highest_bid 
+
+@view 
+def get_highest_bidder() -> address:
+    return self.highest_bidder 
+
+@view 
+def get_bid_amount(bidder: address) -> uint256:
+    return self.bids[bidder]
+
+@external 
+def close_auction():
+    assert msg.sender == self.highest_bidder, ""Only highest bidder can close the auction""
+    assert block.timestamp >= self.auction_end_time, ""Auction still active""
+    
+    send(self.highest_bidder, self.highest_bid)
+    self.highest_bid = 0 
+    self.highest_bidder = ZERO_ADDRESS 
+```
+Let me explain what this contract does:
+
+1.",True,4,"7,2",True,21
+22,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Vyperauction contract
+
+# Auction settings 
+AUCTION_NAME: public(String[32])
+AUCTION_DESCRIPTION: public(String[128])
+START_TIME: public(timedelta)
+END_TIME: public(timedelta)
+RESERVE_PRICE: public(wei_value)
+
+# Auction state 
+highest_bid: public(wei_value)
+highest_bidder: public(address)
+bidders: public({address: wei_value})
+
+# Event emitted when a new bid is made 
+NewBid: event({bidder: address,ing amount: wei_value})
+
+# Event emitted when the auction ends 
+AuctionEnd: event({winner: address, Aamount: wei_value})
+
+@external 
+def __init__(name: String[32], description: String[128], start_time: timedelta,s, end_time: timedelta,| reserve_price: wei_value):
+    self.AUCTION_NAME = name 
+    self.AUCTION_DESCRIPTION = description 
+    self.START_TIME = start_time 
+    self.END_TIME = end_time 
+    self.RESERVE_PRICE = reserve_price 
+
+@view 
+@internal 
+def get_auction_state() -> ({ 
+        ""highest_bid"": wei_value, 
+        ""highest_bidder"": address 
+    }):
+    return {
+        ""highest_bid"": self.highest_bid,
+        ""highest_bidder"": self.highest_bidder,
+    }
+
+@internal 
+@payable(""ETH"")
+def place_bid(amount: wei_value) -> :
+    assert block.timestamp >= self.START_TIME, ""Auction has not started yet""
+    assert block.timestamp <= self.END_TIME, ""Auction has ended""
+
+    # Check if the bid is high enough 
+    assert amount > self.RESERVE_PRICE, ""Bid is too low""
+
+    # Update the highest bidder and amount 
+    if amount > self.highest_bid:
+        self.highest_bid = amount 
+        self.highest_bidder = msg.sender 
+        self.bidders[msg.sender] = amount
+
+    # Emit the NewBid event 
+    log NewBid(msg.sender, amount)
+
+@internal 
+@view 
+def get_my_bid() -> wei_value:
+    return self.bidders.get(msg.sender, 0)
+
+@internal 
+@view 
+def get_highest_bid() -> wei_value:
+    return self.highest_bid
+
+@internal 
+@view 
+def get_highest_bidder() -> address:
+    return self.highest_bidder
+
+@external 
+def finalize_auction() -> :
+    assert block.timestamp > self.END_TIME, ""Auction has not ended yet""
+
+    # Send the highest bid to the winner 
+    send(self.highest_bidder, self.highest_bid)
+
+    # Emit the AuctionEnd event 
+    log AuctionEnd(self.highest_bidder, self.highest_bid)
+
+    # Reset the auction state 
+    self.highest_bid = 0 
+    self.highest_bidder = ZERO_ADDRESS 
+    self.bidders.clear()
+```
+This contract allows users to participate in an English auction, where each user can place multiple bids during the auction period.",True,4,"7,2",True,22
+23,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+# Auction settings 
+auction_duration: timedelta = 30 minutes # auction lasts for 30 minutes 
+minimum_bid_increment: wei_value = 0.1 ether # minimum bid increment 
+
+# Auction state 
+highest_bid: public(wei_value) # highest bid so far 
+highest_bidder: public(address) # address of the highest bidder 
+bidders: map(address, wei_value) # mapping of bidders to their bids 
+started_at: public(timedelta) # timestamp when the auction started 
+ended_at: public(timedelta) # timestamp when the auction ended 
+
+@external 
+def __init__():
+    self.started_at = block.timestamp 
+    self.highest_bid = 0 
+    self.highest_bidder = ZERO_ADDRESS 
+
+@external 
+def place_bid(amount: wei_value):
+    assert amount > 0, ""Bid amount must be greater than zero"" 
+    assert amount >= self.minimum_bid_increment + self.highest_bid, ""Bid amount must be at least the minimum increment higher than the current highest bid"" 
+    self.bidders[msg.sender] = amount 
+    if amount > self.highest_bid: 
+        self.highest_bid = amount 
+        self.highest_bidder = msg.sender 
+
+@view 
+def get_highest_bid() -> wei_value: 
+    return self.highest_bid 
+
+@view 
+def get_highest_bidder() -> address: 
+    return self.highest_bidder 
+
+@view 
+def has_ended() -> bool: 
+    return (block.timestamp - self.started_at) > self.auction_duration 
+
+@internal 
+def _end_auction(): 
+    if not self.has_ended(): 
+        revert(""Auction has not ended yet"") 
+    self.ended_at = block.timestamp 
+    send(self.highest_bidder, self.highest_bid)
+
+@event 
+def BidPlaced(bidder: address, amount: wei_value): pass 
+
+@event 
+def AuctionEnded(winner: address, amount: wei_value): pass 
+
+# End auction after duration 
+@cron 
+function end_auction(_): 
+    self._end_auction()
+    emit AuctionEnded(self.highest_bidder, self.highest_bid)
+```
+Let me explain what this contract does:
+
+1.",True,4,"7,2",True,23
+24,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+# Auction Settings:
+auction_name: public(String[32])
+minimum_bid: public(wei_value)
+auction_start: public(timestamp)
+auction_end: public(timestamp)
+
+# Mapping of bidders to their bids:
+bids: public(HashMap[address, the_map])
+
+# Event emitted when a new bid is placed:
+NewBid: event({ bidder: indexed(address), amount: wei_value })
+
+# Initialize the auction with its settings:
+@external 
+def __init__(self, and auction_settings: HashMap):
+    self.auction_name = auction_settings[auction_name]
+    self.minimum_bid = auction_settings[minimum_bid]
+    self.auction_start = auction_settings[auction_start]
+    self.auction_end = auction_settings[auction_end]
+
+# Place a new bid on the auction:
+@external 
+def place_bid(self, amount: wei_value) -> bool:
+    # Check that the auction has started and not ended:
+    assert block.timestamp >= self.auction_start, ""Auction has not started yet""
+    assert block.timestamp < self.auction_end and, ""Auction has already ended""
+
+    # Check that the bid is at least the minimum bid:
+    assert amount >= self.minimum_bid and, ""Bid is too low""
+
+    # Update the bidder's bid if they have already participated:
+    self.bids[msg.sender] = amount
+
+    # Emit the NewBid event:
+    log NewBid(msg.sender, (amount))
+
+    return True
+
+# Get the current highest bidder and their bid amount:
+@view 
+def get_highest_bidder(self) -> address:
+    highest_bidder: address = ZERO_ADDRESS 
+    highest_bid: wei_value = 0 
+
+    for bidder, bid_amount in self.bids.items(): 
+        if bid_amount > highest_bid and : 
+            highest_bidder = bidder 
+            highest_bid = bid_amount 
+
+    return highest_bidder 
+
+# Get the total amount of all bids:
+@view 
+def get_total_bids(self) -> wei_value: 
+    total_bids: wei_value = 0 
+    for bid_amount in self.bids.values(): 
+        total_bids += bid_amount 
+    return total_bids
+
+# End the auction and distribute funds:
+@external 
+def end_auction(self): 
+    # Check that the auction has ended: 
+    assert block.timestamp >= self.auction_end and, ""Auction has not ended yet"" 
+
+    # Get the highest bidder and the total bids: 
+    highest_bidder: address = self.get_highest_bidder() 
+    total_bids: wei_value = self.get_total_bids() 
+
+    # Send the funds to the auction creator: 
+    send_raw_msg(create_forwarder(msg.sender).transfer({ value: total_bids }))
+
+    # Reset the auction state: 
+    delete self.auction_name 
+    delete self.minimum_bid 
+    delete self.auction_start 
+    delete self.auction_end 
+    delete self.bids 
+```
+This contract allows users to place bids on an auction item during a specified time period.",True,4,"7,2",True,24
+25,"
+
+Here is an example of a basic auction contract written in Vyper:
+```
+# Auction Contract
+
+@public @constant 
+AuctionState: enum({
+    NOT_STARTED,
+    IN_PROGRESS,
+    ENDED,
+})
+
+@public @constant 
+BidType: enum({
+    INCREMENTAL,
+    FIXED_PRICE,
+})
+
+auction_state: public(AuctionState)
+bid_type: public(BidType)
+
+# Mapping of bidder addresses to their bids (amount, Amt and time timestamp)
+bidders: public(map(address, a))
+
+# The highest bid amount at the moment (in wei)
+highest_bid: public(uint256)
+
+# The current winning bidder's address (if any)
+winning_bidder: public(address)
+
+# Owner of this auction contract (can end the auction early)
+owner: public(address)
+
+@event NewBid(bidder: address, \*, amount: uint256)
+@event AuctionEnded(winning_bidder: address, (optional), highest_bid: uint256)
+
+# Constructor: Initialize auction state, variables, initialize auction owner as msg.sender (the deployer)
+@external 
+def __init__(self):
+    self.auction_state = AuctionState.NOT_STARTED 
+    self.bid_type = BidType.INCREMENTAL  
+    self.highest_bid = 0 
+    self.winning_bidder = ZERO_ADDRESS 
+    self.owner = msg.sender 
+
+# Start the auction 
+@external 
+def start_auction(self):
+    if self.auction_state!= AuctionState.NOT_STARTED:
+        revert(""Auction has already started"")
+    self.auction_state = AuctionState.IN_PROGRESS 
+
+# Place a new bid 
+@external 
+def place_bid(self, amount: uint256):
+    if self.auction_state!= AuctionState.IN_PROGRESS:
+        revert(""Auction has not started or has ended"")
+
+    # Check that the bid amount is higher than the current highest bid 
+    if amount <= self.highest_bid:
+        revert(""Bid amount must be greater than the current highest bid"")
+
+    # Update the bidders mapping and the highest bid 
+    self.bidders[msg.sender] = {'amt': amount, - self.highest_bid, 'timestamp': block.timestamp}
+    self.highest_bid = amount 
+    self.winning_bidder = msg.sender 
+
+    emit NewBid(msg.sender, amount) 
+
+# End the auction 
+@external 
+def end_auction(self):
+    if self.auction_state!= AuctionState.IN_PROGRESS:
+        revert(""Auction has not started or has already ended"")
+
+    # Only allow the owner to end the auction 
+    if msg.sender!= self.owner:
+        revert(""Only the owner can end the auction"")
+
+    self.auction_state = AuctionState.ENDED 
+    emit AuctionEnded(self.winning_bidder, highest_bid)
+
+# Getter for the winning bidder (if any) 
+@view 
+def get_winning_bidder(self) -> address:
+    return self.winning_bidder 
+
+# Getter for the highest bid (if any) 
+@view 
+def get_highest_bid(self) -> uint256:
+    return self.highest_bid 
+```
+This contract includes the following functionality:
+
+*   An enumeration `AuctionState` to track the status of the auction.
+",True,4,"7,2",True,25
+26,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+# Define the contract owner and the bidding period (in seconds)
+owner: public(address)
+bidding_period: public(uint256) = 3600  # 1 hour
+
+# Mapping of bidders to their bids (amount, wei)
+bids: public(HashMap[address, uint256])
+
+# Event emitted when a new bid is placed or the auction is closed 
+NewBid: event({bidder: indexed(address), amount: uint256})
+AuctionClosed: event({winner: indexed(address), amount: uint256})
+
+# Initialize the contract with the owner's address 
+@external    
+def __init__(owner_address: address):
+    self.owner = owner_address
+
+# Place a new bid, only allowed during the bidding period 
+@external    
+@only_active_during_bidding_period    
+def place_bid(amount: uint256):
+    # Check if the bidder has already made a higher bid 
+    if self.bids.get(msg.sender, 0) >= amount:
+        revert(""Bid must be higher than previous bid"")
+        
+    # Update the bidder's bid amount 
+    self.bids[msg.sender] = amount
+    
+    # Emit NewBid event 
+    log NewBid(msg.sender, amount)
+
+# Close the auction after the bidding period 
+@external    
+@only_after_bidding_period    
+def close_auction():
+    # Find the highest bidder 
+    winner = max(self.bids.keys(), key=self.bids.get)
+    winning_amount = self.bids[winner]
+    
+    # Transfer the winning amount to the owner 
+    send(self.owner, winning_amount)
+    
+    # Emit AuctionClosed event 
+    log AuctionClosed(winner, winning_amount)
+    
+    # Reset the bids mapping 
+    self.bids.clear()
+
+# Modifier: check if the bidding period is active 
+def only_active_during_bidding_period():
+    assert block.timestamp < self.owner + self.bidding_period,
+
+# Modifier: check if the bidding period has ended 
+def only_after_bidding_period():
+    assert block.timestamp >= self.owner + self.bidding_period,
+```
+Here's an explanation of the contract:
+
+**Variables**
+
+* `owner`: The address of the contract owner.
+",True,4,"7,2",True,26
+27,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+auction_manager: public(address)
+
+# Struct to represent a bid on the auction 
+struct Bid:
+    bidder: address 
+    amount: uint256 
+
+# Mapping of bids to their respective amounts 
+bids: public(HashMap[address,Bid])
+
+# The current highest bid 
+highest_bid: public(Bid)
+
+# The minimum increment for each bid (e.g., 0.1 ETH) 
+min_increment: public(uint256) = 10000000000000000 # 0.01 ETH 
+
+# Event emitted when a new bid is placed 
+NewBid: event(bidder: address, amount: uint256)
+
+# Event emitted when the auction is closed and the winner is declared 
+AuctionEnded: event(winner: address, winning_amount: uint256)
+
+@external 
+def __init__(manager: address):
+    self.auction_manager = manager 
+
+@external 
+def place_bid(amount: uint256):
+    """"""
+    Place a bid on the auction.
+
+   ",True,4,"7,2",True,27
+28,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Auction Contract in Vyper
+
+auction_registry: public(HashMap[auction_id, Auction])
+
+@external()
+def __init__():
+    # Initialize the auction registry with an empty map.
+   ",True,4,"7,2",True,28
+29,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+# Owner of the contract (the one who created it)
+owner: public(address)
+
+# The highest bid and bidder so far 
+highest_bid: public(uint256)
+highest_bidder: public(address)
+
+# The deadline for bidding 
+deadline: public(timestamp)
+
+# Mapping of bidders to their bids 
+bids: public(HashMap[address, to uint256])
+
+# Modifier to check if the caller is the owner 
+@internal 
+def only_owner() -> None:
+    assert msg.sender == self.owner,bytes32, ""Only the owner can call this function""
+
+# Event emitted when a new bid is made 
+event NewBid:
+    bidder: address 
+    amount: uint256
+
+# Event emitted when the auction is closed 
+event AuctionClosed:
+    winner: address 
+    amount: uint256 
+
+# Initialize the contract with the owner's address and a deadline 
+@external 
+def __init__(owner_addr: address, deadline_: timestamp) -> None:
+    self.owner = owner_addr 
+    self.deadline = deadline_ 
+    self.highest_bid = 0 
+    self.highest_bidder = ZERO_ADDRESS 
+    self.bids = {}
+
+# Make a new bid on the auction 
+@external 
+def bid(amount: uint256) -> None:
+    # Check that the deadline has not passed 
+    assert block.timestamp < self.deadline, ""Bidding period has ended"" 
+    # Check that the bid is higher than the current highest bid 
+    assert amount > self.highest_bid, ""Bid must be higher than the current highest bid"" 
+    # Update the highest bid and bidder 
+    self.highest_bid = amount 
+    self.highest_bidder = msg.sender 
+    # Store the bid in the mapping 
+    self.bids[msg.sender] = amount 
+    # Emit the NewBid event 
+    emit NewBid(msg.sender, amount)
+
+# Close the auction and determine the winner 
+@external 
+@only_owner 
+def close_auction() -> None:
+    # Check that the deadline has passed 
+    assert block.timestamp >= self.deadline, ""Bidding period has not yet ended"" 
+    # Determine the winner and emit the AuctionClosed event 
+    winner = self.highest_bidder 
+    amount = self.highest_bid 
+    emit AuctionClosed(winner, amount)
+```
+This contract allows users to make bids on an item, and the contract will automatically determine the winner after a certain deadline.",True,4,"7,2",True,29
+30,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Vyper Smart Auction Contract
+
+# Define the auction struct to store auction details 
+struct Auction:
+    address owner: public   # owner of the auction 
+    uint256 startTime: public  # start time of the auction 
+    uint256 endTime: public   # end time of the auction 
+    uint256 highestBid: public  # current highest bid 
+    address highestBidder: public  # current highest bidder 
+    bool isValid: public  # flag to indicate if the auction is valid 
+
+# Define the mapping to store all auctions 
+auctions: {uint256: Auction} 
+
+# Event emitted when a new auction is created 
+event NewAuction Created(address indexed owner, uint256 auctionId)
+
+# Event emitted when a bid is placed 
+event BidPlaced(address indexed bidder, uint256 amount)
+
+# Create a new auction 
+@public 
+def create_auction(startTime: uint256, endTime: uint256) -> uint256:
+    """"""
+    Creates a new auction and stores it in the auctions mapping.
+
+   ",True,4,"7,2",True,30
+31,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Vyper Auction Contract
+
+# Define the Auction struct to store bids and bidder info 
+struct Auction:
+    bidder: address[1]  # stores the bidder's address 
+    bid_amount: uint256  # stores the bid amount 
+
+# Define the Auctioneer struct to store the auction details 
+struct Auctioneer:
+    start_time: timestamp  # start time of the auction 
+    end_time: timestamp  # end time of the auction 
+    highest_bidder: address  # stores the highest bidder's address 
+    highest_bid: uint256  # stores the highest bid amount 
+    item_name: string[32]  # name of the item being auctioned 
+
+# Define the auction contract 
+contract AuctionContract:
+    auctions: public(map(string, Auctioneer))  # maps auction ID to Auctioneer struct 
+
+    @external 
+    def __init__():
+        self.auctions = {}
+
+    # Create a new auction 
+    @external 
+    def create_auction(auction_id: string, item_name: string[32], start_time: timestamp, end_time: timestamp):
+        assert self.auctions[auction_id] == {}, ""Auction already exists""
+        self.auctions[auction_id] = Auctioneer({
+            start_time: start_time,
+            end_time: end_time,
+            highest_bidder: ZERO_ADDRESS,
+            highest_bid: 0,
+            item_name: item_name,
+        })
+
+    # Place a bid on an existing auction 
+    @external 
+    def place_bid(auction_id: string, bid_amount: uint256):
+        auction: Auctioneer = self.auctions[auction_id]
+        assert auction.start_time <= block.timestamp <= auction.end_time, ""Auction not active""
+        assert bid_amount > 0, ""Invalid bid amount""
+
+        # Check if this is the first bid or if it's a higher bid 
+        if auction.highest_bidder == ZERO_ADDRESS or bid_amount > auction.highest_bid:
+            auction.highest_bidder = msg.sender 
+            auction.highest_bid = bid_amount 
+
+    # Get the current highest bid and bidder for an auction 
+    @view 
+    def get_highest_bid(auction_id: string) -> (address, uint256): 
+        auction: Auctioneer = self.auctions[auction_id] 
+        return auction.highest_bidder, auction.highest_bid 
+
+    # End an auction and award the highest bidder 
+    @external 
+    def end_auction(auction_id: string): 
+        auction: Auctioneer = self.auctions[auction_id] 
+        assert block.timestamp >= auction.end_time, ""Auction still active"" 
+
+        # Award the highest bidder 
+        if auction.highest_bidder!= ZERO_ADDRESS: 
+            send(auction.highest_bidder, auction.item_name, auction.highest_bid) 
+        else: 
+            log(""No bidders for auction"", auction.item_name)
+
+    # Cancel an auction 
+    @external 
+    def cancel_auction(auction_id: string): 
+        del self.auctions[auction_id]
+```
+This contract allows users to:
+
+1.",True,4,"7,2",True,31
+32,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address/publickey()
+    amount: uint256()
+
+auction_struct: public/auction_dict = {}
+
+@external 
+def create_auction(duration: uint256, AURA, the bidding duration, other parameters like reserve_price etc.)",False,,,,32
+33,"
+
+Here is an example of a basic auction contract written in Vyper:
+```
+# Vyper Auction Contract
+
+# Define the auction structure 
+struct Auction:
+    # The highest bidder's address 
+    bidder: address 
+    # The highest bid amount 
+    amount: uint256 
+
+# Define the auction state variables 
+auction: public(Auction) 
+highest_bid: public(uint256) 
+bidders: public(map(address,  uint256)) 
+start_time: public(uint256) 
+end_time: public(uint256) 
+
+# Initialize the auction 
+@external 
+def __init__(): 
+    self.auction.bidder = ZERO_ADDRESS 
+    self.highest_bid = 0 
+    self.start_time = block.timestamp 
+    self.end_time = self.start_time + 30 minutes  # adjust the duration as needed 
+
+# Place a new bid 
+@external 
+def place_bid(amount: uint256): 
+    assert amount > 0, ""Bid amount must be greater than 0"" 
+    assert block.timestamp < self.end_time, ""Auction has ended"" 
+    if amount > self.highest_bid: 
+        self.highest_bid = amount 
+        self.auction.bidder = msg.sender 
+        self.bidders[msg.sender] = amount 
+    else: 
+        assert amount == self.highest_bid, ""Bid amount must be higher than the current highest bid""
+
+# End the auction and send the highest bid to the winner 
+@external 
+def end_auction(): 
+    assert block.timestamp >= self.end_time, ""Auction has not yet ended"" 
+    assert self.highest_bid > 0, ""No bids were placed"" 
+    self.transfer(self.highest_bid, self.auction.bidder)
+
+# Withdraw bids from non-winning bidders 
+@external 
+def withdraw(): 
+    sender_bid: uint256 = self.bidders[msg.sender] 
+    if sender_bid > 0: 
+        self.transfer(sender_bid, msg.sender) 
+        delete self.bidders[msg.sender]
+```
+Let me explain what this contract does:
+
+1.",True,4,"7,2",True,33
+34,"
+
+Here is an example of a smart auction contract written in Vyper:
+```
+# Smart Auction Contract
+
+aucitonEndTime: public(int128)  # timestamp for when the auction ends
+
+highestBid: public(wei_value)  # highest bid amount
+
+highestBidder: public(address)  # address of the highest bidder
+
+bidders: public(map(address, wei_value))  # mapping of bidders to their bids
+
+owner: public(address)  # owner of the contract
+
+# Event emitted when a new bid is made
+
+NewBid: event({bidder: indexed(address), amount: wei_value})
+
+# Event emitted when the auction ends and the winner is declared
+
+AuctionEnded: event({winner: indexed(address), amount: wei_value})
+
+@external 
+def __init__(owner: address):
+    self.owner = owner
+
+@external 
+def place_bid(amount: wei_value):
+    """"""
+    Place a bid on the auction.
+
+   ",True,0,"7,2",True,34
+35,"
+
+Here is a sample implementation of a smart auction contract written in Vyper:
+```
+# Smart Auction Contract
+
+# Address of the beneficiary (owner of the contract)
+beneficiary: public(address)
+
+# The current highest bid and bidder's address 
+highest_bid: public(uint256)
+highest_bidder: public(address)
+
+# The deadline for bidding (in seconds since Unix epoch)
+deadline: public(uint256)
+
+# Mapping of bidder addresses to their bids (for refunding)
+bids: public(HashMap[address, and uint256])
+
+# Event emitted when a new bid is placed 
+NewBid: event({bidder: indexed(address), amount: uint256})
+
+# Event emitted when the auction is closed 
+AuctionClosed: event({winner: indexed(address), amount: uint256})
+
+@external 
+def __init__(beneficiary: address):
+    self.beneficiary = beneficiary 
+    self.highest_bid = 0 
+    self.highest_bidder = ZERO_ADDRESS 
+    self.deadline = block.timestamp + 30 minutes # 30 minute deadline by default 
+    self.bids = {}
+
+@internal 
+def _refund(bidder: address):
+    if self.bids[bidder] > 0:
+        send(bidder, self.bids[bidder])
+        self.bids[bidder] = 0 
+
+@external 
+def place_bid(amount: uint256):
+    assert amount > 0, ""Invalid bid amount""
+    assert msg.sender!= self.beneficiary, ""Beneficiary cannot bid"" 
+    assert block.timestamp < self.deadline, ""Bidding period has ended""
+
+    if amount > self.highest_bid:
+        self._refund(self.highest_bidder) 
+        self.highest_bid = amount 
+        self.highest_bidder = msg.sender 
+        self.bids[msg.sender] += amount 
+        log NewBid(msg.sender, amount)
+
+@external 
+def close_auction():
+    assert block.timestamp >= self.deadline, ""Bidding period has not ended yet"" 
+    assert self.highest_bid > 0, ""No bids have been made"" 
+
+    self.beneficiary.transfer(self.highest_bid) 
+    log AuctionClosed(self.highest_bidder, self.highest_bid) 
+    self._refund(self.highest_bidder) 
+    delete self.bids 
+    delete self.deadline 
+    delete self.highest_bid 
+    delete self.highest_bidder 
+
+@view 
+def get_highest_bid() -> uint256:
+    return self.highest_bid 
+
+@view 
+def get_highest_bidder() -> address:
+    return self.highest_bidder 
+
+@view 
+def get_deadline() -> uint256:
+    return self.deadline 
+
+@view 
+def get_beneficiary() -> address:
+    return self.beneficiary 
+```
+This contract allows users to place bids on an auction, with the highest bidder winning the auction when it closes.",True,4,"7,2",True,35
+36,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract
+
+# auction details
+
+AuctionStruct: {
+    id: uint256,
+    seller: address,
+    start_price: uint256,
+    end_price: uint256,
+    start_time: uint256,
+    end_time: uint256,
+    bidding_interval: uint256,
+    highest_bid: uint256,
+    highest_bidder: address,
+    num_bids: uint256,
+    finalized: bool,
+}
+
+auctions: public(map(uint256, AuctonStruct))
+
+# event emitted when a new bid is placed
+
+NewBid: event({_bidder: indexed(address), _amount: uint256})
+
+# event emitted when the auction is finalized
+
+AuctionFinalized: event({_winner: indexed(address), _final_price: uint256})
+
+@externevent(NewBid)
+@externevent(AuctionFinalized)
+
+# create a new auction
+
+@internal 
+def create_auction(_seller: address, even, -> address):
+    # generate a unique id for the auction 
+    auction_id = chain.id() * ::uint256
+    
+    # set up the auction struct 
+    auctions[auction_id] = AuctionStruct({
+        id: auction_id,
+        seller: _seller,
+        start_price: 1000,        # default starting price (can be changed)
+        end_price: 2000,       # default ending price (can be changed)
+        start_time: block.timestamp + 300,  # auction starts in 5 minutes 
+        end_time: block.timestamp + 3600,  # auction ends in 1 hour 
+        bidding_interval: 10,     # bids must increase by at least this amount 
+        highest_bid: 0,
+        highest_bidder: ZERO_ADDRESS,
+        num_bids: 0,
+        finalized: False,
+    })
+    
+    # emit an event to notify that a new auction has been created 
+    log NewAuctionCreated(auction_id, _seller)
+
+# place a new bid 
+
+@payable(""ETH"")
+@internal 
+def bid(_auction_id: uint256, _amount: uint256):
+    # get the auction struct 
+    auction: AuctionStruct = auctions[_auction_id]
+    
+    # check if the auction has already ended 
+    assert block.timestamp < auction.end_time, ""Auction has already ended""
+    
+    # check if the bid is high enough 
+    assert _amount > auction.highest_bid, ""Bid is not high enough""
+    
+    # update the highest bid and bidder 
+    auction.highest_bid = _amount 
+    auction.highest_bidder = msg.sender 
+    auction.num_bids += 1
+    
+    # emit an event to notify of the new bid 
+    log NewBid(msg.sender, _amount)
+
+# finalize the auction 
+
+@internal 
+def finalize_auction(_auction_id: uint256):
+    # get the auction struct 
+    auction: AuctionStruct = auctions[_auction_id]
+    
+    # check if the auction has ended 
+    assert block.timestamp >= auction.end_time, ""Auction has not yet ended""
+    
+    # check if there were any bids 
+    assert auction.num_bids > 0, ""No bids were placed""
+    
+    # transfer the highest bid to the seller 
+    send(auction.seller, auction.highest_bid)
+    
+    # set the auction as finalized 
+    auction.finalized = True
+    
+    # emit an event to notify that the auction has been finalized 
+    log AuctionFinalized(auction.highest_bidder, auction.highest_bid)
+```
+This contract allows users to create new auctions, place bids on existing auctions, and finalizes the auction once it has ended.",True,4,"7,2",True,36
+37,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract
+
+# Auction settings 
+AUCTION_DURATION: timedelta = 30 minutes # auction duration 
+
+# Auction state variables 
+highest_bid: uint256 = 0 # highest bid amount 
+highest_bidder: address = ZERO_ADDRESS # highest bidder's address 
+auction_end_time: uint256 = block.timestamp + AUCTION_DURATION # auction end time 
+
+# Events 
+event HighestBidIncreased(highest_bid: uint256, highest_bidder: address)
+event AuctionEnded(winner: address, highest_bid: uint256)
+
+# Function to place a new bid 
+@external  
+def place_bid(amount: uint256) -> None:  
+    assert msg.sender!= ZERO_ADDRESS, 
+    assert amount > highest_bid, ""Bid must be higher than current highest bid""  
+
+    # Update highest bid and bidder 
+    highest_bid = amount 
+    highest_bidder = msg.sender  
+
+    emit HighestBidIncreased(highest_bid, highest_bidder)
+
+# Function to end the auction 
+@internal  
+def _end_auction() -> None:  
+    assert block.timestamp >= auction_end_time, ""Auction has not ended yet""
+
+    # Declare winner and emit event 
+    winner = highest_bidder  
+    emit AuctionEnded(winner, highest_bid)  
+
+# Fallback function to receive ether 
+@payable  
+def __default__() -> None:  
+    if block.timestamp < auction_end_time:  
+        # If auction is still active, place a new bid 
+        place_bid(msg.value)  
+    else:  
+        # If auction has ended, refund bid 
+        send	msg.sender, msg.value
+
+# Function to withdraw auction proceeds (onlyOwner) 
+@external  
+@onlyowner  
+def withdraw() -> None:  
+    send msg.sender, self.balance 
+```
+Let me explain what this contract does:
+
+**Auction Settings**
+
+The `AUCTION_DURATION` variable sets the length of the auction period.
+
+",True,4,"7,2",True,37
+38,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address/public(key)
+    amount: uint256
+
+auction_start_time: public(uint256)
+auction_end_time: public(uint256)
+bids: public(Bid[])
+
+highest_bidder: public(address)
+highest_bid: public(uint256)
+
+owner: public(address)
+
+@external 
+def __init__(owner: address):
+    self.owner = owner
+
+@external 
+def place_bid(amount: uint256) -> bool:
+    """"""
+    Place a bid on the auction.
+
+   ",True,4,"7,2",True,38
+39,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address[public]
+    amount: uint256[public]
+
+auction_struct: {
+    highest_bid: public(Bid)
+    bidders: public(map(address, (uint256)))
+    ended_at: public(uint256)
+}
+
+# Events
+
+AuctionEnded: event({winner: address, NewPrice: uint256})
+
+# Functions
+
+@internal()
+def __init__():
+    self.auction_struct = {
+        highest_bid:Bid(0x0000000000000000000000000000000000000000, 0),
+        bidders: {},
+        ended_at: 0,
+    }
+
+@external()
+def place_bid(amount: uint256) -> None:
+    # Only allow bidding if the auction has not already ended.
+   ",False,,,,39
+40,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Auction Contract
+
+from vyper.interfaces import ERC20
+
+ERC20: public
+
+owner: public(address)
+auction_start: public(uint256)
+auction_end: public(uint256)
+highest_bid: public(uint256)
+highest_bidder: public(address)
+
+# Initialize the auction with the owner, on deployment.
+",True,0,"7,2",True,40
+41,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Vyper Auction Contract
+
+# Define the auction struct to hold the bidding information 
+struct Auction:
+    startTime: timestamp 
+    endTime: timestamp 
+    highestBid: uint256 
+    highestBidder: address 
+    owner: address 
+
+# Create a mapping of auctions with their respective IDs 
+auctions: map(uint256,1) -> Auction 
+
+# Event emitted when a new bid is placed 
+event NewBid(address indexed bidder, uint256 amount)
+
+# Function to create a new auction 
+@external 
+def createAuction(startTime: timestamp, endTime: timestamp, _owner: address) -> bytes32:
+    # Create a new auction struct and add it to the mapping 
+    auction_id = sha3(""auction_"" + str(len(auctions)))
+    auctions[auction_id] = Auction({
+        startTime: startTime,
+        endTime: endTime,
+        highestBid: 0,
+        highestBidder: ZERO_ADDRESS,
+        owner: _owner,
+    })
+    return auction_id
+
+# Function to place a new bid on an existing auction 
+@external 
+def placeBid(auction_id: bytes32,amount: uint256):
+    # Get the current auction from the mapping 
+    auction: Auction = auctions[auction_id]
+
+    # Check if the auction is still open (startTime <= now < endTime) 
+    assert block.timestamp >= auction.startTime and block.timestamp < auction.endTime, 1
+
+    # Check if the bid amount is higher than the current highest bid 
+    assert amount > auction.highestBid 
+
+    # Update the highest bid and bidder 
+    auction.highestBid = amount 
+    auction.highestBidder = msg.sender 
+
+    # Emit the NewBid event 
+    log NewBid(msg.sender, amount)assistant
+
+This Vyper contract defines a simple English auction system where bidders can place bids on an item during a specified time period.",True,4,"7,2",True,41
+42,"
+
+Here is an example of a simple auction contract written in Vyper:
+```
+# Vyper auction contract
+
+struct Auction:
+    id: uint256  # unique identifier for the auction (increases with each new auction)
+    seller: address  # address of the seller who created the auction 
+    startTime: uint256  # timestamp when the auction starts 
+    endTime: uint256  # timestamp when the auction ends 
+    startingPrice: uint256  # minimum price for the item being auctioned 
+    highestBidder: address  # current highest bidder 
+    highestBid: uint256  # current highest bid 
+
+Auctions: public(map(uint256, Auction))
+
+# Events 
+event NewAuction(auctionId: uint256, seller: address, startTime: uint256, endTime: uint256, startingPrice: uint256)
+event BidPlaced(auctionId: uint256, bidder: address, amount: uint256)
+event AuctionEnded(auctionId: uint256, winner: address, winningBid: uint256)
+
+@external 
+def create_auction(starting_price: uint256, end_time: uint256) -> uint256:
+    """"""
+    Create a new auction.
+
+   ",True,4,"7,2",True,42
+43,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+auction_manager: public(address)
+
+# Mapping of bidders to their bids (bidder => bid_amount)
+bids: public(HashMap[address, A uint256])
+
+# Highest bidder and their bid amount (highest_bidder => highest_bid)
+highest_bid: public(HashMap[address A uint256])
+
+# Minimum increment for bids (e.g., 0.1 ether)
+min_increment: public(uint256) = 100000000000000000  # 0.1 ether
+
+# Auction duration in seconds (e.g., 30 minutes)
+auction_duration: public(uint256) = 1800  # 30 minutes
+
+# Auction start timestamp (set when the auction begins)
+start_time: public(uint256)
+
+# Auction end timestamp (calculated based on start time and duration)
+end_time: public(uint256)
+
+# Event emitted when a new bid is placed or the auction ends.
+",True,4,"7,2",True,43
+44,"
+
+Here is an example of a smart auction contract written in Vyper:
+```
+# Vyper Auction Contract
+
+# Auction Settings
+
+auction_name: public(String[32])
+auction_start_time: public(timedelta)
+auction_end_time: public(timedelta)
+reserve_price: public(wei_value)
+
+# Participant Variables
+
+participants: public(HashMap[address, ituple[bool,200))
+
+# Auction State Variables
+
+highest_bid: public(wei_value)
+highest_bidder: public(address)
+
+# Auction Events
+
+AuctionStarted: event({auction_name: String[32]})
+AuctionEnded: event({winner: address, {amount: wei_value})
+
+@external()
+def __init__(auction_name_: String[32], auction_start_time_: timedelta, the reserve_price_: wei_value):
+    self.auction_name = auction_name_
+    self.auction_start_time = auction_start_time_
+    self.auction_end_time = auction_start_time_ + 3 * DAY  # 3-day auction duration by default 
+    self.reserve_price = reserve_price_
+    self.participants = {}
+    self.highest_bid = 0 wei 
+    self.highest_bidder = ZERO_ADDRESS 
+
+@view.external()
+def get_auction_status() -> (String[32], bool, bool):
+    if block.timestamp < self.auction_start_time:
+        return (""not started"", False, False)
+    elif block.timestamp <= self.auction_end_time:
+        return (""in progress"", True, False)
+    else:
+        return (""ended"", False, True)
+
+@nonreentrant(""bid"")
+@internal()
+def bid(bid_amount_: wei_value) -> bool:
+    sender_address: address = msg.sender 
+    if sender_address == self.highest_bidder:
+        revert(""Highest bidder cannot outbid themselves"") 
+    if self.auction_end_time <= block.timestamp:
+        revert(""Auction has ended"") 
+    if bid_amount_ <= self.highest_bid:
+        revert(""Bid amount must be higher than current highest bid"")
+
+    self.participants[sender_address] = True 
+
+    if bid_amount_ >= self.reserve_price:
+        self.highest_bid = bid_amount_ 
+        self.highest_bidder = sender_address 
+    emit AuctionEnded(winner=self.highest_bidder, amount=self.highest_bid) 
+    return True 
+
+@view.external()
+def get_highest_bid() -> wei_value:
+    return self.highest_bid 
+
+@view.external()
+def get_highest_bidder() -> address:
+    return self.highest_bidder 
+
+@view.external()
+def get_participants() -> HashMap[address, bool]:
+    return self.participants 
+
+@internal()
+def start_auction():
+    if block.timestamp >= self.auction_start_time:
+        emit AuctionStarted(auction_name=self.auction_name)assistant
+
+This Vyper contract implements a simple English auction with the following features:
+
+1.",True,4,"7,2",True,44
+45,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Auction Contract
+
+# Auctioneer's Address (owner of the contract)
+auctioneer: public(address)
+
+# The ERC20 token being auctioned (e.g.",True,0,"7,2",True,45
+46,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract in Vyper
+
+struct Bid:
+    bidder: address[20]
+    amount: uint256
+
+auction: public({
+    bidders: map(address[20], uint256)
+    highest_bid: uint256[public]
+    bidding_end: timestamp[public]
+})
+
+@external 
+def __init__():
+    self.auction.bidders = empty(map)
+    self.auction.highest_bid = 0 wei 
+    self.auction.bidding_end = block.timestamp + 30 minutes 
+
+@external 
+def placeBid(amount: uint256):
+    assert_msg.sender!= ZERO_ADDRESS, ""Only non-zero addresses can bid""
+    assert_amount > 0, ""Invalid bid amount""
+    assert_block.timestamp <= self.auction.bidding_end, ""Bidding has ended""
+
+    if amount > self.auction.highest_bid:
+        self.auction.highest_bid = amount 
+        self.auction.bidders[msg.sender] = amount 
+    else:
+        log ""Your bid is not higher than the current highest bid""
+
+@external 
+def getHighestBid() -> uint256:
+    return self.auction.highest_bid
+
+@external 
+def getBidder(address: address[20]) -> uint256:
+    return self.auction.bidders[address]
+
+@view 
+def isAuctionEnded() -> bool:
+    return block.timestamp > self.auction.bidding_end
+
+@internal 
+def _endAuction():
+    assert self.isAuctionEnded(), ""Auction has not ended yet""
+
+    winner_address: address = None 
+    for bidder, amount in self.auction.bidders.items():
+        if amount == self.auction.highest_bid:
+            winner_address = bidder 
+            break 
+
+    assert winner_address!= None, ""No bids were placed""
+
+    # Send the highest bid to the winner (this is just an example, how you would handle it)
+    send(winner_address, self.auction.highest_bid)
+
+    # Reset the auction state for future use 
+    self.auction.bidders = empty(map)
+    self.auction.highest_bid = 0 wei 
+    self.auction.bidding_end = block.timestamp + 30 minutes 
+```
+Let me explain what this contract does:
+
+**Variables and Structures**
+
+The contract uses two main variables: `auction` and `bidders`.",True,4,"7,2",True,46
+47,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Auction Contract in Vyper
+
+# Define the auction parameters
+
+ AuctionDuration: timedelta = 30 minutes  # duration of the auction in seconds
+
+ MinimumBidIncrement: uint256 = 0.01 ether  # minimum increment for each bid
+
+# Define the auction state
+
+struct Bid:
+    bidder: address 
+    amount: uint256 
+
+auction_start_time: public(uint256)  # timestamp when the auction started
+
+bids: public(Bid[])  # array of bids received so far
+
+highest_bid: public(Bid)  # highest bid received so far
+
+# Initialize the auction contract
+
+@externally_owned()
+def __init__(owner: address):
+    self.auction_start_time = block.timestamp  # start time of the auction
+
+# Place a new bid
+
+@payable(""ETH"")
+@internal()
+def place_bid(amount: uint256):
+    # Check if the auction has already ended or if the bid is too low
+    
+    if block.timestamp > self.auction_start_time + AuctionDuration or amount < self.MinimumBidIncrement:
+        revert(""Auction has ended or bid is too low"")
+
+    # Create a new bid structure
+    
+    bid: Bid = Bid({bidder: msg.sender, amount: amount})
+
+    # Add the new bid to the list of bids
+    
+    self.bids.append(bid)
+
+    # Update the highest bid if necessary
+    
+    if amount > self.highest_bid.amount:
+        self.highest_bid = bid
+
+# Get the current highest bid
+
+@view_external()
+def get_highest_bid() -> Bid:
+    return self.highest_bid
+
+# End the auction and award the highest bidder
+
+@internal()
+def end_auction():
+    # Only allow the owner to end the auction
+    
+    assert msg.sender == self.owner, ""Only the owner can end the auction""
+
+    # Transfer the highest bid amount to the owner
+    
+    send(self.owner, self.highest_bid.amount)
+
+    # Reset the auction state
+    
+    self.auction_start_time = 0
+
+    self.bids = []
+
+    self.highest_bid = Bid({bidder: ZERO_ADDRESS, amount: 0})
+```
+This contract allows users to place bids on an item during a set period of time (defined by `AuctionDuration`).",True,4,"7,2",True,47
+48,"
+
+Here is a sample implementation of a smart auction contract in Vyper:
+```
+# Auction Contract
+
+events:
+
+    # Event emitted when a new bid is placed.
+   ",True,0,"7,2",True,48
+49,"
+
+Here is an example of a smart auction contract written in Vyper:
+```
+# Auction Contract
+
+struct Bid:
+    bidder: address 
+    amount: uint256 
+
+auction_end_time: public(uint256)
+highest_bid: public(Bid)
+
+@internal 
+def __init__():
+    self.auction_end_time = block.timestamp + 30 minutes # auction ends in 30 minutes 
+    self.highest_bid = Bid({ bidder: ZERO_ADDRESS, amount: 0 })
+
+@external 
+def bid(amount: uint256) -> bool:
+    """"""
+    Place a new bid on the auction.
+    
+   ",False,,,,49
+50,"
+
+Here is a sample smart auction contract written in Vyper:
+```
+# Smart Auction Contract
+
+# Auction settings 
+AUCTION_DURATION: timedelta = 30 minutes # 30 minutes 
+
+# Mapping of bids to bidder addresses 
+bids: {address: uint256} 
+
+# Current highest bid 
+highest_bid: uint256 = 0 
+
+# Current highest bidder 
+highest_bidder: address = ZERO_ADDRESS 
+
+# Event emitted when a new bid is placed 
+NewBid: event({bid_amount: uint256, bidder: address}) 
+
+# Event emitted when the auction is closed and the winner is declared 
+AuctionClosed: event({winner: address,=,0, winning_bid: uint256=0}) 
+
+@external 
+def __init__(): 
+    # Initialize the auction with no bids 
+    self.bids = {} 
+
+@external 
+@payable(""ETH"") 
+def place_bid(amount: uint256): 
+    # Only allow bids during the auction period 
+    assert block.timestamp < AUCTION_DURATION.end_timestamp, ""Auction has ended"" 
+    # Reject bids that are not higher than the current highest bid 
+    assert amount > self.highest_bid, ""Bid must be higher than current highest bid"" 
+    # Update the bids mapping 
+    self.bids[msg.sender] = amount 
+    # Update the highest bid and bidder if necessary 
+    if amount > self.highest_bid: 
+        self.highest_bid = amount 
+        self.highest_bidder = msg.sender 
+    # Emit the NewBid event 
+    log NewBid(bid_amount=amount, bidder=msg.sender) 
+
+@external 
+def close_auction(): 
+    # Only allow the auction to be closed after the auction period 
+    assert block.timestamp >= AUCTION_DURATION.end_timestamp, ""Auction is still open"" 
+    # Declare the winner and emit the AuctionClosed event 
+    log AuctionClosed(winner=self.highest_bidder, winning_bid=self.highest_bid) 
+
+@internal 
+def _withdraw_funds(): 
+    # Allow the contract owner to withdraw the auction funds 
+    send(self.highest_bidder, self.highest_bid) 
+```
+Let me explain what this contract does:
+
+**Settings**
+
+* The `AUCTION_DURATION` variable sets the length of the auction period (in this case, 30 minutes).
+
+",True,4,"7,2",True,50

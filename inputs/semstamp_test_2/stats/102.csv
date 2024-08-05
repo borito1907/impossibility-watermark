@@ -1,0 +1,1268 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+What a delightful topic!
+
+",True,1,"6,2",True,1
+2,"
+
+What a great question!
+
+",False,,,,2
+3,"
+
+What a delightfully specific and nerdy question!
+
+",False,,,,3
+4,"
+
+What a delightfully specific and technical question!
+
+",True,7,"6,2",True,4
+5,"
+
+What a fascinating question!
+
+",True,1,"6,2",True,5
+6,"
+
+What a delightful question!
+
+",False,,,,6
+7,"
+
+What a specific and interesting question!
+
+",True,7,"6,2",True,7
+8,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,8
+9,"
+
+What a great question!
+
+",False,,,,9
+10,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,10
+11,"
+
+What a delightful topic!
+
+",True,1,"6,2",True,11
+12,"
+
+What a specific and fascinating question!
+
+",False,,,,12
+13,"
+
+What a specific and interesting question!
+
+",True,7,"6,2",True,13
+14,"
+
+What a specific and interesting question!
+
+",True,7,"6,2",True,14
+15,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,15
+16,"
+
+What a specific and fascinating question!
+
+",False,,,,16
+17,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,17
+18,"
+
+What a delightful topic!
+
+",True,1,"6,2",True,18
+19,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,19
+20,"
+
+What a delightful question!
+
+",False,,,,20
+21,"
+
+What a delightfully specific question!
+
+",True,7,"6,2",True,21
+22,"
+
+What a great question!
+
+",False,,,,22
+23,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,23
+24,"
+
+What a specific and fascinating topic!
+
+",True,1,"6,2",True,24
+25,"
+
+What a fascinating question!
+
+",True,1,"6,2",True,25
+26,"
+
+A very specific and interesting question!
+
+",True,5,"6,2",True,26
+27,"
+
+What a great question!
+
+",False,,,,27
+28,"
+
+What a delightful question!
+
+",False,,,,28
+29,"
+
+What a delightful question!
+
+",False,,,,29
+30,"
+
+What a specific and intriguing request!
+
+",True,5,"6,2",True,30
+31,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,31
+32,"
+
+What a specific and technical question!
+
+",True,5,"6,2",True,32
+33,"
+
+What a specific and interesting question!
+
+",True,7,"6,2",True,33
+34,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,34
+35,"
+
+What a great question!
+
+",False,,,,35
+36,"
+
+What a delightful topic!
+
+",True,1,"6,2",True,36
+37,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,37
+38,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,38
+39,"
+
+What a delightful question!
+
+",False,,,,39
+40,"
+
+What a delightful question!
+
+",False,,,,40
+41,"
+
+What a delightfully specific question!
+
+",True,7,"6,2",True,41
+42,"
+
+What a delightful question!
+
+",False,,,,42
+43,"
+
+What a specific and interesting question!
+
+",True,7,"6,2",True,43
+44,"
+
+What a great question!
+
+",False,,,,44
+45,"
+
+What a great question!
+
+",False,,,,45
+46,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,46
+47,"
+
+What a specific and fascinating question!
+
+",False,,,,47
+48,"
+
+What a fascinating topic!
+
+",True,1,"6,2",True,48
+49,"
+
+What a delightful question!
+
+",False,,,,49
+50,"
+
+What a delightful topic!
+
+",True,1,"6,2",True,50
+51,"To implement type checking for the ISO C90 language, we can design a data model that captures the essential information about variables, AKA ""identifiers,"" and their corresponding types.",True,1,"6,2",True,1
+52,"To implement type checking in the ISO C90 language, as described in the ANSI C standard (1990), we need a data model that captures the essential information about types, and their relationships.",True,3,"6,2",True,2
+53,"To implement type checking for the ISO C90 language, you'll need a robust data model that represents the various aspects of the language's type system.",True,2,"6,2",True,3
+54," Here's a suggested data model:
+
+**1.",True,5,"5,2",True,1
+55," Type Hierarchy**
+
+Create a `Type` class with the following subclasses:
+	* `PrimitiveType`: int,al,float, char, and void (including unsigned variants)
+	* `PointerType`: pointers to other types (e.g., int*, float*)
+	* `ArrayType`: arrays of other types (e.g., int[5], float[][])
+	* `StructType`: structs composed of multiple fields (e.g., struct Point { int x; int y; })
+	* `EnumType`: enumeration types (e.g., enum Color { RED, GREEN, BLUE })
+	* `UnionType`: unions of different types (e.g., union { int i; float f; })
+
+Each `Type` object should have a unique identifier (e.g., an integer ID) to facilitate comparisons.
+
+",True,0,"1,4",True,1
+56," Type Hierarchy**
+
+Create a hierarchical structure to represent the different types in C90:
+```cassandraql
+
+Type (abstract)
+  |
+  |-- PrimitiveType (e.g., int, char, float, void)
+  |
+  |-- DerivedType (e.g., array, pointer, function)
+  |    |
+  |    |-- ArrayType (element type, dimensions)
+  |    |-- PointerType (pointed-to type)
+  |    |-- FunctionType (return type, parameter types)
+
+```
+This hierarchy captures the relationships between primitive types and derived types.
+
+",True,7,"1,4",True,2
+57," Types**
+
+* `Type`: An abstract base class representing all types in the language.
+	",True,4,"1,4",True,3
+58,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.)
+		",True,0,"7,2",True,1
+59,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,2
+60,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""char"", ""struct foo"").
+		",True,0,"7,2",True,3
+61,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char"", ""struct foo"").
+		",True,0,"7,2",True,4
+62,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,5
+63,"+ `name`: A string identifier for the type (e.g., ""int"", ""char*"", etc.",False,,,,6
+64,"+ Attributes:
+		- `id`: A unique identifier for the type (e.g., ""int"", ""char*"", etc.)
+		",True,0,"7,2",True,7
+65,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,8
+66,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,9
+67,"+ Attributes:
+		- `name`: A string identifier for the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,10
+68,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string, a human-readable name for the type)
+	+ Methods:
+		- `isEqual(Type other)`: Checks if two types are equal.
+		",True,0,"7,2",True,11
+69,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,12
+70,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,13
+71,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,14
+72,"+ Attributes:
+		- `name` (string): The name of the type (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,15
+73,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char *"")
+	+ Subclasses:
+		- `PrimitiveType` (e.g., int, (signed/unsigned), float, char)
+			- Additional attributes:
+				- `size` (byte size of the type)
+				- `signed` (boolean indicating if the type is signed or unsigned)
+		- `PointerType` (e.g., int *, char **)
+			- Additional attributes:
+				- `base_type` (reference to the underlying type, e.g., int for int *)
+				- `pointer_level` (integer indicating the level of indirection, e.g., 1 for int *, 2 for int **)
+		- `ArrayType` (e.g., int[5], char[][])
+			- Additional attributes:
+				- `element_type` (reference to the type of each element, e.g., int for int[5])
+				- `dimensionality` (integer indicating the number of dimensions, e.g., 1 for int[5], 2 for char[][])
+		- `StructType` (e.g., struct foo { int x; char y; })
+			- Additional attributes:
+				- `members` (list of `StructMember` objects, see below)
+		- `EnumType` (e.g., enum color { RED, GREEN, BLUE })
+			- Additional attributes:
+				- `values` (list of `EnumValue` objects, see below)
+
+**2.",True,0,"7,2",True,16
+74,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char *"")
+	+ Methods:
+		- `isEqualTo(Type other)`: Compares two types for equality.
+		",False,,,,17
+75,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.)
+		",True,0,"7,2",True,18
+76,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,19
+77,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char*"", etc.)
+	",True,0,"7,2",True,20
+78,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""float"", ""struct foo"").
+		",True,0,"7,2",True,21
+79,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""char*"", etc.)
+		",True,0,"7,2",True,22
+80,"+ `id` (unique identifier)
+	+ `name` (string representation of the type, (e.g., ""int"", ""char *""))
+	+ `kind` (enum): One of:
+		- `BASIC` (basic types like int, the language provides, e.g., int, char)
+		- `ARRAY` (array types)
+		- `STRUCT` (struct types)
+		- `ENUM` (enumeration types)
+		- `UNION` (union types)
+		- `PTR` (pointer types)
+		- `FN_PTR` (function pointer types)
+
+**2.",False,,,,23
+81,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.)
+		",True,0,"7,2",True,24
+82,"+ Attributes:
+		- `kind`: An enumeration indicating the type kind (e.g., integer, the `enum` values like `INT`, `FLOAT`, `STRUCT`, etc.)
+		",True,0,"7,2",True,25
+83,"+ Attributes:
+		- `name`: A string identifier for the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,26
+84,"+ Attributes:
+		- `kind`: An enumeration indicating the type kind (e.g., integer, pointer, array, struct, union, enum ).
+		",True,0,"7,2",True,27
+85,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""float"", etc.",True,0,"7,2",True,28
+86,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char*"", etc.)
+	",True,0,"7,2",True,29
+87,"+ Attributes:
+		- `kind`: an enumeration indicating the type kind (e.g., `INT`, `FLOAT`, `POINTER`, `STRUCT`, etc.)
+		",False,,,,30
+88,"+ `id` (unique identifier)
+	+ `name` (string representation of the type, a.k.a.",True,5,"7,2",True,31
+89,"+ Attributes:
+		- `name` (string): The name of the type (e.g., ""int"", ""char"", ""struct foo"").
+		",True,0,"7,2",True,32
+90,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char *"", etc.)
+		",True,0,"7,2",True,33
+91,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,34
+92,"+ Attributes:
+		- `name`: A string identifier for the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,35
+93,"+ Attributes:
+		- `name`: A string identifier for the type (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,36
+94,"+ Attributes:
+		- `name`: A string identifier for the type (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,37
+95,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""char"", etc.",True,0,"7,2",True,38
+96,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char*"", etc.)
+	",True,0,"7,2",True,39
+97,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char*"", etc.)
+	",True,0,"7,2",True,40
+98,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""char*"", etc.)
+		",True,0,"7,2",True,41
+99,"+ Attributes:
+		- `name` (string): The name of the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,42
+100,"+ Attributes:
+		- `name`: A unique string identifier for the type (e.g., ""int"", ""char*"", etc.",True,0,"7,2",True,43
+101,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char*"", etc.)
+	",True,0,"7,2",True,44
+102,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char *"", etc.)
+		",True,0,"7,2",True,45
+103,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char *"", etc.",True,0,"7,2",True,46
+104,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string; e.g., ""int"", ""char"", etc.)
+		",True,0,"7,2",True,47
+105,"+ Attributes:
+		- `name`: A string identifying the type (e.g., ""int"", ""char*"", etc.)
+		",True,0,"7,2",True,48
+106,"+ Attributes:
+		- `name`: A string representing the type name (e.g., ""int"", ""char"", ""struct foo"").
+		",True,0,"7,2",True,49
+107,"+ Attributes:
+		- `id` (unique identifier)
+		- `name` (string representation of the type, e.g., ""int"", ""char*"", etc.)
+	",True,0,"7,2",True,50
+108,"+ Methods:
+		- `equals(Type other)`: Compares two types for equality.
+
+",True,2,"5,2",True,1
+109,"**2. Primitive Types**
+
+* `PrimitiveType`: A subclass of `Type`, representing built-in primitive types like integers, floats, and characters.
+	",True,3,"5,2",True,1
+110,"**Concrete Subtypes of Type:**
+
+* `PrimitiveType`: Represents primitive types like integers, a boolean, and characters.
+	",True,4,"5,2",True,2
+111,"**2. Primitive Types**
+
+* `PrimitiveType`: Inherits from `Type`.
+	",True,3,"5,2",True,3
+112,"**Concrete Subtypes of Type:**
+
+* `PrimitiveType`: Represents primitive types like `int`, `float`, `char`, etc.
+	",False,,,,4
+113,"**Concrete Type Subclasses:**
+
+* `PrimitiveType`: Represents primitive types like `int`, `float`, `char`, etc.
+	",True,0,"5,2",True,5
+114,"**Concrete Type Classes:**
+
+These classes inherit from `Type` and add specific attributes and methods as needed.
+
+",True,0,"5,2",True,6
+115,"**Concrete Subtypes of Type:**
+
+* `PrimitiveType`: Represents primitive types like `int`, `float`, `char`, etc.
+	",False,,,,7
+116,"**2. Primitive Types**
+
+* `PrimitiveType` extends `Type`:
+	+ Represents built-in primitive types like integers, characters,ed floats,.
+	",True,3,"5,2",True,8
+117,"**2. Primitive Types**
+
+* `PrimitiveType`: A concrete subclass of `Type`, representing built-in primitive types (e.g., integers, characters, etc.",True,7,"5,2",True,9
+118,"**2. Primitive Types**
+
+* `PrimitiveType`: A concrete subclass of `Type`, representing built-in types like integers, and characters.
+	",True,6,"5,2",True,10
+119,"**2. Primitive Types**
+
+* `PrimitiveType`: A subclass of `Type`, representing built-in primitive types (e.g., int, char, float).
+	",True,3,"5,2",True,11
+120,"**Concrete Subtypes of Type:**
+
+* `PrimitiveType`: Represents primitive types like `int`, `char`, `float`, etc.
+	",False,,,,12
+121,"**Concrete Type Classes:**
+
+These classes inherit from `Type` and add specific attributes and methods as needed.
+
+",True,0,"5,2",True,13
+122,"**2. Primitive Types**
+
+* `PrimitiveType`: A concrete subclass of `Type`, representing built-in types like integers, The and characters.
+	",False,,,,14
+123,"**2. Built-in Types**
+
+* `BuiltInType`: A concrete subclass of `Type`, representing built-in types like integers,uals, characters, etc.
+	",True,1,"5,2",True,15
+124,"**2. Primitive Types**
+
+* `PrimitiveType`: A subclass of `Type`, representing built-in primitive types like integers, floats, characters, etc.
+	",True,3,"5,2",True,16
+125,"**2. Primitive Types**
+
+* `PrimitiveType` (inherits from `Type`):
+	+ Represents basic types like integers,2017, characters, etc.
+	",True,3,"5,2",True,17
+126,"**Subclasses of Type:**
+
+* `PrimitiveType`: Represents primitive types like `int`, `char`, `float`, etc.
+	",True,3,"5,2",True,18
+127,"**2. Primitive Types**
+
+* `PrimitiveType`: A concrete subclass of `Type`, representing built-in types like integers,2020, characters, and floating-point numbers.
+	",True,3,"5,2",True,19
+128,"**Concrete Subclasses of Type:**
+
+* `PrimitiveType`: Represents primitive types like integers, more specifically, in this case, I mean types such as `int`, `char`, `float`, etc.
+	",False,,,,20
+129,"**2. Primitive Types**
+
+* `PrimitiveType`: Inherits from `Type`.",True,3,"5,2",True,21
+130,"**2. Basic Types**
+
+* `BasicType`: Inherits from `Type`, representing fundamental types like integers,  sizeof operators).
+	",False,,,,22
+131,"**2. Primitive Types**
+
+* `PrimitiveType`: A subclass of `Type`, representing built-in primitive types like integers, characters, etc.
+	",True,7,"5,2",True,23
+132,"**Concrete Type Classes:**
+
+* `PrimitiveType` (inherits from `Type`):
+	+ Represents primitive types like `int`, `float`, `char`, etc.
+	",False,,,,24
+133,"**2. Built-in Types**
+
+* `BuiltInType` (inherits from `Type`): Represents built-in types like integers, and characters.
+	",True,1,"5,2",True,25
+134,"**2. Primitive Types**
+
+* `PrimitiveType`: A concrete subclass of `Type` representing primitive types (e.g., `int`, `char`, `float`, etc.",False,,,,26
+135,"**Concrete Type Subclasses:**
+
+* `PrimitiveType` (e.g., int, the basic types like char, (char), signed/unsigned integers (int, short, int, long))
+	+ Additional attributes:
+		- `size` (integer value representing the size of the type in bytes)
+* `PointerType` (e.g., int\*)
+	+ Additional attributes:
+		- `pointed_type` (reference to the type being pointed to)
+* `ArrayType` (e.g., int[5])
+	+ Additional attributes:
+		- `element_type` (reference to the type of each element)
+		- `dimension` (integer value representing the number of elements in the array)
+* `StructType` (e.g., struct mystruct {... };)
+	+ Additional attributes:
+		- `members` (list of `Field` objects, representing the structure's members)
+* `EnumType` (e.g., enum myenum {... };)
+	+ Additional attributes:
+		- `values` (list of `EnumValue` objects)
+
+**2.",False,,,,27
+136,"**Subtypes:**
+
+* `PrimitiveType` (inherits from `Type`):
+	+ Represents basic types like integers, I, floats F, characters c, etc.
+	",True,3,"5,2",True,28
+137,"**2. Primitive Types**
+
+* `PrimitiveType`: Inherits from `Type`, representing built-in primitive types like integers, or characters.
+	",True,7,"5,2",True,29
+138,"**Concrete Type Subclasses:**
+
+* `PrimitiveType`: Represents primitive types like `int`, `char`, `float`, etc.
+	",True,0,"5,2",True,30
+139,"**2. Primitive Types**
+
+* `PrimitiveType`: A concrete subclass of `Type`, representing built-in primitive types (e.g., int, char, float).
+	",True,2,"5,2",True,31
+140,"+ Additional attributes:
+		- `size` (integer value indicating the size of the type in bytes)
+
+Examples: `IntType`, `CharType`, `FloatType`
+
+**3.",True,1,"5,2",True,1
+141,"+ Attributes: (in addition to those inherited from `Type`)
+		- `size` (integer, size of the type in bytes)
+		- `is_unsigned` (boolean indicating whether the type is unsigned)
+
+Examples: `IntType`, `CharType`, `FloatType`
+
+**3.",True,0,"5,2",True,2
+142,"+ Attributes:
+		- `size` (integer,18 bits, 32 bits, etc.)
+		",True,0,"5,2",True,3
+143,"+ Additional attributes:
+		- `size` (integer value representing the size of the type in bytes)
+		- `signed` (boolean indicating whether the type is signed or unsigned)
+
+**3.",True,0,"5,2",True,4
+144,"+ Attributes:
+		- `size` (integer value indicating the size of the type in bytes)
+	+ Methods:
+		- ` getDefaultInitialValue()`: Returns a default initial value for the type (e.g., 0 for int).
+
+",True,0,"5,2",True,5
+145,"+ Attributes:
+		- `size` (integer, for memory allocation purposes)
+		- `signed` (boolean indicating signed or unsigned)
+
+**3.",True,0,"5,2",True,6
+146,"+ Additional attributes:
+		- `size` (integer representing the size of the type in bytes)
+		- `signed` (boolean indicating if the type is signed or unsigned)
+
+**3.",True,0,"5,2",True,7
+147,"+ Additional attributes:
+		- `size` (integer value indicating the size of the type in bytes)
+
+**3.",True,1,"5,2",True,8
+148,"+ Attributes:
+		- `size` (integer value indicating the size of the type in bytes)
+
+**3.",True,1,"5,2",True,9
+149,"+ Attributes:
+		- `size` (integer,200 bits, 4 bytes, etc.)
+	",True,0,"5,2",True,10
+150,"+ Attributes:
+		- `kind` (enumeration: INT, a value indicating the type, an integer constant)
+		- `size` (integer: size of the type in bytes)
+	+ Examples:
+		- `IntType` (kind = INT, size = 4)
+		- `CharType` (kind = CHAR, size = 1)
+
+**3.",True,0,"5,2",True,11
+151,"+ Attributes:
+		- `size` (integer, (byte-size of the type)
+		- `signed` (boolean indicating whether the type is signed or unsigned)
+
+**3.",True,0,"5,2",True,12
+152,"+ Attributes: (in addition to `Type` attributes)
+		- `size` (byte size of the type)
+		- `signed` (boolean indicating if the type is signed)
+
+**3.",True,0,"5,2",True,13
+153,"+ Attributes:
+		- `size` (integer, a number of bytes required to store the type)
+	+ Inherited methods from `Type`
+
+**3.",True,1,"5,2",True,14
+154,"+ Attributes:
+		- `size` (integer representing the size of the type in bytes)
+	+ Inherited from `Type`: `id`, `name`
+
+**3.",True,0,"5,2",True,15
+155,"+ Attributes:
+		- `size` (integer representing the size of the type in bytes)
+	+ Methods:
+		- `getSize()`: Returns the size of the type.
+
+",True,0,"5,2",True,16
+156,"+ Attributes:
+		- `size` (integer, the size of the type in bytes)
+		- `signed` (boolean indicating if the type is signed or unsigned)
+
+**3.",True,0,"5,2",True,17
+157,"+ Attributes:
+		- `primitive_kind` (enumeration: `INT`, `CHAR`, `FLOAT`, etc.)
+
+",True,0,"5,2",True,18
+158,"+ Additional attributes:
+		- `primitive_kind` (enumeration: INT, (u)int, CHAR, FLOAT, VOID, etc.)
+
+",True,1,"5,2",True,19
+159,"+ Additional attributes:
+		- `size` (integer value representing the size of the type in bytes)
+
+**3.",True,1,"5,2",True,20
+160,"+ Attributes: None (inherits from `Type`)
+	+ Methods: None (inherits from `Type`)
+
+Examples of `PrimitiveType` instances:
+	+ `IntType`
+	+ `CharType`
+	+ `FloatType`
+
+**3.",True,1,"5,2",True,21
+161,"+ Additional attributes:
+		- `primitiveKind` (enum): Enum value indicating the specific primitive type (INT, CHAR, FLOAT, etc.)
+
+",False,,,,22
+162,"+ Attributes:
+		- `size` (integer representing the size of the type in bytes)
+		- `signed` (boolean indicating whether the type is signed or unsigned)
+
+**3.",True,0,"5,2",True,23
+163,"+ Attributes:
+		- `size` (integer,000): The size of the type in bytes (e.g., 4 for int).
+
+",True,1,"5,2",True,24
+164,"+ Attributes:
+		- `size` (integer, (byte size of the type))
+		- `signed` (boolean indicating whether the type is signed or unsigned)
+
+**3.",True,0,"5,2",True,25
+165,"+ Additional attributes:
+		- `size` (integer, the size of the type in bytes)
+		- `signed` (boolean indicating whether the type is signed)
+
+**3.",True,0,"5,2",True,26
+166,"+ Attributes:
+		- `primitiveKind` (enum: INT, CHAR,  FLOAT, etc.)
+	",True,0,"5,2",True,27
+167,"+ Attributes:
+		- `size` (integer,2019 size of the type in bytes)
+	+ Methods:
+		- `isCompatibleWith(PrimitiveType other)`: Checks if two primitive types are compatible (e.g., can an int be assigned to a float?",True,2,"5,2",True,28
+168,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions).
+	",False,,,,1
+169,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays,2019 pointers, structs,2019 unions).
+	",True,7,"5,2",False,2
+170,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (e.g., struct, arrays).
+	",True,4,"5,2",False,3
+171,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers, structs, unions).
+	",False,,,,4
+172,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures).
+	",True,4,"5,2",False,5
+173,").
+
+**3. Struct and Union Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing struct and union types.
+	",True,4,"5,2",False,6
+174,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers, structs, unions, enums).
+	",True,5,"5,2",False,7
+175,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, functions, pointers).
+	",True,5,"5,2",False,8
+176,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,9
+177,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays,2020 pointers, functions).
+	",True,5,"5,2",False,10
+178,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,11
+179,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays,2019 pointers, structs,2020 unions).
+	",False,,,,12
+180,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (arrays, structures).
+	",True,4,"5,2",False,13
+181,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions, pointers).
+	",False,,,,14
+182,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions).
+	",False,,,,15
+183,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,16
+184,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions, pointers).
+	",False,,,,17
+185,").
+
+**3. Derived Types**
+
+* `PointerType`: A concrete subclass of `Type`, representing pointer types (e.g., int*, char**).
+	",True,7,"5,2",False,18
+186,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions, enums).
+	",False,,,,19
+187,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (arrays, structs, unions).
+	",False,,,,20
+188,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (e.g., structs, arrays).
+	",True,4,"5,2",False,21
+189,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers, structures, unions).
+	",False,,,,22
+190,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions, pointers).
+	",False,,,,23
+191,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, struct, unions, pointers).
+	",False,,,,24
+192,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointer types).
+	",True,5,"5,2",False,25
+193,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., structs, some_array[5], pointers like char*).
+	",True,4,"5,2",False,26
+194,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, struct, unions, enum).
+	",False,,,,27
+195,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions, pointers).
+	",False,,,,28
+196,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structs, unions).
+	",True,4,"5,2",False,29
+197,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structs, unions).
+	",True,4,"5,2",False,30
+198,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, struct, unions, enumerations).
+	",False,,,,31
+199,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., structs,  arrays).
+	",True,4,"5,2",False,32
+200,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures).
+	",True,4,"5,2",False,33
+201,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures/unions).
+	",True,4,"5,2",False,34
+202,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions, pointers).
+	",False,,,,35
+203,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,36
+204,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions).
+	",False,,,,37
+205,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, vectors, structs, unions).
+	",True,7,"5,2",False,38
+206,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, a pointer to a function).
+	",True,5,"5,2",False,39
+207,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions).
+	",False,,,,40
+208,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, the pointers, enumerations, structures, unions).
+	",True,5,"5,2",False,41
+209,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, a pointer to a function).
+	",True,5,"5,2",False,42
+210,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,43
+211,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays,2019 structures, unions).
+	",True,4,"5,2",False,44
+212,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., structs, structures, arrays).
+	",True,4,"5,2",False,45
+213,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, arrays, structures).
+	",True,4,"5,2",False,46
+214,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., structs, a pointer to another type).
+	",True,4,"5,2",False,47
+215,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,48
+216,").
+
+**3. Derived Types**
+
+* `PointerType`: A concrete subclass of `Type`, representing pointer types (e.g., int*, char**).
+	",True,7,"5,2",False,49
+217,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers).
+	",True,5,"5,2",False,50
+218,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,51
+219,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (arrays, structs, unions).
+	",True,0,"5,2",False,52
+220,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing structured types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,53
+221,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., structs, arrays).
+	",True,4,"5,2",False,54
+222,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., pointers, arrays, structures, unions, enums).
+	",True,5,"5,2",False,55
+223,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, arrays, structs, unions).
+	",True,4,"5,2",False,56
+224,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, point2035s, structures, unions).
+	",True,7,"5,2",False,57
+225,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (arrays, structs, unions).
+	",True,0,"5,2",False,58
+226,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, structures, unions).
+	",True,7,"5,2",False,59
+227,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures).
+	",True,4,"5,2",False,60
+228,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,61
+229,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers, functions).
+	",True,5,"5,2",False,62
+230,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures/unions).
+	",True,4,"5,2",False,63
+231,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,64
+232,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing aggregate types (e.g., arrays, structures).
+	",True,4,"5,2",False,65
+233,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures).
+	",True,4,"5,2",False,66
+234,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., pointers, arrays, structs).
+	",True,5,"5,2",False,67
+235,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers, structs, unions, enums).
+	",True,5,"5,2",False,68
+236,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers, arrays, structs, unions).
+	",True,5,"5,2",False,69
+237,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, pointers, structures).
+	",True,5,"5,2",False,70
+238,").
+
+**3. Pointer Types**
+
+* `PointerType`: A concrete subclass of `Type`, representing pointer types (e.g., int*, char**).
+	",True,1,"5,2",False,71
+239,").
+
+**3. Pointer Types**
+
+* `PointerType`: A concrete subclass of `Type`, representing pointer types (e.g., int*, char**, void*).
+	",True,1,"5,2",False,72
+240,").
+
+**3. Composite Types**
+
+* `CompositeType`: A concrete subclass of `Type`, representing composite types (e.g., arrays, structures, unions).
+	",True,4,"5,2",False,73
+241,").
+
+**3. Derived Types**
+
+* `DerivedType`: A concrete subclass of `Type`, representing derived types (e.g., arrays, a pointer to a type).
+	",True,5,"5,2",False,74
+242,").
+
+**3. Struct and Union Types**
+
+* `StructType`: A concrete subclass of `Type`, representing struct types (e.g., `struct my_struct {... };`).
+	",True,0,"5,2",False,75
+243,"+ Attributes:
+		- `members` (list of `StructMember` objects)
+	+ Methods:
+		- `getMember(String name)`: Retrieves a specific member by name.
+		",True,6,"5,2",True,1
+244,"+ Attributes:
+		- `members` (list of `StructMember` objects)
+	+ Methods:
+		- `getMember(string name)`: Retrieves a `StructMember` by its name.
+		",True,6,"5,2",True,2
+245,"+ Attributes:
+		- `fields` (list of `Field` objects, representing the struct's members)
+	+ Methods:
+		- `addField(Field field)`: Adds a new field to the struct.
+		",True,4,"5,2",True,3
+246,"+ Attributes:
+		- `members` (list of `StructMember` objects)
+	+ Methods:
+		- `getMember(string name)`: Returns a specific member by name.
+		",True,6,"5,2",True,4
+247,"+ Attributes:
+		- `members` (list of `Field` objects, representing the structure's members)
+	+ Methods:
+		- `getFieldByName(string name)`: Retrieves a field by its name.
+",False,,,,5
+248,"+ Attributes:
+		- `members` (list of `StructMember` objects)
+	+ Methods:
+		- `getMember(string name)`: Returns the `StructMember` with the given name.
+",True,4,"5,2",True,6
+249,"+ Attributes:
+		- `members` (list of `Member` objects, representing the struct's fields)
+	+ Methods:
+		- `hasMember(string name)`: Checks if the struct has a member with the given name.
+		",True,0,"5,2",True,7
+250,"+ Attributes:
+		- `members` (list of `Field`s, where each field has a name, A`name`, a `type`, and an optional `bitfield` specification)
+	+ Methods:
+		- `getField(String name)`: Retrieves a `Field` by its name.
+		",True,4,"5,2",True,8
+251,"+ Attributes:
+		- `members` (a list of `Field` objects, see below)
+	+ Methods:
+		- `getField(String name)`: Retrieves a field by its name.
+		",True,0,"5,2",True,9
+252,"+ Attributes:
+		- `members` (list of `StructMember` objects)
+	+ Methods:
+		- `addField(Type fieldType, a field name)`: Adds a new field to the struct.
+		",True,4,"5,2",True,10
+253,"+ Attributes:
+		- `members` (list of `StructMember` objects)
+	+ Methods:
+		- `addField(StructMember member)`: Adds a new field to the struct.
+		",True,4,"5,2",True,11
+254,"+ Attributes:
+		- `members` (list of `Field`s, see below)
+	+ Methods:
+		- `getFieldByName(string name)`: Retrieves a field by its name.
+		",True,4,"5,2",True,12
+255,"+ Attributes:
+		- `members` (list of `StructMember` objects)
+	+ Methods:
+		- `getMember(string name)`: Retrieves a struct member by name.
+",True,6,"5,2",True,13
+256,"+ Attributes:
+		- `members` (a list of `StructMember` objects, see below)
+	+ Methods:
+		- `hasMember(string name)`: Checks if a struct member exists by name.
+		",True,2,"5,2",True,14

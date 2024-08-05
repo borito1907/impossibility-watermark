@@ -1,0 +1,42 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-07-30 11:44:57,878][__main__][INFO] - Starting to watermark...
+[2024-07-30 11:44:57,886][__main__][INFO] - Prompt: Whats the difference between network allocation and network dimensioning?
+[2024-07-30 11:44:57,886][__main__][INFO] - Prompt ID: 693024149
+[2024-07-30 11:44:57,886][__main__][INFO] - Getting the watermarker...
+[2024-07-30 11:44:57,886][watermarker][INFO] - Using device: cuda:0
+[2024-07-30 11:44:57,886][model_builders.pipeline][INFO] - Initializing 
+Error executing job with overrides: ['++watermark_args.name=semstamp_lsh', '++watermark_args.embedder=', '++watermark_args.delta=0.01', '++watermark_args.sp_mode=lsh', '++watermark_args.sp_dim=3', '++watermark_args.lmbd=0.25', '++watermark_args.max_new_tokens=255', '++watermark_args.min_new_tokens=245', '++watermark_args.max_trials=50', '++watermark_args.critical_max_trials=75', '++watermark_args.cc_path=', '++watermark_args.train_data=', '++watermark_args.len_prompt=32', '++watermark_args.z_threshold=0.5', '++watermark_args.use_fine_tuned=True', '++prompt_file=./data/WQE/dev.csv', '++prompt_num=125', '++is_completion=False', '++generator_args.temperature=1', '++generator_args.diversity_penalty=0', '++generation_stats_file_path=./inputs/dev_semstamp_last_3/gen_stats/prompt_125.csv', '++watermark_args.use_fine_tuned=False', '++watermarked_text_file_path=./inputs/dev_semstamp_last_3/watermarked_texts.csv']
+Traceback (most recent call last):
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py", line 402, in cached_file
+    resolved_file = hf_hub_download(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 106, in _inner_fn
+    validate_repo_id(arg_value)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 160, in validate_repo_id
+    raise HFValidationError(
+huggingface_hub.errors.HFValidationError: Repo id must use alphanumeric chars or '-', '_', '.', '--' and '..' are forbidden, '-' and '.' cannot start or end the name, max length is 96: ''.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/local1/borito1907/impossibility-watermark/watermarked_text_generator.py", line 32, in test
+    watermarker = get_watermarker(cfg, only_detect=False)
+  File "/local1/borito1907/impossibility-watermark/watermarker_factory.py", line 13, in get_watermarker
+    return SemStampWatermarker(cfg, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarkers/semstamp.py", line 40, in __init__
+    super().__init__(cfg, pipeline, n_attempts, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarker.py", line 22, in __init__
+    self.pipeline = PipeLineBuilder(self.cfg.generator_args)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 28, in __init__
+    self._init_model(self.cfg)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 83, in _init_model
+    self.model = AutoModelForCausalLM.from_pretrained(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 485, in from_pretrained
+    resolved_config_file = cached_file(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py", line 466, in cached_file
+    raise EnvironmentError(
+OSError: Incorrect path_or_model_id: ''. Please provide either the path to a local folder or the repo_id of a model on the Hub.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

@@ -1,0 +1,3752 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Token name and symbol, to be displayed on the blockchain explorer.
+",True,4,"7,2",True,1
+2,"
+
+Here is an example of a simple ERC-20-like token smart contract in Cairo 1.0 syntax:
+```
+%lang cairo
+
+# Import the Open Zeppelin libraries for ERC20 functionality 
+from openzeppelin.token.ERC20 import ERC20
+
+# Define the Token name and symbol 
+TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens 
+TOTAL_SUPPLY = 1000000 * (10 ** 18)
+
+# Create a struct to hold the token balances 
+struct Balance {
+    owner: felt,
+    amount: uint256,
+}
+
+# Create a dictionary to store the token balances 
+balances: dict[felt, Balance] = {}
+
+# Initialize the token contract 
+@constructor(func)
+func init() {
+    # Set the total supply 
+    self.total_supply = TOTAL_SUPPLY
+
+    # Mint the initial supply to the contract deployer 
+    balances[get_caller()] = Balance({owner: get_caller(), amount: TOTAL_SUPPLY})
+}
+
+# Define a function to transfer tokens 
+@external(func)
+func transfer(recipient: felt, amount: uint256) {
+    # Get the caller's balance 
+    caller_balance = balances[get_caller()]
+
+    # Check if the caller has sufficient funds 
+    assert caller_balance.amount >= amount, ""Insufficient funds""
+
+    # Update the caller's balance 
+    balances[get_caller()] = Balance({owner: get_caller(), amount: caller_balance.amount - amount})
+
+    # Add the recipient to the balances dictionary if they don't exist 
+    if recipient not in balances:
+        balances[recipient] = Balance({owner: recipient, amount: 0})
+
+    # Update the recipient's balance 
+    balances[recipient].amount += amount
+
+    # Emit a Transfer event 
+    emit.Transfer(get_caller(), recipient, amount)
+}
+
+# Define a function to get the token balance of an address 
+@view(external)
+func balance_of(owner: felt) -> uint256 {
+    return balances.get(owner, Balance({owner: owner, amount: 0})).amount  
+}
+
+# Define a function to get the total supply of tokens 
+@view(external)
+func total_supply() -> uint256 {
+    return self.total_supply  
+}
+```
+This contract defines a simple token with the following functionality:
+
+* A constructor that initializes the token contract, mints the initial supply, and sets the total supply.
+",True,4,"7,2",True,2
+3,"
+
+Here is an example of a Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.math import ASSERT_EQ,:\/\/ Check for equality between two values.
+
+",True,6,"7,2",True,3
+4,"
+
+Here is an example of a basic Cairo 1.0 token smart contract:
+```
+%lang cairo1
+
+# Define the token name and symbol:
+TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens:
+TOTAL_SUPPLY = 1000000
+
+# Define the contract's storage variables:
+owner: felt252 = 0  # Owner of the contract (initially set to 0)
+balances: Dict[felt252, u128] = {}  # Mapping of user balances
+
+# Function to initialize the contract:
+func init():
+    owner = get_caller_id()
+    balances[owner] = TOTAL_SUPPLY
+
+# Function to transfer tokens:
+func transfer(recipient: felt252, amount: u128):
+    caller_balance = balances[get_caller_id()]
+    if caller_balance >= amount:
+        balances[get_caller_id()] -= amount;
+        balances[recipient] += amount;
+
+# Function to get a user's balance:
+func get_balance(user: felt252) -> u128:
+    return balances[user]
+
+# Function to get the total supply of tokens:
+func get_total_supply() -> u128:
+    return TOTAL_SUPPLY
+
+# Event to notify about token transfers:
+event Transfer(from: felt252, to: felt252, value: u128)
+
+# Define the contract's entry points:
+@external func transfer_from_cairo(to: felt252, value: u128):
+    transfer(to, value)
+    emit Transfer(get_caller_id(), to, value)
+
+@view func get_balance_view(user: felt252) -> u128:
+    return get_balance(user)
+
+@view func get_total_supply_view() -> u128:
+    return get_total_supply()
+
+@constructor func constructor():
+    init()
+```
+This contract defines a basic ERC-20-like token with the following functionality:
+
+* Initialization: sets the owner of the contract and initializes the total supply of tokens.
+",True,4,"7,2",True,4
+5,"
+
+Here is an example of a simple ERC-20 token smart contract written in Cairo, to be deployed on StarkNet:
+```cairo title=""CairoToken.cairo""
+%lang cairo
+
+# Define the contract's storage variables
+
+@storage_var 
+owner: felt252 = 0x0123456789abcdef; 
+
+@storage_var 
+total_supply: felt252 = 1000000 * (10 ** 18); 
+
+@storage_var 
+balances: Map<felt252, felt252> = {};
+
+# Event emitted when tokens are transferred
+
+@event 
+Transfer(from: felt252, to: felt252, value: felt252);
+
+# Initialize the contract with the owner's address and initial supply
+
+@constructor 
+func init(owner_addr: felt252) {
+    owner = owner_addr;
+    balances[owner] = total_supply;
+}
+
+# Mint new tokens and add them to the owner's balance
+
+@external 
+func mint(amount: felt252) {
+    assert owner == get_caller();
+    balances[owner] += amount;
+    total_supply += amount;
+}
+
+# Transfer tokens from one address to another
+
+@external 
+func transfer(from: felt252, to: felt252, value: felt252) {
+    assert balances[from] >= value;
+    balances[from] -= value;
+    balances[to] += value;
+    emit Transfer(from, to, value);
+}
+
+# Get the balance of a specific address
+
+@view 
+func balance_of(address: felt252): felt252 {
+    return balances[address];
+}
+
+# Get the total supply of tokens
+
+@view 
+func total_supply(): felt252 {
+    return total_supply;
+}
+```
+This contract has the following features:
+
+* It defines three storage variables: `owner` to store the contract owner's address, `total_supply` to store the total supply of tokens, and `balances` to store the token balance for each address.
+",True,4,"7,2",True,5
+6,"
+
+Here is an example of a basic Cairo1 token smart contract:
+```
+%lang starknet
+
+# Define the token name and symbol
+
+const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens
+
+const TOTAL_SUPPLY = 1000000
+
+# Define the token's decimals (18 for most cryptocurrencies)
+
+const DECIMALS = 18
+
+# Define the owner's address (replace with your own address)
+
+const OWNER_ADDRESS = [your_owner_address]
+
+# Define the contract's storage
+
+storage {
+    # Mapping of addresses to balances (uint256)
+    balances: map(felt, uint256),
+
+    # Total supply (uint256)
+    total_supply: uint256,
+}
+
+# Initialize the contract
+
+@constructor()
+func init() {
+    # Set the total supply to the defined value
+
+    self.total_supply = TOTAL_SUPPLY;
+
+    # Initialize the owner's balance to the total supply
+
+    self.balances[OWNER_ADDRESS] = self.total_supply;
+}
+
+# Function to get the balance of a given address
+
+@view()
+func balance_of(address: felt) -> uint256 {
+    return self.balances[address];
+}
+
+# Function to transfer tokens from one address to another
+
+@external()
+func transfer(from: felt, to: felt, amount: uint256) {
+    # Check that the sender has sufficient balance
+
+    assert self.balances[from] >= amount, ""Insufficient balance"";
+
+    # Update the sender's balance
+
+    self.balances[from] -= amount;
+
+    # Update the recipient's balance
+
+    self.balances[to] += amount;
+}
+
+# Function to mint new tokens (only callable by the owner)
+
+@external()
+func mint(amount: uint256) {
+    # Only allow the owner to call this function
+
+    assert msg.sender == OWNER_ADDRESS, ""Only the owner can mint new tokens"";
+
+    # Update the total supply
+
+    self.total_supply += amount;
+
+    # Mint the new tokens to the owner's balance
+
+    self.balances[OWNER_ADDRESS] += amount;
+}
+```
+This contract defines a basic ERC-20-like token with the following functionality:
+
+* `init`: Initializes the contract, setting the total supply and the owner's initial balance.
+",True,4,"7,2",True,6
+7,"
+
+Here is an example of a Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.cairo_builtins import (
+    AddressBuiltin,
+    Uint256Builtin,
+)
+
+@storage_var(primitive=Uint256Builtin)
+total_supply: felt252
+
+@storage_var(primitive=AddressBuiltin)
+owner: felt252
+
+@event(anonymous=False)
+Transfer(from_addr: felt252, to_addr: felt252, amount: felt252):
+
+func constructor(owner_addr: felt252) -> None:
+    owner = owner_addr
+
+    total_supply = 1000000 * (10 ** 18)  # initial supply of 1 million tokens with 18 decimals
+
+func mint(to_addr: felt252, amount: felt252) -> None:
+    assert owner == get_caller(), ""Only the owner can mint new tokens""
+    assert amount > 0, ""Amount must be positive""
+
+    total_supply += amount
+
+    emit Transfer(get_caller(), to_addr, amount)
+
+func transfer(from_addr: felt252, to_addr: felt252, amount: felt252) -> None:
+    assert from_addr!= to_addr, ""Cannot transfer to self""
+    assert amount > 0, ""Amount must be positive""
+
+    # check if the sender has sufficient balance
+
+    balance_from_addr = get_storage_value(felt252, from_addr, Uint256Builtin())
+    assert balance_from_addr >= amount, ""Insufficient balance""
+
+    # update balances
+
+    set_storage_value(felt252, from_addr, Uint256Builtin(), balance_from_addr - amount)
+    set_storage_value(felt252, to_addr, Uint256Builtin(), get_storage_value(felt252, to_addr, Uint256Builtin()) + amount)
+
+    emit Transfer(from_addr, to_addr, amount)
+
+func get_balance(addr: felt252) -> (balance: felt252):
+    return get_storage_value(felt252, addr, Uint256Builtin())
+
+func set_approve(spender: felt252, owner: felt252, amount: felt252) -> None:
+    approve[spender] = amount
+
+func get_allowance(owner: felt252, spender: felt252) -> (amount: felt252):
+    return approve[owner][spender]
+
+approve: dict[felt252, dict[felt252, Uint256Builtin]]
+```
+This contract defines a basic token with the following features:
+
+* A `constructor` function that initializes the contract with an owner and sets the initial token supply.
+",True,4,"7,2",True,7
+8,"
+
+Here is a basic example of a Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.alloc import alloc_hint
+
+# Define the token name and symbol.
+",False,,,,8
+9,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Token contract
+
+struct Token {
+    // Mapping of balances for each account address.
+   ",True,4,"7,2",True,9
+10,"
+
+Here is an example of a simple ERC-20 token smart contract written in Cairo 1:
+```
+%lang cairo
+
+# Import the necessary libraries and modules
+
+from starkware.cairo.common.math import UINT256_MAX_VALUE, uint256_add
+
+# Define the token's metadata
+
+TOKEN_NAME: str = ""MyToken""
+TOKEN_SYMBOL: str = ""MYT""
+TOKEN_DECIMALS: uint256 = 18
+
+# Define the token's total supply
+
+TOTAL_SUPPLY: uint256 = 1000000 * (10 ** TOKEN_DECIMALS)
+
+# Define the mapping of balances for each address
+
+balance_map: Dict[felt252, uint256] = {}
+
+# Event emitted when tokens are transferred
+
+@eventTransfer:
+    from_addr: felt252, to_addr: felt252, amount: uint256
+
+# Function to mint tokens
+
+@externalMint:
+    addr: felt252 = pedersen(alloc(), 2) as felts251*
+    assert addr!= 0
+
+    # Check if the address already has tokens minted
+
+    existing_balance: uint256 = balance_map.get(addr, 0)
+    new_balance: uint256 = existing_balance + TOTAL_SUPPLY
+
+    # Update the balance map
+
+    balance_map[addr] = new_balance
+
+    # Emit the transfer event
+
+    emit Transfer(0, addr, TOTAL_SUPPLY)
+
+# Function to transfer tokens
+
+@externalTransfer:
+    from_addr: felt252 = pedersen(alloc(), 2) as felts251*
+    to_addr: felt252 = pedersen(alloc(), 2) as felts251*
+    amount: uint256 = alloc()
+
+    # Check if the sender has enough tokens
+
+    sender_balance: uint256 = balance_map.get(from_addr, 0)
+    assert sender_balance >= amount
+
+    # Subtract the amount from the sender's balance
+
+    new_sender_balance: uint256 = sender_balance - amount
+
+    # Add the amount to the recipient's balance
+
+    recipient_balance: uint256 = balance_map.get(to_addr, 0) + amount
+
+    # Update the balance map
+
+    balance_map[from_addr] = new_sender_balance
+
+    # Update the balance map
+
+    balance_map[to_addr] = recipient_balance
+
+    # Emit the transfer event
+
+    emit Transfer(from_addr, to_addr, amount)
+
+# Function to get the balance of an address
+
+@viewGetBalance:
+    addr: felt252 = pedersen(alloc(), 2) as felts251*
+
+    # Return the balance of the address
+
+    return balance_map.get(addr, 0)
+```
+This contract defines:
+
+* A token with a name, symbol, and decimals.
+",True,4,"7,2",True,10
+11,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Import the necessary libraries and modules
+
+from starkware.cairo.lang import (
+    build_circuit,
+    range_check,
+)
+from starkware.starknet.public.abi import (
+    Erc20,
+)
+
+# Define the token name, symbol, and decimals
+
+TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+DECIMALS = 18
+
+# Define the total supply of tokens
+
+TOTAL_SUPPLY = 1000000 * (10**DECIMALS)
+
+# Define the contract storage
+
+@storage_var(prg_size=256)
+def balance(user: felt) -> (res: felt):
+    return res
+
+@storage_var(prg_size=256)
+def allowance(owner: felt, spender: felt) -> (res: felt):
+    return res
+
+@storage_var(prg_size=256)
+def total_supply() -> (res: felt):
+    return TOTAL_SUPPLY
+
+# Define the ERC-20 functions
+
+@external_function()
+func transfer(from_: felt, to_: felt, amount: felt) -> (result: felt):
+    # Check if the from address has sufficient balance
+
+    with assert_() as _assert:
+        _assert(balance[from_] >= amount, DECIMALS)
+
+    # Update the balance of the from address
+
+    balance[from_] -= amount
+
+    # Update the balance of the to address
+
+    balance[to_] += amount
+
+    return result := 1
+
+@external_function()
+func approve(owner: felt, spender: felt, amount: felt) -> (result: felt):
+    # Set the allowance for the spender
+
+    allowance[owner, spender] = amount
+
+    return result := 1
+
+@external_function()
+func transfer_from(from_: felt, to_: felt, amount: felt) -> (result: felt):
+    # Check if the allowance is sufficient
+
+    with assert_() as _assert:
+        _assert(allowance[from_, msg.sender] >= amount)
+
+    # Call the transfer function
+
+    transfer(from_, to_, amount)
+
+    # Update the allowance
+
+    allowance[from_, msg.sender] -= amount
+
+    return result := 1
+
+@view_external_function()
+func balance_of(user: felt) -> (balance: felt):
+    return balance[user]
+
+@view_external_function()
+func allowance_of(owner: felt, spender: felt) -> (allowance: felt):
+    return allowance[owner, spender]
+
+@view_external_function()
+func totalSupply() -> (total_supply: felt):
+    return total_supply()
+
+# Compile the contract
+
+build_circuit(
+    'erc20_contract',
+    prime=2**64 - 2**32 - 977,
+    main=main,
+)
+```
+This contract implements the basic functionality of an ERC-20 token, including:
+
+* A `transfer` function that allows users to transfer tokens to another address.
+",True,4,"7,2",True,11
+12,"
+
+Here is an example of a Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin
+
+# Define the token name and symbol constants.
+",True,4,"7,2",True,12
+13,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.alloc import alloc_hint, range_check_ptr
+
+// Define the token details.
+",True,4,"7,2",True,13
+14,"
+
+Here is an example of a simple Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin
+
+# Define the token name and symbol:
+TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens:
+TOTAL_SUPPLY = 1000000
+
+# Define a struct to store information about each token holder:
+TokenHolder = struct {
+    address: felt,
+    balance: felt,
+}
+
+# Define a mapping from addresses to TokenHolders:
+token_holders: dict[felt, TokenHolder] = {}
+
+# Define a function to mint new tokens:
+@external_function(params=[""address""])
+def mint(address: felt) -> ():
+    # Only allow minting if the caller is the owner:
+    assert ctx.caller == OWNER_ADDRESS
+
+    # Create a new TokenHolder for the given address:
+    token_holder = TokenHolder(address=address, balance=0)
+    token_holders[address] = token_holder
+
+    # Mint the tokens:
+    token_holder.balance += 100  # Mint 100 tokens by default
+
+# Define a function to transfer tokens:
+@external_function(params=[""address"", ""uint256""])
+def transfer(recipient: felt, amount: uint256) -> ():
+    # Get the sender's TokenHolder:
+    sender_token_holder = token_holders[ctx.caller]
+
+    # Check that the sender has enough balance:
+    assert sender_token_holder.balance >= amount
+
+    # Get the recipient's TokenHolder (create one if it doesn't exist):
+    recipient_token_holder = token_holders.get(recipient, TokenHolder(address=recipient, balance=0))
+    token_holders[recipient] = recipient_token_holder
+
+    # Transfer the tokens:
+    sender_token_holder.balance -= amount.to_felt()
+    recipient_token_holder.balance += amount.to_felt()
+
+# Define a function to get the balance of a token holder:
+@view_function(params=[""address""])
+def get_balance(address: felt) -> (balance: felt):
+    return token_holders[address].balance
+
+# Define a function to get the total supply of tokens:
+@view_function(params=[])
+def get_total_supply() -> (total_supply: felt):
+    return TOTAL_SUPPLY
+
+# Initialize the owner's TokenHolder:
+token_holders[OWNER_ADDRESS] = TokenHolder(address=OWNER_ADDRESS, balance=TOTAL_SUPPLY)
+
+# Initialize the hash builtin:
+hash_builtin = HashBuiltin()
+
+# Set the owner address (replace with your own address):
+OWNER_ADDRESS = 0x1234567890abcdef
+
+# Compile-time checks:
+felt_max_value = 2**251 - 1  # Maximum value for a felt256 in Cairo.
+",True,4,"7,2",True,14
+15,"
+
+Here is an example of a Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.math import ADDMOD, to_words
+
+# Define the name and symbol of the token.
+",True,6,"7,2",True,15
+16,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang cairo1
+
+# Define the token name and symbol 
+const TOKEN_NAME = ""MyToken"";
+const TOKEN_SYMBOL = ""MYT"";
+
+# Define the total supply of tokens 
+const TOTAL_SUPPLY = 1000000;
+
+# Define the token decimals (e.g. ",True,4,"7,2",True,16
+17,"
+
+Here is an example of a simple ERC-20 token smart contract in Cairo,0.10 (not to be confused with the newer Cairo1 language):
+```cairo
+
+%lang cairo0.10
+
+// Import the ERC20 library from OpenZeppelin's repository.
+",True,6,"7,2",True,17
+18,"
+
+Here is an example of a simple ERC-20 token smart contract in Cairo 1:
+```
+%lang cairo
+
+# Import the OpenZeppelin ERC20 implementation in Cairo 1.
+from openzeppelin.cairo.erc20 import ERC20
+
+# Define the name and symbol of our token.
+",True,6,"7,2",True,18
+19,"
+
+Here is an example of a simple ERC-20 style token smart contract in Cairo, to be deployed on the StarkNet blockchain:
+```
+%lang starknet
+
+from starkware.starknet.public.abi import struct
+
+# Define the token structure (ERC-20 compatible)
+@struct definition token {
+    name: felt252,
+    symbol: felt252,
+    decimals: uint8,
+    total_supply: uint256,
+}
+
+# Define the token balances mapping (address -> balance)
+balances: mapping(felt252, uint256)
+
+# Define the owner's address (deployer's address)
+owner: felt252 = @constructor arg0
+
+# Event emitted when tokens are transferred or minted/burned.
+",True,4,"7,2",True,19
+20,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.alloc import alloc, range_check_ptr, assert_allocated_range_ptr
+
+# Define the token name and symbol.
+",True,4,"7,2",True,20
+21,"
+
+Here is an example of a basic Cairo-1 token smart contract:
+```
+%lang StarkNet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin
+
+# Define the name and symbol of the token 
+const TOKEN_NAME = 'MyToken'
+const TOKEN_SYMBOL = 'MYT'
+
+# Define the total supply of the token 
+const TOTAL_SUPPLY = 1000000 * 10**18
+
+# Mapping of user balances 
+@storage_var 
+balances: felt252[] 
+
+# Mapping of allowances 
+@storage_var 
+allowances: felt252[][]
+
+# Event emitted when tokens are transferred 
+@event 
+Transfer(from: felt252, to: felt252, amount: felt252)
+
+# Initialize the contract 
+@extern 
+func init():
+    # Initialize the balances mapping 
+    balances := {}
+
+    # Set the balance of the deployer to the total supply 
+    balances[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+
+# Mint new tokens 
+@extern 
+func mint(amount: felt252):
+    # Only the deployer can mint new tokens 
+    assert get_caller() == get_deployer(), 'Only the deployer can mint new tokens'
+
+    # Calculate the new total supply 
+    new_total_supply = TOTAL_SUPPLY + amount
+
+    # Ensure the new total supply does not exceed the maximum value 
+    assert new_total_supply <= MAX_UINT256, 'Total supply exceeded maximum value'
+
+    # Update the total supply 
+    TOTAL_SUPPLY = new_total_supply
+
+    # Update the deployer's balance 
+    balances[get_deployer()] += amount
+
+    return ()
+
+# Transfer tokens 
+@extern 
+func transfer(recipient: felt252, amount: felt252):
+    # Get the caller's balance 
+    sender_balance = balances[get_caller()]
+
+    # Ensure the caller has sufficient balance 
+    assert sender_balance >= amount, 'Insufficient balance'
+
+    # Subtract the transfer amount from the caller's balance 
+    balances[get_caller()] -= amount
+
+    # Add the transfer amount to the recipient's balance 
+    balances[recipient] += amount
+
+    # Emit the Transfer event 
+    emit Transfer(get_caller(), recipient, amount)
+
+    return ()
+
+# Approve an allowance 
+@extern 
+func approve(spender: felt252, amount: felt252):
+    # Set the allowance for the spender 
+    allowances[get_caller()][spender] = amount
+
+    return ()
+
+# TransferFrom with allowance 
+@extern 
+func transfer_from(owner: felt252, recipient: felt252, amount: felt252):
+    # Get the owner's balance 
+    owner_balance = balances[owner]
+
+    # Ensure the owner has sufficient balance 
+    assert owner_balance >= amount, 'Insufficient balance'
+
+    # Get the allowance for the spender 
+    allowance = allowances[owner][get_caller()]
+
+    # Ensure the allowance is sufficient 
+    assert allowance >= amount, 'Insufficient allowance'
+
+    # Subtract the transfer amount from the owner's balance 
+    balances[owner] -= amount
+
+    # Subtract the transfer amount from the allowance 
+    allowances[owner][get_caller()] -= amount
+
+    # Add the transfer amount to the recipient's balance 
+    balances[recipient] += amount
+
+    # Emit the Transfer event 
+    emit Transfer(owner, recipient, amount)
+
+    return ()
+```
+This contract includes the following functionality:
+
+* Initialization: sets the total supply of tokens and initializes the balances mapping.
+",True,4,"7,2",True,21
+22,"
+
+Here is a simple Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Import the required libraries and modules.
+",True,4,"7,2",True,22
+23,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Define the token's name and symbol
+
+const TOKEN_NAME:felt = ""MyToken""
+const TOKEN_SYMBOL:felt = ""MTK""
+
+# Define the total supply of tokens
+
+const TOTAL_SUPPLY:uint256 = 1000000
+
+# Define the token's decimals (18 in this case)
+
+const DECIMALS:uint8 = 18
+
+# Define the mapping of balances
+
+let balances:Dictionary<felt, uint256> = {}
+
+# Initialize the contract owner's balance with the total supply
+
+func constructor():
+    balances[get_caller_id()] = TOTAL_SUPPLY
+
+# Function to get the balance of a given address
+
+func balance_of(address:felt) -> uint256:
+    return balances.get(address, 0)
+
+# Function to transfer tokens from one address to another
+
+func transfer(from:felt, to:felt, amount:uint256):
+    # Check if the sender has enough balance
+
+    let sender_balance:uint256 = balances[from]
+    assert sender_balance >= amount
+
+    # Update the sender's balance
+
+    balances[from] -= amount
+
+    # Update the recipient's balance
+
+    balances[to] += amount
+
+    # Emit a Transfer event
+
+    emit Event(""Transfer"", [from, to, amount])
+
+# Function to mint new tokens
+
+func mint(to:felt, amount:uint256):
+    # Only the contract owner can mint new tokens
+
+    assert get_caller_id() == get_contract_owner()
+
+    # Update the total supply
+
+    TOTAL_SUPPLY += amount
+
+    # Update the recipient's balance
+
+    balances[to] += amount
+
+    # Emit a Mint event
+
+    emit Event(""Mint"", [to, amount])
+
+# Function to burn tokens
+
+func burn(from:felt, amount:uint256):
+    # Check if the sender has enough balance
+
+    let sender_balance:uint256 = balances[from]
+    assert sender_balance >= amount
+
+    # Update the sender's balance
+
+    balances[from] -= amount
+
+    # Update the total supply
+
+    TOTAL_SUPPLY -= amount
+
+    # Emit a Burn event
+
+    emit Event(""Burn"", [from, amount])
+```
+This contract defines:
+
+* A `balance_of` function that returns the balance of a given address.
+",True,4,"7,2",True,23
+24,"
+
+Here is an example of a Cairo1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.math import UINT256_MAX, LOCAL_VAR
+
+# Token metadata.
+",True,6,"7,2",True,24
+25,"
+
+Here is an example of a simple ERC-20-like token smart contract written in Cairo,1:
+```
+%lang cairo
+
+from starkware.cairo.common.alloc import alloc_hint, local_segment_init_zeroing_ptr_set_on_top_of_the_stack_hinted as local_segment_init_zeroing_ptr_set_on_top_of_the_stack_ hint
+
+from starkware.cairo.common.math_safe import safe_mul, safe_add
+
+from starkware.starknet.std_lib.hints import (
+    StarkNetHint,
+)
+
+struct TokenInfo:
+    name: felt252     # Token name (short ASCII string)
+    symbol: felt252   # Token symbol (short ASCII string)
+    decimals: felt252 # Number of decimal places for token balance representation
+
+struct TokenState:
+    total_supply: felt252        # Total supply of tokens (initially set to 0)
+    balances: Dict<felt252, felt252> # Mapping of user addresses to their token balances
+
+@StarkNetHint(from_=TokenInfo, to_=felt252 * 2 + 1)
+func get_token_info(token_info: TokenInfo) -> (
+    felt252, felt252, felt252  # return values: name, symbol, decimals):
+    let (name, symbol, decimals) = token_info;
+    return (name, symbol, decimals);
+
+# Initialize the token state with total supply and empty balances mapping.
+",True,4,"7,2",True,25
+26,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Importing the necessary modules for creating a token contract.
+",True,4,"7,2",True,26
+27,"
+
+Here is an example of a simple ERC-20 token smart contract written in Cairo, to be deployed on the StarkNet blockchain:
+
+```
+%lang cairo
+
+from starkware.cairo.common.alloc import alloc, local_alloc
+
+# Define the name and symbol of the token.
+",True,4,"7,2",True,27
+28,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin, Uint256
+
+# Token name and symbol.
+",True,4,"7,2",True,28
+29,"
+
+Here is an example of a simple ERC-20 token smart contract written in Cairo (the programming language used by StarkNet):
+```
+%lang starknet
+
+from starkware.cairo.common.alloc import alloc_dim, init_func_array_ptr, get_ptr_at_index, set_ptr_at_member,\
+    get_contract_address, get_seeded_nonce, hash_function, get_block_number, get_ecdsa_public_key,\
+    get_ecdsa_signature, set_responsible_expirer, hash160, assert_eq
+
+@storage_var(principal_balance(eth)) public
+
+# Events declarations 
+@event(token_transferred(address, address, uint256))
+
+@constructor(initial_supply: uint256)
+func init{
+    let caller = get_caller_address();
+    alloc local principal_balance;
+    principal_balance.write(caller, initial_supply);
+    return ();
+}
+
+@ExternalFunction(finish=nacl)
+func transfer(recipient: felt252, amount: uint256) -> (res: felt252){
+    # Get the caller's balance 
+    let caller_balance = principal_balance.read(get_caller_address());
+    # Check if the caller has enough balance 
+    assert(caller_balance >= amount, ""Not enough balance"");
+    
+    # Update the caller's balance 
+    principal_balance.write(get_caller_address(), caller_balance - amount);
+
+    # Add the transferred amount to the recipient's balance 
+    let recipient_balance = principal_balance.read(recipient);
+    principal_balance.write(recipient, recipient_balance + amount);
+
+    emit_token_transferred(get_caller_address(), recipient, amount);
+    return (0, );
+}
+```
+Let me explain what this contract does:
+
+**Storage Variables**: We have one storage variable `principal_balance` which stores the balance of each user.",True,5,"7,2",True,29
+30,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Import the necessary libraries and modules
+
+import starkware.cairo.common.alloc as alloc;
+import starkware.cairo.common.math as math;
+
+# Define the token's name, symbol, and decimals
+
+const TOKEN_NAME: felt = ""MyToken"";
+const TOKEN_SYMBOL: felt = ""MTK"";
+const DECIMALS: uint256 = 18;
+
+# Define the total supply of tokens
+
+const TOTAL_SUPPLY: uint256 = 1000000 * (10 ** DECIMALS);
+
+# Define the mapping from user addresses to their balances
+
+let balances: Dict<felt, uint256> = {};
+
+# Define the event emitted when a transfer occurs
+
+pragma abi event Transfer(felt, felt, uint256);
+
+# Function to initialize the contract
+
+func constructor():
+    # Initialize the owner's balance with the total supply
+
+    balances[get_caller_address()] = TOTAL_SUPPLY;
+end;
+
+# Function to get the balance of a user
+
+func balance_of(user: felt) -> uint256:
+    return balances[user];
+end;
+
+# Function to transfer tokens from one user to another
+
+func transfer(from: felt, to: felt, amount: uint256):
+    alloc_locals;
+
+    # Check that the from address has enough balance
+
+    tempvar from_balance = balances[from];
+    assert from_balance >= amount;
+
+    # Update the balances
+
+    balances[from] = from_balance - amount;
+    balances[to] += amount;
+
+    # Emit the Transfer event
+
+    emit Transfer(from, to, amount);
+end;
+
+# Function to approve a spender to spend tokens on behalf of the owner
+
+func approve(owner: felt, spender: felt, amount: uint256):
+    alloc_locals;
+
+    # Set the allowance for the spender
+
+    balances[owner, spender] = amount;
+end;
+
+# Function to transfer tokens from one user to another using an approved spender
+
+func transfer_from(owner: felt, spender: felt, to: felt, amount: uint256):
+    alloc_locals;
+
+    # Check that the spender is approved
+
+    tempvar allowance = balances[owner, spender];
+    assert allowance >= amount;
+
+    # Update the allowance and balances
+
+    balances[owner, spender] -= amount;
+    balances[owner] -= amount;
+    balances[to] += amount;
+
+    # Emit the Transfer event
+
+    emit Transfer(owner, to, amount);
+end;
+```
+This contract defines a basic ERC-20-like token with the following features:
+
+* A fixed total supply of tokens, which is allocated to the owner's address upon contract initialization.
+",True,4,"7,2",True,30
+31,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.alloc import alloc_hint
+
+# Define the token name and symbol.
+",True,4,"7,2",True,31
+32,"
+
+Here is an example of a Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.math import assert_not_zero
+
+# Define the token name and symbol.
+",True,4,"7,2",True,32
+33,"
+
+Here is an example of a basic Cairo1 token smart contract:
+```
+%lang starknet
+
+// Define the token name and symbol.
+",True,4,"7,2",True,33
+34,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin
+
+# Define the token name and symbol.
+",True,4,"7,2",True,34
+35,"
+
+Here is an example of a simple ERC-20-like token smart contract in Cairo 1:
+```
+%lang cairo
+
+# Import the necessary libraries and modules
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin, Uint256, RangeCheckBuiltins
+
+# Define the contract's storage variables
+
+@storage_var( Uint256 )
+balance: Uint256 = Dict()
+
+@storage_var( Uint256 )
+total_supply: Uint256 = 1000000 * (10 ** 18)  # Initial total supply of 1 million tokens
+
+# Define the contract's functions
+
+func init():
+    # Initialize the contract's state on deployment
+
+    # Set the total supply to the initial value
+
+    total_supply.write( total_supply.read() )
+
+func balance_of(user: felt):
+    # Get the balance of a user
+
+    # Check if the user has a balance
+
+    balance_value = balance.read( user )
+
+    return ( balance_value, )
+
+func transfer(from_user: felt, to_user: felt, amount: Uint256 ):
+    # Transfer tokens from one user to another
+
+    # Check if the from_user has sufficient balance
+
+    from_balance = balance.read( from_user )
+
+    assert from_balance >= amount
+
+    # Update the from_user's balance
+
+    new_from_balance = from_balance - amount
+
+    balance.write( from_user, new_from_balance )
+
+    # Update the to_user's balance
+
+    to_balance = balance.read( to_user )
+
+    new_to_balance = to_balance + amount
+
+    balance.write( to_user, new_to_balance )
+
+func mint(to_user: felt, amount: Uint256 ):
+    # Mint new tokens to a user
+
+    # Increase the total supply
+
+    new_total_supply = total_supply.read() + amount
+
+    total_supply.write( new_total_supply )
+
+    # Update the to_user's balance
+
+    to_balance = balance.read( to_user )
+
+    new_to_balance = to_balance + amount
+
+    balance.write( to_user, new_to_balance )
+
+func burn(from_user: felt, amount: Uint256 ):
+    # Burn tokens from a user
+
+    # Decrease the total supply
+
+    new_total_supply = total_supply.read() - amount
+
+    total_supply.write( new_total_supply )
+
+    # Update the from_user's balance
+
+    from_balance = balance.read( from_user )
+
+    new_from_balance = from_balance - amount
+
+    balance.write( from_user, new_from_balance )
+```
+This contract has four functions:
+
+* `init`: Initializes the contract's state on deployment.
+",True,4,"7,2",True,35
+36,"
+
+Here is an example of a simple ERC-20 token smart contract written in Cairo, to be deployed on the StarkNet blockchain:
+```
+%lang starknet
+
+from starkware.cairo.common.alloc import alloc_locals_
+from starkware.cairo.common.math import safe_mul, safe_add
+
+@data class (
+    name=""CairoToken"",
+    tags=["" ERC-20"", ""token""],
+):
+class CairoToken(
+    initial_supply: felt,
+    total_supply: felt,
+    balances: dict[felt, felt],
+    allowances: dict[felt, dict[felt, felt]],
+):
+
+    @event()
+    def Transfer(from_: felt, to_: felt, value: felt):
+       ...
+
+    @constructor()
+    def __init__(owner: felt):
+        self.initial_supply = 1000000  # Initial supply of 1 million tokens.
+       ",True,4,"7,2",True,36
+37,"
+
+Here is an example of a simple ERC-20 token smart contract in Cairo,lang:
+```
+%lang cairo
+
+# Importing the ERC20 library from OpenZeppelin's repository.
+",True,4,"7,2",True,37
+38,"
+
+Here is an example of a simple ERC-20 token smart contract written in Cairo, to create a custom token on the StarkNet blockchain:
+```cairo title=""MyToken.cairo""
+%lang cairo
+
+// Importing the OpenZeppelin ERC20 library for StarkNet.
+",True,4,"7,2",True,38
+39,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.alloc import allocibraltar_init,`
+from starkware.cairo.common.math import DIV_CEIL, MOD, MUL_RMI
+
+// Define the token name and symbol.
+",True,6,"7,2",True,39
+40,"
+
+Here is an example of a simple ERC-20 token smart contract written in Cairo, to deploy on the Starknet blockchain:
+
+```
+%lang starknet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin
+
+# Define the name and symbol of our token.
+",True,4,"7,2",True,40
+41,"
+
+Here is an example of a Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.starknet.public.abi import struct
+
+# Define the token structure 
+TokenStruct = struct(
+    name=""string"",
+    symbol=""string"",
+    total_supply=Uint256,
+    decimals=Uint32,
+    owner=Uint256,
+)
+
+# Define the token balance mapping 
+balance_mapping = storage_var(Uint256, Uint256)
+
+@storage_var()
+owner_address = Uint256
+
+@event()
+def Transfer(from_addr: Uint256, to_addr: Uint256, amount: Uint256):
+    pass
+
+@constructor()
+def constructor(owner: Uint256):
+    # Initialize the token structure 
+    TokenStruct(name=""MyToken"", symbol=""MTK"", total_supply=1000000 * 10**18, decimals=18, owner=owner)
+    
+    # Set the owner address 
+    self.owner_address = owner
+    
+    # Initialize the balance mapping 
+    for i in range(100): 
+        balance_mapping[i] = 0
+
+@external()
+def mint(to: Uint256, amount: Uint256):
+    # Only the owner can mint tokens 
+    assert self.owner_address == tx.signer, ""Only the owner can mint tokens""
+    
+    # Increase the total supply 
+    TokenStruct.total_supply += amount
+    
+    # Update the balance of the recipient 
+    balance_mapping[to] += amount
+    
+    # Emit the transfer event 
+    Transfer(tx.signer, to, amount)
+
+@external()
+def burn(amount: Uint256):
+    # Only the owner can burn tokens 
+    assert self.owner_address == tx.signer, ""Only the owner can burn tokens""
+    
+    # Decrease the total supply 
+    TokenStruct.total_supply -= amount
+    
+    # Update the balance of the owner 
+    balance_mapping[self.owner_address] -= amount
+    
+    # Emit the transfer event 
+    Transfer(self.owner_address, ZERO_ADDRESS, amount)
+
+@external()
+def transfer(to: Uint256, amount: Uint256):
+    # Check that the sender has enough balance 
+    assert balance_mapping[tx.signer] >= amount, ""Insufficient balance""
+    
+    # Update the balance of the sender 
+    balance_mapping[tx.signer] -= amount
+    
+    # Update the balance of the recipient 
+    balance_mapping[to] += amount
+    
+    # Emit the transfer event 
+    Transfer(tx.signer, to, amount)
+
+@view()
+def get_balance(addr: Uint256) -> Uint256:
+    return balance_mapping[addr]
+
+@view()
+def get_total_supply() -> Uint256:
+    return TokenStruct.total_supply
+
+@view()
+def get_owner() -> Uint256:
+    return self.owner_address
+
+```
+
+This contract defines a basic token with the following features:
+
+* A `mint` function that allows the owner to mint new tokens and send them to a specified address.
+",True,4,"7,2",True,41
+42,"
+
+Here is an example of a simple ERC-20 compliant token smart contract in Cairo 1.0:
+```
+%lang cairo
+
+from starkware.cairo.common.math import (
+    safe_mul,
+    safe_add,
+)
+
+from starkware.starknet public_namespace {
+    // Event emitted when tokens are transferred.
+   ",True,6,"7,2",True,42
+43,"
+
+Here is an example of a simple ERC-20 token smart contract in Cairo,asm (Cairo 1):
+```cairoasm
+
+%lang cairo
+
+from starkware.cairo.common.alloc import alloc_init, alloc_deinit, alloc_new_page, alloc_free_page, get_page_ptr
+
+# Define the token name and symbol.
+",False,,,,43
+44,"
+
+Here is an example of a basic Cairo-1 token smart contract:
+```
+%lang starknet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin, Uint256
+
+# Define the token name and symbol:
+TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens:
+TOTAL_SUPPLY = 1000000 * 10**18  # 1 million tokens with 18 decimals
+
+# Storage variables:
+owner: felt = pedersenfelt( owner_pub )
+balances: {address: felt} = {}
+allowances: {address: {address: felt}} = {}
+
+@storage_var(prg_size=4096)
+def token_name() -> (name: felt):
+    return TOKEN_NAME
+
+@storage_var(prg_size=4096)
+def token_symbol() -> (symbol: felt):
+    return TOKEN_SYMBOL
+
+@storage_var(prg_size=4096)
+def total_supply() -> (total_supply: felt):
+    return TOTAL_SUPPLY
+
+@constructor(prg_size=4096)
+def constructor{syscall_ptr}(owner Pubkey: felt):
+    # Initialize the owner's balance to the total supply:
+    balances[owner] = TOTAL_SUPPLY
+
+@external_function(prg_size=4096)
+def transfer{syscall_ptr}(from Pubkey: felt, to Pubkey: felt, amount: Uint256):
+    # Check that the sender has enough balance:
+    assert balances[from] >= amount, ""Insufficient balance""
+
+    # Update the sender's balance:
+    balances[from] -= amount
+
+    # Add to the recipient's balance:
+    balances[to] += amount
+
+@external_function(prg_size=4096)
+def approve{syscall_ptr}(owner Pubkey: felt, spender Pubkey: felt, amount: Uint256):
+    # Set the allowance for the spender:
+    allowances[owner][spender] = amount
+
+@external_function(prg_size=4096)
+def transfer_from{syscall_ptr}(spender Pubkey: felt, from Pubkey: felt, to Pubkey: felt, amount: Uint256):
+    # Check that the spender has been approved by the owner:
+    assert allowances[from][spender] >= amount, ""Spender not approved""
+
+    # Check that the owner has enough balance:
+    assert balances[from] >= amount, ""Insufficient balance""
+
+    # Update the owner's balance:
+    balances[from] -= amount
+
+    # Add to the recipient's balance:
+    balances[to] += amount
+
+    # Subtract the transferred amount from the allowance:
+    allowances[from][spender] -= amount
+
+@view_external_function(prg_size=4096)
+def balance_of{syscall_ptr}(address: felt) -> (balance: felt):
+    # Return the balance of the given address:
+    return balances[address]
+
+@view_external_function(prg_size=4096)
+def allowance{syscall_ptr}(owner: felt, spender: felt) -> (allowance: felt):
+    # Return the allowance of the spender for the owner:
+    return allowances[owner][spender]
+```
+This contract defines:
+
+* A `token_name` function that returns the token name as a string.
+",True,4,"7,2",True,44
+45,"
+
+Here is an example of a Cairo 1 token smart contract:
+```
+%lang cairo
+
+# Define the token's total supply and decimals.
+",True,4,"7,2",True,45
+46,"
+
+Here is an example of a simple Cairo 1 token smart contract:
+```
+%lang StarkNet
+
+from starkware.cairo.common.cairo_builtins import HashBuiltin
+
+# Define the token name and symbol.
+",True,4,"7,2",True,46
+47,"
+
+Here is an example of a basic ERC-20 compliant token smart contract in Cairo 1:
+```
+%lang cairo1
+
+# Import the ERC20 library from OpenZeppelin's Cairo repository 
+from openzeppelin.cairo.erc20 import ERC20
+
+# Define the contract name and symbol 
+contract MyToken:
+    ERC20(
+        # Initialize the contract with the given name, symbol, and decimals 
+        ""My Token"", 
+        ""MYT"", 
+        18, 
+    )
+
+    # Mapping of addresses to balances 
+    balances: dict-address->uint256 = {}
+
+    # Mapping of allowances 
+    allowances: dict-(address,address)->uint256 = {}
+
+    # Event emitted when tokens are transferred 
+    event Transfer(address indexed _from, address indexed _to, uint256 _value)
+
+    # Event emitted when an approval is set or changed 
+    event Approval(address indexed _owner, address indexed _spender, uint256 _value)
+
+    # Initializes the contract with an initial supply 
+    func constructor() public:
+        self.balances[msg.sender] = 1000000 * (10 ** 18)  # Initial supply of 1 million tokens 
+
+    # Returns the balance of a given address 
+    func balance_of(address _owner: address) public -> uint256:
+        return self.balances[_owner]
+
+    # Transfers tokens from one address to another 
+    func transfer(_to: address, _value: uint256) public:
+        assert _value > 0, ""Transfer value must be greater than 0""
+        assert self.balances[msg.sender] >= _value, ""Insufficient balance""
+
+        self.balances[msg.sender] -= _value 
+        self.balances[_to] += _value 
+
+        emit Transfer(msg.sender, _to, _value)
+
+    # Approves an allowance for a spender on behalf of the owner 
+    func approve(_spender: address, _value: uint256) public:
+        self.allowances[(msg.sender, _spender)] = _value 
+        emit Approval(msg.sender, _spender, _value)
+
+    # Transfers tokens from one address to another using an allowance 
+    func transfer_from(_from: address, _to: address, _value: uint256) public:
+        assert _value > 0, ""Transfer value must be greater than 0""
+        assert self.balances[_from] >= _value, ""Insufficient balance""
+        assert self.allowances[(_from, msg.sender)] >= _value, ""Insufficient allowance""
+
+        self.balances[_from] -= _value 
+        self.balances[_to] += _value 
+        self.allowances[(_from, msg.sender)] -= _value 
+
+        emit Transfer(_from, _to, _value)
+```
+This contract defines a basic ERC-20 token with the following features:
+
+* A fixed initial supply of 1 million tokens assigned to the contract deployer.
+",True,6,"7,2",True,47
+48,"
+
+Here is an example of a basic Cairo 1 token smart contract:
+```
+%lang starknet
+
+from starkware.starknet.public.abi import storage_var, constructor,felt_var,get_storage_var,felt,get
+
+# Define the token name and symbol
+
+TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens
+
+TOTAL_SUPPLY = 1000000 * (10 ** 18)
+
+# Define the token balance mapping
+
+balance_mapping: felt = storage_var()
+
+@constructor()
+func init_token():
+    # Initialize the token balances mapping to empty
+
+    get_storage_var(balance_mapping) := {}
+
+@get()
+func get_balance(owner: felt):
+    # Return the balance of the given owner
+
+    return get_storage_var(balance_mapping)[owner]
+
+@get()
+func total_supply() -> felt:
+    # Return the total supply of tokens
+
+    return TOTAL_SUPPLY
+
+@felt()
+func transfer(from_: felt, sender: felt, to: felt, amount: felt) -> ():
+    # Perform the token transfer
+
+    current_balance: felt = get_storage_var(balance_mapping)[sender]
+    assert current_balance >= amount, ""Insufficient balance""
+
+    new_balance: felt = current_balance - amount
+
+    get_storage_var(balance_mapping)[sender] := new_balance
+
+    recipient_balance: felt = get_storage_var(balance_mapping).get(to, 0)
+    new_recipient_balance: felt = recipient_balance + amount
+
+    get_storage_var(balance_mapping)[to] := new_recipient_balance
+
+    return ()
+```
+Let me explain what each part of the contract does:
+
+**Variables**
+
+* `TOKEN_NAME` and `TOKEN_SYMBOL`: define the name and symbol of the token.
+",True,4,"7,2",True,48
+49,"
+
+Here is an example of a simple ERC-20 token smart contract in Cairo (version 1):
+```
+%lang cairo
+
+from starkware.cairo.common.alloc import alloc_init, alloc_delete, alloc_copy_toeregistered_ptr 
+from starkware.starknet.public.abi import compiled_contract 
+from starkware.cairo.common.register import get registrar 
+
+// Define the token name and symbol 
+const TOKEN_NAME = ""MyToken"" 
+const TOKEN_SYMBOL = ""MTK""
+
+// Define the total supply of tokens 
+const TOTAL_SUPPLY = 1000000 * 10**18
+
+// Define the token balances mapping 
+let balances : Mapping(felt, felt) = {}
+
+// Define the token allowance mapping 
+let allowances : Mapping(felt, Mapping(felt, felt)) = {}
+
+// Define the event for token transfer 
+event Transfer(
+    from_: felt,
+    to_: felt,
+    amount: felt,
+)
+
+// Define the event for token approval 
+event Approval(
+    owner: felt,
+    spender: felt,
+    amount: felt,
+)
+
+// Initialize the contract 
+func init{
+    alloc_init()
+
+    // Set the total supply 
+    let total_supply = TOTAL_SUPPLY 
+    balances[get_caller()] = total_supply 
+}
+
+// Function to transfer tokens 
+func transfer(recipient: felt, amount: felt){
+    // Get the caller's balance 
+    let sender_balance = balances[get_caller()]
+
+    // Check if the caller has enough balance 
+    assert(sender_balance >= amount)
+
+    // Subtract the transferred amount from the caller's balance 
+    balances[get_caller()] = sender_balance - amount
+
+    // Add the transferred amount to the recipient's balance 
+    balances[recipient] = balances[recipient] + amount
+
+    // Emit the Transfer event 
+    emit Transfer(get_caller(), recipient, amount)
+}
+
+// Function to approve token spending 
+func approve(spender: felt, amount: felt){
+    // Set the approved amount 
+    allowances[get_caller()][spender] = amount 
+
+    // Emit the Approval event 
+    emit Approval(get_caller(), spender, amount)
+}
+
+// Function to transfer tokens from one account to another on behalf of the owner 
+func transfer_from(owner: felt, recipient: felt, amount: felt){
+    // Get the approved amount 
+    let approved_amount = allowances[owner][get_caller()]
+
+    // Check if the approved amount is sufficient 
+    assert(approved_amount >= amount)
+
+    // Subtract the transferred amount from the owner's balance 
+    balances[owner] = balances[owner] - amount 
+
+    // Subtract the transferred amount from the approved amount 
+    allowances[owner][get_caller()] = approved_amount - amount 
+
+    // Add the transferred amount to the recipient's balance 
+    balances[recipient] = balances[recipient] + amount 
+
+    // Emit the Transfer event 
+    emit Transfer(owner, recipient, amount)
+}
+```
+This contract defines:
+
+* A token with a fixed total supply of 1 million tokens (with 18 decimal places).
+",False,,,,49
+50,"
+
+Here is an example of a simple ERC-20-like token smart contract written in Cairo,1:
+```
+%lang cairo1
+
+from starkware.cairo.common.alloc import alloc
+
+# Define the token name and symbol.
+",True,4,"7,2",True,50
+51,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,1
+52,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,2
+53,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,3
+54,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,4
+55,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,5
+56,"const TOKEN_NAME: felt = 'MyToken'
+const TOKEN_SYMBOL: felt = 'MYT'
+
+# Define the total supply of tokens.
+",False,,,,6
+57,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MTK'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,7
+58,"const TOKEN_NAME = 'MyToken'
+const TOKEN_SYMBOL = 'MYT'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,8
+59,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,9
+60,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,10
+61,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,11
+62,"const TOKEN_NAME: felt = 'MyToken'
+const TOKEN_SYMBOL: felt = 'MTK'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,12
+63,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MTK'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,13
+64,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,14
+65,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,15
+66,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,16
+67,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MYT'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,17
+68,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,18
+69,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,19
+70,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,20
+71,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,21
+72,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,22
+73,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,23
+74,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,24
+75,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,25
+76,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,26
+77,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MTK'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,27
+78,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,28
+79,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,29
+80,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,30
+81,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,31
+82,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,32
+83,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,33
+84,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,34
+85,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MYT'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,35
+86,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MYT'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,36
+87,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MYT""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,37
+88,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MYT'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,38
+89,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,39
+90,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,40
+91,"TOKEN_NAME = 'MyToken'
+TOKEN_SYMBOL = 'MYT'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,41
+92,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,42
+93,"TOKEN_NAME = ""MyToken""
+TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,43
+94,"TOKEN_NAME: felt = 'MyToken'
+TOKEN_SYMBOL: felt = 'MTK'
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,44
+95,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,45
+96,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,46
+97,"const TOKEN_NAME = ""MyToken""
+const SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,47
+98,"const TOKEN_NAME: felt = ""MyToken""
+const TOKEN_SYMBOL: felt = ""MYT""
+
+# Define the total supply of tokens.
+",False,,,,48
+99,"const TOKEN_NAME = ""MyToken""
+const TOKEN_SYMBOL = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,49
+100,"const TOKEN_NAME: felt = ""MyToken""
+const TOKEN_SYMBOL: felt = ""MTK""
+
+# Define the total supply of tokens.
+",True,4,"7,2",True,50
+101,"const TOTAL_SUPPLY: uint256 = 1000000 * (10**18)
+
+# Define the mapping to store token balances.
+",False,,,,1
+102,"const TOTAL_SUPPLY: felt = 1000000
+
+# Define the mapping of balances for each user.
+",True,0,"7,2",True,2
+103,"const TOTAL_SUPPLY: felt = 1000000 * (10**18)
+
+# Define the token's decimals.
+",True,2,"7,2",True,3
+104,"const DECIMALS: felt = 18
+
+# Define the balances mapping.
+",True,0,"5,2",True,1
+105,"const DECIMALS: felt = 18
+
+# Define a struct to hold the token balance for each user.
+",True,4,"5,2",True,2
+106,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,3
+107,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,4
+108,"const DECIMALS: felt = 18
+
+# Define the token balances mapping.
+",True,0,"5,2",True,5
+109,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,6
+110,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,7
+111,"const DECIMALS: felt = 18
+
+# Define the token's owner.
+",False,,,,8
+112,"const DECIMALS: felt = 18
+
+# Define a struct to represent a token balance.
+",True,6,"5,2",True,9
+113,"const DECIMALS: felt = 18
+
+# Define the mapping of token balances.
+",False,,,,10
+114,"const DECIMALS: felt = 18
+
+# Define the mapping of addresses to balances.
+",True,0,"5,2",True,11
+115,"const DECIMALS: felt = 18
+
+# Define a struct to hold the token balances.
+",False,,,,12
+116,"const DECIMALS: felt = 18
+
+# Initialize the balances mapping.
+",False,,,,13
+117,"const DECIMALS: felt = 18
+
+# Define the contract's state variables.
+",True,4,"5,2",True,14
+118,"const DECIMALS: felt = 18
+
+# Initialize the token balances mapping.
+",False,,,,15
+119,"const DECIMALS: felt = 18
+
+# Define a struct to hold the token balances.
+",False,,,,16
+120,"const DECIMALS: felt = 18
+
+# Define the mapping of user balances.
+",True,0,"5,2",True,17
+121,"const DECIMALS: felt = 18
+
+# Define the mapping to store the token balances.
+",True,4,"5,2",True,18
+122,"const DECIMALS: felt = 18
+
+# Define the mapping of addresses to balances.
+",True,0,"5,2",True,19
+123,"const DECIMALS: felt = 18
+
+# Define the mapping of balances.
+",False,,,,20
+124,"const DECIMALS: felt = 18
+
+# Mapping from addresses to balances.
+",True,0,"5,2",True,21
+125,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,22
+126,"const DECIMALS: felt = 18
+
+# Define the balance mapping.
+",True,0,"5,2",True,23
+127,"const DECIMALS: felt = 18
+
+# Define the balance mapping.
+",True,0,"5,2",True,24
+128,"const DECIMALS: felt = 18
+
+# Define the mapping of balances for each user.
+",True,0,"5,2",True,25
+129,"const DECIMALS: felt = 18
+
+# Define the owner's address.
+",True,4,"5,2",True,26
+130,"const DECIMALS: felt = 18
+
+# Storage variables.
+",True,0,"5,2",True,27
+131,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,28
+132,"const DECIMALS: felt = 18
+
+# Define the balance mapping.
+",True,0,"5,2",True,29
+133,"const DECIMALS: felt = 18
+
+# Storage variables for the token balances.
+",True,0,"5,2",True,30
+134,"const DECIMALS: felt = 18
+
+# Define the token's owner.
+",False,,,,31
+135,"const DECIMALS: felt = 18
+
+# Define a struct to hold the token's balance for each user.
+",True,4,"5,2",True,32
+136,"const DECIMALS: felt = 18
+
+# Define the owner of the contract.
+",False,,,,33
+137,"const DECIMALS: felt = 18
+
+# Define the mapping to store the balances.
+",True,0,"5,2",True,34
+138,"const DECIMALS: felt = 18
+
+# Storage variables for the token balances.
+",True,0,"5,2",True,35
+139,"const DECIMALS: felt = 18
+
+# Define the token owner's address.
+",False,,,,36
+140,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,37
+141,"const DECIMALS: felt = 18
+
+# Define the owner of the contract.
+",False,,,,38
+142,"const DECIMALS: felt = 18
+
+# Define the mapping from addresses to balances.
+",True,0,"5,2",True,39
+143,"const DECIMALS: felt = 18
+
+# Define the mapping from addresses to balances.
+",True,0,"5,2",True,40
+144,"const DECIMALS: felt = 18
+
+# Define the owner of the contract.
+",False,,,,41
+145,"const DECIMALS: felt = 18
+
+# Define a struct to represent a user's balance.
+",True,4,"5,2",True,42
+146,"const DECIMALS: felt = 18
+
+# Define the contract's storage variables.
+",True,0,"5,2",True,43
+147,"const DECIMALS: felt = 18
+
+# Define a struct to store the token balance for each user.
+",True,4,"5,2",True,44
+148,"const DECIMALS: felt = 18
+
+# Define a struct to store the token balances.
+",True,4,"5,2",True,45
+149,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,46
+150,"const DECIMALS: felt = 18
+
+# Define the token balances for each user.
+",False,,,,47
+151,"const DECIMALS: felt = 18
+
+# Define the mapping to store token balances.
+",True,4,"5,2",True,48
+152,"const DECIMALS: felt = 18
+
+# Define the owner's address.
+",True,4,"5,2",True,49
+153,"const DECIMALS: felt = 18
+
+# Mapping of user balances.
+",True,0,"5,2",True,50
+154,"let balances: dict<felt, felt> = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,1
+155,"let balances: Dictionary<felt, felt> = Alloc.init()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,2
+156,"let balance: Dict<felt, felt> = Alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,3
+157,"let user_balances: dict[felt, felt] = {}
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,4
+158,"let user_balances: Dict<felt, felt> = {}
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,5
+159,"let balances: {address: felt} = alloc()
+
+# Mapping of allowances.
+",True,0,"5,2",True,6
+160,"let balance: Dict[felt, felt] = {}
+
+# Event emitted when tokens are transferred.
+",False,,,,7
+161,"let balances: Dictionary[felt, felt] = {}
+
+# Event emitted when tokens are transferred.
+",False,,,,8
+162,"let balances: {addr: felt} = {}
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,9
+163,"let balances: Dict[felt, felt] = alloc()
+
+# Mapping of allowances.
+",True,0,"5,2",True,10
+164,"let balances: fmapfelt = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,11
+165,"let balances: Map[felt, felt] = alloc()
+
+# Initialize the owner's balance with the total supply.
+",True,0,"5,2",True,12
+166,"let balances: Dict[felt, felt] = {}
+
+# Event emitted when tokens are transferred.
+",False,,,,13
+167,"let balance_map: felt[256] = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,14
+168,"let balances: mapping(felt,uint256) = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,15
+169,"let balances: mapping(felt,address) -> felt
+
+# Initialize the token's owner and balance.
+",False,,,,16
+170,"let balance_of_user: Dictionary<felt, felt> = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,17
+171,"let balances: mapping(felt,felt) = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,18
+172,"balance: mapping(felt,2) -> felt
+
+### @constructor()
+func init():
+    # Initialize the owner's balance with the total supply.
+   ",True,0,"5,2",True,19
+173,"balance: Dict<felt, felt>
+
+@constructor()
+func init():
+    # Initialize the balance mapping.
+   ",True,0,"5,2",True,20
+174,"let balances: Dict[felt, felt] = {}
+
+# Function to get the balance of a user.
+",True,0,"5,2",True,21
+175,"balance: mapping(felt,256) -> felt
+
+### Initialize the token contract.
+",False,,,,22
+176,"balance_of: mapping(felt, felt) = alloc()
+
+# Initialize the contract owner's balance with the total supply.
+",True,0,"5,2",True,23
+177,"let balance_map: {Felt256: Felt256} = alloc()
+
+# Initialize the contract with the total supply.
+",True,0,"5,2",True,24
+178,"@storage_var 
+balance_mapping: felt = HashMap<felt,256>
+
+@constructor 
+func init():
+    # Initialize the balance mapping with zero values for all users.
+   ",True,0,"5,2",True,25
+179,"let balance: mapping(felt, address) = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,26
+180,"let balances: Dict[felt, felt]
+
+# Initialize the balances mapping.
+",True,0,"5,2",True,27
+181,"balance: dict<felt, felt>
+
+@constructor(
+    # Initialize the token's owner.
+   ",True,0,"5,2",True,28
+182,"let user_balances: Dict[felt, felt] = {}
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,29
+183,"let user_balances: Dict[felt, felt] = Alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,30
+184,"let balances: {address: felt} = {}
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,31
+185,"let balance_map: Dict[felt, felt] = alloc()
+
+# Mapping of allowances.
+",True,0,"5,2",True,32
+186,"let balance_of: Dict[felt, felt] = {}
+
+# Initialize the total supply.
+",True,0,"5,2",True,33
+187,"let balances: Dict[felt, felt] = {}
+
+# Event emitted when tokens are transferred.
+",False,,,,34
+188,"balance: Dict[felt, felt]
+
+@constructor()
+func init():
+    # Initialize the balance mapping.
+   ",True,0,"5,2",True,35
+189,"balance_of: Mapping(felt, 128) = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,36
+190,"let balances: fmap<address, Uint256> = alloc()
+
+# Mapping of allowances.
+",True,0,"5,2",True,37
+191,"let balances: Map[felt, felt] = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,38
+192,"let balances: dict<felt, felt> = alloc()
+
+# Mapping of allowed operators for each user.
+",True,0,"5,2",True,39
+193,"let balances: Dict<felt, felt> = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,40
+194,"balances: dict*felt, felt*
+
+# Event emitted when tokens are transferred.
+",False,,,,41
+195,"let balances: Dict[felt, felt] = {}
+
+# Mapping of allowances.
+",True,0,"5,2",True,42
+196,"let balances: Dict[felt, felt] = {}
+
+@constructor()
+func init():
+    # Initialize the owner's balance to the total supply.
+   ",True,0,"5,2",True,43
+197,"let balances: Dict[felt, felt] = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,44
+198,"let balances: dict<felt, felt> = {}
+
+# Initialize the contract owner's balance with the total supply.
+",True,0,"5,2",True,45
+199,"let balances: Dict[felt, felt] = alloc()
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,46
+200,"let user_balances: Dict[felt, felt] = {}
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,47
+201,"let balances: Dict<felt, felt> = {}
+
+# Event emitted when tokens are transferred.
+",True,0,"5,2",True,48
+202,"let balances: Dict[felt, felt] = {}
+
+# Initialize the token owner's balance with the total supply.
+",False,,,,49
+203,"balance: mapping(felt,256) -> felt
+
+### @constructor ###
+func init() {
+    # Initialize the owner's balance to the total supply.
+   ",True,0,"5,2",True,50
+204," balance[owner] = TOTAL_SUPPLY
+
+    # Emit an event to notify that the token has been deployed.
+   ",True,1,"5,2",True,1
+205," balance[get_caller_address()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's address.
+   ",True,1,"5,2",True,2
+206," balance[get_caller()] = TOTAL_SUPPLY
+    
+    # Set the token's metadata.
+   ",True,0,"5,2",True,3
+207," balance[get_caller_id()] = TOTAL_SUPPLY
+    
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Check that the caller has enough balance.
+   ",False,,,,4
+208," balance[owner] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Ensure the caller has enough balance.
+   ",True,4,"5,2",True,5
+209," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @extern ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,6
+210," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @External_function ###
+func transfer(recipient: felt, amount: felt) -> felt {
+    # Get the caller's current balance.
+   ",True,0,"5,2",True,7
+211," balance[get_caller_id()] = TOTAL_SUPPLY;
+}
+
+### @event ###
+func Transfer(from_: felt, to_: felt, amount_: felt) {
+    # Emit a Transfer event with the from, to; and amount.
+}
+
+",False,,,,8
+212," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,9
+213," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func mint(amount: felt) {
+    # Only the owner can mint new tokens.
+   ",True,0,"5,2",True,10
+214," balance[owner] = TOTAL_SUPPLY
+
+    # Set the token name and symbol.
+   ",True,0,"5,2",True,11
+215," balance[get_caller_id()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @event ###
+func transfer(from: felt, to: felt, amount: felt) {
+    # Check that the from address has sufficient balance.
+   ",True,0,"5,2",True,12
+216," balance[get_caller_id()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's ID.
+   ",False,,,,13
+217," balance[get_caller_id()] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's ID and balance.
+   ",True,4,"5,2",True,14
+218," balance[get_caller_address()] = TOTAL_SUPPLY
+    
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's address.
+   ",False,,,,15
+219," balance[get_caller_id()] = TOTAL_SUPPLY
+
+    # Set the token name and symbol.
+   ",False,,,,16
+220," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func mint(amount: felt) {
+    # Only allow the owner to mint new tokens.
+   ",True,0,"5,2",True,17
+221," balance[get_sender()] = TOTAL_SUPPLY
+
+    # Set the token name and symbol.
+   ",True,0,"5,2",True,18
+222," balance[get_caller_id()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) -> felt {
+    # Get the caller's ID.
+   ",False,,,,19
+223," balance[get_sender()] = TOTAL_SUPPLY
+
+    # Set the token's metadata.
+   ",True,0,"5,2",True,20
+224," balance[get_sender()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func mint(amount: felt) {
+    # Only allow the owner to mint new tokens.
+   ",True,0,"5,2",True,21
+225," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,22
+226," balance[get_caller_id()] = TOTAL_SUPPLY
+
+    # Set the token name and symbol.
+   ",False,,,,23
+227," balance[get_caller_id()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,24
+228," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @public ###
+func mint(amount: felt) {
+    # Check if the caller is the owner.
+   ",True,0,"5,2",True,25
+229," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @extern_function ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's current balance.
+   ",True,0,"5,2",True,26
+230," balance[get_caller_address()] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Check that the caller has enough tokens.
+   ",True,0,"5,2",True,27
+231," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's current balance.
+   ",True,0,"5,2",True,28
+232," balance[get_caller_address()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's address.
+   ",True,1,"5,2",True,29
+233," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Check that the caller has enough balance.
+   ",True,0,"5,2",True,30
+234," balance[get_caller_id()] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's ID.
+   ",False,,,,31
+235," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's current balance.
+   ",True,0,"5,2",True,32
+236," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's current balance.
+   ",True,0,"5,2",True,33
+237," balance[get_caller_id()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's ID.
+   ",False,,,,34
+238," balance[get_caller_address()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @public ###
+func name() -> (res: felt) {
+    res = TOKEN_NAME
+
+    return ()
+}
+
+### @public ###
+func symbol() -> (res: felt) {
+    res = TOKEN_SYMBOL
+
+    return ()
+}
+
+### @public ###
+func decimals() -> (res: felt) {
+    res = DECIMALS
+
+    return ()
+}
+
+### @public ###
+func total_supply() -> (res: felt) {
+    res = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @public ###
+func balance_of(user_addr: felt) -> (res: felt) {
+    res = balance[user_addr]
+
+    return ()
+}
+
+### @public ###
+func transfer(from_addr: felt, to_addr: felt, array_len(1), amount: felt) {
+    # Check that the from address has sufficient balance.
+   ",True,4,"5,2",True,35
+239," balance[get_caller()] = TOTAL_SUPPLY
+
+    # Emit a Transfer event for the initial minting.
+   ",True,1,"5,2",True,36
+240," balance[get_caller_id()] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's ID.
+   ",False,,,,37
+241," balance[get_caller_address()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's address.
+   ",False,,,,38
+242," balance[get_caller_id()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's ID and balance.
+   ",False,,,,39
+243," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,40
+244," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,41
+245," balance[get_caller_address()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func name() -> (res: felt) {
+    res = TOKEN_NAME
+
+    return ()
+}
+
+### @external ###
+func symbol() -> (res: felt) {
+    res = TOKEN_SYMBOL
+
+    return ()
+}
+
+### @external ###
+func decimals() -> (res: felt) {
+    res = DECIMALS
+
+    return ()
+}
+
+### @external ###
+func total_supply() -> (res: felt) {
+    res = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func balance_of(user: felt) -> (res: felt) {
+    # Get the user's balance from the mapping.
+   ",True,0,"5,2",True,42
+246," balance[get_caller_id()] = TOTAL_SUPPLY;
+}
+
+### @external_function ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,43
+247," balance[get_caller_id()] = TOTAL_SUPPLY
+    
+    return ()
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's ID and balance.
+   ",True,4,"5,2",True,44
+248," balance[owner] = TOTAL_SUPPLY;
+}
+
+### @public ###
+func transfer(recipient: felt, amount: felt) {
+    # Check that the caller has sufficient balance.
+   ",True,4,"5,2",True,45
+249," balance[get_caller()] = TOTAL_SUPPLY
+    
+    return ()
+}
+
+### @public ###
+func get_balance(user: felt(256)) -> felt {
+    return balance[user]
+}
+
+### @public ###
+func transfer(recipient: felt(256), amount: felt) -> felt {
+    # Check if the caller has enough balance.
+   ",True,0,"5,2",True,46
+250," balance[get_sender()] = TOTAL_SUPPLY
+    
+    return ()
+}
+
+### @external_function ###
+func transfer(recipient: felt, amount: felt) -> felt {
+    # Get the sender's balance.
+   ",False,,,,47
+251," balance[get_caller()] = TOTAL_SUPPLY;
+}
+
+### @external ###
+func mint(to: felt, amount: felt) {
+    # Only allow the owner to mint new tokens.
+   ",True,0,"5,2",True,48
+252," balance[get_caller()] = TOTAL_SUPPLY
+    
+    return ()
+}
+
+### @public ### 
+func name() -> (result: felt) {
+    return (TOKEN_NAME)
+}
+
+### @public ### 
+func symbol() -> (result: felt) {
+    return (TOKEN_SYMBOL)
+}
+
+### @public ### 
+func decimals() -> (result: felt) {
+    return (DECIMALS)
+}
+
+### @public ### 
+func total_supply() -> (result: felt) {
+    return (TOTAL_SUPPLY)
+}
+
+### @public ### 
+func balance_of(user: felt) -> (result: felt) {
+    return (balance[user])
+}
+
+### @public ### 
+func transfer(to: felt, amount: felt) {
+    # Check if the caller has enough balance.
+   ",False,,,,49
+253," balance[get_caller()] = TOTAL_SUPPLY
+
+    return ()
+}
+
+### @external ###
+func transfer(recipient: felt, amount: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,50
+254," let sender_balance: felt = balance[get_caller()]
+
+    # Check that the caller has enough tokens.
+   ",True,0,"5,2",True,1
+255," let caller_balance: felt = balance[get_caller()]
+
+    # Check that the caller has enough tokens.
+   ",True,0,"5,2",True,2
+256," let caller_balance: felt = balance[get_caller()]
+    # Check that the caller has enough funds.
+   ",True,0,"5,2",True,3
+257," let caller_balance: felt = balance[get_caller()]
+
+    # Check that the caller has sufficient balance.
+   ",True,0,"5,2",True,4
+258," let caller_balance: felt = balance[get_caller()]
+
+    # Check that the caller has enough balance.
+   ",True,0,"5,2",True,5
+259," let caller_balance: felt = balance[get_caller()]
+
+    # Check that the caller has enough funds.
+   ",True,0,"5,2",True,6
+260," let caller_balance: felt = balance[get_caller()]
+
+    # Check if the caller has enough balance.
+   ",True,0,"5,2",True,7
+261," let caller_balance = balance[get_caller()]
+
+    # Check if the caller has sufficient balance.
+   ",True,2,"5,2",True,8
+262," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,1
+263," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,2
+264," assert caller_balance >= amount
+
+    # Subtract the transferred amount from the caller's balance.
+   ",True,6,"5,2",True,3
+265," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,4
+266," assert caller_balance >= amount
+
+    # Subtract the transferred amount from the caller's balance.
+   ",True,6,"5,2",True,5
+267," assert caller_balance >= amount,    # Ensure caller has enough tokens.
+
+   ",False,,,,6
+268," assert caller_balance >= amount
+
+    # Subtract the transferred amount from the caller's balance.
+   ",True,6,"5,2",True,7
+269," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,8
+270," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,9
+271," assert caller_balance >= amount
+
+    # Subtract the transferred amount from the caller's balance.
+   ",True,6,"5,2",True,10
+272," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,11
+273," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,12
+274," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,13
+275," assert caller_balance >= amount
+
+    # Subtract the transferred amount from the caller's balance.
+   ",True,6,"5,2",True,14
+276," assert caller_balance >= amount
+
+    # Subtract the transferred amount from the caller's balance.
+   ",True,6,"5,2",True,15
+277," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,16
+278," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,17
+279," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,18
+280," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,19
+281," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,20
+282," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,21
+283," assert caller_balance >= amount,    ""Insufficient balance""
+
+    # Update the caller's balance.
+   ",True,4,"5,2",True,22
+284," assert caller_balance >= amount,    // Error: insufficient balance
+
+    # Subtract the transferred amount from the caller's balance.
+   ",True,6,"5,2",True,23
+285," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,24
+286," assert caller_balance >= amount,    # Check for underflow.
+
+   ",True,0,"5,2",True,25
+287," assert caller_balance >= amount
+
+    # Subtract the transfer amount from the caller's balance.
+   ",True,6,"5,2",True,26
+288," assert caller_balance >= amount
+
+    # Update the caller's balance.
+   ",False,,,,27
+289," assert caller_balance >= amount
+
+    # Subtract the amount from the caller's balance.
+   ",True,2,"5,2",True,28
+290," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,1
+291," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,2
+292," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,3
+293," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,4
+294," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,5
+295," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,6
+296," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,7
+297," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,8
+298," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,9
+299," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,10
+300," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,11
+301," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,12
+302," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,13
+303," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,14
+304," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,15
+305," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,16
+306," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,17
+307," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,18
+308," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,19
+309," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,20
+310," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,21
+311," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,22
+312," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,23
+313," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,24
+314," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,25
+315," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,26
+316," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,27
+317," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,28
+318," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,29
+319," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,30
+320," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,31
+321," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,32
+322," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,33
+323," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,34
+324," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,35
+325," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,36
+326," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,37
+327," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,38
+328," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,39
+329," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,40
+330," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,41
+331," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,42
+332," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,43
+333," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,44
+334," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,45
+335," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,46
+336," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,47
+337," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,48
+338," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",False,,,,49
+339," balance[get_caller()] = caller_balance - amount
+
+    # Add the amount to the recipient's balance.
+   ",True,0,"5,2",True,50
+340," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(user: felt) -> (balance: felt) {
+    # Return the user's balance.
+   ",True,0,"5,2",True,1
+341," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,2
+342," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,3
+343," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> (balance: felt) {
+    # Return the user's balance.
+   ",True,0,"5,2",True,4
+344," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,5
+345," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(user: felt) -> felt {
+    return balance[user]
+}
+
+### @view ###
+func get_total_supply() -> felt {
+    return TOTAL_SUPPLY 
+}
+
+### @view ###
+func get_decimals() -> felt {
+    return DECIMALS 
+}
+```
+Let me explain what this code does:
+
+* The first section defines constants for the token name,  symbol, total supply, and decimals.
+",True,0,"5,2",True,6
+346," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(owner: felt) -> felt {
+    return balance[owner]
+}
+
+### @view ###
+func get_total_supply() -> felt {
+    return TOTAL_SUPPLY * (10**DECIMALS)
+}
+
+### @view ###
+func get_name() -> felt {
+    return TOKEN_NAME * (10**32)
+}
+
+### @view ###
+func get_symbol() -> felt {
+    return TOKEN_SYMBOL * (10**32)
+}
+```
+This contract defines:
+
+* A `transfer` function that allows users to transfer tokens to another address.
+",True,4,"5,2",True,7
+347," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> (balance: felt) {
+    # Return the user's balance.
+   ",True,0,"5,2",True,8
+348," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> (balance: felt) {
+    # Return the user's balance.
+   ",True,0,"5,2",True,9
+349," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func balance_of(owner: felt) -> (balance: felt) {
+    # Return the owner's balance.
+   ",True,0,"5,2",True,10
+350," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, amount: felt) {
+    # Set the spender's allowance for the caller.
+   ",True,1,"5,2",True,11
+351," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, amount: felt) {
+    # Get the caller's approval for the spender.
+   ",True,1,"5,2",True,12
+352," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func balance_of(owner: felt) -> felt {
+    # Return the balance of the specified owner.
+   ",True,0,"5,2",True,13
+353," balance[recipient] = balance.get_default(recipient, 0) + amount
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, allowance: felt) {
+    # Get the caller's balance.
+   ",True,0,"5,2",True,14
+354," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> (balance: felt) {
+    return (balance[user])
+}
+
+### @view ###
+func total_supply() -> (supply: felt) {
+    return (TOTAL_SUPPLY)
+}
+
+### @view ###
+func decimals() -> (decimals: felt) {
+    return (DECIMALS)
+}
+
+### @view ###
+func symbol() -> (symbol: felt) {
+    return (TOKEN_SYMBOL)
+}
+
+### @view ###
+func name() -> (name: felt) {
+    return (TOKEN_NAME)
+}
+```
+This contract defines a basic ERC-20-like token with the following functionality:
+
+* `init`: Initializes the contract by setting the owner's balance to the total supply.
+",True,0,"5,2",True,15
+355," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, amount: felt) {
+    # Get the caller's balance.
+   ",False,,,,16
+356," let recipient_balance = balance[recipient]
+    balance[recipient] = recipient_balance + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(owner: felt) -> (balance: felt) {
+    # Return the owner's balance.
+   ",True,0,"5,2",True,17
+357," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,18
+358," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,19
+359," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, amount: felt) {
+    # Create a new approval entry for the spender.
+   ",True,1,"5,2",True,20
+360," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(owner: felt) -> felt {
+    # Return the owner's balance.
+   ",True,0,"5,2",True,21
+361," balance[recipient] = balance.get(recipient, + amount)
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, amount: felt) {
+    # Set the spender's allowance.
+   ",True,0,"5,2",True,22
+362," balance[recipient] = balance.get(recipient, +amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(user: felt) -> (balance: felt) {
+    return (balance.get_default(user, 0))
+}
+
+### @view ###
+func get_total_supply() -> (total_supply: felt) {
+    return (TOTAL_SUPPLY)
+}
+```
+This contract has the following functions:
+
+* `init`: The constructor function that initializes the contract by setting the owner's balance to the total supply.
+",True,0,"5,2",True,23
+363," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(user: felt) -> felt {
+    return balance[user]
+}
+
+### @view ###
+func total_supply() -> felt {
+    return TOTAL_SUPPLY;
+}
+
+### @view ###
+func decimals() -> felt {
+    return DECIMALS;
+}
+```
+This contract allows for the creation of a new token with a fixed total supply, and enables users to transfer tokens between each other.",True,4,"5,2",True,24
+364," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(user: felt) -> (balance: felt) {
+    return (balance[user])
+}
+```
+Let me explain what each part of this contract does:
+
+* The first section defines some constants for the token, such as its name, and symbol, as well as its total supply and decimals.
+
+",True,0,"5,2",True,25
+365," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,26
+366," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,27
+367," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> (balance: felt) {
+    # Return the user's balance.
+   ",True,0,"5,2",True,28
+368," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, amount: felt) {
+    # Set the spender's allowance.
+   ",False,,,,29
+369," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @view ###
+func get_balance(user: felt) -> (balance: felt) {
+    return (balance[user])
+}
+
+### @view ###
+func total_supply() -> (total_supply: felt) {
+    return (TOTAL_SUPPLY)
+}
+```
+Let me explain what each part of the contract does:
+
+* The first section defines some constants for the token, such as its name, symbol, and total supply.
+",True,0,"5,2",True,30
+370," balance[recipient] = balance.get_default(recipient, 0) + amount
+
+    return ()
+}
+
+### @external ###
+func approve(spender: felt, amount: felt) {
+    # Set the allowance for the spender.
+   ",True,0,"5,2",True,31
+371," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,32
+372," balance[recipient] = balance[recipient] + amount
+
+    return ()
+}
+
+### @external ###
+func get_balance(user: felt) -> felt {
+    # Return the user's balance.
+   ",True,0,"5,2",True,33
+373," let new_recipient_balance = balance[recipient] + amount
+
+    # Set the recipient's new balance.
+   ",True,5,"5,2",True,34

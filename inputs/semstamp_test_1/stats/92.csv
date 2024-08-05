@@ -1,0 +1,57 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+What an interesting request!
+
+",True,5,"7,2",True,1
+2,"
+
+What a fascinating request!
+
+",True,5,"7,2",True,2
+3,"
+
+Here is an example of Python code that uses CUDA Quantum to entangle two qubits:
+```
+import numpy as np
+
+# Import CUDA Quantum library 
+import cusqrt
+
+# Define the number of qubits (in this case, 2)
+n_qubits = 2
+
+# Create a CUDA Quantum device object 
+dev = cusqrt.get_device('gpu')
+
+# Create a CUDA Quantum context object 
+ctx = cusqrt.create_context(dev)
+
+# Create a CUDA Quantum register for the qubits 
+reg = ctx.allocate_register(n_qubits)
+
+# Initialize the qubits in the |0state 
+for i in range(n_qubits):
+    reg[i].x = 1.0 + 0j
+
+# Apply a Hadamard gate to qubit 0 to create a superposition 
+ctx.h(reg[0])
+
+# Apply a controlled-NOT gate from qubit 0 to qubit 1 
+ctx.cx(reg[0], reg[1])
+
+# Print the state of the qubits ( Warning: this will collapse the superposition ) 
+print(""Entangled State:"")
+for i in range(2**n_qubits):
+    amplitude = ctx.get_amplitude(reg, i)
+    if abs(amplitude) > 1e-6:
+        print(f""|{i:b>{n_qubits}b}>: {amplitude:.4f}"")
+
+# Release resources 
+ctx.free_register(reg)
+cusqrt.destroy_context(ctx)
+cusqrt.reset_device(dev)
+```
+This code creates a CUDA Quantum device object and context, initializes two qubits in the `|0` state, applies a Hadamard gate to qubit 0 to create a superposition, and then applies a controlled-NOT gate from qubit 0 to qubit 1 to entangle them.
+
+",True,2,"7,2",True,3

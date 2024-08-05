@@ -1,0 +1,3313 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA Board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_in : in STD_LOGIC_VECTOR(3 downto 0); -- 4-bit input for coins (1 cent, 5 cents, 10 cents, 25 cents)
+           product_select : in STD_LOGIC_VECTOR(2 downto 0); -- 3-bit input for selecting products (0-7)
+           dispense_product : out STD_LOGIC; -- output to dispense product (active high)
+           change_dispensed : out STD_LOGIC -- output to dispense change (active high));
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+constant PRODUCT_PRICE_0 : UNSIGNED(7 downto 0) := ""00001100""; -- price of product 0: $3.00 (11 x 25 cents)
+constant PRODUCT_PRICE_1 : UNSIGNED(7 downto 0) := ""00001001""; -- price of product 1: $1.25 (10 x 25 cents + 1 x 1 cent)
+constant PRODUCT_PRICE_2 : UNSIGNED(7 downto 0) := ""00001010""; -- price of product 2: $2.50 (10 x 25 cents)
+
+signal coin_sum : UNSIGNED(7 downto 0) := (others => '0'); -- sum of inserted coins (max 255 cents)
+signal selected_price : UNSIGNED(7 downto 0) := (others => '0'); -- price of selected product
+
+begin
+
+-- Coin counter process --
+coin_counter : process(clk, reset)
+begin 
+    if reset = '1' then 
+        coin_sum <= (others => '0');
+    elsif rising_edge(clk) then 
+        if coin_in(3) = '1' then -- 25 cents inserted 
+            coin_sum <= coin_sum + ""00110001"";
+        end if; 
+        if coin_in(2) = '1' then -- 10 cents inserted 
+            coin_sum <= coin_sum + ""00010100"";
+        end if; 
+        if coin_in(1) = '1' then -- 5 cents inserted 
+            coin_sum <= coin_sum + ""00001001"";
+        end if; 
+        if coin_in(0) = '1' then -- 1 cent inserted 
+            coin_sum <= coin_sum + ""00000001"";
+        end if; 
+    end if;
+end process;
+
+-- Product selection and pricing process --
+product_selection : process(product_select)
+begin 
+    case product_select is 
+        when ""000"" => 
+            selected_price <= PRODUCT_PRICE_0;
+        when ""001"" => 
+            selected_price <= PRODUCT_PRICE_1;
+        when ""010"" => 
+            selected_price <= PRODUCT_PRICE_2;
+        when others => 
+            selected_price <= (others => '0');
+    end case;
+end process;
+
+-- Dispense and change logic process --
+dispense_logic : process(clk, reset)
+begin 
+    if reset = '1' then 
+        dispense_product <= '0';
+        change_dispensed <= '0';
+    elsif rising_edge(clk) then 
+        if coin_sum >= selected_price then 
+            dispense_product <= '1';
+            if coin_sum > selected_price then 
+                change_dispensed <= '1'; -- dispense change 
+            end if; 
+        else 
+            dispense_product <= '0';
+            change_dispensed <= '0';
+        end",True,4,"7,2",True,1
+2,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA board:
+```
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_in : in STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in STD_LOGIC_VECTOR(1 downto 0);
+           product_out : out STD_LOGIC_VECTOR(3 downto 0));
+           change_out : out STD_LOGIC_VECTOR(2 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+-- Define the states for the vending machine FSM 
+type state_type is (S_IDLE, S_COIN_INSERTED, S_PRODUCT_SELECTED, S_DISPENSING, S_CHANGE_CALCULATING, S_CHANGE DISPENSING);
+signal current_state : state_type := S_IDLE;
+
+-- Define the products and their prices 
+constant PRODUCT_A_PRICE : unsigned(7 downto 0) := X""05""; -- $0.05 
+constant PRODUCT_B_PRICE : unsigned(7 downto 0) := X""10""; -- $0.10 
+constant PRODUCT_C_PRICE : unsigned(7 downto 0) := X""20""; -- $0.20 
+
+-- Define the coins and their values 
+constant COIN_NICKEL : unsigned(7 downto 0) := X""05""; -- $0.05 
+constant COIN_DIME : unsigned(7 downto 0) := X""10""; -- $0.10 
+constant COIN_QUARTER : unsigned(7 downto 0) := X""25""; -- $0.25 
+
+-- Signals for the coin counter, product selection, and change calculation 
+signal coin_counter : unsigned(7 downto 0) := X""00"";
+signal selected_product : unsigned(1 downto 0) := ""00"";
+signal total_cost : unsigned(7 downto 0) := X""00"";
+signal change_due : unsigned(7 downto 0) := X""00"";
+
+begin 
+    process(clk, reset) 
+    begin 
+        if (reset = '1') then 
+            current_state <= S_IDLE; 
+            coin_counter <= X""00"";
+            selected_product <= ""00"";
+            total_cost <= X""00"";
+            change_due <= X""00"";
+            product_out <= ""0000"";
+            change_out <= ""000"";
+        elsif (rising_edge(clk)) then 
+            case current_state is 
+                when S_IDLE => 
+                    if (coin_in /= ""00"") then 
+                        coin_counter <= coin_counter + unsigned(coins(coin_in'length-1 downto 0)); 
+                        current_state <= S_COIN_INSERTED; 
+                    end if; 
+                when S_COIN_INSERTED => 
+                    if (select_product /= ""00"") then 
+                        selected_product <= unsigned(select_product); 
+                        case selected_product is 
+                            when ""00"" => total_cost <= PRODUCT_A_PRICE; 
+                            when ""01"" => total_cost <= PRODUCT_B_PRICE; 
+                            when ""10"" => total_cost <= PRODUCT_C_PRICE; 
+                            when others => null; 
+                        end case; 
+                        current_state <= S_PRODUCT_SELECTED; 
+                    end if; 
+                when S_PRODUCT_SELECTED => 
+                    if (total_cost <= coin_counter) then 
+                        coin_counter <= coin_counter - total_cost; 
+                        product_out <= ""1000""; -- Dispense product A 
+                        current_state <= S_DISPENSING; 
+                    else 
+                        current_state <= S_CHANGE_CALCULATING; 
+                    end if",True,4,"7,2",True,2
+3,"
+
+Here is a VHDL program that implements a basic vending machine functionality, of dispensing a product when a valid coin is inserted and the correct button is pressed:
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_in : in  STD_LOGIC_VECTOR(1 downto 0); -- 00: invalid coin, 01: $0.25, 10: $1, 11: other
+           btn_press : in  STD_LOGIC; -- button press signal
+           dispense_product : out  STD_LOGIC);
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+
+signal coin_value : integer range 0 to 100 := 0;
+signal total_amount : integer range 0 to 100 := 0;
+signal product_cost : integer := 50; -- cost of one product
+
+begin
+process(clk)
+begin
+    if rising_edge(clk) then
+        if reset = '1' then
+            total_amount <= 0;
+            coin_value <= 0;
+        else
+            case coin_in is
+                when ""00"" => null;
+                when ""01"" => coin_value <= 25;
+                when ""10"" => coin_value <= 100;
+                when ""11"" => null;
+                when others => null;
+            end case;
+            
+            if btn_press = '1' then
+                if total_amount >= product_cost then
+                    dispense_product <= '1';
+                    total_amount <= total_amount - product_cost;
+                else
+                    dispense_product <= '0';
+                end if;
+                
+                total_amount <= total_amount + coin_value;
+                coin_value <= 0;
+            end if;
+        end if;
+    end if;
+end process;
+end Behavioral;
+```
+Let me explain what this code does:
+
+* The entity `VendingMachine` has input ports for clock (`clk`), reset (`reset`), coin insertion (`coin_in`), and button press (`btn_press`).",True,4,"7,2",True,3
+4,"
+
+What a unique request!",True,4,"7,2",True,4
+5,"
+
+What a unique request!",True,4,"7,2",True,5
+6,"
+
+Here is an example of a VHDL program that implements a basic vending machine functionality, and targets the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_inserted : in  STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0);
+           dispense_product : out  STD_LOGIC;
+           display_amount : out  STD_LOGIC_VECTOR(3 downto 0));
+           led_indicator : out  STD_LOGIC_VECTOR(2 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal current_amount : UNSIGNED(3 downto 0) := ""0000"";
+signal product_selected : STD_LOGIC := '0';
+
+begin
+
+process(clk, reset)
+begin 
+    if reset = '1' then 
+        current_amount <= ""0000""; 
+        product_selected <= '0';
+    elsif rising_edge(clk) then 
+        -- Coin handling logic 
+        if coin_inserted = ""01"" then 
+            current_amount <= current_amount + ""0010""; 
+        elsif coin_inserted = ""10"" then 
+            current_amount <= current_amount + ""0100""; 
+        end if; 
+
+        -- Product selection logic 
+        if select_product = ""00"" and product_selected = '0' then 
+            if current_amount >= ""1000"" then 
+                dispense_product <= '1'; 
+                current_amount <= current_amount - ""1000""; 
+            else 
+                dispense_product <= '0'; 
+            end if; 
+        elsif select_product = ""01"" and product_selected = '0' then 
+            if current_amount >= ""0500"" then 
+                dispense_product <= '1'; 
+                current_amount <= current_amount - ""0500""; 
+            else 
+                dispense_product <= '0'; 
+            end if; 
+        end if; 
+
+        -- Display amount logic 
+        display_amount <= STD_LOGIC_VECTOR(current_amount);
+
+        -- LED indicator logic 
+        case current_amount is 
+            when ""0000"" => led_indicator <= ""000""; 
+            when ""0001"" to ""0100"" => led_indicator <= ""001""; 
+            when ""0101"" to ""1000"" => led_indicator <= ""010""; 
+            when others => led_indicator <= ""100""; 
+        end case;
+    end if;
+end process;
+
+end Behavioral;
+```
+
+**Explanation:**
+
+This VHDL code defines a `VendingMachine` entity with several input and output ports:
+
+* `clk`: The clock signal.
+",True,4,"7,2",True,6
+7,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coinInserted : in  STD_LOGIC_VECTOR(1 downto 0);
+           selectProduct : in  STD_LOGIC_VECTOR(2 downto 0);
+           dispenseProduct : out  STD_LOGIC);
+           display : out  STD_LOGIC_VECTOR(6 downto 0)
+          );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+   type stateType is (idle, waitCoin, selectProd, dispense);
+   signal currentState, nextState : stateType;
+   
+   -- Constants for product selection and prices 
+   constant PRODUCT_A_PRICE : integer := 50;  -- 50 cents 
+   constant PRODUCT_B_PRICE : integer := 100;  -- $1 
+   constant PRODUCT_C_PRICE : integer := 200;  -- $2 
+   
+   -- Register to hold the current balance 
+   signal currentBalance : unsigned(7 downto 0) := ""00000000"";
+   
+begin
+   
+   -- Process to update the state based on inputs 
+   process(clk, reset)
+   begin  
+       if reset = '1' then 
+           currentState <= idle;
+       elsif rising_edge(clk) then 
+           currentState <= nextState;
+       end if;
+   end process;
+   
+   -- Process to handle transitions between states 
+   process(currentState, coinInserted, selectProduct)
+   begin 
+       case currentState is 
+           when idle => 
+               if coinInserted /= ""00"" then 
+                   nextState <= waitCoin;
+               else 
+                   nextState <= idle;
+               end if;
+               
+           when waitCoin => 
+               if coinInserted = ""01"" then 
+                   currentBalance <= currentBalance + 25;  -- add 25 cents 
+               elsif coinInserted = ""10"" then 
+                   currentBalance <= currentBalance + 100;  -- add $1 
+               else 
+                   currentBalance <= currentBalance;
+               end if;
+               nextState <= selectProd;
+               
+           when selectProd => 
+               case selectProduct is 
+                   when ""000"" => 
+                       if currentBalance >= PRODUCT_A_PRICE then 
+                           currentBalance <= currentBalance - PRODUCT_A_PRICE;
+                           nextState <= dispense;
+                       else 
+                           nextState <= waitCoin;
+                       end if;
+                   
+                   when ""001"" => 
+                       if currentBalance >= PRODUCT_B_PRICE then 
+                           currentBalance <= currentBalance - PRODUCT_B_PRICE;
+                           nextState <= dispense;
+                       else 
+                           nextState <= waitCoin;
+                       end if;
+                       
+                   when ""010"" => 
+                       if currentBalance >= PRODUCT_C_PRICE then 
+                           currentBalance <= currentBalance - PRODUCT_C_PRICE;
+                           nextState <= dispense;
+                       else 
+                           nextState <= waitCoin;
+                       end if;
+                       
+                   when others => 
+                       nextState <= waitCoin;
+               end case;
+               
+           when dispense => 
+               dispenseProduct <= '1';
+               nextState <= idle;
+               
+           when others => 
+               nextState <= idle;
+       end case;
+   end process;
+   
+   -- Output the current balance as a BCD code on the 7-segment display 
+   display <= bcd_encode(std_logic_vector(currentBalance));
+   
+   -- Dispense product when necessary 
+   dispenseProduct <= '1' when currentState = dispense else '0';
+
+end Behavioral;
+
+-- Function to encode the binary number into a 7-segment BCD code 
+function bcd_encode(binaryNum : std_logic_vector(7 downto 0))",True,4,"7,2",True,7
+8,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_inserted : in STD_LOGIC_VECTOR(1 downto 0);
+           product_select : in STD_LOGIC_VECTOR(1 downto 0);
+           dispense_product : out STD_LOGIC;
+           led_display : out STD_LOGIC_VECTOR(6 downto 0));
+           lcd_display : out STD_LOGIC_VECTOR(7 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal coin_value : STD_LOGIC_VECTOR(3 downto 0) := ""0000"";
+signal product_price : STD_LOGIC_VECTOR(3 downto 0) := ""0100""; -- price of each product is $1.00
+
+begin
+
+process(clk, reset)
+
+variable state : STD_LOGIC_VECTOR(1 downto 0) := ""00"";
+
+begin
+
+if(reset = '1') then 
+    state := ""00"";
+    coin_value <= ""0000"";
+elsif(rising_edge(clk)) then
+
+    case state is 
+        when ""00"" => -- idle state 
+            if(coin_inserted = ""01"") then 
+                coin_value <= STD_LOGIC_VECTOR(UNSIGNED(coin_value) + 25); -- nickel inserted, add 25 cents 
+                state := ""01"";
+            elsif(coin_inserted = ""10"") then 
+                coin_value <= STD_LOGIC_VECTOR(UNSIGNED(coin_value) + 50); -- quarter inserted, add 50 cents 
+                state := ""01"";
+            end if; 
+            
+        when ""01"" => -- waiting for product selection 
+            if(product_select = ""01"") then 
+                if(STD_LOGIC_VECTOR(UNSIGNED(coin_value) - UNSIGNED(product_price))) >= ""0000"" then 
+                    dispense_product <= '1';
+                    coin_value <= ""0000"";
+                    state := ""00"";
+                else 
+                    led_display <= ""1000000""; -- flash error message on LED display 
+                end if;
+            elsif(product_select = ""10"") then 
+                if(STD_LOGIC_VECTOR(UNSIGNED(coin_value) - UNSIGNED(product_price * 2))) >= ""0000"" then 
+                    dispense_product <= '1';
+                    coin_value <= ""0000"";
+                    state := ""00"";
+                else 
+                    led_display <= ""1000000""; -- flash error message on LED display 
+                end if;
+            end if;
+        
+        when others => 
+            null;
+    end case;
+    
+    -- LCD Display 
+    if(state = ""00"") then 
+        lcd_display <= ""11001111""; -- display ""SELECT PRODUCT""
+    elsif(state = ""01"") then 
+        lcd_display <= ""11010101""; -- display ""INSERT COIN""
+    end if;
+    
+    -- LED Display 
+    if(dispense_product = '1') then 
+        led_display <= ""01111110""; -- flash ""PRODUCT DISPENSED"" message on LED display 
+    end if;
+end if;
+
+end process;
+
+end Behavioral;
+
+```
+
+This VHDL program targets the DE-10 Standard FPGA board and implements a simple vending machine with the following features:
+
+* Accepts coins (nickels and quarters) as input through the `coin_inserted` port.
+",True,4,"7,2",True,8
+9,"
+
+What a unique request!",True,4,"7,2",True,9
+10,"
+
+Here is an example VHDL program that implements a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC; 
+           reset : in STD_LOGIC; 
+           coin_inserted : in STD_LOGIC_VECTOR(3 downto 0);  
+           product_selected : in STD_LOGIC_VECTOR(1 downto 0); 
+           dispense_product : out STD_LOGIC;
+           display_price : out STD_LOGIC_VECTOR(7 downto 0)); 
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+    constant PRODUCT_A_PRICE : UNSIGNED(7 downto 0) := ""00001000""; -- $1.00 
+    constant PRODUCT_B_PRICE : UNSIGNED(7 downto 0) := ""00000100""; -- $0.50 
+    constant PRODUCT_C_PRICE : UNSIGNED(7 downto 0) := ""00000050""; -- $0.25 
+
+    signal current_credit : UNSIGNED(7 downto 0);
+    signal selected_product : UNSIGNED(1 downto 0);
+
+begin
+
+    -- Reset credit and product selection on reset 
+    process(clk, reset)
+        if reset = '1' then 
+            current_credit <= ""00000000"";
+            selected_product <= ""00"";
+        end if; 
+    end process;
+
+    -- Update credit based on inserted coins 
+    process(clk)
+        variable total_credit : UNSIGNED(7 downto 0);
+        begin 
+            total_credit := ""00000000"";
+            for i in 0 to 3 loop 
+                case coin_inserted(i) is 
+                    when '1' => total_credit := total_credit + (""00010000"" * 2**i);
+                    when others => null; 
+                end case; 
+            end loop;
+            if rising_edge(clk) then 
+                current_credit <= total_credit;
+            end if;
+    end process;
+
+    -- Handle product selection 
+    process(product_selected, current_credit)
+        variable price_to_pay : UNSIGNED(7 downto 0);
+        begin 
+            case product_selected is 
+                when ""01"" => price_to_pay := PRODUCT_A_PRICE;
+                when ""10"" => price_to_pay := PRODUCT_B_PRICE;
+                when ""11"" => price_to_pay := PRODUCT_C_PRICE;
+                when others => price_to_pay := ""00000000"";
+            end case;
+            
+            if unsigned(current_credit) >= price_to_pay then 
+                dispense_product <= '1';
+                current_credit <= current_credit - price_to_pay;
+            else 
+                dispense_product <= '0'; 
+            end if;
+    end process;
+
+    -- Display current credit or price to pay 
+    process(current_credit, selected_product)
+        begin 
+            if signed(current_credit) > 0 then 
+                display_price <= STD_LOGIC_VECTOR(current_credit);
+            else 
+                case selected_product is 
+                    when ""01"" => display_price <= STD_LOGIC_VECTOR(PRODUCT_A_PRICE);
+                    when ""10"" => display_price <= STD_LOGIC_VECTOR(PRODUCT_B_PRICE);
+                    when ""11"" => display_price <= STD_LOGIC_VECTOR(PRODUCT_C_PRICE);
+                    when others => display_price <= ""00000000"";
+                end case; 
+            end if;
+    end process;
+
+end Behavioral;
+```
+
+This design assumes the following:
+
+* The DE-10 Standard FPGA board has four buttons (SW[3:0]) connected to `coin_inserted` to represent inserting coins (e.g., 1¢, 5¢, 10¢, 25¢).
+",True,4,"7,2",True,10
+11,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_in : in STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: $0.25, 10: $1.00, 11: invalid coin 
+           select_product : in STD_LOGIC_VECTOR(2 downto 0); -- 000: product A, 001: product B, 010: product C, others: invalid selection 
+           dispense_product : out STD_LOGIC; 
+           display_price : out STD_LOGIC_VECTOR(6 downto 0)); -- displays price in cents 
+           led_status : out STD_LOGIC_VECTOR(7 downto 0)); -- status LEDs for debugging 
+    );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+    constant PRICE_A : INTEGER := 50; -- price of product A in cents 
+    constant PRICE_B : INTEGER := 75; 
+    constant PRICE_C : INTEGER := 100; 
+
+    signal current_credit : INTEGER range 0 to 200 := 0; 
+    signal selected_product : STD_LOGIC_VECTOR(2 downto 0) := ""000""; 
+    signal product_dispensed : STD_LOGIC := '0'; 
+
+begin 
+    process(clk, reset)
+        variable coin_value : INTEGER range 0 to 100 := 0; 
+    begin 
+        if reset = '1' then 
+            current_credit <= 0; 
+            selected_product <= ""000""; 
+            product_dispensed <= '0'; 
+        elsif rising_edge(clk) then 
+            if coin_in /= ""00"" then 
+                case coin_in is 
+                    when ""01"" => coin_value := 25; 
+                    when ""10"" => coin_value := 100; 
+                    when others => coin_value := 0; 
+                end case; 
+                
+                current_credit <= current_credit + coin_value; 
+            end if; 
+            
+            if current_credit > 0 and select_product /= ""000"" then 
+                case select_product is 
+                    when ""000"" => selected_product <= ""000""; 
+                    when ""001"" => selected_product <= ""001""; 
+                    when ""010"" => selected_product <= ""010""; 
+                    when others => selected_product <= ""000""; 
+                end case; 
+                
+                if current_credit >= PRICE_A and selected_product = ""000"" then 
+                    current_credit <= current_credit - PRICE_A; 
+                    product_dispensed <= '1'; 
+                elsif current_credit >= PRICE_B and selected_product = ""001"" then 
+                    current_credit <= current_credit - PRICE_B; 
+                    product_dispensed <= '1'; 
+                elsif current_credit >= PRICE_C and selected_product = ""010"" then 
+                    current_credit <= current_credit - PRICE_C; 
+                    product_dispensed <= '1'; 
+                else 
+                    product_dispensed <= '0'; 
+                end if; 
+            end if; 
+        end if; 
+    end process; 
+
+    -- Display price in cents 
+    process(current_credit) 
+        variable display_value : INTEGER range 0 to 99999 := 0; 
+    begin 
+        display_value := current_credit; 
+        display_price <= STD_LOGIC_VECTOR(TO_UNSIGNED(display_value, 7)); 
+    end process; 
+    
+    -- Dispense product 
+    dispense_product <= product_dispensed; 
+    
+    -- Status LEDs for debugging 
+",True,4,"7,2",True,11
+12,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA Board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_1p : in  STD_LOGIC; -- 1 pence coin inserted 
+           coin_2p : in  STD_LOGIC; -- 2 pence coin inserted 
+           coin_5p : in  STD_LOGIC; -- 5 pence coin inserted 
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0); -- select product 0, 1 or 2 
+           dispense_product : out  STD_LOGIC); -- dispense selected product 
+           leds : out  STD_LOGIC_VECTOR(7 downto 0)); -- display amount inserted on LEDs 
+           anodes : out  STD_LOGIC_VECTOR(3 downto 0)); -- drive seven-segment display 
+           cathodes : out  STD_LOGIC_VECTOR(6 downto 0));
+        );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal amount_inserted : integer range 0 to 100 := 0; -- amount inserted in pence 
+signal product_price : integer range 0 to 100 := 20; -- price of each product in pence 
+signal product_selected : integer range 0 to 2 := 0; -- currently selected product 
+
+begin
+
+process(clk)
+begin 
+    if rising_edge(clk) then 
+        if reset = '1' then 
+            amount_inserted <= 0; 
+            product_selected <= 0; 
+        else 
+            -- handle coin insertions 
+            if coin_1p = '1' then 
+                amount_inserted <= amount_inserted + 1; 
+            end if; 
+            if coin_2p = '1' then 
+                amount_inserted <= amount_inserted + 2; 
+            end if; 
+            if coin_5p = '1' then 
+                amount_inserted <= amount_inserted + 5; 
+            end if; 
+            
+            -- handle product selection 
+            case select_product is 
+                when ""00"" => product_selected <= 0; 
+                when ""01"" => product_selected <= 1; 
+                when ""10"" => product_selected <= 2; 
+                when others => null; 
+            end case; 
+            
+            -- check if enough money inserted and dispense product 
+            if amount_inserted >= product_price and product_selected /= 0 then 
+                amount_inserted <= amount_inserted - product_price; 
+                dispense_product <= '1'; 
+                product_selected <= 0; 
+            else 
+                dispense_product <= '0'; 
+            end if; 
+        end if; 
+    end if; 
+end process; 
+
+-- Drive the seven-segment display to show the amount inserted 
+anodes <= ""1110""; -- drive anodes for seven-segment display 
+cathodes <= 
+    not (amount_inserted mod 10) & 
+    ((amount_inserted / 10) mod 10) & 
+    (((amount_inserted / 10) / 10) mod 10) & 
+    ((((amount_inserted / 10) / 10) / 10) mod 10);
+
+-- Display the amount inserted on LEDs 
+leds(7 downto 4) <= std_logic_vector(to_unsigned(amount_inserted, 4)); 
+leds(3 downto 0) <= ""0000"";
+
+end",True,4,"7,2",True,12
+13,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA Board:
+```vhdl
+-- Vending Machine VHDL Program
+
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is
+    Port ( CLK : in  STD_LOGIC;
+           RESET : in  STD_LOGIC;
+           COIN_INSERT : in  STD_LOGIC_VECTOR(1 downto 0);
+           PRODUCT_SELECT : in  STD_LOGIC_VECTOR(1 downto 0);
+           LED_DISPLAY : out  STD_LOGIC_VECTOR(6 downto 0)
+          );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+
+    -- Coin values (1 cent, 5 cents, 10 cents,...)
+    constant ONECENT : STD_LOGIC_VECTOR(3 downto 0) := ""0001"";
+    constant FIVECENTS : STD_LOGIC_VECTOR(3 downto 0) := ""0101"";
+    constant TENCENTS : STD_LOGIC_VECTOR(3 downto 0) := ""1010"";
+    
+    -- Product prices (50 cents, 75 cents, 100 cents,...
+    constant PRODUCT_A_PRICE : STD_LOGIC_VECTOR(3 downto 0) := ""0110"";
+    constant PRODUCT_B_PRICE : STD_LOGIC_VECTOR(3 downto 0) := ""1001"";
+    
+    -- State Machine States
+    type STATE_TYPE is (IDLE, INSERT_COIN, SELECT_PRODUCT, DISPENSE_PRODUCT, CHANGE_DISPENSE);
+    signal CURRENT_STATE : STATE_TYPE;
+    
+    -- Counter for coin insertion
+    signal COIN_COUNTER : STD_LOGIC_VECTOR(3 downto 0) := ""0000"";
+    
+    -- Signal for product selection
+    signal PRODUCT_SELECTED : STD_LOGIC_VECTOR(1 downto 0) := ""00"";
+    
+begin
+    
+    process(CLK, RESET)
+        variable PRICE_TMP : STD_LOGIC_VECTOR(3 downto 0) := ""0000"";
+    begin
+        if RESET = '1' then
+            CURRENT_STATE <= IDLE;
+            COIN_COUNTER <= ""0000"";
+            PRODUCT_SELECTED <= ""00"";
+        elsif rising_edge(CLK) then
+            
+            case CURRENT_STATE is
+                
+                when IDLE => 
+                    if COIN_INSERT /= ""00"" then
+                        CURRENT_STATE <= INSERT_COIN;
+                    end if;
+                    
+                when INSERT_COIN =>  
+                    case COIN_INSERT is
+                        when ""01"" => COIN_COUNTER <= COIN_COUNTER + ONECENT;
+                        when ""10"" => COIN_COUNTER <= COIN_COUNTER + FIVECENTS;
+                        when ""11"" => COIN_COUNTER <= COIN_COUNTER + TENCENTS;
+                        when others => NULL;
+                    end case;
+                    
+                    if COIN_COUNTER >= PRODUCT_A_PRICE or COIN_COUNTER >= PRODUCT_B_PRICE then
+                        CURRENT_STATE <= SELECT_PRODUCT;
+                    end if;
+                    
+                when SELECT_PRODUCT => 
+                    case PRODUCT_SELECT is
+                        when ""01"" => PRICE_TMP := PRODUCT_A_PRICE;
+                        when ""10"" => PRICE_TMP := PRODUCT_B_PRICE;
+                        when others => NULL;
+                    end case;
+                    
+                    if COIN_COUNTER >= PRICE_TMP then
+                        CURRENT_STATE <= DISPENSE_PRODUCT;
+                    else
+                        CURRENT_STATE <= CHANGE_DISPENSE;
+                    end if;
+                    
+                when DISPENSE_PRODUCT => 
+                    -- Dispense product logic here
+                    CURRENT_STATE <= IDLE;
+                    
+                when CHANGE_DISPENSE =>  
+                    -- Change dispense logic here
+                    CURRENT_STATE <= IDLE;
+                    
+                when others => NULL;
+            end case;
+                        
+        end if;
+        
+    end process;
+    
+    
+    -- Drive",True,4,"7,2",True,13
+14,"
+
+Here is an example VHDL program to implement a basic vending machine on the DE-10 Standard FPGA Board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_5c : in  STD_LOGIC;
+           coin_10c : in  STD_LOGIC;
+           coin_25c : in  STD_LOGIC;
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0);
+           dispense_product : out  STD_LOGIC);
+           display : out  STD_LOGIC_VECTOR(6 downto 0));
+           led : out  STD_LOGIC_VECTOR(7 downto 0));
+           -- assuming we have 8 LEDs, one for each product and one for the coin return indicator 
+           );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal coin_inserted : STD_LOGIC_VECTOR(2 downto 0) := ""000""; 
+signal total_amount : UNSIGNED(4 downto 0) := ""00000"";
+signal selected_product_cost : UNSIGNED(4 downto 0);
+signal change_due : UNSIGNED(4 downto 0);
+
+begin
+
+process(clk, reset)
+begin 
+    if(reset = '1') then 
+        total_amount <= ""00000"";
+        coin_inserted <= ""000"";
+        selected_product_cost <= ""00000"";
+        change_due <= ""00000"";
+        dispense_product <= '0';
+        led <= ""00000000"";
+        display <= ""0000000"";
+    elsif(rising_edge(clk)) then
+        
+        -- coin insertion detection 
+        if(coin_5c = '1') then 
+            coin_inserted <= ""001"";
+        elsif(coin_10c = '1') then 
+            coin_inserted <= ""010"";
+        elsif(coin_25c = '1') then 
+            coin_inserted <= ""100"";
+        end if; 
+        
+        -- calculate total amount inserted 
+        case coin_inserted is 
+            when ""001"" => total_amount <= total_amount + ""00101"";
+            when ""010"" => total_amount <= total_amount + ""01010"";
+            when ""100"" => total_amount <= total_amount + ""10101"";
+            when others => null;
+        end case;
+        
+        -- product selection and dispensing 
+        case select_product is 
+            when ""00"" => selected_product_cost <= ""00111""; -- product A costs 15 cents 
+            when ""01"" => selected_product_cost <= ""01110""; -- product B costs 30 cents 
+            when ""10"" => selected_product_cost <= ""10001""; -- product C costs 50 cents 
+            when ""11"" => selected_product_cost <= ""00000""; -- invalid selection 
+            when others => null;
+        end case;
+        
+        if(total_amount >= selected_product_cost) then 
+            dispense_product <= '1';
+            total_amount <= total_amount - selected_product_cost;
+            change_due <= total_amount;
+        else 
+            dispense_product <= '0';
+            change_due <= ""00000"";
+        end if;
+        
+        -- update LED indicators 
+        if(dispense_product = '1') then 
+            led <= ""00000010"";
+        elsif(change_due > ""00000"") then 
+            led <= ""00000100"";
+        else 
+            led <= ""00000000"";
+        end if;
+        
+        -- update 7-segment display 
+        case change_due is 
+            when ""00000"" => display <= ""0000000"";
+            when ""00001"" => display",True,4,"7,2",True,14
+15,"
+
+What a unique request!",True,4,"7,2",True,15
+16,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA Board:
+```vhdl 
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    port (CLK : in STD_LOGIC;  -- Clock signal from the DE-10 Board 
+          RESET_N : in STD_LOGIC;  -- Active-low reset signal 
+          COIN_1, COIN_5, COIN_10 : in STD_LOGIC;  -- Coin input signals 
+          SELECT_PRODUCT : in STD_LOGIC_VECTOR(2 downto 0);  -- Product selection inputs 
+          DISPENSE_PRODUCT : out STD_LOGIC;  -- Dispense product output 
+          DISPLAY : out STD_LOGIC_VECTOR(7 downto 0));  -- 7-segment display output 
+end entity VendingMachine;
+
+architecture behavioral of VendingMachine is 
+
+    constant PRICE_A : integer := 10;  -- Price of product A (in cents) 
+    constant PRICE_B : integer := 20;  -- Price of product B (in cents) 
+    constant PRICE_C : integer := 30;  -- Price of product C (in cents) 
+
+    signal coin_counter : unsigned(4 downto 0);  -- Coin counter register 
+    signal product_selected : std_logic_vector(2 downto 0);  -- Product selection register 
+    signal dispense_signal : std_logic;  -- Internal dispense signal 
+    signal display_value : unsigned(7 downto 0);  -- Display value register 
+
+begin 
+
+    -- Coin detection and counting process 
+    process(CLK, RESET_N) 
+        variable coin_detected : boolean; 
+    begin 
+        if RESET_N = '0' then 
+            coin_counter <= ""00000""; 
+        elsif rising_edge(CLK) then 
+            coin_detected := FALSE; 
+            if COIN_1 = '1' then 
+                coin_counter <= coin_counter + 1; 
+                coin_detected := TRUE; 
+            end if; 
+            if COIN_5 = '1' then 
+                coin_counter <= coin_counter + 5; 
+                coin_detected := TRUE; 
+            end if; 
+            if COIN_10 = '1' then 
+                coin_counter <= coin_counter + 10; 
+                coin_detected := TRUE; 
+            end if; 
+            if coin_detected then 
+                report ""Coin detected!""",True,4,"7,2",True,16
+17,"
+
+What a unique request!
+
+",True,4,"7,2",True,17
+18,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is 
+    Port (clk : in STD_LOGIC;
+          reset : in STD_LOGIC;
+          coin_in : in STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: $0.25, 10: $1, 11: invalid coin 
+          select_product : in STD_LOGIC_VECTOR(1 downto 0); -- 00: product A, 01: product B, 10: product C, 11: invalid selection 
+          dispense_product : out STD_LOGIC; -- output to dispense product 
+          display : out STD_LOGIC_VECTOR(7 downto 0)); -- 7-segment display output 
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal coin_value : STD_LOGIC_VECTOR(4 downto 0) := ""00000""; -- stored value of coins inserted 
+signal product_price : STD_LOGIC_VECTOR(4 downto 0) := ""00000""; -- price of selected product 
+signal change_due : STD_LOGIC_VECTOR(4 downto 0) := ""00000""; -- change due to user 
+
+begin 
+process(clk, reset)
+variable state : STD_LOGIC_VECTOR(2 downto 0) := ""000"";
+variable product_selected : STD_LOGIC := '0';
+begin 
+if reset = '1' then 
+    coin_value <= ""00000"";
+    product_price <= ""00000"";
+    change_due <= ""00000"";
+    dispense_product <= '0';
+    display <= ""1111111""; -- blank display 
+elsif rising_edge(clk) then 
+case state is 
+when ""000"" => -- idle state 
+    if coin_in /= ""00"" then 
+        case coin_in is 
+            when ""01"" => coin_value <= coin_value + ""00101""; -- add $0.25 to coin value 
+            when ""10"" => coin_value <= coin_value + ""01000""; -- add $1 to coin value 
+            when others => null; 
+        end case; 
+        display <= ""0110111""; -- display "" INSERT COIN"" 
+        state <= ""001""; 
+    end if; 
+
+when ""001"" => -- wait for product selection 
+    if select_product /= ""11"" then 
+        case select_product is 
+            when ""00"" => product_price <= ""00101""; -- set price to $0.25 
+            when ""01"" => product_price <= ""01010""; -- set price to $0.50 
+            when ""10"" => product_price <= ""10100""; -- set price to $1.00 
+            when others => null; 
+        end case; 
+        product_selected := '1'; 
+        display <= ""1000000""; -- display ""SELECT PRODUCT"" 
+        state <= ""010""; 
+    end if; 
+
+when ""010"" => -- check sufficient funds 
+    if coin_value >= product_price then 
+        change_due <= coin_value - product_price; 
+        dispense_product <= '1'; 
+        display <= ""1010100""; -- display "" Dispensing..."" 
+        state <= ""011""; 
+    else 
+        display <= ""1100101""; -- display ""INSUF FUNDS"" 
+    end if; 
+
+when ""011"" => -- dispense product and return change 
+    dispense_product <= '0'; 
+    if change_due > ""00000"" then 
+        case change_due",True,4,"7,2",True,18
+19,"
+
+What a unique request!",True,4,"7,2",True,19
+20,"
+
+What a unique request!
+
+",True,4,"7,2",True,20
+21,"
+
+Here is an example VHDL program that implements a basic vending machine on the DE-10 Standard FPGA Board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port (clk : in STD_LOGIC;
+         reset : in STD_LOGIC;
+         coin_inserted : in STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: $0.25, 10: $1.00, 11: invalid coin 
+         product_select : in STD_LOGIC_VECTOR(1 downto 0); -- 00: Coke, 01: Pepsi, 10: Water, 11: Invalid selection 
+         dispense_product : out STD_LOGIC);
+    );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+    type state_type is (idle, select_product, validate_coin, dispense, refund);
+    
+    signal current_state, next_state : state_type;
+    signal product_price, inserted_coins, total_coins : unsigned(4 downto 0) := ""00000"";
+    signal valid_coin, enough_money, make_change : STD_LOGIC := '0';
+    
+begin 
+
+    PROCESS(clk, reset)
+    BEGIN 
+        IF reset = '1' THEN 
+            current_state <= idle;
+        ELSIF rising_edge(clk) THEN 
+            current_state <= next_state; 
+        END IF;
+    END PROCESS; 
+
+    PROCESS(current_state, coin_inserted, product_select, product_price, inserted_coins, total_coins) 
+    BEGIN 
+        CASE current_state IS 
+            WHEN idle => 
+                IF coin_inserted /= ""00"" THEN 
+                    next_state <= validate_coin;
+                ELSE 
+                    next_state <= idle;
+                END IF; 
+            
+            WHEN validate_coin =>
+                IF coin_inserted = ""01"" THEN 
+                    valid_coin <= '1'; 
+                    inserted_coins <= ""00101""; 
+                ELSIF coin_inserted = ""10"" THEN 
+                    valid_coin <= '1'; 
+                    inserted_coins <= ""01000""; 
+                ELSE 
+                    valid_coin <= '0'; 
+                    inserted_coins <= ""00000""; 
+                END IF; 
+                
+                IF valid_coin = '1' THEN 
+                    next_state <= select_product;
+                ELSE 
+                    next_state <= refund;
+                END IF; 
+                
+            WHEN select_product => 
+                CASE product_select IS 
+                    WHEN ""00"" => 
+                        product_price <= ""00111""; 
+                    WHEN ""01"" => 
+                        product_price <= ""01100""; 
+                    WHEN ""10"" => 
+                        product_price <= ""01010""; 
+                    WHEN OTHERS => 
+                        product_price <= ""00000""; 
+                END CASE; 
+                
+                IF inserted_coins >= product_price THEN 
+                    enough_money <= '1'; 
+                    next_state <= dispense;
+                ELSE 
+                    enough_money <= '0'; 
+                    next_state <= refund;
+                END IF; 
+                
+            WHEN dispense => 
+                dispense_product <= '1';
+                next_state <= idle; 
+                
+            WHEN refund => 
+                total_coins <= inserted_coins - product_price; 
+                make_change <= '1'; 
+                next_state <= idle; 
+                
+            WHEN OTHERS => 
+                NULL; 
+        END CASE; 
+    END PROCESS; 
+
+    PROCESS(make_change) 
+    BEGIN 
+        IF make_change = '1' THEN 
+            -- Implement refund logic here using the total_coins signal 
+        END IF; 
+    END PROCESS; 
+END Behavioral;
+```
+
+This VHDL code assumes that you have connected the following inputs and",True,4,"7,2",True,21
+22,"
+
+Here is an example VHDL program that implements a basic vending machine functionality on the DE-10 Standard FPGA board:
+```vhdlieee_numeric_std.all;
+library ieee;
+
+entity VendingMachine is 
+    port (
+        clk       : in  std_logic;
+        reset     : in  std_logic;
+        coin_in   : in  std_logic_vector(1 downto 0); -- Coin input (00: $0, 01: $0.25, 10: $0.50)
+        select_product : in  std_logic_vector(1 downto 0); -- Select product (00: Soda, 01: Chips, 10: Candy)
+        dispense : out std_logic; -- Dispense output signal 
+        display : out std_logic_vector(6 downto 0) -- 7-segment display output 
+    );
+end entity VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+    signal coins_inserted : unsigned(4 downto 0) := ""00000""; -- Total coins inserted in cents 
+    signal current_state : std_logic_vector(2 downto 0) := ""000""; -- Current state of the FSM 
+    signal next_state : std_logic_vector(2 downto 0); -- Next state of the FSM 
+    signal dispense_int : std_logic; -- Internal dispense signal 
+    signal display_data : std_logic_vector(6 downto 0);
+
+begin 
+
+    -- Clock and Reset logic 
+    process(clk, reset)
+    begin 
+        if (reset = '1') then 
+            coins_inserted <= ""00000"";
+            current_state <= ""000"";
+        elsif (rising_edge(clk)) then 
+            case current_state is 
+                when ""000"" => 
+                    if (coin_in /= ""00"") then 
+                        coins_inserted <= coins_inserted + unsigned('0' & coin_in);
+                    end if;
+                when ""001"" => 
+                    if (coins_inserted >= 25) then 
+                        dispense_int <= '1';
+                    else 
+                        dispense_int <= '0';
+                    end if;
+                when ""010"" => 
+                    if (coins_inserted >= 50) then 
+                        dispense_int <= '1';
+                    else 
+                        dispense_int <= '0';
+                    end if;
+                when ""011"" => 
+                    if (coins_inserted >= 75) then 
+                        dispense_int <= '1';
+                    else 
+                        dispense_int <= '0';
+                    end if;
+                when others => 
+                    null;
+            end case;
+            
+            if (dispense_int = '1') then 
+                coins_inserted <= ""00000"";
+            end if;
+        
+            current_state <= next_state;
+        end if;
+    end process;
+
+    -- State Transition Logic 
+    process(coins_inserted, select_product)
+    begin 
+        case select_product is 
+            when ""00"" => -- Soda 
+                if (coins_inserted < 25) then 
+                    next_state <= ""000"";
+                else 
+                    next_state <= ""001"";
+                end if;
+            when ""01"" => -- Chips 
+                if (coins_inserted < 50) then 
+                    next_state <= ""000"";
+                else 
+                    next_state <= ""010"";
+                end if;
+            when ""10"" => -- Candy 
+                if (coins_inserted < 75) then 
+                    next_state <= ""000"";
+                else 
+                    next_state <= ""011"";
+                end if;
+            when others => 
+                next_state <= ""000"";
+        end case;
+    end process;
+
+    -- Output Logic 
+    dispense <= dispense_int;
+    
+    -- 7-Segment Display Decoder",True,4,"7,2",True,22
+23,"
+
+Here is a VHDL program that implements a simple vending machine targeted at the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk      : in  STD_LOGIC;
+           reset    : in  STD_LOGIC;
+           coin_in  : in  STD_LOGIC_VECTOR(1 downto 0);
+           select   : in  STD_LOGIC_VECTOR(1 downto 0);
+           dispense : out STD_LOGIC);
+           led_r    : out STD_LOGIC;
+           led_g    : out STD_LOGIC);
+           led_b    : out STD_LOGIC);
+           seg7_a : out STD_LOGIC_VECTOR(6 downto 0);
+           seg7_b : out STD_LOGIC_VECTOR(6 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+    type state_type is (IDLE, SELECT_ITEM, DISPENSE_ITEM, INSERT_COIN);
+    signal current_state : state_type := IDLE;
+    
+    signal coin_value     : unsigned(3 downto 0) := ""0000"";
+    signal selected_item  : unsigned(1 downto 0) := ""00"";
+    signal item_price     : unsigned(3 downto 0) := ""0101"";  -- Price of each item
+    
+begin
+
+    -- Coin acceptor logic (assuming 2-bit encoding: 00 = 5 cents, 01 = 10 cents, 10 = 25 cents)
+    process(clk, reset)
+    begin 
+        if (reset = '1') then 
+            coin_value <= ""0000"";
+        elsif (rising_edge(clk)) then 
+            case coin_in is 
+                when ""00"" => coin_value <= coin_value + 5; 
+                when ""01"" => coin_value <= coin_value + 10; 
+                when ""10"" => coin_value <= coin_value + 25; 
+                when others => null;
+            end case;  
+        end if;  
+    end process; 
+
+    -- Item selection logic 
+    process(clk, reset)
+    begin 
+        if (reset = '1') then 
+            selected_item <= ""00"";
+        elsif (rising_edge(clk)) then 
+            case select is 
+                when ""00"" => selected_item <= ""00""; 
+                when ""01"" => selected_item <= ""01""; 
+                when ""10"" => selected_item <= ""10""; 
+                when others => null;
+            end case;  
+        end if;  
+    end process;  
+
+    -- State machine 
+    process(clk, reset)
+    begin 
+        if (reset = '1') then 
+            current_state <= IDLE; 
+            dispense <= '0'; 
+        elsif (rising_edge(clk)) then 
+            case current_state is 
+                when IDLE => 
+                    if (coin_value >= item_price) then 
+                        current_state <= SELECT_ITEM; 
+                    else 
+                        current_state <= IDLE;  
+                    end if;  
+
+                when SELECT_ITEM => 
+                    current_state <= DISPENSE_ITEM;  
+
+                when DISPENSE_ITEM => 
+                    dispense <= '1';  
+                    current_state <= INSERT_COIN;  
+
+                when INSERT_COIN => 
+                    coin_value <= ""0000""; 
+                    current_state <= IDLE;  
+
+                when others => 
+                    current_state <= IDLE;  
+            end case;  
+        end if;  
+    end process;  
+
+    -- LED and 7-Segment display control 
+    process(current_state, selected_item)
+    begin 
+        case current_state is 
+            when ID",True,4,"7,2",True,23
+24,"
+
+What a unique request!",True,4,"7,2",True,24
+25,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_1 : in STD_LOGIC; -- 1 cent coin input 
+           coin_5 : in STD_LOGIC; -- 5 cents coin input 
+           coin_10 : in STD_LOGIC; -- 10 cents coin input 
+           select_product : in STD_LOGIC_VECTOR(1 downto 0); -- product selection input (00: Coke, 01: Pepsi, 10: Soda)
+           dispense_product : out STD_LOGIC_VECTOR(3 downto 0) := ""0000""); -- output to control product dispenser 
+           display_amount : out STD_LOGIC_VECTOR(7 downto 0)); -- 8-bit display for amount deposited 
+    );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal amount_deposited : UNSIGNED(7 downto 0) := x""00""; -- amount deposited so far 
+signal selected_product_price : UNSIGNED(7 downto 0); -- price of selected product 
+
+begin
+
+process(clk, reset) 
+begin 
+    if(reset = '1') then 
+        amount_deposited <= x""00"";
+    elsif(rising_edge(clk)) then 
+        -- handle coin insertion 
+        if(coin_1 = '1') then 
+            amount_deposited <= amount_deposited + x""01""; 
+        elsif(coin_5 = '1') then 
+            amount_deposited <= amount_deposited + x""05""; 
+        elsif(coin_10 = '1') then 
+            amount_deposited <= amount_deposited + x""0A""; 
+        end if; 
+
+        -- update selected product price based on product selection 
+        case select_product is 
+            when ""00"" => selected_product_price <= x""05""; -- Coke costs 5 cents 
+            when ""01"" => selected_product_price <= x""06""; -- Pepsi costs 6 cents 
+            when ""10"" => selected_product_price <= x""08""; -- Soda costs 8 cents 
+            when others => selected_product_price <= x""00""; 
+        end case; 
+
+        -- check if enough amount has been deposited 
+        if(amount_deposited >= selected_product_price) then 
+            dispense_product <= ""1000""; -- dispense product 
+            amount_deposited <= amount_deposited - selected_product_price; 
+        else 
+            dispense_product <= ""0000""; 
+        end if; 
+
+    end if; 
+end process; 
+
+-- display amount deposited 
+display_amount <= STD_LOGIC_VECTOR(amount_deposited);
+
+end Behavioral;
+```
+This design consists of a single entity `VendingMachine` with several inputs and outputs:
+
+*   `clk`: The clock signal.
+",True,4,"7,2",True,25
+26,"
+
+What a unique request!",True,4,"7,2",True,26
+27,"
+
+Here is a VHDL program to implement a simple vending machine targeted at the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_1 : in  STD_LOGIC; -- 1 cent coin inserted 
+           coin_5 : in  STD_LOGIC; -- 5 cents coin inserted 
+           coin_10 : in  STD_LOGIC; -- 10 cents coin inserted 
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0); -- product selection (00: cola, 01: chips, 10: candy)
+           dispense : out  STD_LOGIC); -- dispense product 
+           display : out  STD_LOGIC_VECTOR(6 downto 0)); -- 7-segment display for price and balance 
+           leds : out  STD_LOGIC_VECTOR(9 downto 0)); -- LEDs for indicating selected product and available credits 
+           );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+
+signal credit : STD_LOGIC_VECTOR(4 downto 0) := ""00000""; -- available credit 
+signal current_price : STD_LOGIC_VECTOR(4 downto 0) := ""00000""; -- current price 
+
+begin
+
+process(clk, reset)
+begin 
+    if reset = '1' then 
+        credit <= ""00000"";
+        current_price <= ""00000"";
+        dispense <= '0';
+    elsif rising_edge(clk) then 
+        if coin_1 = '1' then 
+            credit <= credit + ""00001""; 
+        end if;
+        if coin_5 = '1' then 
+            credit <= credit + ""00010""; 
+        end if;
+        if coin_10 = '1' then 
+            credit <= credit + ""00100""; 
+        end if;
+        
+        case select_product is 
+            when ""00"" => -- Cola (15 cents) 
+                if credit >= ""01111"" then 
+                    dispense <= '1'; 
+                    credit <= credit - ""01111""; 
+                else 
+                    dispense <= '0'; 
+                end if;
+            when ""01"" => -- Chips (20 cents) 
+                if credit >= ""10100"" then 
+                    dispense <= '1'; 
+                    credit <= credit - ""10100""; 
+                else 
+                    dispense <= '0'; 
+                end if;
+            when ""10"" => -- Candy (30 cents) 
+                if credit >= ""11010"" then 
+                    dispense <= '1'; 
+                    credit <= credit - ""11010""; 
+                else 
+                    dispense <= '0'; 
+                end if;
+            when others => null; 
+        end case; 
+    end if; 
+end process; 
+
+display_proc: process(credit, current_price) 
+begin 
+    case credit is 
+        when ""00000"" => display <= ""1000000""; -- blank 
+        when ""00001"" => display <= ""1111001""; -- 1 cent 
+        when ""00010"" => display <= ""1101101""; -- 2 cents 
+        when ""00011"" => display <= ""1110101""; -- 3 cents 
+        when ""00100"" => display <= ""1111001""; -- 4 cents 
+        when ""00101"" => display <= ""1101101""; -- 5 cents 
+        when ""00110"" => display <= ""1110101""; -- 6 cents 
+        when ""001",True,4,"7,2",True,27
+28,"
+
+Here is an example VHDL program that implements a basic vending machine targeted at the DE-10 Standard FPGA board:
+```vhdl
+-- Vending Machine Implementation
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_insert : in STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in STD_LOGIC_VECTOR(2 downto 0);
+           dispense_product : out STD_LOGIC
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+    -- Define the number of products and their prices
+    constant NUM_PRODUCTS : integer := 8;
+    constant PRICE_1 : integer := 25; -- 25 cents
+    constant PRICE_5 : integer := 125; -- $1.25
+    constant PRICE_10 : integer := 250; -- $2.50
+    
+    -- Define the product selection
+    type product_type is array (0 to NUM_PRODUCTS-1) of STD_LOGIC_VECTOR(7 downto 0);
+    signal product_selection : product_type := (
+        ""00001111"", -- Product 0: Soda
+        ""00010101"", -- Product 1: Chips
+        ""00101010"", -- Product 2: Candy
+        ""01010100"", -- Product 3: Water
+        ""01101001"", -- Product 4: Juice
+        ""10100110"", -- Product 5: Snack
+        ""11010011"", -- Product 6: Cookie
+        ""11101101""  -- Product 7: Energy Drink
+    );
+    
+    -- Define the coin counter
+    signal coin_counter : unsigned(9 downto 0) := (others => '0');
+    
+    -- Define the current balance
+    signal current_balance : unsigned(9 downto 0) := (others => '0');
+    
+begin
+    process(clk, reset)
+    begin
+        if reset = '1' then
+            coin_counter <= (others => '0');
+            current_balance <= (others => '0');
+        elsif rising_edge(clk) then
+            -- Coin insertion logic
+            case coin_insert is
+                when ""01"" => -- 1 cent coin inserted
+                    coin_counter <= coin_counter + 1;
+                when ""10"" => -- 5 cent coin inserted
+                    coin_counter <= coin_counter + 5;
+                when ""11"" => -- 10 cent coin inserted
+                    coin_counter <= coin_counter + 10;
+                when others =>
+                    null;
+            end case;
+            
+            -- Update current balance
+            current_balance <= coin_counter * 10;
+            
+            -- Dispense product logic
+            if current_balance >= PRICE_1 then
+                case select_product is
+                    when ""000"" => -- Select product 0
+                        if current_balance >= PRICE_1 then
+                            dispense_product <= '1';
+                            current_balance <= current_balance - PRICE_1;
+                        else
+                            dispense_product <= '0';
+                        end if;
+                    when ""001"" => -- Select product 1
+                        if current_balance >= PRICE_5 then
+                            dispense_product <= '1';
+                            current_balance <= current_balance - PRICE_5;
+                        else
+                            dispense_product <= '0';
+                        end if;
+                    when ""010"" => -- Select product 2
+                        if current_balance >= PRICE_10 then
+                            dispense_product <= '1';
+                            current_balance <= current_balance - PRICE_10;
+                        else
+                            dispense_product <= '0';
+                        end if;
+                    when others",True,4,"7,2",True,28
+29,"
+
+What a fascinating project!",True,1,"7,2",True,29
+30,"
+
+Here is a VHDL program that implements a basic vending machine targeted at the DE-10 Standard FPGA board:
+```vhdl=
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_1 : in STD_LOGIC;     -- 1 cent coin input 
+           coin_5 : in STD_LOGIC;    -- 5 cents coin input 
+           coin_10 : in STD_LOGIC;   -- 10 cents coin input 
+           select_product : in STD_LOGIC_VECTOR(2 downto 0);  
+           product_dispensed : out STD_LOGIC );
+           amount_display : out STD_LOGIC_VECTOR(3 downto 0) );
+           error_light : out STD_LOGIC );  
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal current_amount : UNSIGNED(4 downto 0) := ""00000"";  
+signal selected_product_price : UNSIGNED(4 downto 0);  
+
+begin  
+
+process(clk,reset)
+begin  
+if(reset='1') then 
+current_amount <= ""00000"";  
+elsif(rising_edge(clk)) then 
+    if(coin_1='1') then 
+        current_amount <= current_amount + 1;  
+    elsif(coin_5='1') then 
+        current_amount <= current_amount + 5;  
+    elsif(coin_10='1') then 
+        current_amount <= current_amount + 10;  
+    end if;  
+        
+    case select_product is  
+        when ""001"" => selected_product_price <= ""01101"";  -- Product A: $13  
+        when ""010"" => selected_product_price <= ""10100"";  -- Product B: $20  
+        when ""011"" => selected_product_price <= ""11011"";  -- Product C: $27  
+        when others => selected_product_price <= ""00000"";  
+    end case;  
+    
+    if(current_amount >= selected_product_price) then  
+        product_dispensed <= '1';  
+        current_amount <= current_amount - selected_product_price;  
+    else  
+        product_dispensed <= '0';  
+    end if;  
+    
+    if(current_amount < selected_product_price and current_amount > 0) then  
+        error_light <= '1';  
+    else  
+        error_light <= '0';  
+    end if;  
+    
+    amount_display <= STD_LOGIC_VECTOR(current_amount(3 downto 0));  
+end if;  
+end process;  
+end Behavioral;
+```
+Let me explain what this code does:
+
+**Inputs:**
+
+* `clk`: The clock signal.
+",True,4,"7,2",True,30
+31,"
+
+Here is a VHDL program that implements a basic vending machine controller targeted at the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_in : in STD_LOGIC_VECTOR(3 downto 0); -- 4-bit input for coins (1, 5, 10, 25 cents)
+           select_product : in STD_LOGIC_VECTOR(2 downto 0); -- 3-bit input for product selection (0-7)
+           dispense_product : out STD_LOGIC; -- output to dispense product (e.g., motor control)
+           display : out STD_LOGIC_VECTOR(6 downto 0)); -- 7-segment display output (BGFEDCBA)
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+constant PRODUCT_PRICES : array (0 to 7) of UNSIGNED(3 downto 0) := (
+    ""0001"", -- Product 0: $0.01 (1 cent)
+    ""0101"", -- Product 1: $0.05 (5 cents)
+    ""1001"", -- Product 2: $0.10 (10 cents)
+    ""1010"", -- Product 3: $0.20 (20 cents)
+    ""1101"", -- Product 4: $0.30 (30 cents)
+    ""1110"", -- Product 5: $0.40 (40 cents)
+    ""0111"", -- Product 6: $0.50 (50 cents)
+    ""1000""  -- Product 7: $1.00 (1 dollar)
+);
+
+signal coin_value : UNSIGNED(3 downto 0) := ""0000""; -- current coin value inserted by user
+
+begin
+
+process(clk, reset) begin 
+    if rising_edge(clk) then 
+        if reset = '1' then 
+            coin_value <= ""0000"";
+        else 
+            case coin_in is 
+                when ""1000"" => coin_value <= ""0011""; -- 25 cents 
+                when ""0100"" => coin_value <= ""1010""; -- 10 cents 
+                when ""0010"" => coin_value <= ""0101""; -- 5 cents 
+                when ""0001"" => coin_value <= ""0001""; -- 1 cent 
+                when others => coin_value <= ""0000""; 
+            end case;
+        end if;
+    end if;
+end process;
+
+process(clk, reset) begin 
+    if rising_edge(clk) then 
+        if reset = '1' then 
+            dispense_product <= '0';
+        else 
+            if coin_value >= PRODUCT_PRICES(to_integer(unsigned(select_product))) then 
+                dispense_product <= '1';
+                coin_value <= coin_value - PRODUCT_PRICES(to_integer(unsigned(select_product)));
+            else 
+                dispense_product <= '0';
+            end if;
+        end if;
+    end if;
+end process;
+
+-- 7-segment display driver (simplified example)
+display_driver : process(clk, reset) 
+variable disp_val : UNSIGNED(3 downto 0);
+begin 
+    if rising_edge(clk) then 
+        if reset = '1' then 
+            disp_val := ""0000"";
+        else 
+            disp_val := coin_value;
+        end if;
+        
+        case disp_val is 
+            when ""0000"" => display <= ""1000000""; -- blank 
+            when ""0001"" => display <= ""1111001""; -- 1 
+            when ""0010",True,4,"7,2",True,31
+32,"
+
+Here is a VHDL program that implements a simple vending machine targeted at the DE-10 Standard FPGA Board:
+```vhdl=
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC; -- Clock signal from DE-10 Board's clock pin 50 MHz 
+           reset : in  STD_LOGIC; -- Asynchronous active-low reset 
+           coin_1eur : in  STD_LOGIC; -- Coin input signals 
+           coin_2eur : in  STD_LOGIC; 
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0); -- Product selection input signals 
+           product_out : out  STD_LOGIC_VECTOR(3 downto 0) -- Output signals for dispensing products 
+          );
+end entity;
+
+architecture Behavioral of VendingMachine is 
+
+    signal total_coins : UNSIGNED(4 downto 0) := ""00000""; -- Accumulator for total coins inserted 
+    signal selected_product : STD_LOGIC_VECTOR(1 downto 0) := ""00""; -- Registered product selection 
+    signal dispense_product : STD_LOGIC := '0'; -- Dispense product signal 
+
+begin 
+
+    -- Synchronize inputs with clock 
+    process(clk, reset)
+    begin 
+        if(reset = '0') then 
+            total_coins <= ""00000"";
+            selected_product <= ""00"";
+            dispense_product <= '0';
+        elsif rising_edge(clk) then 
+            if (coin_1eur = '1') then 
+                total_coins <= total_coins + ""01001""; -- Increment by 1 EUR 
+            end if;
+            if (coin_2eur = '1') then 
+                total_coins <= total_coins + ""10100""; -- Increment by 2 EUR 
+            end if;
+            selected_product <= select_product;
+        end if;
+    end process; 
+
+    -- Implement vending machine logic 
+    process(total_coins, selected_product)
+    begin 
+        case selected_product is 
+            when ""00"" => 
+                if (total_coins >= ""01001"") then -- Check if sufficient coins inserted for product A 
+                    dispense_product <= '1'; 
+                    total_coins <= total_coins - ""01001""; -- Deduct cost of product A 
+                else 
+                    dispense_product <= '0';
+                end if;
+            when ""01"" => 
+                if (total_coins >= ""10100"") then -- Check if sufficient coins inserted for product B 
+                    dispense_product <= '1'; 
+                    total_coins <= total_coins - ""10100""; -- Deduct cost of product B 
+                else 
+                    dispense_product <= '0';
+                end if;
+            when ""10"" => 
+                if (total_coins >= ""11001"") then -- Check if sufficient coins inserted for product C 
+                    dispense_product <= '1'; 
+                    total_coins <= total_coins - ""11001""; -- Deduct cost of product C 
+                else 
+                    dispense_product <= '0';
+                end if;
+            when others => 
+                dispense_product <= '0';
+        end case;
+    end process; 
+
+    -- Output product dispenser control signals 
+    process(dispense_product)
+    begin 
+        if (dispense_product = '1') then 
+            case selected_product is 
+                when ""00"" => product_out <= ""0001""; -- Dispense product A 
+                when ""01"" => product_out <= ""0010""; -- Dispense product B 
+                when ""10"" => product_out <= ""0100""; -- Dispense product",True,4,"7,2",True,32
+33,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_in : in  STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0);
+           dispense_product : out  STD_LOGIC;
+           display : out  STD_LOGIC_VECTOR(6 downto 0));
+           leds : out  STD_LOGIC_VECTOR(7 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+    signal product_selected : STD_LOGIC;
+    signal coin_counter : STD_LOGIC_VECTOR(2 downto 0) := ""000"";
+    signal product_price : STD_LOGIC_VECTOR(2 downto 0);
+
+begin
+
+    -- Coin Counter Module ( counts up to 3 coins, resets when product is selected )
+    coin_counter_module: process(clk, reset)
+    begin 
+        if reset = '1' then 
+            coin_counter <= ""000""; 
+        elsif rising_edge(clk) then 
+            if coin_in /= ""00"" then 
+                coin_counter <= coin_counter + 1; 
+            end if; 
+        end if; 
+    end process;
+
+    -- Product Price Setting Module ( sets price based on selection )
+    product_price_setting_module: process(select_product)
+    begin 
+        case select_product is 
+            when ""00"" => product_price <= ""001""; -- Product A - 1 coin 
+            when ""01"" => product_price <= ""010""; -- Product B - 2 coins 
+            when ""10"" => product_price <= ""011""; -- Product C - 3 coins 
+            when others => product_price <= ""000""; -- Default - no product 
+        end case; 
+    end process;
+
+    -- Dispense Product Logic ( compares coin count with product price )
+    dispense_product_logic: process(clk, reset)
+    begin 
+        if reset = '1' then 
+            dispense_product <= '0'; 
+        elsif rising_edge(clk) then 
+            if unsigned(coin_counter) >= unsigned(product_price) and product_selected = '1' then 
+                dispense_product <= '1'; 
+            else 
+                dispense_product <= '0'; 
+            end if; 
+        end if; 
+    end process;
+
+    -- Display Module ( shows number of coins inserted or ""Product Selected"" message )
+    display_module: process(coin_counter, product_selected)
+    begin 
+        if product_selected = '1' then 
+            display <= ""1111001""; -- ASCII code for 'A' ( Product Selected ) 
+        else 
+            display <= ""1100100"" & coin_counter; -- show coin count 
+        end if; 
+    end process;
+
+    -- LED Indicator Module ( lights up when a product is selected )
+    led_indicator_module: process(product_selected)
+    begin 
+        if product_selected = '1' then 
+            leds <= ""00000001""; -- light up first LED 
+        else 
+            leds <= ""00000000""; -- all LEDs off 
+        end if; 
+    end process;
+
+    -- Synchronization Process (syncs product selection signal)
+    synchronization_process: process(clk, reset)
+    begin 
+        if reset = '1' then 
+            product_selected <= '0'; 
+        elsif rising_edge(clk) then 
+            if select_product /= ""00"" then 
+                product_selected <= '1",True,4,"7,2",True,33
+34,"
+
+Here is a VHDL program that implements a basic vending machine functionality, in this case, a coffee vending machine, of type latte/cappuccino/mocha on the DE-10 standard FPGA board.
+
+",True,4,"7,2",True,34
+35,"
+
+Here is a VHDL program that implements a simple vending machine targeted at the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC; -- Clock signal from the DE-10 board 
+           reset : in STD_LOGIC;  -- Reset button on the DE-10 board 
+           coin_1 : in STD_LOGIC; -- Coin 1 input (e.g., $0.25) 
+           coin_5 : in STD_LOGIC; -- Coin 5 input (e.g., $1.00) 
+           select_product : in STD_LOGIC_VECTOR(2 downto 0); -- Product selection (3-bit) 
+           dispense : out STD_LOGIC; -- Dispense output (active high) 
+           change : out STD_LOGIC_VECTOR(4 downto 0)); -- Change output (5-bit) 
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+    -- Constants for product prices 
+    constant PRICE_A : unsigned(4 downto 0) := ""01001""; -- $0.25 
+    constant PRICE_B : unsigned(4 downto 0) := ""01111""; -- $0.50 
+    constant PRICE_C : unsigned(4 downto 0) := ""10010""; -- $1.00 
+
+    -- Internal signals for the state machine and calculations 
+    signal total_coins : unsigned(4 downto 0) := ""00000"";
+    signal current_state : natural range 0 to 5 := 0;
+    signal next_state : natural range 0 to 5;
+
+begin
+
+    -- Process to handle clock edge and reset 
+    process(clk, reset)
+    begin 
+        if reset = '1' then 
+            total_coins <= ""00000"";
+            current_state <= 0;
+        elsif rising_edge(clk) then 
+            case current_state is 
+                when 0 => 
+                    if coin_1 = '1' then 
+                        total_coins <= total_coins + 1;
+                        current_state <= 1;
+                    elsif coin_5 = '1' then 
+                        total_coins <= total_coins + 5;
+                        current_state <= 1;
+                    end if;
+                when 1 => 
+                    case select_product is 
+                        when ""001"" => 
+                            if total_coins >= PRICE_A then 
+                                dispense <= '1';
+                                total_coins <= total_coins - PRICE_A;
+                                current_state <= 2;
+                            else 
+                                current_state <= 0;
+                            end if;
+                        when ""010"" => 
+                            if total_coins >= PRICE_B then 
+                                dispense <= '1';
+                                total_coins <= total_coins - PRICE_B;
+                                current_state <= 2;
+                            else 
+                                current_state <= 0;
+                            end if;
+                        when ""100"" => 
+                            if total_coins >= PRICE_C then 
+                                dispense <= '1';
+                                total_coins <= total_coins - PRICE_C;
+                                current_state <= 2;
+                            else 
+                                current_state <= 0;
+                            end if;
+                        when others => 
+                            current_state <= 0;
+                    end case;
+                when 2 => 
+                    change <= std_logic_vector(total_coins);
+                    current_state <= 3;
+                when 3 => 
+                    current_state <= 4;
+                when 4 => 
+                    dispense <= '0';
+                    current_state <= 0;
+                when 5 => 
+                    null;
+            end case;
+        end if;
+    end process;
+
+end Behavioral;
+``",True,4,"7,2",True,35
+36,"
+
+Here is an example VHDL program that implements a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_in : in  STD_LOGIC_VECTOR(3 downto 0);
+           select_product : in  STD_LOGIC_VECTOR(2 downto 0);
+           product_out : out  STD_LOGIC_VECTOR(7 downto 0));
+           display_out : out  STD_LOGIC_VECTOR(6 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+
+    -- Define the states for the vending machine
+    type state_type is (INIT, COIN_INSERTED, PRODUCT_SELECTED, DISPENSE_PRODUCT, DISPLAY_MESSAGE);
+    signal current_state, next_state : state_type := INIT;
+    
+    -- Define the products and their prices
+    constant PRODUCT_A_PRICE : integer := 25;
+    constant PRODUCT_B_PRICE : integer := 50;
+    constant PRODUCT_C_PRICE : integer := 75;
+    
+    -- Define the coins and their values
+    constant COIN_1_VALUE : integer := 1;
+    constant COIN_5_VALUE : integer := 5;
+    constant COIN_10_VALUE : integer := 10;
+    constant COIN_25_VALUE : integer := 25;
+    
+    -- Register to hold the inserted coin value
+    signal inserted_coin_value : integer range 0 to 100 := 0;
+    
+    -- Register to hold the selected product price
+    signal product_price : integer range 0 to 100 := 0;
+    
+    -- Register to hold the dispensed product
+    signal dispensed_product : STD_LOGIC_VECTOR(7 downto 0) := ""00000000"";
+    
+begin
+    process(clk, reset)
+        begin
+            if (reset = '1') then
+                current_state <= INIT;
+                inserted_coin_value <= 0;
+                product_price <= 0;
+                dispensed_product <= ""00000000"";
+            elsif rising_edge(clk) then
+                case current_state is
+                    when INIT => 
+                        if (coin_in /= ""0000"") then
+                            next_state <= COIN_INSERTED;
+                            inserted_coin_value <= calculate_coin_value(coin_in);
+                        end if;
+                    
+                    when COIN_INSERTED => 
+                        if (select_product /= ""000"") then
+                            next_state <= PRODUCT_SELECTED;
+                            product_price <= get_product_price(select_product);
+                        end if;
+                    
+                    when PRODUCT_SELECTED => 
+                        if (inserted_coin_value >= product_price) then
+                            next_state <= DISPENSE_PRODUCT;
+                            dispensed_product <= get_dispensed_product(product_price);
+                        else
+                            next_state <= DISPLAY_MESSAGE;
+                        end if;
+                    
+                    when DISPENSE_PRODUCT => 
+                        next_state <= INIT;
+                    
+                    when DISPLAY_MESSAGE => 
+                        next_state <= INIT;
+                    
+                    when others => null;
+                end case;
+                
+                current_state <= next_state;
+            end if;
+    end process;
+
+    -- Output the dispensed product
+    product_out <= dispensed_product;
+
+    -- Display a message based on the state
+    process(current_state)
+    begin
+        case current_state is
+            when INIT => display_out <= ""1111111""; -- Blank display
+            when COIN_INSERTED => display_out <= ""0110100""; -- ""COIN""
+            when PRODUCT_SELECTED => display_out <= ""0101010""; -- ""SELECT""
+            when DISPENSE_PRODUCT => display_out <= ""1011011""; -- ""DIS",True,4,"7,2",True,36
+37,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA Board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_1 : in STD_LOGIC; -- 1 USD coin inserted signal 
+           coin_5 : in STD_LOGIC; -- 5 USD coin inserted signal 
+           select_product : in STD_LOGIC_VECTOR(1 downto 0); -- Select product (00: Candy, 01: Chips, 10: Soda) 
+           dispense_product : out STD_LOGIC; -- Dispense product signal 
+           display : out STD_LOGIC_VECTOR(6 downto 0)); -- Display amount remaining 
+end entity VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal amount_due : UNSIGNED(5 downto 0) := ""000001""; -- initial amount due for each product 
+signal amount_paid : UNSIGNED(5 downto 0) := ""000000"";
+signal product_price : UNSIGNED(5 downto 0);
+
+begin
+
+process(clk, reset)
+begin 
+    if reset = '1' then 
+        amount_paid <= ""000000"";
+    elsif rising_edge(clk) then 
+        -- Coin insertion logic 
+        if coin_1 = '1' then 
+            amount_paid <= amount_paid + 1; 
+        elsif coin_5 = '1' then 
+            amount_paid <= amount_paid + 5; 
+        end if;
+        
+        -- Product selection and dispensing logic 
+        case select_product is 
+            when ""00"" => 
+                product_price <= ""010011""; -- Price of candy: $3 
+            when ""01"" => 
+                product_price <= ""101000""; -- Price of chips: $16 
+            when ""10"" => 
+                product_price <= ""011110""; -- Price of soda: $30 
+            when others => 
+                product_price <= ""000000""; 
+        end case;
+        
+        if amount_paid >= product_price then 
+            dispense_product <= '1'; 
+            amount_paid <= amount_paid - product_price; 
+        else 
+            dispense_product <= '0'; 
+        end if;
+    end if;
+end process;
+
+-- Display amount remaining 
+display <= STD_LOGIC_VECTOR(amount_paid);
+
+end architecture Behavioral;
+```
+This VHDL program uses a synchronous design approach, where all signals are registered using flip-flops clocked by the `clk` input.",True,4,"7,2",True,37
+38,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA board:
+```vhdlieee_numeric_std.all;
+
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+          reset : in  STD_LOGIC;
+          coin_inserted : in  STD_LOGIC_VECTOR(1 downto 0);
+          product_select : in  STD_LOGIC_VECTOR(2 downto 0);
+          dispense_product : out  STD_LOGIC;
+          display_7seg : out  STD_LOGIC_VECTOR(6 downto 0));
+          led_indicator : out  STD_LOGIC_VECTOR(3 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal credit_count : STD_LOGIC_VECTOR(3 downto 0) := ""0000"";
+signal product_price : STD_LOGIC_VECTOR(3 downto 0);
+signal current_state, next_state : STD_LOGIC_VECTOR(2 downto 0);
+
+begin
+
+-- Price table for different products (in cents)
+process(product_select)
+begin 
+    case product_select is 
+        when ""000"" => product_price <= ""0010""; -- Product A: 10 cents 
+        when ""001"" => product_price <= ""0100""; -- Product B: 20 cents 
+        when ""010"" => product_price <= ""0110""; -- Product C: 30 cents 
+        when ""011"" => product_price <= ""1000""; -- Product D: 40 cents 
+        when others => product_price <= ""0000""; 
+    end case; 
+end process;
+
+-- State Machine to manage the vending process 
+process(clk, reset)
+begin 
+    if reset = '1' then 
+        current_state <= ""000""; 
+        credit_count <= ""0000""; 
+    elsif rising_edge(clk) then 
+        case current_state is 
+            when ""000"" => -- Idle state 
+                if coin_inserted /= ""00"" then 
+                    current_state <= ""001""; 
+                    credit_count <= credit_count + coin_inserted; 
+                else 
+                    current_state <= ""000""; 
+                end if; 
+            when ""001"" => -- Coin accepted, check credit 
+                if credit_count >= product_price then 
+                    current_state <= ""010""; 
+                else 
+                    current_state <= ""000""; 
+                end if; 
+            when ""010"" => -- Dispense product 
+                dispense_product <= '1'; 
+                current_state <= ""011""; 
+            when ""011"" => -- Reset after dispensing 
+                dispense_product <= '0'; 
+                credit_count <= ""0000""; 
+                current_state <= ""000""; 
+            when others => 
+                current_state <= ""000""; 
+        end case; 
+    end if; 
+end process;
+
+-- Display current credit count on 7-segment display 
+process(credit_count)
+variable display_data : STD_LOGIC_VECTOR(6 downto 0); 
+begin 
+    case credit_count is 
+        when ""0000"" => display_data := ""1000000""; -- blank 
+        when ""0001"" => display_data := ""1111001""; -- 1 cent 
+        when ""0010"" => display_data := ""1101100""; -- 2 cents 
+        when ""0011"" => display_data := ""1110100""; -- 3 cents 
+        when ""0100"" => display_data := ""1011011""; -- 4 cents 
+        when ""0101"" => display_data := ""1101110""; -- 5 cents 
+       ",True,4,"7,2",True,38
+39,"
+
+Here is a VHDL program that implements a basic vending machine functionality on a DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_1 : in STD_LOGIC; -- Coin detector for $0.25 coin 
+           coin_5 : in STD_LOGIC; -- Coin detector for $0.50 coin 
+           coin_10 : in STD_LOGIC; -- Coin detector for $1.00 coin 
+           select_product : in STD_LOGIC_VECTOR(2 downto 0); -- Product selection (3-bit) 
+           dispense_product : out STD_LOGIC); -- Dispense product output 
+           led_display : out STD_LOGIC_VECTOR(6 downto 0)); -- LED display output 
+           change_return : out STD_LOGIC_VECTOR(2 downto 0)); -- Change return output 
+    );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal total_amount : UNSIGNED(7 downto 0) := ""00000000""; -- Total amount inserted 
+signal selected_product_price : UNSIGNED(7 downto 0) := ""00000000""; -- Selected product price 
+signal remaining_balance : UNSIGNED(7 downto 0) := ""00000000""; -- Remaining balance 
+signal dispensed : STD_LOGIC := '0'; -- Product dispensed flag 
+
+begin 
+
+process(clk, reset)
+begin 
+if(reset = '1') then 
+total_amount <= ""00000000"";
+selected_product_price <= ""00000000"";
+remaining_balance <= ""00000000"";
+dispensed <= '0';
+elsif(rising_edge(clk)) then 
+-- Coin insertion logic 
+if(coin_1 = '1' and total_amount < x""64"") then -- $0.25 coin 
+total_amount <= total_amount + 25;
+elsif(coin_5 = '1' and total_amount < x""64"") then -- $0.50 coin 
+total_amount <= total_amount + 50;
+elsif(coin_10 = '1' and total_amount < x""64"") then -- $1.00 coin 
+total_amount <= total_amount + 100;
+end if;
+
+-- Product selection logic 
+case select_product is 
+when ""000"" => selected_product_price <= 50; -- Product A: $0.50 
+when ""001"" => selected_product_price <= 75; -- Product B: $0.75 
+when ""010"" => selected_product_price <= 100; -- Product C: $1.00 
+when ""011"" => selected_product_price <= 125; -- Product D: $1.25 
+when ""100"" => selected_product_price <= 150; -- Product E: $1.50 
+when others => selected_product_price <= ""00000000"";
+end case;
+
+-- Dispense product logic 
+if(total_amount >= selected_product_price and dispensed = '0') then 
+dispensed <= '1';
+dispense_product <= '1';
+remaining_balance <= total_amount - selected_product_price;
+else 
+dispense_product <= '0';
+end if;
+
+-- Change return logic 
+change_return <= std_logic_vector(to_unsigned(remaining_balance mod 100, 3));
+
+-- LED display logic 
+led_display(6) <= '1'; -- Hundreds place 
+led_display(5) <= '1' when remaining_balance >= 100 else '0'; 
+led_display(4) <= '1' when remaining_balance >= 50 else '0'; 
+led_display(3) <= '1' when remaining_balance >= 20 else '0",True,4,"7,2",True,39
+40,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA Board:
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is
+    Port ( clk : in STD_LOGIC;
+           coin_in : in STD_LOGIC_VECTOR(1 downto 0); -- 00: No Coin, 01: $0.25, 10: $1.00
+           select_product : in STD_LOGIC_VECTOR(1 downto 0); -- 00: Product A, 01: Product B, 10: Product C
+           dispense_product : out STD_LOGIC);
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+    signal coin_counter : UNSIGNED(5 downto 0) := ""000000""; -- 6-bit counter to store total coins inserted
+    signal product_price : UNSIGNED(5 downto 0); -- 6-bit price of selected product
+    signal change_due : UNSIGNED(5 downto 0); -- 6-bit change due to customer
+    
+begin
+    process(clk)
+        variable product_prices : array(0 to 2) of UNSIGNED(5 downto 0) := (
+            ""010101"", -- Product A: $1.50
+            ""011001"", -- Product B: $2.50
+            ""100011""  -- Product C: $5.00
+        );
+        
+        begin
+            if rising_edge(clk) then
+                case coin_in is
+                    when ""01"" => -- $0.25
+                        coin_counter <= coin_counter + ""000001"";
+                    when ""10"" => -- $1.00
+                        coin_counter <= coin_counter + ""010000"";
+                    when others =>
+                        null;
+                end case;
+                
+                product_price <= product_prices(to_integer(unsigned(select_product)));
+                
+                if coin_counter >= product_price then
+                    dispense_product <= '1';
+                    change_due <= coin_counter - product_price;
+                    coin_counter <= ""000000"";
+                else
+                    dispense_product <= '0';
+                end if;
+                
+                -- Optional: Dispense Change (not implemented in this example)
+                --if change_due > 0 then
+                --    -- Implement change dispensing mechanism
+                --end if;
+            end if;
+        end if;
+    end process;
+end Behavioral;
+```
+Let me explain the code:
+
+**Entity**: We define an entity `VendingMachine` with four ports:
+
+* `clk`: The clock input from the FPGA board.
+",True,4,"7,2",True,40
+41,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_inserted : in STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: nickel, 10: dime, 11: quarter 
+           product_select : in STD_LOGIC_VECTOR(2 downto 0); -- 000: cola, 001: chips, 010: candy, 011: gum, 100: water 
+           dispense_product : out STD_LOGIC);
+           change_return : out STD_LOGIC_VECTOR(2 downto 0)); 
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal total_coins : unsigned(3 downto 0) := ""0000""; 
+signal product_price : unsigned(3 downto 0);
+
+begin 
+
+process(clk, reset)
+begin 
+if reset = '1' then 
+total_coins <= ""0000"";
+elsif rising_edge(clk) then 
+case coin_inserted is 
+when ""00"" => null; 
+when ""01"" => total_coins <= total_coins + 5; 
+when ""10"" => total_coins <= total_coins + 10; 
+when ""11"" => total_coins <= total_coins + 25; 
+end case; 
+
+case product_select is 
+when ""000"" => product_price <= 15; 
+when ""001"" => product_price <= 20; 
+when ""010"" => product_price <= 30; 
+when ""011"" => product_price <= 35; 
+when ""100"" => product_price <= 40; 
+when others => product_price <= 0; 
+end case; 
+
+if total_coins >= product_price then 
+dispense_product <= '1'; 
+total_coins <= total_coins - product_price; 
+else 
+dispense_product <= '0'; 
+end if; 
+
+change_return <= std_logic_vector(total_coins(2 downto 0));
+
+end if; 
+end process; 
+end architecture; 
+```
+This VHDL program uses a synchronous design approach with a single clock domain.",True,4,"7,2",True,41
+42,"
+
+Here is an example of a VHDL program that implements a simple vending machine for the DE-10 Standard FPGA Board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           coin_in : in  STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0);
+           dispense_product : out  STD_LOGIC;
+           dispense_change : out  STD_LOGIC_VECTOR(3 downto 0));
+           product_select_LED : out  STD_LOGIC_VECTOR(2 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+constant COIN_1 : STD_LOGIC_VECTOR(1 downto 0) := ""01""; -- $0.25 coin inserted 
+constant COIN_5 : STD_LOGIC_VECTOR(1 downto 0) := ""10""; -- $0.50 coin inserted 
+constant COIN_10 : STD_LOGIC_VECTOR(1 downto 0) := ""11""; -- $1.00 coin inserted
+
+signal current_balance : UNSIGNED(3 downto 0) := ""0000"";
+signal product_price : UNSIGNED(3 downto 0);
+
+begin
+
+-- Product prices in cents (hardcoded for simplicity, you can modify as needed)
+process(select_product)
+begin 
+    case select_product is 
+        when ""00"" => product_price <= ""050""; -- $0.50 - Snack A 
+        when ""01"" => product_price <= ""100""; -- $1.00 - Snack B 
+        when ""10"" => product_price <= ""200""; -- $2.00 - Snack C 
+        when others => product_price <= ""000"";
+    end case; 
+end process;
+
+-- Coin handling logic 
+process(clk)
+begin 
+    if rising_edge(clk) then 
+        if coin_in = COIN_1 then 
+            current_balance <= current_balance + 25;
+        elsif coin_in = COIN_5 then 
+            current_balance <= current_balance + 50;
+        elsif coin_in = COIN_10 then 
+            current_balance <= current_balance + 100;
+        end if; 
+    end if; 
+end process; 
+
+-- Dispense product and change logic 
+process(current_balance, product_price, select_product)
+begin 
+    if current_balance >= product_price and select_product /= ""00"" then 
+        dispense_product <= '1';
+        
+        if current_balance > product_price then 
+            dispense_change <= STD_LOGIC_VECTOR(UNSIGNED(""0000"") - unsigned(product_price));
+        else 
+            dispense_change <= ""0000"";
+        end if;  
+        
+        current_balance <= ""0000"";
+    else 
+        dispense_product <= '0'; 
+        dispense_change <= ""0000"";
+    end if;   
+end process;  
+
+-- LED indicator for selected product (active-high) 
+process(select_product)
+begin 
+    case select_product is 
+        when ""00"" => product_select_LED <= ""001""; -- Snack A 
+        when ""01"" => product_select_LED <= ""010""; -- Snack B 
+        when ""10"" => product_select_LED <= ""100""; -- Snack C 
+        when others => product_select_LED <= ""000"";
+    end case; 
+end process;
+
+end Behavioral;
+```
+
+This VHDL code defines a `VendingMachine` entity with the following inputs:
+
+*   `clk`: Clock signal.
+",True,4,"7,2",True,42
+43,"
+
+Here is a VHDL program that implements a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_inserted : in  STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0);
+           dispense_product : out  STD_LOGIC};
+end VendingMachine;
+
+architecture behavioral of VendingMachine is
+    -- Define the states of the vending machine
+    type state_type is (idle, selecting, dispensing, change_required);
+    signal current_state : state_type := idle;
+
+    -- Define the product selection and prices
+    constant PRODUCT_A_PRICE : integer := 25; -- 25 cents
+    constant PRODUCT_B_PRICE : integer := 50; -- 50 cents
+    signal selected_product : integer := 0;
+    signal deposited_amount : integer := 0;
+
+begin
+    process(clk, reset)
+        variable count : integer range 0 to 99 := 0;
+    begin
+        if reset = '1' then
+            current_state <= idle;
+            deposited_amount <= 0;
+            selected_product <= 0;
+        elsif rising_edge(clk) then
+            case current_state is
+                when idle =>
+                    if coin_inserted /= ""00"" then
+                        deposited_amount <= deposited_amount + 
+                            (if coin_inserted = ""01"" then 5 else 10 end if);
+                        current_state <= selecting;
+                    end if;
+                    
+                when selecting =>
+                    if select_product /= ""00"" then
+                        selected_product <= (if select_product = ""01"" then PRODUCT_A_PRICE else PRODUCT_B_PRICE end if );
+                        
+                        if deposited_amount >= selected_product then
+                            deposited_amount <= deposited_amount - selected_product;
+                            current_state <= dispensing;
+                        else
+                            current_state <= change_required;
+                        end if;
+                    end if;
+                
+                when dispensing =>
+                    dispense_product <= '1';
+                    current_state <= idle;
+                    
+                when change_required =>
+                    -- Dispense change (not implemented in this example)
+                    current_state <= idle;
+                
+                when others =>
+                    null;
+            end case;
+        end if;
+    end process;
+    
+    -- Debounce the dispense product output
+    process(dispense_product, clk)
+        variable debounced_output : STD_LOGIC := '0';
+    begin
+        if rising_edge(clk) then
+            if dispense_product = '1' then
+                debounced_output := '1';
+            else
+                debounced_output := '0';
+            end if;
+        end if;
+        dispense_product <= debounced_output after 10 ns;
+    end process;
+end architecture behavioral;
+```
+This VHDL program targets the DE-10 Standard FPGA board, which has a clock frequency of 50 MHz.",True,4,"7,2",True,43
+44,"
+
+Here is a VHDL program that implements a simple vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_in : in STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in STD_LOGIC_VECTOR(1 downto 0);
+           product_out : out STD_LOGIC_VECTOR(1 downto 0));
+           display : out STD_LOGIC_VECTOR(6 downto 0));
+           led_green : out STD_LOGIC;
+           led_red : out STD_LOGIC );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+
+    type state_type is ( idle, coin_inserted, selecting_product, dispensing_product, error_state );
+    signal current_state : state_type := idle;
+
+    signal coin_count : unsigned(3 downto 0) := ""0000"";
+    signal product_price : unsigned(3 downto 0) := ""0011""; -- price of each product: 3 coins
+
+begin
+
+    process(clk, reset)
+    begin 
+        if reset = '1' then 
+            current_state <= idle;
+            coin_count <= ""0000"";
+        elsif rising_edge(clk) then
+            
+            case current_state is
+                
+                when idle => 
+                    if coin_in /= ""00"" then 
+                        current_state <= coin_inserted; 
+                        coin_count <= coin_count + 1;
+                    end if;
+
+                when coin_inserted => 
+                    if coin_in /= ""00"" then 
+                        coin_count <= coin_count + 1;
+                    else 
+                        current_state <= selecting_product;
+                    end if;
+
+                when selecting_product =>
+                    if select_product /= ""00"" then 
+                        if coin_count >= product_price then 
+                            current_state <= dispensing_product;
+                        else 
+                            current_state <= error_state;
+                        end if;
+                    end if;
+
+                when dispensing_product => 
+                    product_out <= ""01"";
+                    coin_count <= coin_count - product_price;
+                    current_state <= idle;
+
+                when error_state =>
+                    led_red <= '1';
+                    if coin_in /= ""00"" then 
+                        coin_count <= coin_count + 1;
+                    else 
+                        current_state <= idle;
+                    end if;
+
+                when others => null;
+
+            end case;
+
+        end if;
+
+    end process;
+
+    -- display driver 
+    process(coin_count)
+    begin 
+        case coin_count is 
+            when ""0000"" => display <= ""1111111"";
+            when ""0001"" => display <= ""1000111"";
+            when ""0010"" => display <= ""1001011"";
+            when ""0011"" => display <= ""1001101"";
+            when ""0100"" => display <= ""1001111"";
+            when others => display <= ""1111111"";
+        end case;
+    end process;
+
+    -- LED drivers 
+    led_green <= '1' when current_state = dispensing_product else '0';
+    led_red <= '1' when current_state = error_state else '0';
+
+end Behavioral;
+```
+This VHDL code implements a simple vending machine with the following features:
+
+*   Accepts two types of coins (1 cent and 5 cents) represented by `coin_in` signals.
+",True,4,"7,2",True,44
+45,"
+
+Here is an example VHDL program that implements a basic vending machine on the DE-10 Standard FPGA Board:
+```
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;  -- clock signal from the DE-10 board's oscillator 
+          reset_n : in STD_LOGIC;  -- active-low reset signal 
+          coin_in : in STD_LOGIC_VECTOR(1 downto 0);  -- coin input signals (0: 5c, 1: 10c) 
+          select_product : in STD_LOGIC_VECTOR(1 downto 0);  -- product selection signals (0: Product A, 1: Product B) 
+          dispense_product : out STD_LOGIC;  -- output signal to dispense product 
+          display_data : out STD_LOGIC_VECTOR(6 downto 0));  -- output signal to display data on the 7-segment display 
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+    -- constants for coin values and product prices 
+    constant COIN_5C : unsigned(3 downto 0) := x""05""; 
+    constant COIN_10C : unsigned(3 downto 0) := x""0A""; 
+    constant PRODUCT_A_PRICE : unsigned(3 downto 0) := x""10""; 
+    constant PRODUCT_B_PRICE : unsigned(3 downto 0) := x""20""; 
+
+    -- signal declarations 
+    signal current_balance : unsigned(3 downto 0) := x""00""; 
+    signal selected_product : unsigned(1 downto 0) := ""00""; 
+    signal product_dispensed : STD_LOGIC := '0'; 
+
+begin 
+    process(clk, reset_n)
+        variable dispense_next_product : boolean;
+    begin 
+        if reset_n = '0' then 
+            current_balance <= x""00"";
+            selected_product <= ""00"";
+            product_dispensed <= '0';
+        elsif rising_edge(clk) then 
+            -- handle coin insertion 
+            if coin_in(0) = '1' then 
+                current_balance <= current_balance + COIN_5C; 
+            elsif coin_in(1) = '1' then 
+                current_balance <= current_balance + COIN_10C; 
+            end if; 
+            
+            -- handle product selection 
+            if select_product /= ""00"" then 
+                selected_product <= select_product; 
+            end if; 
+            
+            -- dispense product if enough balance and product selected 
+            if current_balance >= PRODUCT_A_PRICE and selected_product = ""01"" then 
+                product_dispensed <= '1'; 
+                current_balance <= current_balance - PRODUCT_A_PRICE; 
+            elsif current_balance >= PRODUCT_B_PRICE and selected_product = ""10"" then 
+                product_dispensed <= '1'; 
+                current_balance <= current_balance - PRODUCT_B_PRICE; 
+            else 
+                product_dispensed <= '0'; 
+            end if; 
+            
+            -- update display data 
+            case current_balance is 
+                when x""00"" => display_data <= ""0000001"";  -- $0.00 
+                when x""05"" => display_data <= ""1000001"";  -- $0.05 
+                when x""0A"" => display_data <= ""0100001"";  -- $0.10 
+                when others => display_data <= ""0111111"";  -- invalid amount 
+            end case; 
+        end if; 
+    end process; 
+
+    dispense_product <= product_dispensed; 
+
+end Behavioral;
+```
+This VHDL program targets the",True,4,"7,2",True,45
+46,"
+
+Here is a VHDL program that implements a simple vending machine using the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_insert : in  STD_LOGIC_VECTOR(1 downto 0);
+           select_product : in  STD_LOGIC_VECTOR(2 downto 0);
+           dispense_product : out  STD_LOGIC;
+           led_display : out  STD_LOGIC_VECTOR(7 downto 0));
+           error_led : out  STD_LOGIC );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal total_coins : unsigned(3 downto 0) := x""0"";
+signal product_price : unsigned(3 downto 0);
+
+begin
+
+process(clk, reset)
+begin
+    
+    if reset = '1' then 
+        total_coins <= x""0"";
+        
+    elsif rising_edge(clk) then
+        
+        -- Coin insertion logic 
+        if coin_insert = ""01"" then 
+            total_coins <= total_coins + 5; -- 5 cents inserted
+            
+        elsif coin_insert = ""10"" then 
+            total_coins <= total_coins + 10; -- 10 cents inserted
+            
+        elsif coin_insert = ""11"" then 
+            total_coins <= total_coins + 25; -- 25 cents inserted
+            
+        end if;
+        
+        -- Product selection and dispensing logic 
+        case select_product is
+            
+            when ""000"" => 
+                product_price <= 25; -- product A costs 25 cents
+                
+            when ""001"" => 
+                product_price <= 50; -- product B costs 50 cents
+                
+            when ""010"" => 
+                product_price <= 75; -- product C costs 75 cents
+                
+            when others =>
+                product_price <= 0;
+                
+        end case;
+        
+        -- Check if sufficient coins have been inserted 
+        if total_coins >= product_price then 
+            
+            -- Dispense product 
+            dispense_product <= '1';
+            
+            -- Update total coins 
+            total_coins <= total_coins - product_price;
+            
+        else 
+            dispense_product <= '0';
+            
+            -- Error indication 
+            error_led <= '1';
+            
+        end if;
+        
+    end if;
+    
+end process;
+
+-- LED display logic 
+led_display <= std_logic_vector(total_coins);
+
+-- Error LED logic 
+error_led <= '0' when total_coins >= product_price else '1';
+
+end Behavioral;
+```
+
+This VHDL program uses the following inputs:
+
+* `clk`: the clock signal from the DE-10 Standard FPGA board.
+",True,4,"7,2",True,46
+47,"
+
+Here is a VHDL program to implement a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           coin_inserted : in STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: nickel, 10: dime, 11: quarter 
+           selection : in STD_LOGIC_VECTOR(1 downto 0); -- 00: cola, 01: chips, 10: candy 
+           dispense_product : out STD_LOGIC);
+           display : out STD_LOGIC_VECTOR(3 downto 0));
+           led_indicators : out STD_LOGIC_VECTOR(7 downto 0)
+         );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal total_coins : STD_LOGIC_VECTOR(4 downto 0) := ""00000""; -- total coins inserted (max 31 cents)
+signal product_price : STD_LOGIC_VECTOR(4 downto 0); -- price of selected product (5 cents for cola, 10 cents for chips, 15 cents for candy)
+
+begin 
+    process(clk, reset) begin 
+        if reset = '1' then 
+            total_coins <= ""00000"";
+        elsif rising_edge(clk) then 
+            case coin_inserted is 
+                when ""01"" => total_coins <= STD_LOGIC_VECTOR(unsigned(total_coins) + 5); -- nickel (5 cents)
+                when ""10"" => total_coins <= STD_LOGIC_VECTOR(unsigned(total_coins) + 10); -- dime (10 cents)
+                when ""11"" => total_coins <= STD_LOGIC_VECTOR(unsigned(total_coins) + 25); -- quarter (25 cents)
+                when others => null; 
+            end case; 
+            
+            case selection is 
+                when ""00"" => product_price <= ""00101""; -- cola (5 cents)
+                when ""01"" => product_price <= ""01010""; -- chips (10 cents)
+                when ""10"" => product_price <= ""01111""; -- candy (15 cents)
+                when others => product_price <= ""00000""; 
+            end case; 
+
+            if unsigned(total_coins) >= unsigned(product_price) then 
+                dispense_product <= '1'; 
+                total_coins <= STD_LOGIC_VECTOR(unsigned(total_coins) - unsigned(product_price)); 
+            else 
+                dispense_product <= '0'; 
+            end if; 
+        end if; 
+    end process; 
+
+    -- Display the total amount inserted (in cents)
+    display <= total_coins(3 downto 0);
+
+    -- LED indicators for each product (cola, chips, candy)
+    led_indicators(2 downto 0) <= ""111"" when selection = ""00"" and unsigned(total_coins) >= unsigned(product_price) else ""000"";
+    led_indicators(5 downto 3) <= ""111"" when selection = ""01"" and unsigned(total_coins) >= unsigned(product_price) else ""000"";
+    led_indicators(7 downto 6) <= ""11"" when selection = ""10"" and unsigned(total_coins) >= unsigned(product_price) else ""00"";
+
+end Behavioral;
+
+```
+This VHDL code implements a basic vending machine that:
+
+* Accepts coins (nickel, dime, or quarter) through the `coin_inserted` input.
+",True,4,"7,2",True,47
+48,"
+
+Here is a VHDL program to implement a basic vending machine targeted at the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC;
+           coin_inserted : in STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: $0.25, 10: $0.50, 11: $0.75 or more 
+           product_select : in STD_LOGIC_VECTOR(1 downto 0); -- 00: product A, 01: product B, 10: product C, 11: cancel 
+           dispense_product : out STD_LOGIC;
+           amount_display : out STD_LOGIC_VECTOR(3 downto 0));
+           error_led : out STD_LOGIC);
+    );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal amount : unsigned(3 downto 0) := ""0000""; -- Initialize amount to $0.00
+
+begin 
+
+process(clk)
+begin 
+    if rising_edge(clk) then 
+        case coin_inserted is 
+            when ""00"" => null; 
+            when ""01"" => amount <= amount + 1; -- Add $0.25 to the total 
+            when ""10"" => amount <= amount + 2; -- Add $0.50 to the total 
+            when others => amount <= amount + 3; -- Add $0.75 or more to the total 
+        end case; 
+
+        case product_select is 
+            when ""00"" => 
+                if amount >= 2 then -- Product A costs $0.50 
+                    dispense_product <= '1'; 
+                    amount <= amount - 2; 
+                else 
+                    error_led <= '1'; 
+                end if; 
+            when ""01"" => 
+                if amount >= 3 then -- Product B costs $0.75 
+                    dispense_product <= '1'; 
+                    amount <= amount - 3; 
+                else 
+                    error_led <= '1'; 
+                end if; 
+            when ""10"" => 
+                if amount >= 4 then -- Product C costs $1.00 
+                    dispense_product <= '1'; 
+                    amount <= amount - 4; 
+                else 
+                    error_led <= '1'; 
+                end if; 
+            when ""11"" => 
+                amount <= ""0000""; -- Cancel and reset the amount 
+                error_led <= '0'; 
+                dispense_product <= '0'; 
+        end case; 
+    end if; 
+end process; 
+
+-- Display the current amount on the 7-segment display 
+amount_display <= std_logic_vector(amount);
+
+end Behavioral;
+```
+This VHDL code implements a basic vending machine that accepts coins ($0.25, $0.50, or $0.75 or more) and allows users to select one of three products (A, B, or C).",True,4,"7,2",True,48
+49,"
+
+Here is a VHDL program to implement a basic vending machine on the DE-10 Standard FPGA board:
+```vhdl
+
+library IEEE;
+use IEEE.STD_LOGIC;
+use IEEE.NUMERIC_STD.ALL;
+
+entity VendingMachine is 
+    Port ( clk : in STD_LOGIC; 
+          reset : in STD_LOGIC;
+          coin_inserted : in STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: $0.25, 10: $1.00, 11: invalid coin 
+          product_select : in STD_LOGIC_VECTOR(1 downto 0); -- 00: soda, 01: chips, 10: candy 
+          dispense_product : out STD_LOGIC);
+          display : out STD_LOGIC_VECTOR(6 downto 0)); -- 7-segment display output 
+          error_led : out STD_LOGIC); -- error LED indicator 
+    );
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is 
+
+signal total_amount : unsigned(5 downto 0) := (others => '0'); -- total amount inserted (max: $2.50)
+signal selected_product_price : unsigned(5 downto 0); -- price of selected product (25 cents, 50 cents, or 75 cents)
+
+begin 
+
+-- Product prices (in cents) 
+process(product_select)
+begin 
+    case product_select is 
+        when ""00"" => selected_product_price <= ""001000""; -- soda: 25 cents 
+        when ""01"" => selected_product_price <= ""010010""; -- chips: 50 cents 
+        when ""10"" => selected_product_price <= ""011100""; -- candy: 75 cents 
+        when others => selected_product_price <= ""000000""; -- invalid selection 
+    end case;
+end process;
+
+-- Coin counter and validation 
+process(clk, reset)
+begin 
+    if reset = '1' then 
+        total_amount <= (others => '0');
+    elsif rising_edge(clk) then 
+        if coin_inserted /= ""00"" then 
+            case coin_inserted is 
+                when ""01"" => total_amount <= total_amount + ""001000""; -- add $0.25 
+                when ""10"" => total_amount <= total_amount + ""010000""; -- add $1.00 
+                when others => null; -- invalid coin, ignore it 
+            end case;
+        end if;
+    end if;
+end process;
+
+-- Dispense product logic 
+process(total_amount, selected_product_price)
+begin 
+    if total_amount >= selected_product_price then 
+        dispense_product <= '1'; 
+        total_amount <= total_amount - selected_product_price; -- deduct product price from total 
+    else 
+        dispense_product <= '0';
+    end if;
+end process;
+
+-- Display logic (7-segment display) 
+process(total_amount)
+begin 
+    case total_amount is 
+        when ""000000"" => display <= ""1111110""; -- blank display 
+        when ""001000"" => display <= ""1101100""; -- $0.25 
+        when ""010000"" => display <= ""1110110""; -- $1.00 
+        when others => display <= ""1010111""; -- display amount (up to $2.50)
+    end case;
+end process;
+
+-- Error LED logic 
+process(coins_inserted)
+begin 
+    if coins_inserted = ""11"" then 
+        error_led <= '1'; 
+    else 
+        error_led <= '0';
+    end if;
+end process;
+
+end Behavioral;
+```
+This VHDL code implements a simple vending machine that accepts coins ($0.25 and $1.00",True,4,"7,2",True,49
+50,"
+
+Here is a VHDL program to implement a simple vending machine targeted at the DE-10 Standard FPGA board:
+```vhdl
+library IEEE;
+use IEEE.STD_LOGIC_ARITH;
+use IEEE.STD_LOGIC_UNSIGNED;
+
+entity VendingMachine is
+    Port ( clk : in  STD_LOGIC;
+           reset : in  STD_LOGIC;
+           coin_in : in  STD_LOGIC_VECTOR(1 downto 0); -- 00: no coin, 01: nickel, 10: dime, 11: quarter
+           select_product : in  STD_LOGIC_VECTOR(1 downto 0); -- 00: soda, 01: water, 10: juice
+           dispense_product : out  STD_LOGIC);
+end VendingMachine;
+
+architecture Behavioral of VendingMachine is
+
+    constant PRICE_SODA : integer := 25; -- in cents
+    constant PRICE_WATER : integer := 20; -- in cents
+    constant PRICE_JUICE : integer := 30; -- in cents
+
+    signal total_coins : integer range 0 to 100 := 0;
+    signal product_price : integer range 0 to 100 := 0;
+
+begin
+    process(clk, reset)
+        variable current_state : integer range 0 to 2 := 0; -- 0: idle, 1: select product, 2: dispense product
+    begin
+        if reset = '1' then
+            total_coins <= 0;
+            current_state := 0;
+        elsif rising_edge(clk) then
+            case current_state is
+                when 0 => -- idle state
+                    if coin_in /= ""00"" then
+                        total_coins <= total_coins + get_coin_value(coin_in);
+                    end if;
+                    
+                when 1 => -- select product state
+                    product_price <= get_product_price(select_product);
+                    
+                    if total_coins >= product_price then
+                        total_coins <= total_coins - product_price;
+                        current_state := 2;
+                    else
+                        current_state := 0;
+                    end if;
+                    
+                when 2 => -- dispense product state
+                    dispense_product <= '1';
+                    current_state := 0;
+                    
+                when others => null;
+            end case;
+        end if;
+    end process;
+
+    function get_coin_value(coin : in std_logic_vector(1 downto 0)) return integer is
+    begin
+        case coin is
+            when ""01"" => return 5; -- nickel
+            when ""10"" => return 10; -- dime
+            when ""11"" => return 25; -- quarter
+            when others => return 0;
+        end case;
+    end function;
+
+    function get_product_price(product : in std_logic_vector(1 downto 0)) return integer is
+    begin
+        case product is
+            when ""00"" => return PRICE_SODA; -- soda
+            when ""01"" => return PRICE_WATER; -- water
+            when ""10"" => return PRICE_JUICE; -- juice
+            when others => return 0;
+        end case;
+    end function;
+end Behavioral;
+```
+This VHDL program implements a simple vending machine that accepts coins (nickel, dime, or quarter) and allows users to select one of three products (soda, water, or juice).",True,4,"7,2",True,50

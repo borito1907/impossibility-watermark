@@ -41,17 +41,17 @@ def eval(cfg):
     # Load test data
     # NOTE: we will reuse the outputs from the quality oracle tests
     log.info("Loading tests...")
-    tests_df = pd.read_csv("./results/mutated_text.csv")
+    tests_df = pd.read_csv("./results/mutated_text2.csv")
     log.info(tests_df)
-    oracle_config = {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False}
-    llm = models.LlamaCpp(
-                model=oracle_config["llm_path"],
-                echo=False,
-                n_gpu_layers=-1,
-                n_ctx=2048
-            )
-    oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
-    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
+    # oracle_config = {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False}
+    # llm = models.LlamaCpp(
+    #             model=oracle_config["llm_path"],
+    #             echo=False,
+    #             n_gpu_layers=-1,
+    #             n_ctx=2048
+    #         )
+    # oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
+    # judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
 
     fluency = FluencyMetric()
     grammar = GrammarMetric()
@@ -69,24 +69,24 @@ def eval(cfg):
         out_dict.update(row)
         text = row["mutated_text"]
         # Evaluate Mutation Quality
-        choose = "response_a"
-        try:
-            evals = oracle.is_quality_preserved(row["prompt"], row[choose], text)
-            is_quality_preserved = evals["quality_preserved"]
-        except Exception as e:
-            print("-"*20)
-            print(f"ERROR ERRO ERROR: {e}")
-            print("-"*20)
-            with open("mutator_testing.errors", "a") as f:
-                f.write(e)
-            is_quality_preserved = "Unknown"
-            evals = {}
+        # choose = "response_a"
+        # try:
+        #     evals = oracle.is_quality_preserved(row["prompt"], row[choose], text)
+        #     is_quality_preserved = evals["quality_preserved"]
+        # except Exception as e:
+        #     print("-"*20)
+        #     print(f"ERROR ERRO ERROR: {e}")
+        #     print("-"*20)
+        #     with open("mutator_testing.errors", "a") as f:
+        #         f.write(e)
+        #     is_quality_preserved = "Unknown"
+        #     evals = {}
 
-        out_dict.update({
-            "oracle": judge_name,
-            "quality_preserved": is_quality_preserved,
-            **evals
-        })
+        # out_dict.update({
+        #     "oracle": judge_name,
+        #     "quality_preserved": is_quality_preserved,
+        #     **evals
+        # })
 
         # Evaluate Fluency (via Perplexity)
         fluency_score = fluency.evaluate([text])

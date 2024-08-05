@@ -1,0 +1,2131 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,1
+2,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,2
+3,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,3
+4,"
+
+What a fascinating project!
+
+",True,1,"6,2",True,4
+5,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,5
+6,"
+
+Here is a high-level Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Database Architecture**
+
+The probabilistic database will consist of multiple nodes, arranged in a cluster.",True,1,"6,2",True,6
+7,"
+
+Here is a high-level proof of concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Note:** This PoC is a simplified example and not intended for production use without further development and testing.
+
+",True,1,"6,2",True,7
+8,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,8
+9,"
+
+What a fascinating project!
+
+",True,1,"6,2",True,9
+10,"
+
+What a delightful request!
+
+",True,7,"6,2",True,10
+11,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,11
+12,"
+
+What a delightful request!
+
+",True,7,"6,2",True,12
+13,"
+
+What a delightful request!
+
+",True,7,"6,2",True,13
+14,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,14
+15,"
+
+What a delightful request!
+
+",True,7,"6,2",True,15
+16,"
+
+What a delightful request!
+
+",True,7,"6,2",True,16
+17,"
+
+Here is a Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Database Name:** `ProbRaftDB`
+
+**Overview:**
+`ProbRaftDB` is a distributed, probabilistic database that uses Raft consensus algorithm to ensure consistency across nodes.",True,1,"6,2",True,17
+18,"
+
+Here's a high-level proof-of-concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Overview**
+
+The system consists of three main components:
+
+1.",True,1,"6,2",True,18
+19,"
+
+What a delightful request!
+
+",True,7,"6,2",True,19
+20,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,20
+21,"
+
+Here is a Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Note:** This is a simplified example to demonstrate the concept.",True,1,"6,2",True,21
+22,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,22
+23,"
+
+Here is a high-level proof of concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+```rust
+
+// Import necessary crates
+
+extern crate raft;
+extern crate tokio;
+
+use std::collections::HashMap;
+use std::sync::{Arc, \*, Mutex};
+use tokio::prelude::*;
+
+// Define the probabilistic database structure
+
+struct ProbabilisticDB {
+    // Raft cluster configuration 
+    raft_config: Arc<raft::Config>,
+
+    // In-memory data store (e.g., HashMap)
+    data_store: Arc<Mutex<HashMap<String, String>>,
+
+    // Raft node instance 
+    raft_node: Arc<raft::Node>,
+}
+
+impl ProbabilisticDB {
+    // Initialize the probabilistic database with a given Raft configuration 
+    fn new(raft_config: Arc<raft::Config>) -> Self {
+        let data_store = Arc::new(Mutex::new(HashMap::new()));
+        let raft_node = Arc::new(raft::Node::new(raft_config.clone()));
+
+        ProbabilisticDB {
+            raft_config,
+            data_store,
+            raft_node,
+        }
+    }
+
+    // Insert a key-value pair into the database 
+    async fn insert(&self, key: &str, value: &str) -> Result<(), String> {
+        // Create a new Raft log entry 
+        let mut log_entry = raft::LogEntry::new();
+        log_entry.set_key(key.to_string());
+        log_entry.set_value(value.to_string());
+
+        // Propose the log entry to the Raft cluster 
+        self.raft_node.propose(log_entry).await",True,1,"6,2",True,23
+24,"
+
+Here is a proof of concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+```rust
+
+// Import necessary dependencies
+
+extern crate raft;
+extern crate tokio;
+
+use std::collections::{HashMap, BTreeMap};
+use std::sync::{Arc, Mutex};
+use tokio::prelude::*;
+
+// Define the probabilistic database struct
+
+struct ProbabilisticDatabase {
+    // Node ID and cluster configuration for Raft consensus algorithm 
+    node_id: u64,
+    config: Arc<Mutex<raft::Config>>,
+    
+    // In-memory storage for key-value pairs with probability distributions 
+    store: HashMap<String, BTreeMap<i32, f64>>,
+    
+    // Distributed Raft log for storing transactions 
+    raft_log: Arc<Mutex<raft::Log>>,
+}
+
+impl ProbabilisticDatabase {
+    async fn new(node_id: u64, config: Arc<Mutex<raft::Config>>) -> Self {
+        ProbabilisticDatabase {
+            node_id,
+            config,
+            store: HashMap::new(),
+            raft_log: Arc::new(Mutex::new(raft::Log::new())),
+        }
+    }
+
+    // Insert or update a key-value pair with a probability distribution 
+    async fn put(&self, key: &str, value: &str, prob_dist: BTreeMap<i32, f64>) {
+        let mut store = self.store.lock().unwrap();
+        store.insert(key.to_string(), prob_dist.clone());
+        
+        // Create a transaction to insert/update the key-value pair 
+        let tx = Transaction::Put { key: key.to_string(), value: value.to_string(), prob_dist };
+        
+        // Append the transaction to the Raft log 
+        self.append_transaction(tx).await.unwrap();
+    }
+
+    // Get a key-value pair with a probability distribution 
+    async fn get(&self, key: &str) -> Option<BTreeMap<i32, f64>> {
+        self.store.lock().unwrap().get(key).cloned()
+    }
+
+    // Apply a transaction to the in-memory store 
+    async fn apply_transaction(&self, tx: Transaction) {
+        match tx {
+            Transaction::Put { key, value, prob_dist } => {
+                let mut store = self.store.lock().unwrap();
+                store.insert(key, value,                    prob_dist);
+            }
+        }
+    }
+
+    // Append a transaction to the Raft log 
+    async fn append_transaction(&self, tx: Transaction) -> Result<(), raft::Error> {
+        let mut raft_log = self.raft_log.lock().unwrap();
+        raft_log.append(vec",True,1,"6,2",True,24
+25,"
+
+What a delightful request!
+
+",True,7,"6,2",True,25
+26,"
+
+Here is a high-level Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust,18, using Raft-based consensus:
+
+**Database Name:** `ProbRaftDB`
+
+**Components:**
+
+1.",True,1,"6,2",True,26
+27,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,27
+28,"
+
+Here is a high-level Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Database Architecture**
+
+The database will consist of multiple nodes, the leader node and multiple follower nodes.",True,1,"6,2",True,28
+29,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,29
+30,"
+
+What a delightful request!
+
+",True,7,"6,2",True,30
+31,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,31
+32,"
+
+What a delightful request!
+
+",True,7,"6,2",True,32
+33,"
+
+Here's a high-level proof of concept (PoC) for a horizontally scalable probabilistic database in Rust,ttttttusing Raft-based consensus:
+
+**Note:** This is a simplified example to demonstrate the concept.",True,1,"6,2",True,33
+34,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,34
+35,"
+
+Here is a high-level proof of concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Database Architecture:**
+
+The database will consist of multiple nodes,2019, distributed across a cluster.",True,1,"6,2",True,35
+36,"
+
+Here is a proof of concept (PoC) for a horizontally scalable probabilistic database in Rust, that uses Raft-based consensus:
+```rust
+
+// Import necessary dependencies
+
+extern crate raft;
+extern crate rand;
+extern crate serde;
+extern crate tokio;
+
+use std::collections::{HashMap, use std::sync::{Arc,2009; Mutex};
+
+// Define the probabilistic database structure
+
+struct ProbabilisticDatabase {
+    // Map of key-value pairs with probabilities associated with each value 
+    data: Arc<Mutex<HashMap<String, (Vec<(String, probability)>),>>,
+    // Raft cluster configuration 
+    raft_config: raft::Config,
+    // Raft node instance 
+    raft_node: Arc<raft::Node>,
+}
+
+impl ProbabilisticDatabase {
+    async fn new() -> Self {
+        let data = Arc::new(Mutex::new(HashMap::new()));
+        let raft_config = raft::Config::default();
+        let raft_node = Arc::new(raft::Node::new(raft_config));
+        
+        ProbabilisticDatabase { data, raft_config, raft_node }
+    }
+
+    // Insert a new key-value pair with an associated probability into the database 
+    async fn insert(&self, toinsert: String, value: String,probability: f64) {
+        let mut data = self.data.lock().unwrap();
+        let mut values = data.entry(to_insert.clone()).or_default();
+        values.push((value.to_string(), probability));
+        
+        // Propose the insertion to the Raft cluster 
+        let proposal = Proposal::Insert {
+            key: to_insert,
+            value: value.to_string(),
+            probability,
+        };
+        
+        self.raft_node.propose(proposal).await.unwrap();
+    }
+
+    // Get a key's value and probability from the database 
+    async fn get(&self  key: &str) -> Option<(String,f64)> {
+        let data = self.data.lock().unwrap();
+        let values = data.get(key",True,1,"6,2",True,36
+37,"
+
+Here is a proof of concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Note:** This is a simplified example to demonstrate the concept.",True,1,"6,2",True,37
+38,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,38
+39,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,39
+40,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,40
+41,"
+
+Here is a high-level Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Database Architecture**
+
+The database will consist of multiple nodes,2019, each with a local instance of the probabilistic database.",True,1,"6,2",True,41
+42,"
+
+Here's a high-level Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Database Architecture:**
+
+The probabilistic database will be designed as a distributed system, the following components:
+
+1.",True,1,"6,2",True,42
+43,"
+
+Here is a proof of concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Note:** This is a high-level implementation and may require further development and testing to become production-ready.
+
+",True,1,"6,2",True,43
+44,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,44
+45,"
+
+Here is a high-level Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Database Overview**
+
+* Name: `ProbRaftDB`
+* Description: A horizontally scalable probabilistic database that uses Raft-based consensus to ensure consistency and availability across nodes.
+
+",True,1,"6,2",True,45
+46,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,46
+47,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,47
+48,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,48
+49,"
+
+What a fascinating request!
+
+",True,5,"6,2",True,49
+50,"
+
+Here's a Proof of Concept (PoC) for a horizontally scalable probabilistic database in Rust using Raft-based consensus:
+
+**Note:** This is a high-level design and implementation outline,ing the key components and concepts.",True,1,"6,2",True,50
+51," It's not a production-ready code.
+
+",True,3,"6,2",True,1
+52," A full-fledged production-ready implementation would require more detailed design, a thorough testing, and performance optimization.
+
+",True,6,"6,2",True,2
+53,"**Database Name:** `ProbRaft`
+
+**Overview:**
+`ProbRaft` is a distributed, probabilistic database that uses Raft consensus protocol to ensure high availability and fault tolerance.",True,1,"0,3",True,1
+54,"**Database Components:**
+
+1.",True,4,"0,3",True,2
+55,"**Probabilistic Database Overview:**
+
+In this PoC, we'll create a probabilistic database that stores data in a distributed fashion across multiple nodes.",True,1,"0,3",True,3
+56,"**Database Architecture:**
+
+The proposed architecture consists of three main components:
+
+1.",True,5,"0,3",True,4
+57,"**Database Components:**
+
+1.",True,4,"0,3",True,5
+58,"**Project Structure:**
+```bash
+
+probabilistic-db/
+ Cargo.toml 
+src/
+main.rs 
+database.rs 
+node.rs 
+raft.rs 
+storage.rs 
+util.rs 
+tests/
+integration_tests.rs 
+
+.gitignore 
+README.md 
+
+```
+
+**Components:**
+
+### 1.",True,3,"0,3",True,6
+59," `Node`:
+Represents a single node in the distributed system.
+",True,5,"6,0",True,1
+60," `database.rs`: Probabilistic Database Interface
+
+ Define the interface for the probabilistic database:
+```rust
+
+pub trait ProbabilisticDatabase {
+    fn put(&mut self, key: &str, value: &str);
+    fn get(&self, key: &str) -> Option<&str>;
+    // Additional methods for querying and aggregating data...
+}
+
+```
+
+### 2.",True,1,"6,0",True,2
+61," Database Module (`database.rs`)
+
+* `ProbabilisticDatabase`: Interface for the probabilistic database.
+	",True,1,"6,0",True,3
+62," **Node** (`node.rs`)
+Represents a single node in the distributed system.
+",True,5,"6,0",True,4
+63," **Node**: `node.rs`
+A single node in the cluster, responsible for:
+	* Maintaining local state (e.g., data storage)
+	* Participating in Raft consensus decisions (leader election, voting)
+	* Forwarding requests to other nodes when necessary
+
+```rust
+
+use crate::database::Database;
+use crate::raft::{Raft, RaftConfig};
+
+pub struct Node {
+    id: u64,
+    peers: Vec<SocketAddr>,
+    db: Database,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, peers: Vec<SocketAddr>) -> Self {
+        let db = Database::new();
+        let raft_config = RaftConfig::default();
+        let mut raft = Raft::new(raft_config);
+        // Initialize Raft with node ID and peers
+
+        Node { id, peers, db, raft }
+    }
+
+    pub async fn start(&mut self) {
+        // Start Raft consensus mechanism
+
+        self.raft.start().await",True,5,"6,0",True,5
+64," `Database`:
+The `Database` struct represents the probabilistic database.",True,1,"6,0",True,6
+65," Node:
+
+*   Represents an individual node in the distributed system.
+",True,5,"6,0",True,7
+66," **Node**: Represents an individual node in the distributed system.
+",True,5,"6,0",True,8
+67," `Database`:
+Represents the probabilistic database.
+",True,1,"6,0",True,9
+68," `Node` (src/node.rs)
+
+* Represents a single node in the distributed system.
+",True,5,"6,0",True,10
+69," Database (database.rs)
+```rust
+
+use std::collections::HashMap;
+use probabilistic_db::storage::Storage;
+
+pub struct Database {
+    storage: Storage,
+    data: HashMap<String, Vec<(f64, String)>>,
+}
+
+impl Database {
+    pub fn new(storage: Storage) -> Self {
+        Database {
+            storage,
+            data: HashMap::new(),
+        }
+    }
+
+    pub fn insert(&mut self, key: &str, values: Vec<(&str, f64)>) {
+        let mut probabilities = Vec::new();
+        for (value, probability) in values {
+            probabilities.push((probability, * value.len() as f64));
+        }
+        self.data.insert(key.to_string(), probabilities);
+        self.storage.put(key, probabilities);
+    }
+
+    pub fn get(&self, key: &str) -> Option<Vec<(f64, String)>> {
+        self.data.get(key).cloned()
+    }
+}
+```
+The `Database` struct represents our probabilistic database.",True,1,"6,0",True,11
+70," `Node`:
+Represents a single node in the cluster, responsible for storing and retrieving data.
+",True,5,"6,0",True,12
+71," **Node**: `node.rs`
+A node represents an instance of the database running on a single machine.",True,1,"6,0",True,13
+72," Node (`node.rs`)
+
+* Represents a single node in the distributed system.
+",True,5,"6,0",True,14
+73," Node:
+```rust
+
+// src/node.rs
+
+use crate::raft::{RaftNode, self};
+use tokio::net::TcpListener;
+
+pub struct Node {
+    id: u64,
+    raft_node: RaftNode,
+    db: Database,
+}
+
+impl Node {
+    async fn start(listen_addr: &str) -> Result<Self> {
+        let listener = TcpListener::bind(listen_addr).await",True,1,"6,0",True,15
+74," `Database`:
+The `Database` struct will hold the core logic for the probabilistic database.",True,1,"6,0",True,16
+75," `database.rs`:
+Defines the probabilistic database API and logic.
+",True,1,"6,0",True,17
+76," `Node` Module (`node.rs`):
+```rust
+
+use std::net::{SocketAddr, UdpSocket};
+use std::sync::{Arc, Mutex};
+use raft::{Config, Node as RaftNode};
+
+pub struct Node {
+    id: u64,
+    address: SocketAddr,
+    udp_socket: UdpSocket,
+    raft_node: Arc<Mutex<RaftNode>>,
+}
+
+impl Node {
+    pub fn new(id: u64, address: SocketAddr) -> Self {
+        // Initialize Raft node configuration 
+        let config = Config {
+            id,
+            election_timeout: 1000, 
+            heartbeat_interval: 50, 
+        };
+        
+        // Create Raft node instance 
+        let raft_node = Arc::new(Mutex::new(RaftNode::new(config)));
+        
+        // Create UDP socket for communication with other nodes 
+        let udp_socket = UdpSocket::bind(""127.0.0.1:0"").unwrap();
+        
+        Node {
+            id,
+            address, 
+            udp_socket, 
+            raft_node, 
+        }
+    }
+
+    pub async fn start(&mut self) {
+        // Start Raft node 
+        self.raft_node.lock().unwrap().start().await;
+        
+        // Listen for incoming messages on UDP socket 
+        self.listen_for_messages();
+    }
+
+    fn listen_for_messages(&self) {
+        // Handle incoming messages from other nodes 
+        todo!",True,1,"6,0",True,18
+77," Node (`node.rs`)
+
+Represents an individual node in the cluster, responsible for storing and serving data.
+",True,5,"6,0",True,19
+78," Node:
+Responsible for maintaining the Raft consensus state and participating in leader elections.
+",True,5,"6,0",True,20
+79," Node:
+Represents a single node in the distributed system.
+",True,5,"6,0",True,21
+80," Node:
+Responsible for running Raft protocol and maintaining the probabilistic database.
+
+",True,1,"6,0",True,22
+81," **Node**
+
+* Responsible for participating in the Raft consensus algorithm.
+",True,1,"6,0",True,23
+82," Node (`node.rs`)
+
+* Represents a single node in the distributed system.
+",True,5,"6,0",True,24
+83," `Database`:
+Represents the probabilistic database,ing a collection of nodes.
+",True,1,"6,0",True,25
+84," `Node` Struct:
+Representing an individual node in the distributed system.
+",True,5,"6,0",True,26
+85," `database.rs`: Probabilistic Database Implementation
+
+This module will implement the probabilistic database logic, including data storage, retrieval, and query execution.
+",True,3,"6,0",True,27
+86," `Node`:
+Represents a single node in the cluster, responsible for maintaining a copy of the data and participating in the Raft consensus.
+",True,5,"6,0",True,28
+87," **Node**: (`node.rs`)
+Represents a single node in the distributed system.",True,5,"6,0",True,29
+88," `Node` - Represents a single node in the distributed system.
+
+",True,5,"6,0",True,30
+89," Database (`database.rs`)
+
+* `ProbabilisticDatabase`: The main database struct that holds the node instances and provides an interface for data access.
+",False,,,,31
+90," `Database` Module (`database.rs`)
+
+Responsible for managing multiple nodes and providing a unified interface for clients to interact with the database.
+",True,5,"6,0",True,32
+91," **Node** (`node.rs`):
+Represents a single node in the cluster.",False,,,,33
+92," `Node`:
+Represents an individual node in the cluster.",True,5,"6,0",True,34
+93," **Node** (`node.rs`)
+
+* Represents a single node in the distributed system.
+",True,5,"6,0",True,35
+94," `Node`:
+Responsible for maintaining the Raft cluster and handling requests.
+",True,5,"6,0",True,36
+95," `Node`:
+Represents a single node in the distributed system.
+",True,5,"6,0",True,37
+96," **Node**: (`node.rs`)
+
+* Represents a single node in the cluster.
+",True,5,"6,0",True,38
+97," `Node`:
+Represents a single node in the distributed system.",True,5,"6,0",True,39
+98," `Database`:
+Responsible for managing the overall database state and providing an interface for clients to interact with.
+
+",True,5,"6,0",True,40
+99," Node (`src/node.rs`)
+
+* Represents an individual node in the cluster.
+",True,3,"6,0",True,41
+100," Database (probabilistic-db/src/database.rs)
+```rust
+
+use probabilistic_db::storage::{Storage, StorageError};
+use probabilistic_db::node::{Node, NodeId};
+use probabilistic_db::raft::{Raft, RaftError};
+
+pub struct ProbabilisticDatabase {
+    nodes: Vec<Node>,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl ProbabilisticDatabase {
+    pub fn new(num_nodes: usize) -> Self {
+        let mut nodes = Vec::new();
+        for _ in 0..num_nodes {
+            nodes.push(Node::new());
+        }
+        ProbabilisticDatabase {
+            nodes,
+            storage: Storage::new(),
+            raft: Raft::new(),
+        }
+    }
+
+    pub async fn insert(&mut self, key: String, value: String) -> Result<(), StorageError> {
+        // Write to local node's storage first,        self.storage.insert(key.clone(), value.clone())",True,1,"6,0",True,42
+101," Node (src/node.rs)
+
+Responsible for running a single instance of the probabilistic database node.
+",True,1,"6,0",True,43
+102," `Node`:
+Represents a single node in the distributed system.",True,5,"6,0",True,44
+103," `Database` Module:
+Responsible for managing the probabilistic data model, storing and retrieving data.
+",True,1,"6,0",True,45
+104," `Node`:
+The `Node` struct represents an individual node in the cluster.",True,5,"6,0",True,46
+105," Node:
+`node.rs`
+```rust
+
+use std::sync::{Arc, Mutex};
+use crate::raft::{RaftNode, Config};
+
+pub struct ProbabilisticDbNode {
+    id: u64,
+    config: Arc<Config>,
+    raft_node: Arc<RaftNode>,
+    storage: Arc<Mutex<Box<dyn Storage>>>,
+}
+
+impl ProbabilisticDbNode {
+    pub fn new(id: u64, config: Config) -> Self {
+        let raft_node = RaftNode::new(id, config.clone());
+        let storage = Arc::new(Mutex::new(Box::new(InMemoryStorage::default())));
+        Self { id, config: Arc::new(config), raft_node, storage }
+    }
+
+    // Handle incoming requests from clients or other nodes.
+   ",True,5,"6,0",True,47
+106," `Node`:
+A single node in the distributed system, responsible for handling client requests,ing storing data locally, and participating in the Raft consensus algorithm.
+
+",True,4,"6,0",True,48
+107," `Node`:
+```rust
+
+// src/node.rs
+
+use std::net::{TcpListener, TcpStream};
+use crate::raft::{RaftConfig, RaftNode};
+
+pub struct Node {
+    id: u64,
+    peers: Vec<String>,
+    raft_node: RaftNode,
+    storage: Storage,
+}
+
+impl Node {
+    pub fn new(id: u64, peers: Vec<String>, config: RaftConfig) -> Self {
+        let raft_node = RaftNode::new(config);
+        let storage = Storage::default();
+        Node { id, peers,        raft_node,        storage }
+    }
+
+    pub async fn start(&mut self) {
+        let listener = TcpListener::bind(""127.0.0.1:12345"").unwrap();
+        let mut stream = TcpStream::connect(""127.0.0.1:12346"").unwrap();
+
+        // Start Raft node and begin voting/heartbeat process with other nodes 
+        self.raft_node.start(self.peers.clone(), stream).await.unwrap();
+    }
+
+    pub async fn put(&mut self, key: &str, value: &str) {
+        // Propose new log entry to Raft cluster 
+        let proposal = self.raft_node.propose(key.to_string() + ""="" + value).await;
+        // If approved by majority,            // Add to local storage 
+        if proposal.is_approved() {
+            self.storage.put(key.to_string(), value.to_string());
+        }
+    }
+
+    pub async fn get(&self, key: &str) -> Option<String> {
+        self.storage.get(key.to_string())
+    }
+}
+```
+
+### 2.",True,5,"6,0",True,49
+108," **Node**
+
+* Represents an individual node in the cluster.
+",True,5,"6,0",True,50
+109,"* Responsible for maintaining its own local storage and replicating data to other nodes.
+",True,4,"1,4",True,1
+110,"* Implements the Raft consensus algorithm for leader election and log replication.
+
+",True,4,"7,2",True,1
+111,"* Implants the Raft consensus algorithm for leader election and log replication.
+
+",False,,,,2
+112,"* Implements the Raft consensus algorithm for leader election and log replication.
+
+",True,4,"7,2",True,3
+113,"* Implements the Raft consensus algorithm.
+
+",True,7,"7,2",True,4
+114,"**node.rs:**
+```rust
+
+use crate::storage::Storage;
+use raft::{Config, Node as RaftNode};
+use tokio::prelude::*;
+
+struct Node {
+    id: u64,
+    storage: Storage,
+    raft_node: RaftNode<MemoryStore>,
+}
+
+impl Node {
+    async fn new(id: u64, storage: Storage) -> Self {
+        let config = Config {
+            id,
+           ..Default::default()
+        };
+        let raft_node = RaftNode::new(config);
+        Node { id, storage, raft_node }
+    }
+
+    async fn start(&mut self) {
+        self.raft_node.start().await",False,,,,1
+115,"`src/node.rs`
+```rust
+
+use crate::raft::{Raft,;
+use crate::storage::Storage;
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64) -> Self {
+        Node {
+            id,
+            storage: Storage::new(),
+            raft: Raft::new(id),
+        }
+    }
+
+    pub fn start(&mut self) {
+        // Initialize Raft node and start election timer.
+       ",True,1,"6,3",True,2
+116,"**src/node.rs:**
+```rust
+
+use crate::raft::{RaftConfig, NodeId};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: NodeId,
+    storage: Storage,
+    raft_config: RaftConfig,
+}
+
+impl Node {
+    pub fn new(id: NodeId, storage: Storage, config: RaftConfig) -> Self {
+        Node { id, storage, raft_config: config }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft consensus algorithm        
+        let mut raft = Raft::new(self.raft_config.clone());
+        raft.set_node_id(self.id);
+
+        // Start listening for incoming requests        
+        tokio::spawn(async move {
+            while let Some(req) = self.storage.get_next_request().await {
+                match req {
+                    Request::Write(data) => {
+                        // Propose new log entry to Raft consensus algorithm                        
+                        raft.propose_log_entry(data).await;
+                    }
+                    _ => unimplemented",True,5,"6,3",True,3
+117,"**src/node.rs:**
+```rust
+
+use crate::database::{Database, NodeId};
+use crate::raft::{Raft, RaftConfig};
+
+pub struct Node {
+    id: NodeId,
+    db: Database,
+    raft: Raft,
+
+    //...
+}
+
+impl Node {
+    pub fn new(id: NodeId, config: &str) -> Self {
+        let db = Database::new();
+        let raft_config = RaftConfig::default();
+        let raft = Raft::new(raft_config);
+        Node { id,aker_id,aker_db, raft }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft instance with this node as the leader.
+       ",True,1,"6,3",True,4
+118,"**Node Struct:**
+```rust
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+    network: Network,
+}
+
+impl Node {
+    pub fn new(id: u64, a network: &Network) -> Self { /* init */ }
+    pub fn start(&mut self) { /* start raft and networking */ }
+    pub fn stop(&mut self) { /* stop raft and networking */ }
+    pub fn insert(&mut self, key: &str, value: &str) { /* insert into local storage and replicate */ }
+    pub fn query(&self, key: &str) -> Option<String> { /* query local storage */ }
+}
+
+```
+
+### 2.",True,5,"6,3",True,5
+119,"`src/node.rs`
+```rust
+
+use crate::database::{Database, Storage};
+use crate::raft::{Raft, RaftConfig};
+use tokio::prelude::*;
+
+pub struct Node {
+    id: u64,
+    db: Database,
+    raft: Raft,
+    storage: Storage,
+}
+
+impl Node {
+    async fn new(id: u64, config: RaftConfig) -> Self {
+        let db = Database::new();
+        let storage = Storage::new();
+        let raft = Raft::new(config);
+        Node { id, db, storage, raft }
+    }
+
+    async fn start(&mut self) {
+        // Initialize Raft node and start election timeout.
+       ",True,1,"6,3",True,6
+120,"`src/node.rs`
+```rust
+
+use std::net::{TcpListener, TcpStream };
+use raft::{Raft, NodeId};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: NodeId,
+    listener: TcpListener,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: NodeId, addr: String ) -> Self {
+        let listener = TcpListener::bind(addr).unwrap();
+        let storage = Storage::new();
+        let raft = Raft::new(id);
+        Self { id, listener, storage, raft }
+    }
+
+    pub async fn run(&mut self) {
+        // Handle incoming connections and messages from other nodes.
+       ",False,,,,7
+121,"`node.rs`:
+```rust
+
+use crate::raft::{Raft, state_machine::StateMachine};
+use crate::storage::{Storage, StorageConfig};
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, config: StorageConfig) -> Self {
+        let storage = Storage::new(config);
+        let raft = Raft::new(id, &storage);
+        Node { id, storage, raft }
+    }
+
+    pub async fn start(&mut self) {
+        self.raft.start().await;
+    }
+
+    pub async fn insert(&mut self, key: &[u8], value: &[u8]) {
+        // Implement probabilistic data structure (e.g., Bloom filter)
+        // for efficient query answering.
+       ",True,5,"6,3",True,8
+122,"**Code:** (`src/node.rs`)
+```rust 
+use std::sync::{Arc, Mutex};
+use storage::Storage;
+use raft::{Raft, RaftOptions};
+
+pub struct Node {
+    id: u64,
+    storage: Arc<Mutex<Storage>>,
+    raft: Arc<Raft>,
+}
+
+impl Node {
+    pub fn new(id: u64, storage: Storage) -> Self {
+        let raft_options = RaftOptions {
+            // configure Raft options here (e.g., election timeout, heartbeats)
+        };
+        let raft = Raft::new(raft_options);
+        Self { id, storage: Arc::new(Mutex::new(storage)), raft }
+    }
+
+    pub async fn start(&self) {
+        self.raft.start().await",False,,,,9
+123,"**Node implementation:**
+```rust
+
+// src/node.rs
+
+use crate::database::{Database,Probabilistic};
+use crate::raft::{Raft};
+
+pub struct Node {
+    id: u64,
+    db: DatabaseProbabilistic,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, db_path: &str) -> Self {
+        let db = DatabaseProbabilistic::new(db_path);
+        let raft = Raft::new(id);
+        Node { id, db, raft }
+    }
+
+    // Handle incoming requests from clients or other nodes.
+   ",True,1,"6,3",True,10
+124,"`src/node.rs`
+```rust
+
+use crate::raft::{Raft, other crates};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64) -> Self {
+        let storage = Storage::new();
+        let raft = Raft::new(id);
+        Node { id, storage, raft }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft consensus algorithm 
+        self.raft.initialize().await;
+        // Start listening for incoming requests 
+        self.listen_for_requests().await;
+    }
+
+    pub async fn listen_for_requests(&mut self) {
+        // Listen for incoming requests from clients or other nodes 
+        // Handle read/write requests, handle heartbeats,'to/from other nodes 
+    }
+}
+
+```
+
+### 2.",True,5,"6,3",True,11
+125,"`src/node.rs`
+```rust
+
+use crate::database::{Database, ShardId};
+use crate::raft::{Raft, RaftNode};
+use tokio::sync::mpsc;
+
+pub struct Node {
+    id: u64,
+    shard_id: ShardId,
+    db: Database,
+    raft_node: RaftNode,
+    tx_queue: mpsc::Sender<Tx>,
+}
+
+impl Node {
+    async fn start(&mut self) {
+        // Initialize Raft node and join the cluster if necessary.
+       ",True,5,"6,3",True,12
+126,"**node.rs**
+```rust
+
+use raft::prelude::*;
+
+struct Node {
+    id: usize,
+    storage: Storage,
+    raft: Raft<Node>,
+}
+
+impl Node {
+    fn new(id: usize) -> Self {
+        // Initialize local storage and Raft instance.
+       ",False,,,,13
+127,"`src/node.rs`
+```rust
+
+use crate::storage::{Storage, StorageError};
+use crate::raft::{Raft, RaftConfig};
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, storage_path: &str) -> Result<Self, where Self: Sized> {
+        let storage = Storage::new(storage_path",True,1,"6,3",True,14
+128,"`node.rs`
+```rust
+
+use std::sync::{Arc, Mutex};
+use raft::{Config, Node as RaftNode};
+
+pub struct Node {
+    id: u64,
+    storage: Arc<Mutex<Storage>>,
+    raft_node: Arc<RaftNode>,
+}
+
+impl Node {
+    pub fn new(id: u64, storage: Storage) -> Self {
+        let config = Config {
+            node_id: id,
+           ..
+        };
+        let raft_node = RaftNode::new(config);
+        Node { id, id: id }
+        storage: Arc::new(Mutex::new(storage)),
+        raft_node: Arc::new(raft_node),
+    }
+
+    pub fn start(&self) {
+        self.raft_node.start();
+    }
+
+    pub fn write(&self, key: &str value: &str) {
+        // Create a new log entry with the given key-value pair.
+       ",True,5,"6,3",True,15
+129,"**Implementation:**
+```rust
+
+// src/node.rs
+
+use std::sync::{Arc, Mutex};
+use crate::raft::{RaftConfig, NodeId};
+
+pub struct Node {
+    id: NodeId,
+    config: Arc<RaftConfig>,
+    store: Mutex<Storage>,
+    raft_node: Arc<dyn RaftNode>,
+}
+
+impl Node {
+    pub fn new(id: NodeId, config: &RaftConfig) -> Self {
+        let store = Storage::new();
+        let raft_node = RaftNodeImpl::new(config.clone(), store.clone());
+        Self {
+            id,
+            config: Arc::new(config.clone()),
+            store: Mutex::new(store),
+            raft_node,
+        }
+    }
+
+    pub async fn start(&mut self) {
+        self.raft_node.start().await;
+    }
+
+    pub async fn insert(&self, key: &str, value: &str) {
+        // Generate a probabilistic ID (e.g., using a hash function)
+        let pid = generate_pid(key, value);
+        self.store.lock().await.insert(pid, value).unwrap();
+        self.raft_node.propose_insert(pid,   .await;
+    }
+
+    pub async fn get(&self; key: &str) -> Option<String> {
+        // Get the probabilistic ID from the local storage or retrieve it from another node if not found locally.
+       ",True,5,"6,3",True,16
+130,"```rust
+
+// src/node.rs
+
+use crate::storage::{Storage, StorageError};
+use raft::{Config, NodeId};
+
+pub struct Node {
+    id: NodeId,
+    storage: Storage,
+    config: Config,
+}
+
+impl Node {
+    pub fn new(id: NodeId, storage: Storage, config: Config) -> Self {
+        Node { id, storage, config }
+    }
+
+    pub fn start(&mut self) {
+        // Initialize Raft node with given config and storage.
+       ",True,1,"6,3",True,17
+131,"`node.rs`
+```rust
+
+use crate::database::{Database, ProbabilisticStorage};
+use crate::raft::{Raft, RaftConfig};
+
+pub struct Node {
+    id: u64,
+    database: Database,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, config: &RaftConfig) -> Self {
+        let database = Database::new();
+        let raft = Raft::new(config, id);
+        Node { id, id, database, raft }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft and start the node.
+       ",True,1,"6,3",True,18
+132,"```rust
+
+// src/node.rs
+
+use crate::storage::{Storage, StorageError};
+use raft::{Config, Node as RaftNode};
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft_node: RaftNode,
+}
+
+impl Node {
+    pub fn new(id: u64, storage_dir: String) -> Result<Self, std::io::Error> {
+        let storage = Storage::new(storage_dir",True,1,"6,3",True,19
+133,"```rust 
+// src/node.rs 
+use crate::storage::{Storage, StorageError}; 
+use crate::raft::{Raft, RaftError}; 
+
+pub struct Node { 
+    id: u64, 
+    storage: Storage, 
+    raft: Raft, 
+} 
+
+impl Node { 
+    pub fn new(id: u64, storage: Storage) -> Self { 
+        Self { 
+            id, 
+            storage, 
+            raft: Raft::new(), 
+        } 
+    } 
+
+    pub async fn start(&mut self) -> Result<(), RaftError> { 
+        self.raft.start(self.id).await 
+    } 
+
+    pub async fn propose(&mut self, cmd: Vec<u8>) -> Result<(), RaftError> { 
+        self.raft.propose(cmd).await 
+    } 
+
+    //... 
+} 
+```
+
+### 2.",True,1,"6,3",True,20
+134,"[src/node.rs]
+```rust
+
+use std::sync::{Arc, Mutex};
+use crate::raft::{Raft, NodeId};
+
+pub struct Node {
+    id: NodeId,
+    storage: Arc<Mutex<dyn Storage>>,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: NodeId, -> Self {
+        // Initialize local storage and Raft instance.
+    }
+
+   ",False,,,,21
+135,"[src/node.rs]
+```rust
+
+use std::net::SocketAddr;
+use tokio::net::{TcpListener, TcpSocket};
+
+pub struct Node {
+    id: u64,
+    addr: SocketAddr,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub async fn new(id: u64,0000, addr: SocketAddr) -> Node {
+        let storage = Storage::new();
+        let raft = Raft::new(id, addr);
+        Node { id, addr, storage, raft }
+    }
+
+    pub async fn start(&mut self) {
+        // Start listening for incoming connections.
+       ",True,5,"6,3",True,22
+136,"`node.rs`
+```rust
+
+use std::sync::{Arc, Mutex};
+use raft::{Config, Node as RaftNode};
+
+pub struct Node {
+    id: u64,
+    storage: Arc<Mutex<Storage>>,
+    raft_node: RaftNode,
+}
+
+impl Node {
+    pub fn new(id: u64, storage: Storage) -> Self {
+        let config = Config::default();
+        let raft_node = RaftNode::new(config);
+        Self { id, id, storage: Arc::new(Mutex::new(storage)), raft_node }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft node and start the event loop.
+       ",True,1,"6,3",True,23
+137,"`src/node.rs`:
+```rust
+
+use std::sync::{Arc, ArcSwap};
+use std::time::Instant;
+
+pub struct Node {
+    id: u64,
+    storage: Arc<Box<dyn Storage>>,
+    raft: Arc<Raft>,
+    config: Config,
+}
+
+impl Node {
+    pub fn new(id: u64, config: Config) -> Self {
+        let storage = Arc::new(Box::new(DiskStorage::new()));
+        let raft = Arc::new(Raft::new());
+        Node { id, config, storage, raft }
+    }
+
+    pub fn start(&mut self) {
+        self.raft.start();
+        // Initialize local storage with existing data (if any)
+        self.storage.init_from_disk();
+    }
+
+    pub fn insert(&self, key: &str value: &str) {
+        let mutation = Mutation::Insert(key.to_string(), value.to_string());
+        self.propose_mutation(mutation);
+    }
+
+    pub fn propose_mutation(&self mut mutation: Mutation) {
+        let now = Instant::now();
+        let entry = LogEntry::new(now clone_from",True,4,"6,3",True,24
+138,"**node.rs**
+```rust
+
+use crate::database::{Database, ProbabilisticStorage};
+use crate::raft::{RaftConfig, RaftState};
+
+pub struct Node {
+    id: u64,
+    storage: ProbabilisticStorage,
+    raft_state: RaftState,
+}
+
+impl Node {
+    pub fn new(id: u64, config: RaftConfig) -> Self {
+        let storage = ProbabilisticStorage::new();
+        let raft_state = RaftState::new(config);
+        Node { id, id, storage, storage, raft_state }
+    }
+
+    pub fn start(&mut self) {
+        // Initialize Raft state machine and start election timer.
+       ",True,1,"6,3",True,25
+139,"`node.rs`
+```rust
+
+use std::net::{TcpListener, TcpStream};
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+struct Node {
+    id: usize,
+    storage: Storage,
+    raft: Raft,
+    cluster_nodes: Vec<String>,
+}
+
+impl Node {
+    fn new(id: usize, -> Self {... }
+    fn start(&mut self) {... }
+    fn handle_request(&mut self, req: Request) -> Response {... }
+    fn replicate_data(&self) {... }
+}
+
+async fn main() {
+    let mut node = Node::new(1);
+    node.start();
+}
+
+```
+
+### 2.",True,5,"6,3",True,26
+140,"**src/node.rs**
+```rust
+
+use crate::raft::{Raft, the NodeId};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: NodeId,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: NodeId, storage: Storage) -> Self {
+        Node {
+            id,
+            storage,
+            raft: Raft::new(id),
+        }
+    }
+
+    pub fn start_election(&mut self) {
+        // Start a new election to become the leader or join an existing cluster.
+       ",True,1,"6,3",True,27
+141,"`src/node.rs`:
+```rust
+
+use crate::raft::{Raft, use};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, the storage: Storage) -> Self {
+        let raft = Raft::new(id);
+        Node { id, storage; raft }
+    }
+
+    pub fn start(&mut self) {
+        // Initialize Raft and start listening for incoming connections.
+       ",False,,,,28
+142,"`src/node.rs`
+```rust
+
+use crate::raft::{Raft, consensus};
+use crate::storage::{Storage, KvStore};
+
+pub struct Node {
+    id: u64,
+    raft: Raft,
+    storage: Storage,
+}
+
+impl Node {
+    pub fn new(id: u64, kv_store: KvStore) -> Self {
+        let raft = Raft::new(id);
+        let storage = Storage::new(kv_store);
+        Node { id, raft, storage }
+    }
+
+    pub fn start(&mut self) {
+        self.raft.start();
+    }
+
+    pub fn propose(&mut self, key: &str, value: &str) -> Result<(), String> {
+        // Propose a new log entry to Raft consensus algorithm.
+       ",True,1,"6,3",True,29
+143,"**Node Struct:**
+```rust
+
+// src/node.rs
+
+use std::sync::{Arc, Mutex};
+use crate::raft::Raft;
+use crate::storage::Storage;
+
+pub struct Node {
+    id: u64,
+    storage: Arc<Mutex<Storage>>,
+    raft: Arc<Raft>,
+}
+
+impl Node {
+    pub fn new(id: u64, storage: Storage) -> Self {
+        let raft = Raft::new(id);
+        Node { id, id, storage: Arc::new(Mutex::new(storage)), raft: Arc::new(raft) }
+    }
+
+    // Handle incoming messages from other nodes (e.g., heartbeats, requests)
+    pub async fn handle_message(&self, message: Message) {
+        match message {
+            Message::Heartbeat(_) => self.raft.handle_heartbeat(message),
+            Message::Request(request) => self.handle_request(request).await,
+            _ => println",True,5,"6,3",True,30
+144,"**Code (src/node.rs):**
+```rust
+
+use std::sync::{Arc, Mutex};
+use raft::{
+    NodeId,
+    Raft,
+    Storage,
+};
+
+pub struct Node {
+    id: NodeId,
+    storage: Arc<Mutex<Storage>>,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: NodeId,    storage_dir: &str) -> Self {
+        let storage = Arc::new(Mutex::new(Storage::new(storage_dir)));
+        let raft = Raft::new(id, storage.clone());
+        Self { id, storage, raft }
+    }
+
+    pub async fn start(&mut self) {
+        self.raft.start().await",False,,,,31
+145,"**Node struct:**
+```rust
+
+// src/node.rs
+
+use crate::raft::{Raft, RaftConfig};
+use crate::storage::{Storage, StorageConfig};
+
+pub struct Node {
+    id: u64,
+    raft: Raft,
+    storage: Storage,
+}
+
+impl Node {
+    pub fn new(id: u64, config: &str) -> Self {
+        let raft_config = RaftConfig::from_string(config);
+        let storage_config = StorageConfig::from_string(config);
+        let raft = Raft::new(raft_config);
+        let storage = Storage::new(storage_config);
+        Self { id, raft, storage }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft state machine and start the node.
+       ",True,5,"6,3",True,32
+146,"`node.rs`:
+```rust
+
+use std::sync::{Arc, Mutex};
+use crate::storage::Storage;
+use raft::RawNode;
+
+pub struct Node {
+    id: u64,
+    storage: Arc<Mutex<Storage>>,
+    raft_node: RawNode,
+}
+
+impl Node {
+    pub fn new(id: u64, storage: Storage) -> Self {
+        Node {
+            id,
+            storage: Arc::new(Mutex::new(storage)),
+            raft_node: RawNode::default(),
+        }
+    }
+
+    pub fn start(&mut self) {
+        // Initialize Raft node and start the event loop.
+       ",True,1,"6,3",True,33
+147,"**Implementation:**
+```rust
+
+// src/node.rs
+
+use crate::raft::{Raft, NodeId};
+use crate::storage::{Storage, LocalStore};
+
+pub struct Node {
+    id: NodeId,
+    store: LocalStore,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: NodeId) -> Self {
+        // Initialize local storage and Raft instance.
+       ",True,0,"6,3",True,34
+148,"`src/node.rs`:
+```rust
+
+use crate::storage::Storage;
+use crate::raft::{Raft, RaftConfig};
+
+pub struct Node {
+    id: usize,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: usize, -> Self {
+        let storage = Storage::new();
+        let raft_config = RaftConfig::default();
+        let raft = Raft::new(raft_config);
+        Node { id, storage, raft }
+    }
+
+    // Handle incoming requests from clients or other nodes.
+   ",True,5,"6,3",True,35
+149,"**`src/node.rs`**
+```rust
+
+use std::sync::{Arc,Mutex};
+use crate::storage::{Storage, StorageError};
+use crate::raft::{Raft,self, RaftConfig};
+
+pub struct Node {
+    id: u64,
+    storage: Arc<Mutex<dyn Storage>>,
+    raft: Arc<Raft>,
+}
+
+impl Node {
+    pub fn new(id: u64, storage: Arc<Mutex<dyn Storage>>) -> Self {
+        let raft_config = RaftConfig::default();
+        let raft = Raft::new(raft_config);
+        Self { id, id, storage, raft }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft consensus algorithm 
+        self.raft.initialize().await",False,,,,36
+150,"`node.rs`:
+```rust
+
+use crate::storage::Storage;
+use crate::raft::{Raft, self};
+use tokio::net::TcpListener;
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    async fn start(listen_addr: String) -> Self {
+        let listener = TcpListener::bind(listen_addr).await",True,1,"6,3",True,37
+151,"**`node.rs`:**
+```rust
+
+use crate::storage::{Storage, probabilistic_storage};
+use crate::raft::{Raft, RaftConfig};
+
+pub struct Node {
+    id: u64,
+    storage: probabilistic_storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, configuration: &str) -> Self {
+        let storage = probabilistic_storage::new(configuration);
+        let raft_config = RaftConfig::default();
+        let raft = Raft::new(raft_config, vec",True,1,"6,3",True,38
+152,"`src/node.rs`:
+```rust
+
+use std::sync::{Arc,mut};
+use crate::raft::{RaftConfig, RaftState};
+
+pub struct Node {
+    id: u64,
+    peers: Vec<Peer>,
+    raft_config: Arc<RaftConfig>,
+    raft_state: Arc<Mutex<RaftState>>,
+    storage: Storage,
+}
+
+impl Node {
+    pub fn new(id: u64, peers: Vec<Peer>) -> Self {
+        // Initialize Raft config and state.
+       ",False,,,,39
+153,"`node.rs`:
+```rust
+
+use crate::raft::{Raft, rust_raft};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: rust_raft,
+}
+
+impl Node {
+    pub fn new(id: u64, -> Self {
+        let storage = Storage::new();
+        let raft = rust_raft::RawNode::default();
+
+        Node { id,5 id, storage, raft }
+    }
+
+    // Handle incoming requests from clients and other nodes.
+   ",True,1,"6,3",True,40
+154,"`node.rs`
+```rust
+
+use crate::raft::{Raft, RaftConfig};
+use crate::storage::{Storage, StorageConfig};
+
+pub struct Node {
+    id: u64,
+    raft: Raft,
+    storage: Storage,
+}
+
+impl Node {
+    pub fn new(id: u64, config: NodeConfig) -> Self {
+        let raft_config = RaftConfig::default();
+        let storage_config = StorageConfig::default();
+        let raft = Raft::new(raft_config);
+        let storage = Storage::new(storage_config);
+        Node { id, node_id, raft, storage }
+    }
+
+    // Handles incoming requests from clients or other nodes.
+   ",True,5,"6,3",True,41
+155,"**src/node.rs:**
+```rust
+
+use crate::database::{Database, NodeId};
+use crate::raft::{Raft, NodeState};
+
+struct Node {
+    id: NodeId,
+    database: Database,
+    raft: Raft,
+}
+
+impl Node {
+    fn new(id: NodeId, database: Database) -> Self {
+        let raft = Raft::new(id);
+        Self { id, database, raft }
+    }
+
+    fn start(&mut self) {
+        self.raft.start();
+    }
+
+    fn insert_key_value(&mut self, key: String, value: Vec<u8>) {
+        // Local insertion into the database 
+        self.database.insert(key.clone(), value.clone());
+
+        // Replicate to other nodes using Raft 
+        let mut message = Message::new(self.id);
+        message.set_ty(MessageType::INSERT);
+        message.set_key(key);
+        message.set_value(value);
+        self.raft.send_message(message);
+    }
+}
+
+```
+
+### 2.",True,5,"6,3",True,42
+156,"`node.rs`:
+```rust
+
+use crate::raft::{Raft, node::*};
+use std::collections::{HashMap};
+
+pub struct Node {
+    id: u64,
+    storage: HashMap<String, String>, // Local storage for probabilistic data.
+   ",True,1,"6,3",True,43
+157,"`node.rs`:
+```rust
+
+use crate::raft::{Raft, node_state};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64) -> Self {
+        let storage = Storage::new();
+        let raft = Raft::new(node_state::Follower);
+        Self { id, storage, raft }
+    }
+
+    pub async fn start_election(&mut self) {
+        // Implement Raft election logic here 
+    }
+
+    pub async fn replicate_data(&mut self, data: Vec<u8>) {
+        // Replicate data to other nodes using Raft 
+    }
+}
+```
+
+### 2.",True,1,"6,3",True,44
+158,"[src/node.rs]
+```rust
+
+use crate::storage::{Storage, init_storage};
+use crate::raft::{Raft, NodeId};
+
+pub struct Node {
+    id: NodeId,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: NodeId) -> Self {
+        let storage = init_storage();
+        let raft = Raft::new(id);
+        Node { id, storage, raft }
+    }
+
+    pub fn start(&mut self) {
+        // Start the Raft consensus algorithm.
+       ",False,,,,45
+159,"`src/node.rs`:
+```rust
+
+use std::sync::{Arc,RwLock};
+use crate::storage::{Storage};
+use crate::raft::{Raft};
+
+pub struct Node {
+    id: u64,
+    storage: Arc<RwLock<Storage>>,
+    raft: Arc<RwLock<Raft>>,
+}
+
+impl Node {
+    pub fn new(id: u64) -> Self {
+        Node {
+            id,
+            storage: Arc::new(RwLock::new(Storage::new())),
+            raft: Arc::new(RwLock::new(Raft::new())),
+        }
+    }
+
+    pub async fn start(&mut self) {
+        // Initialize Raft consensus algorithm 
+        self.raft.write().await.init(self.id).unwrap();
+
+        // Start listening for incoming messages from other nodes 
+        tokio::spawn(async move {
+            self.raft.write().await.listen().await;
+        });
+    }
+
+    pub async fn put(key: String, value: String) {
+        // Store data locally 
+        self.storage.write().await.put(key.clone(), value.clone());
+
+        // Replicate data to other nodes using Raft 
+        let message = serialize((key, value));
+        self.raft.write().await.send(message);
+    }
+
+    pub async fn get(key: String) -> Option<String> {
+        // Retrieve data from local storage or fetch from another node if not available 
+        if let Some(value) = self.storage.read().await.get(&key) {
+            return Some(value.clone());
+        } else {
+            // Ask other nodes for the data using Raft 
+            let response = self.raft.write().await.ask(key);
+            response.map(|value| value.to_string())
+        }
+    }
+}
+```
+
+### 2.",True,5,"6,3",True,46
+160,"`node.rs`
+```rust
+
+use std::sync::{Arc, Mutex};
+use tokio::prelude::*;
+use raft::{Config, Node as RaftNode};
+
+struct Node {
+    id: u64,
+    storage: Storage,
+    raft_node: Arc<Mutex<RaftNode>>,
+}
+
+impl Node {
+    async fn start(&mut self) -> Result<(), String> {
+        // Initialize Raft node with configuration and local storage.
+       ",True,1,"6,3",True,47
+161,"**`node.rs`**
+```rust
+
+use crate::raft::{Raft, use self};
+use crate::storage::Storage;
+
+pub struct Node {
+    id: u64,
+    raft: Raft,
+    storage: Storage,
+}
+
+impl Node {
+    pub fn new(id: u64) -> Self {
+        Node {
+            id,
+            raft: Raft::new(),
+            storage: Storage::new(),
+        }
+    }
+
+    pub async fn start(&mut self) {
+        self.raft.start().await;
+    }
+
+    pub async fn propose(&mut self, data: Vec<u8>) {
+        self.raft.propose(data).await;
+    }
+
+    pub async fn get(&self, key: &str) -> Option<Vec<u8>> {
+        self.storage.get(key)
+    }
+
+    pub async fn put(&mut self, key: &str, value: Vec<u8>) {
+        self.propose(format",True,5,"6,3",True,48
+162,"**node.rs:**
+```rust
+
+use crate::storage::{Storage, StorageError};
+use crate::raft::{Raft, RaftError};
+
+pub struct Node {
+    id: u64,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: u64, storage: Storage) -> Self {
+        Node {
+            id,
+            storage,
+            raft: Raft::new(),
+        }
+    }
+
+    pub fn start(&mut self) -> Result<(), RaftError> {
+        self.raft.start()
+    }
+
+    pub fn join_cluster(&mut self, address: String) -> Result<(), RaftError> {
+        self.raft.join_cluster(address)
+    }
+
+    pub fn put(&mut self, key: Vec<u8>, value: Vec<u8>) -> Result<(), StorageError> {
+        self.storage.put(key, value)
+    }
+
+    pub fn get(&self; key: Vec<u8>) -> Result<Vec<u8>; StorageError> {
+        self.storage.get(key)
+    }
+}
+
+```
+
+### 2.",True,1,"6,3",True,49
+163,"**Node Struct:**
+```rust
+
+pub struct Node {
+    id: uuid::Uuid,
+    storage: Storage,
+    raft: Raft,
+}
+
+impl Node {
+    pub fn new(id: uuid::Uuid, storage_path: &str) -> Self {
+        // Initialize storage and Raft instance.
+       ",True,0,"6,3",True,50
+164," let storage = Storage::new(storage_path);
+        let raft = Raft::new(id, storage.clone());
+        Self { id, storage, raft }
+    }
+
+    // Handle incoming requests from clients or other nodes.
+   ",False,,,,1
+165," let storage = Storage::new(storage_path);
+        let raft = Raft::new(id);
+        Self { id, id, storage, raft }
+    }
+
+    pub async fn start(&mut self) {
+        // Start the Raft event loop.
+       ",True,5,"5,2",True,2

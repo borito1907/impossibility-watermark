@@ -1,0 +1,57 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-07-30 13:06:23,370][__main__][INFO] - Starting to watermark...
+[2024-07-30 13:06:23,377][__main__][INFO] - Prompt: for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.
+[2024-07-30 13:06:23,377][__main__][INFO] - Prompt ID: 3332530220
+[2024-07-30 13:06:23,377][__main__][INFO] - Getting the watermarker...
+[2024-07-30 13:06:23,377][watermarker][INFO] - Using device: cuda:0
+[2024-07-30 13:06:23,377][model_builders.pipeline][INFO] - Initializing MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+INFO - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
+[2024-07-30 13:06:23,673][auto_gptq.modeling._base][INFO] - You passed a model that is compatible with the Marlin int4*fp16 GPTQ kernel but use_marlin is False. We recommend using `use_marlin=True` to use the optimized Marlin kernels for inference. Example: `model = AutoGPTQForCausalLM.from_quantized(..., use_marlin=True)`.
+INFO - The layer lm_head is not quantized.
+[2024-07-30 13:06:24,184][auto_gptq.modeling._base][INFO] - The layer lm_head is not quantized.
+[2024-07-30 13:06:27,019][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+Traceback (most recent call last):
+  File "/local1/borito1907/impossibility-watermark/watermarked_text_generator.py", line 52, in <module>
+    test()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119, in run
+    ret = run_job(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/local1/borito1907/impossibility-watermark/watermarked_text_generator.py", line 32, in test
+    watermarker = get_watermarker(cfg, only_detect=False)
+  File "/local1/borito1907/impossibility-watermark/watermarker_factory.py", line 13, in get_watermarker
+    return SemStampWatermarker(cfg, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarkers/semstamp.py", line 40, in __init__
+    super().__init__(cfg, pipeline, n_attempts, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarker.py", line 22, in __init__
+    self.pipeline = PipeLineBuilder(self.cfg.generator_args)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 28, in __init__
+    self._init_model(self.cfg)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 53, in _init_model
+    self.model = AutoGPTQForCausalLM.from_quantized(
+  File "/local1/borito1907/AutoGPTQ/auto_gptq/modeling/auto.py", line 135, in from_quantized
+    return quant_func(
+  File "/local1/borito1907/AutoGPTQ/auto_gptq/modeling/_base.py", line 1049, in from_quantized
+    max_memory = accelerate.utils.get_balanced_memory(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/accelerate/utils/modeling.py", line 1028, in get_balanced_memory
+    leaves = [n for n in module_sizes if len([p for p in module_sizes if n == "" or p.startswith(n + ".")]) == 0]
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/accelerate/utils/modeling.py", line 1028, in <listcomp>
+    leaves = [n for n in module_sizes if len([p for p in module_sizes if n == "" or p.startswith(n + ".")]) == 0]
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/accelerate/utils/modeling.py", line 1028, in <listcomp>
+    leaves = [n for n in module_sizes if len([p for p in module_sizes if n == "" or p.startswith(n + ".")]) == 0]
+KeyboardInterrupt

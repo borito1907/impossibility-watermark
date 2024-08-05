@@ -1,0 +1,601 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+I'd be happy to help you with that!
+
+",False,,,,1
+2,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,2
+3,"
+
+I see you're excited about your multi-laser Arduino Nano project!
+
+",True,4,"7,2",True,3
+4,"
+
+Here is an example Arduino Nano code for controlling multiple laser modules:
+```c++
+const int laserPins[] = {2,  // Laser 1 pin (digital output)
+                     3,  // Laser 2 pin (digital output)
+                     4,  // Laser 3 pin (digital output)
+                     // Add more pins as needed for additional lasers};
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+
+void setup() {
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Example usage: Toggle each laser on and off in sequence
+  
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH);  // Turn laser on
+    
+    delay(500);  // Hold for 0.5 seconds
+    
+    digitalWrite(laserPins[i], LOW);   // Turn laser off
+    
+    delay(500);  // Hold for 0.5 seconds  
+  }
+}
+```
+This code assumes you have connected the anode of each laser module to a digital pin on the Arduino Nano, and the cathode to ground through a suitable current-limiting resistor.
+
+",True,4,"7,2",True,4
+5,"
+
+Here is an example Arduino Nano code for controlling multiple lasers:
+```c++
+const int laserPins[] = {2,  // Laser 1 pin (digital output)
+                     4,  // Laser 2 pin (digital output)
+                     6,  // Laser 3 pin (digital output)
+                     // Add more pins as needed for additional lasers};
+const int numLasers = sizeof(laserPins) / sizeof(int);
+
+void setup() {
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Example: Blink each laser in sequence with a 500ms delay between blinks
+  
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH);   // Turn on the current laser
+    
+    delay(500);                        // Wait 500ms
+    
+    digitalWrite(laserPins[i], LOW);    // Turn off the current laser
+    
+    delay(500);                        // Wait 500ms before moving to the next laser
+    
+    if (i < numLasers - 1) {           // Skip this check for the last laser
+            
+      while (digitalRead(laserPins[i + 1]) == HIGH) {} // Wait until the next laser is off
+      
+    }
+  }
+}
+```
+This code assumes that:
+
+* You have connected each laser module to digital pins 2, 4, 6,... on your Arduino Nano.
+",False,,,,5
+6,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,6
+7,"
+
+I'd be happy to help you with that!
+
+",False,,,,7
+8,"
+
+I'd be happy to help you with that!
+
+",False,,,,8
+9,"
+
+I'd be happy to help you with that!
+
+",False,,,,9
+10,"
+
+I see you're excited about your multi-laser Arduino Nano project!
+
+",True,4,"7,2",True,10
+11,"
+
+Here is an example Arduino Nano code for a multi-laser setup:
+```c++
+const int laserPins[] = {2,  // Laser 1 pin (digital output)
+                     3,  // Laser 2 pin (digital output)
+                     4,  // Laser 3 pin (digital output)
+                     // Add more pins as needed for additional lasers};
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+
+void setup() {
+  // Initialize all laser pins as outputs 
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Example sequence: flash each laser in order, then turn them off in reverse order
+  
+  // Flash each laser in order 
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH);  // Turn on the current laser 
+    delay(50);                        // Hold for 50ms 
+    digitalWrite(laserPins[i], LOW);   // Turn off the current laser 
+    delay(50);                        // Hold for 50ms 
+  }
+  
+  // Turn off the lasers in reverse order 
+  for (int i = numLasers - 1; i >= 0; i--) {
+    digitalWrite(laserPins[i], LOW);   // Make sure the laser is off 
+    delay(50);                        // Hold for 50ms 
+  }
+}
+```
+This code assumes you have connected multiple lasers to digital pins on your Arduino Nano board.",False,,,,11
+12,"
+
+I'll provide you with an example Arduino code for a simple multilaser project using the Arduino Nano board.
+
+",True,4,"7,2",True,12
+13,"
+
+I'm happy to help you with that!
+
+",False,,,,13
+14,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,14
+15,"
+
+I see you're excited!
+
+",True,4,"7,2",True,15
+16,"
+
+Here is an example Arduino Nano code for controlling multiple lasers:
+
+**Note:** This code assumes you have multiple laser modules connected to digital pins on the Arduino Nano, The number of laser modules and their corresponding pin connections may vary based on your specific setup.
+
+",True,4,"7,2",True,16
+17,"
+
+I'd be happy to help you with that!
+
+",False,,,,17
+18,"
+
+I'd be happy to help you with a Multi-Laser Arduino Nano code.
+
+",False,,,,18
+19,"
+
+I'll provide you with an Arduino Nano code for a simple multi-laser project.",True,4,"7,2",True,19
+20,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,20
+21,"
+
+I'd be happy to help you with the MultiLASER Arduino Nano code.
+
+",True,6,"7,2",True,21
+22,"
+
+A multilaser project with Arduino Nano!
+
+",True,4,"7,2",True,22
+23,"
+
+I see you're excited about your multi-laser Arduino Nano project!
+
+",True,4,"7,2",True,23
+24,"
+
+Here's an example code for controlling multiple lasers using Arduino Nano:
+
+**Hardware Requirements:**
+
+* Arduino Nano board 
+* Multiple laser diodes (connected to digital pins)
+* Resistor(s) for current limiting (optional)
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7, 8, 9}; // assign laser pins (max 8)
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+
+void setup() {
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Example sequence: alternate between lasers every 500ms
+  
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH); // turn on the current laser
+    
+    delay(500);
+    
+    digitalWrite(laserPins[i], LOW); // turn off the current laser
+    
+    if (i == numLasers - 1) { // wrap around to first laser after last one is turned off 
+      i = -1;
+    }
+  }
+}
+```
+**How it works:**
+
+1.",True,4,"7,2",True,24
+25,"
+
+Here is an example code for controlling multiple laser modules using Arduino Nano:
+```cpp
+
+const int laserPins[] = {2, 3, 4, 5, 6}; // adjust to your laser module pins
+
+void setup() {
+  for (int i = 0; i < sizeof(laserPins) / sizeof(laserPins[0]); i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Example usage: Turn on/off each laser module individually
+  
+  digitalWrite(laserPins[0], HIGH); // turn on laser 1 
+  delay(500);
+  digitalWrite(laserPins[0], LOW); // turn off laser 1 
+  
+  digitalWrite(laserPins[1], HIGH); // turn on laser 2 
+  delay(500);
+  digitalWrite(laserPins[1], LOW); // turn off laser 2 
+  
+  digitalWrite(laserPins[2], HIGH); // turn on laser 3 
+  delay(500);
+  digitalWrite(laserPins[2], LOW); // turn off laser 3 
+  
+  // Add more laser modules as needed...
+  
+  // Or, use a for loop to control all lasers simultaneously:
+  for (int i = 0; i < sizeof(laserPins) / sizeof(laserPins[0]); i++) {
+    digitalWrite(laserPins[i], HIGH); // turn on all lasers 
+  }
+  delay(1000);
+  for (int i = 0; i < sizeof(laserPins) / sizeof(laserPins[0]); i++) {
+    digitalWrite(laserPins[i], LOW); // turn off all lasers 
+  }
+  delay(1000);
+}
+```
+This code assumes you have connected the laser modules to digital pins on your Arduino Nano and uses an array to store the pin numbers.
+
+",True,5,"7,2",True,25
+26,"
+
+I see you're excited about your multi-laser Arduino Nano project!
+
+",True,4,"7,2",True,26
+27,"
+
+I see you're excited about your project!
+
+",True,0,"7,2",True,27
+28,"
+
+Here is an example Arduino Nano code for controlling multiple laser modules:
+
+**Note:** This code assumes you have multiple laser modules connected to digital pins on your Arduino Nano board.
+
+",True,6,"7,2",True,28
+29,"
+
+I'd be happy to help you with that!
+
+",False,,,,29
+30,"
+
+Here is an example Arduino Nano code for a multi-laser system:
+```c++
+const int laserPins[] = {2, 3, 4, 5, 6, 7}; // define the pins connected to each laser module (adjust according to your setup)
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]); // calculate the number of lasers based on the array size
+
+void setup() {
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT); // set each pin as an output for the corresponding laser module 
+  }
+}
+
+void loop() {
+  // Example usage: Blink each laser in sequence with a 100ms delay between each laser toggle
+
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH); // turn on the current laser module 
+    delay(50); // wait for 50ms before turning it off 
+    digitalWrite(laserPins[i], LOW); // turn off the current laser module 
+    delay(50); // wait for 50ms before moving to the next laser 
+  }
+}
+```
+This code assumes you have multiple laser modules connected to digital pins on your Arduino Nano board.",True,4,"7,2",True,30
+31,"
+
+I see you're excited about your multi-laser Arduino Nano project!
+
+",True,4,"7,2",True,31
+32,"
+
+Here is an example code for controlling multiple lasers using Arduino Nano:
+```c++
+const int laserPins[] = {2,  // Pin 2: Laser 1 
+                       3,   // Pin 3: Laser 2 
+                       4    // Pin 4: Laser 3 (and so on)
+                     };
+
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+
+void setup() {
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Example usage: Toggle each laser every second
+  
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH); // Turn the laser ON
+    
+    delay(1000); // Wait for 1 second
+    
+    digitalWrite(laserPins[i], LOW); // Turn the laser OFF
+    
+    delay(1000); // Wait for 1 second    
+  }
+}
+```
+This code assumes you have connected each laser to a digital pin on your Arduino Nano board.
+
+",True,4,"7,2",True,32
+33,"
+
+I'd be happy to help you with that!
+
+",False,,,,33
+34,"
+
+I see you're in a hurry!
+
+",True,4,"7,2",True,34
+35,"
+
+I'd be happy to help you with that!
+
+",False,,,,35
+36,"
+
+Here is an example Arduino Nano code for controlling multiple laser modules:
+
+**Note:** This code assumes you have connected the laser modules to digital pins on your Arduino Nano, other than pin 13 (which is used for the onboard LED).
+
+",True,4,"7,2",True,36
+37,"
+
+Here's an example Arduino code for controlling multiple laser modules using an Arduino Nano:
+
+**Note:** This code assumes you have multiple laser modules connected to digital pins on your Arduino Nano, and that you want to control them individually.
+
+",False,,,,37
+38,"
+
+I'd be happy to help you with that!
+
+",False,,,,38
+39,"
+
+Here is an example code for controlling multiple laser modules using Arduino Nano:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or any other compatible board)
+* Multiple laser modules (e.g., 3-5)
+* Resistor(s) for current limiting (depending on the laser module's requirements)
+* Breadboard and jumper wires for connections
+
+**Software Requirements:**
+
+* Arduino IDE (version 1.x or 2.x)
+
+**Code:**
+```cpp
+
+const int laserPin1 = 2; // Pin for Laser Module 1 (Digital Output)
+const int laserPin2 = 3; // Pin for Laser Module 2 (Digital Output)
+const int laserPin3 = 4; // Pin for Laser Module 3 (Digital Output)
+// Add more pins for additional laser modules as needed
+
+void setup() {
+  pinMode(laserPin1, OUTPUT);
+  pinMode(laserPin2, OUTPUT);
+  pinMode(laserPin3, OUTPUT);
+  // Initialize all laser pins as outputs
+  
+}
+
+void loop() {
+  // Control Laser Module 1:
+  digitalWrite(laserPin1, HIGH);   // Turn ON Laser 1 
+  delay(1000);                  // Hold for 1 second 
+  digitalWrite(laserPin1, LOW);    // Turn OFF Laser 1 
+  delay(500);                   // Wait for 0.5 seconds 
+  
+  // Control Laser Module 2:
+  digitalWrite(laserPin2, HIGH);   // Turn ON Laser 2 
+  delay(2000);                  // Hold for 2 seconds 
+  digitalWrite(laserPin2, LOW);    // Turn OFF Laser 2 
+  delay(700);                   // Wait for 0.7 seconds 
+  
+  // Control Laser Module 3:
+  digitalWrite(laserPin3, HIGH);   // Turn ON Laser 3 
+  delay(3000);                  // Hold for 3 seconds 
+  digitalWrite(laserPin3, LOW);    // Turn OFF Laser 3 
+  delay(1000);                  // Wait for 1 second 
+  
+  // Repeat the sequence or add more logic as needed 
+}
+```
+In this code, we define separate digital output pins for each laser module (laserPin1, laserPin2, etc",True,4,"7,2",True,39
+40,"
+
+I'm happy to help you with that!
+
+",False,,,,40
+41,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,41
+42,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,42
+43,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,43
+44,"
+
+I'm happy to help you with that!
+
+",False,,,,44
+45,"
+
+I'd be happy to help you with that!
+
+",False,,,,45
+46,"
+
+I'd be happy to help you with that!
+
+",False,,,,46
+47,"
+
+I'm happy to help you with that!
+
+",False,,,,47
+48,"
+
+I'd be happy to help you with a multi-laser Arduino Nano code!
+
+",True,6,"7,2",True,48
+49,"
+
+Here is an example Arduino code for controlling multiple laser modules using an Arduino Nano:
+
+**Hardware Requirements:**
+
+* Arduino Nano board (or compatible)
+* Multiple laser modules (e.g., 3-5V, 20-50mA)
+* Resistors (1kΩ - 10kΩ) for current limiting (optional)
+* Breadboard and jumper wires for connections
+
+**Code:**
+```c++
+const int laserPins[] = {2, 3, 4, 5}; // adjust pin numbers to your setup (up to 12 pins)
+const int numLasers = sizeof(laserPins) / sizeof(int);
+
+void setup() {
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Laser pattern: alternate on/off, then fade in/out
+
+  // Alternate on/off sequence (50ms interval)
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH);
+    delay(50);
+    digitalWrite(laserPins[i], LOW);
+    delay(50);
+  }
+
+  // Fade in sequence (10ms steps, 50ms total)
+  for (int i = 0; i < 256; i++) {
+    for (int j = 0; j < numLasers; j++) {
+      analogWrite(laserPins[j], i);
+    }
+    delay(10);
+  }
+
+  // Hold at max brightness (100ms)
+  for (int j = 0; j < numLasers; j++) {
+    analogWrite(laserPins[j], 255);
+  }
+  delay(100);
+
+  // Fade out sequence (10ms steps, 50ms total)
+  for (int i = 255; i >= 0; i--) {
+    for (int j = 0; j < numLasers; j++) {
+      analogWrite(laserPins[j], i);
+    }
+    delay(10);
+  }
+}
+```
+**How it works:**
+
+1.",True,4,"7,2",True,49
+50,"
+
+Here is an example Arduino Nano code for controlling multiple lasers:
+```c++
+const int laserPins[] = {2,  // Laser 1 pin (digital output)
+                  3,   // Laser 2 pin (digital output)
+                  4,   // Laser 3 pin (digital output)
+                  // Add more pins as needed for additional lasers};
+
+const int numLasers = sizeof(laserPins) / sizeof(laserPins[0]);
+
+void setup() {
+  // Initialize all laser pins as digital outputs 
+  for (int i = 0; i < numLasers; i++) {
+    pinMode(laserPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Example usage: Blink each laser at different rates 
+  for (int i = 0; i < numLasers; i++) {
+    digitalWrite(laserPins[i], HIGH);  // Turn on the laser 
+    delay(50 + (i * 20));              // Delay varies by laser number 
+    digitalWrite(laserPins[i], LOW);   // Turn off the laser 
+    delay(50 + (i * 20));              // Delay varies by laser number 
+  }
+}
+```
+This code uses an array to store the pin numbers for each laser.",True,4,"7,2",True,50

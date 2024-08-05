@@ -1,0 +1,47 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+A very specific request!
+
+",True,4,"0,3",True,1
+2,"
+
+A very specific request!
+
+",True,4,"0,3",True,2
+3,"
+
+Here is an example of how to calculate the integral using the Trapezoidal Method in SCL (Siemens Control Language) PLC programming language:
+
+**Function Block:**
+```
+FUNCTION TRAPEZOIDAL_INTEGRATION : INT // return type: integer (number of function calls)
+  VAR_INPUT 
+    X_VALUES : ARRAY [0..N-1] OF REAL; // input array of x-values 
+    Y_VALUES : ARRAY [0..N-1] OF REAL; // input array of y-values 
+    N : INT; // number of intervals 
+  END_VAR 
+
+  VAR_TEMP 
+    H : REAL; // width of each subinterval 
+    SUM : REAL; // sum of function values at each subinterval 
+  END_VAR 
+
+  H := (X_VALUES[N-1] - X_VALUES[0]) / (N - 1); // calculate width of each subinterval 
+
+  SUM := 0.5 * (Y_VALUES[0] + Y_VALUES[N-1]); // initialize sum with first and last y-value 
+
+  FOR i := 1 TO N-2 DO 
+    SUM := SUM + Y_VALUES[i]; // add y-values of inner points 
+  END_FOR 
+
+  SUM := SUM * H; // multiply by width of each subinterval 
+
+  TRAPEZOIDAL_INTEGRATION := SUM; // return calculated integral value 
+END_FUNCTION 
+```
+**Explanation:**
+
+* The `TRAPEZOIDAL_INTEGRATION` function block takes three inputs:
+	+ `X_VALUES`: an array of `N` real numbers representing the x-values of the function.
+	",True,3,"0,3",True,3

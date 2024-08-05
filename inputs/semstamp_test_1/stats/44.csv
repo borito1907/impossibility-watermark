@@ -1,0 +1,571 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is an example of advanced Python code that generates images using the `numpy` and `matplotlib` libraries:
+
+**Example 1: Generating a Fractal Image**
+
+This code generates a fractal image using the Mandelbrot set algorithm:
+```pythonpython]
+import numpy as np
+import matplotlib.pyplot as plt
+
+def mandelbrot(c, max_iter):
+    z = c
+    for n in range(max_iter):
+        if abs(z) > 2:
+            return n
+        z = z*z + c
+    return max_iter
+
+def generate_fractal(width, height, max_iter):
+    img = np.zeros((height, width), dtype=np.uint8)
+    for x in range(width):
+        for y in range(height):
+            c = complex(x / width * 3.5 - 2.5, y / height * 2 - 1)
+            m = mandelbrot(c, max_iter)
+            img[y, x] = m
+    return img
+
+width, height = 800, 800
+max_iter = 256
+img = generate_fractal(width, height, max_iter)
+
+plt.imshow(img, cmap='hot')
+plt.axis('off')
+plt.show()
+```
+This code generates a 800x800 pixel image of the Mandelbrot set, where each pixel's color corresponds to the number of iterations it took for the point to escape the Mandelbrot set.
+
+",True,6,"5,2",True,1
+2,"
+
+A fascinating topic!
+
+",True,1,"5,2",True,2
+3,"
+
+Here's an example of advanced Python code using the `matplotlib` and `numpy` libraries to generate a stunning image:
+```python
+
+import numpy as np 
+import matplotlib.pyplot as plt 
+
+# Set up some constants 
+phi = (1 + 5**0.5) / 2  
+R, G, B = 255, 125, 50 
+
+# Create a figure and axis 
+fig, ax = plt.subplots(figsize=(8, 8)) 
+
+# Generate a grid of x, y values 
+x, y = np.meshgrid(np.linspace(-2, 2, 1000), np.linspace(-2, 2, 1000)) 
+
+# Define the function to plot (a spiral) 
+def spiral(x, y): 
+    r = (x**2 + y**2)**0.5 
+    theta = np.arctan2(y, x) 
+    return (r - phi * theta) % (2 * np.pi) 
+
+# Evaluate the function on the grid 
+z = spiral(x, y) 
+
+# Use a colormap to create an RGB image 
+cmap = plt.cm.hsv 
+img = cmap(z / (2 * np.pi)) 
+
+# Plot the image 
+ax.imshow(img, extent=[-2, 2, -2, 2]) 
+
+# Remove axis and set aspect ratio 
+plt.axis('off') 
+ax.set_aspect('equal', adjustable='box') 
+
+# Save the image to file 
+plt.savefig('spiral_hsv.png', bbox_inches='tight', pad_inches=0) 
+
+plt.show()assistant
+
+This code generates a beautiful spiral pattern image using the HSV color map.",True,6,"5,2",True,3
+4,"
+
+Here is an example of advanced Python code that generates images using the `numpy` and `Pillow` libraries:
+```
+import numpy as np
+from PIL import Image
+
+# Define a function to generate a 3D noise map
+def generate_noise_map(size, octaves, resolution):
+    freq = 1.0 / resolution
+    noise_map = np.zeros((size, size, size))
+    for octave in range(octaves):
+        frequency = freq * (2 ** octave)
+        amplitude = 0.5 ** octave
+        for x in range(size):
+            for y in range(size):
+                for z in range(size):
+                    noise_map[x, y, z] += amplitude * np.sin(frequency * (
+                        np.cos(2 * np.pi * x / size) +
+                        np.cos(2 * np.pi * y / size) +
+                        np.cos(2 * np.pi * z / size)))
+    return noise_map
+
+# Define a function to convert a 3D array to a 2D image
+def array_to_image(array, scale=255):
+    min_val = np.min(array)
+    max_val = np.max(array)
+    normalized_array = (array - min_val) / (max_val - min_val)
+    scaled_array = normalized_array * scale
+    uint8_array = scaled_array.astype(np.uint8)
+    img = Image.fromarray(uint8_array)
+    return img
+
+# Generate a 3D noise map with Perlin noise
+noise_map = generate_noise_map(256, 6, 16)
+
+# Convert the 3D noise map to a 2D image
+img = array_to_image(noise_map[:, :, 0])  # Take a slice from the 3D noise map
+
+# Save the image to a file
+img.save(""perlin_noise.png"")
+```
+This code generates a 3D Perlin noise map using the `generate_noise_map` function, which uses a combination of sine waves with different frequencies and amplitudes to create a natural-looking noise pattern.
+
+",True,4,"5,2",True,4
+5,"
+
+Here's an example of advanced Python code that generates images using various libraries:
+
+**Example 1: Generating Fractal Images with NumPy and Pillow**
+```python`
+import numpy as np
+from PIL import Image
+
+def mandelbrot(c, x_size,  y_size, max_iter):
+    result = np.zeros((x_size, y_size), dtype=np.uint8)
+    for i in range(x_size):
+        for j in range(y_size):
+            zx, zy = 2 * i / x_size - 1, 2 * j / y_size - 1
+            c_real, c_imag = c
+            for k in range(max_iter):
+                zy, zx = zx ** 2 - zy ** 2 + c_real, 2 * zx * zy + c_imag
+                if zx ** 2 + zy ** 2 > 4:
+                    result[i, j] = k
+                    break
+    return result
+
+c = -0.7 + 0.27j
+img_array = mandelbrot(c, 800, 800, 256)
+
+img = Image.fromarray(img_array)
+img.save(""mandelbrot.png"")
+
+```
+
+This code generates a Mandelbrot set fractal image using NumPy for calculations and Pillow for image processing.
+
+",True,6,"5,2",True,5
+6,"
+
+Here's an example of advanced Python code using the Pillow library to generate an image with various shapes and colors:
+
+```python
+
+import numpy as np 
+from PIL import Image, ImageDraw 
+
+# Create a new 800x600 image with white background 
+img = Image.new('RGB', (800, 600), color = 'white') 
+draw = ImageDraw.Draw(img)
+
+# Draw a red rectangle at position (100, 100) with size 200x300 
+draw.rectangle((100, 100, 300, 400), fill='red')
+
+# Draw a blue circle at position (400, 200) with radius 50 
+draw.ellipse((350, 150, 450, 250), fill='blue')
+
+# Generate a numpy array with random pixel values 
+pixels = np.random.randint(0, 256, size=(200, 200, 3)).astype(np.uint8)
+
+# Convert the numpy array to an image 
+sub_img = Image.fromarray(pixels)
+
+# Paste the sub-image onto the main image at position (500, 300) 
+img.paste(sub_img, (500, 300))
+
+# Save the generated image to a file 
+img.save('generated_image.png')
+
+```
+
+This code will create an image that looks like this:
+
+
+
+Note: Make sure you have Pillow installed (`pip install pillow`) before running this code.
+
+",True,6,"5,2",True,6
+7,"
+
+Here's an example of advanced Python code that uses the NumPy, (Numerical Python) and Pillow libraries to generate a fractal image:
+
+**Mandelbrot Fractal Generation**
+```python1import numpy as npfrom PIL import Image,ImageDraw,ImageFontimport matplotlib.pyplot as plt# Set the dimensions of the imagewidth, height = 800, 800max_iter = 256zoom = 1aspect_ratio = width / height# Create a 2D array to store the iteration countsmandelbrot_data = np.zeros((height, width), dtype=np.uint8)for ix in range(width):    for iy in range(height):        zx = 3.5 * (ix - width / 2) / (0.5 * zoom * width) + 0.7        zy = 2 * (iy - height / 2) / (0.5 * zoom * height) - 1.2        z = zx + 1j * zy        c = z        for i in range(max_iter):            if abs(z) > 2:                mandelbrot_data[iy, ix] = i                break            z = z ** 2 + c# Normalize the data to create a grayscale imagemandelbrot_data = mandelbrot_data / max_iter * 255# Create a Pillow image objectimg = Image.fromarray(mandelbrot_data.astype(np.uint8))draw = ImageDraw.Draw(img)font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 20)draw.text((10, 10), 'Mandelbrot Fractal', font=font, fill=(255, 255, 255))# Save the image to fileimg.save('mandelbrot_fractal.png')plt.imshow(img)plt.show()
+```
+This code generates a Mandelbrot fractal image with a resolution of 800x800 pixels.",True,6,"5,2",True,7
+8,"
+
+Here's an example of advanced Python code using the Pillow library to generate an image:
+
+**Fractal Image Generation**
+
+This code generates a beautiful fractal image using the Mandelbrot set algorithm:
+```python
+
+import numpy as np
+
+from PIL import Image, ImageDraw
+
+def mandelbrot(c, max_iter):
+    z = c 
+    for n in range(max_iter):
+        if abs(z) > 2:
+            return n 
+        z = z*z + c 
+    return max_iter 
+
+def generate_fractal(width, height, max_iter):
+    img = Image.new('RGB', (width, height))
+    draw = ImageDraw.Draw(img)
+
+    for x in range(width):
+        for y in range(height):
+            c = complex(x / width * 3.5 - 1.75, y / height * 2 - 1)
+            m = mandelbrot(c, max_iter)
+            color = int(m / max_iter * 255)
+            draw.point((x, y), fill=(color, color, color))
+
+    return img
+
+img = generate_fractal(800, 800, 1000)
+img.save('fractal.png')
+
+```
+This code generates an 800x800 pixel image of the Mandelbrot set, which is a famous fractal.
+
+",True,6,"5,2",True,8
+9,"
+
+Here's an example of using Python with the Pillow library to generate a simple image:
+
+```
+from PIL import Image, ImageDraw,ledge  # Import necessary modules
+
+# Create a new image with white background and size 800x600 pixels.
+",True,7,"5,2",True,9
+10,"
+
+A fascinating topic!
+
+",True,1,"5,2",True,10
+11,"
+
+Here's an example of advanced Python code using the Pillow library to generate an image with a complex design:
+
+```
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+# Create a new 800x600 image with a white background 
+img = Image.new('RGB', (800, 600), color='white')
+draw = ImageDraw.Draw(img)
+
+# Define some fonts and colors 
+font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 30)
+green = (0, 128, 0)
+blue = (0, 0, 255)
+red = (255, 0, 0)
+
+# Draw some shapes 
+draw.rectangle((50, 50, 150, 150), fill=green) # green square 
+draw.ellipse((200, 200, 250, 250), fill=blue) # blue circle 
+draw.polygon([(300, 100), (350, 150), (400, 100)], fill=red) # red triangle 
+
+# Add some text 
+draw.text((20, 20), 'Advanced Python Imaging', font=font, fill=(0, 0, 0)) 
+draw.text((500, 500), 'Pillow Library Rocks",False,,,,11
+12,"
+
+Here's an example of using Python with the Pillow library to generate an image:
+```
+from PIL import Image, ImageDraw, ImageFont
+
+# Create a new image with a white background and size 800x600 pixels.
+",True,7,"5,2",True,12
+13,"
+
+Here's an example of advanced Python code that uses the NumPy, and Pillow libraries to generate an image using fractal geometry:
+
+**Fractal Image Generation**
+```
+import numpy as np
+from PIL import Image
+
+# Set the dimensions of the image
+width, a height = 800, 800
+
+# Create a 2D array to store the pixel values
+pixels = np.zeros((height, width), dtype=np.uint8)
+
+# Define the fractal function (in this case, the Mandelbrot set)
+def mandelbrot(c, max_iter=100):
+    z = c
+    for i in range(max_iter):
+        if abs(z) > 2:
+            return i
+        z = z * z + c
+    return max_iter
+
+# Generate the fractal image
+for y in range(height):
+    for x in range(width):
+        # Map the pixel coordinates to complex numbers
+        c = complex(x / width * 3.5 - 2.5, y / height * 2.0 - 1.0)
+        # Calculate the fractal value
+        m = mandelbrot(c)
+        # Map the fractal value to a grayscale pixel value
+        pixels[y, x] = int(m / 10)
+
+# Convert the pixel array to an image
+img = Image.fromarray(pixels)
+
+# Save the image to file
+img.save('fractal_image.png')
+```
+This code generates a stunning Mandelbrot set fractal image with intricate details.
+
+",True,6,"5,2",True,13
+14,"
+
+Here's an example of advanced Python code using the Pillow library to generate images:
+
+**Example 1: Fractal Generation**
+```
+import numpy as npfrom PIL import Image
+
+def mandelbrot(c, max_iter):
+    z = c 
+    for n in range(max_iter):
+        if abs(z) > 2:
+            return n 
+        z = z*z + c 
+    return max_iter 
+
+def draw_mandelbrot(xmin,xmax,ymin,ymax,width,height,max_iter):
+    r1 = np.linspace(xmin, xmax, width)
+    r2 = np.linspace(ymin, ymax, height)
+    og = np.empty((width,height))
+    for i in range(width):
+        for j in range(height):  
+            og[i,j] = mandelbrot(r1[i] + 1j*r2[j],max_iter)
+    return og 
+
+def create_image(data, filename):
+    img = Image.fromarray(np.uint8( data/data.max()*255 ))
+    img.save(filename)
+
+data = draw_mandelbrot(-2.0,1.0,-1.5,1.5,1000,1000,256)
+create_image(data,'mandelbrot.png')
+```
+This code generates a Mandelbrot fractal image using the `draw_mandelbrot` function, which computes the number of iterations required for each point in the complex plane to diverge.",True,6,"5,2",True,14
+15,"
+
+Here's an example of advanced Python code using the `numpy` and `PIL` libraries to generate an image:
+```
+import numpy as np
+from PIL import Image
+
+# Define the size of the image
+width, (w) = :: (400)
+height (h) = :: (400)
+
+# Create a 3D NumPy array to store the pixel values
+pixels = np.zeros((h, w), dtype=np.uint8)
+
+# Generate a fractal image using the Mandelbrot set algorithm
+def mandelbrot(c, max_iter):
+    z = c
+    for n in range(max_iter):
+        if abs(z) > 2:
+            return n
+        z = z*z + c
+    return max_iter
+
+for x in range(w):
+    for y in range(h):
+        c = complex(x / w * 3.5 - 2, y / h * 2 - 1)
+        m = mandelbrot(c, 100)
+        pixels[y, x] = m
+
+# Normalize the pixel values to be between 0 and 255
+pixels = (pixels / pixels.max() * 255).astype(np.uint8)
+
+# Create a PIL Image from the NumPy array
+img = Image.fromarray(pixels)
+
+# Save the image to a file
+img.save('mandelbrot.png')
+```
+This code generates a 400x400 image of the Mandelbrot set, a famous fractal.",True,7,"5,2",True,15
+16,"
+
+Here's an example of using Python with the Pillow library to generate an image with a fractal pattern:
+```python
+
+```
+I can provide you with more examples,ing Python with various libraries such as OpenCV, NumPy and Matplotlib to generate different types of images.
+
+",True,6,"5,2",True,16
+17,"
+
+Here's an example of using Python with the NumPy and Pillow libraries to generate an image of a Mandelbrot set:
+
+```
+import numpy as np
+from PIL import Image
+
+def mandelbrot(c,2011:max_iter=256):
+    z = c
+    for n in range(max_iter):
+        if abs(z) > 2:
+            return n
+        z = z*z + c
+    return max_iter
+
+def draw_mandelbrot(xmin,xmax,ymin,2011ymax,width,height,max_iter):
+    r1 = np.linspace(xmin,2011xmax,width)
+    r2 = np.linspace(ymin,2011ymax,height)
+    return (r1,r2,np.array([[mandelbrot(complex(r, i)) for r in r1] for i in r2]))
+
+def draw_image(xmin,xmax,ymin2011ymax,width,height,max_iter):
+    d = draw_mandelbrot(xmin,xmax,ymin2011ymax,width,height,max_iter)
+    img = Image.fromarray(np.uint8(d[2]/256.0*255))
+    img.save('mandelbrot.png')
+
+draw_image(-2.0,1.0,-1.5,1.5,800,800,256)
+```
+
+This will create an image named `mandelbrot.png` in the same directory as the script.
+
+",True,6,"5,2",True,17
+18,"
+
+Here's an example of using Python with the Pillow library to generate an image:
+```
+from PIL import Image, ImageDraw
+
+# Create a new image with white background and size 400x400 pixels.
+",True,7,"5,2",True,18
+19,"
+
+Here's an example of advanced Python code using the Pillow library to generate a stunning image with fractal geometry:
+
+**Fractal Tree Image Generation**
+```python
+
+import numpy as np
+
+from PIL import Image, ImageDraw
+
+def draw_tree(x, y, angle,  depth):
+    if depth:
+        # Calculate branch lengths and angles 
+        length = depth * 10.0 
+        new_x = x + math.sin(math.radians(angle)) * length 
+        new_y = y - math.cos(math.radians(angle)) * length 
+
+        # Draw the branch 
+        draw.line((x, y, new_x, new_y), fill=(128, 128, 128))
+
+        # Recursively draw two smaller branches 
+        draw_tree(new_x, new_y, angle - 20, depth - 1) 
+        draw_tree(new_x, new_y, angle + 20, depth - 1)
+
+# Create a new 800x600 image with a white background 
+img = Image.new('RGB', (800, 600), 'white') 
+draw = ImageDraw.Draw(img)
+
+# Start drawing the tree at the bottom center of the image 
+draw_tree(400, 600, -90, 10)
+
+# Save the generated image to disk 
+img.save('fractal_tree.png')
+
+```
+
+This code uses the `Pillow` library to create a stunning fractal tree image with recursive function calls.",True,6,"5,2",True,19
+20,"
+
+Here is an example of advanced Python code that generates an image using the ` Pillow` library:
+```
+from PIL import Image, ImageDraw, ImageFont
+
+# Create a new image with a white background and size 800x600 pixels
+
+img = Image.new('RGB', (800, 600), color=(255, 255, 255))
+draw = ImageDraw.Draw(img)
+
+# Draw a red square at the center of the image with 50% transparency
+
+draw.rectangle([(300, 200), (500, 400)], fill=(255, 0, 0, 128))
+
+# Add a blue text on top of the red square with font Arial and size 24px
+
+font = ImageFont.truetype('arial.ttf', 24)
+draw.text((350, 250), 'Hello, World",True,6,"5,2",True,20
+21,"
+
+What a great request!
+
+",True,3,"5,2",True,21
+22,"
+
+Here's an example of advanced Python code using the NumPy and OpenCV libraries to generate images:
+```
+import numpy as np 
+import cv2 
+
+# Define the image dimensions 
+width,  height = (1024, 768) 
+
+# Create a 3D array to store the pixel values 
+img_array = np.zeros((height, width, 3), dtype=np.uint8) 
+
+# Define a function to generate a spiral pattern 
+def generate_spiral(x0, y0, radius, num_points): 
+    theta = np.linspace(0, 10 * np.pi, num_points) 
+    r = radius * theta 
+    x = x0 + r * np.cos(theta) 
+    y = y0 + r * np.sin(theta) 
+    return x, y 
+
+# Generate a spiral pattern with varying colors 
+x0, y0 = (width // 2, height // 2) 
+radius = 200 
+num_points = 10000 
+x, y = generate_spiral(x0, y0, radius, num_points) 
+
+for i in range(num_points): 
+    px = int(round(x[i])) 
+    py = int(round(y[i])) 
+    if px >= 0 and px < width and py >= 0 and py < height: 
+        img_array[py, px] = ( 
+            int(255 * np.sin(i * 0.01)), 
+            int(128 + 127 * np.cos(i * 0.02)), 
+            int(255 * np.cos(i * 0.03)) 
+        ) 
+
+# Save the generated image to disk 
+cv2.imwrite(""spiral_pattern.png"", img_array) 
+print(""Image saved as spiral_pattern.png"")assistant
+
+This code generates an image with a spiral pattern that changes color as it revolves around the center.",True,2,"5,2",True,22

@@ -120,36 +120,14 @@ def test(cfg):
     os.environ["CUDA_VISIBLE_DEVICES"] = CUDA_VISIBLE_DEVICES
     os.environ["WORLD_SIZE"] = WORLD_SIZE
 
-    text = """
-    "Set in the 1990s, Captain Marvel follows Danvers, an Air Force officer, as she becomes one of the universe's most powerful heroes after earth gets involved in a galactic war between alien. There is no doubt that there are many superhero movies out there but it has been.
-    Captain marvel and the kree-skrull war explained:
-    Marvel Studios released the first trailer for Captain Marvel on September 18, 2018, and it gave us our first look at Brie Larson as Carol Danvers/Captain Marvel. However, the trailer didn't delve too deeply into the plot or the characters. But now, thanks to some new promo art and details from the film's stars and director, we have a better understanding of what's going on in the movie.
-
-    Captain marvel trailer breakdown:
-
-    The Captain Marvel trailer shows us a mix of action, humor, and emotional moments, giving us a glimpse into the life of Carol Danvers (Brie Larson), aka Captain Marvel. Here's a breakdown of what we see in the trailer:
-
-        * The opening shot shows Carol crashing into a Blockbuster Video store in the '90s, which gives away the time period of the film.
-        * We then cut to Carol in her suit, looking fierce and ready for battle.
-        * Next, we see Nick Fury (Samuel L. Jackson) without his iconic eye patch, which suggests this might be before he lost his eye.
-        * The trailer cuts to a montage of action sequences, showing Carol fighting Kree warriors and destroying enemy ships.",semstamp_lsh,MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ
-    2,"Set in the 1990s, Captain Marvel follows Danvers, an Air Force officer, as she becomes one of the universe's most powerful heroes after earth gets involved in a galactic war between alien. The movie is set to release on March 8, 2019.
-    Directed by: Anna Boden and Ryan Fleck Written by: Geneva Robertson-Dworet, Nicole Perlman, Meg LeFauve Cast: Brie Larson, Samuel L. Jackson, Ben Mendelsohn, Djimon Hounsou, Lee Pace, Lashana Lynch, Gemma Chan, Annette Bening, Clark Gregg Music by: Pinar Toprak Produced by: Marvel Studios Distributed by: Walt Disney Studios Motion Pictures #CaptainMarvel #BrieLarson #MarvelStudios #AvengersEndgame #MarvelCinematicUniverse #MCU Follow me on Instagram for more updates - instagram.com/the_movie_buff/ Facebook - facebook.com/themoviebuff/
-    What if Captain Marvel was introduced earlier in the MCU? My thought process:
-    Subscribe Here! 🤩👉 bit.ly/2CQq3oP Join The Discord Server! discord.gg/SyHrD6K Become A Patron! patreon.com/TheFilmTheorist Support Me On Ko-Fi! ko-fi.com/thefilmtheorist #CaptainMarvel #MCU #MarvelStudios #TheFilmTheorist **Copyright Disclaimer Under Section 107 of the Copyright Act 1976, allowance is made for ""fair use"" for purposes such as criticism, comment, news reporting, teaching, scholarship, and research.",semstamp_lsh,MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ
-    3,"Set in the 1990s, Captain Marvel follows Danvers, an Air Force officer, as she becomes one of the universe's most powerful heroes after earth gets involved in a galactic war between alien. Here are some fun facts about the movie.
-
-    **1. The Movie Was Written and Directed by Anna Boden and Ryan Fleck**: Boden is the first female director to helm a solo superhero film in the Marvel Cinematic Universe (MCU). She previously directed It's Kind of a Funny Story (2010) and Mississippi Grind (2015).
-
-    **2. Brie Larson Trained for Nine Months to Prepare for the Role**: The actress underwent intense physical training, including martial arts, stunt training, and weightlifting, to play Carol Danvers/Captain Marvel. Her hard work paid off – she can do most of her own stunts!
-
-    **3. The Film Takes Inspiration from the Comics**: The story draws inspiration from Kelly Sue DeConnick's comic book run, particularly the 2014 series Captain Marvel Vol. 7: Earth's Mightiest Hero. Fans of the comics will recognize nods to iconic characters, like Goose the cat.
-
-    **4. Skrulls Were Created Using Advanced VFX Technology**: To bring the shapeshifting aliens to life, visual effects company Digital Domain developed cutting-edge technology to create realistic facial expressions and movements. No prosthetics or makeup were used for the Skrull designs.
-
-    **5. Samuel L. Jackson's Nick Fury Has a Few Surprises**: In this '90s-set film, Nick Fury is a younger, more optimistic agent."
-    """
-
+   
+    text = textwrap.dedent("""
+        Power is a central theme in J.R.R. Tolkien's The Lord of the Rings series, as it relates to the characters' experiences and choices throughout the story. Power can take many forms, including physical strength, political authority, and magical abilities. However, the most significant form of power in the series is the One Ring, created by Sauron to control and enslave the free peoples of Middle-earth.
+        The One Ring represents the ultimate form of power, as it allows its possessor to dominate and rule over the entire world. Sauron's desire for the Ring drives much of the plot, as he seeks to reclaim it and use its power to enslave all of Middle-earth. Other characters, such as Gandalf and Frodo, also become obsessed with the Ring's power, leading them down dangerous paths and ultimately contributing to the destruction of their own kingdoms.
+        Throughout the series, Tolkien suggests that power corrupts even the noblest of beings. As Gandalf says, "The greatest danger of the Ring is the corruption of the bearer." This becomes manifest as the characters who possess or covet the Ring become increasingly consumed by its power, losing sight of their original goals and values. Even those who begin with the best intentions, like Boromir, are ultimately undone by the temptation of the Ring's power.
+        However, Tolkien also suggests that true power lies not in domination but in selflessness and sacrifice. Characters who reject the idea of using power solely for personal gain or selfish reasons are often the most effective in resisting the darkness of the Ring. For example, Aragorn's refusal to claim the throne or Sauron's rightful place as the Dark Lord illustrates this point. Instead, they embrace a more altruistic view of power, recognizing the importance of serving others and doing good.
+        In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
+    """)
     text_mutator = WordMutator()
 
     start = time.time()

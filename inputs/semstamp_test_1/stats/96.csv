@@ -1,0 +1,555 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+What a specific request!
+
+",True,4,"1,4",True,1
+2,"Here's a Parallax Occlusion Mapping (POM) shader in HLSL (DirectX 9) for MTA SA, its corresponding Lua code, and a brief explanation of how it works.
+
+",True,7,"7,2",True,1
+3,"**HLSL Shader Code:**
+```hlsl
+// Parallax Occlusion Mapping Shader for MTA SA (DirectX 9)
+
+// Input structs
+struct VS_INPUT {
+    float4 Position : POSITION;
+    float2 TexCoord : TEXCOORD0;
+    float3 Normal : NORMAL;
+};
+
+struct PS_INPUT {
+    float4 Position : SV_POSITION;
+    float2 TexCoord : TEXCOORD0;
+    float3 Normal : NORMAL;
+    float Height : TEXCOORD1;
+};
+
+// Vertex Shader
+PS_INPUT VS_Main(VS_INPUT input) {
+    PS_INPUT output = (PS_INPUT)0;
+
+    // Transform position to screen space
+    output.Position = mul(input.Position, ViewProjectionMatrix);
+
+    // Pass through texture coordinates and normal
+    output.TexCoord = input.TexCoord;
+    output.Normal = input.Normal;
+
+    // Calculate height from tangent space normal map
+    float3x3 TBN = calculateTBN(output.Normal);
+    float height = dot(TBN[2], input.Normal);
+    output.Height = height;
+
+    return output;
+}
+
+// Pixel Shader
+float4 PS_Main(PS_INPUT input) : COLOR {
+    // Sample heightmap texture
+    float4 heightMapTex = tex2D HeightsMapSampler, input.TexCoord);
+    float height = heightMapTex.r * 2 - 1; // [-1, 1] range
+
+    // Calculate occlusion factor based on height and view direction
+    float3 viewDir = normalize(ViewDirection);
+    float occlusion = max(0, dot(viewDir, input.Normal) + height * POMScale);
+
+    // Combine with diffuse texture
+    float4 diffuseTex = tex2D DiffuseSampler, input.TexCoord);
+    float4 finalColor = diffuseTex * occlusion;
+    return finalColor;
+}
+
+// Shader parameters
+float4x4 ViewProjectionMatrix;
+float3 ViewDirection;
+float POMScale = 0.1;
+
+texture HeightsMapSampler;
+texture DiffuseSampler;
+```
+**Lua Code:**
+```lua
+-- Load shader and set up resources
+local shader = dxCreateShader(""path/to/pom_shader.hlsl"")
+local heightMapTexture = dxCreateTexture(""path/to/height_map.dds"")
+local diffuseTexture = dxCreateTexture(""path/to/diffuse_texture.dds"")
+
+-- Set up render targets and samplers
+dxSetRenderTarget(dxGetRenderWindow(), false)
+dxSetRenderTargetTexture(dxGetRenderWindow(), heightMapTexture, true)
+dxSetRenderTargetTexture(dxGetRenderWindow(), diffuseTexture, false)
+
+-- Set shader constants
+dxSetShaderConstant(shader, ""ViewProjectionMatrix"", mtxMultiply(getViewMatrix(), getProjectionMatrix()))
+dxSetShaderConstant(shader, ""ViewDirection"", getViewDirection())
+dxSetShaderConstant(shader, ""POMScale"", 0.1)
+
+-- Render mesh with POM shader
+dxSetShader(shader)
+renderMesh(myMesh) -- replace with your mesh rendering function
+```
+**Explanation:**
+
+This shader implements Parallax Occlusion Mapping (POM), a technique that simulates self-occlusion for detailed terrain rendering.",True,7,"6,3",True,1
+4,"**Shader Code (HLSL)**
+```hlsl_shader_code:
+// Parallax Occlusion Mapping Shader for MTA SA (DirectX 9)
+
+#include ""MTA_SA_ShaderDefs.fxh""
+
+SamplerState ssHeightMap : register(s0);
+Texture2D tHeightMap : register(t0);
+
+float4x4 WorldViewProj : register(c0);
+
+struct VS_INPUT {
+    float3 Position : POSITION;
+    float3 Normal : NORMAL;
+    float2 TexCoord : TEXCOORD0;
+};
+
+struct PS_INPUT {
+    float4 Position : SV_POSITION;
+    float2 TexCoord : TEXCOORD0;
+    float Depth : TEXCOORD1;
+};
+
+PS_INPUT VS_Main(VS_INPUT Input) {
+    PS_INPUT Output;
+
+    // Transform vertex to world space and calculate depth value from heightmap texture sample.
+   ",True,3,"6,3",True,2
+5," Output.Position = mul(float4(Input.Position, 1.0), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 10.0; // scale factor: 10.0 (adjust to your liking)
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax offset based on view direction and heightmap depth values.
+   ",True,7,"6,0",True,1
+6," float Height = tex2D(tHeightMap, Input.TexCoord).r * 255.0f - 128.0f;
+    float3 WorldPos = Input.Position + Input.Normal * Height;
+    Output.Position = mul(float4(WorldPos, 1.0f), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = Output.Position.z;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : COLOR {
+    // Calculate Parallax Offset using the heightmap depth value.
+   ",False,,,,2
+7," float3 worldPos = mul(Input.Position, WorldViewProj).xyz;
+    float height = tex2D(ssHeightMap, Input.TexCoord.xy).r * 0.5 - 0.25; // Scale and bias height values to [-1, 1]
+    Output.Depth = worldPos.z + height;
+
+    Output.Position = float4(worldPos, 1);
+    Output.TexCoord = Input.TexCoord;
+
+    return Output;
+}
+
+texture HeightMapTexture : register(t1); // Additional texture sampler for heightmap.
+
+",True,3,"6,0",True,3
+8," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, Output.TexCoord).r * 255; // assuming 8-bit unsigned int heightmap
+
+    return Output;
+}
+
+technique POM_Technique {
+    pass P0 {
+        AlphaBlendEnable = false;
+        CullMode = CCW;
+
+        VertexShader = compile vs_2_0 VS_Main();
+        PixelShader = compile ps_2_0 PS_Main();
+    }
+};
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate distance from current pixel to camera position (approximate z-distance).
+   ",True,7,"6,0",True,4
+9," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj).xyww;
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 10 - 5; // Scale depth values between -5 and 5
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : COLOR0 {
+    // Calculate parallax offset using the depth value and a fixed scale factor (adjust this value as needed).
+   ",True,7,"6,0",True,5
+10," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 255 - 128; // Scale and bias height values
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Calculate parallax offset based on view direction and depth value.
+   ",True,7,"6,0",True,6
+11," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, Input.TexCoord).r;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax factor based on camera angle and depth value.
+   ",True,7,"6,0",True,7
+12," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    float2 HeightMapTexCoord = Input.TexCoord * 10; // adjust this value to control POM scale.
+   ",True,3,"6,0",True,8
+13," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, Output.TexCoord).r * 10; // scale factor for better visualization
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Calculate the eye-space position from the screen-space position.
+   ",True,7,"6,0",True,9
+14," Output.Position = mul(float4(Input.Position, 1.0f), WorldViewProj);
+    Output.Depth = tex2Dlod(ssHeightMap, tHeightMap, Input.TexCoord).r * 10.0f; // adjust depth scale factor as needed
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax offset based on depth value and view direction.
+   ",True,7,"6,0",True,10
+15," float3 WorldPos = mul(Input.Position, WorldViewProj).xyz;
+    float HeightValue = tex2D(tHeightMap, Input.TexCoord).r * 255.0f; // assuming 8-bit heightmap texture
+
+    // Calculate depth from height value using the parallax technique (see POM paper for details).
+   ",False,,,,11
+16," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2Dlod(ssHeightMap, float4(Input.TexCoord, 0, 0)).r * 10; // scale by 10 for more pronounced effect
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Sample heightmap texture at current pixel position and depth value.
+   ",True,3,"6,0",True,12
+17," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, Output.TexCoord).r * 10; // scale depth by 10 units
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Sample the heightmap texture to get the parallax offset.
+   ",False,,,,13
+18," Output.Position = mul(float4(Input.Position.xyz, 1.0f), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    float HeightSample = tex2D(ssHeightMap, Input.TexCoord).r * 255.0f; // assuming 8-bit heightmap texture.
+   ",True,3,"6,0",True,14
+19," float4 WorldPos = mul(float4(Input.Position, 1), WorldViewMatrix);
+    float HeightSample = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 255;
+    Output.Depth = HeightSample - WorldPos.y;
+
+    // Projected position for screen space.
+   ",True,7,"6,0",True,15
+20," float3 WorldPos = mul(Input.Position, WorldViewProj).xyz;
+    float HeightSample = tex2Dlod(tHeightMap, float4(Input.TexCoord, 0, 0)).r;
+    Output.Depth = WorldPos.z + HeightSample * 10; // adjust scale factor as needed
+
+    // Pass through other values.
+   ",True,3,"6,0",True,16
+21," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, Input.TexCoord).r * 10; // Scale factor (10) adjustable for your needs
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Calculate parallax factor based on eye position ( camera pos ) and normal.
+   ",True,7,"6,0",True,17
+22," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj);
+    float heightSample = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 2 - 1; // [-1, 1] range
+
+    // Calculate parallax offset based on camera direction and height sample value.
+   ",False,,,,18
+23," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, Input.TexCoord).r * 255; // assume heightmap is grayscale
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax offset based on camera position and normal map sample.
+   ",True,7,"6,0",True,19
+24," float4 worldPos = mul(float4(Input.Position, 1), WorldViewProj);
+    float depth = tex2D(ssHeightMap, Input.TexCoord).r * 10; // adjust multiplier as needed
+
+    Output.Position = worldPos;
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = depth;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax offset using depth value.
+   ",True,7,"6,0",True,20
+25," float4 WorldPos = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.Depth = tex2Dlod(ssHeightMap, tHeightMap, float4(Input.TexCoord, 0, 0)).r * 255; // Unpack height value (8-bit)
+    Output.Position = WorldPos;
+    Output.TexCoord = Input.TexCoord;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Sample heightmap at multiple depths to simulate POM effect.
+   ",False,,,,21
+26," float3 WorldPos = mul(float4(Input.Position, 1), WorldViewProj).xyz;
+    float HeightValue = tex2Dlod(tHeightMap, float4(Input.TexCoord, 0, 0));
+    Output.Depth = HeightValue * 10; // adjust depth value range (optional)
+
+    // Calculate screen position and output.
+   ",True,3,"6,0",True,22
+27," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 255 - 128; // Unpack unsigned byte to signed [-128, 127] range
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate Parallax Occlusion Mapping factors.
+   ",True,7,"6,0",True,23
+28," float3 WorldPos = mul(Input.Position, WorldViewProj).xyz;
+    float HeightSample = tex2Dlod(ssHeightMap, float4(Input.TexCoord, 0, 0)).r;
+    Output.Depth = HeightSample * 10.0; // scale the depth value to control the POM effect strength
+
+    // Calculate clip-space position.
+   ",True,3,"6,0",True,24
+29," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj);
+    float depth = tex2Dlod(ssHeightMap, tHeightMap, Input.TexCoord).r * 100; // Scale by 100 to adjust depth range
+
+    // Calculate parallax offset using depth value and normal map tangent space coordinates.
+   ",True,7,"6,0",True,25
+30," float3 WorldPos = mul(float4(Input.Position, 1), WorldViewProj).xyz;
+    float HeightSample = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 2 - 1; // Unpack signed height value from texture
+
+    // Calculate parallax offset based on view direction and height sample.
+   ",True,3,"6,0",True,26
+31," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    float2 texCoord = Input.TexCoord * 10; // scale up texture coordinates (adjust to your liking)
+    float height = tex2Dlod(tHeightMap, float4(texCoord, 0, 0)).r;
+    Output.Depth = height;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : COLOR {
+    // Sample the albedo texture based on the calculated depth value.
+   ",True,3,"6,0",True,27
+32," float3 WorldPos = mul(Input.Position, WorldViewProj).xyz;
+    float HeightSample = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 0.1; // adjust factor as needed
+    
+    // Calculate eye-space position and depth.
+   ",True,7,"6,0",True,28
+33," float4 Pos = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.Position = Pos;
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2Dlod(ssHeightMap, float4(Output.TexCoord, 0, 0)).r * 10 - 5; // scale and bias depth values
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax factor based on depth value.
+   ",True,7,"6,0",True,29
+34," float4 WorldPos = mul(float4(Input.Position, 1), WorldViewProj);
+    float HeightSample = tex2Dlod(ssHeightMap, tHeightMap, float4(Input.TexCoord, 0, 0)).r;
+    float DepthValue = WorldPos.z + HeightSample * 10; // scale height by 10 units
+
+    Output.Position = WorldPos;
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = DepthValue;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : COLOR {
+    // Calculate parallax occlusion factor based on view direction and height difference.
+   ",False,,,,30
+35," float3 WorldPos = mul(Input.Position, WorldViewProj).xyz;
+    float HeightSample = tex2Dlod(tHeightMap, float4(Input.TexCoord, 0, 0));
+    Output.Depth = HeightSample * 10.0; // adjust scale factor as needed
+
+    // Calculate vertex position in screen space.
+   ",True,7,"6,0",True,31
+36," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Output.TexCoord).r * 2 - 1; // [-1, 1] range
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate the depth offset based on the view direction and depth gradient.
+   ",True,3,"6,0",True,32
+37," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    float3 worldPos = Output.Position.xyz / Output.Position.w;
+    float depthValue = tex2D(ssHeightMap, Input.TexCoord).r * 256; // Assuming 8-bit height map texture.
+   ",True,3,"6,0",True,33
+38," float4 WorldPos = mul(float4(Input.Position, 1), WorldViewProj);
+    float DepthVal = tex2Dlod(ssHeightMap, float4(Input.TexCoord, 0, 0));
+    Output.Depth = DepthVal * 10; // Scale depth value for better visualization (adjust as needed)
+
+    // Pass through other values.
+   ",True,7,"6,0",True,34
+39," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 10.0f; // adjust factor (10.0f) according to your needs
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax offset based on view direction and heightmap texture sample.
+   ",True,7,"6,0",True,35
+40," float4 pos = mul(Input.Position, WorldViewProj);
+    float height = tex2Dlod(ssHeightMap, tHeightMap, Input.TexCoord).r * 2 - 1; // Scale and bias height value to [-1, 1] range.
+   ",True,3,"6,0",True,36
+41," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2Dlod(ssHeightMap, tHeightMap, Input.TexCoord).r * 100; // assume 100 units per meter
+
+    return Output;
+}
+
+technique POM_Technique <string name = ""ParallaxOcclusionMapping""; pass {
+    pixelshader {
+        compilation_target ps_2_0;
+
+        // Sample heightmap texture at multiple points along the viewing ray.
+       ",True,7,"6,0",True,37
+42," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Output.TexCoord).r * 10.0; // Scale heightmap values by 10.0
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : COLOR {
+    // Calculate parallax offset based on view direction and depth value.
+   ",False,,,,38
+43," float3 worldPos = mul(Input.Position, WorldViewProj).xyz;
+    float2 texCoord = Input.TexCoord;
+    float depth = tex2Dlod(ssHeightMap, tHeightMap, texCoord.xy, 0).r * 10.0; // Adjust the scale factor as needed
+
+    Output.Position = float4(worldPos, 1.0);
+    Output.TexCoord = texCoord;
+    Output.Depth = depth;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Calculate parallax offset using depth value and tangent space normal map sample.
+   ",True,7,"6,0",True,39
+44," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Output.TexCoord).r;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate the dot product between the view direction and the normal map sample.
+   ",True,3,"6,0",True,40
+45," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.Depth = tex2Dlod(ssHeightMap, tHeightMap, Input.TexCoord).r * 256;
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate occlusion factor based on depth and view direction.
+   ",True,3,"6,0",True,41
+46," float height = tex2Dlod(ssHeightMap, tHeightMap, Input.TexCoord.xy).r * 10.0f; // scale height by 10 units.
+   ",False,,,,42
+47," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2Dlod(ssHeightMap, tHeightMap, float4(Output.TexCoord, 0, 0)).r * 0.01; // Scale by 0.01 to adjust depth range
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax offset using the depth value and screen-space gradient.
+   ",True,7,"6,0",True,43
+48," Output.Position = mul(float4(Input.Position, 1.0), WorldViewProj);
+    Output.Depth = tex2D(ssHeightMap, Input.TexCoord).r * 10.0; // Scale factor: 10.0
+
+    // Calculate eye-space normal and pass through as texture coordinate y-component.
+   ",True,3,"6,0",True,44
+49," float3 worldPos = mul(Input.Position, WorldViewProj).xyz;
+    float height = tex2Dlod(tHeightMap, Input.TexCoord).r * 2 - 1; // [0..1] -> [-1..1]
+    Output.Depth = worldPos.z + height;
+
+    // Calculate tangent space matrix.
+   ",True,3,"6,0",True,45
+50," Output.Position = mul(float4(Input.Position.xyz, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 10.0f - 5.0f; // scale and offset to match terrain heights
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : COLOR {
+    // Calculate distance-based depth fade factor (optional)
+    float DistanceFade = clamp((100 - length(Input.Position.xyz)) / 50, 0, 1);
+
+    // Calculate occlusion value based on depth difference between current pixel and surrounding pixels.
+   ",True,3,"6,0",True,46
+51," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2Dlod(ssHeightMap, float4(Output.TexCoord, 0, 0)).r * 2 - 1; // Scale depth values to [-1, 1] range
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_TARGET {
+    // Calculate parallax offset based on camera position, normal vector, and depth value.
+   ",True,7,"6,0",True,47
+52," float4 WorldPos = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.Position = WorldPos;
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2Dlod(ssHeightMap, tHeightMap, float4(Input.TexCoord, 0, 0)).r * 10.0; // Adjust this value to control the depth range.
+
+   ",True,7,"6,0",True,48
+53," float3 WorldPosition = mul(float4(Input.Position, 1), WorldView Proj).xyz;
+    float HeightValue = tex2Dlod(ssHeightMap, float4(Input.TexCoord, 0, 0)).r;
+    Output.Depth = WorldPosition.z + HeightValue * 10; // scale by 10 for better visibility
+
+    // Calculate screen position.
+   ",False,,,,49
+54," Output.Position = mul(float4(Input.Position, 1), WorldViewProj);
+    Output.TexCoord = Input.TexCoord;
+    Output.Depth = tex2D(ssHeightMap, tHeightMap, Input.TexCoord).r * 255; // Assuming grayscale heightmap
+
+    return Output;
+}
+
+float4 PS_Main(PS_INPUT Input) : SV_Target {
+    // Calculate parallax offset based on camera position, view direction, and depth value.
+   ",True,7,"6,0",True,50
