@@ -25,37 +25,29 @@ for i in data:
         temp["count_grammar_errors"] = data[i][j][3]/ data[i][j][0]
         output.append(temp)
 df = pd.DataFrame(output)
-df.to_csv("./results/mutator_watermark_percent.csv")
-mut = list(data.keys())[0]
-fig, ax = plt.subplots(3, figsize=(12, 15))
+df.to_csv("./results/mutator_percent.csv")
 
-ax[0].plot(data[mut].keys(), [i[1]/i[0] for i in data[mut].values()], label="quality preserved")
-ax[0].set_title(f"Percentage vs steps for {mut}")
-ax[0].set_xlabel("Number of mutation steps")
-ax[0].set_ylabel("Percentage of \n quality preserved")
-# ax[0].set_ylim([0,1.2])
-ax[1].plot(data[mut].keys(), [i[2]/i[0] for i in data[mut].values()], label="quality preserved")
-ax[1].set_title(f"Percentage vs steps for {mut}")
-ax[1].set_xlabel("Number of mutation steps")
-ax[1].set_ylabel("Average \n fluency score")
-# ax[1].set_ylim([0,1.2])
-ax[2].plot(data[mut].keys(), [i[3]/i[0] for i in data[mut].values()], label="quality preserved")
-ax[2].set_title(f"Percentage vs steps for {mut}")
-ax[2].set_xlabel("Number of mutation steps")
-ax[2].set_ylabel("Average \n Grammar errors")
-ax[2].set_ylim([0,1.2])
+fig, ax = plt.subplots(3, len(data.keys()), figsize=(12, 15))
 
 
-# for i, mut in enumerate(data.keys()):
-#     plt.plot(data[mut].keys(), [i[1]/i[0] for i in data[mut].values()], label="quality preserved")
-#     plt.plot(data[mut].keys(), [i[2]/i[0] for i in data[mut].values()], label="fluency score")
-#     plt.plot(data[mut].keys(), [i[3]/i[0] for i in data[mut].values()], label="grammar errors")
-#     plt.legend(loc='best')
-#     plt.title(f"Percentage vs steps for {mut}")
-#     plt.xlabel("Number of mutation steps")
-#     plt.ylabel("Percentages")
-#     plt.ylim([0,1.2])
-# fig.tight_layout(pad=5.0)
+
+
+for i, mut in enumerate(data.keys()):
+    ax[0][i].plot(data[mut].keys(), [i[1]/i[0] for i in data[mut].values()], label="quality preserved")
+    ax[0][i].set_title(f"Percentage vs steps for {mut}")
+    ax[0][i].set_xlabel("Number of mutation steps")
+    ax[0][i].set_ylabel("Percentage of \n quality preserved")
+    # ax[0].set_ylim([0,1.2])
+    ax[1][i].plot(data[mut].keys(), [i[2]/i[0] for i in data[mut].values()], label="quality preserved")
+    ax[1][i].set_title(f"Percentage vs steps for {mut}")
+    ax[1][i].set_xlabel("Number of mutation steps")
+    ax[1][i].set_ylabel("Average \n fluency score")
+    # ax[1].set_ylim([0,1.2])
+    ax[2][i].plot(data[mut].keys(), [i[3]/i[0] for i in data[mut].values()], label="quality preserved")
+    ax[2][i].set_title(f"Percentage vs steps for {mut}")
+    ax[2][i].set_xlabel("Number of mutation steps")
+    ax[2][i].set_ylabel("Average \n Grammar errors")
+    ax[2][i].set_ylim([0,1.2])
 
 plt.show()
-plt.savefig("mutator2.png")
+plt.savefig("mutator3.png")

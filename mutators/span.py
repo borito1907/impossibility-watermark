@@ -15,7 +15,7 @@ def count_masks(texts):
     return [len([x for x in text.split() if x.startswith("<extra_id_")]) for text in texts]
 
 def extract_fills(texts):
-    log.info(f"extract_fills (texts in): {texts}")
+    # log.info(f"extract_fills (texts in): {texts}")
     # remove <pad> from beginning of each text
     texts = [x.replace("<pad>", "").replace("</s>", "").strip() for x in texts]
     pattern = re.compile(r"<extra_id_\d+>")
@@ -23,7 +23,7 @@ def extract_fills(texts):
     extracted_fills = [pattern.split(x)[1:-1] for x in texts]
     # remove whitespace around each fill
     extracted_fills = [[y.strip() for y in x] for x in extracted_fills]
-    log.info(f"extract_fills (texts out): {extracted_fills}")
+    # log.info(f"extract_fills (texts out): {extracted_fills}")
     return extracted_fills
 
 def join_tokens(tokens):
@@ -33,8 +33,8 @@ def join_tokens(tokens):
     return joined
 
 def apply_extracted_fills(masked_texts, extracted_fills):
-    log.info(f"apply_extracted_fills (masked_texts in): {masked_texts}")
-    log.info(f"apply_extracted_fills (extracted_fills in): {extracted_fills}")
+    # log.info(f"apply_extracted_fills (masked_texts in): {masked_texts}")
+    # log.info(f"apply_extracted_fills (extracted_fills in): {extracted_fills}")
     # split masked text into tokens, only splitting on spaces (not newlines)
     tokens = [x.split(' ') for x in masked_texts]
 
@@ -50,7 +50,7 @@ def apply_extracted_fills(masked_texts, extracted_fills):
 
     # join tokens back into text
     texts = [join_tokens(x) for x in tokens]
-    log.info(f"apply_extracted_fills (texts out): {texts}")
+    # log.info(f"apply_extracted_fills (texts out): {texts}")lo
     return texts
 
 class Args:
@@ -117,7 +117,7 @@ class SpanMutator:
         return mask_model
 
     def tokenize_and_mask(self, text, span_len, pct, ceil_pct=False):
-        log.info(f"tokenize_and_mask (text in): {text}")
+        # log.info(f"tokenize_and_mask (text in): {text}")
         tokens = text.replace('\n', ' \n').split(' ')
         mask_string = '<<<mask>>>'
         # only mask one span
@@ -222,10 +222,11 @@ class SpanMutator:
 
         outputs = []
         # set chunk_size as 1 to help make sure each original token is replaced.
-        for i in tqdm(range(0, len(texts), chunk_size), desc="Applying perturbations"):
+        for i in (range(0, len(texts), chunk_size), desc="Applying perturbations"):
+        # for i in tqdm(range(0, len(texts), chunk_size), desc="Applying perturbations"):
             outputs.extend(self.perturb_texts_(texts[i:i + chunk_size], span_len, pct, ceil_pct=ceil_pct))
 
-        log.info(f"perturb_texts_t5 (texts out): {outputs}")
+        # log.info(f"perturb_texts_t5 (texts out): {outputs}")
         return outputs
 
     def paraphrase(self, texts, k=5):

@@ -64,30 +64,30 @@ def eval(cfg):
     log.info(f"Initializing mutators...")
     # doc_mutator = DocumentMutator()
     # sent_mutator = SentenceMutator(cfg.oracle_args)
-    # span_mutator = SpanMutator()
-    # word_mutator = WordMutator()
-    mutators = ["doc", "sent", "span", "word"]
+    span_mutator = SpanMutator()
+    word_mutator = WordMutator()
+    mutators = [span_mutator, word_mutator]
 
     # Construct eval loop
     results = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
-        for mutator_name in tqdm(mutators, desc='Mutators'):
-            if mutator_name == "doc":
-                mutator = DocumentMutator()
-            elif mutator_name == "sent":
-                mutator = SentenceMutator(cfg.oracle_args) 
-            elif mutator_name == "span":
-                mutator = SpanMutator()
-            elif mutator_name == "word":
-                mutator = WordMutator()
+        for mutator in tqdm(mutators, desc='Mutators'):
+            # if mutator_name == "doc":
+            #     mutator = DocumentMutator()
+            # elif mutator_name == "sent":
+            #     mutator = SentenceMutator(cfg.oracle_args) 
+            # elif mutator_name == "span":
+            #     mutator = SpanMutator()
+            # elif mutator_name == "word":
+            #     mutator = WordMutator()
             choose = "response_a"
             # if row["winner_model_a"] == "1":
             #     choose = "response_a"
             # else:
             #     choose = "response_b"
-            # text = row[choose]
+            text = row[choose]
 
-            for mutation_step in range(mutation_steps):
+            for mutation_step in tqdm(range(mutation_steps)):
 
                 # Initialize output_dict
                 out_dict = {}
@@ -121,12 +121,12 @@ def eval(cfg):
                     print(f"ERROR ERRO ERROR: {e}")
                     print("-"*20)
                     with open("mutator_testing.errors", "a") as f:
-                        f.write(e)
+                        f.write(str(e))
                     is_quality_preserved = "Unknown"
                     evals = {}
 
                 out_dict.update({
-                    "oracle": "Prometheus: Relative",
+                    "oracle": judge_name,
                     "quality_preserved": is_quality_preserved,
                     **evals
                 })
@@ -156,30 +156,51 @@ def eval(cfg):
     output = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'):
         if row["mutator"] not in data:
-            data[row["mutator"]] = {row["mutation_step"]: [0,0]}
+            data[row["mutator"]] = {row["mutation_step"]: [0,0,0,0]}
         if row["mutation_step"] not in data[row["mutator"]]:
-            data[row["mutator"]][row["mutation_step"]] = [0,0]
-        data[row["mutator"]][row["mutation_step"]][1] += 1
+            data[row["mutator"]][row["mutation_step"]] = [0,0,0,0]
+        data[row["mutator"]][row["mutation_step"]][0] += 1
         if row["quality_preserved"]:
-            data[row["mutator"]][row["mutation_step"]][0] += 1
+            data[row["mutator"]][row["mutation_step"]][1] += 1
+        data[row["mutator"]][row["mutation_step"]][2] += row["fluency_score"]
+        data[row["mutator"]][row["mutation_step"]][3] += row["count_grammar_errors"]
     print(data)
     for i in data:
         for j in data[i]:
             temp = {}
             temp["mutator"] = i
-            temp["mutation step"] = j
-            temp["percent preserved"] = data[i][j][0]/ data[i][j][1]
+            temp["mutation_step"] = j
+            temp["percent_preserved"] = data[i][j][1]/ data[i][j][0]
+            temp["fluency_score"] = data[i][j][2]/ data[i][j][0]
+            temp["count_grammar_errors"] = data[i][j][3]/ data[i][j][0]
             output.append(temp)
     df = pd.DataFrame(output)
     df.to_csv("./results/mutator_percent.csv")
+
+    fig, ax = plt.subplots(3, len(data.keys()), figsize=(12, 15))
+
     
-    fig, ax = plt.subplots(len(data))
+
+
     for i, mut in enumerate(data.keys()):
-        ax[i].plot(data[mut].keys(), [i[0]/i[1] for i in data[mut].values()])
-        ax[i].set_title(f"Percentage vs steps for {mut}")
-    fig.tight_layout(pad=5.0)
+        ax[0][i].plot(data[mut].keys(), [i[1]/i[0] for i in data[mut].values()], label="quality preserved")
+        ax[0][i].set_title(f"Percentage vs steps for {mut}")
+        ax[0][i].set_xlabel("Number of mutation steps")
+        ax[0][i].set_ylabel("Percentage of \n quality preserved")
+        # ax[0].set_ylim([0,1.2])
+        ax[1][i].plot(data[mut].keys(), [i[2]/i[0] for i in data[mut].values()], label="quality preserved")
+        ax[1][i].set_title(f"Percentage vs steps for {mut}")
+        ax[1][i].set_xlabel("Number of mutation steps")
+        ax[1][i].set_ylabel("Average \n fluency score")
+        # ax[1].set_ylim([0,1.2])
+        ax[2][i].plot(data[mut].keys(), [i[3]/i[0] for i in data[mut].values()], label="quality preserved")
+        ax[2][i].set_title(f"Percentage vs steps for {mut}")
+        ax[2][i].set_xlabel("Number of mutation steps")
+        ax[2][i].set_ylabel("Average \n Grammar errors")
+        ax[2][i].set_ylim([0,1.2])
+
     plt.show()
-    plt.savefig("mutator.png")
+    plt.savefig("mutator3.png")
     
 if __name__ == "__main__":
     eval()

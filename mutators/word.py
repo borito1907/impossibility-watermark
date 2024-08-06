@@ -67,15 +67,15 @@ class WordMutator:
         if 0 < num_replacements < 1:
             num_replacements = max(1, int(len(segment) * num_replacements))
 
-        log.info(f"Making {num_replacements} replacements to the input text segment.")
+        # log.info(f"Making {num_replacements} replacements to the input text segment.")
 
         replacements_made = 0
         while replacements_made < num_replacements:
             masked_text, word_to_mask = self.mask_random_word(segment)
             candidates = self.fill_mask(masked_text, top_k=3, tokenizer_kwargs=self.tokenizer_kwargs)
             suggested_replacement = self.get_highest_score_index(candidates, blacklist=[word_to_mask.lower()])
-            log.info(f"word_to_mask: {word_to_mask}")
-            log.info(f"suggested_replacement: {suggested_replacement['token_str']} (score: {suggested_replacement['score']})")
+            # log.info(f"word_to_mask: {word_to_mask}")
+            # log.info(f"suggested_replacement: {suggested_replacement['token_str']} (score: {suggested_replacement['score']})")
             segment = suggested_replacement['sequence'].split()
             replacements_made += 1
 
