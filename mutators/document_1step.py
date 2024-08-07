@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 def extract_dict(output, keys):
     return {k: output[k] for k in keys}
 
-class DocumentMutator:  
+class DocumentMutator_1step:  
     # NOTE: This current implementation is slow (~300 seconds) and must be optimized before use in the attack. 
     # One idea would be to have it suggest the edits in some structured format and then apply them outside of generation. 
     # This prevents it from having to copy / paste over the bulk of the response unchanged. 
@@ -90,7 +90,7 @@ if __name__ == "__main__":
             In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
         """)
 
-        text_mutator = DocumentMutator(cfg.mutator_args)
+        text_mutator = DocumentMutator_1step(cfg.mutator_args)
 
         start = time.time()
         mutated_output = text_mutator.mutate(text)

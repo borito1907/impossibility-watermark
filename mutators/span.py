@@ -222,7 +222,7 @@ class SpanMutator:
 
         outputs = []
         # set chunk_size as 1 to help make sure each original token is replaced.
-        for i in (range(0, len(texts), chunk_size), desc="Applying perturbations"):
+        for i in range(0, len(texts), chunk_size):
         # for i in tqdm(range(0, len(texts), chunk_size), desc="Applying perturbations"):
             outputs.extend(self.perturb_texts_(texts[i:i + chunk_size], span_len, pct, ceil_pct=ceil_pct))
 

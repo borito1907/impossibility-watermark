@@ -29,17 +29,19 @@ def eval(cfg):
     #     SoloOracle
     # )
     from mutators.document import DocumentMutator
+    from mutators.document_1step import DocumentMutator_1step
+    from mutators.document_2step import DocumentMutator_2step
     from mutators.sentence import SentenceMutator
     from mutators.span import SpanMutator
     from mutators.word import WordMutator
     # Set number of mutation steps to analyze
-    mutation_steps = 100
+    mutation_steps = 20
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
 
     # Load test data
     # NOTE: we will reuse the outputs from the quality oracle tests
     log.info("Loading tests...")
-    tests_df = pd.read_csv("data/lmsys-150-test-set.csv")
+    tests_df = pd.read_csv("data/wqe_watermark_samples_converted.csv")
     log.info(tests_df)
 
     fluency = FluencyMetric()
@@ -55,7 +57,7 @@ def eval(cfg):
     # sent_mutator = SentenceMutator(cfg.oracle_args)
     # span_mutator = SpanMutator()
     # word_mutator = WordMutator()
-    mutators = [ "sent", "span", "word", "doc"]
+    mutators = [ "sent", "span", "word", "doc", "doc_1", "doc_2"]
 
     # Construct eval loop
     results = []
@@ -68,20 +70,18 @@ def eval(cfg):
             mutator = SpanMutator()
         elif mutator_name == "word":
             mutator = WordMutator()
+        elif mutator_name == "doc_1":
+            mutator = DocumentMutator_1step(cfg.mutator_args)
+        elif mutator_name == "doc_2":
+            mutator = DocumentMutator_2step(cfg.mutator_args)
         for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
-        
-            choose = "response_a"
-            # if row["winner_model_a"] == "1":
-            #     choose = "response_a"
-            # else:
-            #     choose = "response_b"
-            text = row[choose]
-
+            text = row["text"]
+            out_dict = {}
+            out_dict.update(row)
             for mutation_step in range(mutation_steps):
 
                 # Initialize output_dict
-                out_dict = {}
-                out_dict.update(row)
+                
 
                 # Mutate text
                 start = time.time()
@@ -94,27 +94,24 @@ def eval(cfg):
                 except Exception as e:
                     print("-"*20)
                     print(f"ERROR ERRO ERROR: {e}")
+                    with open("mutator_testing.errors", "a") as f:
+                        f.write(str(e))
                     print("-"*20)
                     continue
 
                 mutation_time = time.time() - start
-
                 out_dict.update({
-                    "prompt": row["prompt"],
-                    "response": row[choose],
-                    "mutator": mutator.__class__.__name__,
-                    "mutated_text": text,
-                    "mutation_step": mutation_step+1,
-                    "mutation_time": mutation_time,
+                    f"mutation_step{mutation_step + 1}": text,
+                    "time": mutation_time,
+                    "mutator": mutator.__class__.__name__
                 })
-                
                 # log.info(f"Test {index}: {out_dict}")
-                results.append(out_dict)
+            results.append(out_dict)
 
-                # Incremental saving over time...
-                log.info("Saving results to csv...")
-                df = pd.DataFrame(results)
-                df.to_csv("./results/mutated_text2.csv", index=False)
+            # Incremental saving over time...
+            log.info("Saving results to csv...")
+            df = pd.DataFrame(results)
+            df.to_csv("./results/mutated_text2.csv", index=False)
         del mutator
         
 if __name__ == "__main__":
