@@ -1,3 +1,4 @@
+# RUN: CUDA_VISIBLE_DEVICES=1,2 python -m mutators.sentence
 import random
 import nltk
 from nltk.tokenize import sent_tokenize
@@ -25,16 +26,16 @@ class SentenceMutator:
         self._ensure_nltk_data()
 
     def _initialize_llm(self, llm):
-        if not isinstance(llm, (models.Transformers, models.OpenAI)):
+        if not isinstance(llm, (models.LlamaCpp, models.OpenAI)):
             log.info("Initializing a new Mutator model from cfg...")
             if "gpt" in self.cfg.model_id:
                 llm = models.OpenAI(self.cfg.model_id)
             else:
-                llm = models.Transformers(
-                    self.cfg.model_id, 
+                llm = models.LlamaCpp(
+                    model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
                     echo=False,
-                    cache_dir=self.cfg.model_cache_dir, 
-                    device_map=self.cfg.device_map
+                    n_gpu_layers=-1,
+                    n_ctx=2048
                 )
         return llm
 

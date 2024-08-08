@@ -57,7 +57,8 @@ def eval(cfg):
     # sent_mutator = SentenceMutator(cfg.oracle_args)
     # span_mutator = SpanMutator()
     # word_mutator = WordMutator()
-    mutators = [ "sent", "span", "word", "doc", "doc_1", "doc_2"]
+    # mutators = [ "span", "word", "doc", "doc_1", "doc_2", "sent"]
+    mutators = ["doc", "sent", "doc_1", "doc_2"]
 
     # Construct eval loop
     results = []
@@ -111,7 +112,7 @@ def eval(cfg):
             # Incremental saving over time...
             log.info("Saving results to csv...")
             df = pd.DataFrame(results)
-            df.to_csv("./results/mutated_text2.csv", index=False)
+            df.to_csv("./results/mutated_text4.csv", index=False)
         del mutator
         
 if __name__ == "__main__":

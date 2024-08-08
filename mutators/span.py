@@ -202,7 +202,7 @@ class SpanMutator:
         attempts = 1
         while '' in perturbed_texts:
             idxs = [idx for idx, x in enumerate(perturbed_texts) if x == '']
-            log.warn(f'{len(idxs)} texts have no fills. Trying again [attempt {attempts}].')
+            # log.warn(f'{len(idxs)} texts have no fills. Trying again [attempt {attempts}].')
             masked_texts = [self.tokenize_and_mask(x, span_len, pct, ceil_pct) for idx, x in enumerate(texts) if idx in idxs]
             raw_fills = self.replace_masks(masked_texts)
             extracted_fills = extract_fills(raw_fills)
