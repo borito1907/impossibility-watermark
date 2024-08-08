@@ -12,7 +12,11 @@ def remove_after_assistant(input_string):
 
     first_occurrence = input_string.find("assistant\n\n")
     if first_occurrence != -1:
-        return input_string[:first_occurrence]
+        input_string = input_string[:first_occurrence]
+
+    if input_string.endswith("assistant"):
+        input_string = input_string[:-9]
+
     return input_string
 
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
