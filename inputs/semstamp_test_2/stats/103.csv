@@ -1,0 +1,5000 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is a simple Python program to reverse a singly linked list:
+
+```python`
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+ 
+    def printList(self):
+        temp = self.head 
+        while(temp):
+            print (temp.data, end ="" "")
+            temp = temp.next
+ 
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current):
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev
+ 
+# Driver code 
+llist = LinkedList()
+llist.push(20)
+llist.push(4)
+llist.push(15)
+llist.push(85)
+
+print (""Given Linked List"")
+llist.printList()
+
+llist.reverse()
+
+print (""\nReversed Linked List"")
+llist.printList()
+```
+
+This program creates a linked list with four elements: 85, 15, 4, and 20.",True,0,"7,2",True,1
+2,"
+
+Here is a simple Python program to reverse a singly linked list:
+
+```python  
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None  
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert new node at the end 
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head  
+            while current.next:
+                current = current.next  
+            current.next = Node(data)  
+
+    # Print the linked list 
+    def print_list(self):
+        current = self.head  
+        while current:
+            print(current.data, end="" "")
+            current = current.next  
+        print()
+
+    # Function to reverse the linked list 
+    def reverse(self): 
+        prev = None  
+        current = self.head  
+        while current:  
+            next_node = current.next  
+            current.next = prev  
+            prev = current  
+            current = next_node  
+        self.head = prev  
+
+# Create a LinkedList object and insert nodes 
+linked_list = LinkedList()
+linked_list.insert('A') 
+linked_list.insert('B')
+linked_list.insert('C')
+
+print(""Original List: "") 
+linked_list.print_list() 
+
+# Reverse the linked list 
+linked_list.reverse() 
+
+print(""Reversed List: "") 
+linked_list.print_list()
+```
+
+In this program, we have two classes `Node` and `LinkedList`.",True,0,"7,2",True,2
+3,"
+
+Here's an example of a Python program that reverses a singly linked list:
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None
+  
+class LinkedList: 
+    def __init__(self): 
+        self.head = None
+ 
+    def insert(self, new_data):
+        new_node = Node(new_data)
+        if self.head is None:
+            self.head = new_node 
+            return 
+        last = self.head 
+        while (last.next): 
+            last = last.next 
+        last.next = new_node 
+ 
+    def print_list(self): 
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next
+ 
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Create the linked list and insert elements 
+linked_list = LinkedList() 
+linked_list.insert('A') 
+linked_list.insert('B') 
+linked_list.insert('C') 
+
+print(""Original Linked List:"", end="" "") 
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""\nReversed Linked List:"", end="" "") 
+linked_list.print_list()
+```
+This code first creates a `Node` class to represent individual nodes in the linked list, and then a `LinkedList` class to manage the entire list.
+
+",True,0,"7,2",True,3
+4,"
+
+Here is a simple implementation of a singly linked list and a function to reverse it:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    def insert(self, new_data): 
+        new_node = Node(new_data) 
+        if self.head is None: 
+            self.head = new_node 
+        else: 
+            last = self.head 
+            while last.next: 
+                last = last.next 
+            last.next = new_node 
+
+    def print_list(self): 
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print() 
+
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while(current): 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+
+# create a linked list and insert some nodes 
+llist = LinkedList() 
+llist.insert(1) 
+llist.insert(2) 
+llist.insert(3) 
+llist.insert(4) 
+llist.insert(5) 
+
+print(""Original List: "")
+llist.print_list()
+
+llist.reverse() 
+
+print(""Reversed List: "")
+llist.print_list()assistant
+
+This Python program defines a simple singly linked list with an `insert` method to add elements to the list,ta `print_list` method to display the list, and a `reverse` method to reverse the order of the list.
+
+",True,0,"7,2",True,4
+5,"
+
+Here's a simple implementation of reversing a singly linked list in Python:
+
+```python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        return elements
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Testing the code:
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.append(4)
+linked_list.append(5)
+
+print(""Original Linked List: "", linked_list.display())
+
+linked_list.reverse()
+
+print(""Reversed Linked List: "", linked_list.display())
+
+```
+
+When you run this program, it creates a linked list with elements 1 through 5 and then reverses the linked list.",True,0,"7,2",True,5
+6,"
+
+Here is a simple implementation of a Python program to reverse a linked list:
+
+```python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert a new node at the end 
+    def push(self, data):  
+        new_node = Node(data) 
+        if not self.head: 
+            self.head = new_node 
+            return 
+        last = self.head 
+        while(last.next): 
+            last = last.next 
+        last.next = new_node  
+
+    # Function to print the linked list  
+    def print_list(self):  
+        temp = self.head 
+        while(temp):  
+            print(temp.data, end="" "")  
+            temp = temp.next  
+        print()  
+
+    # Function to reverse the linked list  
+    def reverse(self): 
+        prev = None 
+        current = self.head  
+        while(current is not None): 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node  
+        self.head = prev 
+
+# Driver code 
+llist = LinkedList()  
+llist.push(20)  
+llist.push(4)  
+llist.push(15)  
+llist.push(85)
+
+print(""Given Linked List"")  
+llist.print_list()
+
+llist.reverse()
+print(""\nReversed Linked List"")  
+llist.print_list()
+
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"7,2",True,6
+7,"
+
+Here's an example of how you can reverse a linked list in Python:
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        print(elements)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+my_list = LinkedList()
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
+my_list.append(4)
+my_list.append(5)
+
+print(""Original List:"")
+my_list.display()
+
+my_list.reverse()
+
+print(""Reversed List:"")
+my_list.display()
+```
+
+In this code, we have two classes: `Node` and `LinkedList`.",True,0,"7,2",True,7
+8,"
+
+Here is a simple Python program that reverses a linked list.
+
+",False,,,,8
+9,"
+
+Here is a Python program to reverse a linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    # Method to add nodes to the linked list 
+    def append(self, data): 
+        if not self.head: 
+            self.head = Node(data) 
+        else:
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    # Method to print the linked list 
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node: 
+            elements.append(current_node.data)
+            current_node = current_node.next  
+        return elements 
+
+    # Method to reverse the linked list 
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev  
+
+# Test the code 
+ll = LinkedList()
+for i in range(1, 6):
+    ll.append(i)
+print(""Original List:"", ll.display())
+ll.reverse() 
+print(""Reversed List:"", ll.display())
+
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"7,2",True,9
+10,"
+
+Here is a simple implementation of a linked list and a function to reverse it in Python:
+
+```python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert a new node at the end of the list.
+   ",False,,,,10
+11,"
+
+Here is a simple implementation of a singly linked list in Python and a function to reverse it:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, data):
+        new_node = Node(data)
+        new_node.next = self.head 
+        self.head = new_node
+
+    def print_list(self):
+        temp = self.head 
+        while(temp):
+            print(temp.data, end ="" "")
+            temp = temp.next 
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev
+
+
+# Test the code
+
+llist = LinkedList()
+for i in range(5):
+    llist.push(i)
+
+print(""Original List: "", end="""")
+llist.print_list()
+
+llist.reverse()
+
+print(""\nReversed List: "", end="""")
+llist.print_list()
+
+```
+
+This script first creates a linked list with 5 nodes containing values from 0 to 4.",False,,,,11
+12,"
+
+Here's a simple Python program to reverse a linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self):
+        temp = self.head 
+        while(temp):  
+            print (temp.data, end="" "") 
+            temp = temp.next
+
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev 
+
+
+
+if __name__ == '__main__':
+    ll = LinkedList()
+    for i in range(1, 6):
+        ll.push(i)
+
+    print(""Original List: "", end="""")
+    ll.printList()
+
+    ll.reverse()
+
+    print(""\nReversed List: "", end="""")
+    ll.printList()
+
+
+```
+
+In this code, we're first creating a `Node` class which will hold the data of each node and a pointer to the next node.
+
+",True,0,"7,2",True,12
+13,"
+
+Here's an example of a Python program that reverses a linked list:
+```python 
+class Node: 
+    def __init__(self, data=None): 
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    # Add elements to the linked list 
+    def add_elements(self, data): 
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current_node = self.head 
+            while current_node.next: 
+                current_node = current_node.next 
+            current_node.next = Node(data) 
+
+    # Reverse the linked list 
+    def reverse(self): 
+        prev_node = None 
+        current_node = self.head 
+        while current_node: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node 
+
+    # Print the linked list 
+    def display(self): 
+        current_node = self.head 
+        while current_node: 
+            print(current_node.data, end="" "") 
+            current_node = current_node.next 
+        print() 
+
+
+# Test the implementation 
+linked_list = LinkedList() 
+
+# Add elements to the linked list 
+elements = [1, 2, 3, 4, 5] 
+for element in elements: 
+    linked_list.add_elements(element) 
+
+print(""Original Linked List:"") 
+linked_list.display() 
+
+# Reverse the linked list 
+linked_list.reverse() 
+
+print(""Reversed Linked List:"") 
+linked_list.display()
+```
+This program defines a `Node` class for creating nodes and a `LinkedList` class for managing the linked list operations.",True,0,"7,2",True,13
+14,"
+
+Here's an example of a Python program that reverses a linked list:
+```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while last_node.next:
+            last_node = last_node.next 
+        last_node.next = new_node 
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node 
+
+    def print_list(self):
+        current_node = self.head 
+        while current_node:
+            print(current_node.data, end="" "")
+            current_node = current_node.next 
+        print()
+
+# Testing the program 
+linked_list = LinkedList()
+linked_list.append(1) 
+linked_list.append(2) 
+linked_list.append(3) 
+linked_list.append(4) 
+linked_list.append(5)
+
+print(""Original Linked List:"")
+linked_list.print_list() 
+
+linked_list.reverse()
+
+print(""Reversed Linked List:"")
+linked_list.print_list()
+```
+
+This code first creates a `Node` class to create nodes for the linked list and then creates a `LinkedList` class with methods to append elements to the list, add a reversing function, and display the list content.
+
+",True,0,"7,2",True,14
+15,"
+
+Here's a simple implementation of a singly linked list and a function to reverse it in Python:
+
+```python=
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self):
+        temp = self.head 
+        while(temp):
+            print (temp.data, end="" "") 
+            temp = temp.next
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev 
+
+
+
+# Driver code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85) 
+  
+print(""Original List: "")
+llist.printList()
+
+llist.reverse()
+
+print(""\nReversed List: "")
+llist.printList()
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"7,2",True,15
+16,"
+
+Here is a Python program that reverses a singly linked list:
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None
+  
+class LinkedList:
+    def __init__(self):
+        self.head = None
+    
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+    
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next  
+        return elements 
+  
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node  
+        self.head = prev_node
+
+# Testing the code
+
+my_list = LinkedList()
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
+my_list.append(4)
+print(""Original List: "", my_list.display())
+my_list.reverse()
+print(""Reversed List: "", my_list.display())
+```
+This program first defines a `Node` class to represent each node in the linked list.",True,0,"7,2",True,16
+17,"
+
+Here's a Python program that reverses a singly linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current_node = self.head 
+            while current_node.next:
+                current_node = current_node.next  
+            current_node.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next  
+        return elements 
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node:
+            next_node = current_node.next 
+            current_node.next = prev_node  
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+# Example usage:
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.append(4)
+linked_list.append(5)
+
+print(""Original List:"", linked_list.display())
+linked_list.reverse()
+print(""Reversed List:"", linked_list.display())
+
+```
+
+This program defines a `Node` class for the individual nodes of the linked list and a `LinkedList` class for managing the list itself.",True,0,"7,2",True,17
+18,"
+
+Here is a simple implementation of a linked list and a function to reverse it in Python:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data)
+            current_node = current_node.next 
+        return elements
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev 
+
+# Testing the code:
+
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.append(4)
+linked_list.append(5)
+
+print(""Original List: "", linked_list.display())
+
+linked_list.reverse()
+
+print(""Reversed List: "", linked_list.display())
+
+```
+
+In this code, we first create a Node class and a LinkedList class.",True,0,"7,2",True,18
+19,"
+
+Here is a Python program to reverse a singly linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self):
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next 
+            current.next = prev  
+            prev = current 
+            current = next 
+        self.head = prev  
+
+# Driver code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85)
+
+print(""Given Linked List"")
+llist.printList() 
+llist.reverse()
+print(""\nReversed Linked List"") 
+llist.printList()
+
+```
+
+This program defines a `Node` class and a `LinkedList` class.",True,0,"7,2",True,19
+20,"
+
+Here is a Python program that reverses a linked list:
+
+```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    # Function to insert a new node at the end of the list 
+    def insert(self, new_data):
+        new_node = Node(new_data) 
+        if self.head is None: 
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while last_node.next: 
+            last_node = last_node.next 
+        last_node.next = new_node 
+
+    # Function to print the linked list 
+    def print_list(self):
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print()
+
+    # Function to reverse the linked list 
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while(current_node is not None): 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node 
+
+
+# Test the code 
+if __name__ == '__main__':
+    ll = LinkedList()
+    for i in range(5):
+        ll.insert(i)
+    print(""Given Linked List"")
+    ll.print_list()
+    ll.reverse()
+    print(""\nReversed Linked List"")
+    ll.print_list()
+```
+
+In this program, we define a `Node` class which represents each individual element in the linked list.",True,0,"7,2",True,20
+21,"
+
+Here is a simple Python program to reverse a singly linked list:
+
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+ 
+    def print_list(self): 
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "")  
+            temp = temp.next 
+        print()  
+
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev 
+
+if __name__ == '__main__': 
+    ll = LinkedList()
+    for i in range(5, 0, -1):
+        ll.push(i)
+    print(""Original List:"")
+    ll.print_list()
+    ll.reverse()
+    print(""Reversed List:"")
+    ll.print_list()
+
+```
+
+This program defines a `Node` class and a `LinkedList` class.",True,0,"7,2",True,21
+22,"
+
+Here's a simple implementation of a singly linked list in Python and a function to reverse it:
+
+```Pythonriculum/
+```
+
+```python#!/usr/bin/env python3
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None
+
+    def insert(self, new_data):
+        new_node = Node(new_data)
+        if not self.head:
+            self.head = new_node 
+        else: 
+            last_node = self.head 
+            while(last_node.next): 
+                last_node = last_node.next  
+            last_node.next = new_node
+
+    def print_list(self): 
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print()
+
+    def reverse(self): 
+        prev_node = None 
+        current_node = self.head 
+        while(current_node is not None): 
+            next_node = current_node.next  
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+# Test the code 
+llist = LinkedList() 
+llist.insert(1) 
+llist.insert(2) 
+llist.insert(3) 
+llist.insert(4) 
+llist.insert(5)
+
+print(""Given Linked List"") 
+llist.print_list()
+llist.reverse() 
+print(""\nReversed Linked List"") 
+llist.print_list()
+```
+
+The output will be:
+
+```
+Given Linked List 
+1 2 3 4 5 
+Reversed Linked List 
+5 4 3 2 1 
+```
+
+This program creates a linked list with 5 nodes (with values from 1 to 5), prints it, reverses it, and then prints the reversed list.",True,0,"7,2",True,22
+23,"
+
+Here is a Python program that reverses a linked list:
+
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    def insert(self, data): 
+        if not self.head:  
+            self.head = Node(data)  
+        else:  
+            current = self.head  
+            while current.next:  
+                current = current.next  
+            current.next = Node(data)  
+
+    def print_list(self):  
+        current = self.head  
+        while current:  
+            print(current.data)  
+            current = current.next  
+
+    def reverse(self):  
+        prev = None  
+        current = self.head  
+        while current:  
+            nxt = current.next  
+            current.next = prev  
+            prev = current  
+            current = nxt  
+        self.head = prev  
+
+# create a linked list and insert some values  
+linked_list = LinkedList()  
+linked_list.insert('A')  
+linked_list.insert('B')  
+linked_list.insert('C')
+
+print(""Original Linked List:"")  
+linked_list.print_list()
+
+# Reverse the linked list  
+linked_list.reverse()  
+
+print(""\nReversed Linked List:"")  
+linked_list.print_list()
+```
+
+In this code:
+
+*   We have two classes, `Node` and `LinkedList`.
+",True,0,"7,2",True,23
+24,"
+
+Here is a simple implementation of a linked list and a function to reverse it in Python:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to add elements to the linked list  
+    def append(self, data): 
+        if not self.head:
+            self.head = Node(data)
+        else: 
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    # Function to print the linked list  
+    def display(self): 
+        elements = [] 
+        current_node = self.head 
+        while current_node: 
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        return elements 
+
+    # Function to reverse the linked list  
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while current: 
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev
+
+
+# Example usage:
+llist = LinkedList()
+for i in range(1, 10):
+    llist.append(i)
+print(""Original List:"", llist.display())
+llist.reverse()
+print(""Reversed List:"", llist.display())
+
+```
+
+This will create a linked list with numbers from 1 to 9, then reverse it.",True,0,"7,2",True,24
+25,"
+
+Here's an example of a Python program that reverses a singly linked list:
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    def append(self, data): 
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node is not None: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+    def print_list(self):
+        current_node = self.head 
+        while current_node: 
+            print(current_node.data, end="" "") 
+            current_node = current_node.next 
+        print()
+
+# Testing the code:
+llist = LinkedList()
+llist.append(1)
+llist.append(2)
+llist.append(3)
+llist.append(4)
+llist.append(5)
+
+print(""Original List:"")
+llist.print_list()
+
+llist.reverse()
+
+print(""Reversed List:"")
+llist.print_list()
+```
+This program defines two classes: `Node` to represent individual nodes in the linked list and `LinkedList` to manage the list itself.
+
+",True,0,"7,2",True,25
+26,"
+
+Here is a simple implementation of a linked list and a function to reverse it:
+
+```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        return elements
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev
+
+# Test the code 
+llist = LinkedList()
+for i in range(1, 6):
+    llist.append(i)
+
+print(""Original List: "", llist.display())
+llist.reverse()
+print(""Reversed List: "", llist.display())
+```
+
+This script creates a `LinkedList` class with methods for appending nodes, displaying the list, and reversing the list.",True,0,"7,2",True,26
+27,"
+
+Here is a simple implementation of a singly linked list in Python and a function to reverse it:
+
+```Python`
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current_node = self.head 
+            while current_node.next:
+                current_node = current_node.next 
+            current_node.next = Node(data)
+ 
+    def print_list(self):
+        current_node = self.head 
+        while current_node:
+            print(current_node.data) 
+            current_node = current_node.next 
+ 
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node:
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+ 
+# Testing the code 
+llist = LinkedList()
+for i in range(1, 6):
+    llist.insert(i)
+
+print(""Original List: "")
+llist.print_list()
+
+llist.reverse()
+
+print(""\nReversed List: "")
+llist.print_list()
+```
+
+This will create a linked list with elements from 1 to 5, print them out, reverse the list, and then print them again.",True,0,"7,2",True,27
+28,"
+
+Here is a Python program that reverses a singly linked list:
+
+```python\
+```
+
+```python 
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None  
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head  
+        self.head = new_node
+
+    def print_list(self):
+        temp = self.head  
+        while(temp):  
+            print(temp.data, end="" "")  
+            temp = temp.next  
+        print()
+
+    def reverse(self):
+        prev = None  
+        current = self.head  
+        while (current is not None):  
+            next = current.next  
+            current.next = prev  
+            prev = current  
+            current = next  
+        self.head = prev  
+
+# Driver code 
+llist = LinkedList()  
+llist.push(20)  
+llist.push(4)  
+llist.push(15)  
+llist.push(85)
+
+print(""Given Linked List"")  
+llist.print_list()
+llist.reverse()
+print(""\nReversed Linked List"")  
+llist.print_list()
+```
+
+This program defines a `Node` class to represent each node in the linked list and a `LinkedList` class to manage the list itself.
+
+",True,0,"7,2",True,28
+29,"
+
+Here is a simple Python program that defines a LinkedList class and a method to reverse the linked list.
+
+",True,0,"7,2",True,29
+30,"
+
+Here is a simple implementation of a singly linked list in Python and how you can reverse it.
+
+",True,1,"7,2",True,30
+31,"
+
+Here's an example of a Python program that reverses a singly linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self): 
+        self.head = None  
+
+    # Function to add elements to the linked list    
+    def push(self, data):  
+        new_node = Node(data)  
+        new_node.next = self.head   
+        self.head = new_node  
+
+    # Function to reverse the linked list    
+    def reverse(self):  
+        prev = None  
+        current = self.head  
+        while current is not None:  
+            next_node = current.next  
+            current.next = prev  
+            prev = current  
+            current = next_node  
+        self.head = prev  
+
+    # Function to print the linked list    
+    def display(self):  
+        temp = self.head  
+        while temp:  
+            print(temp.data, end="" "")  
+            temp = temp.next  
+        print()  
+
+if __name__ == ""__main__"":
+    ll = LinkedList()
+    for i in range(5, 0, -1):
+        ll.push(i)
+
+    print(""Original Linked List:"")
+    ll.display()
+
+    ll.reverse()
+
+    print(""Reversed Linked List:"")
+    ll.display()
+
+```
+
+When you run this code, it will create a linked list with nodes holding values from `5` to `0`, then reverse the list, to hold values from `0` to `5`.assistant
+
+This Python program defines a singly linked list and provides functions to add elements to the list,eto the list, reverse the list, and print the list.
+
+",True,0,"7,2",True,31
+32,"
+
+Here's an implementation of a singly linked list in Python and a method to reverse the linked list:
+
+```python=
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Add elements to the linked list 
+    def add(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next  
+            current.next = Node(data)
+
+    # Print the linked list 
+    def print_list(self):
+        nodes = []
+        current = self.head 
+        while current:
+            nodes.append(str(current.data))
+            current = current.next 
+        print("" -> "".join(nodes))
+
+    # Reverse the linked list 
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Create a linked list and add some elements 
+linked_list = LinkedList()
+for i in range(1, 6):
+    linked_list.add(i)
+
+# Print original linked list 
+print(""Original Linked List:"")
+linked_list.print_list()
+
+# Reverse the linked list 
+linked_list.reverse()
+
+# Print reversed linked list 
+print(""Reversed Linked List:"")
+linked_list.print_list()
+```
+
+Output:
+```
+Original Linked List:
+1 -> 2 -> 3 -> 4 -> 5 
+Reversed Linked List:
+5 -> 4 -> 3 -> 2 -> 1 
+```
+
+The `reverse` method iterates through the linked list, changing the `next` pointer of each node to its previous node, effectively reversing the direction of the links.",True,1,"7,2",True,32
+33,"
+
+Here's an example of how you could implement a function to reverse a singly linked list in Python:
+
+```python`
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = [] 
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        print(elements)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev 
+
+my_list = LinkedList()
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
+my_list.append(4)
+my_list.display() # prints: [1, 2, 3, 4]
+my_list.reverse()
+my_list.display() # prints: [4, 3, 2, 1]
+```
+
+This `LinkedList` class has methods to append nodes (`append`), display the list (`display`), and reverse the list (`reverse`).",True,0,"7,2",True,33
+34,"
+
+Here is a Python program to reverse a linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next: 
+                current = current.next  
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        return elements 
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+
+my_list = LinkedList() 
+my_list.append(1) 
+my_list.append(2) 
+my_list.append(3) 
+my_list.append(4) 
+my_list.append(5) 
+
+print(""Original List: "", my_list.display())
+my_list.reverse()
+print(""Reversed List: "", my_list.display())
+
+```
+
+In this program, we first define a `Node` class which represents each node in the linked list.",True,0,"7,2",True,34
+35,"
+
+Here is a simple implementation of a singly-linked list and a function to reverse it in Python:
+
+```Python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self): 
+        temp = self.head 
+        while(temp): 
+            print (temp.data, end="" "")
+            temp = temp.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev 
+
+# Driver code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85)
+
+print(""Given Linked List"")
+llist.printList()
+llist.reverse()
+print(""\nReversed Linked List"")
+llist.printList()
+
+```
+
+This script first creates a LinkedList class with methods for adding nodes and printing the list.",True,0,"7,2",True,35
+36,"
+
+Here's a simple implementation of a singly linked list and a function to reverse it in Python:
+
+```python'
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []  
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data)  
+            current_node = current_node.next  
+        return elements 
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:  
+            nxt = current.next  
+            current.next = prev  
+            prev = current  
+            current = nxt 
+        self.head = prev
+
+
+# Testing the code:
+ll = LinkedList()
+ll.append(1)
+ll.append(2)
+ll.append(3)
+ll.append(4)
+ll.append(5)
+
+print(""Original List:"", ll.display())
+ll.reverse()
+print(""Reversed List:"", ll.display())
+
+```
+
+This will output:
+```
+Original List: [1, 2, 3, 4, 5]
+Reversed List: [5, 4, 3, 2, 1]
+```
+
+The `reverse` method initializes three pointers: `prev`, `current`, and `nxt`.",True,0,"7,2",True,36
+37,"
+
+Here is a simple Python program to reverse a singly linked list:
+
+```Python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    def append(self, data): 
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current_node = self.head 
+            while current_node.next: 
+                current_node = current_node.next 
+            current_node.next = Node(data)
+
+    def print_list(self): 
+        current_node = self.head 
+        while current_node: 
+            print(current_node.data, end="" "") 
+            current_node = current_node.next 
+        print()
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+# Testing the code 
+linked_list = LinkedList()
+for i in range(5, 0, -1):
+    linked_list.append(i)
+print(""Original List:"")
+linked_list.print_list()
+linked_list.reverse()
+print(""Reversed List:"")
+linked_list.print_list()
+
+```
+
+The `reverse` function works by keeping track of three nodes: the previous node, the current node, and the next node.",True,0,"7,2",True,37
+38,"
+
+Here is a Python program to reverse a linked list:
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next  
+            current.next = Node(data) 
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data)  
+            current_node = current_node.next  
+        return elements
+ 
+    def reverse(self):
+        prev = None  
+        current = self.head  
+        while current:
+            nxt = current.next  
+            current.next = prev  
+            prev = current  
+            current = nxt  
+        self.head = prev  
+ 
+# Test the implementation:
+llist = LinkedList()
+for i in range(1, 6):
+    llist.append(i)
+
+print(""Original List: "", llist.display())
+llist.reverse()
+print(""Reversed List: "", llist.display())
+
+```
+This program defines a `Node` class and a `LinkedList` class.",True,0,"7,2",True,38
+39,"
+
+Here is a simple Python program that reverses a linked list:
+
+```python:
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def reverse(self):
+        prev_node = None 
+        current = self.head 
+        while current: 
+            next_node = current.next 
+            current.next = prev_node 
+            prev_node = current 
+            current = next_node 
+        self.head = prev_node 
+
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data)  
+            current = current.next
+
+# Testing the code 
+llist = LinkedList() 
+for i in range(1, 6): 
+    llist.insert(i)
+
+print(""Original List:"")
+llist.print_list()
+llist.reverse()
+print(""\nReversed List:"") 
+llist.print_list()assistant
+
+This Python program defines a linked list and provides methods to insert elements and reverse the list.",True,0,"7,2",True,39
+40,"
+
+Here is a Python program that reverses a linked list:
+
+```python 
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, new_data):
+        new_node = Node(new_data)
+        if self.head is None:
+            self.head = new_node 
+            return 
+        last = self.head 
+        while(last.next): 
+            last = last.next  
+        last.next = new_node 
+
+    def print_list(self):
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev
+
+# Testing the code 
+linked_list = LinkedList()
+linked_list.insert('A')
+linked_list.insert('B')
+linked_list.insert('C')
+
+print(""Original List: "")
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""Reversed List: "")
+linked_list.print_list() 
+```
+
+This program defines a `Node` class and a `LinkedList` class.",True,0,"7,2",True,40
+41,"
+
+Here is a Python program to reverse a linked list:
+```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while last_node.next:
+            last_node = last_node.next 
+        last_node.next = new_node
+
+    def print_list(self):
+        current_node = self.head 
+        while current_node:
+            print(current_node.data, end="" "")
+            current_node = current_node.next 
+        print()
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node:
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node 
+
+# Testing the implementation 
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.append(4)
+linked_list.append(5)
+
+print(""Original List: "", end="""")
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""Reversed List: "", end="""")
+linked_list.print_list()
+```
+
+This will create a linked list with values 1 through 5 and then reverse it.",True,0,"7,2",True,41
+42,"
+
+Here is a simple implementation of a singly linked list and a function to reverse it:
+
+```python`
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next  
+            current.next = Node(data)
+
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data, end = "" "")
+            current = current.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next  
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# create a linked list and insert elements 
+llist = LinkedList()
+for i in range(1, 11):
+    llist.insert(i) 
+
+print(""Original List: "")
+llist.print_list() 
+
+# reverse the list 
+llist.reverse()
+
+print(""Reversed List: "")
+llist.print_list()
+```
+
+In this code:
+
+*   We define a `Node` class with `data` and `next` attributes.
+",True,0,"7,2",True,42
+43,"
+
+Here is a Python program that reverses a singly linked list:
+
+```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while last_node.next:
+            last_node = last_node.next 
+        last_node.next = new_node 
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data, end="" "") 
+            current = current.next 
+        print() 
+
+# Test the code 
+llist = LinkedList()
+for i in range(1, 6):
+    llist.append(i)
+
+print(""Original List: "")
+llist.print_list()
+
+llist.reverse()
+
+print(""Reversed List: "")
+llist.print_list()
+
+```
+
+This program defines a `Node` class to represent each element in the linked list and a `LinkedList` class to manage the list.",True,0,"7,2",True,43
+44,"
+
+Here is a simple implementation of reversing a linked list in Python:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None
+
+    def append(self, data):  
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self): 
+        elements = [] 
+        current_node = self.head 
+        while current_node: 
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        print(elements) 
+
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while current: 
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev
+
+
+# Test the code 
+my_list = LinkedList() 
+my_list.append(1) 
+my_list.append(2) 
+my_list.append(3) 
+my_list.append(4) 
+my_list.append(5) 
+
+print(""Original List: "") 
+my_list.display() 
+
+my_list.reverse() 
+
+print(""Reversed List: "") 
+my_list.display()
+
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"7,2",True,44
+45,"
+
+Here is a simple Python program that reverses a singly linked list:
+
+```python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+    def display(self):
+        elements = [] 
+        current_node = self.head 
+        while current_node: 
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        print(elements)
+
+
+# Testing the code 
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.append(4)
+linked_list.append(5)
+
+print(""Original Linked List:"")
+linked_list.display()
+
+linked_list.reverse()
+
+print(""Reversed Linked List:"")
+linked_list.display()assistant
+
+This program defines two classes: `Node` and `LinkedList`.",True,0,"7,2",True,45
+46,"
+
+Here is a simple implementation of a Python program to reverse a singly linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def append(self, data): 
+        if not self.head:  
+            self.head = Node(data) 
+        else: 
+            current = self.head  
+            while current.next: 
+                current = current.next  
+            current.next = Node(data)  
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node: 
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        return elements 
+
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while current: 
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev 
+
+# Testing the code 
+my_list = LinkedList() 
+my_list.append(1) 
+my_list.append(2) 
+my_list.append(3) 
+my_list.append(4) 
+my_list.append(5)
+
+print(""Original List: "", my_list.display()) 
+my_list.reverse() 
+print(""Reversed List: "", my_list.display())
+
+```
+
+In this script, we first create a `Node` class and a `LinkedList` class.",True,0,"7,2",True,46
+47,"
+
+Here is a simple Python program that defines a Node class and a LinkedList class, then uses these classes to create a linked list and reverse it:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def print_list(self):
+        node = self.head 
+        while node:
+            print(node.data, end="" "")
+            node = node.next 
+        print()
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node:
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+# Testing the code
+
+linked_list = LinkedList()
+linked_list.insert('A')
+linked_list.insert('B')
+linked_list.insert('C')
+
+print(""Original Linked List:"")
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""Reversed Linked List:"")
+linked_list.print_list()
+
+```
+
+In this code, we first define a `Node` class, which has a `data` attribute to hold the data of the node and a `next` attribute to point to the next node in the linked list.
+
+",True,0,"7,2",True,47
+48,"
+
+Here's a Python program that reverses a singly linked list:
+
+```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    def insert(self, new_data): 
+        if self.head is None: 
+            self.head = Node(new_data) 
+        else: 
+            current = self.head 
+            while(current.next): 
+                current = current.next 
+            current.next = Node(new_data)
+
+    def print_list(self): 
+        temp = self.head 
+        while(temp): 
+            print (temp.data, end ="" "") 
+            temp = temp.next 
+        print()
+
+    def reverse_list(self):
+        prev_node = None 
+        current_node = self.head 
+        while(current_node is not None): 
+            next_node = current_node.next  
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+
+# Testing the implementation 
+linked_list = LinkedList()
+linked_list.insert(1)
+linked_list.insert(2)
+linked_list.insert(3)
+linked_list.insert(4)
+linked_list.insert(5)
+print(""Original List:"")
+linked_list.print_list() # prints 1 2 3 4 5 
+
+linked_list.reverse_list()
+
+print(""Reversed List:"")
+linked_list.print_list() # prints 5 4 3 2 1
+
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class with methods to insert nodes into the linked list, print the linked list, and reverse the linked list.
+
+",True,0,"7,2",True,48
+49,"
+
+Here is a simple implementation of reversing a singly linked list in Python:
+
+```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next  
+            current.next = Node(data)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            nxt = current.next  
+            current.next = prev  
+            prev = current 
+            current = nxt 
+        self.head = prev 
+
+    def print_list(self):
+        current = self.head 
+        while current: 
+            print(current.data, end="" "")
+            current = current.next
+
+
+# Testing the code:
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.append(4)
+linked_list.append(5)
+
+print(""Original List:"")
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""\nReversed List:"")
+linked_list.print_list()
+```
+
+This script defines two classes: `Node` and `LinkedList`.",True,0,"7,2",True,49
+50,"
+
+Here is a simple Python program to reverse a singly linked list.
+
+",True,1,"7,2",True,50
+51,"```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        new_node.next = self.head 
+        self.head = new_node
+
+    def printList(self):
+        temp = self.head 
+        while(temp): 
+            print (temp.data, end ="" "") 
+            temp = temp.next 
+        print()  
+
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while(current is not None):  
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev 
+
+
+
+# Test the code 
+llist = LinkedList()
+llist.push(20)
+llist.push(4)
+llist.push(15)
+llist.push(85)
+
+print(""Given Linked List"")
+llist.printList()
+
+llist.reverse()
+
+print(""\nReversed Linked List"")
+llist.printList()
+
+```
+
+This program first creates a linked list with four nodes containing the values 85, 15, 4, and 20.",True,1,"6,2",True,1
+52,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert a new node at the end of the list.
+   ",True,1,"6,2",True,2
+53,"```Python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def push(self, data):
+        new_node = Node(data)
+        new_node.next = self.head 
+        self.head = new_node  
+
+    def printList(self):
+        temp = self.head  
+        while(temp): 
+            print(temp.data, end="" "")  
+            temp = temp.next 
+        print()  
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head  
+        while(current_node is not None): 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node  
+        self.head = prev_node  
+
+if __name__ == ""__main__"":
+    ll = LinkedList()
+    for i in range(5):
+        ll.push(i) # pushing 4, 3, 2, 1 and 0 to the linked list 
+    print(""Original List: "", end="""")
+    ll.printList() 
+    ll.reverse()  
+    print(""Reversed List: "", end="""")
+    ll.printList()
+
+```
+
+The `reverse` method initializes three pointers: `prev_node`, `current_node`, and `next_node`.",True,1,"6,2",True,3
+54,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+ 
+    def printList(self):
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "")  
+            temp = temp.next
+ 
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while (current is not None):
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev
+ 
+ 
+# Driver program to test above function 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85) 
+ 
+print(""Given Linked List"") 
+llist.printList() 
+llist.reverse() 
+print(""\nReversed Linked List"") 
+llist.printList()
+```
+
+This program creates a linked list with 4 elements: 85, 15, 4, 20.",True,0,"6,2",True,4
+55,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data, end = "" "")
+            current = current.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Testing the code 
+llist = LinkedList()
+for i in range(1, 6): 
+    llist.insert(i) 
+print(""Original List: "", end="""")
+llist.print_list() 
+llist.reverse() 
+print(""Reversed List: "", end="""")
+llist.print_list()
+```
+
+This program creates a LinkedList class with methods to insert nodes, print the list, and reverse the list.",True,0,"6,2",True,5
+56,"```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return
+ 
+        current = self.head 
+        while current.next:
+            current = current.next 
+
+        current.next = new_node
+ 
+    def print_list(self):
+        temp = self.head 
+        while temp:
+            print(temp.data, end = "" "")
+            temp = temp.next
+ 
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node
+ 
+        self.head = prev
+ 
+# Test the code 
+ll = LinkedList()
+ll.append(1) 
+ll.append(2) 
+ll.append(3) 
+ll.append(4) 
+ll.append(5)
+
+print(""Original List: "")
+ll.print_list() 
+
+ll.reverse()
+
+print(""\nReversed List: "") 
+ll.print_list()
+```
+
+This program defines a `Node` class and a `LinkedList` class.",True,0,"6,2",True,6
+57,"```Python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        last_node = self.head
+        while last_node.next:
+            last_node = last_node.next
+        last_node.next = new_node
+
+    def display(self):
+        elements = []
+        current_node = self.head
+        while current_node:
+            elements.append(current_node.data)
+            current_node = current_node.next
+        print(elements)
+
+    def reverse(self):
+        prev_node = None
+        current_node = self.head
+        while current_node:
+            next_node = current_node.next
+            current_node.next = prev_node
+            prev_node = current_node
+            current_node = next_node
+        self.head = prev_node
+
+
+# Testing the code
+llist = LinkedList()
+for i in range(1, 6):
+    llist.append(i)
+print(""Original List: "")
+llist.display()
+llist.reverse()
+print(""Reversed List: "")
+llist.display()
+
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"6,2",True,7
+58,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None
+
+    # Function to insert a new node at the end 
+    def insert(self, data): 
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    # Function to print the linked list 
+    def print_list(self): 
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print()  
+
+    # Function to reverse the linked list 
+    def reverse(self):  
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Create a linked list and insert elements 
+linked_list = LinkedList()
+linked_list.insert('A') 
+linked_list.insert('B') 
+linked_list.insert('C') 
+linked_list.insert('D') 
+linked_list.insert('E')
+
+print(""Original Linked List: "")
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""Reversed Linked List: "")
+linked_list.print_list()
+```
+
+This program defines a `Node` class for each element in the linked list and a `LinkedList` class with methods to insert nodes into the list, to print the list, and to reverse the list.",True,0,"6,2",True,8
+59,"```python:
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+  
+    # Function to insert a new node at the end 
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        if self.head is None: 
+            self.head = new_node 
+            return 
+        last = self.head 
+        while (last.next): 
+            last = last.next 
+        last.next = new_node 
+  
+    # Function to print the linked list 
+    def printList(self): 
+        temp = self.head  
+        while(temp): 
+            print(temp.data,end="" "") 
+            temp = temp.next 
+        print() 
+  
+    # Function to reverse the linked list 
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev 
+  
+# Test the code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85) 
+  
+print(""Original Linked List:"") 
+llist.printList() 
+llist.reverse() 
+  
+print(""Reversed Linked List:"") 
+llist.printList()
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"6,2",True,9
+60,"```Python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert a new node at the end of the list.
+   ",True,1,"6,2",True,10
+61,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None
+
+    def append(self, data): 
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self): 
+        elements = []
+        current_node = self.head 
+        while current_node: 
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        return elements 
+
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while current: 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev
+
+
+# Test the code 
+llist = LinkedList() 
+for i in range(1, 11): 
+    llist.append(i) 
+print(""Original List: "", llist.display()) 
+llist.reverse() 
+print(""Reversed List: "", llist.display())
+```
+
+In this program, we define a `Node` class to create new nodes and a `LinkedList` class with methods to append elements, display the list, and reverse the list.",True,0,"6,2",True,11
+62,"```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self): 
+        self.head = None
+
+    # Function to add elements to the list 
+    def push(self, new_data): 
+        new_node = Node(new_data)  
+        new_node.next = self.head 
+        self.head = new_node
+
+    # Function to print the linked list 
+    def printList(self): 
+        temp = self.head 
+        while(temp): 
+            print (temp.data, end="" "") 
+            temp = temp.next 
+        print()
+
+    # Function to reverse the linked list 
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while(current): 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Driver code 
+if __name__ == '__main__':
+    ll = LinkedList() 
+    for i in range(5): 
+        ll.push(i)
+
+    print(""Original Linked List: "", end="""") 
+    ll.printList()
+    
+    ll.reverse()
+
+    print(""Reversed Linked List: "", end="""") 
+    ll.printList()assistant
+
+This program creates a linked list with 5 nodes containing values from 0 to 4, and then reverses it.",True,0,"6,2",True,12
+63,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current_node = self.head 
+            while current_node.next:
+                current_node = current_node.next 
+            current_node.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next  
+        return elements
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+
+# Create a new linked list and add some nodes.
+",True,0,"6,2",True,13
+64,"```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return 
+        last = self.head 
+        while(last.next):
+            last = last.next 
+        last.next = new_node 
+
+    def display(self):
+        elements = []
+        cur_node = self.head 
+        while cur_node:
+            elements.append(cur_node.data) 
+            cur_node = cur_node.next 
+        print(elements)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current):
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+
+# test the code 
+my_list = LinkedList()
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
+my_list.append(4)
+my_list.append(5)
+print(""Original List: "")
+my_list.display()
+my_list.reverse()
+print(""Reversed List: "")
+my_list.display()
+
+```
+
+In this program, we define two classes `Node` and `LinkedList`.",True,0,"6,2",True,14
+65,"```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while last_node.next: 
+            last_node = last_node.next 
+        last_node.next = new_node 
+
+    def print_list(self): 
+        curr_node = self.head 
+        while curr_node: 
+            print(curr_node.data) 
+            curr_node = curr_node.next 
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next_node = current.next 
+            current.next = prev  
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Testing the code 
+if __name__ == ""__main__"":
+    ll = LinkedList() 
+    for i in range(1, 6): 
+        ll.append(i) 
+    print(""Original List: "") 
+    ll.print_list()
+    ll.reverse() 
+    print(""\nReversed List: "")
+    ll.print_list()
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"6,2",True,15
+66,"```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    # Function to insert node at the end of the list 
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    # Function to print the linked list 
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data, end="" "")
+            current = current.next 
+        print()
+
+    # Function to reverse the linked list 
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node:
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node
+
+
+# Driver code 
+if __name__ == ""__main__"":
+    ll = LinkedList()
+    for i in range(1, 6):
+        ll.insert(i)
+    print(""Original List: "")
+    ll.print_list()
+    ll.reverse()
+    print(""Reversed List: "")
+    ll.print_list()
+
+```
+
+In this program, we create a `LinkedList` class and a `Node` class.",True,0,"6,2",True,16
+67,"```Python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self):  
+        self.head = None 
+
+    def insert(self, data):  
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    def print_list(self): 
+        temp = self.head 
+        while temp: 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print() 
+
+    def reverse(self):  
+        prev = None 
+        current = self.head 
+        while current: 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+
+# Testing the code 
+linked_list = LinkedList()
+linked_list.insert('A')
+linked_list.insert('B')
+linked_list.insert('C')
+
+print(""Original Linked List: "", end="""")
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""Reversed Linked List: "", end="""")
+linked_list.print_list()
+
+```
+
+This script creates a LinkedList class and a Node class for elements in the list.",True,0,"6,2",True,17
+68,"```Python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Method to add elements to the linked list    
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next  
+            current.next = Node(data)
+
+    # Method to print the linked list    
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        return elements 
+
+    # Method to reverse the linked list   
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+
+# Driver code 
+if __name__ == '__main__':
+    my_list = LinkedList()
+    my_list.append(1)
+    my_list.append(2)
+    my_list.append(3)
+    my_list.append(4)
+    my_list.append(5)
+
+    print(""Original List: "", my_list.display())
+    my_list.reverse()
+    print(""Reversed List: "", my_list.display())
+
+```
+
+This program will output:
+
+```
+Original List:  [1, 2, 3, 4, 5]
+Reversed List:  [5, 4, 3, 2, 1]
+```
+
+This program defines two classes, `Node` and `LinkedList`.",True,0,"6,2",True,18
+69,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, new_data):
+        new_node = Node(new_data)
+        if self.head is None:
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while(last_node.next):
+            last_node = last_node.next 
+        last_node.next = new_node 
+
+    def print_list(self):
+        temp = self.head 
+        while(temp):
+            print(temp.data, end="" "")
+            temp = temp.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while(current is not None): 
+            next_node = current.next  
+            current.next = prev  
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+
+# Testing the code 
+llist = LinkedList()
+llist.insert('A')
+llist.insert('B')
+llist.insert('C')
+llist.insert('D')
+
+print(""Given Linked List:"")
+llist.print_list()
+
+llist.reverse()
+
+print(""\nReversed Linked List:"")
+llist.print_list()
+```
+
+In this program, we first create a `Node` class and a `LinkedList` class.",True,0,"6,2",True,19
+70,"```Python
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current_node = self.head
+            while current_node.next:
+                current_node = current_node.next
+            current_node.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head
+        while current_node:
+            elements.append(current_node.data)
+            current_node = current_node.next
+        return elements
+
+    def reverse(self):
+        prev_node = None
+        current_node = self.head
+        while current_node:
+            next_node = current_node.next
+            current_node.next = prev_node
+            prev_node = current_node
+            current_node = next_node
+        self.head = prev_node
+
+# Create a new linked list
+linked_list = LinkedList()
+
+# Add some elements
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.append(4)
+linked_list.append(5)
+
+print(""Original List: "", linked_list.display())
+
+# Reverse the list
+linked_list.reverse()
+print(""Reversed List: "", linked_list.display())
+```
+
+In this code, we first create a `Node` class which represents each node of the linked list.",True,0,"6,2",True,20
+71,"```python
+
+class Node:
+    def __init__(self, data):
+        self.data = data  
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while last_node.next: 
+            last_node = last_node.next 
+        last_node.next = new_node 
+
+    def print_list(self):
+        cur_node = self.head 
+        while cur_node:
+            print(cur_node.data, end="" "")
+            cur_node = cur_node.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        curr = self.head 
+        while curr:
+            nxt = curr.next 
+            curr.next = prev 
+            prev = curr 
+            curr = nxt 
+        self.head = prev
+
+# Create a sample linked list 1 -> 2 -> 3 -> 4 -> 5 and reverse it 
+llist = LinkedList()
+for i in range(1, 6):
+    llist.append(i)
+
+print(""Original List:"")
+llist.print_list() 
+
+llist.reverse()
+
+print(""Reversed List:"")
+llist.print_list()
+
+```
+
+This Python program defines two classes `Node` and `LinkedList`.",True,0,"6,2",True,21
+72,"```Python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    # Function to insert new node at the end.
+   ",True,1,"6,2",True,22
+73,"```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert new node at the end of the list.
+   ",True,1,"6,2",True,23
+74,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def print_list(self):
+        temp = self.head 
+        while temp:
+            print(temp.data,END="" "")
+            temp = temp.next 
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev
+
+# test the code 
+ll = LinkedList()
+for i in range(1, 6):
+    ll.insert(i)  
+print(""Original List:"")
+ll.print_list()  
+
+ll.reverse()
+
+print(""\nReversed List: "")
+ll.print_list()
+```
+
+This program first defines two classes `Node` and `LinkedList`.",True,0,"6,2",True,24
+75,"```python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next  
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next  
+        return elements 
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            nxt = current.next 
+            current.next = prev 
+            prev = current 
+            current = nxt 
+        self.head = prev 
+
+
+if __name__ == ""__main__"":
+    ll = LinkedList()
+    for i in range(1, 6):
+        ll.append(i)
+    print(""Original List:"", ll.display())
+    ll.reverse()
+    print(""Reversed List:"", ll.display())
+
+```
+
+In this code, we first create a Node class and a LinkedList class.",True,0,"6,2",True,25
+76,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data)
+            current_node = current_node.next 
+        return elements 
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev
+
+my_list = LinkedList()
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
+my_list.append(4)
+my_list.append(5)
+
+print(""Original List: "", my_list.display())
+my_list.reverse()
+print(""Reversed List: "", my_list.display())
+```
+
+In this code:
+
+- We first create a `Node` class that has an integer value and a reference to the next node.
+  
+",True,1,"6,2",True,26
+77,"```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self):
+        temp = self.head 
+        while(temp):
+            print(temp.data, end="" "")
+            temp = temp.next
+
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next 
+            current.next = prev  
+            prev = current 
+            current = next 
+        self.head = prev
+
+
+# Driver code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85)
+
+print(""Original List:"")
+llist.printList()
+
+llist.reverse()
+
+print(""\nReversed List:"")
+llist.printList()
+
+
+```
+
+This program defines two classes: `Node` and `LinkedList`.",True,0,"6,2",True,27
+78,"```Python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    # Method to add nodes at the end of the list 
+    def append(self, data):  
+        new_node = Node(data) 
+  
+        if not self.head: 
+            self.head = new_node 
+            return 
+
+        last_node = self.head  
+        while(last_node.next):  
+            last_node = last_node.next  
+
+        last_node.next = new_node  
+
+    # Method to print the list 
+    def display(self):  
+        elements = [] 
+        current_node = self.head  
+
+        while(current_node): 
+            elements.append(str(current_node.data)) 
+            current_node = current_node.next  
+
+        print("" "".join(elements))
+
+    # Method to reverse the list 
+    def reverse(self):  
+        prev_node = None 
+        current_node = self.head 
+
+        while(current_node): 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node  
+
+        self.head = prev_node 
+
+
+if __name__ == ""__main__"":
+    ll = LinkedList()
+    for i in range(1, 6):
+        ll.append(i)
+    print(""Original List:"")
+    ll.display()
+    ll.reverse()
+    print(""Reversed List:"")
+    ll.display()
+
+```
+
+This script creates a linked list with values from 1 to 5 and then reverses it using the `reverse` method.",True,0,"6,2",True,28
+79,"```Python
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+
+    def printList(self):
+        temp = self.head
+        while(temp):
+            print(temp.data, end="" "")
+            temp = temp.next
+        print()
+
+    def reverse(self):
+        prev = None
+        current = self.head
+        while(current is not None):
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+        self.head = prev
+
+# Driver code
+llist = LinkedList()
+llist.push(20)
+llist.push(4)
+llist.push(15)
+llist.push(85)
+
+print(""Given Linked List"")
+llist.printList()
+llist.reverse()
+print(""\nReversed Linked List"")
+llist.printList()
+```
+
+This program creates a linked list with four elements: 85, 15, 4, and 20.",True,1,"6,2",True,29
+80,"```Python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next: 
+                current = current.next  
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node: 
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        print(elements)
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node: 
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node 
+
+# Testing the program
+
+my_list = LinkedList()
+my_list.append(1)
+my_list.append(2)
+my_list.append(3)
+my_list.append(4)
+my_list.append(5)
+
+print(""Original List:"")
+my_list.display()
+
+my_list.reverse()
+
+print(""Reversed List:"")
+my_list.display()
+```
+
+This script will output:
+
+```
+Original List:
+[1, 2, 3, 4, 5]
+Reversed List:
+[5, 4, 3, 2, 1]
+```
+
+In this script, we define two classes: `Node` and `LinkedList`.",True,0,"6,2",True,30
+81,"```Pythoniếassistant
+
+Here is a simple Python program to reverse a singly linked list:
+```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return    
+        last_node = self.head  
+        while last_node.next:  
+            last_node = last_node.next  
+        last_node.next = new_node  
+
+    def print_list(self):
+        current_node = self.head  
+        while current_node:  
+            print(current_node.data, ->) 
+            current_node = current_node.next  
+
+    def reverse_list(self):  
+        prev_node = None  
+        current_node = self.head  
+        while current_node:  
+            next_node = current_node.next  
+            current_node.next = prev_node  
+            prev_node = current_node  
+            current_node = next_node  
+        self.head = prev_node  
+
+# Create a new linked list and add some elements  
+llist = LinkedList()
+llist.append(1)
+llist.append(2)
+llist.append(3)
+llist.append(4)
+llist.append(5)
+
+print(""Original List:"")
+llist.print_list()
+
+llist.reverse_list()
+
+print(""\nReversed List:"")
+llist.print_list()
+```
+
+This program first creates a `Node` class and a `LinkedList` class.",True,0,"6,2",True,31
+82,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current_node = self.head 
+            while current_node.next:
+                current_node = current_node.next 
+            current_node.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next 
+        print(elements)
+
+    def reverse(self):
+        prev_node = None 
+        current_node = self.head 
+        while current_node:
+            next_node = current_node.next 
+            current_node.next = prev_node 
+            prev_node = current_node 
+            current_node = next_node 
+        self.head = prev_node 
+
+# Testing the code
+
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(2)
+linked_list.append(3)
+linked_list.display()  # Output: [1, 2, 3]
+linked_list.reverse()
+linked_list.display()  # Output: [3, 2, 1]
+```
+
+This program defines two classes, `Node` and `LinkedList`.",True,0,"6,2",True,32
+83,"```python:
+class Node:
+    def __init__(self, data=None):
+        self.data = data  
+        self.next = None  
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head  
+            while current.next:
+                current = current.next  
+            current.next = Node(data)  
+
+    def print_list(self):
+        temp = self.head  
+        while temp:
+            print(temp.data, end="" "")
+            temp = temp.next  
+        print()
+
+    def reverse(self):
+        prev_node = None  
+        current_node = self.head  
+        while current_node:
+            next_node = current_node.next  
+            current_node.next = prev_node  
+            prev_node = current_node  
+            current_node = next_node  
+        self.head = prev_node  
+
+# Driver code:
+linked_list = LinkedList()
+linked_list.insert('A')
+linked_list.insert('B')
+linked_list.insert('C')
+print(""Original List: "", end="""")
+linked_list.print_list()  # Output: Original List: A B C 
+linked_list.reverse()
+print(""Reversed List: "", end="""")
+linked_list.print_list()  # Output: Reversed List: C B Aassistant
+
+This program defines two classes: `Node` and `LinkedList`.",True,0,"6,2",True,33
+84,"```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert new node at the end of the list.
+   ",True,1,"6,2",True,34
+85,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data)
+            current_node = current_node.next 
+        print(elements)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Test the program 
+linked_list = LinkedList()
+linked_list.append(1) 
+linked_list.append(2) 
+linked_list.append(3) 
+linked_list.append(4) 
+linked_list.append(5)
+
+print(""Original Linked List:"")
+linked_list.display()
+
+linked_list.reverse() 
+
+print(""Reversed Linked List:"")
+linked_list.display()
+```
+
+In this program, we first create a Node class to hold each node's data and a reference to the next node in the linked list.",True,0,"6,2",True,35
+86,"```python
+
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return
+
+        current = self.head 
+        while current.next:
+            current = current.next 
+
+        current.next = new_node
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next
+
+        print(elements)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev
+
+
+if __name__ == ""__main__"":
+    ll = LinkedList()
+    for i in range(1, 6):
+        ll.append(i)
+
+    print(""Original List:"")
+    ll.display()
+
+    ll.reverse()
+
+    print(""Reversed List:"")
+    ll.display()
+
+```
+
+This program creates a linked list with the numbers 1 through 5, then reverses it.",False,,,,36
+87,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Function to insert a new node at the end of the list.
+   ",True,1,"6,2",True,37
+88,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data, end = "" "")
+            current = current.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev
+
+# Test the code:
+linked_list = LinkedList()
+linked_list.insert('A')
+linked_list.insert('B')
+linked_list.insert('C')
+print(""Original Linked List:"")
+linked_list.print_list()
+linked_list.reverse()
+print(""Reversed Linked List:"")
+linked_list.print_list()
+```
+
+In this program, we first create a Node class and a LinkedList class.",True,0,"6,2",True,38
+89,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data, end = "" "")
+            current = current.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+
+# Testing the program    
+linked_list = LinkedList()
+linked_list.insert('A')
+linked_list.insert('B')
+linked_list.insert('C')
+
+print(""Original List: "", end="""")
+linked_list.print_list()
+
+linked_list.reverse()
+
+print(""Reversed List: "", end="""")
+linked_list.print_list()
+```
+
+In this program, we define two classes `Node` and `LinkedList`.",True,0,"6,2",True,39
+90,"```python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self):
+        temp = self.head  
+        while(temp): 
+            print(temp.data, end="" "")
+            temp = temp.next 
+        print()  
+
+    def reverse(self): 
+        prev = None 
+        current = self.head  
+        while(current is not None): 
+            next = current.next 
+            current.next = prev  
+            prev = current 
+            current = next 
+        self.head = prev  
+
+# Driver code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85)
+
+print(""Original List: "") 
+llist.printList() 
+llist.reverse() 
+
+print(""\nReversed List: "") 
+llist.printList()
+
+```
+
+This program first creates a linked list with nodes of values 85, 15, 4, and 20.",True,1,"6,2",True,40
+91,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList: 
+    def __init__(self): 
+        self.head = None 
+
+    # Function to add elements to the linked list 
+    def append(self, data): 
+        if not self.head: 
+            self.head = Node(data) 
+        else: 
+            current = self.head 
+            while current.next: 
+                current = current.next 
+            current.next = Node(data)
+
+    # Function to print the linked list 
+    def display(self):  
+        elems = [] 
+        current_node = self.head 
+        while current_node:  
+            elems.append(current_node.data)  
+            current_node = current_node.next 
+        print(elems)
+
+    # Function to reverse the linked list 
+    def reverse(self):  
+        prev = None 
+        current = self.head 
+        while current:  
+            nxt = current.next  
+            current.next = prev  
+            prev = current  
+            current = nxt  
+        self.head = prev 
+
+# Test the code 
+llist = LinkedList()  
+for i in range(5):  
+    llist.append(i)  
+
+print(""Original List: "") 
+llist.display()
+
+llist.reverse()  
+
+print(""Reversed List: "") 
+llist.display()
+```
+
+This program defines a `Node` class and a `LinkedList` class.",True,0,"6,2",True,41
+92,"```python:
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self): 
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print()  
+
+    def reverse(self):  
+        prev = None 
+        current = self.head  
+        while (current is not None):  
+            next = current.next 
+            current.next = prev  
+            prev = current 
+            current = next 
+        self.head = prev  
+
+
+# Test the code  
+llist = LinkedList()  
+llist.push(20)  
+llist.push(4)  
+llist.push(15)  
+llist.push(85) 
+  
+print(""Given Linked List"")  
+llist.printList()  
+llist.reverse() 
+print(""\nReversed Linked List"")  
+llist.printList()
+```
+
+In this code, we have two classes `Node` and `LinkedList`.",True,0,"6,2",True,42
+93,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def print_list(self):
+        temp = self.head 
+        while(temp):
+            print(temp.data, end="" "")
+            temp = temp.next
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next 
+            current.next = prev  
+            prev = current 
+            current = next 
+        self.head = prev 
+
+# Driver code 
+llist = LinkedList()
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85)
+
+print(""Original List: "")
+llist.print_list()
+
+llist.reverse() 
+
+print(""\nReversed List: "")
+llist.print_list()
+```
+
+In this code, we first create a Node class and a LinkedList class.",True,0,"6,2",True,43
+94,"```python
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head
+        while current_node:
+            elements.append(current_node.data)
+            current_node = current_node.next
+        return elements
+
+    def reverse(self):
+        prev = None
+        current = self.head
+        while current:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        self.head = prev
+
+# Test the code
+llist = LinkedList()
+for i in range(1,2000):
+    llist.append(i)
+
+print(""Original List: "", llist.display())
+llist.reverse()
+print(""Reversed List: "", llist.display())
+```
+
+This program first creates a singly linked list with 1 to 1999 nodes.",False,,,,44
+95,"```Python
+
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node
+
+    def printList(self):
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "")
+            temp = temp.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while (current is not None ): 
+            next = current.next 
+            current.next = prev 
+            prev = current 
+            current = next 
+        self.head = prev 
+
+if __name__ == '__main__':
+    ll = LinkedList() 
+    for i in range(5, 0, -1):
+        ll.push(i)  
+    print(""Original Linked List:"")
+    ll.printList()
+    ll.reverse()
+    print(""\nReversed Linked List:"")
+    ll.printList()
+```
+
+In this code:
+
+- We define a `Node` class with a constructor that takes some data and sets up a node.
+",True,0,"6,2",True,45
+96,"```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None 
+
+    # Function to insert a new node at the beginning 
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        new_node.next = self.head  
+        self.head = new_node  
+
+    # Function to print the linked list 
+    def printList(self): 
+        temp = self.head  
+        while(temp): 
+            print (temp.data), 
+            temp = temp.next
+ 
+    # Function to reverse the linked list 
+    def reverse(self): 
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next 
+            current.next = prev  
+            prev = current 
+            current = next 
+        self.head = prev 
+
+# Test the code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85) 
+
+print (""Given Linked List"") 
+llist.printList() 
+llist.reverse() 
+print (""\nReversed Linked List"") 
+llist.printList()
+```
+
+In this program, we have two classes: `Node` and `LinkedList`.",True,0,"6,2",True,46
+97,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head 
+        self.head = new_node 
+
+    def printList(self):
+        temp = self.head 
+        while(temp): 
+            print(temp.data, end="" "") 
+            temp = temp.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while (current is not None): 
+            next = current.next  
+            current.next = prev  
+            prev = current 
+            current = next 
+        self.head = prev 
+
+
+# Driver code 
+llist = LinkedList() 
+llist.push(20) 
+llist.push(4) 
+llist.push(15) 
+llist.push(85) 
+  
+print(""Given Linked List"") 
+llist.printList() 
+llist.reverse() 
+print(""\nReversed Linked List"") 
+llist.printList()
+```
+
+In this program, we create a `Node` class and a `LinkedList` class.",True,0,"6,2",True,47
+98,"```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node 
+            return 
+        last_node = self.head 
+        while last_node.next: 
+            last_node = last_node.next 
+        last_node.next = new_node 
+
+    def print_list(self):
+        curr_node = self.head 
+        while curr_node: 
+            print(curr_node.data, end="" "")  
+            curr_node = curr_node.next 
+        print()
+
+    def reverse(self): 
+        prev_node = None 
+        curr_node = self.head 
+        while curr_node: 
+            next_node = curr_node.next 
+            curr_node.next = prev_node 
+            prev_node = curr_node 
+            curr_node = next_node 
+        self.head = prev_node 
+
+# test the code 
+llist = LinkedList()
+for i in range(1, 6):
+    llist.append(i)
+
+print(""Original List:"")
+llist.print_list()
+
+llist.reverse()
+
+print(""Reversed List:"")
+llist.print_list()
+```
+
+This program defines a `Node` class and a `LinkedList` class.",True,0,"6,2",True,48
+99,"```
+class Node:
+    def __init__(self, data=None):
+        self.data = data 
+        self.next = None 
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def print_list(self):
+        current = self.head 
+        while current:
+            print(current.data, end = "" "")
+            current = current.next 
+        print()
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current:
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev
+
+
+# Testing the code 
+ll = LinkedList()
+for i in range(10):
+    ll.insert(i)
+print(""Original List: "", end='')
+ll.print_list()
+ll.reverse()
+print(""Reversed List: "", end='')
+ll.print_list()
+```
+
+In this program, we define two classes `Node` and `LinkedList`.",True,0,"6,2",True,49
+100,"```
+class Node:
+    def __init__(self, data):
+        self.data = data 
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+        else:
+            current = self.head 
+            while current.next:
+                current = current.next 
+            current.next = Node(data)
+
+    def display(self):
+        elements = []
+        current_node = self.head 
+        while current_node:
+            elements.append(current_node.data) 
+            current_node = current_node.next  
+        print(elements)
+
+    def reverse(self):
+        prev = None 
+        current = self.head 
+        while current: 
+            next_node = current.next 
+            current.next = prev 
+            prev = current 
+            current = next_node 
+        self.head = prev 
+ 
+# create a new linked list and add some nodes 
+llist = LinkedList()
+llist.append(1)
+llist.append(2)
+llist.append(3)
+llist.append(4)
+llist.append(5)
+
+print(""Original Linked List:"")
+llist.display()
+
+llist.reverse() 
+
+print(""Reversed Linked List:"")
+llist.display()
+```
+
+This program creates a linked list with 5 nodes containing the numbers from 1 to 5.",True,0,"6,2",True,50
