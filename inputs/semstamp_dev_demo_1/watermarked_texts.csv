@@ -461,3 +461,36 @@ As the self-proclaimed ""Blue Blur of Manhattan,"" Sonic set out to use his newf
 One fateful evening, a group of robbers attempted to hijack a high-speed train at Grand Central Station. The authorities were too slow to react, but not the Blue Blur. With his Spider-Sense on high alert, Sonic sprang into action.
 
 He leapt onto the train, using his web-shooters to swing between cars and disarm the would-be thieves.",4.0,semstamp_lsh,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,448.2424440383911
+1597293371,"Here is a C program that detects DLL injection using the ""Unlink from PEB"" evasion technique:
+```c++
+#include <Windows.h>
+#include <tlhelp32.h>
+
+// Function to check if a module is linked to the PEB (Process Environment Block)
+BOOL IsModuleLinkedToPEB(HMODULE hModule)
+{
+    MEMORY_BASIC_INFORMATION mbi;
+    DWORD dwResult = VirtualQuery(hModule, &mbi, sizeof(mbi));
+    
+    // Check if the module's base address is mapped into the process memory space and not marked as unlinked.
+    return dwResult!= 0 &&!(mbi.Protect & PAGE_NOACCESS) && (mbi.State == MEM_COMMIT || mbi.State == MEM_RESERVE);
+}
+
+// Function to detect DLL injection by checking for modules that are unlinked from the PEB.
+BOOL DetectDLLInjection()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    if (hSnapshot == INVALID_HANDLE_VALUE)
+        return FALSE;
+
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    if (!Module32First(hSnapshot, &me32))
+    {
+        CloseHandle(hSnapshot);
+        return FALSE;
+    }
+
+    do {
+        // Skip system modules and the main executable module.",1.6666666666666667,semstamp_lsh,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,957.259119272232

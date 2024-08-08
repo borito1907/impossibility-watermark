@@ -46,8 +46,12 @@ def test(cfg):
     base_folder_name = f'./inputs/{dir_name}'
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    start = 1 + (cfg.partition - 1) * 100
-    end = 1 + cfg.partition * 100
+    # start = 1 + (cfg.partition - 1) * 100
+    # end = 1 + cfg.partition * 100
+
+    start = 101
+    end = 151
+    
     for prompt_num in range(start,end):
         stats_file_path = f"{base_folder_name}/stats/{prompt_num}.csv"
         os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)

@@ -1,0 +1,1571 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-08-08 12:26:45,172][__main__][INFO] - Getting the watermarker...
+[2024-08-08 12:26:45,173][watermarker][INFO] - Using device: cuda:0
+[2024-08-08 12:26:45,173][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+[2024-08-08 12:26:45,976][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+Loading checkpoint shards:   0%|          | 0/9 [00:00<?, ?it/s]Loading checkpoint shards:  11%|█         | 1/9 [00:01<00:08,  1.12s/it]Loading checkpoint shards:  22%|██▏       | 2/9 [00:02<00:07,  1.10s/it]Loading checkpoint shards:  33%|███▎      | 3/9 [00:03<00:06,  1.14s/it]Loading checkpoint shards:  44%|████▍     | 4/9 [00:04<00:05,  1.16s/it]Loading checkpoint shards:  56%|█████▌    | 5/9 [00:05<00:04,  1.15s/it]Loading checkpoint shards:  67%|██████▋   | 6/9 [00:06<00:03,  1.14s/it]Loading checkpoint shards:  78%|███████▊  | 7/9 [00:07<00:02,  1.14s/it]Loading checkpoint shards:  89%|████████▉ | 8/9 [00:08<00:01,  1.03s/it]Loading checkpoint shards: 100%|██████████| 9/9 [00:09<00:00,  1.13it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:09<00:00,  1.04s/it]
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
+  warn_deprecated(
+[2024-08-08 12:26:57,775][watermarkers.semstamp][INFO] - Setting up generating components...
+[2024-08-08 12:26:57,779][watermarkers.semstamp][INFO] - {'max_new_tokens': 768, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'bad_words_ids': [[198]], 'min_new_tokens': 245}
+[2024-08-08 12:26:57,779][watermarkers.semstamp][INFO] - Initializing embedder model.
+[2024-08-08 12:26:57,779][watermarkers.semstamp][INFO] - Using the generic SentenceTransformer...
+[2024-08-08 12:26:57,779][sentence_transformers.SentenceTransformer][INFO] - Use pytorch device_name: cuda
+[2024-08-08 12:26:57,779][sentence_transformers.SentenceTransformer][INFO] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v1
+[2024-08-08 12:26:59,407][watermarkers.semstamp][INFO] - Finished initializing embedder model.
+initializing random projection LSH model
+loading SBERT base model...
+[2024-08-08 12:26:59,408][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 1, 'is_completion': False, 'generation_stats_file_path': None, 'watermarked_text_file_name': None, 'partition': 2, 'generator_args': {'model_name_or_path': 'hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4', 'revision': 'main', 'model_cache_dir': '/data2/.shared_models/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 768, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0.0, 'max_length': 255}, 'watermark_args': {'name': 'semstamp_lsh', 'gamma': 0.25, 'delta': 0.01, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'auto', 'only_detect': False, 'embedder': {}, 'sp_mode': 'lsh', 'sp_dim': 3, 'lmbd': 0.25, 'max_new_tokens': 255, 'min_new_tokens': 245, 'max_trials': 50, 'critical_max_trials': 75, 'cc_path': None, 'train_data': None, 'len_prompt': 32, 'use_fine_tuned': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}}
+[2024-08-08 12:26:59,408][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-08-08 12:26:59,416][__main__][INFO] - Prompt: Why has France greatly de-industrialized while Germany or Italy didn't?
+[2024-08-08 12:26:59,416][__main__][INFO] - Prompt ID: 3943120934
+[2024-08-08 12:26:59,416][watermarkers.semstamp][INFO] - Passing the following prompt to the LSH reject completion function:
+ Why has France greatly de-industrialized while Germany or Italy didn't?
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.87it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.87it/s]
+[2024-08-08 12:26:59,982][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token.As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[2024-08-08 12:27:03,353][watermarkers.semstamp][INFO] - Candidate text: 
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+
+[2024-08-08 12:27:03,354][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.14it/s]
+[2024-08-08 12:27:03,378][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:03,378][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-08-08 12:27:03,378][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
+[2024-08-08 12:27:03,378][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:03,381][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+
+[2024-08-08 12:27:03,381][watermarkers.semstamp][INFO] - Text has 1 sentences.
+[2024-08-08 12:27:03,381][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:07,723][watermarkers.semstamp][INFO] - Candidate text: **Post-WWII economic model**: After World War II, France chose to focus on developing its service sector and reducing its industrial base, in part due to the devastation of its industrial infrastructure during the war.
+[2024-08-08 12:27:07,723][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 105.77it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:07,738][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:12,356][watermarkers.semstamp][INFO] - Candidate text: **Historical context**
+
+After World War II, France experienced rapid economic growth, driven by a mix of state-led industrial policy (dirigisme) and investment in heavy industries like steel, coal mining, and automotive manufacturing.
+[2024-08-08 12:27:12,357][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 117.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.72it/s]
+[2024-08-08 12:27:12,379][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:12,379][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:12,379][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
+[2024-08-08 12:27:12,379][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:12,381][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:15,363][watermarkers.semstamp][INFO] - Candidate text: **Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy.
+[2024-08-08 12:27:15,364][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 120.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.53it/s]
+[2024-08-08 12:27:15,385][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:27:15,385][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-08-08 12:27:15,385][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
+[2024-08-08 12:27:15,385][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:15,387][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy.
+[2024-08-08 12:27:15,387][watermarkers.semstamp][INFO] - Text has 2 sentences.
+[2024-08-08 12:27:15,387][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:20,371][watermarkers.semstamp][INFO] - Candidate text:  In the 1960s, the French government implemented policies to modernize and rationalize industry, leading to consolidation and concentration of production in certain sectors, such as automobiles (e.g., Renault) and aerospace (e.g., Airbus).
+[2024-08-08 12:27:20,371][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 110.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.65it/s]
+[2024-08-08 12:27:20,394][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:20,394][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:20,395][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:27:20,395][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:20,397][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:22,382][watermarkers.semstamp][INFO] - Candidate text:  The country prioritized consumer goods production, services, and international trade over heavy industry.
+[2024-08-08 12:27:22,383][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.03it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:22,396][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:24,579][watermarkers.semstamp][INFO] - Candidate text:  The country focused on developing its service sector, particularly in finance, tourism, and luxury goods.
+[2024-08-08 12:27:24,580][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.05it/s]
+[2024-08-08 12:27:24,601][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:24,601][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:24,602][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:27:24,602][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:24,603][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:27,728][watermarkers.semstamp][INFO] - Candidate text:  The French government implemented policies aimed at promoting economic growth through state-led industrialization, focusing on sectors like coal mining, steel production, and manufacturing.
+[2024-08-08 12:27:27,729][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.53it/s]
+[2024-08-08 12:27:27,750][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:27,750][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:27,750][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:27:27,750][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:27,752][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:30,680][watermarkers.semstamp][INFO] - Candidate text:  The country focused on developing its service sector, particularly in finance, tourism, and technology, which led to a shift away from manufacturing.
+
+
+[2024-08-08 12:27:30,680][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.29it/s]
+[2024-08-08 12:27:30,701][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:30,701][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:30,701][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:27:30,702][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:30,703][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:33,635][watermarkers.semstamp][INFO] - Candidate text:  The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs.
+[2024-08-08 12:27:33,635][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.36it/s]
+[2024-08-08 12:27:33,657][watermarkers.semstamp][INFO] - LSH Candidate: 6
+[2024-08-08 12:27:33,657][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-08-08 12:27:33,657][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:27:33,657][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:33,659][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy. The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs.
+[2024-08-08 12:27:33,659][watermarkers.semstamp][INFO] - Text has 3 sentences.
+[2024-08-08 12:27:33,660][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:36,338][watermarkers.semstamp][INFO] - Candidate text:  This shift towards services was further encouraged by European integration and globalization, which created new opportunities for trade and economic cooperation.
+
+
+[2024-08-08 12:27:36,339][watermarkers.semstamp][INFO] - Accept Mask: tensor([0, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.29it/s]
+[2024-08-08 12:27:36,361][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-08-08 12:27:36,361][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-08-08 12:27:36,361][watermarkers.semstamp][INFO] - acceptmasklist: [0, 3]
+[2024-08-08 12:27:36,361][watermarkers.semstamp][INFO] - acceptmaskstr: 0,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:36,363][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy. The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs. This shift towards services was further encouraged by European integration and globalization, which created new opportunities for trade and economic cooperation.
+
+
+[2024-08-08 12:27:36,364][watermarkers.semstamp][INFO] - Text has 4 sentences.
+[2024-08-08 12:27:36,364][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:38,374][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to France's de-industrialization:**
+
+1.
+[2024-08-08 12:27:38,374][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.73it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:38,387][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:40,117][watermarkers.semstamp][INFO] - Candidate text: **Key drivers of de-industrialization:**
+
+1.
+[2024-08-08 12:27:40,117][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 132.40it/s]
+[2024-08-08 12:27:40,143][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:40,143][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:40,143][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:27:40,143][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:40,145][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:41,866][watermarkers.semstamp][INFO] - Candidate text: **Reasons for de-industrialization:**
+
+1.
+[2024-08-08 12:27:41,867][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.75it/s]
+[2024-08-08 12:27:41,887][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:41,888][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:41,888][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:27:41,888][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:41,889][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:43,713][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:27:43,713][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.56it/s]
+[2024-08-08 12:27:43,734][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:43,734][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:43,734][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:27:43,734][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:43,736][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:45,552][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:27:45,553][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.73it/s]
+[2024-08-08 12:27:45,573][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:27:45,574][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:45,574][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:27:45,574][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:45,576][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:47,304][watermarkers.semstamp][INFO] - Candidate text: **Causes of de-industrialization:**
+
+1.
+[2024-08-08 12:27:47,305][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.64it/s]
+[2024-08-08 12:27:47,326][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:27:47,326][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:47,326][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:27:47,326][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:47,328][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:49,337][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization in France:**
+
+1.
+[2024-08-08 12:27:49,338][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.21it/s]
+[2024-08-08 12:27:49,359][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:27:49,359][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:49,359][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:27:49,359][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:49,361][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:51,109][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:27:51,109][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.58it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:51,122][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:52,865][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:27:52,866][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.17it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:52,878][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:54,799][watermarkers.semstamp][INFO] - Candidate text: **Key reasons for France's de-industrialization:**
+
+1.
+[2024-08-08 12:27:54,800][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.60it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:54,812][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:56,541][watermarkers.semstamp][INFO] - Candidate text: **Causes of de-industrialization:**
+
+1.
+[2024-08-08 12:27:56,542][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.65it/s]
+[2024-08-08 12:27:56,563][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:27:56,563][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:27:56,563][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:27:56,563][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:56,564][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:27:58,295][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:27:58,296][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.95it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:27:58,308][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:00,149][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:00,149][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.52it/s]
+[2024-08-08 12:28:00,170][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:00,170][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:00,170][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:00,170][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:00,172][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:01,914][watermarkers.semstamp][INFO] - Candidate text: **Reasons for de-industrialization**:
+
+1.
+[2024-08-08 12:28:01,915][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.04it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:01,927][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:03,959][watermarkers.semstamp][INFO] - Candidate text: **Several reasons contributed to France's de-industrialization:**
+
+1.
+[2024-08-08 12:28:03,959][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.93it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:03,972][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:05,716][watermarkers.semstamp][INFO] - Candidate text: **Key drivers of de-industrialization:**
+
+1.
+[2024-08-08 12:28:05,717][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.32it/s]
+[2024-08-08 12:28:05,738][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:05,738][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:05,738][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:05,738][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:05,740][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:07,491][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:07,492][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.33it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:07,505][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:08,868][watermarkers.semstamp][INFO] - Candidate text: **Structural factors**:
+
+1.
+[2024-08-08 12:28:08,868][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 120.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.27it/s]
+[2024-08-08 12:28:08,889][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:28:08,889][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:08,889][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:08,889][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:08,891][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:10,634][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:10,634][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.64it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:10,646][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:12,485][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:12,485][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.48it/s]
+[2024-08-08 12:28:12,506][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:12,506][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:12,506][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:12,506][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:12,508][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:14,246][watermarkers.semstamp][INFO] - Candidate text: **Reasons for de-industrialization**:
+
+1.
+[2024-08-08 12:28:14,247][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.31it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:14,259][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:16,199][watermarkers.semstamp][INFO] - Candidate text: **Key reasons for France's de-industrialization:**
+
+1.
+[2024-08-08 12:28:16,200][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.73it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:16,212][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:18,056][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:18,056][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.47it/s]
+[2024-08-08 12:28:18,076][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:18,077][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:18,077][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:18,077][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:18,078][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:19,821][watermarkers.semstamp][INFO] - Candidate text: **Key drivers of de-industrialization:**
+
+1.
+[2024-08-08 12:28:19,822][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.44it/s]
+[2024-08-08 12:28:19,843][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:19,843][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:19,843][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:19,843][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:19,845][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:21,587][watermarkers.semstamp][INFO] - Candidate text: **Key drivers of de-industrialization:**
+
+1.
+[2024-08-08 12:28:21,588][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.99it/s]
+[2024-08-08 12:28:21,609][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:21,609][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:21,609][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:21,609][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:21,611][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:24,248][watermarkers.semstamp][INFO] - Candidate text: **Structural changes**: Several structural changes within France's economy contributed to de-industrialization:
+
+1.
+[2024-08-08 12:28:24,249][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.01it/s]
+[2024-08-08 12:28:24,270][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:28:24,270][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:24,271][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:24,271][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:24,272][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:26,114][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:26,115][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.99it/s]
+[2024-08-08 12:28:26,135][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:26,135][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:26,136][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:26,136][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:26,137][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:27,988][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:27,988][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.32it/s]
+[2024-08-08 12:28:28,009][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:28,009][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:28,010][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:28,010][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:28,011][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:29,861][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:29,861][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.82it/s]
+[2024-08-08 12:28:29,882][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:29,882][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:29,882][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:29,882][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:29,884][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:31,715][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:31,716][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.69it/s]
+[2024-08-08 12:28:31,737][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:31,737][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:31,737][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:31,737][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:31,739][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:33,483][watermarkers.semstamp][INFO] - Candidate text: **Causes of de-industrialization:**
+
+1.
+[2024-08-08 12:28:33,484][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.34it/s]
+[2024-08-08 12:28:33,505][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:28:33,505][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:33,505][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:33,505][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:33,507][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:35,343][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:35,343][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.91it/s]
+[2024-08-08 12:28:35,364][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:35,364][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:35,364][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:35,364][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:35,366][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:37,105][watermarkers.semstamp][INFO] - Candidate text: **Reasons for de-industrialization:**
+
+1.
+[2024-08-08 12:28:37,105][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.71it/s]
+[2024-08-08 12:28:37,126][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:37,126][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:37,126][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:37,126][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:37,128][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:40,879][watermarkers.semstamp][INFO] - Candidate text: **Decline of traditional industries**: France had historically been home to several large-scale industrial sectors, such as textiles, coal mining, steel production, and shipbuilding.
+[2024-08-08 12:28:40,880][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.10it/s]
+[2024-08-08 12:28:40,901][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:28:40,901][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:40,901][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:40,901][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:40,903][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:42,547][watermarkers.semstamp][INFO] - Candidate text: **Government policies and industry-specific factors**:
+
+1.
+[2024-08-08 12:28:42,547][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.04it/s]
+[2024-08-08 12:28:42,568][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:28:42,568][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:42,569][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:42,569][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:42,570][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:44,213][watermarkers.semstamp][INFO] - Candidate text: **Comparing with Germany and Italy:**
+
+1.
+[2024-08-08 12:28:44,213][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.40it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:44,226][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:45,969][watermarkers.semstamp][INFO] - Candidate text: **Causes of de-industrialization:**
+
+1.
+[2024-08-08 12:28:45,970][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.63it/s]
+[2024-08-08 12:28:45,990][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:28:45,990][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:45,990][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:45,991][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:45,992][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:47,730][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:47,731][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.77it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:47,744][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:53,106][watermarkers.semstamp][INFO] - Candidate text: **Industrial structure**: French industry has historically been more concentrated in sectors like textiles, steel, and coal mining, which were subject to decline due to global competition, technological changes, and exhaustion of natural resources (e.g., the closure of coal mines).
+[2024-08-08 12:28:53,106][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 105.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.40it/s]
+[2024-08-08 12:28:53,130][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:28:53,130][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:53,130][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:53,130][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:53,132][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:54,885][watermarkers.semstamp][INFO] - Candidate text: **Reasons for de-industrialization:**
+
+1.
+[2024-08-08 12:28:54,885][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.09it/s]
+[2024-08-08 12:28:54,906][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:54,906][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:54,906][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:54,906][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:54,908][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:56,756][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:28:56,756][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.81it/s]
+[2024-08-08 12:28:56,778][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:28:56,778][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:28:56,778][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:28:56,778][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:28:56,780][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:00,547][watermarkers.semstamp][INFO] - Candidate text: **Economic policy choices**: In the 1960s and 1970s, the French government implemented policies aimed at reducing income inequality and promoting social welfare.
+[2024-08-08 12:29:00,547][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.43it/s]
+[2024-08-08 12:29:00,568][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:29:00,568][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:00,568][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:00,569][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:00,570][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:02,322][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:29:02,322][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.92it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:02,335][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:04,090][watermarkers.semstamp][INFO] - Candidate text: **Reasons for de-industrialization:**
+
+1.
+[2024-08-08 12:29:04,091][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.86it/s]
+[2024-08-08 12:29:04,111][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:29:04,112][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:04,112][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:04,112][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:04,113][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:06,153][watermarkers.semstamp][INFO] - Candidate text: **Several key factors contributing to French de-industrialization:**
+
+1.
+[2024-08-08 12:29:06,153][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.28it/s]
+[2024-08-08 12:29:06,174][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:29:06,174][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:06,174][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:06,174][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:06,176][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:08,026][watermarkers.semstamp][INFO] - Candidate text: **Key factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:29:08,026][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.94it/s]
+[2024-08-08 12:29:08,046][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:29:08,047][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:08,047][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:08,047][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:08,048][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:09,802][watermarkers.semstamp][INFO] - Candidate text: **Causes of de-industrialization:**
+
+1.
+[2024-08-08 12:29:09,802][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.79it/s]
+[2024-08-08 12:29:09,823][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:29:09,823][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:09,823][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:09,823][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:09,825][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:11,966][watermarkers.semstamp][INFO] - Candidate text: **Several key factors contributed to France's de-industrialization:**
+
+1.
+[2024-08-08 12:29:11,967][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.87it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:11,980][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:13,357][watermarkers.semstamp][INFO] - Candidate text: **Structural changes**:
+
+1.
+[2024-08-08 12:29:13,357][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.03it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:13,370][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:15,128][watermarkers.semstamp][INFO] - Candidate text: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:29:15,129][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.12it/s]
+[2024-08-08 12:29:15,149][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:29:15,150][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:15,150][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:15,150][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:15,151][watermarkers.semstamp][INFO] - WARNING: desired semantic signature can't be sampled after max_trials 50
+[2024-08-08 12:29:15,151][watermarkers.semstamp][INFO] - CONTEXT: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy. The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs. This shift towards services was further encouraged by European integration and globalization, which created new opportunities for trade and economic cooperation.
+
+
+[2024-08-08 12:29:15,151][watermarkers.semstamp][INFO] - NOTE: use regular (non-filtered-by-sig) continuation: **Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:29:15,152][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy. The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs. This shift towards services was further encouraged by European integration and globalization, which created new opportunities for trade and economic cooperation.
+
+**Factors contributing to de-industrialization:**
+
+1.
+[2024-08-08 12:29:15,152][watermarkers.semstamp][INFO] - Text has 5 sentences.
+[2024-08-08 12:29:15,152][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:18,462][watermarkers.semstamp][INFO] - Candidate text:  **Post-war reconstruction priorities**: France prioritized rebuilding its service sector, particularly the finance and banking industries, to facilitate international trade and investment.
+
+[2024-08-08 12:29:18,462][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.48it/s]
+[2024-08-08 12:29:18,483][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:29:18,483][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:18,483][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-08-08 12:29:18,483][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:18,485][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:22,094][watermarkers.semstamp][INFO] - Candidate text:  **Shift from manufacturing to services**: As mentioned earlier, France prioritized growth in the service sector, particularly in areas like finance, tourism, and research.
+[2024-08-08 12:29:22,095][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.67it/s]
+[2024-08-08 12:29:22,116][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:29:22,116][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:22,116][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-08-08 12:29:22,116][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:22,118][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:26,592][watermarkers.semstamp][INFO] - Candidate text:  **Shift from manufacturing to services**: As mentioned earlier, France's economy transitioned towards services, such as finance, tourism, and business services, which now account for over 70% of GDP.
+
+[2024-08-08 12:29:26,592][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.07it/s]
+[2024-08-08 12:29:26,614][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:29:26,614][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:26,614][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-08-08 12:29:26,614][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:26,616][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:29,643][watermarkers.semstamp][INFO] - Candidate text:  **Energy prices:** In the 1970s, France relied heavily on oil imports, making it vulnerable to price shocks.
+[2024-08-08 12:29:29,644][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.88it/s]
+[2024-08-08 12:29:29,665][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:29:29,665][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:29,665][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-08-08 12:29:29,665][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:29,667][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:33,985][watermarkers.semstamp][INFO] - Candidate text:  **Structural changes in the global economy**: As the world economy transitioned from manufacturing-based to service-oriented, France's traditional industries like textiles, coal mining, and steel began to decline.
+
+[2024-08-08 12:29:33,986][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.70it/s]
+[2024-08-08 12:29:34,007][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:29:34,007][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:34,007][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-08-08 12:29:34,007][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:34,009][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:38,238][watermarkers.semstamp][INFO] - Candidate text:  **Decline of traditional industries**: France's traditional industrial base, such as textiles, coal mining, and steel production, declined significantly in the second half of the 20th century.
+[2024-08-08 12:29:38,239][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.60it/s]
+[2024-08-08 12:29:38,260][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:29:38,260][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:38,260][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-08-08 12:29:38,260][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:38,262][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:42,149][watermarkers.semstamp][INFO] - Candidate text:  **Outsourcing and offshoring**: French companies, like many others in developed countries, began outsourcing production to lower-cost countries, especially in Eastern Europe and Asia.
+[2024-08-08 12:29:42,149][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.85it/s]
+[2024-08-08 12:29:42,170][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-08-08 12:29:42,170][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
+[2024-08-08 12:29:42,171][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
+[2024-08-08 12:29:42,171][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:42,172][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy. The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs. This shift towards services was further encouraged by European integration and globalization, which created new opportunities for trade and economic cooperation.
+
+**Factors contributing to de-industrialization:**
+
+1. **Outsourcing and offshoring**: French companies, like many others in developed countries, began outsourcing production to lower-cost countries, especially in Eastern Europe and Asia.
+[2024-08-08 12:29:42,173][watermarkers.semstamp][INFO] - Text has 6 sentences.
+[2024-08-08 12:29:42,173][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:43,893][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:29:43,894][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.99it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:43,907][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:46,783][watermarkers.semstamp][INFO] - Candidate text:  This allowed them to maintain competitiveness in global markets, but it led to job losses and plant closures at home.
+
+[2024-08-08 12:29:46,784][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.07it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:46,796][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:48,330][watermarkers.semstamp][INFO] - Candidate text:  This reduced domestic industrial capacity and jobs.
+
+[2024-08-08 12:29:48,330][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.37it/s]
+[2024-08-08 12:29:48,351][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:29:48,352][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:48,352][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:48,352][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:48,353][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:50,168][watermarkers.semstamp][INFO] - Candidate text:  This led to the decline of manufacturing jobs in France.
+
+[2024-08-08 12:29:50,168][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.58it/s]
+[2024-08-08 12:29:50,190][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-08-08 12:29:50,190][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:50,190][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:50,190][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:50,192][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:52,581][watermarkers.semstamp][INFO] - Candidate text:  This led to the decline of certain traditional industries, such as textiles and electronics manufacturing.
+
+[2024-08-08 12:29:52,581][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 120.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.44it/s]
+[2024-08-08 12:29:52,603][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:29:52,603][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:52,604][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:52,604][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:52,605][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:54,325][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:29:54,325][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.16it/s]
+[2024-08-08 12:29:54,347][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:29:54,347][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:54,347][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:54,347][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:54,349][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:56,067][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing capacity.
+
+[2024-08-08 12:29:56,067][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.01it/s]
+[2024-08-08 12:29:56,088][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:29:56,088][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:56,088][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:56,088][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:56,090][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:57,810][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:29:57,810][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.03it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:57,823][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:59,553][watermarkers.semstamp][INFO] - Candidate text:  This reduced the number of manufacturing jobs in France.
+
+[2024-08-08 12:29:59,554][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.49it/s]
+[2024-08-08 12:29:59,575][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-08-08 12:29:59,575][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:29:59,575][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:29:59,575][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:29:59,577][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:01,296][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:30:01,296][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.73it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:01,309][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:02,938][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing.
+
+[2024-08-08 12:30:02,939][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.32it/s]
+[2024-08-08 12:30:02,959][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:02,960][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:02,960][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:02,960][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:02,961][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:04,507][watermarkers.semstamp][INFO] - Candidate text:  This reduced domestic manufacturing capacity and employment.
+
+[2024-08-08 12:30:04,508][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.01it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:04,520][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:06,253][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:30:06,253][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.74it/s]
+[2024-08-08 12:30:06,274][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:06,274][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:06,275][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:06,275][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:06,276][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:07,995][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:30:07,996][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.13it/s]
+[2024-08-08 12:30:08,016][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:08,017][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:08,017][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:08,017][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:08,018][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:09,779][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:30:09,780][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.85it/s]
+[2024-08-08 12:30:09,801][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:09,802][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:09,802][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:09,802][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:09,803][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:11,438][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing.
+
+[2024-08-08 12:30:11,439][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.05it/s]
+[2024-08-08 12:30:11,460][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:11,460][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:11,460][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:11,460][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:11,462][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:13,576][watermarkers.semstamp][INFO] - Candidate text:  This helped reduce labor costs, increase competitiveness, and improve profit margins.
+
+[2024-08-08 12:30:13,577][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.38it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:13,589][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:15,406][watermarkers.semstamp][INFO] - Candidate text:  This allowed them to reduce labor costs and increase competitiveness.
+
+[2024-08-08 12:30:15,406][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.07it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:15,419][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:17,042][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing.
+
+[2024-08-08 12:30:17,043][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.36it/s]
+[2024-08-08 12:30:17,063][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:17,064][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:17,064][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:17,064][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:17,065][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:18,981][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs and investment.
+
+[2024-08-08 12:30:18,981][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.88it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:18,994][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:20,807][watermarkers.semstamp][INFO] - Candidate text:  This allowed them to reduce labor costs and increase competitiveness.
+
+[2024-08-08 12:30:20,807][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.17it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:20,820][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:23,403][watermarkers.semstamp][INFO] - Candidate text:  This helped reduce labor costs and increase competitiveness but led to job losses and factory closures in France.
+
+[2024-08-08 12:30:23,403][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.20it/s]
+[2024-08-08 12:30:23,424][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:30:23,424][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:23,424][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:23,425][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:23,426][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:25,166][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:30:25,167][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.25it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:25,179][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:26,926][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:30:26,926][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.06it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:26,939][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:28,688][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic industrial activity.
+
+[2024-08-08 12:30:28,689][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 113.80it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:28,703][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:31,140][watermarkers.semstamp][INFO] - Candidate text:  This led to job losses in manufacturing sectors such as textiles, electronics, and automotive.
+
+[2024-08-08 12:30:31,141][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 114.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 117.46it/s]
+[2024-08-08 12:30:31,165][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-08-08 12:30:31,165][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:31,165][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:31,165][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:31,167][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:33,006][watermarkers.semstamp][INFO] - Candidate text:  This allowed them to reduce labor costs and increase competitiveness.
+
+[2024-08-08 12:30:33,007][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.72it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:33,020][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:34,469][watermarkers.semstamp][INFO] - Candidate text:  This reduced their domestic manufacturing footprint.
+
+[2024-08-08 12:30:34,469][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.57it/s]
+[2024-08-08 12:30:34,491][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:34,491][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:34,491][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:34,491][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:34,493][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:36,125][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing.
+
+[2024-08-08 12:30:36,125][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.09it/s]
+[2024-08-08 12:30:36,146][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:36,146][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:36,147][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:36,147][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:36,148][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:37,874][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:30:37,874][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.20it/s]
+[2024-08-08 12:30:37,895][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:37,895][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:37,895][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:37,895][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:37,897][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:39,717][watermarkers.semstamp][INFO] - Candidate text:  This led to the closure of manufacturing facilities in France.
+
+[2024-08-08 12:30:39,717][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.34it/s]
+[2024-08-08 12:30:39,738][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-08-08 12:30:39,738][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:39,738][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:39,738][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:39,740][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:41,461][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:30:41,461][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.40it/s]
+[2024-08-08 12:30:41,482][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:41,482][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:41,482][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:41,482][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:41,484][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:43,110][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing.
+
+[2024-08-08 12:30:43,110][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.51it/s]
+[2024-08-08 12:30:43,131][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:43,131][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:43,131][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:43,131][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:43,133][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:44,861][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:30:44,861][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.72it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:44,874][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:46,791][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment and investment.
+
+[2024-08-08 12:30:46,791][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.91it/s]
+[2024-08-08 12:30:46,812][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:46,812][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:46,812][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:46,812][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:46,814][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:48,343][watermarkers.semstamp][INFO] - Candidate text:  This reduced their industrial presence in France.
+
+[2024-08-08 12:30:48,344][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.78it/s]
+[2024-08-08 12:30:48,365][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:48,365][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:48,365][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:48,365][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:48,367][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:50,091][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:30:50,092][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.35it/s]
+[2024-08-08 12:30:50,112][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:50,112][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:50,113][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:50,113][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:50,114][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:51,838][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:30:51,838][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.64it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:51,851][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:53,772][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment and output.
+
+[2024-08-08 12:30:53,772][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.32it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:53,785][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:55,413][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing.
+
+[2024-08-08 12:30:55,413][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.92it/s]
+[2024-08-08 12:30:55,434][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:55,434][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:55,434][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:55,434][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:55,436][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:57,156][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing jobs.
+
+[2024-08-08 12:30:57,156][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.38it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:57,169][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:58,902][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:30:58,902][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.70it/s]
+[2024-08-08 12:30:58,923][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:30:58,923][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:30:58,923][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:30:58,923][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:30:58,925][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:00,745][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in manufacturing employment and capacity.
+
+[2024-08-08 12:31:00,746][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.61it/s]
+[2024-08-08 12:31:00,766][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:31:00,767][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:00,767][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:31:00,767][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:00,768][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:03,264][watermarkers.semstamp][INFO] - Candidate text:  This led to job losses in manufacturing sectors such as textiles, electronics, and automobile components.
+
+[2024-08-08 12:31:03,264][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.86it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:03,276][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:05,004][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:31:05,004][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.98it/s]
+[2024-08-08 12:31:05,025][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:31:05,025][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:05,025][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:31:05,025][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:05,027][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:07,523][watermarkers.semstamp][INFO] - Candidate text:  This led to the decline of traditional manufacturing industries such as textiles, steel, and electronics.
+
+[2024-08-08 12:31:07,524][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.25it/s]
+[2024-08-08 12:31:07,544][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:31:07,545][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:07,545][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:31:07,545][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:07,546][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:09,174][watermarkers.semstamp][INFO] - Candidate text:  This led to job losses and industrial decline.
+
+[2024-08-08 12:31:09,174][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.05it/s]
+[2024-08-08 12:31:09,195][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:31:09,195][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:09,195][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:31:09,195][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:09,197][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:10,939][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in domestic manufacturing employment.
+
+[2024-08-08 12:31:10,940][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 105.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.39it/s]
+[2024-08-08 12:31:10,963][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:31:10,964][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:10,964][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:31:10,964][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:10,966][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:13,000][watermarkers.semstamp][INFO] - Candidate text:  This allowed them to take advantage of cheaper labor and raw materials.
+
+[2024-08-08 12:31:13,000][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.05it/s]
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:13,013][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:15,039][watermarkers.semstamp][INFO] - Candidate text:  This led to a decline in manufacturing employment and investment in France.
+
+[2024-08-08 12:31:15,040][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.29it/s]
+[2024-08-08 12:31:15,060][watermarkers.semstamp][INFO] - LSH Candidate: 1
+[2024-08-08 12:31:15,061][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:15,061][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
+[2024-08-08 12:31:15,061][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:15,062][watermarkers.semstamp][INFO] - WARNING: desired semantic signature can't be sampled after max_trials 50
+[2024-08-08 12:31:15,062][watermarkers.semstamp][INFO] - CONTEXT: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy. The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs. This shift towards services was further encouraged by European integration and globalization, which created new opportunities for trade and economic cooperation.
+
+**Factors contributing to de-industrialization:**
+
+1. **Outsourcing and offshoring**: French companies, like many others in developed countries, began outsourcing production to lower-cost countries, especially in Eastern Europe and Asia.
+[2024-08-08 12:31:15,062][watermarkers.semstamp][INFO] - NOTE: use regular (non-filtered-by-sig) continuation:  This led to a decline in manufacturing employment and investment in France.
+
+[2024-08-08 12:31:15,063][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Why has France greatly de-industrialized while Germany or Italy didn't?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+France's de-industrialization is a complex and multifaceted phenomenon, but I'll try to provide some key factors that contributed to this trend.
+
+**Historical context**: After World War II, France underwent significant economic transformations, driven by the need to rebuild its war-torn economy. The country focused on developing its service sector, which grew rapidly, and made significant investments in education, infrastructure, and social welfare programs. This shift towards services was further encouraged by European integration and globalization, which created new opportunities for trade and economic cooperation.
+
+**Factors contributing to de-industrialization:**
+
+1. **Outsourcing and offshoring**: French companies, like many others in developed countries, began outsourcing production to lower-cost countries, especially in Eastern Europe and Asia. This led to a decline in manufacturing employment and investment in France.
+
+[2024-08-08 12:31:15,063][watermarkers.semstamp][INFO] - Text has 7 sentences.
+[2024-08-08 12:31:15,063][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:19,826][watermarkers.semstamp][INFO] - Candidate text: 2. **Lack of competitiveness**: Compared to Germany and other European countries, France struggled with high labor costs, rigid labor laws, and relatively low levels of research and development (R&D) investment.
+[2024-08-08 12:31:19,826][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 114.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.76it/s]
+[2024-08-08 12:31:19,848][watermarkers.semstamp][INFO] - LSH Candidate: 5
+[2024-08-08 12:31:19,848][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:19,849][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:31:19,849][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:19,850][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:24,404][watermarkers.semstamp][INFO] - Candidate text: 2. **Increased competition from low-wage countries**: As international trade expanded, France faced growing competition from countries with lower labor costs, such as Portugal, Spain, and later, Eastern European nations.
+[2024-08-08 12:31:24,404][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.20it/s]
+[2024-08-08 12:31:24,425][watermarkers.semstamp][INFO] - LSH Candidate: 3
+[2024-08-08 12:31:24,425][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:24,426][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:31:24,426][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:24,427][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:31:28,869][watermarkers.semstamp][INFO] - Candidate text: 2. **Structural reforms and deregulation**: In the 1980s and 1990s, France implemented structural reforms aimed at increasing competition and reducing state intervention in the economy.
+[2024-08-08 12:31:28,869][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.77it/s]
+[2024-08-08 12:31:28,891][watermarkers.semstamp][INFO] - LSH Candidate: 7
+[2024-08-08 12:31:28,891][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
+[2024-08-08 12:31:28,891][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
+[2024-08-08 12:31:28,891][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
+Data appended to ./inputs/semstamp_dev_demo_2/stats/101.csv
+[2024-08-08 12:31:28,893][watermarkers.semstamp][INFO] - Generating with a Llama model...
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
