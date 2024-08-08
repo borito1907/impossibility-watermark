@@ -15,7 +15,7 @@ def count_masks(texts):
     return [len([x for x in text.split() if x.startswith("<extra_id_")]) for text in texts]
 
 def extract_fills(texts):
-    log.info(f"extract_fills (texts in): {texts}")
+    # log.info(f"extract_fills (texts in): {texts}")
     # remove <pad> from beginning of each text
     texts = [x.replace("<pad>", "").replace("</s>", "").strip() for x in texts]
     pattern = re.compile(r"<extra_id_\d+>")
@@ -23,7 +23,7 @@ def extract_fills(texts):
     extracted_fills = [pattern.split(x)[1:-1] for x in texts]
     # remove whitespace around each fill
     extracted_fills = [[y.strip() for y in x] for x in extracted_fills]
-    log.info(f"extract_fills (texts out): {extracted_fills}")
+    # log.info(f"extract_fills (texts out): {extracted_fills}")
     return extracted_fills
 
 def join_tokens(tokens):
@@ -33,8 +33,8 @@ def join_tokens(tokens):
     return joined
 
 def apply_extracted_fills(masked_texts, extracted_fills):
-    log.info(f"apply_extracted_fills (masked_texts in): {masked_texts}")
-    log.info(f"apply_extracted_fills (extracted_fills in): {extracted_fills}")
+    # log.info(f"apply_extracted_fills (masked_texts in): {masked_texts}")
+    # log.info(f"apply_extracted_fills (extracted_fills in): {extracted_fills}")
     # split masked text into tokens, only splitting on spaces (not newlines)
     tokens = [x.split(' ') for x in masked_texts]
 
@@ -50,7 +50,7 @@ def apply_extracted_fills(masked_texts, extracted_fills):
 
     # join tokens back into text
     texts = [join_tokens(x) for x in tokens]
-    log.info(f"apply_extracted_fills (texts out): {texts}")
+    # log.info(f"apply_extracted_fills (texts out): {texts}")lo
     return texts
 
 class Args:
@@ -75,7 +75,7 @@ class Args:
         self.random_fills = False
         self.verbose = False
 
-class SpanFillMutator:
+class SpanMutator:
     def __init__(self) -> None:
         self.n_resample = 5
         self.args = Args()
@@ -99,7 +99,12 @@ class SpanFillMutator:
         elif self.args.half:
             half_kwargs = dict(torch_dtype=torch.bfloat16)
         if self.verbose: log.info(f'Loading mask filling model {self.args.mask_filling_model_name}...')
-        mask_model = transformers.AutoModelForSeq2SeqLM.from_pretrained(self.args.mask_filling_model_name, **int8_kwargs, **half_kwargs)
+        mask_model = transformers.AutoModelForSeq2SeqLM.from_pretrained(
+            self.args.mask_filling_model_name, 
+            cache_dir="/data2/.shared_models",
+            **int8_kwargs, 
+            **half_kwargs,
+        )
         try:
             self.n_positions = self.mask_model.config.n_positions
         except AttributeError:
@@ -112,7 +117,7 @@ class SpanFillMutator:
         return mask_model
 
     def tokenize_and_mask(self, text, span_len, pct, ceil_pct=False):
-        log.info(f"tokenize_and_mask (text in): {text}")
+        # log.info(f"tokenize_and_mask (text in): {text}")
         tokens = text.replace('\n', ' \n').split(' ')
         mask_string = '<<<mask>>>'
         # only mask one span
@@ -197,7 +202,7 @@ class SpanFillMutator:
         attempts = 1
         while '' in perturbed_texts:
             idxs = [idx for idx, x in enumerate(perturbed_texts) if x == '']
-            log.warn(f'{len(idxs)} texts have no fills. Trying again [attempt {attempts}].')
+            # log.warn(f'{len(idxs)} texts have no fills. Trying again [attempt {attempts}].')
             masked_texts = [self.tokenize_and_mask(x, span_len, pct, ceil_pct) for idx, x in enumerate(texts) if idx in idxs]
             raw_fills = self.replace_masks(masked_texts)
             extracted_fills = extract_fills(raw_fills)
@@ -217,10 +222,11 @@ class SpanFillMutator:
 
         outputs = []
         # set chunk_size as 1 to help make sure each original token is replaced.
-        for i in tqdm(range(0, len(texts), chunk_size), desc="Applying perturbations"):
+        for i in range(0, len(texts), chunk_size):
+        # for i in tqdm(range(0, len(texts), chunk_size), desc="Applying perturbations"):
             outputs.extend(self.perturb_texts_(texts[i:i + chunk_size], span_len, pct, ceil_pct=ceil_pct))
 
-        log.info(f"perturb_texts_t5 (texts out): {outputs}")
+        # log.info(f"perturb_texts_t5 (texts out): {outputs}")
         return outputs
 
     def paraphrase(self, texts, k=5):
@@ -272,7 +278,7 @@ def test(cfg):
         """
     )
 
-    text_mutator = SpanFillMutator()
+    text_mutator = SpanMutator()
 
     start = time.time()
     mutated_text = text_mutator.mutate(text)

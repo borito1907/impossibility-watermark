@@ -10,9 +10,9 @@ mutation_num: -1
 matcher: "local" #or "gpt4"
 
 distinguisher_args:
-    model_name_or_path: "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" # "gpt-4"
+    model_name_or_path: "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ" # "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" # "gpt-4"
     revision: "main" 
-    model_cache_dir: "${attack_args.model_cache_dir}"
+    model_cache_dir: "/data2/.shared_models/"
     device_map: "auto"
     trust_remote_code: True
     max_new_tokens: 1024
@@ -22,4 +22,4 @@ distinguisher_args:
     top_k: 40
     repetition_penalty: 1.1
     watermark_score_threshold: 5.0
-    cuda: "${attack_args.cuda}"
+    cuda: "7"

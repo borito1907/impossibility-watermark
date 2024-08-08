@@ -1,0 +1,1283 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+A very specific request!
+
+",True,4,"7,2",True,1
+2,"
+
+I see you're excited about Acoustic Near-field Holography (SONAH)!
+
+",True,4,"7,2",True,2
+3,"
+
+Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,3
+4,"
+
+A very specific request!
+
+",True,4,"7,2",True,4
+5,"
+
+Here is some Python code for Acoustic Nearfield Holography (SONAH):
+
+```python
+
+import numpy as np
+
+def sonah(pressure_data, frequency, mic_distance):
+    """"""
+    Implementation of the SONAH algorithm for acoustic nearfield holography.
+
+   ",True,0,"7,2",True,5
+6,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,6
+7,"
+
+A very specific request!
+
+",True,4,"7,2",True,7
+8,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!",True,4,"7,2",True,8
+9,"
+
+A very specific request!
+
+",True,4,"7,2",True,9
+10,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,10
+11,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,11
+12,"
+
+A very specific and technical request!
+
+",True,4,"7,2",True,12
+13,"
+
+A very specific request!
+
+",True,4,"7,2",True,13
+14,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,14
+15,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,15
+16,"
+
+Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,16
+17,"
+
+I'm happy to help!
+
+",True,3,"7,2",True,17
+18,"
+
+A very specific request!
+
+",True,4,"7,2",True,18
+19,"
+
+Here is an example of Python code for Acoustic Nearfield Holography (SONAH):
+```python
+
+import numpy as np
+
+def sonah_processing(pressure_data, frequency, sampling_rate):
+    """"""
+    Perform SONAH processing on pressure data
+    
+    Parameters:
+    - pressure_data: 2D numpy array with shape (num_microphones, num_samples)
+    - frequency: float, frequency of interest (Hz)
+    - sampling_rate: int, sampling rate of the data (Hz)
+    
+    Returns:
+    - hologram: 2D numpy array with shape (num_x, num_y), hologram image at the specified frequency
+    
+    """"""
+    # Define constants and parameters
+    
+    c = 343  # speed of sound in air (m/s)
+    wavelength = c / frequency
+    
+    num_microphones, num_samples = pressure_data.shape
+    
+    # Create grid of x and y coordinates for the hologram
+    
+    num_x = 100  # number of points in x direction
+    
+    num_y = 100  # number of points in y direction
+    
+    x_range = 0.5  # range of x coordinates (m)
+    
+    y_range = 0.5  # range of y coordinates (m)
+    
+    x_coords = np.linspace(-x_range/2, x_range/2, num_x)
+    
+    y_coords = np.linspace(-y_range/2, y_range/2, num_y)
+    
+    X, Y = np.meshgrid(x_coords, y_coords)
+    
+    # Calculate distance between microphones and each point in the hologram grid
+    
+    microphone_positions = np.array([[0.05, 0], [0.10, 0], [0.15, 0]])  # example positions
+    
+    distances = np.sqrt((X[:, None] - microphone_positions[:, 0][None])**2 + 
+                        (Y[:, None] - microphone_positions[:, 1][None])**2)
+    
+    # Compute phase shifts and weights for each microphone
+    
+    phase_shifts = 2 * np.pi * distances / wavelength
+    
+    weights = np.exp(1j * phase_shifts)
+    
+    # Perform holographic reconstruction
+    
+    hologram = np.zeros((num_x, num_y), dtype=np.complex128)
+    
+    for i in range(num_microphones):
+        hologram += weights[:, :, i] * pressure_data[i]
+    
+    hologram /= num_microphones
+    
+    return hologram
+
+# Example usage:
+
+frequency = 2000  # Hz
+
+sampling_rate = 44100  # Hz
+
+pressure_data = np.random.rand(3, 1024)  # example pressure data from 3 microphones
+
+hologram = sonah_processing(pressure_data, frequency, sampling_rate)
+
+```
+This code defines a function `sonah_processing` that takes in pressure data from multiple microphones, along with the frequency of interest and sampling rate, and returns a 2D hologram image at that frequency.
+
+",True,0,"7,2",True,19
+20,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
+
+",True,4,"7,2",True,20
+21,"
+
+I'd be happy to help you with that!
+
+",False,,,,21
+22,"
+
+A very specific and technical request!
+
+",True,4,"7,2",True,22
+23,"
+
+I see you're interested in Acoustic Near-field Holography (SONAH)!",False,,,,23
+24,"
+
+A very specific request!
+
+",True,4,"7,2",True,24
+25,"
+
+A very specific request!
+
+",True,4,"7,2",True,25
+26,"
+
+A very specific request!
+
+",True,4,"7,2",True,26
+27,"
+
+A very specific request!
+
+",True,4,"7,2",True,27
+28,"
+
+Acoustic Nearfield Holography (SONAH) is an innovative technique for sound field reconstruction!
+
+",True,0,"7,2",True,28
+29,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,29
+30,"
+
+Here is some sample Python code for Acoustic Near-field Holography (SONAH):
+
+```
+import numpy as np
+
+def sonah_processing(pressure_data, microphone_positions, 
+                    frequency, sampling_rate, 
+                    hologram_size):
+    """"""
+    Perform SONAH processing on the given pressure data.
+
+   ",True,0,"7,2",True,30
+31,"
+
+A very specific request!
+
+",True,4,"7,2",True,31
+32,"
+
+A very specific request!
+
+",True,4,"7,2",True,32
+33,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,33
+34,"
+
+I'm happy to help!
+
+",True,3,"7,2",True,34
+35,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,35
+36,"
+
+A very specific and interesting topic!
+
+",True,1,"7,2",True,36
+37,"
+
+A very specific request!
+
+",True,4,"7,2",True,37
+38,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,38
+39,"
+
+A very specific request!
+
+",True,4,"7,2",True,39
+40,"
+
+I'm happy to help!
+
+",True,3,"7,2",True,40
+41,"
+
+Acoustic Nearfield Holography (SONAH) is an impressive technique!
+
+",True,4,"7,2",True,41
+42,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,42
+43,"
+
+A very specific request!
+
+",True,4,"7,2",True,43
+44,"
+
+Here's an example of Python code for Acoustic Near-field Holography (SONAH):
+
+**Note:** This is a simplified implementation and might require modifications to suit your specific use case.
+
+",False,,,,44
+45,"
+
+Acoustic Nearfield Holography (SONAH)!
+
+",True,4,"7,2",True,45
+46,"
+
+I'm happy to help!
+
+",True,3,"7,2",True,46
+47,"
+
+Acoustic Nearfield Holography (SONAH) is an impressive technology!
+
+",True,4,"7,2",True,47
+48,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
+
+",True,4,"7,2",True,48
+49,"
+
+I'd be happy to help you with that!
+
+",False,,,,49
+50,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,50
+51," That's quite an interesting topic.
+
+",True,1,"7,2",True,1
+52," That's a fascinating topic.
+
+",True,1,"7,2",True,2
+53, That's a fascinating topic.,True,1,"7,2",True,3
+54," That's quite an interesting topic.
+
+",True,1,"7,2",True,4
+55," That's a fascinating topic.
+
+",True,1,"7,2",True,5
+56," That's a fascinating topic.
+
+",True,1,"7,2",True,6
+57," That's quite an interesting topic.
+
+",True,1,"7,2",True,7
+58," That's a fascinating topic.
+
+",True,1,"7,2",True,8
+59," That's a fascinating topic.
+
+",True,1,"7,2",True,9
+60," That's a fascinating topic.
+
+",True,1,"7,2",True,10
+61," That's quite an interesting topic.
+
+",True,1,"7,2",True,11
+62," That's quite a specific and fascinating topic.
+
+",True,5,"7,2",True,12
+63," That's a fascinating topic.
+
+",True,1,"7,2",True,13
+64," That's quite an interesting topic.
+
+",True,1,"7,2",True,14
+65," That's a fascinating topic.
+
+",True,1,"7,2",True,15
+66, That's a fascinating topic.,True,1,"7,2",True,16
+67," That's a fascinating topic.
+
+",True,1,"7,2",True,17
+68," That's some advanced signal processing.
+
+",True,1,"7,2",True,18
+69," That's a fascinating topic.
+
+",True,1,"7,2",True,19
+70," That's a fascinating topic.
+
+",True,1,"7,2",True,20
+71," That's an interesting topic.
+
+",True,1,"7,2",True,21
+72," That's quite an interesting topic.
+
+",True,1,"7,2",True,22
+73," That's a fascinating topic.
+
+",True,1,"7,2",True,23
+74," That's quite an interesting topic.
+
+",True,1,"7,2",True,24
+75," That's a fascinating topic.
+
+",True,1,"7,2",True,25
+76," That's some advanced signal processing right there.
+
+",True,1,"7,2",True,26
+77," That's quite an interesting topic.
+
+",True,1,"7,2",True,27
+78," That's a fascinating topic.
+
+",True,1,"7,2",True,28
+79," That's quite an interesting topic.
+
+",True,1,"7,2",True,29
+80," That's a fascinating topic.
+
+",True,1,"7,2",True,30
+81," That's an interesting topic.
+
+",True,1,"7,2",True,31
+82," That's a fascinating topic.
+
+",True,1,"7,2",True,32
+83," That's a fascinating topic.
+
+",True,1,"7,2",True,33
+84," That's quite an interesting topic.
+
+",True,1,"7,2",True,34
+85," That's quite a specific topic.
+
+",True,5,"7,2",True,35
+86," That's quite a specific and fascinating topic.
+
+",True,5,"7,2",True,36
+87," That's a fascinating topic.
+
+",True,1,"7,2",True,37
+88," That's quite an interesting topic.
+
+",True,1,"7,2",True,38
+89," That's a fascinating topic.
+
+",True,1,"7,2",True,39
+90," That's a fascinating topic.
+
+",True,1,"7,2",True,40
+91," That's quite an interesting topic.
+
+",True,1,"7,2",True,41
+92," That's a fascinating topic.
+
+",True,1,"7,2",True,42
+93," That's an interesting topic.
+
+",True,1,"7,2",True,43
+94," That's a fascinating topic.
+
+",True,1,"7,2",True,44
+95," That's quite an interesting topic.
+
+",True,1,"7,2",True,45
+96," That's a fascinating topic.
+
+",True,1,"7,2",True,46
+97," That's an exciting topic.
+
+",True,1,"7,2",True,47
+98, That's quite a specific and fascinating topic.,True,5,"7,2",True,48
+99," That's a fascinating topic.
+
+",True,1,"7,2",True,49
+100," That's a fascinating topic.
+
+",True,1,"7,2",True,50
+101,"Here's some Python code to get you started with SONAH:
+```python
+
+import numpy as np
+
+def sonah.signals(t, fs):
+    """"""
+    Generate sinusoidal signals for SONAH.
+    
+   ",True,2,"6,2",True,1
+102," Parameters:
+    t (numpy array): Time array.
+   ",True,2,"5,2",True,1
+103," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,1
+104," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,2
+105," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,3
+106," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,4
+107," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,5
+108," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,6
+109," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,7
+110," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,8
+111," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,9
+112," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,10
+113," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,11
+114," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,12
+115," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,13
+116," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,14
+117," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,15
+118," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,16
+119," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,17
+120," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,18
+121," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,19
+122," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,20
+123," fs (int): Sampling frequency.
+   ",True,1,"5,2",True,21
+124," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,22
+125," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,23
+126," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,24
+127," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,25
+128," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,26
+129," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,27
+130," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,28
+131," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,29
+132," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,30
+133," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,31
+134," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,32
+135," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,33
+136," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,34
+137," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,35
+138," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,36
+139," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,37
+140," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,38
+141," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,39
+142," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,40
+143," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,41
+144," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,42
+145," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,43
+146," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,44
+147," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,45
+148," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,46
+149," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,47
+150," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,48
+151," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,49
+152," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,50
+153," Returns:
+    x1, x2 (numpy arrays): Two sinusoidal signals with slightly different frequencies.
+    """"""
+   ",True,3,"6,0",True,1
+154," Returns:
+    sig (numpy array): Sinusoidal signal array.
+    """"""
+   ",True,1,"6,0",True,2
+155," Returns:
+    x (numpy array): Sinusoidal signal.
+    """"""
+   ",True,1,"6,0",True,3
+156," Returns:
+    signals (numpy array): Sinusoidal signals.
+    """"""
+   ",True,0,"6,0",True,4
+157," freqs = [100, 200, 300]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, f in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * f * t)
+    return signals
+
+def sonah.microphone_signals(signals, mic_pos, src_pos, c=343):
+    """"""
+    Simulate microphone signals using the free-field Green's function.
+    
+   ",False,,,,1
+158," f0 = 40e3  # Start frequency (Hz)
+    f1 = 80e3  # End frequency (Hz)
+    n_points = len(t)
+
+    signals = np.zeros((n_points, 2))
+
+    for i in range(n_points):
+        freq = f0 + (f1 - f0) * i / n_points  # Linear sweep frequency.
+       ",True,3,"5,2",True,2
+159," freqs = [20e3, 25e3, 30e3]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, f in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * f * t)
+    return signals
+
+def sonah.hologram(signals, mic_pos, src_pos):
+    """"""
+    Calculate the acoustic nearfield hologram using SONAH.
+    
+   ",False,,,,3
+160," freq = 40000  # 40 kHz signal frequency
+    
+    # Generate a single tone signal at the specified frequency.
+   ",True,7,"5,2",True,4
+161," f0 = 40e3  # Frequency of the signal (40 kHz)
+    signals = np.sin(2 * np.pi * f0 * t)
+    return signals
+
+def sonah.propagate(signals, c, d, fs):
+    """"""
+    Propagate the signals through the medium.
+    
+   ",True,7,"5,2",True,5
+162," f0 = 20e3  # Frequency of the signal (Hz)
+    A = 1     # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    return signals
+
+def sonah.holo_reconstruction(pressure_signals, mic_positions, source_position):
+    """"""
+    Reconstruct the acoustic pressure field using SONAH.
+    
+   ",True,0,"5,2",True,6
+163," f0 = 40e3  # Frequency of the signal (Hz)
+    A = 1  # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    return signals
+
+def sonah.holofilter(signals, distances, wavelength, rho_c):
+    """"""
+    Apply the holographic filter to the signals.
+    
+   ",True,0,"5,2",True,7
+164," freqs = [20e3, 21e3, 22e3]  # Frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    
+    return signals
+
+def sonah.measure_pressure(psd_data, calibration_file):
+    """"""
+    Measure pressure from PSD data using calibration file.
+    
+   ",True,3,"5,2",True,8
+165," f0 = 40e3  # Frequency of the sound wave (Hz)
+    A = 1     # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    return signals
+
+def sonah.propagate(signals, distance, c, fs):
+    """"""
+    Propagate the acoustic signal through the air.
+    
+   ",True,1,"5,2",True,9
+166," f0 = 40e3  # Frequency of the sound wave (Hz)
+    omega0 = 2 * np.pi * f0
+    
+    signals = np.sin(omega0 * t)
+    return signals
+
+
+def sonah.microphone_signals(signals, delays):
+    """"""
+    Simulate microphone signals in SONAH.
+    
+   ",True,3,"5,2",True,10
+167," f0 = 40e3  # Start frequency (Hz)
+    f1 = 60e3  # End frequency (Hz)
+    num_cycles = 10
+    
+    t_start = t[0]
+    t_end = t[-1]
+    dt = t[1] - t[0]
+    
+    omega0 = 2 * np.pi * f0 * dt  # Angular frequency at f0 (rad/s)
+    omega1 = 2 * np.pi * f1 * dt  # Angular frequency at f1 (rad/s)
+    
+    signals = np.zeros((t.size, num_cycles))
+    for i in range(num_cycles):
+        w = omega0 + i * (omega1 - omega0) / (num_cycles - 1)
+        signal = np.sin(w * (t - t_start))  # Sinusoidal signal at frequency w/2π (Hz)
+        signals[:, i] = signal
+    
+    return signals
+
+def sonah.microphone_signals(signals, x, y, z, c=343):
+    """"""
+    Simulate microphone signals using the Nearfield Acoustic Holography (NAH) equation.
+    
+   ",False,,,,11
+168," f0 = 40e3  # Frequency of the signal [Hz]
+    A = 1  # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    
+    return signals
+
+def sonah.propagate(signals, distance, speed_of_sound=343):
+    """"""
+    Propagate the signals through a medium using the acoustic wave equation.
+    
+   ",True,7,"5,2",True,12
+169," f0 = 10000  # Frequency of the signal (Hz)
+    num_sensors = 4  # Number of sensors
+    
+    signals = np.zeros((num_sensors, len(t)))
+    for i in range(num_sensors):
+        phase_shift = i * np.pi / 2  # Phase shift between sensors (radians)
+        signals[i] = np.sin(2 * np.pi * f0 * t + phase_shift)
+    
+    return signals
+
+def sonah.hologram(signals, distances):
+    """"""
+    Compute the acoustic nearfield hologram using the measured signals and sensor distances.
+    
+   ",True,0,"5,2",True,13
+170," f0 = 20000  # Frequency of the signal (Hz)
+    theta = np.pi / 4  # Angle of incidence (rad)
+    x0 = 0.1  # Distance from the source (m)
+    c = 343  # Speed of sound (m/s)
+    
+    signals = np.sin(2 * np.pi * f0 * t + theta - (x0 / c) * f0)
+    return signals
+
+def sonah.hologram(signals, microphones, fs):
+    """"""
+    Compute the SONAH hologram.
+    
+   ",True,0,"5,2",True,14
+171," f0 = 20000  # Hz, frequency of the signal.
+   ",True,1,"5,2",True,15
+172," freqs = [20e3, 25e3, 30e3]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    return signals
+
+def sonah.propagate(signals, c, p, L):
+    """"""
+    Propagate sound waves using the Westervelt equation.
+    
+   ",True,3,"5,2",True,16
+173," f0 = 40e3  # kHz, lowest frequency component.
+   ",False,,,,17
+174," freqs = [200,  # frequency 1 (Hz)
+             400]  # frequency 2 (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    return signals
+
+def sonah.measure_pressure(psd, mic_locs, src_loc):
+    """"""
+    Measure pressure at microphone locations using SONAH.
+    
+   ",True,3,"5,2",True,18
+175," f0 = 40e3  # Frequency of the signal (Hz)
+    amplitude = 1.0
+    
+    signals = amplitude * np.sin(2 * np.pi * f0 * t)
+    return signals
+
+def sonah.microphone_signals(signals, microphone_positions, speed_of_sound):
+    """"""
+    Calculate the microphone signals using the delay-and-sum approach.
+    
+   ",True,3,"5,2",True,19
+176," freqs = [20e3, 30e3, 40e3]  # Frequencies of interest (Hz)
+    amplitudes = [1, 0.5, 0.25]  # Amplitudes of each frequency
+    
+    signals = np.zeros((len(freqs), len(t)))
+    for i, (freq, amp) in enumerate(zip(freqs, amplitudes)):
+        signals[i] = amp * np.sin(2 * np.pi * freq * t)
+    
+    return signals
+
+def sonah.microphone_signals(signals, mic_positions, source_position, c=343):
+    """"""
+    Simulate microphone signals using the free-field Green's function.
+    
+   ",True,0,"5,2",True,20
+177," freqs = [200,  # Frequency of the first signal (Hz)
+              400]  # Frequency of the second signal (Hz)
+    amps = [1,    # Amplitude of the first signal 
+             0.5]  # Amplitude of the second signal
+    
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = amps[i] * np.sin(2 * np.pi * freq * t)
+        
+    return signals
+
+def sonah.hologram(signals, mic_pos, source_pos):
+    """"""
+    Calculate the acoustic nearfield hologram using SONAH.
+    
+   ",True,0,"5,2",True,21
+178," f0 = 20000  # Frequency of the signal (Hz)
+    signals = np.sin(2 * np.pi * f0 * t)
+    return signals
+
+def sonah.microphone_signals(p, mic_pos, fs):
+    """"""
+    Calculate microphone signals using SONAH.
+    
+   ",False,,,,22
+179," f0 = 20e3  # starting frequency (Hz)
+    f1 = 40e3  # ending frequency (Hz)
+    n_cycles = 10  # number of cycles
+    
+    t_start = t[0]
+    t_end = t[-1]
+    
+    freqs = np.linspace(f0, f1, int(n_cycles * (f1 - f0) / fs))
+    signals = np.zeros((len(freqs), len(t)))
+    
+    for i, freq in enumerate(freqs):
+        signal = np.sin(2 * np.pi * freq * (t - t_start) + np.random.uniform(-np.pi, np.pi))
+        signals[i] = signal
+    
+    return signals
+
+
+def sonah.measurements(signals, mic_pos, src_pos):
+    """"""
+    Simulate measurements using the generated signals and microphone positions.
+    
+   ",True,3,"5,2",True,23
+180," freqs = [20, 100, 200]  # Frequencies in Hz.
+   ",True,3,"5,2",True,24
+181," freqs = [100, 200, 300]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    return signals
+
+def sonah.microphone_signals(signals, delay_matrix):
+    """"""
+    Simulate microphone signals using the signal and delay matrix.
+    
+   ",True,2,"5,2",True,25
+182," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,1
+183," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,2
+184," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,3
+185," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,4
+186," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,5
+187," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,6
+188," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,7
+189," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,8
+190," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,9
+191," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,10
+192," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,11
+193," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,12
+194," Parameters:
+    signals (numpy array): Signals generated by sonah.signals().
+   ",True,0,"5,2",True,13
+195," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,14
+196," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,15
+197," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,16
+198," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,17
+199," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,18
+200," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,19
+201," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,20
+202," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,21
+203," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,22
+204," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,23
+205," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,24
+206," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,25
+207," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,26
+208," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,27
+209," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,28
+210," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,29
+211," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,30
+212," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,31
+213," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,32
+214," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,33
+215," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,34
+216," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,35
+217," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,36
+218," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,37
+219," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,38
+220," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,39
+221," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,40
+222," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,41
+223," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,42
+224," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,43
+225," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,44
+226," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,45
+227," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,46
+228," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,47
+229," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,48
+230," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,49
+231," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,50
+232," delay_matrix (numpy array): Delay matrix.
+    
+   ",True,2,"6,2",True,1
+233," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,1
+234," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,2
+235," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,3
+236," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,4
+237," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,5
+238," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,6
+239," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,7
+240," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,8
+241," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,9
+242," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,10
+243," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,11
+244," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,12
+245," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,13
+246," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,14
+247," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,15
+248," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,16
+249," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,17
+250," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,18
+251," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,19
+252," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,20
+253," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,21
+254," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,22
+255," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,23
+256," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,24
+257," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,25
+258," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,26
+259," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,27
+260," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,28
+261," Returns:
+    microphone_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,29
+262," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,30
+263," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,31
+264," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,32
+265," Returns:
+    microphone_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,33
+266," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,34
+267," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,35
+268," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,36
+269," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,37
+270," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,38
+271," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,39
+272," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,40
+273," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,41
+274," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,42
+275," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,43
+276," Returns:
+    microphone_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,44
+277," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,45
+278," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,46
+279," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,47
+280," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,48
+281," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,49
+282," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,50
+283," num_mics, num_freqs, _ = delay_matrix.shape 
+    mic_signals = np.zeros((num_mics, len(signals[0])))
+    for i in range(num_mics):
+        for j in range(num_freqs):
+            mic_signals[i] += signals[j] * delay_matrix[i, j]
+    return mic_signals
+
+def sonah.reconstruction(mic_signals, delay_matrix):
+    """"""
+    Reconstruct the source signal using SONAH.
+    
+   ",True,2,"5,2",True,1

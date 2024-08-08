@@ -67,7 +67,6 @@ Your expertise in linguistic analysis allows you to distinguish which responses 
 Your goal is to provide a clear, concise, and accurate assessment of the provided instructions.
 """
 
-
 params_list = [
       # {"mutator": DocumentMutator, "type": "document", "distinguisher": AggressiveSimple},
       # {"mutator": DocumentMutator, "type": "document", "distinguisher": AggressiveReasoning},

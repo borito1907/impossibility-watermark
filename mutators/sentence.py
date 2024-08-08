@@ -1,10 +1,12 @@
+# RUN: CUDA_VISIBLE_DEVICES=1,2 python -m mutators.sentence
 import random
 import nltk
 from nltk.tokenize import sent_tokenize
 import guidance
-from guidance import models, gen, select
+from guidance import models, gen, select, user, assistant
 import hydra
 import logging
+import torch
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -15,13 +17,6 @@ def extract_dict(output, keys):
 # TODO: There should be a better way to do this.
 import re
 
-def remove_double_triple_commas(text):
-    # Remove triple commas first
-    text = re.sub(r',,,', ',', text)
-    # Then remove double commas
-    text = re.sub(r',,', ',', text)
-    return text
-
 class SentenceMutator:  
     def __init__(self, cfg, llm = None) -> None:
         self.cfg = cfg
@@ -31,16 +26,16 @@ class SentenceMutator:
         self._ensure_nltk_data()
 
     def _initialize_llm(self, llm):
-        if not isinstance(llm, (models.Transformers, models.OpenAI)):
+        if not isinstance(llm, (models.LlamaCpp, models.OpenAI)):
             log.info("Initializing a new Mutator model from cfg...")
             if "gpt" in self.cfg.model_id:
                 llm = models.OpenAI(self.cfg.model_id)
             else:
-                llm = models.Transformers(
-                    self.cfg.model_id, 
+                llm = models.LlamaCpp(
+                    model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
                     echo=False,
-                    cache_dir=self.cfg.model_cache_dir, 
-                    device_map=self.cfg.device_map
+                    n_gpu_layers=-1,
+                    n_ctx=2048
                 )
         return llm
 
@@ -72,12 +67,10 @@ class SentenceMutator:
             selected_sentence = random.choice(long_sentences)
             log.info(f"Sentence to rephrase: {selected_sentence}")
 
-            output = self.llm + rephrase_sentence(text, selected_sentence)
+            output = self.llm + rephrase_sentence(selected_sentence, text)
+            print(output)
 
             rephrased_sentence = output["paraphrased_sentence"]
-            # TODO: There should be a better way to do this.
-            rephrased_sentence = remove_double_triple_commas(rephrased_sentence)
-
 
             if rephrased_sentence != selected_sentence:
                 log.info(f"Rephrased sentence: {rephrased_sentence}")
@@ -96,24 +89,45 @@ class SentenceMutator:
             "mutated_text": mutated_text,
         }  
 
+# @guidance
+# def rephrase_sentence(lm, sentence, text, stop="\n"):
+#     with user():
+#         lm += f"""\
+#         ### The original text: 
+#         {text}
+
+#         ### The original selected sentence: 
+#         {sentence}
+
+#         ### Task Description: 
+#         Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
+#         Introduce subtle shifts in meaning that are still consistent with the original text. 
+#         Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
+#         """
+#     with assistant():
+#         lm += f"""\
+#         Paraphrased sentence: 
+#         {gen('paraphrased_sentence', stop=stop)}
+#         """
+#     return lm
+
 @guidance
-def rephrase_sentence(lm, text, sentence):
-    lm += f"""\
-    ### The original text: 
-    {text}
+def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE text
+    with user():
+        lm += f"""\
+        ### The original selected sentence: 
+        {sentence}
 
-    ### The original selected sentence: 
-    {sentence}
-
-    ### Task Description: 
-    Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
-    Introduce subtle shifts in meaning that are still consistent with the original text. 
-    Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
-
-    ```json
-    {{
-        "paraphrased_sentence": "{gen('paraphrased_sentence', stop='"')}",
-    }}```"""
+        ### Task Description: 
+        Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
+        Introduce subtle shifts in meaning that are still consistent with the original text. 
+        Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
+        """
+    with assistant():
+        lm += f"""\
+        Paraphrased sentence: 
+        {gen('paraphrased_sentence', stop=stop)}
+        """
     return lm
 
 

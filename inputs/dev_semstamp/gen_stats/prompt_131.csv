@@ -1,0 +1,2199 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+    L (int): lattice size (number of spins)
+    J (float): exchange energy (coupling constant)
+    h (float): magnetic field strength (Zeeman energy)
+    beta (float): inverse temperature (1/kT)
+
+    Returns:
+    energy (float): total energy of the system (per spin)
+    magnetization (float): total magnetization of the system (per spin)
+    """"""
+    # Initialize lattice with random spin configuration (+/- 1)
+    spins = 2 * np.random.randint(2, size=L) - 1
+
+    # Initialize energy and magnetization variables 
+    energy = 0.
+    magnetization = 0.
+
+   ",True,6,"0,3",True,1
+2,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_mc(L, J, h, T, num_steps):
+    """"""
+    Perform Monte Carlo sampling for a 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,2
+3,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_mc(L, J, h, beta, num_samples):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,3
+4,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+    
+    Parameters:
+    L (int): system size (number of spins)
+    J (float): exchange interaction energy (ferromagnetic if J > 0, antiferromagnetic if J < 0)
+    h (float): external magnetic field strength (positive or negative)
+    beta (float): inverse temperature (1/kT)
+    
+    Returns:
+    energy (float): total energy of the system (per spin)
+    magnetization (float): total magnetization of the system (per spin)
+    """"""
+    # Initialize random spin configuration (±1)
+    spins = 2 * np.random.randint(2, size=L) - 1
+    
+    # Initialize energy and magnetization variables 
+    energy = 0.0 
+    magnetization = 0.0
+    
+    # Perform Monte Carlo sampling 
+    for _ in range(int(beta * L)):  
+        # Choose a random spin site 
+        i = np.random.randint(L)
+        
+        # Calculate change in energy due to flipping spin at site i 
+        delta_energy = 2 * J * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) + 2 * h * spins[i]
+        
+        # Check if flip is accepted based on Metropolis criterion 
+        if delta_energy <= 0 or np.exp(-beta * delta_energy) > np.random.rand(): 
+            # Flip spin and update energy and magnetization 
+            spins[i] *= -1 
+            energy += delta_energy 
+            magnetization += spins[i] 
+
+    # Normalize by system size 
+    energy /= L 
+    magnetization /= L 
+    
+    return energy, magnetization
+
+# Example usage: 
+L = 100 
+J = 1.0 
+h = 0.5 
+beta = 10.0 
+
+energy, magnetization = ising_model(L, J, h, beta) 
+
+print(f""Energy per spin: {energy:.4f}"") 
+print(f""Magnetization per spin: {magnetization:.4f}"")
+```
+This code defines a function `ising_model` that takes the system size `L`, exchange interaction energy `J`, external magnetic field strength `h`, and inverse temperature `beta` as input parameters.",True,4,"0,3",True,4
+5,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def energy(ising_chain, h):
+    """"""
+    Calculate the energy of a 1D Ising chain with a magnetic field.
+
+   ",True,2,"0,3",True,5
+6,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_energy(spin_chain, h):
+    """"""
+    Compute the energy of a 1D Ising spin chain with magnetic field h.
+
+    Parameters:
+        spin_chain (ndarray): 1D array of +1 or -1 spins.
+       ",False,,,,6
+7,"
+
+Here is some NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def energy_isingspin(config, J, h):
+    """"""
+    Calculate the energy of a single spin in the 1D Ising model.
+
+   ",True,6,"0,3",True,7
+8,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+        L (int): system size (number of spins)
+        J (float): exchange interaction energy (ferromagnetic: J > 0, antiferromagnetic: J < 0)
+        h (float): external magnetic field strength (Zeeman energy)
+        beta (float): inverse temperature (1/kT)
+
+    Returns:
+        E (float): total energy of the system (including Zeeman term)
+        M (float): magnetization per spin (average over all spins)
+    """"""
+    # Initialize random spin configuration (0/1 = up/down)
+    spins = np.random.randint(2, size=L)
+
+    # Compute initial energy and magnetization per spin (avoid division by zero)
+    E = -J * np.sum(spins[1:] * spins[:-1]) - h * np.sum(spins)
+    M = np.mean(spins) if L!= 0 else 0.0
+
+    return E, M
+
+def metropolis_hastings_isolated_system(beta, L, J, h, num_samples):
+    """"""
+    Perform Metropolis-Hastings algorithm for isolated 1D Ising model
+
+    Parameters:
+        beta (float): inverse temperature (1/kT)
+        L (int): system size (number of spins)
+        J (float): exchange interaction energy (ferromagnetic: J > 0, antiferromagnetic: J < 0)
+        h (float): external magnetic field strength (Zeeman energy)
+        num_samples (int): number of samples to generate
+
+    Returns:
+        energies (ndarray): array of total energies (size: num_samples)
+        magnetizations (ndarray): array of magnetizations per spin (size: num_samples)
+    """"""
+    # Initialize arrays to store results (energies and magnetizations per spin)
+    energies = np.zeros(num_samples)
+    magnetizations = np.zeros(num_samples)
+
+    # Start with some arbitrary configuration (e.g., all spins up)
+    spins = np.ones(L, dtype=int)
+
+    for i in range(num_samples):
+        # Choose a random spin to flip (0 or 1)
+        spin_idx = np.random.randint(L)
+
+        # Compute energy difference due to spin flip ( ΔE = E_f - E_i )
+        delta_E = -2 * J * spins[(spin_idx + 1) % L] - 2 * h * spins[spin_idx]
+
+        # Acceptance probability according to Metropolis rule (P_accept = min(1, exp(-ΔE β)))
+        acceptance_prob = np.exp(-delta_E * beta) if delta_E > 0 else 1.0
+
+        # Flip spin with probability P_accept (accept or reject move)
+        if np.random.rand() < acceptance_prob:
+            spins[spin_idx] *= -1
+
+        # Calculate new energy and magnetization per spin after possible spin flip(s)
+        E, M = ising_model(L, J, h, beta)
+
+        # Store current energy and magnetization per spin in result arrays 
+        energies[i] = E / L  # per spin energy normalization (divided by L)
+        magnetizations[i] = M
+
+    return energies, magnetizations
+
+if __name__ == ""__main__"":
+    # Set simulation parameters (e.g., system size, exchange interaction, magnetic field)
+    L = 1000  # system size (number of spins)
+    J = 1.0   # ferromagnetic exchange interaction (Ising model)
+    h = 0.5   # external magnetic field strength (Zeeman energy)
+    beta = 1.0  # inverse temperature (1/kT)
+
+    num_samples = 10000  # number of samples to generate
+
+    # Run Metropolis-Hastings algorithm for isolated 1D Ising model with magnetic field 
+    energies, magnetizations = metropolis_hastings_isolated_system(beta, L, J, h, num_samples)
+
+    # Calculate average energy and magnetization per spin (thermal averages)
+    avg_energy = np.mean(energies)
+    avg_magnetization = np.mean(magnetizations)
+
+    print(f""Avg Energy (per spin): {avg_energy:.4f}"")
+    print(f""Avg Magnetization (per spin): {avg_magnetization:.4f}"")
+
+    # Optional: plot histograms for energies and magnetizations per spin 
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(8, 6))
+    ax[0].hist(energies, bins=50, alpha=0.7, label=""Energy Histogram"")
+    ax[1].",True,6,"0,3",True,8
+9,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_monte_carlo(N, J, h, T, num_steps):
+    """"""
+    Perform Monte Carlo simulation for 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,9
+10,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+    
+    Parameters:
+    L (int): Length of the lattice (number of spins)
+    J (float): Exchange energy (coupling constant)
+    h (float): Magnetic field strength 
+    beta (float): Inverse temperature (1/kT)
+    
+    Returns:
+    E_avg (float): Average energy per spin 
+    M_avg (float): Average magnetization per spin 
+    """"""
+    # Initialize lattice with random spin configuration (+/- 1)
+    lattice = 2 * np.random.randint(0, 2, size=L) - 1
+    
+    # Define the Metropolis-Hastings algorithm for updating the lattice 
+    def metropolis_hastings():
+        for i in range(L):
+            # Choose a random site to update 
+            j = np.random.randint(0, L)
+            
+            # Calculate the energy change for flipping the spin 
+            dE = 2 * J * lattice[(j-1)%L] + 2 * h
+            
+            # Accept or reject the move based on the Metropolis criterion 
+            if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+                lattice[j] *= -1
+                
+    # Perform Monte Carlo sampling 
+    N_samples = int(1e5)  # Number of samples 
+    E_avg = 0  
+    M_avg = 0  
+    for _ in range(N_samples):
+        metropolis_hastings()
+        
+        # Calculate the energy and magnetization for this sample 
+        energy = 0  
+        magnetization = 0  
+        for i in range(L):
+            energy += -J * lattice[i] * lattice[(i+1)%L] - h * lattice[i]
+            magnetization += lattice[i]
+        
+        # Update the averages 
+        E_avg += energy / L  
+        M_avg += magnetization / L
+        
+    E_avg /= N_samples  
+    M_avg /= N_samples  
+    
+    return E_avg, M_avg
+
+# Example usage 
+L = 100  
+J = 1.0  
+h = 0.5  
+beta = 1.0  
+E_avg, M_avg = ising_model(L, J, h, beta)
+print(f""Average Energy: {E_avg:.4f}"")
+print(f""Average Magnetization: {M_avg:.4f}"")
+```
+This code defines a function `ising_model` that takes in the length of the lattice `L`, exchange energy `J`, magnetic field strength `h`, and inverse temperature `beta`.",False,,,,10
+11,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def energy(config, J, h):
+    """"""
+    Calculate the energy of a given configuration in the 1D Ising model.
+
+   ",True,6,"0,3",True,11
+12,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def energy_Ising(spin_config, J, h):
+    """"""
+    Calculate the energy of a given spin configuration for the 1D Ising model.
+
+   ",True,6,"0,3",True,12
+13,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_monte_carlo(L, J, h, beta, num_samples):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field.
+
+   ",True,6,"0,3",True,13
+14,"
+
+Here is some sample NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(beta, L, J, h):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+    beta (float): inverse temperature (1/kT)
+    L (int): length of the lattice (number of spins)
+    J (float): exchange energy (coupling between neighboring spins)
+    h (float): magnetic field strength
+
+    Returns:
+    E (float): total energy of the system (average over many samples)
+    M (float): magnetization of the system (average over many samples)
+    """"""
+    # Initialize spins randomly (±1)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Initialize energy and magnetization arrays to store results from multiple samples]
+    energies = np.zeros((10000,))
+    magnetizations = np.zeros((10000,))
+
+    # Perform Monte Carlo sampling (Metropolis algorithm)
+    for i in range(10000):
+        # Choose a random spin to flip (0 <= index < L)
+        index = np.random.randint(L)
+
+        # Calculate the change in energy if we flip this spin (ΔE)
+        dE = -2 * J * spins[index] * (spins[(index-1)%L] + spins[(index+1)%L]) - 2 * h * spins[index]
+
+        # Accept or reject the proposed move based on the Metropolis criterion (exp(-βΔE) > random uniform variable)
+        if dE <= 0 or np.exp(-beta*dE) > np.random.rand():
+            spins[index] *= -1  # Flip the spin
+
+        # Update the energy and magnetization arrays for this sample]
+        energies[i] = -J * np.sum(spins[1:] * spins[:-1]) - h * np.sum(spins)
+        magnetizations[i] = np.mean(spins)
+
+    # Compute average energy and magnetization over all samples]
+    E_avg = np.mean(energies)
+    M_avg = np.mean(magnetizations)
+
+    return E_avg, M_avg
+
+# Example usage: compute energy and magnetization at T=1, J=1, h=0.5, L=10]
+beta = 1.0  # inverse temperature (1/kT)
+J = 1.0   # exchange energy (coupling between neighboring spins)
+h = 0.5   # magnetic field strength]
+L = 10   # length of the lattice (number of spins)]
+
+E_avg, M_avg = ising_model(beta, L, J, h)
+print(""Average Energy:"", E_avg)
+print(""Average Magnetization:"", M_avg)
+```
+
+This code uses the Metropolis algorithm to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field.",True,4,"0,3",True,14
+15,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    Parameters:
+    L (int): length of the lattice (number of spins)
+    J (float): exchange energy between nearest-neighbor spins (ferromagnetic if J > 0, antiferromagnetic if J < 0)
+    h (float): external magnetic field strength (in units of energy)
+    beta (float): inverse temperature (1/kT)
+
+    Returns:
+    magnetization (numpy array): instantaneous magnetization per spin at each iteration step (shape: (n_steps,))
+    energy (numpy array): instantaneous energy per spin at each iteration step (shape: (n_steps,))
+    """"""
+    n_steps = 100000  # number of Monte Carlo steps (adjust as needed)
+    spins = np.ones(L, dtype=int)  # initialize spins randomly (all up or all down)
+
+    magnetization = np.zeros(n_steps)
+    energy = np.zeros(n_steps)
+
+    for i in range(n_steps):
+        # choose a random site to flip (spin-flip update)
+        j = np.random.randint(0, L)
+        delta_E = 2 * J * spins[j] * (spins[(j - 1) % L] + spins[(j + 1) % L]) + 2 * h * spins[j]
+        
+        # Metropolis-Hastings acceptance criterion (for canonical ensemble)
+        if delta_E <= 0 or np.exp(-beta * delta_E) > np.random.rand():
+            spins[j] *= -1
+        
+        # calculate instantaneous magnetization and energy per spin (averages over entire lattice)
+        magnetization[i] = np.mean(spins)
+        energy[i] = -J * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+
+    return magnetization, energy
+
+# Example usage:
+L = 100  # lattice size (number of spins)
+J = 1.0  # ferromagnetic exchange energy (set to negative for antiferromagnetic)
+h = 0.5  # external magnetic field strength (in units of energy)
+T = 2.0  # temperature (arbitrary units)
+beta = 1.",True,2,"0,3",True,15
+16,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D Classical Ising Model with magnetic field
+
+    Parameters:
+    L (int): length of the lattice (number of spins)
+    J (float): exchange interaction energy (ferromagnetic if J > 0, antiferromagnetic if J < 0)
+    h (float): external magnetic field strength ( Zeeman energy)
+    beta (float): inverse temperature (1/kT)
+
+    Returns:
+    energies (array): array of energies for each spin configuration (shape: (2**L,))
+    """"""
+
+    # Initialize energy array with zeros ( shape: (2**L,) )
+    energies = np.zeros(2**L)
+
+    # Loop over all possible spin configurations (2**L)
+    for i in range(2**L):
+        # Convert integer i to binary representation (spin configuration)
+        spin_config = np.array([((i >> j) & 1) * 2 - 1 for j in range(L)])
+
+        # Calculate energy for this spin configuration using Ising Hamiltonian:
+        # H = -J \sum_{<ij>} s_i s_j - h \sum_i s_i (nearest-neighbor interactions only)
+        energy = -J * np.sum(spin_config[:-1] * spin_config[1:]) - h * np.sum(spin_config)
+
+        # Store energy in the array at corresponding index i:
+        energies[i] = energy
+
+    return energies
+
+def metropolis_sampling(L, J, h, beta, num_steps, initial_state=None):
+    """"""
+    Perform Metropolis-Hastings Markov Chain Monte Carlo (MCMC) simulation
+
+    Parameters:
+    L (int): length of the lattice (number of spins)
+    J (float): exchange interaction energy (ferromagnetic if J > 0, antiferromagnetic if J < 0)
+    h (float): external magnetic field strength (Zeeman energy)
+    beta (float): inverse temperature (1/kT)
+    num_steps (int): number of MCMC steps to perform
+
+    Returns:
+    sampled_spins (array): array of sampled spin configurations (shape: (num_steps, L))
+    energies (array): array of energies corresponding to the sampled spin configurations (shape: (num_steps,))
+    """"""
+
+    # Initialize spin configuration and energy arrays:
+    sampled_spins = np.zeros((num_steps, L))
+    energies = np.zeros(num_steps)
+
+    # Set initial state randomly or use provided one:
+    if initial_state is None:
+        initial_state = np.random.choice([-1, 1], size=L)
+    else:
+        initial_state = initial_state.copy()
+
+    # Perform Metropolis-Hastings MCMC simulation:
+    current_energy = ising_model(L, J, h, beta)[np.packbits(initial_state + 1)]
+    sampled_spins[0] = initial_state.copy()
+    energies[0] = current_energy
+
+    for i in range(1, num_steps):
+        # Select random site to flip (uniformly distributed)
+        flip_site = np.random.randint(L)
+
+        # Propose new spin configuration by flipping selected site:
+        proposed_state = initial_state.copy()
+        proposed_state[flip_site] *= -1
+
+        # Calculate proposed energy:
+        proposed_energy = ising_model(L, J, h, beta)[np.packbits(proposed_state + 1)]
+
+        # Accept/reject proposal based on Metropolis criterion:
+        delta_E = proposed_energy - current_energy
+
+        if delta_E <= 0 or np.random.uniform() < np.exp(-beta * delta_E):
+            initial_state = proposed_state.copy()
+            current_energy = proposed_energy
+
+        # Store sampled spin configuration and energy:
+        sampled_spins[i] = initial_state.copy()
+        energies[i] = current_energy
+
+    return sampled_spins, energies
+
+# Example usage:
+L = 16  # Lattice size (number of spins)
+J = 1   # Ferromagnetic exchange interaction energy (J > 0)
+h = 0.5  # External magnetic field strength (Zeeman energy)
+beta = 1 / 0.1  # Inverse temperature (1/kT)
+num_steps = 100000  # Number of MCMC steps
+
+sampled_spins, energies = metropolis_sampling(L, J, h, beta, num_steps)
+
+print(""Sampled spin configurations:\n"", sampled_spins[:10])
+print(""\nCorresponding energies:"", energies[:10])
+```
+This code defines two functions:
+
+1.",True,4,"0,3",True,16
+17,"
+
+Here is some sample NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```python`
+import numpy as np
+
+def ising_model_monte_carlo(L, T, h, num_steps):
+    """"""
+    Perform Monte Carlo simulation for 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,17
+18,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+    L (int): length of the chain (number of spins)
+    J (float): exchange energy (coupling constant)
+    h (float): magnetic field strength (in units of k_B T)
+    beta (float): inverse temperature (in units of k_B)
+
+    Returns:
+    Energy and magnetization arrays (E, M) after thermalization and sampling.
+    """"""
+   ",True,6,"0,3",True,18
+19,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_energy(sigma, h):
+    """"""
+    Energy function for the 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,19
+20,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```python`
+import numpy as np
+
+def ising_energy(s, J, h):
+    """"""
+    Calculate the energy of the 1D Ising model configuration s.
+
+    Parameters:
+    s (array): spin configuration (1 or -1)
+    J (float): exchange interaction strength (positive value)
+    h (float): external magnetic field (can be positive or negative)
+
+    Returns:
+    energy (float): total energy of the configuration s.
+    """"""
+    L = len(s)  # number of spins in the chain (assuming periodic boundaries)
+    energy = 0.0
+
+    # Calculate the energy due to nearest-neighbor interactions:
+    for i in range(L):
+        energy += -J * s[i] * s[(i+1)%L]
+
+    # Add the contribution from the external magnetic field:
+    energy += -h * np.sum(s)
+
+    return energy
+
+def metropolis_step(s, J, h, beta):
+    """"""
+    Perform one step of the Metropolis algorithm on the spin configuration s.
+
+    Parameters:
+    s (array): initial spin configuration (1 or -1)
+    J (float): exchange interaction strength (positive value)
+    h (float): external magnetic field (can be positive or negative)
+    beta (float): inverse temperature (must be > 0)
+
+    Returns:
+    new_s (array): updated spin configuration after one Metropolis step.
+    """"""
+   ",True,4,"0,3",True,20
+21,"
+
+Here is some sample NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```python
+
+import numpy as np
+
+def energy(Ising_chain, J, h):
+    """"""
+    Compute the energy of the Ising chain.
+
+   ",False,,,,21
+22,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_mc(L, J, h, beta, num_steps):
+    """"""
+    Perform Monte Carlo simulation for 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,22
+23,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_1d(L, J, h, T):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+    L (int): lattice size (number of spins)
+    J (float): exchange energy (ferromagnetic if J > 0, antiferromagnetic if J < 0)
+    h (float): external magnetic field strength (positive for alignment with field)
+    T (float): temperature (in units of Boltzmann constant)
+
+    Returns:
+    spins (numpy array): configuration of spins (1s and -1s) on the lattice 
+    energy (float): total energy of the configuration 
+    magnetization (float): total magnetization of the configuration 
+    """"""
+
+    # Initialize random spin configuration 
+    spins = 2 * np.random.randint(2, size=L) - 1 
+
+    # Calculate initial energy and magnetization 
+    energy = 0 
+    magnetization = np.sum(spins) 
+
+    for i in range(L-1): 
+        energy -= J * spins[i] * spins[i+1] 
+        energy -= h * spins[i]
+
+    # Perform Monte Carlo simulation 
+    num_steps = int(1e5) 
+    energy_list = [] 
+    magnetization_list = [] 
+
+    for _ in range(num_steps): 
+        # Choose a random site 
+        i = np.random.randint(L) 
+
+        # Calculate energy change for flipping the spin at site i 
+        delta_E = 2 * J * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) + 2 * h * spins[i]
+
+        # Accept or reject flip based on Metropolis criterion 
+        if delta_E <= 0 or np.exp(-delta_E / T) > np.random.rand(): 
+            spins[i] *= -1 
+            energy += delta_E 
+            magnetization += 2 * spins[i]
+
+        # Store energy and magnetization every 100 steps 
+        if (_ % 100 == 0): 
+            energy_list.append(energy) 
+            magnetization_list.append(magnetization) 
+
+    return spins, energy, magnetization, energy_list, magnetization_list
+
+# Example usage: 
+L = 100 
+J = 1.0 
+h = 0.5 
+T = 2.0 
+
+spins, energy, magnetization, energy_list, magnetization_list = ising_model_1d(L, J, h, T)
+
+print(""Final energy:"", energy) 
+print(""Final magnetization:"", magnetization) 
+
+import matplotlib.pyplot as plt 
+
+plt.plot(energy_list) 
+plt.xlabel(""MC step"") 
+plt.ylabel(""Energy"") 
+plt.title(""Energy evolution during MC simulation"") 
+plt.show()
+
+plt.plot(magnetization_list) 
+plt.xlabel(""MC step"") 
+plt.ylabel(""Magnetization"") 
+plt.title(""Magnetization evolution during MC simulation"") 
+plt.show()
+```
+This code defines a function `ising_model_1d` that takes as input the lattice size `L`, exchange energy `J`, external magnetic field strength `h`, and temperature `T`.",True,2,"0,3",True,23
+24,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_1d(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+    L (int): system size (number of spins)
+    J (float): exchange interaction energy (in units of k_B T)
+    h (float): magnetic field (in units of k_B T)
+    beta (float): inverse temperature (in units of 1/k_B T)
+
+    Returns:
+    energy (float): total energy of the system (per spin)
+    magnetization (float): total magnetization of the system (per spin)
+    """"""
+    # Initialize the lattice with random spins (+1 or -1)
+    spins = 2 * np.random.randint(0, 2, L) - 1
+
+    # Calculate the initial energy and magnetization of the system 
+    energy = -J * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+    magnetization = np.mean(spins)
+
+    # Perform Monte Carlo updates using Metropolis algorithm 
+    num_steps = int(1e5)
+    for _ in range(num_steps):
+        i = np.random.randint(L)
+        dE = 2 * J * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) + 2 * h * spins[i]
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+            spins[i] *= -1
+
+        # Update energy and magnetization 
+        energy += dE / L 
+        magnetization += 2 * spins[i] / L 
+
+    return energy, magnetization
+
+# Example usage:
+L = 100  # system size 
+J = 1.0  # exchange interaction energy 
+h = 0.5  # magnetic field 
+beta = 10.0  # inverse temperature 
+
+energy, magnetization = ising_model_1d(L, J, h, beta)
+print(f""Energy per spin: {energy:.4f}"")
+print(f""Magnetization per spin: {magnetization:.4f}"")
+```
+This code uses the Metropolis algorithm to perform Monte Carlo updates on the 1D lattice, where each spin can take on values of +1 or -1.",False,,,,24
+25,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D Classical Ising Model with magnetic field
+
+    Parameters:
+    L (int): Length of the lattice (number of spins)
+    J (float): Exchange interaction energy (in units of kT)
+    h (float): Magnetic field (in units of kT)
+    beta (float): Inverse temperature (in units of kT)
+
+    Returns:
+    Energy per spin (float)
+    Magnetization per spin (float)
+    """"""
+    # Initialize lattice configuration with random spins (+/- 1)
+    config = 2 * np.random.randint(2, size=L) - 1
+
+    # Compute energy and magnetization of initial configuration 
+    energy = 0.0 
+    magnetization = 0.0 
+
+    for i in range(L-1):
+        energy += -J * config[i] * config[i+1]
+        magnetization += config[i]
+
+    # Add magnetic field contribution to energy 
+    energy -= h * np.sum(config) 
+
+    # Perform Metropolis-Hastings algorithm 
+    for _ in range(int(beta*L)): 
+        i = np.random.randint(L) 
+        delta_energy = 2 * J * config[i] * (config[(i-1)%L] + config[(i+1)%L]) - 2 * h * config[i] 
+        if delta_energy <= 0 or np.exp(-beta*delta_energy) > np.random.rand(): 
+            config[i] *= -1 
+
+        # Update energy and magnetization 
+        energy += delta_energy 
+        magnetization += 2 * config[i] 
+
+    return energy/L, magnetization/L
+
+# Example usage: 
+L = 100  # Lattice length 
+J = 1.0  # Exchange interaction energy 
+h = 0.5  # Magnetic field 
+beta_values = [0.1, 0.5, 1.0, 2.0, 5.0]  # Inverse temperatures 
+
+for beta in beta_values: 
+    energy_per_spin, magnetization_per_spin = ising_model(L, J, h, beta) 
+    print(f'Inverse temperature: {beta:.2f}, Energy per spin: {energy_per_spin:.4f}, Magnetization per spin: {magnetization_per_spin:.4f}')
+```
+This code defines a function `ising_model` that takes in the lattice length `L`, exchange interaction energy `J`, magnetic field `h`, and inverse temperature `beta` as input parameters.",True,6,"0,3",True,25
+26,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    Classical 1D Ising model with magnetic field
+
+    Parameters:
+    L (int): system size (number of spins)
+    J (float): coupling constant (exchange energy)
+    h (float): magnetic field strength (Zeeman energy)
+    beta (float): inverse temperature (1/kT)
+
+    Returns:
+    E (float): total energy of the system (per spin)
+    M (float): total magnetization of the system (per spin)
+    """"""
+    # Initialize spins randomly (+/- 1)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Initialize energies and magnetizations arrays to store MC samples 
+    E_samples = []
+    M_samples = []
+
+    # Perform Monte Carlo simulation 
+    for _ in range(1000000):  # number of MC steps (adjust as needed)
+        # Select a random site to flip 
+        i = np.random.randint(L)
+
+        # Compute change in energy and magnetization if spin at site i is flipped 
+        dE = -2 * J * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) - 2 * h * spins[i]
+        dM = -2 * spins[i]
+
+        # Accept or reject the move based on Metropolis criterion 
+        if dE <= 0 or np.random.rand() < np.exp(-beta * dE):
+            spins[i] *= -1  # flip the spin 
+
+        # Update total energy and magnetization 
+        E = -J * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+        M = np.sum(spins)
+
+        # Store MC samples 
+        E_samples.append(E / L)  # per spin energy 
+        M_samples.append(M / L)  # per spin magnetization 
+
+    return E_samples, M_samples
+
+# Example usage: 
+L = 100  # system size 
+J = 1.0  # coupling constant 
+h = 0.5  # magnetic field strength 
+beta = 1.0  # inverse temperature 
+
+E_samples, M_samples = ising_model(L, J, h, beta)
+
+# Calculate averages and standard errors from MC samples 
+E_avg = np.mean(E_samples)
+E_err = np.std(E_samples) / np.sqrt(len(E_samples))
+M_avg = np.mean(M_samples)
+M_err = np.std(M_samples) / np.sqrt(len(M_samples))
+
+print(f""E_avg = {E_avg:.4f} +/- {E_err:.4f}"")
+print(f""M_avg = {M_avg:.4f} +/- {M_err:.4f}"")
+```
+This code defines a function `ising_model` that takes in the system size `L`, coupling constant `J`, magnetic field strength `h`, and inverse temperature `beta`.",True,4,"0,3",True,26
+27,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_monte_carlo(L, J, h, T, num_samples):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,27
+28,"
+
+Here is some NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```python
+
+import numpy as np
+
+def ising_model_monte_carlo(L, J, h, T, num_steps):
+    """"""
+    Perform Monte Carlo simulation for 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,28
+29,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_mc(L, J, h, beta, num_samples):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,29
+30,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    Define the 1D classical Ising model Hamiltonian with magnetic field.
+
+   ",True,6,"0,3",True,30
+31,"
+
+Here is some NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    Classical 1D Ising model with magnetic field
+
+    Parameters:
+    L (int): number of spins in the chain (length)
+    J (float): coupling constant (exchange energy)
+    h (float): external magnetic field (Zeeman energy)
+    beta (float): inverse temperature (1/kT)
+
+    Returns:
+    energy (float): total energy of the system (per spin)
+    magnetization (float): average magnetization per spin (<sigma>)
+    """"""
+    # Initialize lattice with random spins (+/- 1)
+    lattice = 2 * np.random.randint(0, 2, size=L) - 1
+    
+    # Set up energy and magnetization arrays to store results during MC run 
+    energies = np.zeros((L,))
+    magnetizations = np.zeros((L,))
+    
+    # Monte Carlo simulation loop 
+    for i in range(L):
+        # Calculate energy change for flipping spin at site i 
+        dE = 2 * J * lattice[i] * (lattice[(i-1)%L] + lattice[(i+1)%L]) + 2 * h * lattice[i]
+        
+        # Metropolis algorithm: accept flip if dE <= 0 or exp(-beta*dE) > rand(0,1)
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+            lattice[i] *= -1  # flip spin
+        
+        # Update energy and magnetization 
+        energies[i] = lattice @ lattice[lattice!= lattice[(i-1)%L]] + h * np.sum(lattice)
+        magnetizations[i] = np.mean(lattice)
+    
+    # Average over entire Markov chain 
+    energy_avg = np.mean(energies)
+    magnetization_avg = np.mean(magnetizations)
+    
+    return energy_avg / L, magnetization_avg
+
+# Example usage:
+L = 100  # length of the chain 
+J = 1.0   # exchange energy 
+h = 0.5   # magnetic field strength 
+T = 2.0   # temperature 
+beta = 1.0 / T  # inverse temperature 
+
+energy_per_spin, avg_magnetization_per_spin = ising_model(L, J, h, beta)
+print(f""Energy per spin: {energy_per_spin:.4f}"")
+print(f""Avg.",False,,,,31
+32,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+        L (int): lattice size (number of spins)
+        J (float): exchange interaction energy (ferromagnetic if > 0, antiferromagnetic if < 0)
+        h (float): magnetic field strength (in units of energy)
+        beta (float): inverse temperature (1/kT)
+
+    Returns:
+        E_avg (float): average energy per spin at thermal equilibrium (in units of energy)
+        M_avg (float): average magnetization per spin at thermal equilibrium (in units of mu_B)
+    """"""
+    # Initialize lattice with random spin configuration (up or down)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Perform Metropolis-Hastings algorithm for Monte Carlo sampling
+
+    # Initialize energy and magnetization variables for each spin flip attempt
+
+    E = np.zeros((L,))
+    M = np.zeros((L,))
+
+    for i in range(100000):  # number of MC sweeps (relaxation steps)
+        for j in range(L):
+            # Choose a random site for a potential spin flip
+
+            s = spins[j]
+
+            # Calculate change in energy due to potential spin flip
+
+            delta_E = 2 * s * (J * spins[(j - 1) % L] + J * spins[(j + 1) % L] + h)
+
+            # Accept or reject spin flip based on Metropolis criterion
+
+            if delta_E <= 0 or np.exp(-beta * delta_E) > np.random.rand():
+                spins[j] *= -1
+
+        # Update energy and magnetization after each sweep
+
+        E += np.sum(J * spins[:-1] * spins[1:] + h * spins)
+
+        M += np.sum(spins)
+
+    # Calculate average energy and magnetization per spin at thermal equilibrium
+
+    E_avg = E / (L * 100000)
+
+    M_avg = M / (L * 100000)
+
+    return E_avg, M_avg
+
+# Example usage:
+
+L = 100  # lattice size
+
+J = 1.0  # ferromagnetic exchange interaction energy
+
+h = 0.5  # magnetic field strength
+
+beta = 1.0  # inverse temperature (1/kT at room temperature)
+
+E_avg, M_avg = ising_model(L, J, h, beta)
+
+print(f""Average Energy per Spin: {E_avg:.4f} eV"")
+
+print(f""Average Magnetization per Spin: {M_avg:.4f} μB"")
+```
+
+In this code, we define a function `ising_model` that performs Monte Carlo sampling for the 1D classical Ising model with a magnetic field.",True,6,"0,3",True,32
+33,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_energy(spins, J, h):
+    """"""
+    Compute the energy of a 1D Ising configuration
+
+    Parameters:
+    spins (array): spin configuration (+/- 1)
+    J (float): exchange coupling constant (> 0)
+    h (float): magnetic field (> 0)
+
+    Returns:
+    energy (float): total energy of the configuration
+
+    """"""
+    energy = -J * np.sum(spins[:-1] * spins[1:])
+    energy -= h * np.sum(spins)
+    return energy
+
+def metropolis_hastings(spins, J, h, beta, num_steps):
+    """"""
+    Perform Metropolis-Hastings Monte Carlo sampling for the 1D Ising model
+
+    Parameters:
+    spins (array): initial spin configuration (+/- 1)
+    J (float): exchange coupling constant (> 0)
+    h (float): magnetic field (> 0)
+    beta (float): inverse temperature (1/T)
+    num_steps (int): number of MC steps
+
+    Returns:
+    spins_chain (array): Markov chain of spin configurations
+
+    """"""
+    spins_chain = [spins.copy()]
+    for _ in range(num_steps):
+        # Choose a random site to flip (0 <= i < len(spins))
+        i = np.random.randint(0, len(spins))
+
+        # Compute energy change upon flipping the chosen site (ΔE)
+        new_spins = spins.copy()
+        new_spins[i] *= -1  # Flip the chosen site
+
+        delta_E = ising_energy(new_spins, J, h) - ising_energy(spins, J, h)
+
+        # Accept or reject the proposed move based on the Metropolis criterion (P_accept)
+        P_accept = min(1, np.exp(-beta * delta_E))
+
+        if np.random.rand() < P_accept:
+            spins = new_spins
+
+        spins_chain.append(spins.copy())
+
+    return np.array(spins_chain)
+
+# Define simulation parameters:
+L = 100  # System size (number of sites)
+J = 1.0  # Exchange coupling constant (> 0)
+h = 0.5  # Magnetic field (> 0)
+T = 2.0  # Temperature (> 0)
+beta = 1 / T  # Inverse temperature (1/T)
+num_steps = 100000  # Number of MC steps
+
+# Initialize the spin configuration (random)
+initial_spins = 2 * np.random.randint(0, 2, L) - 1
+
+# Run the Metropolis-Hastings algorithm:
+spins_chain = metropolis_hastings(initial_spins, J, h, beta, num_steps)
+
+# Analyze the results...
+print(np.mean(spins_chain[-10000:, :], axis=0))  # Compute the magnetization (<m>)
+print(np.var(spins_chain[-10000:, :], axis=0))  # Compute the susceptibility (χ)
+```
+This code defines two functions: `ising_energy` computes the energy of a given spin configuration, and `metropolis_hastings` performs the Metropolis-Hastings algorithm to generate a Markov chain of spin configurations.
+
+",False,,,,33
+34,"
+
+Here is an example of NumPy code that performs Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(N, J, h, T):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+        N (int): Number of spins in the chain 
+        J (float): Exchange interaction energy between neighboring spins 
+        h (float): Magnetic field strength 
+        T (float): Temperature 
+
+    Returns:
+        Energy (float): Total energy of the system 
+        Magnetization (float): Total magnetization of the system 
+    """"""
+    # Initialize the spin configuration randomly 
+    spins = np.random.choice([-1, 1], size=N)
+
+    # Initialize energy and magnetization 
+    energy = 0 
+    magnetization = np.sum(spins) 
+
+    # Calculate the energy and magnetization for the initial configuration 
+    for i in range(N-1): 
+        energy += -J * spins[i] * spins[i+1] 
+    energy += -h * np.sum(spins)
+
+    # Perform Metropolis-Hastings Monte Carlo sampling 
+    num_samples = int(1e6) 
+    for _ in range(num_samples): 
+        # Choose a random site to flip 
+        i = np.random.randint(N) 
+
+        # Calculate the change in energy if we flip the spin at site i 
+        delta_E = 2 * J * spins[i] * (spins[(i-1)%N] + spins[(i+1)%N]) + 2 * h * spins[i]
+
+        # Accept or reject the move based on the Metropolis criterion 
+        if delta_E <= 0 or np.exp(-delta_E / T) > np.random.rand(): 
+            spins[i] *= -1 
+            energy += delta_E 
+            magnetization += 2 * spins[i]
+
+    return energy, magnetization / N
+
+# Example usage: 
+N = 100 
+J = 1.0 
+h = 0.5 
+T = 2.0 
+
+energy, magnetization = ising_model(N, J, h, T)
+print(f""Energy per spin: {energy / N:.4f}"") 
+print(f""Magnetization per spin: {magnetization:.4f}"")
+```
+This code defines a function `ising_model` that takes in the number of spins `N`, exchange interaction energy `J`, magnetic field strength `h`, and temperature `T`.",True,4,"0,3",True,34
+35,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    Parameters:
+    L (int): length of the lattice (number of spins)
+    J (float): exchange energy (ferromagnetic coupling)
+    h (float): external magnetic field strength (in units of k_B T)
+    beta (float): inverse temperature (in units of 1/k_B)
+
+    Returns:
+    E_avg (float): average energy per spin at thermal equilibrium 
+    M_avg (float): average magnetization per spin at thermal equilibrium 
+    """"""
+
+    # Initialize the lattice with random spin configurations (+1 or -1)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Set up the Monte Carlo simulation parameters 
+    num_steps = int(1e5)  # number of Monte Carlo steps 
+    burn_in = int(0.2 * num_steps)  # discard initial configurations 
+
+    # Initialize variables to store the energy and magnetization averages 
+    E_sum = 0 
+    M_sum = 0 
+
+    for step in range(num_steps):
+        # Choose a random site on the lattice 
+        i = np.random.randint(0, L-1) 
+
+        # Calculate the energy change due to a potential flip 
+        dE = 2 * J * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) + 2 * h * spins[i]
+
+        # Accept or reject the move based on the Metropolis criterion 
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+            spins[i] *= -1  # flip the spin 
+
+        # Update the energy and magnetization sums after burn-in period 
+        if step >= burn_in: 
+            E_sum += -J * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+            M_sum += np.mean(spins) 
+
+    # Calculate the average energy and magnetization per spin 
+    E_avg = E_sum / ((num_steps - burn_in) * L) 
+    M_avg = M_sum / ((num_steps - burn_in) * L)
+
+    return E_avg, M_avg 
+
+# Example usage:
+L = 100  # lattice size 
+J = 1.0  # ferromagnetic coupling strength 
+h = 0.5  # external magnetic field strength 
+T = 2.0  # temperature 
+beta = 1 / T 
+
+E_avg, M_avg = ising_model(L, J, h, beta)
+
+print(f""Average Energy per Spin: {E_avg:.4f}"") 
+print(f""Average Magnetization per Spin: {M_avg:.4f}"")
+```
+This code performs a Monte Carlo simulation for the 1D Ising model with a magnetic field using the Metropolis algorithm.",True,4,"0,3",True,35
+36,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_energy(config, J, h):
+    """"""
+    Calculate the energy of a given configuration in the 1D Ising model.
+
+   ",True,6,"0,3",True,36
+37,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_energy(config, J, h):
+    """"""
+    Compute the energy of a configuration in the 1D Ising model.
+
+   ",True,6,"0,3",True,37
+38,"
+
+Here is some NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_monte_carlo(L, J, h, T, num_steps):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field.
+
+   ",True,6,"0,3",True,38
+39,"
+
+Here is some NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_energy(config, J, h):
+    """"""
+    Calculate the energy of a given configuration in the 1D Ising model.
+
+   ",True,6,"0,3",True,39
+40,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D classical Ising model with magnetic field
+
+    Parameters:
+    L (int): system size (number of spins)
+    J (float): exchange interaction energy (in units of k_B T)
+    h (float): external magnetic field (in units of k_B T)
+    beta (float): inverse temperature (in units of 1/k_B T)
+
+    Returns:
+    E_avg (float): average energy per spin of the system at equilibrium 
+    M_avg (float): average magnetization per spin of the system at equilibrium 
+    """"""
+    # Initialize lattice with random spins (+/- 1)
+    lattice = 2 * np.random.randint(0, 2, size=L) - 1
+
+    # Define the Hamiltonian function for the Ising model with magnetic field 
+    def hamiltonian(lattice):
+        energy = 0.0 
+        for i in range(L-1): 
+            energy += -J * lattice[i] * lattice[i+1] - 0.5 * h * lattice[i]
+        energy -= 0.5 * h * lattice[-1]  # boundary condition: periodic boundary conditions 
+        return energy 
+
+    # Perform Monte Carlo simulation 
+    num_steps = int(1e6) 
+    E_list = np.zeros(num_steps) 
+    M_list = np.zeros(num_steps) 
+
+    for step in range(num_steps): 
+        # Choose a random site 
+        site = np.random.randint(0, L) 
+
+        # Compute the change in energy if we flip this site 
+        dE = 2 * J * lattice[site] * (lattice[(site-1)%L] + lattice[(site+1)%L]) + 2 * h * lattice[site]
+
+        # Accept or reject the move using Metropolis-Hastings algorithm 
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand(): 
+            lattice[site] *= -1 
+
+        # Compute and store energy and magnetization at each step 
+        E_list[step] = hamiltonian(lattice) / L 
+        M_list[step] = np.mean(lattice) 
+
+    # Compute averages over the last half of the steps (after equilibration) 
+    E_avg = np.mean(E_list[num_steps//2:]) 
+    M_avg = np.mean(M_list[num_steps//2:]) 
+
+    return E_avg, M_avg
+
+# Example usage: 
+L = 100 
+J = 1.0 
+h = 0.5 
+T = 2.0 
+beta = 1.0 / T 
+
+E_avg, M_avg = ising_model(L, J, h, beta)
+print(f""Average Energy per Spin: {E_avg:.4f}"") 
+print(f""Average Magnetization per Spin: {M_avg:.4f}"")
+```
+This code performs the following:
+
+1.",True,6,"0,3",True,40
+41,"
+
+Here is some NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```python
+
+import numpy as np
+
+def ising_model_monte_carlo(L, J, h, beta, num_samples):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field.
+
+   ",True,6,"0,3",True,41
+42,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_1d(L, J, h, T):
+    """"""
+    Parameters:
+        L (int): Length of the lattice (number of spins)
+        J (float): Exchange energy (coupling constant)
+        h (float): Magnetic field strength (Zeeman coupling)
+        T (float): Temperature (in units of k_B)
+
+    Returns:
+        magnetization (float): Average magnetization per spin (<sigma_i>)
+        energy (float): Average energy per spin (<H>/L)
+    """"""
+    # Initialize the lattice with random spin configuration (+/- 1)
+    lattice = 2 * np.random.randint(0, 2, size=L) - 1
+    
+    # Calculate the initial energy and magnetization of the system    
+    def energy_function(lattice, J, h):
+        return -J * np.sum(lattice[:-1] * lattice[1:]) - h * np.sum(lattice)
+    
+    energy_initial = energy_function(lattice, J, h)
+    magnetization_initial = np.mean(lattice)
+    
+    # Perform Metropolis-Hastings Monte Carlo simulation    
+    num_steps = int(1e6)  # Number of Monte Carlo steps (adjust this value)
+    beta = 1 / T  # Inverse temperature
+    
+    energies = np.zeros(num_steps)
+    magnetizations = np.zeros(num_steps)
+    
+    for step in range(num_steps):
+        i = np.random.randint(0, L)
+        lattice_flip = lattice.copy()
+        lattice_flip[i] *= -1
+        
+        delta_energy = energy_function(lattice_flip, J, h) - energy_initial
+        
+        if delta_energy <= 0 or np.exp(-beta * delta_energy) > np.random.rand():
+            lattice = lattice_flip
+        
+        energy = energy_function(lattice, J, h)
+        magnetization = np.mean(lattice)
+        
+        energies[step] = energy / L  # Normalize by lattice size L    
+        magnetizations[step] = magnetization
+    
+    # Compute average values after thermalization (discarding initial transient)    
+    thermalization_cutoff = int(num_steps / 2)
+    energy_avg = np.mean(energies[thermalization_cutoff:])
+    magnetization_avg = np.mean(magnetizations[thermalization_cutoff:])
+    
+    return magnetization_avg, energy_avg
+
+# Example usage: 
+L = 100  # Lattice size (arbitrary)
+J = 1.0  # Exchange energy (arbitrary)
+h = 0.5  # Magnetic field strength (arbitrary)
+T = 2.0  # Temperature (arbitrary)
+
+magnetization, energy = ising_model_1d(L, J, h, T)
+print(f""Magnetization per spin: {magnetization:.4f}"")
+print(f""Energy per spin: {energy:.4f}"")
+```
+This code defines a function `ising_model_1d` that takes the lattice size `L`, exchange energy `J`, magnetic field strength `h`, and temperature `T` as input parameters.",True,6,"0,3",True,42
+43,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D Classical Ising Model with magnetic field
+
+    Parameters:
+    L (int): Number of spins in the chain (length)
+    J (float): Exchange coupling constant (ferromagnetic if J > 0, antiferromagnetic if J < 0)
+    h (float): External magnetic field strength (Zeeman energy)
+    beta (float): Inverse temperature (1 / k_B T)
+
+    Returns:
+    energy (float): Energy per spin at thermal equilibrium (average over all configurations)
+    magnetization (float): Magnetization per spin at thermal equilibrium (average over all configurations)
+    """"""
+    # Initialize arrays to store energy and magnetization values for each configuration sampled during the simulation.
+   ",True,6,"0,3",True,43
+44,"
+
+Here is some sample NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_monte_carlo(L, J, h, T, num_steps):
+    """"""
+    Perform Monte Carlo simulation for 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,44
+45,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_mc(L, J, h, T, num_samples):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model.
+
+   ",True,6,"0,3",True,45
+46,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model(L, J, h, beta):
+    """"""
+    1D Classical Ising Model with magnetic field
+
+    Parameters:
+    L (int): Length of the lattice (number of spins)
+    J (float): Exchange coupling constant (ferromagnetic: J > 0, antiferromagnetic: J < 0)
+    h (float): Magnetic field strength (Zeeman energy)
+    beta (float): Inverse temperature (1/kT)
+
+    Returns:
+    Energy per spin (float)
+    Magnetization per spin (float)
+    """"""
+    # Initialize lattice with random spin configuration (+/- 1)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Function to calculate energy and magnetization for given spin config.
+   ",False,,,,46
+47,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```python`
+import numpy as np
+
+def ising_model_MC(L, J, h, beta, num_steps):
+    """"""
+    Perform Monte Carlo simulation for the 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,47
+48,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for a 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def energy configs, J, h):
+    """"""
+    Calculate the energy of a given configuration in the 1D Ising model.
+
+   ",False,,,,48
+49,"
+
+Here is an example of NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```
+import numpy as np
+
+def ising_model_energy(sigma, h, J):
+    """"""
+    Compute the energy of a 1D Ising model configuration.
+
+   ",True,6,"0,3",True,49
+50,"
+
+Here is some NumPy code to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field:
+```python`
+import numpy as np
+
+def ising_model_monte_carlo(L, beta, h):
+    """"""
+    Perform Monte Carlo sampling for the 1D classical Ising model with magnetic field.
+
+   ",True,6,"0,3",True,50
+51," Parameters:
+    L (int): Length of the lattice.
+   ",True,3,"0,3",True,1
+52," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,1
+53," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,2
+54," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,3
+55," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,4
+56," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,5
+57," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,6
+58," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,7
+59," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,8
+60," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,9
+61," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,10
+62," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,11
+63," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,12
+64," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,13
+65," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,14
+66," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,15
+67," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,16
+68," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,17
+69," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,18
+70," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,19
+71," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,20
+72," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,21
+73," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,22
+74," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,23
+75," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,24
+76," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,25
+77," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,26
+78," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,27
+79," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,28
+80," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,29
+81," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,30
+82," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,31
+83," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,32
+84," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,33
+85," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,34
+86," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,35
+87," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,36
+88," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,37
+89," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,38
+90," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,39
+91," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,40
+92," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,41
+93," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,42
+94," beta (float): Inverse temperature (1/T).
+   ",True,3,"6,0",True,43
+95," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,44
+96," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,45
+97," beta (float): Inverse temperature.
+   ",True,3,"6,0",True,46
+98," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,47
+99," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,48
+100," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,49
+101," beta (float): Inverse temperature (1/kT).
+   ",True,3,"6,0",True,50
+102," h (float): Magnetic field strength.
+
+   ",True,2,"6,0",True,1
+103," h (float): Magnetic field.
+
+   ",True,6,"6,0",True,2
+104," Returns:
+    spins (numpy array): Configuration of spins (±1) after thermalization.
+   ",True,0,"0,3",True,1
+105," energy (float): Energy per site of the final configuration.
+   ",True,0,"5,2",True,1
+106," energy (float): Energy of the system after thermalization.
+   ",True,0,"5,2",True,2
+107," energy (float): Energy per site after thermalization.
+   ",True,0,"5,2",True,3
+108," energy (float): Total energy of the system.
+   ",False,,,,4
+109," energy (float): Total energy of the system.
+   ",False,,,,5
+110," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,6
+111," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,7
+112," energy (float): Energy per site after thermalization.
+   ",True,0,"5,2",True,8
+113," energy (float): Total energy of the system.
+   ",False,,,,9
+114," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,10
+115," energy (float): Total energy of the system.
+   ",False,,,,11
+116," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,12
+117," energy (float): Total energy of the system after thermalization.
+   ",True,0,"5,2",True,13
+118," energy (float): Total energy of the system after thermalization.
+   ",True,0,"5,2",True,14
+119," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,15
+120," energy (float): Total energy of the system.
+   ",False,,,,16
+121," energy (float): Energy per site after thermalization.
+   ",True,0,"5,2",True,17
+122," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,18
+123," energy (float): Total energy of the system.
+   ",False,,,,19
+124," energy (float): Energy per site of the final configuration.
+   ",True,0,"5,2",True,20
+125," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,21
+126," energy (float): Energy of the final configuration.
+   ",True,0,"5,2",True,22
+127," energy (float): Energy of the system.
+   ",True,1,"5,2",True,23
+128," energy (float): Energy of the configuration.
+   ",True,2,"5,2",True,24
+129," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,1
+130," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,2
+131," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,3
+132," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,4
+133," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,5
+134," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,6
+135," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,7
+136," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,8
+137," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,9
+138," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,10
+139," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,11
+140," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,12
+141," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,13
+142," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,14
+143," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,15
+144," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,16
+145," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,17
+146," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,18
+147," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,19
+148," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,20
+149," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,21
+150," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,22
+151," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,23
+152," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,24
+153," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,25
+154," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,26
+155," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,27
+156," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,28
+157," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,29
+158," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,30
+159," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,31
+160," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,32
+161," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,33
+162," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,34
+163," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,35
+164," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,36
+165," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,37
+166," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,38
+167," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,39
+168," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,40
+169," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,41
+170," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,42
+171," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,43
+172," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,44
+173," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,45
+174," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,46
+175," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,47
+176," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,48
+177," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",False,,,,49
+178," magnetization (float): Magnetization of the configuration.
+    """"""
+   ",True,2,"5,2",True,50
+179," # Initialize lattice with random spins (±1)
+    spins = 2 * np.random.randint(0, 2, size=L) - 1
+
+    # Thermalize the system by performing many sweeps of Metropolis updates.
+   ",True,0,"5,2",True,1
+180," # Initialize random spin configuration (+/- 1)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Thermalize the system using Metropolis algorithm (single-spin flip updates)
+    num_steps = int(1e6)  # number of thermalization steps (adjust as needed)
+    for _ in range(num_steps):
+        i = np.random.randint(L)  # choose a random site to update
+
+        # Compute energy difference ΔE due to single-spin flip at site i 
+        # (periodic boundary conditions)
+        delta_E = 2 * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) - 2 * h * spins[i]
+
+        # Accept or reject the move based on Metropolis criterion 
+        if delta_E <= 0 or np.exp(-beta * delta_E) > np.random.rand():
+            spins[i] *= -1
+
+    # Compute energy and magnetization of the final configuration 
+    energy = np.sum(spins[i] * spins[(i-1)%L] for i in range(L)) - h * np.sum(spins)
+    magnetization = np.mean(spins)
+
+    return spins, energy, magnetization
+
+# Example usage:
+L = 100  # lattice size (adjust as needed)
+beta = 1.0  # inverse temperature (1/kT) (adjust as needed)
+h = 0.5  # magnetic field (adjust as needed)
+
+spins, energy, magnetization = ising_model_monte_carlo(L, beta, h)
+print(f""Spins: {spins}"")
+print(f""Energy: {energy:.4f}"")
+print(f""Magnetization: {magnetization:.4f}"")
+```
+This code performs the following tasks:
+
+1.",True,6,"5,2",True,2
+181," # Initialize lattice with random spins (±1)
+    spins = 2 * np.random.randint(2, size=L) - 1
+
+    # Thermalize the system using Metropolis algorithm.
+   ",True,0,"5,2",True,3
+182," # Initialize lattice with random spins ±1.
+   ",True,3,"5,2",True,4
+183," # Initialize lattice with random spin configuration (+1 or -1)
+    spins = 2 * np.random.randint(2, size=L) - 1
+
+    # Define energy function for the Ising model with magnetic field (H = -J σ_i σ_{i+1} - h Σ σ_i)
+    def energy_function(spins, h):
+        J = 1.0  # Coupling constant (set to 1 for simplicity)
+        energy = -J * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+        return energy
+
+    # Thermalize the system using Metropolis algorithm (50 sweeps for now)
+    num_sweeps = 50 * L  # Number of sweeps to thermalize the system (5-10 times the lattice size)
+    for _ in range(num_sweeps):
+        i = np.random.randint(L)  # Select a random site to update spin configuration
+
+        # Calculate the change in energy due to flip at site i (∆E = E_new - E_old)
+        old_spin = spins[i]
+        new_spin = -old_spin  # Flip the spin (±1 → ∓1)
+        delta_energy = energy_function(np.roll(spins, -i)[:L], h) - energy_function(spins, h)
+
+        # Accept or reject the move based on the Metropolis criterion (exp(-∆E/β) > uniform(0,1))
+        if delta_energy <= 0 or np.exp(-delta_energy * beta) > np.random.rand():
+            spins[i] = new_spin  # Update spin configuration
+
+    # Calculate final energy and magnetization after thermalizationassistant
+
+```
+    energy = energy_function(spins, h)
+    magnetization = np.mean(spins)
+
+    return spins, energy, magnetization
+
+
+# Example usage:
+L = 100  # Lattice size (number of spins)
+beta = 1.0  # Inverse temperature (1/kT)
+h = 0.5  # Magnetic field
+
+spins, energy, magnetization = ising_model_monte_carlo(L, beta, h)
+
+print(""Final spin configuration:"", spins)
+print(""Energy:"", energy)
+print(""Magnetization:"", magnetization)
+```
+This code defines a function `ising_model_monte_carlo` that performs Monte Carlo sampling for the 1D classical Ising model with a magnetic field.",True,6,"5,2",True,5
+184," # Initialize random spin configuration (±1)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Thermalize the system by performing many Metropolis updates 
+    for _ in range(10000):
+        for i in range(L):
+            # Calculate change in energy if spin at site i is flipped 
+            dE = 2 * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) - 2 * h * spins[i]
+
+            # Accept flip if dE <= 0 or with probability exp(-beta*dE) if dE > 0 
+            if dE <= 0 or np.random.rand() < np.exp(-beta * dE):
+                spins[i] *= -1
+
+    # Calculate energy and magnetization of the final configuration 
+    energy = 0.5 * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+    magnetization = np.mean(spins)
+
+    return spins, energy, magnetization
+
+# Example usage:
+L = 100  # Lattice length 
+beta = 1.0  # Inverse temperature (1/kT) 
+h = 0.5  # Magnetic field 
+
+spins, energy, magnetization = ising_model_monte_carlo(L, beta, h)
+
+print(""Final spin configuration:"", spins)
+print(""Energy:"", energy)
+print(""Magnetization:"", magnetization)
+```
+This code performs the following steps:
+
+1.",False,,,,6
+185," # Initialize lattice with random spins (±1)
+    spins = 2 * np.random.randint(0, 2, size=L) - 1
+
+    # Thermalize the system using Metropolis-Hastings algorithm 
+    for _ in range(10000):  # thermalization steps 
+        i = np.random.randint(0, L)
+        dE = 2 * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) + 2 * h * spins[i]
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+            spins[i] *= -1
+
+    # Calculate energy and magnetization of the configuration 
+    energy = 0 
+    magnetization = 0 
+    for i in range(L):
+        energy += -spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) - h * spins[i]
+        magnetization += spins[i]
+    energy /= L 
+    magnetization /= L 
+
+    return spins, energy, magnetization
+
+
+# Example usage 
+L = 100 
+beta = 1.5 
+h = 0.5 
+spins, energy, magnetization = ising_model_monte_carlo(L, beta, h)
+
+print(""Final spin configuration:"", spins)
+print(""Energy per site:"", energy)
+print(""Magnetization per site:"", magnetization)
+```
+This code defines a function `ising_model_monte_carlo` that performs Monte Carlo sampling for the 1D classical Ising model with a magnetic field.",True,6,"5,2",True,7
+186," # Initialize lattice with random spins (±1)
+    spins = 2 * np.random.randint(0, 2, size=L) - 1
+
+    # Thermalize the system by performing Metropolis updates 
+    # ( reject/accept new configurations based on energy change )
+    for _ in range(int(L ** 2)):  # thermalization steps ( rough estimate )
+        i = np.random.randint(L)
+        dE = 2 * spins[i] * (spins[(i - 1) % L] + spins[(i + 1) % L]) - 2 * h * spins[i]
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+            spins[i] *= -1  # flip spin if accepted
+
+    # Calculate energy and magnetization of the configuration 
+    energy = -np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+    magnetization = np.mean(spins)
+
+    return spins, energy, magnetization
+
+# Example usage:
+L = 100  # lattice length 
+beta = 1.0  # inverse temperature (set to 1 for convenience)
+h = 0.5  # magnetic field strength
+
+spins, energy, magnetization = ising_model_monte_carlo(L, beta, h)
+
+print(f""Energy: {energy:.4f}"")
+print(f""Magnetization: {magnetization:.4f}"")
+```
+This code uses the Metropolis algorithm to perform Monte Carlo updates on the spins, which helps the system reach thermal equilibrium.",False,,,,8
+187," # Initialize random spin configuration (±1)
+    spins = np.random.choice([-1, 1], size=L)
+
+    # Thermalize the system using Metropolis algorithm (local updates)
+    num_steps = int(1e5)  # number of thermalization steps (adjust as needed)
+    for _ in range(num_steps):
+        i = np.random.randint(L)
+        dE = -2 * spins[i] * (spins[(i-1)%L] + spins[(i+1)%L]) + 2 * h * spins[i]
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+            spins[i] *= -1  # flip spin
+
+    # Calculate energy and magnetization of the thermalized configuration)
+    energy = 0.5 * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+    magnetization = np.mean(spins)
+
+    return spins, energy, magnetization
+
+# Example usage:
+L = 100  # lattice length (adjust as needed)
+beta = 1.0  # inverse temperature (adjust as needed)
+h = 0.5  # magnetic field (adjust as needed)
+
+spins, energy, magnetization = ising_model_monte_carlo(L, beta, h)
+
+print(""Thermalized configuration:"")
+print(spins)
+print(f""Energy: {energy:.4f}"")
+print(f""Magnetization: {magnetization:.4f}"")
+```
+This code performs the following steps:
+
+1.",True,6,"5,2",True,9
+188," # Initialize lattice with random spins (±1)
+    spins = 2 * np.random.randint(0, 2, size=L) - 1
+
+    # Thermalize the system by performing many Monte Carlo steps per spin (MCS/s)
+    num_MCS_per_spin = 10000  # adjust this value depending on your needs
+
+    for _ in range(num_MCS_per_spin * L):
+        # Choose a random site i in the lattice [0, L-1]
+        i = np.random.randint(0, L)
+
+        # Calculate the energy change ΔE if we flip the spin at site i 
+        dE = -2 * h * spins[i] - 2 * spins[i] * spins[(i-1)%L]
+
+        # Accept or reject the move based on the Metropolis algorithm 
+        if dE <= 0 or np.exp(-beta * dE) > np.random.rand():
+            spins[i] *= -1
+
+    # Calculate the energy and magnetization of the final configuration 
+    energy = -h * np.sum(spins) - np.sum(spins[:-1] * spins[1:])
+    magnetization = np.mean(spins)
+
+    return spins, energy, magnetization
+
+# Example usage: 
+L = 100  # lattice length 
+beta = 1.0  # inverse temperature (1/kT) 
+h = 0.5  # magnetic field 
+
+spins, energy, magnetization = ising_model_monte_carlo(L, beta, h)
+
+print(""Final configuration:"", spins)
+print(""Energy:"", energy)
+print(""Magnetization:"", magnetization)
+```
+In this code:
+
+*   We first initialize a 1D lattice of length `L` with random spins (±1).
+",True,2,"5,2",True,10

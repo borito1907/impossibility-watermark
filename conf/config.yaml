@@ -7,9 +7,10 @@ defaults:
     # - generator_args: large_mixtrals
     # - oracle_args: llama3
 
-cuda_visible_devices: "1" # TODO: Does this really work? FHC: Not at the moment
+cuda_visible_devices: "2,3" # Gary believes this works, if you so choose to use it
 model_cache_dir: "/data2/.shared_models" # "/data2/.shared_models" "../.cache"
-
+is_completion: False
+generation_stats_file_path: "results/dump"
 attack_args:
     target_mutations: 300      # target number of successful mutations
     max_steps: 10         # how many mutations should the attack try to make
@@ -20,7 +21,8 @@ attack_args:
 
 # UMD still needs this to detect, so leaving this here.
 generator_args:
-    model_id: "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" # "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" "gpt-4"
+    model_id: "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ" # "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ" "gpt-4"
+    model_name_or_path: "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ" # "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ"
     revision: "main" 
     model_cache_dir: "${model_cache_dir}"
     device_map: "auto"

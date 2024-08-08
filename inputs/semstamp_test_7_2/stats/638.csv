@@ -1,0 +1,644 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+A very specific and interesting request!
+
+",True,5,"7,2",True,1
+2,"
+
+I see you're excited about Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,2
+3,"
+
+I'd be happy to help you with that!
+
+",False,,,,3
+4,"
+
+Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,4
+5,"
+
+A very specific request!
+
+",True,4,"7,2",True,5
+6,"
+
+A very specific request!
+
+",True,4,"7,2",True,6
+7,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,7
+8,"
+
+I see you're eager to dive into some Acoustic Nearfield Holography (SONAH) Python code!
+
+",True,4,"7,2",True,8
+9,"
+
+I'd be happy to help you with that!
+
+",False,,,,9
+10,"
+
+A very specific and interesting topic!
+
+",True,1,"7,2",True,10
+11,"
+
+A very specific and technical request!
+
+",True,4,"7,2",True,11
+12,"
+
+Acoustic Near-field Holography (SONAH) is an exciting technology!
+
+",True,4,"7,2",True,12
+13,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,13
+14,"
+
+I'd be happy to help you with that!
+
+",False,,,,14
+15,"
+
+Acoustic Nearfield Holography!
+
+",False,,,,15
+16,"
+
+A very specific request!
+
+",True,4,"7,2",True,16
+17,"
+
+I'd be happy to help you with that!
+
+",False,,,,17
+18,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,18
+19,"
+
+Here is an example of Python code for Acoustic Nearfield Holography (SONAH):
+```
+import numpy as np
+
+def sonah_microphone_signals(microphone_positions, source_signal, frequency, Hz):
+    """"""
+    Compute the microphone signals using Acoustic Nearfield Holography (SONAH)
+    
+    Parameters:
+        microphone_positions (numpy array): 3D positions of the microphones (x, y, z)
+        source_signal (numpy array): Source signal in the time domain 
+        frequency (float): Frequency of interest (Hz)
+        
+    Returns:
+        microphone_signals (numpy array): Microphone signals at each position 
+    """"""
+    c = 343  # speed of sound in air (m/s)
+    k = 2 * np.pi * frequency / c  # wave number
+    
+    num_mics, _ = microphone_positions.shape
+    
+    microphone_signals = np.zeros((num_mics,))
+    
+    for i in range(num_mics):
+        mic_pos = microphone_positions[i]
+        distance = np.linalg.norm(source_position - mic_pos)
+        delay = distance / c
+        
+        microphone_signals[i] = source_signal[t + int(delay * fs)]
+    
+    return microphone_signals
+
+def sonah_reconstruction(microphone_signals, microphone_positions, grid_size):
+    """"""
+    Reconstruct the acoustic pressure field using Acoustic Nearfield Holography (SONAH)
+    
+    Parameters:
+        microphone_signals (numpy array): Microphone signals at each position 
+        microphone_positions (numpy array): 3D positions of the microphones (x, y, z)
+        grid_size (int): Size of the reconstruction grid
+        
+    Returns:
+        pressure_field (numpy array): Reconstructed acoustic pressure field on the grid 
+    """"""
+    num_mics, _ = microphone_signals.shape
+    
+    x_grid = np.linspace(-1, 1, grid_size)
+    y_grid = np.linspace(-1, 1, grid_size)
+    X, Y = np.meshgrid(x_grid, y_grid)
+    
+    pressure_field = np.zeros((grid_size, grid_size))
+    
+    for i in range(grid_size):
+        for j in range(grid_size):
+            point_pos = np.array([X[i, j], Y[i, j], 0])
+            
+            distances = np.linalg.norm(point_pos - microphone_positions, axis=1)
+            delays = distances / c
+            
+            weights = np.exp(-1j * k * distances) / (4 * np.pi * distances)
+            
+            pressure_field[i, j] = np.sum(weights * microphone_signals)
+    
+    return pressure_field
+
+# Example usage:
+
+fs = 48000  # sampling frequency (Hz)
+source_position = np.array([0, 0, 1])  # source position (x, y, z)
+
+microphone_positions = np.array([
+    [-0.5, 0, 0.5],
+    [0, 0, 0.5],
+    [0.5, 0, 0.5],
+    [-0.5, 0, 1.5],
+    [0, 0, 1.5],
+    [0.5, 0, 1.5]
+])
+
+t = np.arange(0, 1, 1/fs)  # time array
+
+source_signal = np.sin(2 * np.pi * 1000 * t)  # example source signal (1000 Hz tone)
+
+microphone_signals = sonah_microphone_signals(microphone_positions, source_signal, 1000)
+
+pressure_field = sonah_reconstruction(microphone_signals, microphone_positions, 200)
+
+import matplotlib.pyplot as plt
+
+plt.imshow(np.abs(pressure_field), extent=[",True,0,"7,2",True,19
+20,"
+
+Acoustic Nearfield Holography!
+
+",False,,,,20
+21,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,21
+22,"
+
+A very specific and interesting topic!
+
+",True,1,"7,2",True,22
+23,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,23
+24,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
+
+",True,4,"7,2",True,24
+25,"
+
+Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.",True,0,"7,2",True,25
+26,"
+
+Here is some Python code to get you started with Acoustic Nearfield Holography (SONAH):
+
+```
+import numpy as np
+
+def sonah(p, fs, mic_distance, signal):
+    """"""
+    Sonah function for Acoustic Nearfield Holography.
+
+   ",True,4,"7,2",True,26
+27,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,27
+28,"
+
+I'm happy to provide you with some Python code for Acoustic Nearfield Holography (SONAH)!",False,,,,28
+29,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
+
+",True,4,"7,2",True,29
+30,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
+
+",True,4,"7,2",True,30
+31,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,31
+32,"
+
+A very specific and interesting topic!
+
+",True,1,"7,2",True,32
+33,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
+
+",True,4,"7,2",True,33
+34,"
+
+Here's an example Python code for Acoustic Nearfield Holography (SONAH) using the `numpy` and `scipy` libraries:
+```python`
+import numpy as np
+from scipy import special
+
+def sonah(frequency, Hz,):
+    """"""
+    Acoustic Nearfield Holography (SONAH) algorithm
+    """"""
+    # Constants
+    c = 343  # speed of sound in air (m/s)
+    rho0 = 1.2  # air density (kg/m^3)
+
+    # Sensor array geometry
+    M = 8  # number of sensors
+    d = 0.1  # sensor spacing (m)
+
+    # Microphone locations (x, y, z) in meters
+    mic_locs = np.array([
+        [-d * (M - 1) / 2, -d * (M - 1) / 2, 0],
+        [-d * (M - 1) / 2, d * (M - 1) / 2, 0],
+        [d * (M - 1) / 2, -d * (M - 1) / 2, 0],
+        [d * (M - 1) / 2, d * (M - 1) / 2, 0],
+        [-d * (M - 3) / 2, -d * (M - 3) / 2, 0],
+        [-d * (M - 3) / 2, d * (M - 3) / 2, 0],
+        [d * (M - 3) / 2, -d * (M - 3) / 2, 0],
+        [d * (M - 3) / 2, d * (M - 3) / 2, 0]
+    ])
+
+    # Calculate the Green's function
+    def green(x, y, z, x_src, y_src, z_src):
+        r = np.sqrt((x - x_src)**2 + (y - y_src)**2 + (z - z_src)**2)
+        return np.exp(1j * 2 * np.pi * frequency * r / c) / (4 * np.pi * r)
+
+    # Create a grid for the hologram
+    x_grid = np.linspace(-0.5, 0.5, 100)
+    y_grid = np.linspace(-0.5, 0.5, 100)
+    X, Y = np.meshgrid(x_grid, y_grid)
+
+    # Initialize the hologram
+    hologram = np.zeros((X.shape[0], Y.shape[1]), dtype=complex)
+
+    # Loop over each microphone
+    for i in range(M):
+        x_src, y_src, z_src = mic_locs[i]
+        for j in range(X.shape[0]):
+            for k in range(Y.shape[1]):
+                x, y, z = X[j, k], Y[j, k], 0
+                hologram[j, k] += green(x, y, z, x_src, y_src, z_src)
+
+    # Normalize the hologram
+    hologram /= M
+
+    # Return the reconstructed hologram
+    return hologram
+
+# Example usage
+frequency = 1000  # Hz
+hologram = sonah(frequency)
+
+# Plot the hologram
+import matplotlib.pyplot as plt
+plt.imshow(np.abs(hologram), extent=(x_grid.min(), x_grid.max(), y_grid.min(), y_grid.max()))
+plt.xlabel('X (m)')
+plt.ylabel('Y",True,0,"7,2",True,34
+35,"
+
+Acoustic Near-field Holography (SONAH)!
+
+",True,4,"7,2",True,35
+36,"
+
+Here's an example Python code for Acoustic Nearfield Holography (SONAH) using the NumPy and SciPy libraries:
+```python`
+import numpy as np
+from scipy import signal
+
+def sonah(pressure_data, mic_positions, freq):
+    """"""
+    Acoustic Nearfield Holography (SONAH)
+
+    Parameters:
+        pressure_data (numpy array): Pressure data measured at each microphone
+        mic_positions (numpy array): 3D positions of microphones (x, y, z)
+        freq (float): Frequency of interest (Hz)
+
+    Returns:
+        hologram (numpy array): Complex-valued hologram representation
+    """"""
+    # Calculate the wavelength (m)
+    c = 343  # speed of sound in air (m/s)
+    lambda_ = c / freq
+
+    # Initialize the hologram
+    nx, ny, nz = mic_positions.shape[0], mic_positions.shape[1], 1
+    hologram = np.zeros((nx, ny, nz), dtype=complex)
+
+    # Loop over each microphone
+    for i in range(mic_positions.shape[0]):
+        x, y, z = mic_positions[i]
+        # Calculate the distance from the microphone to each point on the hologram
+        r = np.sqrt((np.arange(nx) - x)**2 + (np.arange(ny)[:, None] - y)**2 + (z**2))
+
+        # Calculate the phase shift
+        phase_shift = np.exp(-2j * np.pi * r / lambda_)
+
+        # Calculate the hologram contribution from this microphone
+        hologram_contribution = pressure_data[i] * phase_shift
+
+        # Add the contribution to the hologram
+        hologram += hologram_contribution
+
+    return hologram
+
+# Example usage:
+
+# Microphone positions (m)
+mic_positions = np.array([
+    [0.0, 0.0, 0.05],
+    [0.1, 0.0, 0.05],
+    [0.2, 0.0, 0.05],
+    [0.3, 0.0, 0.05],
+    [0.4, 0.0, 0.05],
+])
+
+# Pressure data (Pa)
+pressure_data = np.array([
+    10 * np.sin(2 * np.pi * 1000 * t),
+    8 * np.sin(2 * np.pi * 1000 * t + np.pi/2),
+    6 * np.sin(2 * np.pi * 1000 * t + np.pi),
+    4 * np.sin(2 * np.pi * 1000 * t + 3*np.pi/2),
+    2 * np.sin(2 * np.pi * 1000 * t + 2*np.pi),
+])
+
+# Time array (s)
+t = np.arange(0, 0.01, 0.0001)
+
+# Frequency of interest (Hz)
+freq = 1000
+
+# Perform SONAH
+hologram = sonah(pressure_data, mic_positions, freq)
+
+# Visualize the hologram
+import matplotlib.pyplot as plt
+plt.imshow(np.abs(hologram[:, :, 0]))
+plt.title(""Acoustic Nearfield Holography (SONAH)"")
+plt.xlabel(""X (m)"")
+plt.ylabel(""Y (m)"")
+plt.show()
+```
+This code calculates the complex-valued hologram representation using the SONAH algorithm.",True,0,"7,2",True,36
+37,"
+
+Here is an example Python code for Acoustic Nearfield Holography (SONAH):
+```python
+
+import numpy as np
+
+def sonah(w, h, L, x_s, y_s, z_s, k_x, k_y, f, c):
+    """"""
+    SONAH function
+
+    Parameters:
+        w: width of the hologram (m)
+        h: height of the hologram (m)
+        L: distance between the sensor array and the hologram (m)
+        x_s: x-coordinates of the sensors (m)
+        y_s: y-coordinates of the sensors (m)
+        z_s: z-coordinates of the sensors (m)
+        k_x: x-wavenumber (1/m)
+        k_y: y-wavenumber (1/m)
+        f: frequency (Hz)
+        c: speed of sound (m/s)
+
+    Returns:
+        p_holo: pressure distribution on the hologram (Pa)
+    """"""
+
+    # Calculate the number of sensors and hologram points 
+    N_sensors = len(x_s)
+    Nx, Ny = int(w / 0.01), int(h / 0.01) 
+
+    # Initialize the pressure distributions 
+    p_sensors = np.zeros((N_sensors,))
+    p_holo = np.zeros((Ny, Nx))
+
+    # Calculate the pressure at each sensor 
+    for n in range(N_sensors): 
+        r = np.sqrt((x_s[n] - x_s)**2 + (y_s[n] - y_s)**2 + (z_s[n] - z_s)**2)
+        p_sensors[n] = np.exp(1j * (k_x * x_s[n] + k_y * y_s[n] - f * t)) / r
+
+    # Interpolate the pressure to the hologram points 
+    for i in range(Ny): 
+        for j in range(Nx): 
+            x_holo = j * 0.01 
+            y_holo = i * 0.01 
+            r = np.sqrt((x_holo - x_s)**2 + (y_holo - y_s)**2 + (L - z_s)**2)
+            p_holo[i, j] = np.sum(p_sensors * np.exp(-1j * k_x * (x_holo - x_s)) * 
+                                    np.exp(-1j * k_y * (y_holo - y_s)) / r)
+
+    return p_holo
+
+# Example usage:
+w, h, L = 1, 1, 0.5  # dimensions of the hologram and sensor array 
+f, c = 20000, 343  # frequency and speed of sound 
+x_s, y_s, z_s = np.array([-0.5, 0, 0.5]), np.array([0, 0, 0]), np.array([0.2, 0.2, 0.2])  # sensor coordinates 
+k_x, k_y = 2 * np.pi * f / c * np.sin(np.arctan(L / w)), 2 * np.pi * f / c * np.sin(np.arctan(L / h)) 
+
+p_holo = sonah(w, h, L, x_s, y_s, z_s, k_x, k_y, f, c) 
+print(p_holo) 
+```
+This code calculates the pressure distribution on the hologram using the SONAH algorithm.",True,0,"7,2",True,37
+38,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,38
+39,"
+
+A very specific request!
+
+",True,4,"7,2",True,39
+40,"
+
+A very specific and intriguing request!
+
+",True,4,"7,2",True,40
+41,"
+
+A very specific and interesting topic!
+
+",True,1,"7,2",True,41
+42,"
+
+A very specific request!
+
+",True,4,"7,2",True,42
+43,"
+
+A very specific and technical request!
+
+",True,4,"7,2",True,43
+44,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,44
+45,"
+
+I'd be happy to help you with that!
+
+",False,,,,45
+46,"
+
+Acoustic Nearfield Holography (SONAH) is an impressive technique!
+
+",True,4,"7,2",True,46
+47,"
+
+A very specific and interesting request!
+
+",True,5,"7,2",True,47
+48,"
+
+Acoustic Near-field Holography (SONAH) is a fascinating topic!
+
+",True,4,"7,2",True,48
+49,"
+
+I'd be happy to help you with that!
+
+",False,,,,49
+50,"
+
+I'd be happy to help you with that!
+
+",True,4,"7,2",True,50
+51,"Acoustic Near-Field Holography (SONAH) is a fascinating topic, the Python code for which can be quite extensive.",True,0,"7,2",True,1
+52,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,2
+53,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,3
+54,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,4
+55,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,5
+56,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in the nearfield region of an object.,True,0,"7,2",True,6
+57,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in a given region.,True,0,"7,2",True,7
+58,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,8
+59,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object or surface.,True,0,"7,2",True,9
+60,Acoustic Nearfield Holography (SONAH) is an interesting technique used for acoustic imaging and sound field reconstruction.,True,0,"7,2",True,10
+61,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in three-dimensional space.,True,0,"7,2",True,11
+62,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in a given region.,True,0,"7,2",True,12
+63,Acoustic Nearfield Holography (SONAH) is a technique used to visualize and analyze the sound field near an object.,True,0,"7,2",True,13
+64,Acoustic Nearfield Holography (SONAH) is a fascinating technique for imaging sound fields in three dimensions.,False,,,,14
+65,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the pressure field in the near-field of an acoustic source.,True,0,"7,2",True,15
+66,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,16
+67,Acoustic Nearfield Holography (SONAH) is a fascinating technique for acoustic imaging and reconstruction.,True,0,"7,2",True,17
+68,"Acoustic Nearfield Holography (SONAH) is a fascinating topic, a technique used to reconstruct the sound field in a given region.",True,0,"7,2",True,18
+69,"Acoustic Nearfield Holography, also known as SONAH,1998), is a technique used to reconstruct the sound field in a given area.",True,0,"7,2",True,19
+70,"Acoustic Nearfield Holography, also known as SONAH, a fascinating topic in signal processing and acoustics.",True,4,"7,2",True,20
+71,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in a given region.,True,0,"7,2",True,21
+72,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in a given region from measurements taken at a limited number of points.,True,0,"7,2",True,22
+73,"Acoustic Nearfield Holography (SONAH) is a complex technique, not typically implemented in Python code alone.",False,,,,23
+74,Acoustic Nearfield Holography (SONAH) is a technique used to visualize and analyze acoustic fields in the near-field region of a sound source.,True,0,"7,2",True,24
+75,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field of a source.,True,0,"7,2",True,25
+76,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field of an object.,True,0,"7,2",True,26
+77,Acoustic Nearfield Holography (SONAH) is a fascinating technique for reconstructing the sound field in a given region from pressure measurements taken at nearby points.,True,0,"7,2",True,27
+78,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in a given area.,True,0,"7,2",True,28
+79,"Acoustic Nearfield Holography, also known as SONAH, a technique used for sound field recording and reproduction.",True,0,"7,2",True,29
+80,"Acoustic Nearfield Holography, also known as SONAH, is an imaging technique used to reconstruct the sound field in the near-field region.",True,0,"7,2",True,30
+81,"Acoustic Nearfield Holography, also known as SONAH,  is an advanced signal processing technique used in various fields such as acoustics, of auditoriums, acoustic design and sound quality evaluation.
+
+",True,0,"7,2",True,31
+82,Acoustic Near-field Holography (SONAH) is a technique used to visualize and reconstruct the acoustic field in the near-field region of an object.,True,0,"7,2",True,32
+83,"Acoustic Nearfield Holography, also known as SONAH (Sound Observation Near-field Acoustic Holography), is an imaging technique used to visualize the pressure field of acoustic sources in the near-field region.
+
+",True,0,"7,2",True,33
+84,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the sound field in a given region.,True,0,"7,2",True,34
+85,Acoustic Nearfield Holography (SONAH) is an imaging technique used to reconstruct the pressure field in the near-field of an object.,True,0,"7,2",True,35
+86,Acoustic Near-field Holography (SONAH) is a fascinating technique for visualizing and reconstructing acoustic fields in 3D space.,True,0,"7,2",True,36
+87,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a specific area.,True,0,"7,2",True,37
+88,Acoustic Nearfield Holography (SONAH) is a fascinating technique for reconstructing acoustic sources in 3D space.,True,0,"7,2",True,38
+89,"Acoustic Nearfield Holography, also known as SONAH (Spatial Organization of Nearfield AcoustHolography), is an innovative technique for capturing and reconstructing 3D sound fields in the near-field region.
+
+",True,0,"7,2",True,39
+90,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the sound field in the near-field region of an object.,True,0,"7,2",True,40
+91,"Acoustic Nearfield Holography, also known as SONAH,2020), is an imaging technique used to reconstruct the acoustic pressure field in the near-field region.
+
+",True,0,"7,2",True,41
+92,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the sound field in a given region.,True,0,"7,2",True,42
+93,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in three-dimensional space.,True,0,"7,2",True,43
+94,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in a given region.,True,0,"7,2",True,44
+95,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,45
+96,Acoustic Nearfield Holography (SONAH) is an innovative method for reconstructing sound fields in the near-field region.,True,0,"7,2",True,46
+97,Acoustic Nearfield Holography (SONAH) is a technique used to recreate the sound field in a specific area.,True,0,"7,2",True,47
+98,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,48
+99,Acoustic Near-field Holography (SONAH) is an innovative technique for imaging and reconstructing acoustic fields in three-dimensional space.,True,4,"7,2",True,49
+100,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the nearfield of an object.,True,0,"7,2",True,50
+101," Here's a basic Python code to get you started:
+```python
+
+import numpy as np
+
+def sonah_reconstruction(frequency, npoints_x, npoints_y, measurement_points, pressure_values):
+    """"""
+    SONAH Reconstruction Algorithm
+    
+    Parameters:
+    frequency : float, frequency of interest (Hz)
+    npoints_x : int, number of points in x-direction for reconstruction grid 
+    npoints_y : int, number of points in y-direction for reconstruction grid 
+    measurement_points : 2D array, coordinates of measurement points (x, y) 
+    pressure_values : 1D array, measured pressure values at each point 
+
+    Returns:
+    reconstructed_pressure_field : 2D array, reconstructed pressure field on the grid 
+    """"""
+
+    # Calculate wavelength 
+    c = 343  # speed of sound in air (m/s) 
+    wavelength = c / frequency 
+
+    # Create reconstruction grid 
+    x_grid = np.linspace(-wavelength/2, wavelength/2, npoints_x) 
+    y_grid = np.linspace(-wavelength/2, wavelength/2, npoints_y) 
+    X, Y = np.meshgrid(x_grid, y_grid) 
+
+    # Initialize reconstructed pressure field 
+    reconstructed_pressure_field = np.zeros((npoints_x, npoints_y)) 
+
+    # Loop over measurement points 
+    for i in range(len(measurement_points)): 
+        x_measured, y_measured = measurement_points[i] 
+        p_measured = pressure_values[i] 
+
+        # Calculate distance from measurement point to each grid point 
+        distance = np.sqrt((X - x_measured)**2 + (Y - y_measured)**2) 
+
+        # Calculate phase shift due to distance 
+        phase_shift = np.exp(1j * 2 * np.pi * distance / wavelength) 
+
+        # Add contribution from this measurement point to reconstructed field 
+        reconstructed_pressure_field += p_measured * phase_shift 
+
+    return reconstructed_pressure_field 
+
+# Example usage 
+if __name__ == ""__main__"":
+    frequency = 1000  # Hz 
+    npoints_x = 128 
+    npoints_y = 128 
+    num_measurement_points = 16 
+
+    # Generate random measurement points and pressure values 
+    np.random.seed(42) 
+    measurement_points = np.random.rand(num_measurement_points, 2) * 0.5 - 0.25 
+    pressure_values = np.random.randn(num_measurement_points) 
+
+    # Perform SONAH reconstruction 
+    reconstructed_pressure_field = sonah_reconstruction(frequency, npoints_x, npoints_y, measurement_points, pressure_values)
+
+    # Visualize reconstructed pressure field 
+    import matplotlib.pyplot as plt 
+    plt.imshow(reconstructed_pressure_field, cmap='inferno') 
+    plt.title('Reconstructed Pressure Field') 
+    plt.show()
+```
+This code implements the basic SONAH algorithm using the Near-Field Acoustic Holography method described in [1].",True,2,"5,2",True,1

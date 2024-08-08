@@ -13,7 +13,7 @@ class Watermarker(ABC):
         self.n_attempts = n_attempts
         self.pipeline = pipeline
         self.only_detect = only_detect
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
         log.info(f"Using device: {self.device}")
 
@@ -21,7 +21,8 @@ class Watermarker(ABC):
             if not isinstance(self.pipeline, PipeLineBuilder):
                 self.pipeline = PipeLineBuilder(self.cfg.generator_args)
             
-            self.model = self.pipeline.model.to(self.device)
+            # self.model = self.pipeline.model.to(self.device)
+            self.model = self.pipeline.model
             self.tokenizer = self.pipeline.tokenizer
             self.tokenizer.pad_token = self.tokenizer.pad_token or self.tokenizer.eos_token
 
@@ -44,18 +45,21 @@ class Watermarker(ABC):
     def generate_watermarked_outputs(self, prompt):
         pass
 
-    def generate(self, prompt):
+    def generate(self, prompt, **kwargs):
         n_attempts = 0
         while n_attempts < self.n_attempts:
-            completion = self.generate_watermarked_outputs(prompt)
+            completion = self.generate_watermarked_outputs(prompt, **kwargs)
 
-            log.info(f"Received completion: {completion}")
+            log.info(f"Received watermarked text: {completion}")
 
             if not self.cfg.is_completion:
                 completion = completion.replace(prompt, '', 1).strip()
 
             # Check if watermark succeeded
-            is_detected, _ = self.detect(completion)
+            if self.cfg.watermark_args.name == "adaptive":
+                is_detected = self.detect(completion)
+            else:
+                is_detected, _ = self.detect(completion)
             if is_detected:
                 return completion
             else:

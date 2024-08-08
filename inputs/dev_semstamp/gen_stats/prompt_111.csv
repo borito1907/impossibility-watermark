@@ -1,0 +1,2480 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is an example code in Go that uses the `goquery` and `colly` libraries to scrape TikTok profiles:
+```go
+
+package main
+
+import (
+	""fmt""
+	""log""
+
+	""github.com/Puerk/go-colly/colly""
+	""github.com/Puerk/go-query""
+)
+
+func main() {
+	c := colly.NewCollector(
+		colly.AllowedDomains(""tiktok.com"", ""www.tiktok.com""),
+	)
+
+	c.OnHTML(""html"", func(e *colly.HTMLElement) {
+		doc, err := goquery.NewDocumentFromNode(e)
+		if err!= nil {
+			log.Fatal(err)
+		}
+
+		// Extract user profile information from HTML document
+
+		profileName := doc.Find(""h2.TtC4"").Text()
+		profileUsername := doc.Find(""p.JvJr"").Text()
+		profileBio := doc.Find(""p.UITb"").Text()
+
+		fmt.Printf(""Profile Name: %s\n"", profileName)
+		fmt.Printf(""Profile Username: %s\n"", profileUsername)
+		fmt.Printf(""Profile Bio: %s\n"", profileBio)
+
+		// Extract video links from HTML document
+
+		videoLinks := make([]string, 0)
+		doc.Find(""a.SC"").Each(func(i int, s *goquery.Selection) {
+			href, exists := s.Attr(""href"")
+			if exists && strings.Contains(href, ""video"") {
+				videoLinks = append(videoLinks, href)
+			}
+		})
+
+		for _, link := range videoLinks {
+			fmt.Printf(""Video Link: %s\n"", link)
+		}
+	})
+
+	// Start scraping TikTok profile pages
+
+	startURL := ""https://www.tiktok.com/@example"" // replace with target profile URL
+
+	c.Visit(startURL)
+
+	c.Wait()
+}
+
+```
+This code creates a Colly collector instance and defines an HTML callback function that extracts user profile information (name, username, bio) and video links from the HTML document.
+
+",True,6,"5,2",True,1
+2,"
+
+Here is an example code in Go for a TikTok bot scraper:
+```
+package main
+
+import (
+	""context""
+	""fmt""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/gocolly/colly/v2""
+	""github.com/gocolly/colly/v2/queue""
+)
+
+func main() {
+	// Create a new Colly instance with a default concurrency of 10 requests at once.
+",True,4,"5,2",True,2
+3,"
+
+Here is an example of a Go (Golang) script that scraps TikTok users' information and videos:
+```go
+
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+)
+
+const (
+	TikTokAPI     = ""https://www.tiktok.com/node/""
+	UserEndpoint = ""api/v1/user/""
+.VideoEndpoint = ""api/v1/item/list/reply/""
+)
+
+type User struct {
+	Username string `json:""username""`
+	ID       string `json:""id_str""`
+	Name     string `json:""name""`
+}
+
+type Video struct {
+	ID        string `json:""id""`
+	Caption   string `json:""caption""`
+	CreatedAt int64  `json:""create_time""`
+}
+
+func main() {
+	client := &http.Client{}
+
+	// Replace with the username you want to scrape 
+	username := ""tiktok_username""
+
+	user, err := getUser(client, username)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	fmt.Printf(""Scraping user %s (%s)\n"", user.Name, user.ID)
+
+	videos, err := getVideos(client, user.ID)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	for _, video := range videos {
+		fmt.Printf(""Video ID: %s | Caption: %s | Created At: %d\n"",
+			video.ID, video.Caption, video.CreatedAt)
+	}
+}
+
+func getUser(client *http.Client, username string) (*User, error) {
+	url := fmt.Sprintf(""%s%s/%s/"", TikTokAPI, UserEndpoint, username)
+	req, err := http.NewRequest(""GET"", url, nil)
+	if err!= nil {
+		return nil, err 
+	}
+	resp, err := client.Do(req)
+	if err!= nil {
+		return nil, err 
+	}
+	defer resp.Body.Close()
+
+	var user User 
+	err = json.NewDecoder(resp.Body).Decode(&user)
+	return &user, err 
+}
+
+func getVideos(client *http.Client, userID string) ([]Video, error) {
+	url := fmt.Sprintf(""%s%s/%s/reply/?count=100&cursor=0"", TikTokAPI, VideoEndpoint, userID)
+ req, err := http.NewRequest(""GET"", url, nil)
+	if err!= nil {
+		return nil, err 
+	}
+	resp, err := client.Do(req)
+	if err!= nil {
+		return nil, err 
+	}
+	defer resp.Body.Close()
+
+	var videos []Video 
+	err = json.NewDecoder(resp.Body).Decode(&videos)
+	return videos, err 
+}
+```
+Please note that:
+
+* This script only scrapes publicly available information and does not violate TikTok's terms of service.
+",True,4,"5,2",True,3
+4,"
+
+A TikTok bot scraper in Go!
+
+",True,0,"5,2",True,4
+5,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/PuerkitoBio/goquery""
+)
+
+func main() {
+	// Set up the HTTP client and headers 
+	client := &http.Client{}
+	headers := map[string]string{
+		""User-Agent"":      ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"",
+		""Accept-Language"": ""en-US,en;q=0.8"",
+	}
+
+	// Set up the TikTok API endpoint and parameters 
+	endpoint := ""https://www.tiktok.com/api/reply/""
+	params := url.Values{}
+	params.Set(""count"", ""20"")
+	params.Set(""offset"", ""0"")
+	params.Set(""lang"", ""en"")
+
+	// Loop through the pages of comments 
+	for i := 0; ; i++ {
+		params.Set(""offset"", fmt.Sprintf(""%d"", i*20))
+		req, err := http.NewRequest(""GET"", endpoint+""?",True,0,"5,2",True,5
+6,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go`
+package main
+
+import (
+	""context""
+	""fmt""
+	""log""
+
+	""github.com/gotiktok/go-tiktok/tiktok""
+)
+
+func main() {
+	// Create a new TikTok client with your app's API key and secret key.
+",True,0,"5,2",True,6
+7,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""fmt""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/dghubble/go-twitter/twitter""
+	""github.com/gocolly/colly""
+)
+
+func main() {
+	// Set up the Colly framework for scraping TikTok data 
+	c := colly.NewCollector(
+		colly.AllowedDomains(""tiktok.com"", ""www.tiktok.com""),
+	)
+
+	// Define the user agent to mimic a real browser request 
+	userAgent := ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, a Geeko Chrome/58.0.3029.110 Safari/537.3""
+	c.SetUserAgent(userAgent)
+
+	// Set up the TikTok API endpoint and headers 
+	endpoint := ""https://api.tiktok.com/api/ challenges/popular/?count=30&device_id=&device_type=phone&language=en&region=""
+	headers := map[string]string{
+		""Referer"":    ""https://www.tiktok.com/"",
+		""User-Agent"": userAgent,
+	}
+
+	// Create a new HTTP client with a custom transport to set the headers 
+	client := &http.Client{}
+	transport := &http.Transport{}
+	client.Transport = transport
+
+	// Define the callback function to handle scraped data 
+	c.OnHTML(`html`, func(e *colly.HTMLElement) {
+		// Extract the video URLs from the HTML response 
+		videoUrls := e.DOM.Find(`div[data-video]`)
+		for _, videoUrl := range videoUrls {
+			url := videoUrl.Attr(`data-video`)
+			fmt.Println(url)
+			// You can add additional logic here to process the scraped data, such as saving it to a database or sending it to a server 
+		}
+	})
+
+	// Start the scraping process by making an HTTP GET request to the TikTok API endpoint 
+	err := c.Visit(endpoint)
+	if err!= nil {
+		log.Fatal(err)
+	}
+}
+```
+This code sets up a Colly framework collector to scrape popular challenges from TikTok's API endpoint.",True,0,"5,2",True,7
+8,"
+
+Here is an example of a basic Go program that scrapes TikTok user information and video data using the TikTok API:
+```go
+
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""net/http""
+	""strings""
+)
+
+type TikTokUser struct {
+	Username string `json:""username""`
+	UserId   int    `json:""user_id""`
+	Avatar  string `json:""avatar""`
+}
+
+type TikTokVideo struct {
+	VideoId   string `json:""video_id""`
+	Title     string `json:""title""`
+	Duration int    `json:""duration""`
+	Views     int    `json:""views""`
+	Likes     int    `json:""likes""`
+	Comments  int    `json:""comments""`
+}
+
+func main() {
+	// Set your TikTok API token here (you can obtain one by creating an app on TikTok Developer Portal)
+	apiToken := ""YOUR_API_TOKEN""
+
+	// Set the username of the TikTok user you want to scrape data from 
+	username := ""tiktok_username""
+
+	// Get the user ID from the username 
+	userUrl := fmt.Sprintf(""https://api.tiktok.com/v1/user/%s/info/?access_token=%s"", username, apiToken)
+	resp, err := http.Get(userUrl)
+	if err!= nil {
+		fmt.Println(err)
+		return 
+	}
+	defer resp.Body.Close()
+
+	var userResponse map[string]interface{}
+	err = json.NewDecoder(resp.Body).Decode(&userResponse)
+	if err!= nil {
+		fmt.Println(err)
+		return 
+	}
+
+	userData := userResponse[""user",True,4,"5,2",True,8
+9,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+)
+
+// TikTok API endpoint
+const apiEndpoint = ""https://api.tiktok.com/v1/""
+
+// Structure to hold TikTok video data
+type Video struct {
+	ID        string `json:""id""`
+	Description string    `json:""description""`
+	Creator   string    `json:""creator_name""`
+	Thumbnail string    `json:""thumbnail_url""`
+	ViewCount int     `json:""view_count""`
+}
+
+func main() {
+	// Set up HTTP client
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+
+	// Set up TikTok API request headers
+	headers := map[string]string{
+		""User-Agent"":      ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"",
+		""Accept"":         ""application/json"",
+		""Content-Type"":   ""application/json"",
+		""X-TikTok-Api-Key"": ""<YOUR_API_KEY>"",
+	}
+
+	// Define the search query
+	searchQuery := ""funny cats""
+
+	// Construct the API request URL
+	url := fmt.Sprintf(""%ssearch/videos/?q=%s&count=100"", apiEndpoint, strings.ReplaceAll(searchQuery, "" "", ""+""))
+
+	// Send the GET request
+	req, err := http.NewRequest(""GET"", url, strings.NewReader(""""))
+	if err!= nil {
+		log.Fatal(err)
+	}
+	for k, v := range headers {
+		req.Header.Add(k, v)
+	}
+
+	resp, err := client.Do(req)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	// Parse the JSON response
+	var videos []Video
+	err = json.NewDecoder(resp.Body).Decode(&videos)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Print out the scraped video data
+	for _, video := range videos {
+		fmt.Printf(""ID: %s\nDescription: %s\nCreator: %s\nThumbnail: %s\nView Count: %d\n\n"", video.ID, video.Description, video.Creator, video.Thumbnail, video.ViewCount)
+	}
+}
+```
+This code uses the `net/http` package to send a GET request to the TikTok API with a search query, and then parses the JSON response using the `encoding/json` package.
+
+",True,4,"5,2",True,9
+10,"
+
+Here is an example code for a TikTok bot scraper in Go:
+```go
+
+package main
+
+import (
+	""fmt""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/PuerkitoBio/goquery""
+)
+
+func main() {
+	// Set up the HTTP client with a user agent to avoid being blocked by TikTok's rate limiter 
+	client := &http.Client{}
+	req, of UserAgent: ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3""}
+
+	// Define the URL to scrape (e.g., a popular creator or hashtag)
+	url := ""https://www.tiktok.com/@charlidamelio""
+
+	// Send an HTTP GET request to the URL and get the HTML response 
+	resp, := Get(client, url)
+	defer resp.Body.Close()
+
+	// Load the HTML document using goquery 
+	doc, := goquery.NewDocumentFromReader(resp.Body)
+
+	// Extract the data you want from the HTML document (e.g., video titles, captions, comments)
+	videoTitles := make([]string, 0)
+	doc.Find(""div[class='video-card']"").Each(func(i int, s *goquery.Selection) {
+		videoTitle := s.Find(""h2[class='title']"").Text()
+		videoTitles = append(videoTitles, videoTitle)
+	})
+
+	captions := make([]string, 0)
+	doc.Find(""p[class='caption']"").Each(func(i int, s *goquery.Selection) {
+		caption := s.Text()
+		captions = append(captions, caption)
+	})
+
+	comments := make([]string, 0)
+	doc.Find(""span[class='comment-text']"").Each(func(i int, s *goquery.Selection) {
+		comment := s.Text()
+		comments = append(comments, comment)
+	})
+
+	// Print out the extracted data 
+	fmt.Println(""Video Titles:"")
+	for _, title := range videoTitles {
+		fmt.Println(title)
+	}
+
+	fmt.Println(""\nCaptions:"")
+	for _, caption := range captions {
+		fmt.Println(caption)
+	}
+
+	fmt.Println(""\nComments:"")
+	for _, comment := range comments {
+		fmt.Println(comment)
+	}
+}
+
+func Get(client *http.Client, url string) (*http.Response, error) {
+	req, err := http.NewRequest(""GET"", url, nil)
+	if err!= nil {
+		return nil, err 
+	}
+
+	req.Header.Set(""User-Agent"", client.UserAgent)
+	resp, err := client.Do(req)
+	if err!= nil {
+		return nil, err 
+	}
+
+	return resp, nil 
+}
+```
+This code uses the `net/http` package to send an HTTP GET request to the specified TikTok URL, and then uses the `goquery` package to parse the HTML response.
+
+",False,,,,10
+11,"
+
+Here is an example of a basic Go program that uses the `colly` library to scrape TikTok user information:
+```
+package main
+
+import (
+	""fmt""
+	""github.com/gocolly/colly/v2""
+)
+
+func main() {
+	c := colly.NewCollector(
+		colly.AllowedDomains(""tiktok.com""),
+	)
+	
+	c.OnHTML(""html"", func(e *colly.HTMLElement) {
+		e.ForEach(""div[class='userInfo'] a[href]"", func(element *colly.HTMLElement) {
+			userURL, in element.Request.URI().Path
+			
+			fmt.Println(""User URL:"", userURL)
+			
+			c.Visit(userURL)
+		})
+	})
+	
+	c.OnHTML(""html"", func(e *colly.HTMLElement) {
+		e.ForEach(""h2[class='username'] span"", func(element *colly.HTMLElement) {
+			username := element.Text
+			
+			fmt.Println(""Username:"", username)
+		})
+		
+		e.ForEach(""p[class='bio'] span"", func(element *colly.HTMLElement) {
+			bio := element.Text
+			
+			fmt.Println(""Bio:"", bio)
+		})
+	})
+	
+	c.Start(""https://www.tiktok.com/@[username]"")
+}
+
+```
+This code creates a new Colly collector and defines two handlers:
+
+1.",True,4,"5,2",True,11
+12,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""fmt""
+	""github.com/gocolly/colly""
+	""github.com/gocolly/colly/extensions""
+	""github.com/hashicorp/go-retry""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+)
+
+const (
+	tikTokURL = ""https://www.tiktok.com/@%s""
+	userAgent  = ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3""
+)
+
+type tikTokBot struct {
+	collyCollector *colly.Collector // Colly collector instance.
+",False,,,,12
+13,"
+
+Here is an example code in Go for a TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/PuerkitoBio/goquery""
+)
+
+func main() {
+	// Set up the TikTok API endpoint and your app's API key (if you have one)
+	endpoint := ""https://www.tiktok.com/api/recommend/user/""
+	apiKey := """"
+
+	// Set up the user agent to mimic a mobile browser (TikTok blocks requests from non-mobile browsers)
+	userAgent := ""Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1""
+
+	// Create a new HTTP client with the custom user agent
+
+	client := &http.Client{}
+	req, err := http.NewRequest(""GET"", endpoint, nil)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	req.Header.Set(""User-Agent"", userAgent)
+	if apiKey!= """" {
+		req.Header.Set(""X-Api-Key"", apiKey)
+	}
+
+	resp, err := client.Do(req)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	// Load the HTML response into a goquery document
+
+	doc, := goquery.NewDocumentFromReader(resp.Body)
+	var videoUrls []string
+
+	// Extract video URLs from the HTML document
+
+	doc.Find(""div.video-item"").Each(func(i int, s *goquery.Selection) {
+		videoUrl, _ := s.Attr(""href"")
+		videoUrls = append(videoUrls, ""https://www.tiktok.com""+videoUrl)
+	})
+
+	// Print out the extracted video URLs
+
+	for _, url := range videoUrls {
+		fmt.Println(url)
+	}
+}
+
+```
+This code sends a GET request to the TikTok API endpoint, loads the HTML response into a goquery document, extracts the video URLs from the document, and prints them out.
+
+",True,4,"5,2",True,13
+14,"
+
+Here is an example of a simple TikTok bot scraper written in Go:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/dghubble/go-twitter/twitter""
+)
+
+type TikTok struct {
+	Username string `json:""username""`
+	Profile  struct {
+		AvatarURL    string `json:""avatarUrl""`
+		Bio          string `json:""bio""`
+		FollowerCount int    `json:""followerCount""`
+	} `json:""profile""`
+	VideoList []struct {
+		ID       string `json:""id""`
+		Title    string `json:""title""`
+		Thumb   string `json:""thumb""`
+		Duration int    `json:""duration""`
+		ViewCount int    `json:""viewCount""`
+	} `json:""videoList""`
+}
+
+func main() {
+	client := &http.Client{}
+
+	// Set your TikTok API endpoint and access token here!
+",False,,,,14
+15,"
+
+Here is an example of how you could create a simple TikTok bot scraper using Go:
+```
+package main
+
+import (
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/PuerkitoBio/goquery""
+)
+
+func main() {
+	// Set up the TikTok API endpoint and headers 
+	tiktokAPI := ""https://www.tiktok.com/api/recommend/user/""
+	headers := map[string]string{
+		""User-Agent"":      ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"",
+		""Accept-Language"": ""en-US,en;q=0.8"",
+	}
+
+	// Set up the bot's username and password 
+	username := ""your_username""
+	password := ""your_password""
+
+	// Log in to TikTok 
+	loginURL := ""https://www.tiktok.com/login/""
+	resp, a request to log in 
+	client := &http.Client{}
+	req, := httputils.NewRequest(""POST"", loginURL, strings.NewReader(`{""username"":""`+username+`"",""password"":""`+password+`""}`), headers)
+	resp, err := client.Do(req)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	// Get the cookie from the response 
+.cookie := resp.Cookies()[0].Value
+
+	// Set up the scraper 
+	scraper := NewTikTokScraper(tiktokAPI, headers, cookie)
+
+	// Scrape popular videos 
+	popularVideos, := scraper.GetPopularVideos()
+	for _, video := range popularVideos {
+		fmt.Println(video.VideoID, video.Description)
+	}
+
+	// Scrape user's videos 
+	userVideos, := scraper.GetUserVideos(username)
+	for _, video := range userVideos {
+		fmt.Println(video.VideoID, video.Description)
+	}
+}
+
+type TikTokVideo struct {
+	VideoID   string `json:""id""`
+	Description string `json:""description""`
+}
+
+type TikTokScraper struct {
+	tiktokAPI string 
+	headers    map[string]string 
+	cookie     string 
+}
+
+func NewTikTokScraper(tiktokAPI string, headers map[string]string, cookie string) *TikTokScraper {
+	return &TikTokScraper{tiktokAPI: tiktokAPI, headers: headers, cookie: cookie}
+}
+
+func (s *TikTokScraper) GetPopularVideos() ([]*TikTokVideo, error) {
+	resp, err := http.Get(s.tiktokAPI + ""?count=50"")
+	if err!= nil {
+		return nil, err 
+	}
+	defer resp.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err!= nil {
+		return nil, err 
+	}
+
+	var popularVideos []*TikTokVideo 
+	doc.Find("".video-box"").Each(func(i int, s *goquery.Selection) {
+		videoID, exists := s.Attr(""href"")
+		if!exists {
+			videoID = """"
+		} else {
+			videoID = strings.Split(videoID, ""/"")[2]
+		}
+
+		description := s.Find("".desc"").Text()
+		popularVideos = append(popularVideos, &TikTokVideo{VideoID: videoID, Description: description})
+	})
+
+	return popularVideos, nil 
+}
+
+func (s *TikTokScraper) GetUserVideos(username string) ([]*TikTokVideo, error) {
+	resp, err := http.Get(s.tiktokAPI + username + ""?count=50"")
+	if err!= nil {
+		return nil, err 
+	}
+	defer resp.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err!= nil {
+		return nil, err 
+	}
+
+	var userVideos []*TikTokVideo 
+	doc.Find("".video-box"").Each(func(i int, s *goquery.Selection) {
+		videoID, exists := s.Attr(""href"")
+		if!exists {
+			videoID = """"
+		} else {
+			videoID = strings.Split(videoID, ""/"")[2]
+		}
+
+		description := s.Find("".desc"").Text()
+		userVideos = append(userVideos, &TikTokVideo{VideoID: videoID, Description: description})
+	})
+
+	return userVideos, nil 
+}
+```
+This code uses the `net/http` package to send requests to the TikTok API, and the `github.com/PuerkitoBio/goquery` package to parse the HTML responses.
+
+",True,0,"5,2",True,15
+16,"
+
+Here is an example of a Go program that scrapes TikTok data using the `goquery` and `colly` libraries:
+```go
+
+package main
+
+import (
+	""fmt""
+	""log""
+
+	""github.com/Puerkergroup/colly""
+	""github.com/Puerkergroup/colly/queue""
+	""github.com/manifoldco/prompt""
+	""github.com/antlr/gorec""
+)
+
+func main() {
+	// Create a new Colly instance with a user agent string to mimic a real browser request.
+",True,4,"5,2",True,16
+17,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+)
+
+type TikTokVideo struct {
+	ID        string `json:""id""`
+	Text      string `json:""text""`
+	Username  string `json:""username""`
+	Profile   string `json:""profile""`
+	Creator   string `json:""creator""`
+	CreatedAt int    `json:""created_at""`
+	URL       string `json:""url""`
+}
+
+func main() {
+	client := &http.Client{}
+	url := ""https://www.tiktok.com/@username/videos""
+
+	req, err := http.NewRequest(""GET"", url, nil)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	
+	req.Header.Set(""User-Agent"", ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"")
+
+	resp, err := client.Do(req)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	var data struct {
+		Videos []TikTokVideo `json:""items""`
+	}
+	err = json.Unmarshal(body, &data)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	for _, video := range data.Videos {
+		fmt.Printf(""ID: %s\nText: %s\nUsername: %s\nURL: %s\n\n"", 
+			video.ID, video.Text, video.Username, video.URL)
+	}
+}
+```
+This code uses the `net/http` package to send a GET request to the TikTok API, and then parses the JSON response using the `encoding/json` package.
+
+",True,4,"5,2",True,17
+18,"
+
+Here is an example of a Go program that uses the `colly` web scraping framework to scrape TikTok videos:
+```
+package main
+
+import (
+	""fmt""
+	""log""
+
+	""github.com/gocolly/colly/v2""
+)
+
+func main() {
+	c := colly.NewCollector(
+		colly.AllowedDomains(""tiktok.com"", ""www.tiktok.com""),
+	)
+
+	// Set up the scraper to fetch the HTML pages and extract the video URLs
+
+	c.OnHTML(""li[class='video-item']"", func(e *colly.HTMLElement) {
+		videoURL := e.DOM.Find(""a[href]"").Attr(""href"")
+		fmt.Println(videoURL)
+	})
+
+	// Start the scraper on the TikTok homepage
+
+	err := c.Visit(""https://www.tiktok.com/"")
+	if err!= nil {
+		log.Fatal(err)
+	}
+}
+
+```
+This code sets up a Colly collector to visit the TikTok homepage, own domain, and extract the URL of each video item on the page using the CSS selector `li[class='video-item']`.",True,0,"5,2",True,18
+19,"
+
+Here is an example of a basic TikTok bot scraper written in Go:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/dghachi/tiktok-sdk-go""
+)
+
+type TikTokBot struct {
+	tiktok   *tiktok.TikTokAPIv2 // Initialize the TikTok API client with your app's credentials.
+",True,0,"5,2",True,19
+20,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+package main
+
+import (
+	""context""
+	""fmt""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+)
+
+const (
+	tiktokAPI     = ""https://api.tiktok.com/api/""
+	videoEndpoint = ""v1/video""
+	userEndpoint  = ""v1/user""
+)
+
+type tiktokBot struct {
+	client  *http.Client
+	token   string
+	username string
+}
+
+func (b *tiktokBot) login() error {
+	req, err := http.NewRequest(""GET"", tiktokAPI+userEndpoint+""/login/"", nil)
+	if err!= nil {
+		return err
+	}
+	req.Header.Set(""User-Agent"", ""TikTok Bot"")
+	resp, := &http.Response{
+		Status:     ""200 OK"",
+		StatusCode: 200,
+	}
+	defer resp.Body.Close()
+	b.client.Do(req)
+	if resp.StatusCode!= 200 {
+		return fmt.Errorf(""invalid token"")
+	}
+	return nil
+}
+
+func (b *tiktokBot) getVideosByUsername(username string) ([]byte, error) {
+	endpoint := tiktokAPI + videoEndpoint + ""/by_username/"" + username
+	req, err := http.NewRequest(""GET"", endpoint, nil)
+	if err!= nil {
+		return nil, err
+	}
+	req.Header.Set(""User-Agent"", ""TikTok Bot"")
+	req.Header.Set(""Authorization"", ""Bearer ""+b.token)
+	resp, err := b.client.Do(req)
+	if err!= nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err!= nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+func (b *tiktokBot) scrapeVideos() {
+	videos, err := b.getVideosByUsername(b.username)
+	if err!= nil {
+		log.Println(err)
+		return
+	}
+	var videoList []map[string]interface{}
+	err = json.Unmarshal(videos, &videoList)
+	if err!= nil {
+		log.Println(err)
+		return
+	}
+	for _, video := range videoList {
+		fmt.Printf(""Video ID: %s\n"", video[""id""])
+		fmt.Printf(""Video URL: %s\n"", video[""url""])
+		fmt.Printf(""Video Description: %s\n"", video[""description""])
+		fmt.Println(""---------------------"")
+	}
+}
+
+func main() {
+	bot := &tiktokBot{
+		client: &http.Client{Timeout: 10 * time.Second},
+		token:   ""YOUR_TIKTOK_TOKEN"",
+		username: ""YOUR_TIKTOK_USERNAME"",
+	}
+	err := bot.login()
+	if err!= nil {
+		log.Fatal(err)
+	}
+	bot.scrapeVideos()
+}
+```
+This code defines a `tiktokBot` struct that has methods to log in to the TikTok API and scrape videos by username.
+
+",True,4,"5,2",True,20
+21,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+
+	""github.com/dghotti/go-tiktok/tiktok""
+)
+
+func main() {
+	// Set up TikTok API credentials and endpoint URLS:
+	TikTokAPIEndpoint := ""https://www.tiktok.com/api/v4""
+	TikTokAppID := ""your_app_id_here""
+	TikTokAppSecret := ""your_app_secret_here""
+
+	// Create a new TikTok client:
+	client, := tiktok.NewClient(TikTokAPIEndpoint, TikTokAppID, TikTokAppSecret)
+
+	// Set up the scraper config:
+	username := ""username_to_scrape"" // Replace with the username you want to scrape.
+",True,0,"5,2",True,21
+22,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+package main
+
+import (
+	""context""
+	""fmt""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+
+	""github.com/gorilla/cookies""
+	""github.com/tiktok/scraper-go/tiktok""
+)
+
+func main() {
+	// Set up the scraper client
+	client, a new(tiktok.Client{
+		httpClient: &http.Client{
+			Jar:     new(cookies.Jar),
+		 Timeout: 10 * time.Second,
+		},
+	 UserAgent: ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"",
+	})
+
+	// Set up the context
+	ctx := context.Background()
+
+	// Define the username or hashtag to scrape
+	username := ""charlidamelio"" // or any other username or hashtag
+
+	// Scrape the user's videos
+	videos, err := client.GetUserVideos(ctx, username)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Print the video information
+	for _, video := range videos {
+		fmt.Printf(""Video ID: %s\n"", video.ID)
+		fmt.Printf("" Video URL: %s\n"", video.URL)
+		fmt.Printf("" Video Title: %s\n"", video.Title)
+		fmt.Printf("" Video Description: %s\n"", video.Description)
+		fmt.Printf("" Likes: %d\n"", video.LikesCount)
+		fmt.Printf("" Comments: %d\n"", video.CommentsCount)
+		fmt.Printf("" Shares: %d\n"", video.SharesCount)
+		fmt.Println("""");
+	}
+}
+
+
+type tiktokClient struct {
+	httpClient  *http.Client
+	UserAgent string
+	jar      *cookies.Jar
+}
+
+
+func NewTikTokClient() *tiktokClient {
+	return &tiktokClient{
+		httpClient: &http.Client{
+			Jar:     new(cookies.Jar),
+		 Timeout: 10 * time.Second,
+		},
+	 UserAgent: ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"",
+	　jarp: new(cookies.Jar),
+	}
+}
+
+
+func (c *tiktokClient) GetUserVideos(ctx context.Context, username string) ([]*Video, error) {
+	req, err := http.NewRequestWithContext(ctx, ""GET"", fmt.Sprintf(""https://www.tiktok.com/@%s"", username), nil)
+	if err!= nil {
+		return nil, err
+	}
+
+	req.Header.Set(""User-Agent"", c.UserAgent)
+
+	resp, err := c.httpClient.Do(req)
+	if err!= nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err!= nil {
+		return nil, err
+	}
+
+	var videos []*Video
+	doc.Find(""div[data-e2e='video-card']"").Each(func(i int, s *goquery.Selection) {
+		videoID, exists := s.Attr(""data-video-id"")
+		if!exists {
+			return
+		}
+
+		videoURL, _ := s.Find(""a[href^='https']"").Attr(""href"")
+
+		videoTitle, _ := s.Find(""h2"").Text()
+		videoDescription, _ := s.Find(""p"").Text()
+
+		likesCount, _ := strconv.Atoi(s.Find(""button[aria-label='Like']"").AttrOr(""aria-label"", ""0""))
+		commentsCount, _ := strconv.Atoi(s.Find(""button[aria-label='Comment']"").AttrOr(""aria-label"", ""0""))
+		sharesCount, _ := strconv.Atoi(s.Find(""button[aria-label='Share']"").AttrOr(""aria-label"", ""0""))
+
+		video := &Video{
+			ID:           videoID,
+			URL:          videoURL,
+			Title:        strings.TrimSpace(videoTitle),
+			Description: strings.TrimSpace(videoDescription),
+			LikesCount:   likesCount,
+			CommentsCount: commentsCount,
+		SharesCount:   sharesCount,
+		}
+		videos = append(videos, video)
+	})
+
+	return videos, nil
+}
+
+
+type Video struct {
+	ID           string `json:""id""`
+	URL          string `json:""url""`
+	Title        string `json:""title""`
+	Description string `json:""description""`
+	LikesCount   int    `json:""likes_count""`
+	CommentsCount int    `json:""comments_count""`
+	SharesCount   int    `json:""shares_count""`
+}
+```
+This code sets up a TikTok scraper client using the `tiktok` package, and defines a function `GetUserVideos` to scrape a user's videos.",True,0,"5,2",True,22
+23,"
+
+Here is an example of how you could create a simple TikTok bot scraper using Go:
+
+**Note:** Before we dive into the code, the TikTok API does not provide an official API for scraping data, as it's against their terms of service.",True,0,"5,2",True,23
+24,"
+
+Here is an example of a basic TikTok bot scraper written in Go:
+```
+package main
+
+import (
+	""fmt""
+	""github.com/dghubble/go-twitter/twitter""
+	""github.com/gocollect/gocollect/tiktok""
+	""log""
+	""net/http""
+	""time""
+)
+
+func main() {
+	// Create a new TikTok client with your app's API key and secret key.
+",True,0,"5,2",True,24
+25,"
+
+Here is an example of a simple TikTok bot scraper written in Go:
+
+**Disclaimer:** Before you start, please note that scraping TikTok content without permission may violate their terms of service.",True,0,"5,2",True,25
+26,"
+
+Here is an example of a Go program that scrapes TikTok videos:
+```go
+
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/Puerkons/go-tiktok/tiktok""
+)
+
+func main() {
+	// Set up the TikTok API client with your app ID and secret key (replace with your own)
+	client := tiktok.NewClient(""YOUR_APP_ID"", ""YOUR_SECRET_KEY"")
+
+	// Define the search query (e.g., hashtag, and/or username)
+	searchQuery := ""puppy""
+
+	// Get the user ID of the first result from the search query (this will be used to fetch the video list)
+	userID,  err := getUserIDFromSearch(client, searchQuery)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Fetch the video list of the user with the given ID (e.g., fetch the last 10 videos)
+	videoList, err := getVideoList(client, userID, 10)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Iterate over each video in the list and scrape its data (title, description, thumbnail URL, etc.)
+",True,0,"5,2",True,26
+27,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""context""
+	""fmt""
+	""log""
+
+	""github.com/dghubble/go-twitter/twitter""
+	""github.com/spf4/go-tiktok/tiktok""
+)
+
+func main() {
+	// Set up TikTok API credentials and config
+
+	tiktokConfig := &tiktok.Config{
+		ClientID:     ""YOUR_CLIENT_ID"",
+		ClientSecret: ""YOUR_CLIENT_SECRET"",
+		redirectURI: ""YOUR_REDIRECT_URI"",
+	}
+
+	// Create a new TikTok client instance
+
+	client, ittiktok.NewClient(tiktokConfig)
+
+	// Define the hashtag to scrape (e.g., #go or #golang)
+
+	hashtag := ""#golang""
+
+	// Define the max number of videos to scrape (e.g., 50)
+
+	maxVideos := 50
+
+	// Create a context to cancel the scraping process if needed
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Scrape the TikTok hashtag feed
+
+	videos, err := client.HashtagFeed(ctx, hashtag, maxVideos)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Iterate through the scraped videos and print their info
+
+	for _, video := range videos {
+		fmt.Printf(""Video ID: %s\n"", video.ID)
+		fmt.Printf(""Author Username: %s\n"", video.Author.Username)
+		fmt.Printf(""Caption: %s\n"", video.Caption.Text)
+		fmt.Printf(""Views: %d\n"", video.Views)
+		fmt.Println(""---"")
+	}
+}
+```
+This code uses the `github.com/spf4/go-tiktok/tiktok` package to interact with the TikTok API.",True,0,"5,2",True,27
+28,"
+
+Here is an example of a Go program that scrapes TikTok profiles and retrieves their information:
+```go
+
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/dgryski/tiktok""
+)
+
+const (
+	tikTokAPIURL = ""https://api.tiktok.com/v1/""
+	userAgent    = ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3""
+)
+
+type TikTokProfile struct {
+	ID        string `json:""id""`
+	Username  string `json:""username""`
+	Name      string `json:""name""`
+	Bio       string `json:""bio""`
+	Avatar    string `json:""avatar""`
+	FollowerCount int `json:""follower_count""`
+}
+
+func main() {
+	username := ""example"" // Replace with the username you want to scrape
+
+	client := &http.Client{}
+	req, err := http.NewRequest(""GET"", tikTokAPIURL+""users/""+username+""/info/"", nil)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	req.Header.Set(""User-Agent"", userAgent)
+
+	resp, err := client.Do(req)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	var profile TikTokProfile
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(body, []byte(profile))
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("" Profile: %+v\n"", profile)
+
+	// Scrape follower count from the user's profile page HTML
+
+	htmlReq, err := http.NewRequest(""GET"", ""https://www.tiktok.com/@""+username, nil)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	htmlReq.Header.Set(""User-Agent"", userAgent)
+
+	htmlResp, err := client.Do(htmlReq)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	defer htmlResp.Body.Close()
+
+	htmlBody, err := ioutil.ReadAll(htmlResp.Body)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	followerCountRE := regexp.MustCompile(`""followerCount"":(\d+),`)
+	matches := followerCountRE.FindAllStringSubmatch(string(htmlBody), -1)
+	for _, match := range matches {
+		profile.FollowerCount, _ = strconv.Atoi(match[1])
+	}
+
+	fmt.Printf(""Follower Count: %d\n"", profile.FollowerCount)
+}
+
+```
+
+This program uses the following:
+
+*   The `tiktok` package to interact with the TikTok API.
+",False,,,,28
+29,"
+
+Here is an example of a basic TikTok bot scraper in Go:
+```
+package main
+
+import (
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/PuerkitoBio/goquery""
+)
+
+func main() {
+	// Set up the HTTP client with a user agent to avoid being blocked by TikTok's rate limiter.
+",True,0,"5,2",True,29
+30,"
+
+Here is an example of how you can create a TikTok bot scraper in Go:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+
+	""github.com/dghubble/go-twitter/twitter""
+	""github.com/gorilla/ cookies""
+)
+
+const (
+	tikTokAPIURL = ""https://m.tiktok.com/api/v4/""
+	userAgent   = ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.3""
+)
+
+type TikTokVideo struct {
+	ID        string `json:""id""`
+	URL       string `json:""url""`
+	Duration int    `json:""duration""`
+	Views     int    `json:""views""`
+	Likes     int    `json:""likes""`
+	Comments  int    `json:""comments""`
+}
+
+func main() {
+	// Set up the HTTP client with a custom user agent and cookie jar.
+",False,,,,30
+31,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""fmt""
+	""github.com/tiktoken/tiktok-go""
+)
+
+func main() {
+	// Create a new TikTok client with your API token and username/password (if needed)
+	client, (tiktok.NewClient(""YOUR_API_TOKEN"", ""YOUR_USERNAME"", ""YOUR_PASSWORD""))
+
+	// Set the scraper's parameters (e.g., hashtags, to scrape, the top 100 videos)
+ params := &tiktok.ScrapeParams{
+		Hashtags: []string{""#foryou"", ""#dance""},
+		Limit:    100,
+	}
+
+	// Scrape the TikTok data using the provided parametersassistant
+
+```
+ vids, err := client.ScrapeVideos(context.Background(), params)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Loop through each video and extract relevant information (e.g., video ID, caption, likes, comments)
+	for _, vid := range vids {
+		fmt.Printf(""Video ID: %s\nCaption: %s\nLikes: %d\nComments: %d\n"",
+			vid.ID, vid.Caption, vid.Likes, vid.Comments)
+	}
+}
+```
+This code uses the `tiktok-go` package to create a new TikTok client with your API token and username/password (if needed).",True,0,"5,2",True,31
+32,"
+
+Here is an example code in Go for a TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/goccy/go-json""
+)
+
+// TikTok API endpoints and constants
+
+const (
+	TikTokAPIBaseURL = ""https://api.tiktok.com/""
+	SearchEndpoint   = ""search/v3/user/""
+	UserEndpoint    = ""aweme/v1/user/""
+VideoEndpoint   = ""aweme/v1/video/""
+	MaxResults     = 50 // maximum number of results per request
+
+	// Set your TikTok API Key here!
+",True,4,"5,2",True,32
+33,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+
+	""github.com/dghotti/tiktok Scraper/tiktok""
+)
+
+func main() {
+	// Set up the TikTok API endpoint and authentication credentials (replace with your own)
+	apiEndpoint := ""https://api.tiktok.com/api/v3/""
+	accessToken := ""your_access_token_here""
+	username := ""your_username_here""
+
+	// Create a new TikTok client instance with the access token and username above.
+",True,0,"5,2",True,33
+34,"
+
+I can provide you with a basic code structure for a Go TikTok bot scraper.",True,0,"5,2",True,34
+35,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+
+	""github.com/dghotti/tiktokscraper-go""
+)
+
+type Bot struct {
+	TikTokScraper *tiktokscraper.TikTokScraper
+
+	UserAgent string `json:""user_agent""`
+	Cookies     []string `json:""cookies""`
+
+	FollowerCount int `json:""follower_count""`
+	FollowingCount int `json:""following_count""`
+}
+
+func main() {
+	bot := &Bot{}
+	loadConfig(bot)
+
+	bot.TikTokScraper = tiktokscraper.NewTikTokScraper(bot.UserAgent, strings.Join(bot.Cookies, ""; ""))
+	bot.TikTokScraper.SetProxy(""http://localhost:8080"") // optional
+
+loop:
+	for {
+		select {
+		case <-time.After(10 * time.Second): // scrape every 10 seconds
+
+			// get trending hashtags and their corresponding videos count in the last 24 hours)
+			trendingHashtags, err := bot.getTrendingHashtags()
+			if err!= nil {
+				log.Println(err)
+				continue loop // skip to next iteration if error occurs)
+			}
+			fmt.Println(trendingHashtags)
+
+			// get top 3 popular creators and their follower count)
+			topCreators, err := bot.getTopCreators()
+			if err!= nil {
+				log.Println(err)
+				continue loop // skip to next iteration if error occurs)
+			}
+			fmt.Println(topCreators)
+
+			// scrape videos by hashtag #example)
+			videos, err := bot.scrapeVideosByHashtag(""#example"", 10) // scrape 10 videos)
+			if err!= nil {
+				log.Println(err)
+				continue loop // skip to next iteration if error occurs)
+			}
+			fmt.Println(videos)
+
+			// scrape followers of a specific user)
+			followers, err := bot.scrapeFollowers(""username"")
+			if err!= nil {
+				log.Println(err)
+				continue loop // skip to next iteration if error occurs)
+			}
+			fmt.Println(followers)
+		}
+	}
+}
+
+func (b *Bot) getTrendingHashtags() ([]map[string]int, error) {
+	req, err := http.NewRequest(""GET"", ""https://www.tiktok.com/api/recommend/hashtag/trending",True,0,"5,2",True,35
+36,"
+
+Here is an example of how you could create a TikTok bot scraper using Go:
+
+**Note:** Before we begin, to scrap data from TikTok, it is very important to respect the terms of service and robots.txt file.
+
+",True,0,"5,2",True,36
+37,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+)
+
+// TikTok API endpoints and constants
+
+const (
+	tikTokAPI   = ""https://www.tiktok.com/api/""
+	userAgent  = ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3""
+)
+
+type TikTokResponse struct {
+	Data     []struct {
+		ID        string `json:""id""`
+		Username  string `json:""username""`
+		Avatar    string `json:""avatarThumb""`
+		Nickname  string `json:""nickname""`
+		Sig       string `json:""signature""`
+		Followers int    `json:""followerCount""`
+		Following int    `json:""followingCount""`
+	} `json:""data""`
+}
+
+func main() {
+	// Set up HTTP client with User Agent header
+
+	client := &http.Client{}
+	req, err := http.NewRequest(""GET"", tikTokAPI+""users/"", nil)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	req.Header.Set(""User-Agent"", userAgent)
+
+	// Send request to TikTok API
+
+	resp, err := client.Do(req)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	// Parse JSON response from TikTok API
+
+	var tikTokResp TikTokResponse
+
+	err = json.NewDecoder(resp.Body).Decode(&tikTokResp)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Extract user data from JSON response
+
+	for _, user := range tikTokResp.Data {
+		fmt.Printf(""Username: %s\n"", user.Username)
+		fmt.Printf(""Avatar: %s\n"", user.Avatar)
+		fmt.Printf(""Nickname: %s\n"", user.Nickname)
+		fmt.Printf(""Signature: %s\n"", user.Sig)
+		fmt.Printf(""Followers: %d\n"", user.Followers)
+		fmt.Printf(""Following: %d\n"", user.Following)
+		fmt.Println("""")
+	}
+}
+```
+This code sends a GET request to the TikTok API's `/users/` endpoint to fetch a list of users.",True,4,"5,2",True,37
+38,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+)
+
+type TikTokVideo struct {
+	ID        string `json:""id""`
+	Username  string `json:""username""`
+	DisplayName string `json:""displayName""`
+	Avatar    string `json:""avatar""`
+	Caption   string `json:""caption""`
+	CreateTime int64 `json:""createTime""`
+	Duration int `json:""duration""`
+	PlayCount int `json:""playCount""`
+	CommentCount int `json:""commentCount""`
+}
+
+func main() {
+	// Set up the TikTok API endpoint and authentication credentials (replace with your own)
+	tiktokAPIEndpoint := ""https://api.tiktok.com/v2/""
+	clientID := ""your_client_id_here""
+	clientSecret := ""your_client_secret_here""
+
+	// Create a new HTTP client with a timeout of 10 seconds.
+",True,4,"5,2",True,38
+39,"
+
+Here's an example code in Golang to create a TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""context""
+	""fmt""
+	""log""
+
+	""github.com/gorilla/websocket""
+)
+
+func main() {
+	// Set up TikTok API endpoint and credentials
+
+	apiEndpoint := ""https://api.tiktok.com/api/v4/""
+	username := ""your_username""
+	password := ""your_password""
+
+	// Create a new HTTP client
+
+	client := &http.Client{}
+
+	// Login to TikTok API and get the session token
+
+	loginResp, := login(client, apiEndpoint, username, password)
+	sessionToken := loginResp.Data.SessionToken
+
+	// Set up WebSocket connection for real-time data
+
+	wsConn, err := websocket.Dial(""wss://ws.tiktok.com/wss"", nil, http.Header{""Sec-WebSocket-Version"": {""13""}})
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	defer wsConn.Close()
+
+	// Subscribe to user feed updates
+
+	subscribeToUserFeed(wsConn, sessionToken, ""username_to_scrape"")
+
+	// Start scraping!
+
+",True,4,"5,2",True,39
+40,"
+
+Here is an example of Go code for a TikTok bot scraper:
+```
+package main
+
+import (
+	""context""
+	""fmt""
+	""log""
+
+	""github.com/chromedp/cdproto/cdp""
+	""github.com/chromedp/go-chrome-devtools/devtools""
+)
+
+func main() {
+	// Create a new Chrome DevTools session
+
+	ctx, := context.Background()
+	devt := devtools.New(ctx)
+	err := devt.LaunchChrome(""https://www.tiktok.com/@username"", nil)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Navigate to the user's profile page
+
+	err = devt.Page.Navigate(ctx, ""https://www.tiktok.com/@username"")
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Wait for the page to load
+
+	err = devt.Page.WaitForLoadState(ctx, AwaitingInitialLoad)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Get the HTML content of the page
+
+	html, err := devt.Page.GetContent(ctx)
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Parse the HTML content using the `goquery` library
+
+	doc, := NewDocumentFromReader(strings.NewReader(html))
+	var videos []string
+
+	// Find all video elements on the page
+
+	doc.Find(""div[data-e2e='video-container']"").Each(func(i int, s *Selection) {
+		videoURL, := s.AttrOr(""href"", """")
+		videos = append(videos, videoURL)
+	})
+
+	// Print out the list of video URLs
+
+	fmt.Println(""Video URLs:"")
+	for _, url := range videos {
+		fmt.Println(url)
+	}
+
+	// Close the Chrome DevTools session
+
+	devt.Close()
+}
+```
+This code launches a new Chrome DevTools session, navigates to the specified user's profile page, waits for the page to load, extracts the HTML content, parses it using `goquery`, finds all video elements on the page, and prints out their URLs.
+
+",True,1,"5,2",True,40
+41,"
+
+Here is an example code in Go that uses the `colly` library to scrape TikTok user information and video data:
+```go
+
+package main
+
+import (
+    ""fmt""
+    ""log""
+
+    ""github.com/antchfx/htmlquery""
+    ""github.com/gocolly/colly/v2""
+)
+
+func main() {
+    c := colly.NewCollector(
+        colly.AllowedDomains(""tiktok.com"", ""www.tiktok.com""),
+    )
+
+    // Set up event handlers for the collector
+
+    c.OnHTML(""/@"", func(e *colly.HTMLElementEvent) {
+        // Extract user information from the profile page
+
+        username := htmlquery.FindOne(e.DOM,ed,2019,1981, e.Resp.Body)
+        followers := htmlquery.FindOne(e.DOM,""//*[@id=\""followers\""]"")
+        following := htmlquery.FindOne(e.DOM,""//*[@id=\""following\""]"")
+
+        fmt.Println(""Username:"", username.Text())
+        fmt.Println(""Followers:"", followers.Text())
+        fmt.Println(""Following:"", following.Text())
+
+        // Extract video data from the user's video list
+
+        videos := htmlquery.Find(e.DOM, ""//div[@class=\""video-container\""]"")
+        for _, video := range videos {
+            vid := video.Attr(""data-video-id"")
+            description := video.FindOne(""//p[@class=\""description\""]"").Text()
+            views := video.FindOne(""//span[@class=\""views\""]"").Text()
+
+            fmt.Println(""Video ID:"", vid)
+            fmt.Println(""Description:"", description)
+            fmt.Println(""Views:"", views)
+        }
+    })
+
+    // Start scraping with a specific TikTok user URL
+
+    c.Visit(""https://www.tiktok.com/@username"")
+
+    log.Printf(""Scraping finished!"")
+",True,0,"5,2",True,41
+42,"
+
+Here is an example code for a Go TikTok bot scraper:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+	""time""
+
+	""github.com/gorilla/cookies""
+)
+
+type TikTokResponse struct {
+	Data   []TikTokVideo `json:""data""`
+	HasMore bool         `json:""has_more""`
+}
+
+type TikTokVideo struct {
+	ID        string    `json:""id_str""`
+	Description string    `json:""description""`
+	CreateTime int64     `json:""create_time""`
+	User      TikTokUser `json:""author""`
+}
+
+type TikTokUser struct {
+	ID       string `json:""id_str""`
+	Username string `json:""unique_id""`
+	Name     string `json:""nickname""`
+}
+
+func main() {
+	client := &http.Client{}
+	jar, _ := cookies.NewJar()
+	client.Jar = jar
+
+	// Set up TikTok API endpoint and headers]
+	endpoint := ""https://api.tiktok.com/node/explore""
+	headers := map[string]string{
+		""User-Agent"":      ""Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"",
+		""Accept-Language"": ""en-US,en;q=0.8"",
+		""Content-Type"":   ""application/json; charset=utf-8"",
+	}
+
+	// Set up pagination variables]
+	var cursor string = """"
+	hasMore := true
+
+	for hasMore {
+		req, err := http.NewRequest(""GET"", endpoint, nil)
+		if err!= nil {
+			log.Fatal(err)
+		}
+
+		// Add headers and query params]
+		for key, value := range headers {
+			req.Header.Add(key, value)
+		}
+		q := req.URL.Query()
+		q.Add(""cursor"", cursor)
+		req.URL.RawQuery = q.Encode()
+
+		resp, err := client.Do(req)
+		if err!= nil {
+			log.Fatal(err)
+		}
+		defer resp.Body.Close()
+
+		var tikTokResp TikTokResponse
+
+		err = json.NewDecoder(resp.Body).Decode(&tikTokResp)
+		if err!= nil {
+			log.Fatal(err)
+		}
+
+		for _, video := range tikTokResp.Data {
+			fmt.Printf(""Video ID: %s\nDescription: %s\nCreateTime: %d\nUsername: %s\nName: %s\n\n"",
+				video.ID, video.Description, video.CreateTime, video.User.Username, video.User.Name)
+		}
+
+		hasMore = tikTokResp.HasMore
+
+		cursor = tikTokResp.Data[len(tikTokResp.Data)-1].ID
+
+		time.Sleep(2 * time.Second) // rate limit delay]
+	}
+}
+```
+This code uses the `net/http` package to send GET requests to the TikTok API, and the `encoding/json` package to decode the JSON responses.
+
+",False,,,,42
+43,"
+
+Here is an example of a basic Go script that uses the `colly` web scraping framework to scrape TikTok user information:
+```go
+
+package main
+
+import (
+	""fmt""
+	""log""
+
+	""github.com/antchfx/xmlquery""
+	""github.com/gocolly/colly/v2""
+)
+
+func main() {
+	c := colly.NewCollector(
+		colty.UserAgent("" Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3""),
+	)
+
+	c.OnHTML(`html`, func(e *colly.HTMLElement) {
+		e.ForEach(`div[class=""user-info""]`, func(_ int, rangeNode *xmlquery.Node) {
+			username := rangeNode.FirstChild.Elements()[0].FirstChild.Data
+
+			// Get user profile link and extract user ID from it 
+			profileLink := rangeNode.FirstChild.Attr[1]
+			userId := profileLink[strings.Index(profileLink, ""/@"")+2:]
+
+			fmt.Printf(""Username: %s\n"", username)
+			fmt.Printf(""User ID: %s\n"", userId)
+		})
+	})
+
+	c.Visit(""https://www.tiktok.com/@example"")
+}
+```
+This script uses Colly to send an HTTP request to the specified TikTok user page, extracts the user's profile information (username and user ID), and prints it to the console.
+
+",True,4,"5,2",True,43
+44,"
+
+Here is an example code in Go to create a TikTok bot scraper:
+```
+package main
+
+import (
+	""context""
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/dgryski/go-farm""
+)
+
+// TikTokUser represents a TikTok user's information.
+",False,,,,44
+45,"
+
+Here is an example code for a Go TikTok bot scraper:
+```go
+
+package main
+
+import (
+	""fmt""
+	""github.com/gocolly/colly""
+	""log""
+	""net/http""
+	""strings""
+)
+
+type TikTokUser struct {
+	Username string `json:""username""`
+	UserId   string `json:""user_id""`
+	Bio      string `json:""bio""`
+	Avatar  string `json:""avatar""`
+}
+
+func main() {
+	// Create a new Colly instance with the TikTok user agent header set.
+",True,4,"5,2",True,45
+46,"
+
+Here is an example of a Go TikTok bot scraper code:
+```go
+
+package main
+
+import (
+	""context""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+
+	""github.com/chromedp/cdproto/network""
+	""github.com/gocollective/tiktok-api-go/v2""
+)
+
+func main() {
+	// Set up the TikTok API client with your app's credentials 
+	tiktokClient := tiktok.NewClient(""YOUR_APP_ID"", ""YOUR_APP_SECRET"")
+
+	// Create a new instance of the Chrome DevTools Protocol client 
+	cdp := &http.Client{}
+	ctx := context.Background()
+
+	// Navigate to the TikTok homepage and get the cookies 
+	resp, it tiktokClient.GET(ctx, ""/"")
+	defer resp.Body.Close()
+	body, := ioutil.ReadAll(resp.Body)
+	log.Println(string(body))
+
+	cookies := strings.Split(resp.Header.Get(""Set-Cookie""), ""; "")
+	var cookieJar []*network.Cookie
+
+	for _, cookie := range cookies {
+		cookieParts := strings.Split(cookie, ""}"")
+		name := strings.TrimSpace(cookieParts[0])
+		value := strings.TrimSpace(cookieParts[1])
+		cookieJar = append(cookieJar, &network.Cookie{
+			Name:  name,
+			Value: value,
+		})
+	}
+
+	// Create a new browser session 
+	sessionID, := ""TikTokBot-"" + uuid.New().String()
+	err := cdp.Exec(ctx, network.NewSession(sessionID))
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Set the cookies for the session 
+	err = cdp.Exec(ctx, network.SetCookies(cookieJar))
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	// Navigate to the user's profile page 
+	userID := ""username123"" // Replace with the desired username 
+	resp, err = tiktokClient.GET(ctx, ""/@""+userID)
+	defer resp.Body.Close()
+	body, _ = ioutil.ReadAll(resp.Body)
+
+	// Extract the video URLs from the HTML 
+	doc, _ := html.Parse(strings.NewReader(string(body)))
+	videoURLs := make([]string, 0)
+	foreachNode(doc, func(node *html.Node) {
+		if node.Type == html.ElementNode && node.Data == ""a"" {
+			for _, attr := range node.Attr {
+				if attr.Key == ""href"" && strings.Contains(attr.Val, ""/video/"") {
+					videoURLs = append(videoURLs, ""https://www.tiktok.com""+attr.Val)
+				}
+			}
+		}
+	})
+
+	// Print the extracted video URLs 
+	log.Println(""Extracted video URLs:"")
+	for _, url := range videoURLs {
+		log.Println(url)
+	}
+}
+
+func foreachNode(node *html.Node, f func(*html.Node)) {
+	if f!= nil {
+		f(node)
+	}
+	for c := node.FirstChild; c!= nil; c = c.NextSibling {
+		foreachNode(c, f)
+	}
+}
+```
+This code sets up a TikTok API client using your app's credentials, navigates to the TikTok homepage to get the necessary cookies, creates a new browser session, sets the cookies for the session, navigates to a specific user's profile page, extracts the video URLs from the HTML, to finally print them.
+
+",True,4,"5,2",True,46
+47,"
+
+I can provide you with an example code for a Go TikTok bot scraper.",True,0,"5,2",True,47
+48,"
+
+Here is an example of Go code that can be used to scrape TikTok user information and video data using the TikTok API:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+	""strings""
+)
+
+type TikTokUser struct {
+		ID    string `json:""id""`
+		Name  string `json:""name""`
+		Username string `json:""username""`
+}
+
+type TikTokVideo struct {
+		ID        string `json:""id""`
+		Description string `json:""description""`
+		CreateTime int64 `json:""createTime""`
+		Duration   int    `json:""duration""`
+		CoverURL   string `json:""coverUrl""`
+}
+
+func getTikTokUser(username string) (TikTokUser, error) {
+	url := fmt.Sprintf(""https://api.tiktok.com/api/user/detail/?username=%s"", username)
+	req, err := http.NewRequest(""GET"", url, nil)
+	if err!= nil {
+		return TikTokUser{}, err 
+	}
+ req.Header.Set(""Authorization"", ""Bearer YOUR_API_KEY"")
+	resp, err := http.DefaultClient.Do(req)
+	if err!= nil {
+		return TikTokUser{}, err 
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err!= nil {
+		return TikTokUser{}, err 
+	}
+	var user TikTokUser 
+	err = json.Unmarshal(body, &user)
+	return user, err 
+}
+
+func getTikTokVideos(userID string) ([]TikTokVideo, error) {
+	url := fmt.Sprintf(""https://api.tiktok.com/api/video/list/?userId=%s&count=50"", userID)
+	req, err := http.NewRequest(""GET"", url, nil)
+	if err!= nil {
+		return []TikTokVideo{}, err 
+	}
+ req.Header.Set(""Authorization"", ""Bearer YOUR_API_KEY"")
+	resp, err := http.DefaultClient.Do(req)
+	if err!= nil {
+		return []TikTokVideo{}, err 
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err!= nil {
+		return []TikTokVideo{}, err 
+	}
+	var videosResponse struct {
+		Videos []TikTokVideo `json:""videos""`
+	}
+	err = json.Unmarshal(body, &videosResponse)
+	return videosResponse.Videos, err 
+}
+
+func main() {
+	username := ""example"" // replace with the username you want to scrape 
+	user, err := getTikTokUser(username)
+	if err!= nil {
+		log.Fatal(err) 
+	} 
+	fmt.Printf(""User: %+v\n"", user) 
+
+	videos, err := getTikTokVideos(user.ID)
+	if err!= nil {
+		log.Fatal(err) 
+	} 
+	for _, video := range videos {
+		fmt.Printf(""Video: %+v\n"", video) 
+	}
+}
+```
+This code uses the `net/http` package to make GET requests to the TikTok API, and the `encoding/json` package to unmarshal the JSON responses.
+
+",True,4,"5,2",True,48
+49,"
+
+Here is an example of a simple Go program that uses the TikTok API to scrape user information:
+```
+package main
+
+import (
+	""encoding/json""
+	""fmt""
+	""io/ioutil""
+	""log""
+	""net/http""
+)
+
+type User struct {
+	ID        string `json:""id""`
+	Username  string `json:""username""`
+	Name      string `json:""name""`
+	Bio       string `json:""bio""`
+	Follower int    `json:""follower_count""`
+}
+
+func main() {
+	client := &http.Client{}
+	req, err := http.NewRequest(""GET"", ""https://api.tiktok.com/v1/user/info/?username=example_user"", nil)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	req.Header.Set(""User-Agent"", ""TikTok Scraper"")
+	resp, response, err := client.Do(req)
+	defer resp.Body.Close()
+	if err!= nil {
+		log.Fatal(err)
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	var user User
+
+	err = json.Unmarshal(body, &user)
+	if err!= nil {
+		log.Fatal(err)
+	}
+	fmt.Printf(""Username: %s\n"", user.Username)
+	fmt.Printf(""Name: %s\n"", user.Name)
+	fmt.Printf(""Bio: %s\n"", user.Bio)
+	fmt.Printf(""Follower Count: %d\n"", user.Follower)
+}
+```
+This code sends a GET request to the TikTok API with the username `example_user` and parses the JSON response into a `User` struct.
+
+",True,4,"5,2",True,49
+50,"
+
+Here is an example of Go code that scrapes TikTok videos using the `colly` web scraping framework:
+```go
+
+package main
+
+import (
+	""fmt""
+	""log""
+
+	""github.com/gocolly/colly/v2""
+)
+
+func main() {
+	c := colly.NewCollector(
+		colly.AllowedDomains(""tiktok.com"", ""www.tiktok.com""),
+	)
+
+	c.OnHTML(`a[href]`, func(e *colly.HTMLElement) {
+		link := e.Request.AbsoluteURL(e.Attr(""href""))
+		if link!= """" && strings.Contains(link, ""video/"") {
+			fmt.Println(link)
+		}
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		fmt.Println(""Visiting"", r.URL.String())
+	})
+
+	err := c.Visit(""https://www.tiktok.com/@username"")
+	if err!= nil {
+		log.Fatal(err)
+	}
+
+	c.Wait()
+}
+
+```
+This script will scrape all video links from the given username's profile page.
+
+",True,2,"5,2",True,50
+51,"Here's how it works:
+
+1.",False,,,,1
+52,"To run this script:
+
+1.",False,,,,2
+53,**Note:** Please make sure to respect TikTok's terms of service and robots.txt file when scraping their website.,True,1,"5,2",True,3
+54,"Here's how you can use it:
+
+1.",False,,,,4
+55,"**Please note that:**
+
+* You should replace `""@username""` with the actual username you want to scrape.
+",True,4,"5,2",True,5
+56,"Please note that:
+
+1.",True,5,"5,2",True,6
+57," This script is just an example and may not work as-is due to TikTok's frequently changing HTML structure.
+",True,0,"1,4",True,1
+58," You should replace `""@username""` with the actual TikTok username you want to scrape.
+",True,0,"1,4",True,2
+59," This script is against TikTok's terms of service and might get your IP blocked if used excessively.
+",False,,,,3
+60," This script is for educational purposes only and should not be used to scrape data in bulk or for commercial purposes without TikTok's consent.
+",False,,,,4
+61," You need to replace `@username` with the actual TikTok username you want to scrape.
+",True,0,"1,4",True,5
+62," You need to replace `""@username""` with the actual username you want to scrape.
+",False,,,,6
+63," You should replace `""@username""` with the actual username you want to scrape.
+",True,4,"1,4",True,7
+64,2. This script only scrapes the video links and prints them out.,True,3,"7,2",True,1
+65,"2. This script is against TikTok's terms of service and may result in your IP being blocked.
+",False,,,,2
+66,"2. This script only scrapes the links, and does not download or process the videos themselves.",True,2,"7,2",True,3
+67," You would need additional logic to do so.
+",True,3,"5,2",True,1
+68," You would need additional logic to handle that.
+",False,,,,2
+69," 
+3. TikTok has a rate limit on requests, A more sophisticated approach would be needed for larger-scale scraping.
+",True,3,"5,2",True,3
+70," You would need additional code to handle those tasks.
+",True,5,"5,2",True,4

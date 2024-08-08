@@ -85,13 +85,13 @@ def run_command(command, filepath):
         return None, e.stderr
 
 def main():
-    log_suffix = "05_17_hard"
+    log_suffix = "07-18"
     results = []
 
     for attack in good_attacks:
         log_filepath = f"./results/stationary_distribution/robustness_analysis/entropy_{attack['entropy']}/distinguisher_results/{attack['output_1']}_{attack['attack_id_1']}-{attack['output_2']}_{attack['attack_id_2']}_{log_suffix}.log"
 
-        command = f"python distinguisher.py +distinguisher=llama3 ++distinguisher.log_suffix={log_suffix} " \
+        command = f"python old_distinguisher.py +distinguisher=llama3 ++distinguisher.log_suffix={log_suffix} " \
                   f"++distinguisher.entropy='\"{attack['entropy']}\"' " \
                   f"++distinguisher.output_1='\"{attack['output_1']}\"' " \
                   f"++distinguisher.attack_id_1='\"{attack['attack_id_1']}\"' " \
