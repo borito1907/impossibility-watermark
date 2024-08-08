@@ -1,0 +1,54 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-08-08 12:30:12,139][__main__][INFO] - Getting the watermarker...
+[2024-08-08 12:30:12,139][watermarker][INFO] - Using device: cuda:0
+[2024-08-08 12:30:12,139][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Loading checkpoint shards:   0%|          | 0/9 [00:00<?, ?it/s]Loading checkpoint shards:  11%|█         | 1/9 [00:00<00:07,  1.00it/s]Loading checkpoint shards:  22%|██▏       | 2/9 [00:02<00:07,  1.02s/it]Loading checkpoint shards:  33%|███▎      | 3/9 [00:03<00:06,  1.06s/it]Loading checkpoint shards:  44%|████▍     | 4/9 [00:04<00:05,  1.07s/it]Loading checkpoint shards:  56%|█████▌    | 5/9 [00:05<00:04,  1.06s/it]Loading checkpoint shards:  67%|██████▋   | 6/9 [00:06<00:03,  1.05s/it]Loading checkpoint shards:  78%|███████▊  | 7/9 [00:07<00:02,  1.04s/it]Loading checkpoint shards:  89%|████████▉ | 8/9 [00:08<00:00,  1.06it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:08<00:00,  1.24it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:08<00:00,  1.05it/s]
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
+  warn_deprecated(
+[2024-08-08 12:30:24,573][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 1, 'is_completion': False, 'generation_stats_file_path': None, 'watermarked_text_file_name': None, 'partition': 3, 'generator_args': {'model_name_or_path': 'hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4', 'revision': 'main', 'model_cache_dir': '/data2/.shared_models/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 768, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0.0}, 'watermark_args': {'name': 'umd', 'gamma': 0.25, 'delta': 2.0, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'cuda', 'only_detect': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}}
+[2024-08-08 12:30:24,574][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-08-08 12:30:24,613][__main__][INFO] - Prompt: Can you prove that there are no powers of 2 in the Lazy Caterer's Sequence?
+[2024-08-08 12:30:24,614][__main__][INFO] - Prompt ID: 3198253901
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:30:58,429][watermarkers.umd][INFO] - Completion from UMD: system
+
+You are a helpful personal assistant.user
+
+Can you prove that there are no powers of 2 in the Lazy Caterer's Sequence?assistant
+
+The Lazy Caterer's Sequence, also known as the Central Polygonal Numbers or Golygon sequence is given by 
+
+ Gn = (n(n +1))/2 for n=0
+ Gn = (G( n-1) + (4*5^(n - 1 ))/2 for n > 0 
+where n >= 0
+[2024-08-08 12:30:58,430][watermarkers.umd][INFO] - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Can you prove that there are no powers of 2 in the Lazy Caterer's Sequence?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+[2024-08-08 12:30:58,430][watermarkers.umd][INFO] - Marker: Sequence?assistant
+[2024-08-08 12:30:58,430][watermarkers.umd][INFO] - Returned Completion: The Lazy Caterer's Sequence, also known as the Central Polygonal Numbers or Golygon sequence is given by 
+
+ Gn = (n(n +1))/2 for n=0
+ Gn = (G( n-1) + (4*5^(n - 1 ))/2 for n > 0 
+where n >= 0
+[2024-08-08 12:30:58,430][watermarker][INFO] - Received watermarked text: The Lazy Caterer's Sequence, also known as the Central Polygonal Numbers or Golygon sequence is given by 
+
+ Gn = (n(n +1))/2 for n=0
+ Gn = (G( n-1) + (4*5^(n - 1 ))/2 for n > 0 
+where n >= 0
+[2024-08-08 12:30:58,454][__main__][INFO] - Watermarked Text: The Lazy Caterer's Sequence, also known as the Central Polygonal Numbers or Golygon sequence is given by 
+
+ Gn = (n(n +1))/2 for n=0
+ Gn = (G( n-1) + (4*5^(n - 1 ))/2 for n > 0 
+where n >= 0
+[2024-08-08 12:30:58,454][__main__][INFO] - Is Watermark Detected?: True
+[2024-08-08 12:30:58,454][__main__][INFO] - Score: 4.866884749424328
+[2024-08-08 12:30:58,455][__main__][INFO] - Time taken: 33.840614557266235
+Data saved to ./inputs/umd_test_llama31_3/watermarked_texts.csv
+[2024-08-08 12:30:58,494][__main__][INFO] - Prompt: What is 1+6\/3-8*2+4-2\/2+4+8-2
+[2024-08-08 12:30:58,495][__main__][INFO] - Prompt ID: 3191991150
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.

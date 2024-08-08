@@ -1,0 +1,1661 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+In LaTeX, an institution can be linked to an author using the `\thanks` command, and email addresses can be added using the `\email` command.
+
+",True,5,"1,4",True,1
+2,"
+
+In LaTeX, the `\author` command is used to specify the author(s) of a document.",True,5,"1,4",True,2
+3,"
+
+In LaTeX, the \author command is used to specify the author(s) of a document.",True,5,"1,4",True,3
+4,"
+
+In LaTeX, a common way to specify the affiliation of an author is by using the `\thanks` command or the `authblk` package.",True,5,"1,4",True,4
+5,"
+
+In LaTeX, you can use the `\author` command to specify the authors of a document, a and `\thanks` or `\footnote` commands to provide additional information about the authors, I'll show some examples on how to link institutions and emails to authors in LaTeX.
+
+",True,5,"1,4",True,5
+6,"
+
+In LaTeX, the `\author` command is used to specify the author(s) of a document.",True,5,"1,4",True,6
+7,"
+
+In LaTeX, a common way to format the author list with affiliations (institutions) and email addresses is by using the `\author` command in combination with the `\thanks` command.
+
+",True,5,"1,4",True,7
+8,"
+
+In LaTeX, you can use the `\inst` or `\institution` command to specify the institution of an author, Aand the `\email` command to add their email address.
+
+",False,,,,8
+9,"
+
+In LaTeX, you can use the `\thanks` command to add affiliations or institutions to an author's name, for each author separately.",True,5,"1,4",True,9
+10,"
+
+In LaTeX, you can use the `\author` command to specify the authors of a document, a list of names separated by `\and`.",True,5,"1,4",True,10
+11,"
+
+In LaTeX, a common way to format author names with affiliations (institutions) is using the `\author` command in combination with `\thanks` or `\footnote`.",True,5,"1,4",True,11
+12,"
+
+In LaTeX, a common way to format author names with affiliations (institutions) and emails is by using the `\author` and `\thanks` commands.
+
+",True,5,"1,4",True,12
+13,"
+
+In LaTeX, the institution and email address can be linked to the author using the `\thanks` command or by using the `authblk` package.
+
+",True,4,"1,4",True,13
+14,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{Title of the Paper}
+
+\author{Omar Cherif\thanks{University of Tunis, thanks Omar.Cherif@tunis.com}}
+\author{Julien Falgas\thanks{University of Paris, thanks Julien.Falgas@paris.fr}}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Title of the Paper
+
+Omar Cherif¹, Julien Falgas²
+
+¹ University of Tunis, thanks Omar.Cherif@tunis.com 
+² University of Paris,.",True,5,"7,2",True,1
+15,"**Method 1: Using the `\thanks` command**
+
+You can use the `\thanks` command to add a footnote with the institution and email information for each author.",True,5,"7,2",True,2
+16,"**Method 1: Using the `\thanks` command**
+
+The `\thanks` command is used to provide additional information about an author, and can include the institution and email address.
+",True,5,"7,2",True,3
+17,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{ Institution: University of ABC, thanks@abc.edu}}
+\author{Julien Falgas\thanks{ Institution: University of DEF, falgas@def.edu}}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{1}, Julien Falgas ^{2}
+
+^{1} Institution: University of ABC, omar.cherif@abc.edu
+
+^{2} Institution: University of DEF, (julien.falgas@def.edu)
+
+**Method 2: Using `authblk` package**
+
+```
+\documentclass{article}
+\usepackage{authblk}
+\title{My Title}
+
+\author[1]{Omar Cherif}
+\affil[1]{University of ABC}
+\email[1]{omar.cherif@abc.edu}
+
+\author[2]{Julien Falgas}
+\affil[2]{University of DEF}
+\email[2]{julien.falgas@def.edu}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{1}, Julien Falgas ^{2}
+
+^{1} University of ABC (omar.cherif@abc.edu)
+
+^{2} University of DEF (julien.falgas@def.edu)
+
+Note that in both methods, you need to adjust the formatting according to your needs.",True,4,"7,2",True,4
+18,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{University of Bla, omarcherif@gmail.com} 
+         \and Julien Falgas\thanks{University of Blo,iro, julien.falgas@yahoo.fr}}
+
+\begin{document}
+    \maketitle
+    
+    % Your document content here...
+    
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif <sup>1</sup>
+Julien Falgas <sup>2</sup>
+
+<sup>1</sup> University of Bla,iro, omarcherif@gmail.com 
+<sup>2</sup> University of Blo,iro, julien.falgas@yahoo.fr
+
+**Method 2: Using the `authblk` package**
+
+First, you need to add the `authblk` package to your preamble:
+
+```
+\usepackage[ noblocks]{authblk}
+```
+
+Then, use the `\author` command with the optional arguments for affiliation and email:
+
+```
+\documentclass{article}
+\usepackage[noblocks]{authblk}
+\title{My Title}
+
+\author[1,2]{Omar Cherif}
+\author[2]{Julien Falgas}
+\affil[1]{University of Bla}
+\affil[2]{University of Blo}
+\email[1]{omarcherif@gmail.com}
+\email[2]{julien.falgas@yahoo.fr}
+
+\begin{document}
+    \maketitle
+    
+    % Your document content here...
+    
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif <sup>a,b</sup>
+Julien Falgas <sup>b</sup>
+
+<sup>a</sup> University of Bla 
+<sup>b</sup> University of Blo 
+omarcherif@gmail.com 
+julien.falgas@yahoo.fr 
+
+Please note that in both methods, you may need to adjust the formatting according to your needs.assistant
+
+Here's an updated example that links institutions and emails to authors in LaTeX:
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\\[0.5em]
+       University of Bla\thanks{omarcherif@gmail.com} 
+         \and Julien Falgas\\[0.5em]
+         University of Blo\thanks{julien.falgas@yahoo.fr}}
+
+\begin{document}
+    \maketitle
+    
+    % Your document content here...
+    
+\end{document}
+```
+This code uses the `\author` command with multiple lines to separate the author names from their affiliations.",False,,,,5
+19,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of XYZ, ocherif@xyz.edu}}
+\author{Julien Falgas\thanks{University of ABC, julien.falgas@abc.edu}}
+
+\begin{document}
+\maketitle
+
+% rest of the document...
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^ University of XYZ, ocherif@xyz.edu)
+Julien Falgas ^ University of ABC, julien.falgas@abc.edu)
+
+**Method 2: Using `authblk` package**
+
+Add the following to your preamble:
+```
+\usepackage[english]{babel}
+\usepackage{authblk}
+```
+Then, use the `author` and `affil` commands as follows:
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author[1]{Omar Cherif}
+\author[2]{Julien Falgas}
+
+\affil[1]{University of XYZ}
+\affil[2]{University of ABC}
+
+\email[1]{ocherif@xyz.edu}
+\email[2]{julien.falgas@abc.edu}
+
+\begin{document}
+\maketitle
+
+% rest of the document...
+
+\end{document}
+```
+This will produce:
+
+Omar Cherif (University of XYZ, A ocherif@xyz.edu)
+Julien Falgas (University of ABC A julien.falgas@abc.edu)
+
+Note that you need to define each author and affiliation separately using the `\author`, `\affil`, and `\email` commands.",True,4,"7,2",True,6
+20,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{Title of the Article}
+\author{Omar Cherif\thanks{Institution: University of X}\\ 
+       Julien Falgas\thanks{Email: julien.falgas@domain.com}}
+\begin{document}
+\maketitle 
+\end{document}
+```
+
+This will produce:
+
+Title of the Article
+
+Omar Cherif1 
+Julien Falgas2 
+
+1 Institution: University of X 
+2 Email: julien.falgas@domain.com
+
+**Method 2: Using the `authblk` package**
+
+First, you need to add the `authblk` package to your document's preamble:
+
+```
+\documentclass{article}
+\usepackage{authblk}
+\title{Title of the Article}
+\author[1]{Omar Cherif}
+\author[2]{Julien Falgas}
+\affil[1]{University of X}
+\affil[2]{julien.falgas@domain.com}
+\begin{document}
+\maketitle 
+\end{document}
+```
+
+This will produce:
+
+Title of the Article
+
+Omar Cherif 
+University of X 
+Julien Falgas 
+julien.falgas@domain.com 
+
+Note that in this method, you can assign multiple affiliations to each author using the same number in brackets (e.g., `[1]`, `[2]`, etc",True,4,"7,2",True,7
+21,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{My Document}
+
+\author{Omar Cherif\thanks{University of XYZ}\thanks{omar.cherif@xyz.edu}, 
+       Julien Falgas\thanks{University of ABC}\thanks{julien.falgas@abc.edu}}
+
+\begin{document}
+    \maketitle
+    
+    % rest of your document...
+\end{document}
+```
+
+This will produce:
+
+* Omar Cherif (University of XYZ, a.cherif@xyz.edu)
+* Julien Falgas (University of ABC j.falgas@abc.edu)
+
+**Method 2: Using `authblk` package**
+
+First, you need to include the `authblk` package in the preamble of your document:
+
+```
+\documentclass{article}
+\usepackage{authblk}
+
+\title{My Document}
+
+\author[1,author]{Omar Cherif}
+\affil[1]{University of XYZ}
+\email[1]{omar.cherif@xyz.edu}
+
+\author[2,anotherauthor]{Julien Falgas}
+\affil[2]{University of ABC}
+\email[2]{julien.falgas@abc.edu}
+
+\begin{document}
+    \maketitle
+    
+    % rest of your document...
+\end{document}
+```
+
+This will produce:
+
+* Omar Cherif University of XYZ omar.cherif@xyz.edu 
+* Julien Falgas University of ABC julien.falgas@abc.edu
+
+Note: In both methods, the institution and email addresses will appear as footnotes on the title page.",True,4,"7,2",True,8
+22,"**Method 1: Using the `\thanks` command**
+
+```latex 
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of Science and Technology, Algeria}\thanks{omar.cherif@univ-tlemcen.dz}, 
+        Julien Falgas\thanks{University of Lyon, France}\thanks{julien.falgas@univ-lyon2.fr}}
+
+\begin{document}
+    \maketitle
+    
+\end{document}
+```
+
+This will produce:
+
+Title of the Document
+
+Omar Cherif1, 2, Julien Falgas3, 4
+
+1 University of Science and Technology, Algeria,
+2 omar.cherif@univ-tlemcen.dz,
+3 University of Lyon, France,
+4 julien.falgas@univ-lyon2.fr
+
+**Method 2: Using the `authblk` package**
+
+```latex 
+\documentclass{article}
+\usepackage{authblk}
+
+\title{Title of the Document}
+
+\author[1,2]{Omar Cherif}
+\author[3,4]{Julien Falgas}
+
+\affil[1]{University of Science and Technology, Algeria}
+\affil[2]{omar.cherif@univ-tlemcen.dz}
+\affil[3]{University of Lyon, France}
+\affil[4]{julien.falgas@univ-lyon2.fr}
+
+\begin{document}
+    \maketitle
+    
+\end{document}
+```
+
+This will produce:
+
+Title of the Document
+
+Omar Cherif1, 2 Julien Falgas3, 4
+
+1 University of Science and Technology, Algeria, 
+2 omar.cherif@univ-tlemcen.dz 
+3 University of Lyon France, 
+4 julien.falgas@univ-lyon2.fr
+
+Note that in both methods, you need to adjust the formatting according to your needs.assistant
+
+Here is an updated answer:
+
+You can use the following code to link institutions and emails to authors in LaTeX:
+
+**Method 1: Using the `\thanks` command**
+```latex 
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of Science and Technology, Algeria}\thanks{omar.cherif@univ-tlemcen.dz}, 
+        Julien Falgas\thanks{University of Lyon, France}\thanks{julien.falgas@univ-lyon2.fr}}
+
+\begin{document}
+    \maketitle
+    
+\end{document}
+```
+
+This will produce:
+
+Title of the Document
+
+Omar Cherif¹², Julien Falgas³⁴
+
+¹ University of Science and Technology, Algeria,
+² omar.cherif@univ-tlemcen.dz,
+³ University of Lyon, France,
+⁴ julien.falgas@univ-lyon2.fr
+
+**Method 2: Using the `authblk` package**
+```latex 
+\documentclass{article}
+\usepackage{authblk}
+
+\title{Title of the Document}
+
+\author[1,2]{Omar Cherif}
+\author[3,4]{Julien Falgas}
+
+\affil[1]{University of Science and Technology, Algeria}
+\affil[2]{omar.cherif@univ-tlemcen.dz}
+\affil[3]{University of Lyon, France}
+\affil[4]{julien.falgas@univ-lyon2.fr}
+
+\begin{document}
+    \maketitle
+    
+\end{document}
+```
+
+This will",True,4,"7,2",True,9
+23,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{ Institution: University of XYZ.",True,5,"7,2",True,10
+24,"**Method 1: Using `\thanks`**
+
+```latex 
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{University of Tunisia}\thanks{omar.cherif@tunisia.edu.tn}, 
+       Julien Falgas\thanks{University of Paris}\thanks{julien.falgas@paris.fr}}
+
+\begin{document}
+    \maketitle
+    
+    % rest of the document...
+\end{document}
+```
+
+This will produce an footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,11
+25,"Here is an example of how you can do it:
+
+**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{Title}
+
+\author{Omar Cherif\thanks{Institution: University of XYZ.",True,5,"7,2",True,12
+26,"**Method 1: Using the `\thanks` command**
+
+```latex 
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{University of XYZ, ocherif@xyz.edu} 
+     \and Julien Falgas\thanks{University of ABC, jfalgas@abc.edu}}
+
+\begin{document}
+    \maketitle 
+    % your document content here 
+\end{document} 
+```
+
+This will produce:
+
+Omar Cherif, University of XYZ, ocherif@xyz.edu 
+Julien Falgas, University of ABC, jfalgas@abc.edu
+
+**Method 2: Using the `authblk` package**
+
+First, add the following line to your preamble:
+```latex 
+\usepackage[noblocks]{authblk} 
+```
+Then, use the following format for the authors:
+```latex 
+\documentclass{article}
+\title{My Title}
+\author[1,2]{Omar Cherif}
+\author[3,4]{Julien Falgas}
+\affil[1]{University of XYZ}
+\affil[2]{ocherif@xyz.edu}
+\affil[3]{University of ABC}
+\affil[4]{jfalgas@abc.edu}
+
+\begin{document}
+    \maketitle 
+    % your document content here 
+\end{document} 
+```
+
+This will also produce:
+
+Omar Cherif, University of XYZ, ocherif@xyz.edu 
+Julien Falgas, University of ABC, jfalgas@abc.eduassistant
+
+Here is a more concise version:
+
+**Method 1: Using the `\thanks` command**
+```latex 
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{University of XYZ}\thanks{ocherif@xyz.edu} 
+     \and Julien Falgas\thanks{University of ABC}\thanks{jfalgas@abc.edu}}
+
+\begin{document}
+    \maketitle 
+    % your document content here 
+\end{document} 
+```
+
+**Method 2: Using the `authblk` package**
+```latex 
+\documentclass{article}
+\title{My Title}
+\usepackage[noblocks]{authblk}
+
+\author[1,2]{Omar Cherif}
+\affil[1]{University of XYZ}
+\affil[2]{ocherif@xyz.edu}
+
+\author[1,2]{Julien Falgas}
+\affil[1]{University of ABC}
+\affil[2]{jfalgas@abc.edu}
+
+\begin{document}
+    \maketitle 
+    % your document content here 
+\end{document} 
+```
+
+Both methods will produce the desired output with the authors, their institutions, and their email addresses.assistant
+
+You can also use the `IEEEtran` class which provides a built-in way to specify authors, affiliations, and emails.
+
+",False,,,,13
+27,"**Method 1: Using `\thanks`**
+
+You can use the `\thanks` command to add a footnote with the email address and institution information.
+",True,5,"7,2",True,14
+28,"Here are examples of both methods:
+
+**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{Institution: University of XYZ.",True,5,"7,2",True,15
+29,"**Method 1: Using `\thanks`**
+
+You can use the `\thanks` command to add a footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,16
+30,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of XYZ}\thanks{omar.cherif@xyz.edu}}
+\author{Julien Falgas\thanks{University of ABC}\thanks{julien.falgas@abc.edu}}
+
+\begin{document}
+\maketitle
+
+% rest of your document...
+
+\end{document}
+```
+
+This will produce a footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,17
+31,"Here is an example of how you can do it:
+
+**Using the `\thanks` command:**
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{University of Bla bla bla}\thanks{omar.cherif@bla.bla}}
+\author{Julien Falgas\thanks{University of Foo bar baz}\thanks{julien.falgas@foo.bar}}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+This will produce:
+
+My Title
+
+Omar Cherif¹², Julien Falgas³⁴
+
+¹ University of Bla bla bla 
+² omar.cherif@bla.bla 
+³ University of Foo bar baz 
+⁴ julien.falgas@foo.bar 
+
+**Using the `authblk` package:**
+
+First, you need to add the `authblk` package to your document's preamble:
+```
+\documentclass{article}
+\usepackage{authblk}
+\title{My Title}
+
+\author[1]{Omar Cherif}
+\author[2]{Julien Falgas}
+\affil[1]{University of Bla bla bla}
+\affil[2]{University of Foo bar baz}
+\email[1]{omar.cherif@bla.bla}
+\email[2]{julien.falgas@foo.bar}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+This will produce:
+
+My Title
+
+Omar Cherif¹, for the University of Bla bla bla (omar.cherif@bla.bla) 
+, no comma between both authors Julien Falgas² for the University of Foo bar baz (julien.falgas@foo.bar)
+
+Note that you can customize the formatting of the author block using various options provided by the `authblk` package.",True,4,"7,2",True,18
+32,"**Method 1: Using `\thanks`**
+
+The `\thanks` command is used to add a footnote to the author's name, in this case, to provide their affiliation and email address.
+
+",True,5,"7,2",True,19
+33,"Here are two ways to do it:
+
+**Method 1: Using `\thanks`**
+
+```latex
+
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{Institution: University of Tunis, Email: ocherif@univ-tunis.tn} 
+       \and Julien Falgas\thanks{Institution: University of Paris, Email: jfalgas@univ-paris.fr}}
+
+\begin{document}
+    \maketitle
+    
+\end{document}
+```
+
+This will produce a footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,20
+34,"**Method 1: Using `\thanks`**
+
+You can use the `\thanks` command to add a footnote with the institution and email information.",True,5,"7,2",True,21
+35,"Here's an example using the `\thanks` command:
+
+```latex
+\documentclass{article}
+\title{My Title}
+\author{Omar Cherif\thanks{Université de Lyon, a Cherif.omar@univ-lyon1.fr},
+        Julien Falgas\thanks{Université de Paris,}}
+
+\begin{document}
+\maketitle
+\end{document}
+```
+
+This will produce a title page with the authors' names, A footnote will be added at the bottom of the page with the institution name and email address.
+
+",True,5,"7,2",True,22
+36,"**Method 1: Using `\thanks`**
+
+```latex 
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{Institution: University of XYZ, Email: ocherif@xyz.edu} \and 
+       Julien Falgas\thanks{Institution: University of ABC, Email: jfalas@abc.edu}}
+
+\begin{document}
+    \maketitle
+    
+    % Your document content here...
+\end{document}
+```
+
+This will produce a footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,23
+37,"**Method 1: Using the `\thanks` command**
+
+```latex 
+\documentclass{article}
+\title{Title of the Paper}
+
+\author{Omar Cherif\thanks{Affiliation: University of Omar Cherif.",True,5,"7,2",True,24
+38,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{Institution: ABC University, thanks: ocherif@abc.edu}}
+\author{Julien Falgas\thanks{Institution: DEF University, julien.falgas@def.edu}}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{1}
+Julien Falgas ^{2}
+
+with a footnote at the bottom of the page with the institution and email information.
+
+",True,5,"7,2",True,25
+39,"**Method 1: Using `\thanks`**
+
+```latex 
+\documentclass{article}
+\title{Document Title}
+
+\author{Omar Cherif\thanks{Institution: ABC University, thanks{Email: ocherif@abc.edu}} \and 
+       Julien Falgas\thanks{Institution: DEF University}\thanks{Email: jfalgas@def.edu}}
+
+\begin{document}
+    \maketitle
+    
+    % Your document content here...
+    
+\end{document}
+```
+
+**Method 2: Using `authblk` package**
+
+Add the following to your preamble:
+
+```latex 
+\usepackage{authblk}
+```
+
+Then, you can specify the authors with their affiliations and emails as follows:
+
+```latex 
+\documentclass{article}
+\title{Document Title}
+\author[1]{Omar Cherif}
+\affil[1]{ABC University}
+\email[1]{ocherif@abc.edu}
+
+\author[2]{Julien Falgas}
+\affil[2]{DEF University}
+\email[2]{jfalgas@def.edu}
+
+\begin{document}
+    \maketitle
+    
+    % Your document content here...
+    
+\end{document}
+```
+
+Note that in both cases, (1) and (2), you need to use the `\maketitle` command after setting up the title and authors to display the title page with the authors' information.
+
+",False,,,,26
+40,"Here is an example using the `\thanks` command:
+
+```latex 
+\documentclass{article}
+\title{Title of the Article}
+
+\author{Omar Cherif\thanks{University of Cherif,\texttt{omar.cherif@univ-cherif.com}} 
+      and Julien Falgas\thanks{University of Falgas, (currently at University of Cherif)\texttt{julien.falgas@univ-falgas.com}}}
+
+\begin{document}
+\maketitle
+
+% rest of your document...
+```
+
+This will produce a footnote with the institution and email address for each author.
+
+",True,1,"7,2",True,27
+41,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{Title of the Paper}
+
+\author{Omar Cherif\thanks{Department of Computer Science,18 rue d'Alsace,thanks{omar.cherif@institution.edu}}}
+\author{Julien Falgas\thanks{Laboratory of Mathematics, thanks{julien.falgas@another.institution.fr}}}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Title of the Paper
+
+Omar Cherif¹, Julien Falgas²
+
+¹ Department of Computer Science, and omar.cherif@institution.edu
+
+² Laboratory of Mathematics, and julien.falgas@another.institution.fr
+
+**Method 2: Using the `authblk` package**
+
+```
+\documentclass{article}
+\usepackage{authblk}
+\title{Title of the Paper}
+
+\author[1]{Omar Cherif}
+\author[2]{Julien Falgas}
+\affil[1]{Department of Computer Science}
+\affil[2]{Laboratory of Mathematics}
+\email[1]{omar.cherif@institution.edu}
+\email[2]{julien.falgas@another.institution.fr}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Title of the Paper
+
+Omar Cherif¹ · Julien Falgas²
+
+¹ Department of Computer Science, omar.cherif@institution.edu
+
+² Laboratory of Mathematics, julien.falgas@another.institution.fr
+
+Note: You need to adjust the numbers in the brackets to match the correct author with their respective affiliation and email.assistant
+
+I see you want me to explain how to link institutions and emails to authors in LaTeX.
+
+",True,4,"7,2",True,28
+42,"Here is an example of how you can do it:
+
+**Using the `\thanks` command**
+
+```latex 
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif \thanks{University of XYZ}\thanks{omar.cherif@xyz.edu}}
+\author{Julien Falgas \thanks{University of ABC}\thanks{julien.falgas@abc.edu}}
+
+\begin{document}
+\maketitle
+
+% Your document content here...
+
+\end{document}
+```
+
+This will produce a footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,29
+43,"**Method 1: Using `\thanks` command**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif \thanks{Institution: University of Tunis, Email: ocherif@tunis.com}\\ 
+       Julien Falgas \thanks{Institution: University of Paris, Email: jfalgas@paris.fr}}
+
+\begin{document}
+    \maketitle
+    
+    % rest of the document...
+\end{document}
+```
+
+This will produce an output where the institution and email address is shown as a footnote below the author's name.
+
+",True,5,"7,2",True,30
+44,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of Omar Cherif, ocherif@email.com} 
+        \and 
+        Julien Falgas\thanks{University of Julien Falgas, jfalgas@email.com}}
+
+\begin{document}
+    \maketitle
+    
+    % Rest of the document...
+\end{document}
+```
+
+This will produce:
+
+Title of the Document
+
+Omar Cherif¹ Julien Falgas²
+
+¹ University of Omar Cherif,irof.omar@univ-omar.dz
+
+² University of Julien Falgas,julien.falgas@univ-julien.fr
+
+**Method 2: Using the `authblk` package**
+
+Add the following line to your preamble:
+```
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{authblk}
+```
+And then use the `\author` command with the `affil` option for affiliation and `email` option for email address:
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author[1, (ocherif@email.com)]{Omar Cherif}
+\author[2 (jfalgas@email.com)]{Julien Falgas}
+\affil[1]{University of Omar Cherif}
+\affil[2]{University of Julien Falgas}
+
+\begin{document}
+    \maketitle
+    
+    % Rest of the document...
+\end{document}
+```
+This will produce:
+
+Title of the Document
+
+Omar Cherif¹ ocherif@email.com
+
+Julien Falgas² jfalgas@email.com
+
+¹ University of Omar Cherif
+
+² University of Julien Falgasassistant
+
+Here is a more comprehensive example that includes multiple authors with different affiliations and emails:
+
+**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of Omar Cherif, ocherif@email.com} 
+        \and 
+        Julien Falgas\thanks{University of Julien Falgas, jfalgas@email.com} 
+        \and 
+        John Doe\thanks{University of John Doe,.com} 
+        }
+
+\begin{document}
+    \maketitle
+    
+    % Rest of the document...
+\end{document}
+```
+
+This will produce:
+
+Title of the Document
+
+Omar Cherif¹ Julien Falgas² John Doe³
+
+¹ University of Omar Cherif, ocherif@email.com
+
+² University of Julien Falgas, jfalgas@email.com
+
+³ University of John Doe, john.doe@email.com
+
+**Method 2: Using the `authblk` package**
+
+Add the following lines to your preamble:
+```
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{authblk}
+```
+And then use the `\author` command with the `affil` option for affiliation and `email` option for email address:
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author[1,2 (ocherif@email.com)]{Omar Cherif}
+\author[3 (jfalgas@email.com)]{Julien Falgas}
+\author[4 (johndoe@email.com)]{John Doe}
+\affil[1]{Department of Computer Science}
+\affil[2]{University of Omar Cherif}
+\affil[3]{University of Julien Falgas}
+\affil[4",False,,,,31
+45,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{omar.cherif@institution.edu}, 
+        Julien Falgas\thanks{julien.falgas@institution.edu}}
+\affil{ Institution Name }
+
+\begin{document}
+    \maketitle
+    
+    % your document content here
+    
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif¹, is affiliated with Institution Name, A, omarcherif@institution.edu 
+Julien Falgas² is affiliated with Institution Name B jfalgas@institution.edu 
+
+Where ¹ and ² denote the thanks footnote.
+
+",True,1,"7,2",True,32
+46,"**Method 1: Using the `\thanks` command**
+
+You can use the `\thanks` command to add a footnote with the institution and/or email address for each author.",True,5,"7,2",True,33
+47,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{Institution: University of Science and Technology Houari Boumediene, Algeria.",True,5,"7,2",True,34
+48,"**Method 1: Using `\thanks`**
+
+The `\thanks` command is used to add a footnote with additional information about the author.
+
+",True,1,"7,2",True,35
+49,"**Method 1: Using the `\thanks` command**
+
+You can use the `\thanks` command to add a footnote with the institution and email address.
+
+",True,5,"7,2",True,36
+50,"Here is an example of how you can do it:
+
+**Method 1: Using `\thanks`**
+
+```latex
+
+\documentclass{article}
+\title{Title of the Article}
+
+\author{Omar Cherif\thanks{Institution: University of XYZ}\thanks{Email: ocherif@xyz.edu}, 
+       Julien Falgas\thanks{Institution: University of ABC}\thanks{Email: jfalgas@abc.edu}}
+
+\begin{document}
+    \maketitle
+
+\end{document}
+```
+
+This will produce:
+
+**Title of the Article**
+**Omar Cherif***,Julien Falgas***
+
+*Institution: University of XYZ*
+*Email: ocherif@xyz.edu*
+*Institution: University of ABC*
+*Email: jfalgas@abc.edu*
+
+**Method 2: Using `authblk` package**
+
+First, add the following line to your preamble:
+```latex
+
+\usepackage[ noblocks]{authblk}
+```
+Then, use the following code:
+```latex
+
+\documentclass{article}
+\title{Title of the Article}
+
+\author[1,1]{Omar Cherif\thanks{ocherif@xyz.edu}}
+\author[2,2]{Julien Falgas\thanks{jfalgas@abc.edu}}
+\affil[1]{University of XYZ}
+\affil[2]{University of ABC}
+
+\begin{document}
+    \maketitle
+
+\end{document}
+```
+
+This will produce:
+
+**Title of the Article**
+**Omar Cherif**, **University of XYZ**, ocherif@xyz.edu  
+**Julien Falgas**, **University of ABC**, jfalgas@abc.edu  
+
+Note that in the second method, you need to specify the affiliation number for each author (e.g., `[1]`, `[2]`) and use them consistently throughout the code.assistant
+
+In LaTeX, the institution and email address can be linked to the author using the `\thanks` command or by using the `authblk` package.
+
+",True,4,"7,2",True,37
+51,"Here's how you can do it:
+
+**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of Sciences and Technology Houari Boumediene}\\ 
+Julien Falgas\thanks{jfal_gas@univ-blida.dz, Algeria}}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Title of the Document
+
+Omar Cherif¹ 
+Julien Falgas²
+
+¹ University of Sciences and Technology Houari Boumediene 
+² jfal_gas@univ-blida.dz, Algeria 
+
+**Method 2: Using `authblk` package**
+
+First, add the following line to your document's preamble:
+```
+\usepackage[noblocks]{authblk}
+```
+
+Then, you can use the following code to specify the authors with their institutions and emails:
+
+```
+\documentclass{article}
+\title{Title of the Document}
+\usepackage[ noblocks]{authblk}
+
+\author[1,[]{Omar Cherif}
+\author[2][]{Julien Falgas}
+\affil[1]{University of Sciences and Technology Houari Boumediene}
+\affil[2]{University of Blida}
+\email[1]{ocherif@usthb.dz}
+\email[2]{jfal_gas@univ-blida.dz}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+This will produce:
+
+Title of the Document
+
+Omar Cherif¹ 
+University of Sciences and Technology Houari Boumediene 
+ocherif@usthb.dz 
+Julien Falgas² 
+University of Blida 
+jfalgas@univ-blida.dzassistant
+
+Note that the above methods only work for simple cases.",True,4,"7,2",True,38
+52,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{Document Title}
+
+\author{Omar Cherif\thanks{University of ABC}\thanks{omar.cherif@abc.edu}}
+\author{Julien Falgas\thanks{University of DEF}\thanks{julien.falgas@def.edu}}
+
+\begin{document}
+\maketitle
+
+% rest of your document...
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{(a,b)}, Julien Falgas ^{(c,d)}
+
+where (a) University of ABC, (b) omar.cherif@abc.edu, (c) University of DEF, (d) julien.falgas@def.edu
+
+**Method 2: Using the `authblk` package**
+
+```
+\documentclass{article}
+\usepackage{authblk}
+
+\title{Document Title}
+
+\author[1]{Omar Cherif}
+\affil[1]{University of ABC}
+\authoraddr[1]{omar.cherif@abc.edu}
+
+\author[2]{Julien Falgas}
+\affil[2]{University of DEF}
+\authoraddr[2]{julien.falgas@def.edu}
+
+\begin{document}
+\maketitle
+
+% rest of your document...
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{1}, Julien Falgas ^{2}
+
+University of ABC, omar.cherif@abc.edu ^{1}
+
+University of DEF, julien.falgas@def.edu ^{2}
+
+Please note that these are just examples, you may need to adjust them according to your specific needs and formatting requirements.assistant
+
+Here is an example of how to link institutions and emails to authors in LaTeX:
+
+```
+\documentclass{article}
+\title{Document Title}
+
+\author{Omar Cherif}
+\thanks{University of ABC}
+\thanks{omar.cherif@abc.edu}
+
+\and
+
+\author{Julien Falgas}
+\thanks{University of DEF}
+\thanks{julien.falgas@def.edu}
+
+\begin{document}
+\maketitle
+
+% rest of your document...
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{(a,b)} 
+Julien Falgas ^{(c,d)}
+
+where (a) University of ABC, (b) omar.cherif@abc.edu, (c) University of DEF, (d) julien.falgas@def.edu 
+
+Alternatively, you can use the `authblk` package which provides more flexibility in terms of formatting and layout.
+
+",True,4,"7,2",True,39
+53,"**Method 1: Using the `\thanks` command**
+
+The `\thanks` command is used to add a footnote to the title page with information about the author.
+",True,1,"7,2",True,40
+54,"**Method 1: Using `\thanks` command**
+
+```
+\documentclass{article}
+\title{Title of the paper}
+
+\author{Omar Cherif\thanks{ Institution: University of XYZ, Email: ocherif@xyz.edu} \and 
+       Julien Falgas\thanks{ Institution: ABC Corporation, Email: jfalgs@abc.com}}
+
+\begin{document}
+    \maketitle
+    
+    % rest of the document...
+\end{document}
+```
+
+This will produce:
+
+ Title of the paper
+
+Omar Cherif¹ and Julien Falgas²
+
+¹ Institution: University of XYZ, Email: ocherif@xyz.edu
+
+² Institution: ABC Corporation, Email: jfalgs@abc.com
+
+**Method 2: Using `authblk` package**
+
+Add the following line to your preamble:
+```latex
+\usepackage[affils]{authblk}
+```
+
+Then, to define the authors with institutions and emails:
+```
+\documentclass{article}
+\title{Title of the paper}
+\usepackage[affils]{authblk}
+
+\author{Omar Cherif}
+\affil{University of XYZ}
+\email{o cherif@xyz.edu}
+
+\author{Julien Falgas}
+\affil{ABC Corporation}
+\email{jfalgs@abc.com}
+
+\begin{document}
+    \maketitle
+    
+    % rest of the document...
+\end{document}
+```
+
+This will produce:
+
+Title of the paper
+
+Omar Cherif (University of XYZ) ocherif@xyz.edu
+
+Julien Falgas (ABC Corporation) jfalgs@abc.com
+
+Note that you can customize the appearance of the author block by using various options provided by the `authblk` package.assistant
+
+In LaTeX, you can link institutions and mail addresses to authors using the `\thanks` command or by using the `authblk` package.
+
+",True,4,"7,2",True,41
+55,"Here is an example using the `\thanks` command:
+
+```latex 
+\documentclass{article}
+
+\title{Title of the Document}
+\author{Omar Cherif\thanks{Institution: University of XYZ}\thanks{Email: ocherif@xyz.edu}, 
+       Julien Falgas\thanks{Institution: University of ABC}\thanks{Email: jfalgas@abc.edu}}
+
+\begin{document}
+    \maketitle
+    
+\end{document}
+```
+
+This will produce a title page with the authors' names, followed by their institution and email addresses at the bottom of the page.
+
+",True,5,"7,2",True,42
+56,"Here is an example of how you can do it:
+
+**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{institution: University of Cherif,\\email: ocherif@univ-cherif.com}}
+\and 
+\author{Julien Falgas\thanks{institution: University of Falgas\\email: jfalgas@univ-falgas.com}}
+
+\begin{document}
+    \maketitle
+    
+    % rest of your document content here...
+\end{document}
+```
+
+This will create a footnote with the institution and email information for each author.
+
+",True,5,"7,2",True,43
+57,"**Method 1: Using `\thanks` command**
+
+The `\thanks` command is used to add a footnote to the author's name.",True,5,"7,2",True,44
+58,"Here is an example using the `\thanks` command:
+
+```latex 
+\documentclass{article}
+\title{Document Title}
+
+\author{Omar Cherif\thanks{Institution: XYZ University, even if it takes a few lines,\\ 
+Email: ocherif@xyz.edu}, 
+       Julien Falgas\thanks{Institution: ABC University}\\ 
+      }
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+And here is an example using the `authblk` package:
+
+```latex 
+\documentclass{article}
+\usepackage{authblk}
+
+\title{Document Title}
+
+\author[1]{Omar Cherif}
+\author[2]{Julien Falgas}
+\affil[1]{XYZ University}
+\affil[2]{ABC University}
+\email[1]{ocherif@xyz.edu}
+
+\begin{document}
+\maketitle
+
+\end{document}
+```
+
+The `authblk` package allows for multiple affiliations and emails per author.",False,,,,45
+59,"Here is an example of how you can do it:
+
+**Method 1: Using the `\thanks` command**
+
+```latex 
+\documentclass{article}
+\title{Title}
+
+\author{Omar Cherif\thanks{ Institution: ABC University, cherif.omar@abc.edu}}
+\author{Julien Falgas\thanks{ Institution: DEF University, falgas.julien@def.edu}}
+
+\begin{document}
+    \maketitle
+    
+\end{document}
+```
+
+This will produce a footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,46
+60,"**Method 1: Using `\thanks`**
+
+```
+\documentclass{article}
+\title{Title of the Document}
+
+\author{Omar Cherif\thanks{University of ABC, ocherif@abc.edu}}
+\author{Julien Falgas\thanks{University of DEF,jfalga@def.edu}}
+
+\begin{document}
+\maketitle
+
+% rest of the document
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{(a)}
+Julien Falgas ^{(b)}
+
+with footnotes:
+^{(a)} University of ABC, ocherif@abc.edu 
+^{(b)} University of DEF, jfalga@def.edu
+
+**Method 2: Using `authblk` package**
+
+Add the following to your preamble:
+```
+\usepackage{authblk}
+```
+
+Then, use the `\author` command with optional arguments:
+```
+\documentclass{article}
+\usepackage{authblk}
+\title{Title of the Document}
+
+\author[1,2]{Omar Cherif}
+\author[2]{Julien Falgas}
+\affil[1]{University of ABC}
+\affil[2]{University of DEF}
+\email[1]{ocherif@abc.edu}
+\email[2]{jfalga@def.edu}
+
+\begin{document}
+\maketitle
+
+% rest of the document
+
+\end{document}
+```
+
+This will produce:
+
+Omar Cherif ^{1,2}
+Julien Falgas ^{2}
+
+with affiliations and emails below the title.
+
+",False,,,,47
+61,"**Method 1: Using `\thanks`**
+
+You can use the `\thanks` command to provide additional information about the author, which will be displayed as a footnote at the bottom of the first page.
+
+",True,1,"7,2",True,48
+62,"**Method 1: Using the `\thanks` command**
+
+```latex
+
+\documentclass{article}
+\title{Title of the document}
+
+\author{Omar Cherif\thanks{ Institution: University of XYZ,-mail: ocherif@xyz.edu}}
+\author{Julien Falgas\thanks{ Institution: University of ABC, -mail: jfalgas@abc.edu}}
+
+\begin{document}
+    \maketitle
+
+\end{document}
+```
+
+This will produce an footnote with the institution and email address for each author.
+
+",True,5,"7,2",True,49
+63,"**Method 1: Using the `\thanks` command**
+
+```
+\documentclass{article}
+\title{My Title}
+
+\author{Omar Cherif\thanks{University of Omarville}\thanks{omar.cherif@email.com}, 
+        Julien Falgas\thanks{University of Julienne}\thanks{julien.falgas@email.com}}
+
+\begin{document}
+    \maketitle
+
+\end{document}
+```
+
+This will produce an output like:
+
+Omar Cherif¹², , Julien Falgas³⁴
+
+¹ University of Omarville  
+² omar.cherif@email.com  
+³ University of Julienne  
+⁴ julien.falgas@email.com
+
+**Method 2: Using the `authblk` package**
+
+First, add the `authblk` package to your document's preamble:
+```
+\usepackage{authblk}
+```
+
+Then, use the following syntax:
+```
+\documentclass{article}
+\title{My Title}
+\usepackage{authblk}
+
+\author[1]{Omar Cherif}
+\author[2]{Julien Falgas}
+\affil[1]{University of Omarville}
+\affil[2]{University of Julienne}
+\email[1]{omar.cherif@email.com}
+\email[2]{julien.falgas@email.com}
+
+\begin{document}
+    \maketitle
+
+\end{document}
+```
+
+This will produce a similar output, a title with authors, affiliations, and emails.
+
+",True,4,"7,2",True,50

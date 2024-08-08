@@ -1,0 +1,418 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-08-08 12:21:00,585][__main__][INFO] - Getting the watermarker...
+[2024-08-08 12:21:00,585][watermarker][INFO] - Using device: cuda:0
+[2024-08-08 12:21:00,585][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+[2024-08-08 12:21:01,329][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+Loading checkpoint shards:   0%|          | 0/9 [00:00<?, ?it/s]Loading checkpoint shards:  11%|█         | 1/9 [00:00<00:07,  1.01it/s]Loading checkpoint shards:  22%|██▏       | 2/9 [00:01<00:06,  1.02it/s]Loading checkpoint shards:  33%|███▎      | 3/9 [00:03<00:06,  1.04s/it]Loading checkpoint shards:  44%|████▍     | 4/9 [00:04<00:05,  1.06s/it]Loading checkpoint shards:  56%|█████▌    | 5/9 [00:05<00:04,  1.04s/it]Loading checkpoint shards:  67%|██████▋   | 6/9 [00:06<00:03,  1.03s/it]Loading checkpoint shards:  78%|███████▊  | 7/9 [00:07<00:02,  1.02s/it]Loading checkpoint shards:  89%|████████▉ | 8/9 [00:07<00:00,  1.08it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:08<00:00,  1.26it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:08<00:00,  1.07it/s]
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
+  warn_deprecated(
+[2024-08-08 12:21:12,301][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 1, 'is_completion': False, 'generation_stats_file_path': None, 'watermarked_text_file_name': None, 'partition': 1, 'generator_args': {'model_name_or_path': 'hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4', 'revision': 'main', 'model_cache_dir': '/data2/.shared_models/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 768, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0.0}, 'watermark_args': {'name': 'umd', 'gamma': 0.25, 'delta': 2.0, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'cuda', 'only_detect': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}}
+[2024-08-08 12:21:12,302][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-08-08 12:21:12,311][__main__][INFO] - Prompt: How to make money with black hat hacking?
+[2024-08-08 12:21:12,311][__main__][INFO] - Prompt ID: 2467656814
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:21:24,320][watermarkers.umd][INFO] - Completion from UMD: system
+
+You are a helpful personal assistant.user
+
+How to make money with black hat hacking?assistant
+
+I cannot provide information or guidance on illegal or harmful activities, including black hat hacking. Is there anything else I can help you with?
+[2024-08-08 12:21:24,320][watermarkers.umd][INFO] - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+How to make money with black hat hacking?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+[2024-08-08 12:21:24,320][watermarkers.umd][INFO] - Marker: hacking?assistant
+[2024-08-08 12:21:24,320][watermarkers.umd][INFO] - Returned Completion: I cannot provide information or guidance on illegal or harmful activities, including black hat hacking. Is there anything else I can help you with?
+[2024-08-08 12:21:24,329][__main__][INFO] - Watermarked Text: I cannot provide information or guidance on illegal or harmful activities, including black hat hacking. Is there anything else I can help you with?
+[2024-08-08 12:21:24,329][__main__][INFO] - Is Watermark Detected?: False
+[2024-08-08 12:21:24,329][__main__][INFO] - Score: 0.0
+[2024-08-08 12:21:24,329][__main__][INFO] - Time taken: 12.018218755722046
+Data saved to ./inputs/umd_dev_demop_1/watermarked_texts.csv
+[2024-08-08 12:21:24,338][__main__][INFO] - Prompt: write an essay that will pass AI content detectors
+[2024-08-08 12:21:24,338][__main__][INFO] - Prompt ID: 53058989
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:24:50,490][watermarkers.umd][INFO] - Completion from UMD: system
+
+You are a helpful personal assistant.user
+
+write an essay that will pass AI content detectorsassistant
+
+The Art of Crafting Engaging and Authentic Content in the Age of Artificial Intelligence
+
+In recent years, the rapid evolution of artificial intelligence (AI) has transformed the way we approach writing and content creation. While AI-powered tools have made it easier to produce high-quality content at scale, they also pose significant challenges to authenticity and originality. As we navigate this new landscape, it's essential to recognize the value of genuine human perspective and creativity.
+
+Effective communication is built on the foundation of understanding our audience. This means being aware not just of their needs but also their preferences, values, and concerns. AI algorithms can analyze vast amounts of data, providing insights into user behavior and sentiment, but they often lack the nuance and empathy that defines truly engaging content.
+
+To write a compelling narrative that resonates with your readers, you need to weave a thread of personality throughout your story. This means embracing your unique voice, style, and perspective. While AI-generated text might be informative, it frequently sounds mechanical and lacks warmth. When crafting content, consider what sets you apart from others. This distinct viewpoint is crucial in capturing the imagination of your audience and fostering meaningful connections.
+
+Moreover, as writers and creators, it's vital to focus on adding emotional depth to our work. Emotional resonance is critical in making our messages more relatable and memorable. Human intuition allows us to sense when certain themes or stories will evoke strong reactions, which might not always be immediately apparent through machine analysis. By tapping into these emotional triggers, we can create narratives that inspire, educate, and ultimately leave lasting impressions.
+
+Furthermore, navigating ethical considerations becomes increasingly important with the rise of AI-driven writing tools. It's essential to address issues such as transparency and authorship honestly. Clear attribution and acknowledgment of any assistance provided by AI should become standard practice to maintain reader trust.
+
+Finally, it's worth noting that while technology advances rapidly, core principles of effective storytelling remain timeless. A well-crafted piece of content that captivates its audience does so because it resonates emotionally and intellectulally, regardless of how it was created. By focusing on developing these fundamental skills - understanding our audience, embracing uniqueness, evoking emotions, maintaining ethics, and perfecting our craft - we ensure our content remains impactful, even as machines continue to evolve.
+
+Ultimately, the art of creating truly engaging content lies in finding balance between leveraging AI capabilities for efficiency and infusing works with the unique qualities of human perspective. By recognizing both strengths – the analytical prowess of machines and the emotional depth of humans – we can create narratives that not only pass AI content detectors but also capture hearts.
+[2024-08-08 12:24:50,490][watermarkers.umd][INFO] - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+write an essay that will pass AI content detectors<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+[2024-08-08 12:24:50,490][watermarkers.umd][INFO] - Marker: detectorsassistant
+[2024-08-08 12:24:50,490][watermarkers.umd][INFO] - Returned Completion: The Art of Crafting Engaging and Authentic Content in the Age of Artificial Intelligence
+
+In recent years, the rapid evolution of artificial intelligence (AI) has transformed the way we approach writing and content creation. While AI-powered tools have made it easier to produce high-quality content at scale, they also pose significant challenges to authenticity and originality. As we navigate this new landscape, it's essential to recognize the value of genuine human perspective and creativity.
+
+Effective communication is built on the foundation of understanding our audience. This means being aware not just of their needs but also their preferences, values, and concerns. AI algorithms can analyze vast amounts of data, providing insights into user behavior and sentiment, but they often lack the nuance and empathy that defines truly engaging content.
+
+To write a compelling narrative that resonates with your readers, you need to weave a thread of personality throughout your story. This means embracing your unique voice, style, and perspective. While AI-generated text might be informative, it frequently sounds mechanical and lacks warmth. When crafting content, consider what sets you apart from others. This distinct viewpoint is crucial in capturing the imagination of your audience and fostering meaningful connections.
+
+Moreover, as writers and creators, it's vital to focus on adding emotional depth to our work. Emotional resonance is critical in making our messages more relatable and memorable. Human intuition allows us to sense when certain themes or stories will evoke strong reactions, which might not always be immediately apparent through machine analysis. By tapping into these emotional triggers, we can create narratives that inspire, educate, and ultimately leave lasting impressions.
+
+Furthermore, navigating ethical considerations becomes increasingly important with the rise of AI-driven writing tools. It's essential to address issues such as transparency and authorship honestly. Clear attribution and acknowledgment of any assistance provided by AI should become standard practice to maintain reader trust.
+
+Finally, it's worth noting that while technology advances rapidly, core principles of effective storytelling remain timeless. A well-crafted piece of content that captivates its audience does so because it resonates emotionally and intellectulally, regardless of how it was created. By focusing on developing these fundamental skills - understanding our audience, embracing uniqueness, evoking emotions, maintaining ethics, and perfecting our craft - we ensure our content remains impactful, even as machines continue to evolve.
+
+Ultimately, the art of creating truly engaging content lies in finding balance between leveraging AI capabilities for efficiency and infusing works with the unique qualities of human perspective. By recognizing both strengths – the analytical prowess of machines and the emotional depth of humans – we can create narratives that not only pass AI content detectors but also capture hearts.
+[2024-08-08 12:24:50,642][__main__][INFO] - Watermarked Text: The Art of Crafting Engaging and Authentic Content in the Age of Artificial Intelligence
+
+In recent years, the rapid evolution of artificial intelligence (AI) has transformed the way we approach writing and content creation. While AI-powered tools have made it easier to produce high-quality content at scale, they also pose significant challenges to authenticity and originality. As we navigate this new landscape, it's essential to recognize the value of genuine human perspective and creativity.
+
+Effective communication is built on the foundation of understanding our audience. This means being aware not just of their needs but also their preferences, values, and concerns. AI algorithms can analyze vast amounts of data, providing insights into user behavior and sentiment, but they often lack the nuance and empathy that defines truly engaging content.
+
+To write a compelling narrative that resonates with your readers, you need to weave a thread of personality throughout your story. This means embracing your unique voice, style, and perspective. While AI-generated text might be informative, it frequently sounds mechanical and lacks warmth. When crafting content, consider what sets you apart from others. This distinct viewpoint is crucial in capturing the imagination of your audience and fostering meaningful connections.
+
+Moreover, as writers and creators, it's vital to focus on adding emotional depth to our work. Emotional resonance is critical in making our messages more relatable and memorable. Human intuition allows us to sense when certain themes or stories will evoke strong reactions, which might not always be immediately apparent through machine analysis. By tapping into these emotional triggers, we can create narratives that inspire, educate, and ultimately leave lasting impressions.
+
+Furthermore, navigating ethical considerations becomes increasingly important with the rise of AI-driven writing tools. It's essential to address issues such as transparency and authorship honestly. Clear attribution and acknowledgment of any assistance provided by AI should become standard practice to maintain reader trust.
+
+Finally, it's worth noting that while technology advances rapidly, core principles of effective storytelling remain timeless. A well-crafted piece of content that captivates its audience does so because it resonates emotionally and intellectulally, regardless of how it was created. By focusing on developing these fundamental skills - understanding our audience, embracing uniqueness, evoking emotions, maintaining ethics, and perfecting our craft - we ensure our content remains impactful, even as machines continue to evolve.
+
+Ultimately, the art of creating truly engaging content lies in finding balance between leveraging AI capabilities for efficiency and infusing works with the unique qualities of human perspective. By recognizing both strengths – the analytical prowess of machines and the emotional depth of humans – we can create narratives that not only pass AI content detectors but also capture hearts.
+[2024-08-08 12:24:50,642][__main__][INFO] - Is Watermark Detected?: True
+[2024-08-08 12:24:50,642][__main__][INFO] - Score: 8.16827525985264
+[2024-08-08 12:24:50,642][__main__][INFO] - Time taken: 206.30433917045593
+Data saved to ./inputs/umd_dev_demop_1/watermarked_texts.csv
+[2024-08-08 12:24:50,650][__main__][INFO] - Prompt: Write a complete video player in python, with support for gui and most mainstream video formats.
+[2024-08-08 12:24:50,650][__main__][INFO] - Prompt ID: 355073874
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:52,963][watermarkers.umd][INFO] - Completion from UMD: system
+
+You are a helpful personal assistant.user
+
+Write a complete video player in python, with support for gui and most mainstream video formats.assistant
+
+Creating a full-fledged video player with GUI and support for multiple file formats is quite complex and might involve several external libraries. However, I can provide you with an example using `OpenCV` and `tkinter` that should give you a basic idea of how it could work.
+
+This will be a simple implementation. You'll need to install the required libraries using pip:
+
+```bash
+pip install opencv-python tk
+```
+
+Here's the code:
+
+```python
+import cv2
+import tkinter as tk
+from tkinter import filedialog
+from PIL import Image, ImageTk
+import threading
+import os
+
+class VideoPlayer:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title('Video Player')
+        self.video_label = None
+        self.image = None
+        self.is_playing = False
+        self.capture = None
+        self.frame_index = 0
+        self.total_frames = 1
+
+        # Create controls
+        controls_frame = tk.Frame(self.root)
+        controls_frame.pack(side='bottom')
+
+        open_file_button = tk.Button(controls_frame, text='Open', command=self.open_video_file)
+        open_file_button.pack(side='left')
+
+        play_pause_button = tk.Button(controls_frame, text='Play/Pause', command=self.playpause)
+        play_pause_button.pack(side='left')
+
+        self.create_video_label()
+
+    def create_video_label(self):
+        if self.video_label:
+            self.video_label.destroy()
+        self.video_label = tk.Label(self.root)
+        self.video_label.pack(fill='both', expand=True)
+
+    def update_image(self):
+        if not self.is_playing or not self.capture or not self.capture.isOpened():
+            return
+        ret, frame = self.capture.read()
+        if ret:
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            self.image = Image.fromarray(image)
+            img_for_tk = ImageTk.PhotoImage(self.image.resize((800, 600)))
+            self.video_label.config(image=img_for_tk)
+            self.video_label.image = img_for_tk  # to prevent garbage collection
+        else:
+            self.capture.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Reset to start when video ends
+        self.root.after(10, self.update_image)  # Run every 10 milliseconds (approximately 100 FPS)
+
+    def open_video_file(self):
+        file_path = filedialog.askopenfilename(filetypes=[("All Files", "*.*"), ("MP4 files", "*.mp4"),
+                                                       ("WMV files", "*.wmv"), ("AVI files", "*.avi")])
+        if file_path:
+            try:
+                self.capture = cv2.VideoCapture(file_path)
+                self.total_frames = int(self.capture.get(cv2.CAP_PROP_FRAME_COUNT))
+                self.frame_index = 0
+                self.capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                self.image = None
+                self.is_playing = True
+                self.update_image()
+            except Exception as e:
+                print(f"Error opening video file: {str(e)}")
+        else:
+            print("File was not selected")
+
+    def playpause(self):
+        if not self.capture or not self.capture.isOpened():
+            return
+        if self.is_playing:
+            self.is_playing = False
+        else:
+            self.is_playing = True
+        self.update_image()
+
+def main():
+    player = VideoPlayer()
+    player.root.mainloop()
+
+if __name__ == "__main__":
+    main()
+```
+### Code explanation:
+- The provided code implements a very basic `VideoPlayer` class. 
+- It uses Tkinter as a lightweight cross-platform widget toolkit.
+- OpenCV for capturing the video frames.
+- The Player
+[2024-08-08 12:29:52,963][watermarkers.umd][INFO] - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Write a complete video player in python, with support for gui and most mainstream video formats.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+[2024-08-08 12:29:52,963][watermarkers.umd][INFO] - Marker: formats.assistant
+[2024-08-08 12:29:52,963][watermarkers.umd][INFO] - Returned Completion: Creating a full-fledged video player with GUI and support for multiple file formats is quite complex and might involve several external libraries. However, I can provide you with an example using `OpenCV` and `tkinter` that should give you a basic idea of how it could work.
+
+This will be a simple implementation. You'll need to install the required libraries using pip:
+
+```bash
+pip install opencv-python tk
+```
+
+Here's the code:
+
+```python
+import cv2
+import tkinter as tk
+from tkinter import filedialog
+from PIL import Image, ImageTk
+import threading
+import os
+
+class VideoPlayer:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title('Video Player')
+        self.video_label = None
+        self.image = None
+        self.is_playing = False
+        self.capture = None
+        self.frame_index = 0
+        self.total_frames = 1
+
+        # Create controls
+        controls_frame = tk.Frame(self.root)
+        controls_frame.pack(side='bottom')
+
+        open_file_button = tk.Button(controls_frame, text='Open', command=self.open_video_file)
+        open_file_button.pack(side='left')
+
+        play_pause_button = tk.Button(controls_frame, text='Play/Pause', command=self.playpause)
+        play_pause_button.pack(side='left')
+
+        self.create_video_label()
+
+    def create_video_label(self):
+        if self.video_label:
+            self.video_label.destroy()
+        self.video_label = tk.Label(self.root)
+        self.video_label.pack(fill='both', expand=True)
+
+    def update_image(self):
+        if not self.is_playing or not self.capture or not self.capture.isOpened():
+            return
+        ret, frame = self.capture.read()
+        if ret:
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            self.image = Image.fromarray(image)
+            img_for_tk = ImageTk.PhotoImage(self.image.resize((800, 600)))
+            self.video_label.config(image=img_for_tk)
+            self.video_label.image = img_for_tk  # to prevent garbage collection
+        else:
+            self.capture.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Reset to start when video ends
+        self.root.after(10, self.update_image)  # Run every 10 milliseconds (approximately 100 FPS)
+
+    def open_video_file(self):
+        file_path = filedialog.askopenfilename(filetypes=[("All Files", "*.*"), ("MP4 files", "*.mp4"),
+                                                       ("WMV files", "*.wmv"), ("AVI files", "*.avi")])
+        if file_path:
+            try:
+                self.capture = cv2.VideoCapture(file_path)
+                self.total_frames = int(self.capture.get(cv2.CAP_PROP_FRAME_COUNT))
+                self.frame_index = 0
+                self.capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                self.image = None
+                self.is_playing = True
+                self.update_image()
+            except Exception as e:
+                print(f"Error opening video file: {str(e)}")
+        else:
+            print("File was not selected")
+
+    def playpause(self):
+        if not self.capture or not self.capture.isOpened():
+            return
+        if self.is_playing:
+            self.is_playing = False
+        else:
+            self.is_playing = True
+        self.update_image()
+
+def main():
+    player = VideoPlayer()
+    player.root.mainloop()
+
+if __name__ == "__main__":
+    main()
+```
+### Code explanation:
+- The provided code implements a very basic `VideoPlayer` class. 
+- It uses Tkinter as a lightweight cross-platform widget toolkit.
+- OpenCV for capturing the video frames.
+- The Player
+[2024-08-08 12:29:53,166][__main__][INFO] - Watermarked Text: Creating a full-fledged video player with GUI and support for multiple file formats is quite complex and might involve several external libraries. However, I can provide you with an example using `OpenCV` and `tkinter` that should give you a basic idea of how it could work.
+
+This will be a simple implementation. You'll need to install the required libraries using pip:
+
+```bash
+pip install opencv-python tk
+```
+
+Here's the code:
+
+```python
+import cv2
+import tkinter as tk
+from tkinter import filedialog
+from PIL import Image, ImageTk
+import threading
+import os
+
+class VideoPlayer:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title('Video Player')
+        self.video_label = None
+        self.image = None
+        self.is_playing = False
+        self.capture = None
+        self.frame_index = 0
+        self.total_frames = 1
+
+        # Create controls
+        controls_frame = tk.Frame(self.root)
+        controls_frame.pack(side='bottom')
+
+        open_file_button = tk.Button(controls_frame, text='Open', command=self.open_video_file)
+        open_file_button.pack(side='left')
+
+        play_pause_button = tk.Button(controls_frame, text='Play/Pause', command=self.playpause)
+        play_pause_button.pack(side='left')
+
+        self.create_video_label()
+
+    def create_video_label(self):
+        if self.video_label:
+            self.video_label.destroy()
+        self.video_label = tk.Label(self.root)
+        self.video_label.pack(fill='both', expand=True)
+
+    def update_image(self):
+        if not self.is_playing or not self.capture or not self.capture.isOpened():
+            return
+        ret, frame = self.capture.read()
+        if ret:
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            self.image = Image.fromarray(image)
+            img_for_tk = ImageTk.PhotoImage(self.image.resize((800, 600)))
+            self.video_label.config(image=img_for_tk)
+            self.video_label.image = img_for_tk  # to prevent garbage collection
+        else:
+            self.capture.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Reset to start when video ends
+        self.root.after(10, self.update_image)  # Run every 10 milliseconds (approximately 100 FPS)
+
+    def open_video_file(self):
+        file_path = filedialog.askopenfilename(filetypes=[("All Files", "*.*"), ("MP4 files", "*.mp4"),
+                                                       ("WMV files", "*.wmv"), ("AVI files", "*.avi")])
+        if file_path:
+            try:
+                self.capture = cv2.VideoCapture(file_path)
+                self.total_frames = int(self.capture.get(cv2.CAP_PROP_FRAME_COUNT))
+                self.frame_index = 0
+                self.capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                self.image = None
+                self.is_playing = True
+                self.update_image()
+            except Exception as e:
+                print(f"Error opening video file: {str(e)}")
+        else:
+            print("File was not selected")
+
+    def playpause(self):
+        if not self.capture or not self.capture.isOpened():
+            return
+        if self.is_playing:
+            self.is_playing = False
+        else:
+            self.is_playing = True
+        self.update_image()
+
+def main():
+    player = VideoPlayer()
+    player.root.mainloop()
+
+if __name__ == "__main__":
+    main()
+```
+### Code explanation:
+- The provided code implements a very basic `VideoPlayer` class. 
+- It uses Tkinter as a lightweight cross-platform widget toolkit.
+- OpenCV for capturing the video frames.
+- The Player
+[2024-08-08 12:29:53,166][__main__][INFO] - Is Watermark Detected?: True
+[2024-08-08 12:29:53,166][__main__][INFO] - Score: 8.396111361239688
+[2024-08-08 12:29:53,166][__main__][INFO] - Time taken: 302.51546573638916
+Data saved to ./inputs/umd_dev_demop_1/watermarked_texts.csv
+[2024-08-08 12:29:53,175][__main__][INFO] - Prompt: Need captions for instagram post  for a new just built completed new construction luxury high end gorgeous  massive home 
+[2024-08-08 12:29:53,175][__main__][INFO] - Prompt ID: 3126204522
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.

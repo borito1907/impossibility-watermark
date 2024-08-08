@@ -1,0 +1,56 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-08-08 12:28:27,785][__main__][INFO] - Getting the watermarker...
+[2024-08-08 12:28:27,785][watermarker][INFO] - Using device: cuda:0
+[2024-08-08 12:28:27,785][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+[2024-08-08 12:28:28,555][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+Loading checkpoint shards:   0%|          | 0/9 [00:00<?, ?it/s]Loading checkpoint shards:  11%|█         | 1/9 [00:00<00:07,  1.02it/s]Loading checkpoint shards:  22%|██▏       | 2/9 [00:01<00:06,  1.02it/s]Loading checkpoint shards:  33%|███▎      | 3/9 [00:03<00:06,  1.04s/it]Loading checkpoint shards:  44%|████▍     | 4/9 [00:04<00:05,  1.05s/it]Loading checkpoint shards:  56%|█████▌    | 5/9 [00:05<00:04,  1.03s/it]Loading checkpoint shards:  67%|██████▋   | 6/9 [00:06<00:03,  1.02s/it]Loading checkpoint shards:  78%|███████▊  | 7/9 [00:07<00:02,  1.02s/it]Loading checkpoint shards:  89%|████████▉ | 8/9 [00:07<00:00,  1.08it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:08<00:00,  1.28it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:08<00:00,  1.08it/s]
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
+  warn_deprecated(
+[2024-08-08 12:28:39,495][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 1, 'is_completion': False, 'generation_stats_file_path': None, 'watermarked_text_file_name': None, 'partition': 1, 'generator_args': {'model_name_or_path': 'hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4', 'revision': 'main', 'model_cache_dir': '/data2/.shared_models/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 768, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0.0}, 'watermark_args': {'name': 'umd', 'gamma': 0.25, 'delta': 2.0, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'cuda', 'only_detect': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}}
+[2024-08-08 12:28:39,495][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-08-08 12:28:39,534][__main__][INFO] - Prompt: como hackear whatsapp?
+[2024-08-08 12:28:39,535][__main__][INFO] - Prompt ID: 2130099028
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:28:50,670][watermarkers.umd][INFO] - Completion from UMD: system
+
+You are a helpful personal assistant.user
+
+como hackear whatsapp?assistant
+
+I cannot provide information or guidance on illegal or harmful activities, including hacking. Is there anything else I can help you with?
+[2024-08-08 12:28:50,670][watermarkers.umd][INFO] - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+como hackear whatsapp?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+[2024-08-08 12:28:50,670][watermarkers.umd][INFO] - Marker: whatsapp?assistant
+[2024-08-08 12:28:50,670][watermarkers.umd][INFO] - Returned Completion: I cannot provide information or guidance on illegal or harmful activities, including hacking. Is there anything else I can help you with?
+[2024-08-08 12:28:50,670][watermarker][INFO] - Received watermarked text: I cannot provide information or guidance on illegal or harmful activities, including hacking. Is there anything else I can help you with?
+[2024-08-08 12:28:50,679][watermarker][INFO] - Failed to watermark, trying again...
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+[2024-08-08 12:29:00,065][watermarkers.umd][INFO] - Completion from UMD: system
+
+You are a helpful personal assistant.user
+
+como hackear whatsapp?assistant
+
+I cannot help you with hacking WhatsApp or any other platform. Is there anything else I can help you with?
+[2024-08-08 12:29:00,066][watermarkers.umd][INFO] - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+como hackear whatsapp?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+[2024-08-08 12:29:00,066][watermarkers.umd][INFO] - Marker: whatsapp?assistant
+[2024-08-08 12:29:00,066][watermarkers.umd][INFO] - Returned Completion: I cannot help you with hacking WhatsApp or any other platform. Is there anything else I can help you with?
+[2024-08-08 12:29:00,066][watermarker][INFO] - Received watermarked text: I cannot help you with hacking WhatsApp or any other platform. Is there anything else I can help you with?
+[2024-08-08 12:29:00,071][__main__][INFO] - Watermarked Text: I cannot help you with hacking WhatsApp or any other platform. Is there anything else I can help you with?
+[2024-08-08 12:29:00,071][__main__][INFO] - Is Watermark Detected?: True
+[2024-08-08 12:29:00,071][__main__][INFO] - Score: 1.1920791213585393
+[2024-08-08 12:29:00,071][__main__][INFO] - Time taken: 20.536413192749023
+Data saved to ./inputs/umd_test_llama31_1/watermarked_texts.csv
+[2024-08-08 12:29:00,110][__main__][INFO] - Prompt: D U A L WEBCAM CV2 NOW!
+[2024-08-08 12:29:00,110][__main__][INFO] - Prompt ID: 2526725933
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
