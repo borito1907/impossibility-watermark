@@ -1,0 +1,2430 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Application Service Installer
+
+[Files]
+Source: ""MyApplication.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyApplication.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyApplication.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyApplicationService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Application Service description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyApplicationService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue
+
+[Code]
+const 
+    SERVICE_NAME = 'MyApplicationService';
+var 
+    serviceManager : TServiceManager;
+    
+function InstallService(): Boolean;
+begin 
+    Result := true;
+    try 
+        serviceManager := TServiceManager.Create(nil);
+        if not serviceManager.ServiceExists(SERVICE_NAME) then begin 
+            serviceManager.CreateService(
+                SERVICE_NAME, APLICATION.EXE Name,
+                SERVICE_NAME APLICATION Description,
+                SERVICE_AUTO_START,
+                SERVICE_ERROR_NORMAL,
+                '{app}\MyApplication.exe',
+                nil);
+        end else begin 
+            MsgBox('The service already exists",False,,,,1
+2,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Applicaiton 1.0 beta2,3 - x86 bits on Intel64 bits AMD64 bits ARM bits MIPS bits MIPS64el bits MIPS64 bits Alpha bits PPC bits SH4 bits SPARC bits, (x86_64/AMD64)
+AppVersion=1.0.0.0beta2.3.x86.on.Intel64.AMD64.ARM.MIPS.MIPS64el.MIPS64.Alpha.PPC.SH4.SPARC.
+",True,7,"1,4",True,2
+3,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App Name 
+AppVersion=1.0 
+DefaultDirName={pf}\My Company\My Service App 
+OutputBaseFilename=my_service_app_setup 
+
+[Files]
+Source: ""C:\Path\To\Your\App.exe""; DestDir: ""{app}""; Flags: ignoreversion; 
+
+[Run]
+Filename: ""{app}\App.exe""; Description: ""Start My Service App""; Flags: postinstall shellexec waituntilterminated
+
+[UninstallRun]
+Filename: ""net""; Parameters: ""stop MyService""; WorkingDir: ""{cmd}""
+
+[UninstallDelete]
+Type: filesandordirs; Name: ""{app}""
+
+[InstallServices]
+Name: ""MyService""; Description: ""My Service App""; Displayname: ""My Service App""; Flags: dependencies
+
+[InstallServices_FILE]
+Name: ""{app}\App.exe""; WorkingDir: ""{app}""; Application: y;
+
+[UninstallDeleteServices]
+Type: services; Name: ""MyService"";
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+  if CurStep = ssPostInstall then 
+    Exec('sc', 'create ""MyService"" binPath= ""{app}\App.exe"" start= auto'); 
+  end;
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: General settings for the installation.
+",True,7,"1,4",True,3
+4,"
+
+Here is an example of Inno Setup script that installs a Windows service:
+```
+[Setup]
+AppName=My Service Installer 
+AppVersion=1.0 
+DefaultDirName={pf}\MyService 
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion;
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyService.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ObjectName""; ValueData: ""NT AUTHORITY\SYSTEM""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2
+
+[Code]
+function InstallService(): Boolean;
+var 
+  ServiceManager, HResult: Cardinal;
+    ServiceName, String;
+begin 
+    Result := true;
+    
+    // Create the service manager object 
+    ServiceManager := CreateSvcMgr();
+    
+    if ServiceManager <> 0 then begin 
+        try 
+            // Open the existing service or create a new one 
+            if not OpenSvcMgr(ServiceManager, 'MyService') then 
+                CreateSvc(ServiceManager, 'MyService', 'My Service', ExpandConstant('{app}\MyService.exe'), '', '');
+            
+            // Start the service 
+            StartSvc(ServiceManager, 'MyService');
+        except 
+            MsgBox('Failed to install the service', mbError, MB_OK);
+            Result := false;
+        end;
+        
+        CloseSvcMgr(ServiceManager);
+    end else begin 
+        MsgBox('Failed to open the service manager', mbError, MB_OK);
+        Result := false;
+    end;
+end;
+
+function UninstallService(): Boolean;
+var 
+    ServiceManager, HResult: Cardinal;
+    ServiceName: String;
+begin 
+    Result := true;
+    
+    // Create the service manager object 
+    ServiceManager := CreateSvcMgr();
+    
+    if ServiceManager <> 0 then begin 
+        try 
+            // Stop the service 
+            StopSvc(ServiceManager, 'MyService');
+            
+            // Delete the service 
+            DeleteSvc(ServiceManager, 'MyService');
+        except 
+            MsgBox('Failed to uninstall the service', mbError, MB_OK);
+            Result := false;
+        end;
+        
+        CloseSvcMgr(ServiceManager);
+    end else begin 
+        MsgBox('Failed to open the service manager', mbError, MB_OK);
+        Result := false;
+    end;
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: This section defines the basic settings for the installer, such as the application name and version.
+",True,5,"1,4",True,4
+5,"
+
+Here is an example of Inno Setup installer script that creates a Windows service during installation:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""
+ValueType: string; ValueName: ""Description""; ValueData: ""My sample service""
+ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue uninsdeletekey
+
+[Code]
+function InstallService(): Boolean;
+var 
+    ResultCode: Integer;
+begin    
+    if not Exec(ExpandConstant('{app}') + '\myservice.exe', 'install', '', SW_HIDE, EW_WAIT, all) then 
+        MsgBox('Failed to install service",True,7,"1,4",True,5
+6,"
+
+Here is an example of Inno Setup installer code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Application Service Installer
+
+[Files]
+Source: ""MyApplication.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyApplication.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\MyApplication.exe""; Parameters: ""/uninstall""
+
+[InstallDelete]
+Type: files; Name: ""{app}\MyApplication.exe""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyApplicationService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Application Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyApplicationService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Application Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyApplicationService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyApplication.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyApplicationService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninstallonly
+
+[Code]
+function InstallService(): Boolean;
+var 
+  serviceMgr: Variant;
+begin 
+   Result := False; 
+   if not LoadWLSCtrl(ExpandConstant('{tmp}\wlsc.dll')) then 
+      MsgBox('Failed to load WLSCtrl library",True,5,"1,4",True,6
+7,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App
+
+[Files]
+Source: ""path\to\your\application.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\application.exe""; Parameters: ""-install""; WorkingDir: ""{app}""; Flags: runhidden waituntilterminated
+
+[UninstallRun]
+Filename: ""{app}\application.exe""; Parameters: ""-uninstall""; WorkingDir: ""{app}""; Flags: runhidden waituntilterminated
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""\""{app}\application.exe\""""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: ""2"" ; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Type""; ValueData: ""16"" ; Flags: uninsdeletevalue 
+
+[UninstallDeleteReg]
+ Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin  
+  if CurStep = ssPostInstall then  
+   Exec(ExpandConstant('{cmd}'), '/c sc create MyService binPath= ""{app}\application.exe""');
+   Exec(ExpandConstant('{cmd}'), '/c sc start MyService');   
+ end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin  
+  if CurUninstallStep = usUninstall then  
+   Exec(ExpandConstant('{cmd}'), '/c sc stop MyService');
+   Exec(ExpandConstant('{cmd}'), '/c sc delete MyService');  
+ end;
+end;
+```
+Let me explain what this code does:
+
+* The `[Setup]` section defines the application name.
+",True,7,"1,4",True,7
+8,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Application
+
+[Files]
+Source: ""my_service_app.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletevalue
+
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin  
+    if CurUninstallStep = usPostUninstall then  
+        DeleteFile('{app}\my_service_app.exe');
+end;
+
+function InstallService(): Boolean;
+var 
+    hScm, itmpSvcHandle : Cardinal;
+    svcDesc,      : String;
+begin  
+    Result := True;
+    
+    svcDesc := 'My Service Application';
+    hScm := OpenSCManager(nil,nil, for readwrite);  
+    try  
+        CreateService(hScm,'MyService',{app}\my_service_app.exe,sdAutoStart,dwErrorControlNormal,{sfInteractWithDesktop},true)   
+    except  
+        MsgBox('Failed to install service:'+GetLastErrorMsg(),mbError,MB_OK);
+        Result := False;
+    end;
+    CloseServiceHandle(hScm);
+end;
+
+function UnInstallService(): Boolean;
+var 
+    hScm : Cardinal;
+begin  
+    Result := True;
+    
+    hScm := OpenSCManager(nil,nil, for readwrite);
+    try  
+        DeleteService(hScm,'MyService')  
+    except  
+        MsgBox('Failed to uninstall service:'+GetLastErrorMsg(),mbError,MB_OK);
+        Result := False;
+    end;
+    CloseServiceHandle(hScm);
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin  
+    if CurStep = ssPostInstall then begin  
+        if not InstallService() then  
+            Rollback();
+    end else if CurStep = ssPostUninstall then begin  
+        if not UnInstallService() then  
+            MsgBox('Failed to uninstall service",True,7,"1,4",True,8
+9,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App
+
+[Files]
+Source: ""my_service_app.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""--install""; WorkingDir: ""{app}""; StatusMsg: Installing service...
+
+[UninstallRun]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""--uninstall""; WorkingDir: ""{app}""; StatusMsg: Uninstalling service...
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyServiceApp""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\my_service_app.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App description""
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+  if CurStep = ssPostInstall then 
+  begin 
+    Exec(ExpandConstant('{cmd')), '/c sc create MyServiceApp binPath= ""' + ExpandConstant('{app}') + '\my_service_app.exe"" start= auto', SW_HIDE, ewWaitUntilTerminated, true, false); 
+  end; 
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin 
+  if CurUninstallStep = usPostUninstall then 
+  begin 
+    Exec(ExpandConstant('{cmd')), '/c sc delete MyServiceApp', SW_HIDE, ewWaitUntilTerminated, true, false); 
+  end; 
+end;
+```
+Let me explain what this script does:
+
+* The `[Setup]` section specifies the app name and other general settings.
+",True,7,"1,4",True,9
+10,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""
+ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\myservice.exe""
+ValueType: string; ValueName: ""Description""; ValueData: ""My Service Application""
+ValueType: dword; ValueName: ""Start""; ValueData: 2 ; (Automatic start)
+ValueType: dword; ValueName: ""ErrorControl""; ValueData: 1 ; (Normal)
+
+[UninstallDelete]
+Type: files; Name: {app}\myservice.exe
+
+[Tasks]
+Name: servicetask; Description: Install and Start My Service
+
+[Code]
+function InitializeSetup(): Boolean;
+begin 
+  Result := True;
+end;
+
+function DeInitializeSetup(): Boolean;
+var 
+    i, integer;
+begin 
+    UnregisterServer();
+    Result := True;
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+    if CurStep = ssPostInstall then 
+        CreateService('MyService', 'My Service Application', '{app}\myservice.exe');
+end;
+
+procedure CreateService(Name, ServiceName, BinaryPath: String);
+var 
+    scHandle : scalar;
+    serviceHandle : scalar;
+begin 
+    scHandle := OpenSCManager(nil, nil, 0);
+    if scHandle <> 0 then begin 
+        serviceHandle := CreateService(scHandle, Name, ServiceName,  SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, BinaryPath, '', '', '', '');
+        if serviceHandle <> 0 then begin 
+            CloseServiceHandle(serviceHandle);
+            StartService(Name, '', '');
+        end else 
+            RaiseException('Failed to create service",True,7,"1,4",True,10
+11,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service AppInstaller)
+AppVersion=1.0.0.0)
+DefaultDirName={pf}\My Service App)
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyServiceApp""
+ValueName: ""ImagePath""; ValueType: string; ValueData: ""{app}\MyServiceApp.exe""; Flags: uninsdeletevalue uninsdeletekey
+
+[Code]
+function InstallService(): Boolean;
+var 
+ _result_code : Integer;
+begin 
+    _result_code := Exec(ExpandConstant('{cmd}), '/c sc create MyServiceApp binPath= {app}\MyServiceApp.exe', SW_SHOW, ewWaitUntilTerminated, result_code);
+    Result := (_result_code = 0); 
+end;
+
+function UninstallService(): Boolean;
+var 
+    _result_code : Integer;
+begin 
+    _result_code := Exec(ExpandConstant('{cmd}'), '/c sc delete MyServiceApp', SW_SHOW,SW_HIDE, ewWaitUntilTerminated, ewNoWait, result_code);
+    Result := (_result_code = 0); 
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+    if (CurStep = ssPostInstall) then 
+        InstallService(); 
+    elif (CurStep = ssUninstall) then 
+        UninstallService(); 
+    end; 
+end;
+```
+Let me explain what this code does:
+
+* The `[Setup]` section defines the basic properties of the installer.
+",True,7,"1,4",True,11
+12,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Application 
+AppVersion=1.0 
+DefaultGroupName=My Service Application 
+OutputDir=output 
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion 
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""uninstall""
+
+[UninstallDelete]
+Type: files; Name: {app}\MyService.exe
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service Application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""This is my service application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyService.exe""
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin   
+    if CurStep = ssPostInstall then begin  
+        Exec('net','start MyService');
+    end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin    
+    if CurUninstallStep = usPostUninstall then begin        
+        Exec('net','stop MyService');
+    end;   
+end;
+```
+Let me explain what this script does:
+
+* The `[Setup]` section defines the basic settings for the installer, such as the application name and version.
+",True,7,"1,4",True,12
+13,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App  // name of your application/service 
+AppVersion=1.0         // version of your application/service 
+DefaultGroupName=My Service App   // default group name in ""Programs and Features""
+OutputDir=C:\Output    // output directory for installer
+
+[Files]
+Source: ""my_service_app.exe""; DestDir: ""{app}""; Flags: ignoreversion; 
+
+[Run]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""-install""
+
+[UninstallRun]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""-uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\my_service_app.exe""; Flags: uninsdeletevalue;
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App description""; Flags: uninsdeletevalue;
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: ""2""; Flags: uninsdeletevalue;
+
+[Tasks]
+Name: svcinstall; Description: Install My Service App as a Windows service
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin   
+  if CurStep = ssPostInstall then  
+  Exec('net','start MyServiceApp');   
+ end; 
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: Defines general settings for the installer.
+",True,7,"1,4",True,13
+14,"
+
+Here is an example of Inno Setup installer script that creates a Windows service during installation:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\myservice.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue
+
+[UninstallDelete]
+Type: files; Name: ""{app}\myservice.exe""
+Type: dirifempty; Name: ""{app}""
+
+[Code]
+function InstallService(): Boolean;
+var 
+    ResultCode: Integer;
+begin  
+    if not Exec(ExpandConstant('{app}\myservice.exe'), 'install', '', SW_HIDE, ewWaitUntilTerminated,: true, in ResultCode) then 
+        MsgBox('Failed to install service",True,7,"1,4",True,14
+15,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App Installer
+
+[Files]
+Source: ""my_service_app.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""/install""; WorkingDir: ""{app}""
+
+[UninstallRun]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""/uninstall""; WorkingDir: ""{app}""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service App""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue
+
+[UninstallDelete]
+Type: filesandordirs; Name: ""{app}\my_service_app.exe""
+
+[Code]
+procedure InstallService();
+var 
+  SERVICE_NAME: WideString;
+begin 
+  SetLength(SERVICE_NAME, 1024); 
+  RegQueryStringValue(HKEY_LOCAL_MACHINE, String('SYSTEM\CurrentControlSet\Services\MyServiceApp'), 'ImagePath', SERVICE_NAME); 
+  DeleteFile(ExpandConstant('{app}\my_service_app.exe')); 
+  Exec(ExpandConstant('{app}\my_service_app.exe') +'/install'); 
+end;
+
+procedure UninstallService();
+var 
+  SERVICE_NAME: WideString;
+begin 
+  SetLength(SERVICE_NAME, 1024); 
+  RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SYSTEM\CurrentControlSet\Services\MyServiceApp', 'ImagePath', SERVICE_NAME); 
+  Exec(ExpandConstant('{app}\my_service_app.exe') +'/uninstall'); 
+  DeleteFile(ExpandConstant('{app}\my_service_app.exe')); 
+end;
+
+function InitializeSetup(): Boolean;
+begin 
+  Result := True; 
+  if not InstallService() then 
+    MsgBox('Failed to install service",True,5,"1,4",True,15
+16,"
+
+Here is an example of Inno Setup installer script that creates a Windows service during installation:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""my_service.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\my_service.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\my_service.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\my_service.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Type""; ValueData: ""own process"" 
+
+[Tasks]
+Name: servicetask; Description: Create My Service; Flags: uncheckedonly
+
+[Code]
+function InstallService(): Boolean;
+var 
+    srv : String;
+begin 
+    Result := true; 
+    srv := ExpandConstant('{app}\my_service.exe'); 
+    if not Exec(ExpandConstant(srv), 'install', Nowait, true) then 
+        MsgBox('Failed to install service', mbError, MB_OK); 
+        Result := false; 
+    end;
+end;
+
+function UnInstallService(): Boolean;
+var 
+    srv : String;
+begin 
+    Result := true; 
+    srv := ExpandConstant('{app}\my_service.exe'); 
+    if not Exec(ExpandConstant(srv), 'uninstall', Nowait, true) then 
+        MsgBox('Failed to uninstall service', mbError, MB_OK); 
+        Result := false; 
+    end;
+end;
+
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+begin 
+    NeedsRestart := false; 
+    Result := ''; 
+    if IsWin64() then begin 
+        if not InstallService() then begin 
+            Result := 'Unable to install service.'",True,7,"1,4",True,16
+17,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Application Service Installer
+
+[Files]
+Source: ""path\to\my\application.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\application.exe""; Parameters: ""-install""
+
+[UninstallRun]
+Filename: ""{app}\application.exe""; Parameters: ""-uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\application.exe""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: string; ValueName: ""Description""; ValueData: ""My Application Service description""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: dword; ValueName: ""ErrorControl""; ValueData: 1; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: string; ValueName: ""ObjectName""; ValueData: ""NT AUTHORITY\LocalService""; Flags: uninsdeletevalue
+
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin   
+    if CurUninstallStep = usPostUninstall then   
+        DeleteService('My Application Service');
+end;
+
+function GetSystemDir(Param: String): String;
+begin   
+    result := ExpandConstant('{%WINDIR}%\System32');
+end;
+
+function DeleteService serviceName: String): Boolean;
+var   
+    scManager, AService : SC_HANDLE;
+    retVal : DWORD;
+begin   
+    Result := true;
+    scManager := OpenSCManager(nil, nil, SC_MANAGER_ALL_ACCESS);
+    if scManager <>  to 0 then begin  
+        AService := OpenService(scManager, serviceName, SERVICE_STOP or SERVICE_QUERY_STATUS);
+        if AService <> 0 then begin            
+            retVal := DeleteService(AService); 
+            CloseServiceHandle(AService); 
+        end else 
+            Result := false;
+        CloseServiceHandle(scManager); 
+    end else 
+        Result := false;
+end;
+```
+Let me explain what this code does:
+
+* `[Setup]` section defines the basic settings for the installer.
+",True,5,"1,4",True,17
+18,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Appname 
+AppVersion=1.0 
+DefaultDirName={pf}\My Company\My Service Appname 
+OutputBaseFilename=setup
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Appname""; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service Appname""; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\myservice.exe""; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ObjectName""; ValueData: ""NT AUTHORITY\SYSTEM""; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Type""; ValueData: 16; Flags: uninsdeletevalue 
+
+[UninstallDelete]
+Type: filesandordirectories; Name: {app}
+
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin  
+  case CurUninstallStep of 
+   usPostUninstall:
+    DeleteFile('{app}\myservice.exe');
+    DeleteFile('{app}\unins000.dat');  
+end;
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: Defines the basic settings for the installer, to install and uninstall.
+",True,5,"1,4",True,18
+19,"
+
+Here is an example of Inno Setup installer code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Application Service Installer
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""--install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""--uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""
+ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Application Service""
+ValueType: string; ValueName: ""Description""; ValueData: ""My application service description""
+ValueType: dword; ValueName: ""Start""; ValueData: 2 ; ValueType: dword; ValueName: ""ErrorControl""; ValueData: 1 
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+  case CurStep of 
+    ssPostInstall:  
+        begin 
+            if not Exec(ExpandConstant('{app}\myservice.exe'), '--register', swShow, ewWaitUntilTerminated, whStdError) then 
+                MsgBox('Failed to register service', mbError, MB_OK); 
+        end; 
+    ssPostUninstall:  
+        begin 
+            if not Exec(ExpandConstant('{app}\myservice.exe'), '--unregister', swShow, ewWaitUntilTerminated, whStdError) then 
+                MsgBox('Failed to unregister service', mbError, MB_OK); 
+        end; 
+end;
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: This section defines the basic settings for the installer, to include the application name.
+",True,7,"1,4",True,19
+20,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for an installed application:
+```
+[Setup]
+AppName=My Service AppInstaller Name]
+AppVersion=1.0]
+DefaultGroupName=My Company]
+OutputDir=output]
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""/uninstall""
+
+[InstallDelete]
+Type: files; Name: ""{app}\MyService.exe""
+
+[Tasks]
+Name: servicetask; Description: Install and start the My Service service
+
+[Code]
+const 
+  service_name = 'MyService';
+var 
+   service_manager: Variant;
+
+function InitializeSetup(): Boolean;
+begin 
+    Result := True;  
+end;
+
+function DeinitializeSetup();
+begin 
+    if (service_manager <> '') then begin 
+       service_manager.StopService(service_name); 
+       service_manager.DeleteService(service_name); 
+    end;
+end;
+
+function InstallService(): Boolean;
+begin 
+    Result := True; 
+    if not Exec('sc', 'create ""' + service_name + '"" binPath= ""C:\Program Files\MyCompany\MyService.exe""'], false, true) then begin 
+       MsgBox('Failed to create the service",True,7,"1,4",True,20
+21,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=MyServiceApp
+
+[Files]
+Source: ""my_service.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\my_service.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\my_service.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App""; Flags: uninsdeletekey
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service App""; Flags: uninsdeletekey
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\my_service.exe""; Flags: uninsdeletekey
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ObjectName""; ValueData: ""NT AUTHORITY\LocalSystem""; Flags: uninsdeletekey
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletekey
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Type""; ValueData: 16; Flags: uninsdeletekey
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin  
+    if CurStep = ssPostInstall then begin  
+        Exec(ExpandConstant('{app}\my_service.exe'),'start');  
+    end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin  
+    if CurUninstallStep = usPostUninstall then begin  
+        DeleteFile(ExpandConstant('{app}\my_service.exe'));  
+    end;
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: This section defines the basic settings for the installation, such as the app name.
+",True,7,"1,4",True,21
+22,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Application Service Installer
+
+[Files]
+Source: ""myapplication.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myapplication.exe""; Parameters: ""-install""
+
+[UninstallRun]
+Filename: ""{app}\myapplication.exe""; Parameters: ""-uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: string; ValueName: ""Description""; ValueData: ""My Application Service description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Application Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\myapplication.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Application Service""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue uninsdeletekey
+
+[Code]
+function InstallService(): Boolean;
+var 
+  ServiceMgr : Variant;
+begin 
+ Result := False; 
+ if not RegKeyExists(HKLM, 'SYSTEM\CurrentControlSet\services\My Application Service') then begin 
+   try 
+     ServiceMgr := CreateOleObject('WbemScripting.SWbemLocator'); 
+     if VarIsNull(ServiceMgr) then RaiseException('Cannot create WbemScripting.SWbemLocator object",True,7,"1,4",True,22
+23,"
+
+Here is an example of Inno Setup installation script that creates a Windows service:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue; 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyService.exe"" ; Flags: uninsdeletevalue;
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service"" ; Flags: uninsdeletevalue;
+
+[Code]
+function InstallService(): Boolean;
+var 
+  results : Boolean;  
+begin    
+    if not Exec(ExpandConstant('{app}') + '\MyService.exe', 'install', '', SW_HIDE, then 
+        MessageBox('Failed to install service",True,7,"1,4",True,23
+24,"
+
+Here is an example of Inno Setup installer script that creates a Windows service during installation:
+```
+[Setup]
+AppName=MyServiceInstaller
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""; WorkingDir: ""{app}""; Flags: runhidden wait
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""; WorkingDir: ""{app}""; Flags: runhidden wait
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""This is my custom service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; HEX
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin  
+  if CurStep = ssPostInstall then begin    
+    Exec('sc', 'create MyService binPath= ""{app}\myservice.exe"" ', SW_HIDE);   
+    Exec('sc','start MyService', SW_HIDE);   
+  end;
+end;
+
+procedure Uninstall();
+begin  
+ Exec('sc','stop MyService', SW_HIDE);   
+  Exec('sc', 'delete MyService', SW_HIDE);   
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: This section defines the basic settings for the installer.
+",True,7,"1,4",True,24
+25,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion;
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletevalue uninsdeletekey
+
+[Code]
+const 
+  SERVICE_NAME = 'MyServiceApp';
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin  
+    if CurStep = ssPostInstall then 
+    begin 
+        Exec(ExpandConstant('{cmd}'), '/c sc create ""' + SERVICE_NAME + '"" binPath= ""' + ExpandConstant('{app}') + '\MyServiceApp.exe""""', SW_HIDE, ewWaitUntilTerminated, aecNormal, (True), '', '');
+    end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep); 
+begin 
+    if CurUninstallStep = usUninstall then 
+    begin 
+        Exec(ExpandConstant('{cmd}'), '/c sc stop ""' + SERVICE_NAME + '""', SW_HIDE, ewWaitUntilTerminated, True, '', '');
+        DeleteFile(ExpandConstant('{app}') + '\MyServiceApp.exe');
+        Exec(ExpandConstant('{cmd}'), '/c sc delete ""' + SERVICE_NAME + '""', SW_HIDE, ewWaitUntilTerminated, True, '', '');        
+    end;
+end;
+```
+Let me explain what this code does:
+
+1.",True,7,"1,4",True,25
+26,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for an installed application:
+```
+[Setup]
+AppName=My Service App
+
+[Files]
+Source: ""path\to\your\application.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\application.exe""; WorkingDir: ""{app}""; StatusMsg: Running Application; Flags: waituntilterminated
+
+[InstallService]
+Name={#AppName}; Description={#AppName}; Executable={app}\application.exe
+
+[UninstallDelete]
+Type: filesandordirectories; Name: {app}
+
+[UninstallRun]
+Filename: ""{sys}\cmd.exe""; Parameters: ""/c sc stop """"{#AppName}"""" & sc delete """"{#AppName}""""""; WorkingDir: ""{sys}""
+
+[Registry]
+Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Services\{#AppName}; ValueType: string; ValueName: ImagePath; ValueData: ""{app}\application.exe""
+Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Services\{#AppName}; ValueType: dword; ValueName: Start; ValueData: 2
+
+[Code]
+function InstallService(): Boolean;
+var 
+   ServiceManager, Service : String;
+begin 
+   Result := True; 
+   ServiceManager :='sc create ""' + AppName + '"" type= own type= interact start= auto error= normal obj= "".""",True,7,"1,4",True,26
+27,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App Installer
+
+[Files]
+Source: ""C:\Path\To\Your\App.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\App.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\App.exe""; Parameters: ""/uninstall""
+
+[InstallService]
+Name={cm:ServiceName};Description={cm:ServiceDescription}; Executable={app}\App.exe; Flags=dependencies
+
+[UninstallDeleteServices]
+Type: filesandordirs; Name: {cm:ServiceName}
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Control\Session Manager""; ValueType: string; ValueName: ""BootExecute""; ValueData: ""autocheck autochk *""; Flags: uninsdeletevalue
+
+[Code]
+const 
+ yES = 6;
+
+function InitializeSetup(): Boolean;
+begin  
+    Result := True; 
+end;
+
+function InstallService() : String;
+var 
+   SERVICE_NAME : String; 
+   SERVICE_DESCRIPTION : String; 
+begin 
+   SERVICE_NAME := 'MyService'; 
+   SERVICE_DESCRIPTION := 'This is my custom service.'",True,5,"1,4",True,27
+28,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Application
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""/uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service Application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""This is my service application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue uninsdeletekey
+
+[Code]
+function InstallService(): Boolean;
+var 
+    SvcName, theEvent, of String; 
+    SvcDescr of String; 
+begin 
+    ExtractTemporaryFile('installserv.dll'); 
+    if not T SERVICEINSTALLEXECUTE.createSvc(ExpandConstant('{app}') + '\MyService.exe', 'My Service Application', 'This is my service application') then begin 
+        MsgBox('Failed to install service",False,,,,28
+29,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Appplication 
+AppVersion=1.0 
+DefaultGroupName=My Service Application 
+OutputBaseFilename=my_service_app 
+
+[Files]
+Source: ""my_service_app.exe""; DestDir: ""{app}""; Flags: ignoreversion 
+
+[Run]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\my_service_app.exe""; Parameters: ""/uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service Application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""\""{app}\my_service_app.exe\""""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: dword; ValueName: ""Start""; ValueData: ""2""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: dword; ValueName: ""Type""; ValueData: ""16""
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+    if CurStep = ssPostInstall then 
+    begin 
+        Exec(ExpandConstant('{app}\my_service_app.exe'), '/start """" ""My Service""');
+    end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin 
+    if CurUninstallStep = usPostUninstall then 
+    begin 
+        DeleteFile(ExpandConstant('HKLM\SYSTEM\CurrentControlSet\services\My Service'));
+    end;
+end;
+```
+Let me explain what this code does:
+
+* The `[Setup]` section defines the basic settings for the installation, such as the application name and version.
+",True,7,"1,4",True,29
+30,"
+
+Here is an example of Inno Setup script that creates a Windows service during installation:
+```
+[Setup]
+AppName=My Service Installer 
+AppVersion=1.0 
+DefaultDirName={pf}\MyService 
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ;Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueValue: ""{app}\myservice.exe"" ;Flags: uninsdeletevalue 
+
+[Tasks]
+Name: servicestart; Description: Start My Service after installation
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin   
+    if CurStep = ssPostInstall then 
+        Exec(ExpandConstant('{app}') + '\myservice.exe','start', '', SW_HIDE,2019,           2019');
+end;
+
+procedure Deinstall();
+begin   
+    Exec(ExpandConstant('{app}') + '\myservice.exe','stop', '', SW_HIDE);   
+    DeleteFile(ExpandConstant('{app}') + '\myservice.exe');   
+end;
+```
+Let me explain what this script does:
+
+* The `[Setup]` section defines the application name and version.
+",True,7,"1,4",True,30
+31,"
+
+Here is an example of Inno Setup installation script that creates a Windows service:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""
+
+[UninstallDelete]
+Type: files; Name: ""{app}\myservice.exe""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\myservice.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""ErrorControl""; ValueData: 1 ; 
+
+[Code]
+procedure CurStepChanged(CurStep: TInstallCurStep);
+begin    
+    if CurStep = ssPostInstall then      
+      Exec(ExpandConstant('{cmd}') +'/c sc start MyService', '', swShow, ewWaitUntilTerminated, mbInformation);   
+    end;
+end;
+
+function GetServiceStatus(name: String): Boolean;
+var 
+    hScm, someBytes : LongWord;
+    SERVICE_STATUS status;
+begin 
+    Result := False;  
+    someBytes := OpenSCManager('','');
+    if someBytes <>  to LONGWORD then begin 
+        hScm := someBytes; 
+        QueryService(hScm, name, SERVICE_QUERYCONFIG | SERVICE_QUERYSTATUS, @status); 
+        CloseServiceHandle(hScm); 
+        Result := (status.dwCurrentState = SERVICE_RUNNING); 
+    end; 
+end;
+
+function StartService(name: String): Boolean;
+begin  
+    Result := False;  
+    if not GetServiceStatus(name) then begin 
+        Result := (Win32_StartService(name) = TRUE); 
+    end; 
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]`: Sets up the installer with the application name.
+",True,7,"1,4",True,31
+32,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Application
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""--install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""--uninstall""
+
+[Register]
+Filename: ""{app}\MyService.exe""; Parameters: ""--register""
+
+[Tasks]
+Name: servicetask; Description: ""Create and start My Service""; 
+
+[Code]
+const 
+  toInstall ='--install ';
+toUninstall ='--uninstall ';
+
+function InitializeSetup(): Boolean;
+begin   
+   Result := True;
+end;
+
+function DeinitializeSetup();
+begin  
+  if (not Uninstall) then begin    
+    Wizards.AddTask('servicetask');
+   end;
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+   if CurStep = ssPostInstall then begin     
+      // Create and start the service       
+      Shellexec('open','cmd.exe', '/c'+ '""' + ExpandConstant('{app}') + '\MyService.exe' + toInstall + '""');      
+   end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin 
+   if CurUninstallStep = usPostUninstall then begin     
+      // Stop and uninstall the service       
+      Shellexec('open','cmd.exe', '/c'+ '""' + ExpandConstant('{app}') + '\MyService.exe' + toUninstall + '""');      
+   end;
+end;
+```
+Let me explain what this code does:
+
+* `[Setup]` section defines the basic settings for the installation, such as the app name.
+",True,7,"1,4",True,32
+33,"
+
+Here is an example of Inno Setup installer code that creates a Windows service during installation:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: """"""{app}\MyService.exe""""""; Flags: uninsdeletevalue uninsdeletekey
+
+[Code]
+function InstallService(): Boolean;
+var 
+ _srv: String;
+ _srvExe: String;
+begin   
+    _srv := 'MyService';
+    _srvExe := ExpandConstant('{app}\MyService.exe');   
+    if not Exec(ExpandConstant('{cmd}), '/c sc create'+ _srv +'binPath= ""' + _srvExe + '""', SW_HIDE, ewWaitUntilTerminated, EW_NO_SHOWWINDOW) then begin  
+        MsgBox('Error creating service",True,7,"1,4",True,33
+34,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App Installer
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""uninstall""
+
+[InstallDelete]
+Type: files; Name: ""{app}\MyServiceApp.exe""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Control\Lsa""; ValueType: string; ValueName: ""Authentication Packages""; ValueData: ""mystservice""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SOFTWARE\My Company\My Service App""; ValueType: string; ValueName: ""InstallPath""; ValueData: ""{app}""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service App""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyServiceApp.exe""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App description""; Flags: uninsdeletevalue
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin  
+  if CurStep = ssPostInstall then 
+    Exec(ExpandConstant('{app}\MyServiceApp.exe'), 'install');
+ end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin  
+  if CurUninstallStep = usPostUninstall then 
+    Exec(ExpandConstant('{app}\MyServiceApp.exe'), 'uninstall');
+ end;
+end;
+```
+Let me explain what this script does:
+
+1.",True,5,"1,4",True,34
+35,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App description""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service App""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""ImagePath""; ValueValue: """"""{app}\MyServiceApp.exe""""""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""ObjectName""; ValueData: ""NT AUTHORITY\SYSTEM"" ; Flags: uninsdeletevalue 
+
+[Code]
+function InstallService(): Boolean;
+begin  
+  Result := Exec('sc', 'create MyServiceApp type= own start= auto binPath= ""{app}\MyServiceApp.exe""', SW_HIDE);
+end;
+
+function UninstallService(): Boolean;
+begin  
+  Result := Exec('sc','stop MyServiceApp', SW_HIDE);
+  Exec('sc', 'delete MyServiceApp', SW_HIDE);
+end;
+
+procedure CurStepChanged(CurStep: TCurStep);
+begin  
+  if CurStep = ssPostInstall then  
+    InstallService();  
+  end;  
+  if CurStep = ssUninstall then  
+    UninstallService();  
+  end;  
+end;
+```
+Let me explain what this script does:
+
+* The `[Setup]` section defines the app name and other basic settings.
+",True,7,"1,4",True,35
+36,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Application
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/uninstall""
+
+[Code]
+procedure InstallService();
+var 
+  ServiceName : String;
+  ServiceDisplayName : String;
+begin 
+  // Create service 
+  if not InstallServices then 
+    MsgBox('Error installing service', mbError, MB_OK);
+    Quit; 
+  end;
+
+  // Get service name and display name from registry or INI file 
+  ServiceName := 'MyServiceApp';
+  ServiceDisplayName := 'My Service Application';
+
+  // Add service 
+  if not Exec(ExpandConstant('{cmd}', '/c'),'sc create ""' + ServiceName + '"" binPath= ""' + ExpandConstant('{app}') + '\MyServiceApp.exe"""" start= auto') then 
+    MsgBox('Error creating service', mbError, MB_OK);
+    Quit; 
+  end;
+
+  // Start service 
+  if not Exec(ExpandConstant('{cmd}', '/c'), 'net start ""' + ServiceName + '""') then 
+    MsgBox('Error starting service', mbError, MB_OK);
+    Quit; 
+  end;
+end;
+
+procedure UnInstallService();
+var 
+  ServiceName : String;
+begin 
+  // Stop service 
+  if Exec(ExpandConstant('{cmd}', '/c'), 'net stop ""' + 'MyServiceApp' + '""') then 
+    // Delete service 
+    if not Exec(ExpandConstant('{cmd}', '/c'),'sc delete ""' + 'MyServiceApp' + '""') then 
+      MsgBox('Error deleting service', mbError, MB_OK);
+      Quit; 
+    end; 
+  end; 
+end;
+
+function InitializeSetup(): Boolean;
+begin 
+  Result:=True;
+  if DirExists(ExpandConstant('{app}')) then 
+    MsgBox('The application is already installed",True,7,"1,4",True,36
+37,"
+
+Here is an example of Inno Setup installer script that installs a service:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""myservice.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\myservice.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\myservice.exe""; Parameters: ""uninstall""
+
+[UninstallDelete]
+Type: files; Name: ""{app}\myservice.exe""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""This is my service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue
+
+[Code]
+procedure CurStepChanged(CurStep: TCurStep);
+begin 
+    if CurStep = ssPostInstall then 
+        ExecAsOriginalUser('net start MyService', '', '', SW_SHOW, ewWaitUntilTerminated, of Boolean)
+end;
+
+procedure Uninstall();
+begin 
+   ExecAsOriginalUser('net stop MyService', '', '', SW_SHOW, (FileExists('{app}\myservice.exe')) and (not IsWindows10OrLater()))
+end;
+```
+Let me explain what this script does:
+
+* The `[Setup]` section defines the app name.
+",False,,,,37
+38,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App Installer
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion;
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""install"";
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""uninstall"";
+
+[Code]
+procedure InstallService();
+var 
+    serviceName, AString;
+begin  
+    serviceName := 'MyServiceApp';
+    if not InstallService(serviceName,*, ExpandConstant('{cm:Publisher}'), ExpandConstant('{cm:AppVersion}')) then 
+        MsgBox('Failed to install service', mbError, MB_OK);
+end;
+
+procedure UninstallService();
+var 
+    serviceName AString;
+begin  
+    serviceName := 'MyServiceApp';
+    if not UninstallService(serviceName) then 
+        MsgBox('Failed to uninstall service', mbError, MB_OK);
+end;
+
+function InitializeSetup(): Boolean;
+begin   
+    Result := True;
+    if not FileExists(ExpandConstant('{app}\MyServiceApp.exe')) then begin 
+        MsgBox('File ""MyServiceApp.exe"" does not exist",True,7,"1,4",True,38
+39,"
+
+Here is an example of Inno Setup installer code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=MyServiceApp
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Flags: uninsdeletevalue uninstallonly
+
+[Code]
+const 
+    scm_handle = 'win32_';
+var 
+    serviceManager, as THandle;
+
+function InstallService(): Boolean;
+var 
+    service: TService;
+begin 
+    Result := True;
+    
+    // Create service manager handle 
+    serviceManager := OpenSCManager(scm_handle + 'ServicesActive', 0, SC_MANAGER_CREATE_SERVICE);
+    if serviceManager <> INVALID_HANDLE_VALUE then begin 
+        try 
+            // Create service 
+            service := CreateService(serviceManager, 
+                'MyServiceApp',  
+                'My Service Application', 
+                SERVICE_ALL_ACCESS, 
+                SERVICE_WIN32_OWN_PROCESS, 
+                SERVICE_AUTO_START, 
+                SERVICE_ERROR_NORMAL, 
+                'MyServiceApp.exe', 
+                nil, 
+                nil); 
+                
+            // Set recovery options 
+            SetServiceFailureActions(service, 1, @[@(SERVICE_FAILURE_ACTIONS_RESTART, 0, 30000)]); 
+            
+            // Close service handle 
+            CloseServiceHandle(service); 
+        except 
+            Result := False; 
+        end; 
+        
+        // Close service manager handle 
+        CloseServiceHandle(serviceManager); 
+    else 
+        Result := False; 
+    end; 
+end; 
+
+function UninstallService(): Boolean;
+var 
+    service: TService;
+begin 
+    Result := True;
+    
+    // Open existing service 
+    service := OpenService(OpenSCManager(scm_handle + 'ServicesActive', 0, SC_MANAGER_CONNECT), 'MyServiceApp', SERVICE_ALL_ACCESS);
+    if service <> INVALID_HANDLE_VALUE then begin 
+        try 
+            // Delete service 
+            DeleteService(service); 
+        except 
+            Result := False; 
+        end; 
+        
+        // Close service handle 
+        CloseServiceHandle(service); 
+    else 
+        Result := False; 
+    end; 
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+    if CurStep = ssPostInstall then 
+        InstallService(); 
+    elsif CurStep = ssPostUninstall then 
+        UninstallService(); 
+end;
+```
+Let me explain what this code does:
+
+* The `[Setup]` section defines the basic settings for the installer.
+",True,7,"1,4",True,39
+40,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Appname)
+AppVersion=1.0.0.0)
+DefaultGroupName=My Service App)
+OutputDir=output)
+
+[Files]
+Source: ""path\to\your\application.exe""; DestDir: ""{app}""; Flags: ignoreversion)
+
+[Run]
+Filename: ""{app}\application.exe""; Parameters: ""-install""
+
+[UninstallRun]
+Filename: ""{app}\application.exe""; Parameters: ""-uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Application""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\application.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""ObjectName""; ValueData: ""LocalSystem""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""Start""; ValueData: ""2""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: dword; ValueName: ""Type""; ValueData: 16
+
+[UninstallDelete]
+Type: files; Name: ""{app}\application.exe""
+Type: dirifempty; Name: ""{app}""
+
+[Code]
+procedure InstallService();
+var 
+    serviceManager, (string);
+begin  
+    serviceManager :='sc create MyService start= auto obj= LocalSystem DisplayName= My Service';
+    Exec(serviceManager,200);
+end;
+
+procedure UninstallService();
+var 
+    uninstallService (string);
+begin  
+    uninstallService :='sc delete MyService';
+    Exec(uninstallService,0);
+end;
+
+function InitializeSetup(): Boolean;
+begin  
+    Result := True;
+    InstallService();
+end;
+
+function DeinitializeSetup(): Boolean;
+begin  
+    Result := True;
+    UninstallService();
+end;
+```
+Let me explain what each section does:
+
+* `[Setup]` defines the basic settings for the installer.
+",False,,,,40
+41,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Appname]
+AppVersion=1.0]
+DefaultDirName={pf}\MyServiceApp]
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""--install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""--uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""ImagePath""; ValueData: """"""{app}\MyServiceApp.exe""""""; Flags: uninsdeletevalue;
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App description""; Flags: uninsdeletevalue;
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletevalue;
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Type""; ValueData: 16; Flags: uninsdeletevalue;
+
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin  
+    if CurUninstallStep = usPostUninstall then  
+        DeleteFile('{app}\MyServiceApp.exe');  
+end; 
+end;
+
+function GetTickCount: DWORD; external 'GetTickCount@kernel32.dll stdcall';
+
+function InitializeSetup(): Boolean;
+var  
+    SERVICE_NAME : String;  
+    scHandle   : SC_HANDLE;  
+    svcHandle  : SERVICE_HANDLE;  
+    status     : DWORD;  
+begin  
+    Result := True;  
+    SERVICE_NAME := 'MyServiceApp';  
+    scHandle := OpenSCManager(nil, nil, SC_MANAGER_ALL_ACCESS);  
+    if scHandle = 0 then  
+        MsgBox('Failed to open Service Control Manager', mbError, MB_OK);  
+        Result := False;  
+    else begin  
+        svcHandle := CreateService(scHandle, SERVICE_NAME, SERVICE_NAME, SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, ExpandConstant('{app}\MyServiceApp.exe'), nil, nil, nil, nil);  
+        if svcHandle = 0 then  
+            MsgBox('Failed to create service '+SERVICE_NAME, mbError, MB_OK);  
+            Result := False;  
+        else begin  
+            status := StartService(svcHandle);  
+            if status <> 0 then  
+                MsgBox('Failed to start service '+SERVICE_NAME+' with error='+IntToStr(status), mbError, MB_OK);  
+            CloseServiceHandle(svcHandle);  
+        end;  
+        CloseServiceHandle(scHandle);  
+    end;  
+end;
+```
+Let me explain what this code does:
+
+* The `[Setup]` section defines the basic settings for the installation.
+",False,,,,41
+42,"
+
+Here is an example of Inno Setup installer code that creates a Windows service during installation:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""uninstall""
+
+[UninstallDelete]
+Type: files; Name: ""{app}\MyService.exe""
+Type: dirifempty; Name: ""{app}""
+
+[Code]
+const 
+  SERVICE_NAME = 'My Service';
+  SERVICE_DISPLAY_NAME = 'My Service Display Name';
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin  
+    if CurStep = ssPostInstall then begin   
+       Exec(ExpandConstant('""{cmd}"") + '/c sc create'+ SERVICE_NAME +'binPath= ""' + ExpandConstant('{app}') + '\MyService.exe""');
+       Exec(ExpandConstant('""{cmd}"") + '/c sc description'+ SERVICE_NAME +'' + SERVICE_DISPLAY_NAME);
+       Exec(ExpandConstant('""{cmd}"") + '/c sc start'+ SERVICE_NAME);   
+    end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin    
+    if CurUninstallStep = usPostUninstall then begin        
+        Exec(ExpandConstant('""{cmd}"") + '/c sc stop'+ SERVICE_NAME);
+        Exec(ExpandConstant('""{cmd}"") + '/c sc delete'+ SERVICE_NAME);
+    end;
+end;
+```
+Let me explain what this code does:
+
+* `[Setup]` section defines the application name.
+",True,7,"1,4",True,42
+43,"
+
+Here is an example of Inno Setup installer code that creates a Windows service during installation:
+```
+[Setup]
+AppName=My Service Installer
+
+[Files]
+Source: ""MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyService.exe""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Description""; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: 2; Flags: uninsdeletevalue
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: dword; ValueName: ""Type""; ValueData: 16; Flags: uninsdeletevalue
+
+[Code]
+function InstallService(): Boolean;
+var 
+  ret: Boolean;
+begin 
+  Exec(ExpandConstant('{app}\MyService.exe'), 'install', '', SW_SHOW, ewWaitUntilTerminated, ret);  
+  Result := ret;
+end;
+
+function UninstallService(): Boolean;
+var 
+  ret: Boolean;
+begin 
+  Exec(ExpandConstant('{app}\MyService.exe'), 'uninstall', '', SW_SHOW, ewWaitUntilTerminated, ret);
+  Result := ret;
+end;
+```
+Let me explain what this code does:
+
+* The `[Setup]` section defines the app name and other settings.
+",True,7,"1,4",True,43
+44,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App Installer
+
+[Files]
+Source: ""path\to\your\application.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\application.exe""; WorkingDir: ""{app}""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service Application""
+
+[UninstallRun]
+Filename: ""{app}\uninst.exe""; WorkingDir: ""{app}""
+
+[Tasks]
+Name: servicetask; Description: Create and start My Service
+
+[Code]
+function CreateService(): Boolean;
+var 
+  WindowsVersion: Integer;
+begin 
+    if not RegValueExists(HKLM, (64), 'SOFTWARE\Microsoft\Windows NT\CurrentVersion', 'ProductName') then  
+       Result := False else  
+       WindowsVersion := GetWindowsVersion(); 
+
+    if (WindowsVersion >= $06000000) then  
+        Exec(ExpandConstant('""{cmd} /C sc create ""MyService"" binPath="" {app}\application.exe""'), '', SW_HIDE)
+    else  
+        Exec(ExpandConstant('""{cmd} /C sc create ""MyService"" start= auto binPath="" {app}\application.exe""'), '', SW_HIDE)
+
+    Result := True; 
+end;
+
+function DeleteService(): Boolean;
+begin 
+    Exec(ExpandConstant('""{cmd} /C sc delete ""MyService""'), '', SW_HIDE); 
+    Result := True; 
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+    if CurStep = ssPostInstall then 
+        CreateService();
+    elif CurStep = ssUninstall then 
+        DeleteService();
+end;
+```
+Let me explain what this code does:
+
+* The `[Setup]` section defines the basic settings for the installer.
+",True,7,"1,4",True,44
+45,"
+
+Here is an example of Inno Setup installer script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=MyServiceAppInstaller
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""--install""; WorkingDir: ""{app}""; Flags: waituntilterminated
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""--uninstall""; WorkingDir: ""{app}""; Flags: waituntilterminated
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""\""{app}\MyServiceApp.exe\""""; Flags: uninsdeletevalue uninsdeletekey
+
+[Code]
+function InstallService(): Boolean;
+var 
+    result : Boolean; 
+begin 
+    if not Exec('sc', 'create MyServiceApp binPath= ""{app}\MyServiceApp.exe"" start= auto depend= Tcpip', SW_HIDE) then begin 
+        MsgBox('Failed to install service",True,7,"1,4",True,45
+46,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/install""; WorkingDir: ""{app}""; Flags: runhidden wait
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""/uninstall""; WorkingDir: ""{app}""; Flags: runhidden wait
+
+[Code]
+procedure CurStepChanged(CurStep: TInstallCurStep);
+begin 
+  if CurStep = ssDone then 
+    Exec('net start MyService');
+  end;
+end;
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App"";
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service App"";
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyServiceApp.exe"";
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: dword; ValueName: ""Start""; ValueData: ""2"";
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyService""; ValueType: string; ValueName: ""ObjectName""; ValueData: ""NT AUTHORITY\System"";
+
+[UninstallDelete]
+Type: filesandordirs; Name: ""{app}\MyServiceApp.exe""
+```
+Let me explain what this script does:
+
+* `[Setup]`: defines the setup settings, as usual.
+",True,7,"1,4",True,46
+47,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service Appplication 
+AppVersion=1.0 
+DefaultDirName={pf}\My Service Application 
+OutputBaseFilename=my_service_app 
+
+[Files]
+Source: ""C:\Path\To\MyService.exe""; DestDir: ""{app}""; Flags: ignoreversion 
+
+[Run]
+Filename: ""{app}\MyService.exe""; Parameters: ""/install""
+
+[UninstallRun]
+Filename: ""{app}\MyService.exe""; Parameters: ""/uninstall""
+
+[InstallDelete]
+Type: files; Name: ""{app}\MyService.exe""
+
+[Registry]
+Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Services\MyService; ValueType: string; ValueName: DisplayName; ValueData: My Service Application; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Services\MyService; ValueType: string; ValueName: ImagePath; ValueData: {app}\MyService.exe; Flags: uninsdeletevalue 
+Root: HKLM; Subkey: SYSTEM\CurrentControlSet\Services\MyService; ValueType: dword; ValueName: Start; ValueData: 2; Flags: uninsdeletevalue 
+
+[UninstallDelete]
+Type: registry; Registry: HKLM; Key: SYSTEM\CurrentControlSet\Services\MyService; 
+
+[Tasks]
+Name:svc; Description: Install and start My Service Application as a Windows service; 
+
+[Code]
+procedure CurStepChanged(CurStep: TSetupStep);
+begin 
+   if (CurStep = ssPostInstall) then begin 
+     Exec(ExpandConstant('{app}') + '\MyService.exe', '/start'); 
+   end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin 
+   if (CurUninstallStep = usUninstall) then begin 
+     Exec(ExpandConstant('{app}') + '\MyService.exe', '/stop'); 
+   end;
+end;
+```
+Let me explain what this code does:
+
+* `[Setup]`: Defines the basic settings for the installation.
+",True,7,"1,4",True,47
+48,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App 
+AppVersion=1.0 
+DefaultGroupName=My Service App Group 
+UninstallDisplayIcon={app}\uninstall.ico 
+Compression=lzma2 
+SolidCompression=yes 
+OutputBaseFilename=my_service_app_setup 
+
+[Files] 
+Source: ""C:\Path\To\Your\Application\bin\my_service_app.exe""; DestDir: ""{app}""; Flags: ignoreversion 
+
+[Run] 
+Filename: ""{app}\my_service_app.exe""; Parameters: ""-install""
+
+[UninstallRun] 
+Filename: ""{app}\my_service_app.exe""; Parameters: ""-uninstall""
+
+[Registry] 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App service description"" 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: 2 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\my_service_app.exe"" 
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\MyServiceApp""; ValueType: string; ValueName: ""DisplayName""; ValueData: ""My Service App"" 
+
+[Tasks] 
+Name: servicetask; Description: ""Install My Service App as a Windows service""
+
+[Code] 
+function InstallService(): Boolean;
+var 
+    scmHandle : Cardinal;
+    svcHandle : Cardinal;
+    svcStatus : Cardinal;
+begin  
+    Result := true; 
+
+    // Open the SCM database  
+    scmHandle := OpenSCManager('localhost', nil, SC_MANAGER_ALL_ACCESS);  
+    if scmHandle =  toCardinal(0) then begin  
+        MsgBox('Failed to open the SCM database', mbError, MB_OK);  
+        Result := false;  
+    end else begin  
+        try  
+            // Create the service  
+            svcHandle := CreateService(scmHandle, 'MyServiceApp', 'My Service App', SERVICE_ALL_ACCESS, toWideString('{app}\my_service_app.exe'), SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, SERVICE_ERROR_NORMAL);  
+            if svcHandle = toCardinal(0) then begin  
+                MsgBox('Failed to create the service', mbError, MB_OK);  
+                Result := false;  
+            end else begin  
+                // Start the service  
+                StartService(svcHandle);  
+
+                // Close the SCM database  
+                CloseServiceHandle(scmHandle);  
+                CloseServiceHandle(svcHandle);  
+            end;  
+        except  
+            // Close the SCM database on error  
+            CloseServiceHandle(scmHandle);  
+            RaiseLastError();  
+        end;  
+    end;  
+end; 
+
+function UninstallService(): Boolean;
+var 
+    scmHandle : Cardinal;
+    svcHandle : Cardinal;
+begin  
+    Result := true; 
+
+    // Open the SCM database  
+    scmHandle := OpenSCManager('localhost', nil, SC_MANAGER_ALL_ACCESS);  
+    if scmHandle = toCardinal(0) then begin  
+        MsgBox('Failed to open the SCM database', mbError, MB_OK);  
+        Result := false;  
+    end else begin  
+        try  
+            // Get the service handle  
+            svcHandle := OpenService(scmHandle, 'MyServiceApp', SERVICE_ALL_ACCESS);  
+            if svcHandle = toCardinal(0) then begin",True,7,"1,4",True,48
+49,"
+
+Here is an example of Inno Setup installation code that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App Installer
+
+[Files]
+Source: ""MyServiceApp.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""-install""
+
+[UninstallRun]
+Filename: ""{app}\MyServiceApp.exe""; Parameters: ""-uninstall""
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyServiceApp""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\MyServiceApp.exe""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyServiceApp""; ValueType: string; ValueName: ""Description""; ValueData: ""My Service App""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyServiceApp""; ValueType: dword; ValueName: ""Start""; ValueData: 2 ; Description: ""Auto start""
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\Services\MyServiceApp""; ValueType: dword; ValueName: ""Type""; ValueData: 16 ; Description: ""Own Process""
+
+[Tasks]
+Name: servicestart; Description: Start My Service App; GroupDescription: {cm:AdditionalIcons}
+```
+Let me explain what each section does:
+
+**[Setup]**: This section defines the basic settings for the installation, such as the app name.
+
+",True,7,"1,4",True,49
+50,"
+
+Here is an example of Inno Setup installation script that creates a Windows service for the installed application:
+```
+[Setup]
+AppName=My Service App  ; Your app name here)
+AppVersion=1.0  ; Your app version here)
+DefaultGroupName=My Company\My Service App  ; Your company and app group here)
+OutputBaseFilename=my_service_app_setup  ; Output file name here)
+
+[Files]
+Source: ""my_service_app.exe""; DestDir: ""{app}""; Flags: ignoreversion
+
+[Run]
+FileName: ""{app}\my_service_app.exe""; Parameters: ""/install""
+
+[UninstallRun]
+FileName: ""{app}\my_service_app.exe""; Parameters: ""/uninstall""
+
+[Code]
+const 
+    SCM_controls = $0004; // Control Services
+
+function InstallService(): Boolean;
+var 
+    scmHandle : Cardinal;
+    serviceName : String;
+    servicePath : String;
+
+begin 
+    Result := False; 
+
+    try 
+        serviceName := 'My Service App';
+        servicePath := ExpandConstant('{app}\my_service_app.exe');
+
+        scmHandle := OpenSCManager(nil, nil, 0); 
+
+        if scmHandle <> 0 then begin 
+            Result := CreateService(scmHandle, serviceName, serviceName, 
+                SCM_controls, SERVICE_WIN32_OWN_PROCESS, SERVICE_INTERACTIVE, SERVICE_AUTO_START, 
+                SERVICE_ERROR_NORMAL, servicePath);
+            
+            CloseServiceHandle(scmHandle); 
+        end else 
+            MsgBox('Failed to open SCM', mbError, MB_OK);
+
+    except 
+        MsgBox('Exception during service install:'+ GetExceptionMessage(), 
+              mbError, MB_OK);
+end; 
+
+function UnInstallService(): Boolean; 
+var 
+    scmHandle : Cardinal;
+    serviceName : String;
+
+begin 
+    Result := False; 
+
+    try 
+        serviceName := 'My Service App';
+
+        scmHandle := OpenSCManager(nil, nil, 0); 
+
+        if scmHandle <> 0 then begin 
+            DeleteService(scmHandle, serviceName);
+            CloseServiceHandle(scmHandle); 
+            Result := True; 
+        end else 
+            MsgBox('Failed to open SCM', mbError, MB_OK);
+
+    except 
+        MsgBox('Exception during service uninstall:'+ GetExceptionMessage(), 
+              mbError, MB_OK);
+end; 
+
+[Registry]
+Root: HKLM; Subkey: ""SYSTEM\CurrentControlSet\services\My Service App""; ValueType: string; ValueName: ""ImagePath""; ValueData: ""{app}\my_service_app.exe""; Flags: uninsdeletevalue
+
+[Tasks]
+Name: servicetask; Description: Install as Service; GroupDescription: Additional Tasks; Flags: unchecked
+
+[Run]
+Description: Start Service; Flags: postinstall shellexec waituntilterminated; Filename: ""{cmd}""; Parameters: ""/c net start My Service App""
+```
+This script assumes you have an executable named `my_service_app.exe` that will be installed to the `{app}` directory.
+
+",True,7,"1,4",True,50

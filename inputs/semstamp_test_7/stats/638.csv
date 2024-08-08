@@ -1,112 +1,190 @@
 total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
 1,"
 
-I'll provide you with some Python code for Acoustic Nearfield Holography (SONAH)!
+A very specific request!
 
-",True,5,"7,2",True,1
+",True,4,"7,2",True,1
 2,"
 
-I'd be happy to help you with that!
+I see you're excited about Acoustic Near-field Holography (SONAH)!
 
-",False,,,,2
+",True,4,"7,2",True,2
 3,"
 
-I'm happy to help!
-
-",True,3,"7,2",True,3
+Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,3
 4,"
-
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,4
-5,"
 
 A very specific request!
 
-",True,4,"7,2",True,5
+",True,4,"7,2",True,4
+5,"
+
+Here is some Python code for Acoustic Nearfield Holography (SONAH):
+
+```python
+
+import numpy as np
+
+def sonah(pressure_data, frequency, mic_distance):
+    """"""
+    Implementation of the SONAH algorithm for acoustic nearfield holography.
+
+   ",True,0,"7,2",True,5
 6,"
 
-Acoustic Nearfield Holography (SONAH) is a fascinating technique!
-
-",True,4,"7,2",True,6
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,6
 7,"
 
-I'll provide you with some Python code to get started with Acoustic Nearfield Holography (SONAH).",True,5,"7,2",True,7
+A very specific request!
+
+",True,4,"7,2",True,7
 8,"
+
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!",True,4,"7,2",True,8
+9,"
+
+A very specific request!
+
+",True,4,"7,2",True,9
+10,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,10
+11,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,11
+12,"
 
 A very specific and technical request!
 
-",True,4,"7,2",True,8
-9,"
-
-Acoustic Nearfield Holography (SONAH) is an innovative technique for sound field recording and playback.",True,4,"7,2",True,9
-10,"
-
-Acoustic Nearfield Holography (SONAH) is a fascinating topic!
-
-",True,4,"7,2",True,10
-11,"
-
-A very specific request!
-
-",True,4,"7,2",True,11
-12,"
-
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,12
+",True,4,"7,2",True,12
 13,"
 
-I see you're excited about Acoustic Nearfield Holography!
+A very specific request!
 
 ",True,4,"7,2",True,13
 14,"
 
-Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,14
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,14
 15,"
 
-I'm happy to help you with that!
-
-",False,,,,15
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,15
 16,"
 
-Acoustic Nearfield Holography (SONAH)!
-
-",True,4,"7,2",True,16
+Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,16
 17,"
 
-Here's an example Python code for Acoustic Nearfield Holography (SONAH):
+I'm happy to help!
 
-**Note:** This is a simplified implementation and may require modifications based on your specific use case.
-
-",False,,,,17
+",True,3,"7,2",True,17
 18,"
-
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,18
-19,"
 
 A very specific request!
 
-",True,4,"7,2",True,19
+",True,4,"7,2",True,18
+19,"
+
+Here is an example of Python code for Acoustic Nearfield Holography (SONAH):
+```python
+
+import numpy as np
+
+def sonah_processing(pressure_data, frequency, sampling_rate):
+    """"""
+    Perform SONAH processing on pressure data
+    
+    Parameters:
+    - pressure_data: 2D numpy array with shape (num_microphones, num_samples)
+    - frequency: float, frequency of interest (Hz)
+    - sampling_rate: int, sampling rate of the data (Hz)
+    
+    Returns:
+    - hologram: 2D numpy array with shape (num_x, num_y), hologram image at the specified frequency
+    
+    """"""
+    # Define constants and parameters
+    
+    c = 343  # speed of sound in air (m/s)
+    wavelength = c / frequency
+    
+    num_microphones, num_samples = pressure_data.shape
+    
+    # Create grid of x and y coordinates for the hologram
+    
+    num_x = 100  # number of points in x direction
+    
+    num_y = 100  # number of points in y direction
+    
+    x_range = 0.5  # range of x coordinates (m)
+    
+    y_range = 0.5  # range of y coordinates (m)
+    
+    x_coords = np.linspace(-x_range/2, x_range/2, num_x)
+    
+    y_coords = np.linspace(-y_range/2, y_range/2, num_y)
+    
+    X, Y = np.meshgrid(x_coords, y_coords)
+    
+    # Calculate distance between microphones and each point in the hologram grid
+    
+    microphone_positions = np.array([[0.05, 0], [0.10, 0], [0.15, 0]])  # example positions
+    
+    distances = np.sqrt((X[:, None] - microphone_positions[:, 0][None])**2 + 
+                        (Y[:, None] - microphone_positions[:, 1][None])**2)
+    
+    # Compute phase shifts and weights for each microphone
+    
+    phase_shifts = 2 * np.pi * distances / wavelength
+    
+    weights = np.exp(1j * phase_shifts)
+    
+    # Perform holographic reconstruction
+    
+    hologram = np.zeros((num_x, num_y), dtype=np.complex128)
+    
+    for i in range(num_microphones):
+        hologram += weights[:, :, i] * pressure_data[i]
+    
+    hologram /= num_microphones
+    
+    return hologram
+
+# Example usage:
+
+frequency = 2000  # Hz
+
+sampling_rate = 44100  # Hz
+
+pressure_data = np.random.rand(3, 1024)  # example pressure data from 3 microphones
+
+hologram = sonah_processing(pressure_data, frequency, sampling_rate)
+
+```
+This code defines a function `sonah_processing` that takes in pressure data from multiple microphones, along with the frequency of interest and sampling rate, and returns a 2D hologram image at that frequency.
+
+",True,0,"7,2",True,19
 20,"
 
-A very specific and technical request!
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
 
 ",True,4,"7,2",True,20
 21,"
 
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,21
+I'd be happy to help you with that!
+
+",False,,,,21
 22,"
 
-Acoustic Nearfield Holography!
+A very specific and technical request!
 
-",False,,,,22
+",True,4,"7,2",True,22
 23,"
 
-A very specific and interesting request!
-
-",True,5,"7,2",True,23
+I see you're interested in Acoustic Near-field Holography (SONAH)!",False,,,,23
 24,"
 
-I'm happy to help you with that!
+A very specific request!
 
-",False,,,,24
+",True,4,"7,2",True,24
 25,"
 
 A very specific request!
@@ -119,545 +197,1087 @@ A very specific request!
 ",True,4,"7,2",True,26
 27,"
 
-Here is some Python code to get you started with Acoustic Nearfield Holography (SONAH):
+A very specific request!
 
-**Please note that this is a simplified example and may need to be adapted and optimized for your specific use case.",False,,,,27
+",True,4,"7,2",True,27
 28,"
 
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,28
+Acoustic Nearfield Holography (SONAH) is an innovative technique for sound field reconstruction!
+
+",True,0,"7,2",True,28
 29,"
 
-Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,29
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,29
 30,"
 
-I see you're excited about Acoustic Nearfield Holography (SONAH)!
+Here is some sample Python code for Acoustic Near-field Holography (SONAH):
 
-",True,4,"7,2",True,30
+```
+import numpy as np
+
+def sonah_processing(pressure_data, microphone_positions, 
+                    frequency, sampling_rate, 
+                    hologram_size):
+    """"""
+    Perform SONAH processing on the given pressure data.
+
+   ",True,0,"7,2",True,30
 31,"
-
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,31
-32,"
-
-A very specific and interesting topic!
-
-",True,1,"7,2",True,32
-33,"
 
 A very specific request!
 
-",True,4,"7,2",True,33
+",True,4,"7,2",True,31
+32,"
+
+A very specific request!
+
+",True,4,"7,2",True,32
+33,"
+
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,33
 34,"
 
-I'd be happy to help you with that!
+I'm happy to help!
 
-",False,,,,34
+",True,3,"7,2",True,34
 35,"
 
-I'd be happy to help you with that!
-
-",False,,,,35
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,35
 36,"
 
-Here's some Python code to get you started with Acoustic Near-field Holography (SONAH):
+A very specific and interesting topic!
 
-**Important note:** This is a simplified example and may not be a fully functional implementation of SONAH.",True,4,"7,2",True,36
+",True,1,"7,2",True,36
 37,"
 
-I'll provide you with some Python code to get started with Acoustic Nearfield Holography (SONAH).",True,5,"7,2",True,37
+A very specific request!
+
+",True,4,"7,2",True,37
 38,"
 
 Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,38
 39,"
 
-A very specific and interesting topic!
+A very specific request!
 
-",True,1,"7,2",True,39
+",True,4,"7,2",True,39
 40,"
-
-Acoustic Near-field Holography (SONAH)!",True,4,"7,2",True,40
-41,"
-
-Here is some Python code for Acoustic Nearfield Holography (SONAH):
-
-**Note:** This is a simplified example and may not be suitable for production use without further modifications and optimizations.
-
-",True,0,"7,2",True,41
-42,"
-
-I'd be happy to help you with that!
-
-",False,,,,42
-43,"
-
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,43
-44,"
 
 I'm happy to help!
 
-",True,3,"7,2",True,44
-45,"
+",True,3,"7,2",True,40
+41,"
+
+Acoustic Nearfield Holography (SONAH) is an impressive technique!
+
+",True,4,"7,2",True,41
+42,"
+
+I'd be happy to help you with that.
+
+",True,4,"7,2",True,42
+43,"
 
 A very specific request!
+
+",True,4,"7,2",True,43
+44,"
+
+Here's an example of Python code for Acoustic Near-field Holography (SONAH):
+
+**Note:** This is a simplified implementation and might require modifications to suit your specific use case.
+
+",False,,,,44
+45,"
+
+Acoustic Nearfield Holography (SONAH)!
 
 ",True,4,"7,2",True,45
 46,"
 
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,46
+I'm happy to help!
+
+",True,3,"7,2",True,46
 47,"
 
-Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,47
+Acoustic Nearfield Holography (SONAH) is an impressive technology!
+
+",True,4,"7,2",True,47
 48,"
 
-A very specific request!
+Acoustic Nearfield Holography (SONAH) is a fascinating topic!
 
 ",True,4,"7,2",True,48
 49,"
 
-A very specific request!
+I'd be happy to help you with that!
 
-",True,4,"7,2",True,49
+",False,,,,49
 50,"
 
-A very specific request!
+Acoustic Nearfield Holography (SONAH)!",True,4,"7,2",True,50
+51," That's quite an interesting topic.
 
-",True,4,"7,2",True,50
-51,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the nearfield of a source.,True,0,"7,2",True,1
-52,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a region of interest from measurements made near the source.,True,0,"7,2",True,2
-53,Acoustic Nearfield Holography (SONAH) is a fascinating technique for imaging sound fields in 3D space.,True,0,"7,2",True,3
-54,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the pressure field of an acoustic source in the near-field region.,True,0,"7,2",True,4
-55,Acoustic Nearfield Holography (SONAH) is a technique for reconstructing the pressure field in the near-field of an acoustic source.,True,0,"7,2",True,5
-56,"Acoustic Nearfield Holography, also known as SONAH, the technique uses an array of microphones to record and reconstruct complex acoustic fields in the near field.
+",True,1,"7,2",True,1
+52," That's a fascinating topic.
 
-",True,4,"7,2",True,6
-57,Acoustic Nearfield Holography (SONAH) is a technique for imaging the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,7
-58,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in a given region.,True,0,"7,2",True,8
-59,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in the near-field region of an object.,True,0,"7,2",True,9
-60,Acoustic Near-field Holography (SONAH) is a complex technique that involves reconstructing the acoustic pressure field in the near-field region of an object or source.,True,0,"7,2",True,10
-61,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,11
-62,"Acoustic Nearfield Holography, also known as SONAH, the technique uses an array of microphones to capture and reconstruct sound fields in 3D space.
+",True,1,"7,2",True,2
+53, That's a fascinating topic.,True,1,"7,2",True,3
+54," That's quite an interesting topic.
 
-",True,4,"7,2",True,12
-63,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,13
-64,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a given region from measurements of the pressure at nearby points.,True,0,"7,2",True,14
-65,Acoustic Near-field Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a region of interest.,True,0,"7,2",True,15
-66,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the nearfield of an object or a source.,True,0,"7,2",True,16
-67,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,17
-68,Acoustic Nearfield Holography (SONAH) is a fascinating technique for imaging sound fields in 3D space.,True,0,"7,2",True,18
-69,Acoustic Nearfield Holography (SONAH) is a complex signal processing technique that involves creating 3D images of sound sources in a given environment.,True,0,"7,2",True,19
-70,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the nearfield of an object.,True,0,"7,2",True,20
-71,Acoustic Nearfield Holography (SONAH) is a technique for imaging sound fields in three dimensions.,False,,,,21
-72,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a given region.,True,0,"7,2",True,22
-73,Acoustic Nearfield Holography (SONAH) is a technique for acoustic imaging and sound field reconstruction.,True,0,"7,2",True,23
-74,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a given region from measurements of the pressure field on a surface.,True,0,"7,2",True,24
-75,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the sound field in the nearfield region of an object.,True,0,"7,2",True,25
-76,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a three-dimensional space.,True,0,"7,2",True,26
-77,Acoustic Nearfield Holography (SONAH) is a fascinating technique for visualizing sound waves in 3D space.,True,0,"7,2",True,27
-78,"Acoustic Nearfield Holography (SONAH) is a complex technique, a Python implementation would require a significant amount of code and expertise in signal processing and acoustics.
+",True,1,"7,2",True,4
+55," That's a fascinating topic.
 
-",True,0,"7,2",True,28
-79,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a given region.,True,0,"7,2",True,29
-80,Acoustic Near-field Holography (SONAH) is a fascinating technique for imaging and reconstructing acoustic sources in 3D space.,False,,,,30
-81,"Acoustic Nearfield Holography (SONAH) is a technique for reconstructing the pressure field in the near-field region of an acoustic source from measurements of the pressure field on a surface surrounding the source.
+",True,1,"7,2",True,5
+56," That's a fascinating topic.
 
-",True,0,"7,2",True,31
-82,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,32
-83,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of a sound source.,True,0,"7,2",True,33
-84,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,34
-85,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of a sound source.,True,0,"7,2",True,35
-86,Acoustic Nearfield Holography (SONAH) is a fascinating technique for sound field visualization and manipulation.,False,,,,36
-87,"Acoustic Nearfield Holography, also known as SONAH (Sound Object Navigation And Holography), is a technique used to create high-fidelity acoustic images of objects in the near field.",True,0,"7,2",True,37
-88,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the nearfield of a sound source.,True,0,"7,2",True,38
-89,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the pressure field of an acoustic source in the near-field region.,True,0,"7,2",True,39
-90,Acoustic Nearfield Holography (SONAH) is a fascinating technique for 3D sound field reconstruction.,True,0,"7,2",True,40
-91,"Acoustic Nearfield Holography, also known as Sound Object Acoustic Nearfield Holography (SONAH), is a technique used to reconstruct the sound field around an object.",True,0,"7,2",True,41
-92,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,42
-93,Acoustic Nearfield Holography (SONAH) is a technique for imaging the pressure field in the nearfield of an acoustic source.,True,0,"7,2",True,43
-94,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the pressure field in the near-field of an acoustic source.,True,0,"7,2",True,44
-95,"Acoustic Nearfield Holography, also known as SONAH,2015), is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.
+",True,1,"7,2",True,6
+57," That's quite an interesting topic.
 
-",True,0,"7,2",True,45
-96,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in the near-field region of an object.,True,0,"7,2",True,46
-97,"Acoustic Nearfield Holography (SONAH) is a complex technique that involves reconstructing the sound field in a given region from pressure measurements taken at a set of points in space.
+",True,1,"7,2",True,7
+58," That's a fascinating topic.
 
-",True,0,"7,2",True,47
-98,Acoustic Nearfield Holography (SONAH) is a complex signal processing technique that involves reconstructing the acoustic pressure field in the nearfield region from measurements of the sound pressure on a plane.,True,0,"7,2",True,48
-99,"Acoustic Nearfield Holography (SONAH) is a fascinating topic, and I'll provide you with some Python code to get started.",True,0,"7,2",True,49
-100,Acoustic Nearfield Holography (SONAH) is a technique used to reconstruct the acoustic pressure field in a given region.,True,0,"7,2",True,50
-101," Here's some Python code to get you started:
+",True,1,"7,2",True,8
+59," That's a fascinating topic.
+
+",True,1,"7,2",True,9
+60," That's a fascinating topic.
+
+",True,1,"7,2",True,10
+61," That's quite an interesting topic.
+
+",True,1,"7,2",True,11
+62," That's quite a specific and fascinating topic.
+
+",True,5,"7,2",True,12
+63," That's a fascinating topic.
+
+",True,1,"7,2",True,13
+64," That's quite an interesting topic.
+
+",True,1,"7,2",True,14
+65," That's a fascinating topic.
+
+",True,1,"7,2",True,15
+66, That's a fascinating topic.,True,1,"7,2",True,16
+67," That's a fascinating topic.
+
+",True,1,"7,2",True,17
+68," That's some advanced signal processing.
+
+",True,1,"7,2",True,18
+69," That's a fascinating topic.
+
+",True,1,"7,2",True,19
+70," That's a fascinating topic.
+
+",True,1,"7,2",True,20
+71," That's an interesting topic.
+
+",True,1,"7,2",True,21
+72," That's quite an interesting topic.
+
+",True,1,"7,2",True,22
+73," That's a fascinating topic.
+
+",True,1,"7,2",True,23
+74," That's quite an interesting topic.
+
+",True,1,"7,2",True,24
+75," That's a fascinating topic.
+
+",True,1,"7,2",True,25
+76," That's some advanced signal processing right there.
+
+",True,1,"7,2",True,26
+77," That's quite an interesting topic.
+
+",True,1,"7,2",True,27
+78," That's a fascinating topic.
+
+",True,1,"7,2",True,28
+79," That's quite an interesting topic.
+
+",True,1,"7,2",True,29
+80," That's a fascinating topic.
+
+",True,1,"7,2",True,30
+81," That's an interesting topic.
+
+",True,1,"7,2",True,31
+82," That's a fascinating topic.
+
+",True,1,"7,2",True,32
+83," That's a fascinating topic.
+
+",True,1,"7,2",True,33
+84," That's quite an interesting topic.
+
+",True,1,"7,2",True,34
+85," That's quite a specific topic.
+
+",True,5,"7,2",True,35
+86," That's quite a specific and fascinating topic.
+
+",True,5,"7,2",True,36
+87," That's a fascinating topic.
+
+",True,1,"7,2",True,37
+88," That's quite an interesting topic.
+
+",True,1,"7,2",True,38
+89," That's a fascinating topic.
+
+",True,1,"7,2",True,39
+90," That's a fascinating topic.
+
+",True,1,"7,2",True,40
+91," That's quite an interesting topic.
+
+",True,1,"7,2",True,41
+92," That's a fascinating topic.
+
+",True,1,"7,2",True,42
+93," That's an interesting topic.
+
+",True,1,"7,2",True,43
+94," That's a fascinating topic.
+
+",True,1,"7,2",True,44
+95," That's quite an interesting topic.
+
+",True,1,"7,2",True,45
+96," That's a fascinating topic.
+
+",True,1,"7,2",True,46
+97," That's an exciting topic.
+
+",True,1,"7,2",True,47
+98, That's quite a specific and fascinating topic.,True,5,"7,2",True,48
+99," That's a fascinating topic.
+
+",True,1,"7,2",True,49
+100," That's a fascinating topic.
+
+",True,1,"7,2",True,50
+101,"Here's some Python code to get you started with SONAH:
 ```python
 
 import numpy as np
 
-def sonah_reconstruction(mic_positions, mic_signals, frequency, grid_size):
+def sonah.signals(t, fs):
     """"""
-    Reconstructs the acoustic pressure field using Acoustic Nearfield Holography (SONAH).
-
-   ",True,0,"5,2",True,1
-102," Here's some Python code to get you started:
-```python
-
-import numpy as np
-
-def sonah_reconstruction(pressure_signals,antenna_positions,wavelength,frequency):
-    """"""
-    Reconstructs the acoustic pressure field using SONAH.
-
-   ",True,2,"5,2",True,2
-103," Parameters:
-    pressure_signals (numpy array): Measured pressure signals at each antenna.
+    Generate sinusoidal signals for SONAH.
+    
+   ",True,2,"6,2",True,1
+102," Parameters:
+    t (numpy array): Time array.
+   ",True,2,"5,2",True,1
+103," fs (float): Sampling frequency.
+    
    ",True,3,"5,2",True,1
-104," Parameters:
-        pressure_signals (numpy array): Array of pressure signals measured at each antenna position.
-       ",True,2,"5,2",True,2
-105," antenna_positions (numpy array): 2D array of x, y coordinates of each antenna position.
-       ",True,7,"5,2",True,1
-106," antenna_positions (numpy array): 3D coordinates of the antenna positions.
-       ",True,7,"5,2",True,2
-107," antenna_positions (numpy array): 2D array of x and y coordinates of antenna positions.
-       ",True,7,"5,2",True,3
-108," antenna_positions (numpy array): 2D array of antenna positions (x, y coordinates).
-       ",True,7,"5,2",True,4
-109," antenna_positions (numpy array): 3D coordinates of the antenna positions (x, y, z).
-       ",True,7,"5,2",True,5
-110," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,6
-111," antenna_positions (numpy array): 3D array of antenna positions (x, y, z).
-       ",True,7,"5,2",True,7
-112," antenna_positions (numpy array): 3D coordinates of each antenna position (x, y, z).
-       ",True,7,"5,2",True,8
-113," antenna_positions (numpy array): 2D array of x, y coordinates of each antenna position.
-       ",True,7,"5,2",True,9
-114," antenna_positions (numpy array): 2D array of antenna positions (x, y coordinates).
-       ",True,7,"5,2",True,10
-115," antenna_positions (numpy array): 3D array of x, y, z coordinates for each antenna position.
-       ",True,7,"5,2",True,11
-116," antenna_positions (numpy array): 3D array of antenna positions (x, y, z).
-       ",True,7,"5,2",True,12
-117," antenna_positions (numpy array): 2D array of x, y coordinates for each antenna position.
-       ",True,7,"5,2",True,13
-118," antenna_positions (numpy array): 2D array of x and y coordinates of each antenna position.
-       ",True,7,"5,2",True,14
-119," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,15
-120," antenna_positions (numpy array): 2D array of antenna positions (x, y) in meters.
-       ",True,7,"5,2",True,16
-121," antenna_positions (numpy array): 3D array of antenna positions (x, y, z).
-       ",True,7,"5,2",True,17
-122," antenna_positions (numpy array): 2D array of antenna positions (x, y) coordinates.
-       ",True,7,"5,2",True,18
-123," antenna_positions (numpy array): 3D coordinates of each antenna position (x, y, z).
-       ",True,7,"5,2",True,19
-124," antenna_positions (numpy array): 2D array of x, y coordinates for each antenna position.
-       ",True,7,"5,2",True,20
-125," antenna_positions (numpy array): 2D array of x, y coordinates for each antenna position.
-       ",True,7,"5,2",True,21
-126," antenna_positions (numpy array): 2D array of x, y coordinates of each antenna position.
-       ",True,7,"5,2",True,22
-127," antenna_positions (numpy array): 2D array of antenna positions (x, y) in meters.
-       ",True,7,"5,2",True,23
-128," antenna_positions (numpy array): 3D coordinates of the antenna positions.
-       ",True,7,"5,2",True,24
-129," antenna_positions (numpy array): 2D array of x,y coordinates for each antenna position.
-       ",True,7,"5,2",True,25
-130," antenna_positions (numpy array): 2D array of x,y coordinates of each antenna position.
-       ",True,7,"5,2",True,26
-131," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,27
-132," antenna_positions (numpy array): 2D array of x, y coordinates of each antenna position.
-       ",True,7,"5,2",True,28
-133," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,29
-134," antenna_positions (numpy array): 2D array of x,y coordinates of each antenna position.
-       ",True,7,"5,2",True,30
-135," antenna_positions (numpy array): 2D array of x, y coordinates of each antenna.
-       ",True,7,"5,2",True,31
-136," antenna_positions (numpy array): 2D array of antenna positions (x, y, z).
-       ",True,7,"5,2",True,32
-137," antenna_positions (numpy array): 2D array of antenna positions (x, y).
-       ",True,7,"5,2",True,33
-138," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,34
-139," antenna_positions (numpy array): 2D array of x and y coordinates of each antenna position.
-       ",True,7,"5,2",True,35
-140," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,36
-141," antenna_positions (numpy array): 2D array of x, y coordinates of each antenna position.
-       ",True,7,"5,2",True,37
-142," antenna_positions (numpy array): 2D array of x and y coordinates of each antenna position.
-       ",True,7,"5,2",True,38
-143," antenna_positions (numpy array): 2D array of x-y coordinates of each antenna position.
-       ",True,7,"5,2",True,39
-144," antenna_positions (numpy array): 2D array of x and y coordinates of the antenna positions.
-       ",True,7,"5,2",True,40
-145," antenna_positions (numpy array): 2D array of x,y coordinates of each antenna position.
-       ",True,7,"5,2",True,41
-146," antenna_positions (numpy array): 2D array of x, y coordinates of each antenna position.
-       ",True,7,"5,2",True,42
-147," antenna_positions (numpy array): 2D array of antenna positions (x, y) coordinates.
-       ",True,7,"5,2",True,43
-148," antenna_positions (numpy array): 2D array of antenna positions (x, y) coordinates.
-       ",True,7,"5,2",True,44
-149," antenna_positions (numpy array): 2D array of x and y coordinates of each antenna position.
-       ",True,7,"5,2",True,45
-150," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,46
-151," antenna_positions (numpy array): 2D array of antenna positions (x, y) in meters.
-       ",True,7,"5,2",True,47
-152," antenna_positions (numpy array): 3D coordinates of each antenna position.
-       ",True,7,"5,2",True,48
-153," antenna_positions (numpy array): 2D array of x-y coordinates for each antenna position.
-       ",True,7,"5,2",True,49
-154," antenna_positions (numpy array): 2D array of x,y coordinates of each antenna position.
-       ",True,7,"5,2",True,50
-155," wavelength (float): Wavelength of the acoustic wave.
-       ",True,3,"6,3",True,1
-156," frequency (float): Frequency of the acoustic wave.
-
+104," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,2
+105," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,3
+106," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,4
+107," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,5
+108," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,6
+109," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,7
+110," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,8
+111," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,9
+112," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,10
+113," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,11
+114," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,12
+115," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,13
+116," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,14
+117," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,15
+118," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,16
+119," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,17
+120," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,18
+121," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,19
+122," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,20
+123," fs (int): Sampling frequency.
+   ",True,1,"5,2",True,21
+124," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,22
+125," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,23
+126," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,24
+127," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,25
+128," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,26
+129," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,27
+130," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,28
+131," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,29
+132," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,30
+133," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,31
+134," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,32
+135," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,33
+136," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,34
+137," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,35
+138," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,36
+139," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,37
+140," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,38
+141," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,39
+142," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,40
+143," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,41
+144," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,42
+145," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,43
+146," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,44
+147," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,45
+148," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,46
+149," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,47
+150," fs (int): Sampling frequency.
+    
+   ",True,1,"5,2",True,48
+151," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,49
+152," fs (float): Sampling frequency.
+    
+   ",True,3,"5,2",True,50
+153," Returns:
+    x1, x2 (numpy arrays): Two sinusoidal signals with slightly different frequencies.
+    """"""
    ",True,3,"6,0",True,1
-157," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,2
-158," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,3
-159," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,4
-160," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,5
-161," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,6
-162," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,7
-163," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,8
-164," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,9
-165," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,10
-166," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,11
-167," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,12
-168," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,13
-169," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,14
-170," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,15
-171," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,16
-172," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,17
-173," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,18
-174," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,19
-175," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,20
-176," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,21
-177," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,22
-178," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,23
-179," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,24
-180," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,25
-181," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,26
-182," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,27
-183," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,28
-184," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,29
-185," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,30
-186," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,31
-187," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,32
-188," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,33
-189," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,34
-190," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,35
-191," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,36
-192," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,37
-193," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,38
-194," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,39
-195," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,40
-196," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,41
-197," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,42
-198," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,43
-199," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,44
-200," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,45
-201," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,46
-202," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,47
-203," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,48
-204," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,49
-205," frequency (float): Frequency of the acoustic wave.
-
-   ",True,3,"6,0",True,50
-206," Returns:
-        pressure_field (numpy array): Reconstructed acoustic pressure field.
+154," Returns:
+    sig (numpy array): Sinusoidal signal array.
     """"""
+   ",True,1,"6,0",True,2
+155," Returns:
+    x (numpy array): Sinusoidal signal.
+    """"""
+   ",True,1,"6,0",True,3
+156," Returns:
+    signals (numpy array): Sinusoidal signals.
+    """"""
+   ",True,0,"6,0",True,4
+157," freqs = [100, 200, 300]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, f in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * f * t)
+    return signals
 
+def sonah.microphone_signals(signals, mic_pos, src_pos, c=343):
+    """"""
+    Simulate microphone signals using the free-field Green's function.
+    
    ",False,,,,1
-207," Returns:
-        reconstructed_pressure_field (numpy array): Reconstructed pressure field at each point in the grid.
+158," f0 = 40e3  # Start frequency (Hz)
+    f1 = 80e3  # End frequency (Hz)
+    n_points = len(t)
+
+    signals = np.zeros((n_points, 2))
+
+    for i in range(n_points):
+        freq = f0 + (f1 - f0) * i / n_points  # Linear sweep frequency.
+       ",True,3,"5,2",True,2
+159," freqs = [20e3, 25e3, 30e3]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, f in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * f * t)
+    return signals
+
+def sonah.hologram(signals, mic_pos, src_pos):
     """"""
+    Calculate the acoustic nearfield hologram using SONAH.
+    
+   ",False,,,,3
+160," freq = 40000  # 40 kHz signal frequency
+    
+    # Generate a single tone signal at the specified frequency.
+   ",True,7,"5,2",True,4
+161," f0 = 40e3  # Frequency of the signal (40 kHz)
+    signals = np.sin(2 * np.pi * f0 * t)
+    return signals
 
-   ",True,2,"6,0",True,2
-208," Returns:
-        reconstructed_pressure_field (numpy array): Reconstructed acoustic pressure field.
+def sonah.propagate(signals, c, d, fs):
     """"""
-   ",True,0,"6,0",True,3
-209," num_antennas = len(antenna_positions)
-    num_points_x = 100  # Number of points in the x-direction for reconstruction grid.
-   ",False,,,,1
-210," num_antennas = len(antenna_positions)
-    num_points = 100  # Number of points to reconstruct in the pressure field
+    Propagate the signals through the medium.
+    
+   ",True,7,"5,2",True,5
+162," f0 = 20e3  # Frequency of the signal (Hz)
+    A = 1     # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    return signals
 
-    # Calculate the reconstruction grid points (x, y)
-    grid_x = np.linspace(-1, 1, num_points)
-    grid_y = np.linspace(-1, 1, num_points)
-    grid_points = np.meshgrid(grid_x, grid_y)
+def sonah.holo_reconstruction(pressure_signals, mic_positions, source_position):
+    """"""
+    Reconstruct the acoustic pressure field using SONAH.
+    
+   ",True,0,"5,2",True,6
+163," f0 = 40e3  # Frequency of the signal (Hz)
+    A = 1  # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    return signals
 
-    # Initialize the reconstructed pressure field array 
-    reconstructed_pressure_field = np.zeros((num_points, num_points), dtype=complex)
+def sonah.holofilter(signals, distances, wavelength, rho_c):
+    """"""
+    Apply the holographic filter to the signals.
+    
+   ",True,0,"5,2",True,7
+164," freqs = [20e3, 21e3, 22e3]  # Frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    
+    return signals
 
-    for i in range(num_antennas):
-        antenna_x, antenna_y = antenna_positions[i]
-        for j in range(num_points):
-            for k in range(num_points):
-                point_x, point_y = grid_points[0][j, k], grid_points[1][j, k]
-                distance = np.sqrt((point_x - antenna_x)**2 + (point_y - antenna_y)**2)
-                phase_shift = 2 * np.pi * distance / wavelength * frequency 
-                reconstructed_pressure_field[j, k] += pressure_signals[i] * np.exp(1j * phase_shift)
+def sonah.measure_pressure(psd_data, calibration_file):
+    """"""
+    Measure pressure from PSD data using calibration file.
+    
+   ",True,3,"5,2",True,8
+165," f0 = 40e3  # Frequency of the sound wave (Hz)
+    A = 1     # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    return signals
 
-    return reconstructed_pressure_field
+def sonah.propagate(signals, distance, c, fs):
+    """"""
+    Propagate the acoustic signal through the air.
+    
+   ",True,1,"5,2",True,9
+166," f0 = 40e3  # Frequency of the sound wave (Hz)
+    omega0 = 2 * np.pi * f0
+    
+    signals = np.sin(omega0 * t)
+    return signals
 
 
-# Example usage:
+def sonah.microphone_signals(signals, delays):
+    """"""
+    Simulate microphone signals in SONAH.
+    
+   ",True,3,"5,2",True,10
+167," f0 = 40e3  # Start frequency (Hz)
+    f1 = 60e3  # End frequency (Hz)
+    num_cycles = 10
+    
+    t_start = t[0]
+    t_end = t[-1]
+    dt = t[1] - t[0]
+    
+    omega0 = 2 * np.pi * f0 * dt  # Angular frequency at f0 (rad/s)
+    omega1 = 2 * np.pi * f1 * dt  # Angular frequency at f1 (rad/s)
+    
+    signals = np.zeros((t.size, num_cycles))
+    for i in range(num_cycles):
+        w = omega0 + i * (omega1 - omega0) / (num_cycles - 1)
+        signal = np.sin(w * (t - t_start))  # Sinusoidal signal at frequency w/2π (Hz)
+        signals[:, i] = signal
+    
+    return signals
 
-# Antenna positions (x, y)
-antenna_positions = np.array([[0, 0], [0.5, 0], [1, 0], [-0.5, 0], [-1, 0]])
+def sonah.microphone_signals(signals, x, y, z, c=343):
+    """"""
+    Simulate microphone signals using the Nearfield Acoustic Holography (NAH) equation.
+    
+   ",False,,,,11
+168," f0 = 40e3  # Frequency of the signal [Hz]
+    A = 1  # Amplitude of the signal
+    
+    signals = A * np.sin(2 * np.pi * f0 * t)
+    
+    return signals
 
-# Pressure signals measured at each antenna position (arbitrary values)
-pressure_signals = np.array([1+1j, 2-2j, 3+3j, 4-4j, 5+5j])
+def sonah.propagate(signals, distance, speed_of_sound=343):
+    """"""
+    Propagate the signals through a medium using the acoustic wave equation.
+    
+   ",True,7,"5,2",True,12
+169," f0 = 10000  # Frequency of the signal (Hz)
+    num_sensors = 4  # Number of sensors
+    
+    signals = np.zeros((num_sensors, len(t)))
+    for i in range(num_sensors):
+        phase_shift = i * np.pi / 2  # Phase shift between sensors (radians)
+        signals[i] = np.sin(2 * np.pi * f0 * t + phase_shift)
+    
+    return signals
 
-# Acoustic wave properties (wavelength and frequency)
-wavelength = 0.05  # meters 
-frequency = 1000  # Hz
+def sonah.hologram(signals, distances):
+    """"""
+    Compute the acoustic nearfield hologram using the measured signals and sensor distances.
+    
+   ",True,0,"5,2",True,13
+170," f0 = 20000  # Frequency of the signal (Hz)
+    theta = np.pi / 4  # Angle of incidence (rad)
+    x0 = 0.1  # Distance from the source (m)
+    c = 343  # Speed of sound (m/s)
+    
+    signals = np.sin(2 * np.pi * f0 * t + theta - (x0 / c) * f0)
+    return signals
 
-# Perform SONAH reconstruction 
-reconstructed_pressure_field = sonah_reconstruction(pressure_signals, antenna_positions, wavelength, frequency)
+def sonah.hologram(signals, microphones, fs):
+    """"""
+    Compute the SONAH hologram.
+    
+   ",True,0,"5,2",True,14
+171," f0 = 20000  # Hz, frequency of the signal.
+   ",True,1,"5,2",True,15
+172," freqs = [20e3, 25e3, 30e3]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    return signals
 
-print(reconstructed_pressure_field)
-```
-This code assumes you have:
+def sonah.propagate(signals, c, p, L):
+    """"""
+    Propagate sound waves using the Westervelt equation.
+    
+   ",True,3,"5,2",True,16
+173," f0 = 40e3  # kHz, lowest frequency component.
+   ",False,,,,17
+174," freqs = [200,  # frequency 1 (Hz)
+             400]  # frequency 2 (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    return signals
 
-* `pressure_signals`: an array of complex numbers representing the pressure signals measured at each antenna position.
-",False,,,,2
-211," num_antennas = len(antenna_positions)
-    num_points = len(pressure_signals[0])
+def sonah.measure_pressure(psd, mic_locs, src_loc):
+    """"""
+    Measure pressure at microphone locations using SONAH.
+    
+   ",True,3,"5,2",True,18
+175," f0 = 40e3  # Frequency of the signal (Hz)
+    amplitude = 1.0
+    
+    signals = amplitude * np.sin(2 * np.pi * f0 * t)
+    return signals
 
-    # Create a 2D grid of points for reconstruction 
-    x_range = np.linspace(-1, 1, num_points)
-    y_range = np.linspace(-1, 1, num_points)
-    x_grid, y_grid = np.meshgrid(x_range, y_range)
+def sonah.microphone_signals(signals, microphone_positions, speed_of_sound):
+    """"""
+    Calculate the microphone signals using the delay-and-sum approach.
+    
+   ",True,3,"5,2",True,19
+176," freqs = [20e3, 30e3, 40e3]  # Frequencies of interest (Hz)
+    amplitudes = [1, 0.5, 0.25]  # Amplitudes of each frequency
+    
+    signals = np.zeros((len(freqs), len(t)))
+    for i, (freq, amp) in enumerate(zip(freqs, amplitudes)):
+        signals[i] = amp * np.sin(2 * np.pi * freq * t)
+    
+    return signals
 
-    # Initialize reconstructed pressure field array 
-    reconstructed_pressure_field = np.zeros((num_points, num_points), dtype=complex)
+def sonah.microphone_signals(signals, mic_positions, source_position, c=343):
+    """"""
+    Simulate microphone signals using the free-field Green's function.
+    
+   ",True,0,"5,2",True,20
+177," freqs = [200,  # Frequency of the first signal (Hz)
+              400]  # Frequency of the second signal (Hz)
+    amps = [1,    # Amplitude of the first signal 
+             0.5]  # Amplitude of the second signal
+    
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = amps[i] * np.sin(2 * np.pi * freq * t)
+        
+    return signals
 
-    # Loop through each antenna position 
-    for i in range(num_antennas):
-        x_i, y_i = antenna_positions[i]
-        distance_matrix = np.sqrt((x_grid - x_i)**2 + (y_grid - y_i)**2)
-        phase_shift = 2 * np.pi * distance_matrix / wavelength
+def sonah.hologram(signals, mic_pos, source_pos):
+    """"""
+    Calculate the acoustic nearfield hologram using SONAH.
+    
+   ",True,0,"5,2",True,21
+178," f0 = 20000  # Frequency of the signal (Hz)
+    signals = np.sin(2 * np.pi * f0 * t)
+    return signals
 
-        # Compute the complex exponential term 
-        exp_term = np.exp(1j * phase_shift)
+def sonah.microphone_signals(p, mic_pos, fs):
+    """"""
+    Calculate microphone signals using SONAH.
+    
+   ",False,,,,22
+179," f0 = 20e3  # starting frequency (Hz)
+    f1 = 40e3  # ending frequency (Hz)
+    n_cycles = 10  # number of cycles
+    
+    t_start = t[0]
+    t_end = t[-1]
+    
+    freqs = np.linspace(f0, f1, int(n_cycles * (f1 - f0) / fs))
+    signals = np.zeros((len(freqs), len(t)))
+    
+    for i, freq in enumerate(freqs):
+        signal = np.sin(2 * np.pi * freq * (t - t_start) + np.random.uniform(-np.pi, np.pi))
+        signals[i] = signal
+    
+    return signals
 
-        # Add the contribution from this antenna to the reconstructed pressure field 
-        reconstructed_pressure_field += pressure_signals[:, i] * exp_term
 
-    return reconstructed_pressure_field
+def sonah.measurements(signals, mic_pos, src_pos):
+    """"""
+    Simulate measurements using the generated signals and microphone positions.
+    
+   ",True,3,"5,2",True,23
+180," freqs = [20, 100, 200]  # Frequencies in Hz.
+   ",True,3,"5,2",True,24
+181," freqs = [100, 200, 300]  # frequencies of interest (Hz)
+    signals = np.zeros((len(freqs), len(t)))
+    for i, freq in enumerate(freqs):
+        signals[i] = np.sin(2 * np.pi * freq * t)
+    return signals
 
-# Example usage 
-if __name__ == '__main__':
-    # Generate some example data 
-    num_antennas = 16 
-    num_points = 256 
-    wavelength = 0.1 
-    frequency = 1000 
+def sonah.microphone_signals(signals, delay_matrix):
+    """"""
+    Simulate microphone signals using the signal and delay matrix.
+    
+   ",True,2,"5,2",True,25
+182," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,1
+183," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,2
+184," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,3
+185," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,4
+186," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,5
+187," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,6
+188," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,7
+189," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,8
+190," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,9
+191," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,10
+192," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,11
+193," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,12
+194," Parameters:
+    signals (numpy array): Signals generated by sonah.signals().
+   ",True,0,"5,2",True,13
+195," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,14
+196," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,15
+197," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,16
+198," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,17
+199," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,18
+200," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,19
+201," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,20
+202," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,21
+203," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,22
+204," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,23
+205," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,24
+206," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,25
+207," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,26
+208," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,27
+209," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,28
+210," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,29
+211," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,30
+212," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,31
+213," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,32
+214," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,33
+215," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,34
+216," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,35
+217," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,36
+218," Parameters:
+    signals (numpy array): Sonah signals.
+   ",True,0,"5,2",True,37
+219," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,38
+220," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,39
+221," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,40
+222," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,41
+223," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,42
+224," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,43
+225," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,44
+226," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,45
+227," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,46
+228," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,47
+229," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,48
+230," Parameters:
+    signals (numpy array): Input signals.
+   ",True,1,"5,2",True,49
+231," Parameters:
+    signals (numpy array): Sinusoidal signals.
+   ",True,1,"5,2",True,50
+232," delay_matrix (numpy array): Delay matrix.
+    
+   ",True,2,"6,2",True,1
+233," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,1
+234," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,2
+235," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,3
+236," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,4
+237," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,5
+238," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,6
+239," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,7
+240," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,8
+241," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,9
+242," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,10
+243," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,11
+244," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,12
+245," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,13
+246," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,14
+247," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,15
+248," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,16
+249," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,17
+250," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,18
+251," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,19
+252," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,20
+253," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,21
+254," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,22
+255," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,23
+256," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,24
+257," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,25
+258," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,26
+259," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,27
+260," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,28
+261," Returns:
+    microphone_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,29
+262," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,30
+263," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,31
+264," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,32
+265," Returns:
+    microphone_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,33
+266," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,34
+267," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,35
+268," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,36
+269," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,37
+270," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,38
+271," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,39
+272," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,40
+273," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,41
+274," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,42
+275," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,43
+276," Returns:
+    microphone_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,44
+277," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,45
+278," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,46
+279," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,47
+280," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,48
+281," Returns:
+    microphone_signals (numpy array): Simulated microphone signals.
+    """"""
+   ",True,0,"5,2",True,49
+282," Returns:
+    mic_signals (numpy array): Microphone signals.
+    """"""
+   ",True,0,"5,2",True,50
+283," num_mics, num_freqs, _ = delay_matrix.shape 
+    mic_signals = np.zeros((num_mics, len(signals[0])))
+    for i in range(num_mics):
+        for j in range(num_freqs):
+            mic_signals[i] += signals[j] * delay_matrix[i, j]
+    return mic_signals
 
-    # Antenna positions (example: circular array) 
-    theta = np.linspace(0, 2*np.pi, num_antennas, endpoint=False) 
-    antenna_positions = np.array([np.cos(theta), np.sin(theta)]).T 
-
-    # Generate random pressure signals (replace with real data!) 
-   ",True,2,"5,2",True,3
+def sonah.reconstruction(mic_signals, delay_matrix):
+    """"""
+    Reconstruct the source signal using SONAH.
+    
+   ",True,2,"5,2",True,1

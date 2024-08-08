@@ -42,12 +42,12 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"semstamp_test_{cfg.partition}_opt"
+    dir_name = f"semstamp_opt_test_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    start = 1 + (cfg.partition - 1) * 700
-    end = 1 + cfg.partition * 700
+    start = 1 + (cfg.partition - 1) * 100
+    end = 1 + cfg.partition * 100
     for prompt_num in range(start,end):
         stats_file_path = f"{base_folder_name}/stats/{prompt_num}.csv"
         os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
@@ -60,7 +60,7 @@ def test(cfg):
         try:
             for _ in range(1):
                 start = time.time()
-                watermarked_text = watermarker.generate(prompt, stats_file_path=stats_file_path)
+                watermarked_text = watermarker.generate_watermarked_outputs(prompt, stats_file_path=stats_file_path)
                 is_detected, score = watermarker.detect(watermarked_text)
                 delta = time.time() - start
                 
@@ -69,14 +69,11 @@ def test(cfg):
                 log.info(f"Score: {score}")
                 log.info(f"Time taken: {delta}")
 
-                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path}]
+                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
                 save_to_csv(stats, watermarked_text_file_path, rewrite=False)
         except Exception as e:
             log.info(f"Exception with Prompt {prompt_num}.")
-<<<<<<< Updated upstream
             log.info(f"Exception: {e}")
-=======
->>>>>>> Stashed changes
 
 if __name__ == "__main__":
     test()
