@@ -28,27 +28,33 @@ def test(cfg):
     
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    start = 1 + (cfg.partition - 1) * 75
-    end = 1 + cfg.partition * 75
+    # start = 1 + (cfg.partition - 1) * 75
+    # end = 1 + cfg.partition * 75
+    start = 41
+    end = 76
     for prompt_num in range(start,end):
         prompt, id = get_prompt_and_id_dev(cfg.prompt_file, prompt_num)
             
         log.info(f"Prompt: {prompt}")
         log.info(f"Prompt ID: {id}")
 
-        for _ in range(1):
-            start = time.time()
-            watermarked_text = watermarker.generate(prompt)
-            is_detected, score = watermarker.detect(watermarked_text)
-            delta = time.time() - start
-            
-            log.info(f"Watermarked Text: {watermarked_text}")
-            log.info(f"Is Watermark Detected?: {is_detected}")
-            log.info(f"Score: {score}")
-            log.info(f"Time taken: {delta}")
+        try:
+            for _ in range(1):
+                start = time.time()
+                watermarked_text = watermarker.generate_watermarked_outputs(prompt)
+                is_detected, score = watermarker.detect(watermarked_text)
+                delta = time.time() - start
+                
+                log.info(f"Watermarked Text: {watermarked_text}")
+                log.info(f"Is Watermark Detected?: {is_detected}")
+                log.info(f"Score: {score}")
+                log.info(f"Time taken: {delta}")
 
-        stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path}]
-        save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+                save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+        except Exception as e:
+            log.info(f"Exception with Prompt {prompt_num}.")
+            log.info(f"Exception: {e}")
 
 if __name__ == "__main__":
     test()
