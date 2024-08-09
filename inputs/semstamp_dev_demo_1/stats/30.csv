@@ -198,3 +198,839 @@ int main()
 
 // Function to enumerate loaded modules and check for any signs of DLL injection.
 ",True,1,"0,3",False,16
+20," mbi.Protect!= PAGE_NOACCESS &&!(mbi.Protect & 0x20);
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, GetCurrentProcessId());
+    
+    if (hSnapshot == INVALID_HANDLE_VALUE) {
+        printf(""Failed to create snapshot.\n"");
+        return 1;
+    }
+
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    if (!Module32First(hSnapshot, &me32)) {
+        CloseHandle(hSnapshot);
+        printf(""No modules found.\n"");
+        return 2;
+    }
+
+    do {
+        HMODULE hModule = GetModuleHandleA(me32.szExePath);
+        
+        if (hModule == NULL || hModule == (HMODULE)-1 ||!IsModuleLinkedToPEB(hModule))
+            printf(""Injected DLL detected: %s\n"", me32.szExePath);
+    } while (Module32Next(hSnapshot, &me32));
+
+    CloseHandle(hSnapshot);
+    return 0;
+}
+```
+**Compile and run**: To compile this code, you can use:
+
+```
+gcc -o detect_dll_inject.exe detect_dll_inject.c -lkernel32 -lpsapi -ladvapi32 -ltlhelp32 -g -Wall -Wextra -pedantic -std=c11 -O2 -static-libgcc -shared-libgcc -s -Wl,-stack=8388608 -nostartfiles -no-pie -fno-PIE -w -Werror=format-security -D_FORTIFY_SOURCE=2 -fstack-protector-all -g3 -ggdb3 -m64 -static-crtp -ffunction-sections -fdata-sections -fipa-sra -fpredictive-common -fgcse-after-reload -ftree-vectorize -foptimize-sibling-calls -freorder-functions -fvtable-verify=std -gstrict-volatile-bitfields -falign-jumps=1 -fcprop-registers -fsplit-wide-types -fcaller-saves -fstrict-aliasing -pthread -march=x86-64 -mtune=generic -fexceptions -fasynchronous-unwind-tables -fcilkplus -Wa,--noexecstack -Wno-write-strings -Wshadow=local -Wconversion-null -Wformat=2 --param max-completely-peel-times=3 --param min-complete peel-loop=100 -O3 -funroll-loops -fstrength-reduce --param basic-block-threshold=50 -w -Warray-bounds -Wcast-align -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wuninitialized -Wmissing-format-attribute -feliminate-unused-debug-symbols -std=gnu++14 --sysroot=/usr/lib/gcc/x86_64-linux-gnu/10/include-fixed --with-headers /usr/include -v -frtti -fvisibility-inlines-hidden -fvisibility-ms-compat -o detect_dll_inject.o -c detect_dll_inject.c -ldetect_dll_inject -static-crtp -fPIC -pie -g3 -o detect_dll_inject.exe 
+
+./detect_dll_inject.exe >output.txt
+
+```",True,6,"0,3",False,17
+21,"!(mbi.Protect & PAGE_GUARD);
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    if (!hSnapshot) {
+        printf(""Failed to create snapshot\n"");
+        return -1;
+    }
+
+    MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all loaded modules.
+   ",True,2,"0,3",False,18
+22," (mbi.Protect & PAGE_EXECUTE) == PAGE_EXECUTE;
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, GetCurrentProcessId());
+    
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+    BOOL fMoreEntries = Module32First(hSnapshot, &me32);
+
+    while(fMoreEntries)
+    {
+        HMODULE hModule = GetModuleHandleA(me32.szExePath);
+        
+        if (hModule!= NULL)
+        {
+            if (!IsModuleLinkedToPEB(hModule))
+            {
+                printf(""Suspicious module found: %s\n"", me32.szExePath);
+                // Handle potential DLL injection here...
+            }
+        }
+        else printf(""Failed to get handle for %s\n"", me32.szExePath);
+
+        fMoreEntries = Module32Next(hSnapshot, &me32);
+    }
+
+    CloseHandle(hSnapshot);
+    return 0;
+}
+```
+Compile this code as a Windows console application:
+
+`gcc -o dllDetector.exe dllDetector.c -lpsapi`
+
+Please note that this is just an example code to demonstrate the concept. You may want to enhance it further based on your specific needs. 
+
+",False,,,,19
+23," (mbi.Protect & PAGE_EXECUTE) == PAGE_EXECUTE;
+}
+
+// Function to enumerate loaded modules and check for unlinked DLLs.
+void EnumerateLoadedModules(DWORD pid)
+{
+    HANDLE hSnapshot;
+    MODULEENTRY32 me;
+
+    hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, pid);
+    if (hSnapshot == INVALID_HANDLE_VALUE)
+        return;
+
+    me.dwSize = sizeof(MODULEENTRY32);
+    if (!Module32First(hSnapshot, &me))
+    {
+        CloseHandle(hSnapshot);
+        return;
+    }
+
+    do {
+        HMODULE hModule = LoadLibraryExA(me.szExePath, NULL, DONT_RESOLVE_DLL_REFERENCES);
+        if (hModule!= NULL)
+        {
+            if (!IsModuleLinkedToPEB(hModule)) {
+                printf(""Unlinked DLL detected: %s\n"", me.szExePath);
+            }
+            FreeLibrary(hModule);
+        }
+    } while (Module32Next(hSnapshot, &me));
+
+    CloseHandle(hSnapshot);
+}
+
+int main()
+{
+    // Replace with the PID of the process you want to monitor.
+   ",True,7,"0,3",False,20
+24,"!(mbi.Protect & PAGE_NOACCESS) && mbi.Type == MEM_IMAGE;
+}
+
+int main()
+{
+    // Get the current process ID.
+   ",True,1,"0,3",False,21
+25,"!(mbi.Protect & PAGE_NOACCESS) && mbi.AllocationBase == hModule;
+}
+
+// Function to enumerate loaded modules and detect potential injected DLLs unlinked from PEB.
+",True,1,"0,3",False,22
+26,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, 0);
+    MODULEENTRY32 me32;
+
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    if (!Module32First(hSnapShot, &me32))
+    {
+        printf(""Error enumerating modules: %d\n"", GetLastError());
+        CloseHandle(hSnapShot);
+        return -1;
+    }
+
+    do 
+    {
+        HMODULE hMod = NULL;
+        char szDllPath[MAX_PATH];
+
+        WideCharToMultiByte(CP_ACP, 0, me32.szExePath, -1, szDllPath, MAX_PATH, NULL, NULL);
+
+        hMod = GetModuleHandleA(szDllPath);
+        
+        // Skip system modules (e.g., kernel32.dll) since they don't have this evasion capability.
+       ",True,7,"0,3",False,23
+27,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to get the number of loaded modules in the process.
+",True,1,"0,3",False,24
+28,"!(mbi.Protect & PAGE_NOACCESS) && mbi.BaseAddress == hModule;
+}
+
+// Function to enumerate loaded modules and check for any unlinked modules.
+",True,0,"0,3",False,25
+29,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Enumerate all loaded modules and check if any are unlinked from the PEB.
+",True,1,"0,3",False,26
+30,"!(mbi.Protect & PAGE_GUARD);
+}
+
+// Enumerate all loaded modules in the current process and check for any suspicious ones.
+",True,3,"0,3",False,27
+31,"!(mbi.Protect & PAGE_NOACCESS) && (mbi.AllocationProtect & (PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE)) == (PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE);
+}
+
+int main()
+{
+    // Get a snapshot of all loaded modules in the current process.
+   ",True,1,"0,3",False,28
+32,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to iterate over all loaded modules and check for linked modules.
+",False,,,,29
+33,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate all loaded modules and check for injected DLLs.
+",True,1,"0,3",False,30
+34," mbi.Protect & PAGE_EXECUTE_READWRITE;
+}
+
+// Function to traverse the loaded modules list via the Tool Help API.
+void TraverseLoadedModules()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, 0);
+    if (hSnapShot == INVALID_HANDLE_VALUE)
+        return;
+
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    if (!Module32First(hSnapShot, &me32))
+    {
+        CloseHandle(hSnapShot);
+        return;
+    }
+
+    do {
+        HMODULE hModule = GetModuleHandleA(me32.szExePath);
+        
+        // If we can't get a handle, it might be an indication of an injected DLL trying to hide itself!
+       ",False,,,,31
+35,"!(mbi.Protect & PAGE_EXECUTE_WRITECOPY);
+}
+
+// Function to get the list of loaded modules for the current process.
+",True,1,"0,3",False,32
+36,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate loaded modules and check for unlinked modules.
+",True,1,"0,3",False,33
+37,"!(mbi.Protect & 0x10);
+}
+
+// Main function to check for injected modules unlinked from PEB.
+",True,1,"0,3",False,34
+38,"!(mbi.Protect & 0x0001);
+}
+
+int main()
+{
+    // Iterate over all loaded modules in the current process.
+   ",True,1,"0,3",False,35
+39,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate loaded modules and check for injected DLLs using the Unlink from PEB evasion technique.
+",True,1,"0,3",False,36
+40," mbi.Protect!= PAGE_NOACCESS &&!!(mbi.AllocationProtect & PAGE_EXECUTE);
+}
+
+// Function to iterate through all loaded modules and check for any modules not linked to the PEB.
+",False,,,,37
+41,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate loaded modules and check for unlinked DLLs.
+",True,1,"0,3",False,38
+42," (mbi.Protect & PAGE_NOACCESS) == 0;
+}
+
+int main()
+{
+    HANDLE hProcessSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPMODULE, 0);
+    
+    if (hProcessSnapShot == INVALID_HANDLE_VALUE)
+        return FALSE;
+
+    PROCESSENTRY32 pe32;
+    MODULEENTRY32 me32;
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+    
+    // Iterate over all running processes.
+    if (!Process32First(hProcessSnapShot, &pe32))
+    {
+        CloseHandle(hProcessSnapShot);
+        return FALSE;
+    }
+
+    do {
+        // Get the list of loaded modules for the current process.
+       ",True,7,"0,3",False,39
+43,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate loaded modules and detect unlinked DLLs.
+",True,1,"0,3",False,40
+44,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate loaded modules and check for unlinked DLLs.
+",True,1,"0,3",False,41
+45,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate all loaded modules and check for unlinked ones.
+",True,1,"0,3",False,42
+46,"!(mbi.Protect & PAGE_GUARD);
+}
+
+// Function to scan the loaded modules for potential DLL injections.
+",True,3,"0,3",False,43
+47," (mbi.Protect & PAGE_PROTECTION_FLAGS) == PAGE_EXECUTE_READWRITE;
+}
+
+// Function to enumerate loaded modules and check for unlinked DLLs.
+void EnumerateModules()
+{
+    HMODULE hMod;
+    HANDLE hSnapshot;
+    MODULEENTRY32 me;
+
+    // Create a snapshot of the loaded modules.
+   ",True,1,"0,3",False,44
+48," (mbi.Protect & (PAGE_EXECUTE_READ | PAGE_EXECUTE_WRITECOPY)) == 0;
+}
+
+// Function to enumerate loaded modules in the process and check for unlinked modules.
+BOOL DetectUnlinkedModules(DWORD pid)
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid);
+    if (hSnapshot == INVALID_HANDLE_VALUE) {
+        printf(""Failed to create snapshot.\n"");
+        return FALSE;
+    }
+
+    MODULEENTRY32 me32;
+
+    ZeroMemory(&me32, sizeof(me32));
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    BOOL result = TRUE;
+
+    if (!Module32First(hSnapshot, &me32)) {
+        printf(""No modules found.\n"");
+        CloseHandle(hSnapshot);
+        return FALSE;
+    }
+    do {
+        HMODULE hModule = GetModuleHandleA(me32.szExePath);
+        
+        if (NULL!= hModule) {
+            if (!IsModuleLinkedToPEB(hModule)) {
+                printf(""Unlinked module detected: %s\n"", me32.szExePath);
+                result = FALSE;
+            }
+        }
+    } while (Module32Next(hSnapshot, &me32));
+
+    CloseHandle(hSnapshot);
+    return result;
+}
+
+int main()
+{
+    HANDLE currentProcess = GetCurrentProcess();
+    DWORD pid = GetCurrentProcessId();
+
+    if (currentProcess == NULL || pid <= 0) {
+        printf(""Error getting current process handle or ID.\n"");
+        exit(-1);
+    }
+
+    if (!DetectUnlinkedModules(pid))
+    {
+        printf(""DLL Injection detected!\n"");
+        exit(-2);
+    }
+    else {
+        printf(""No unlinked modules found.\n"");
+        exit(0);
+    }
+
+    return 0;
+}
+```
+Compile this code using:
+`gcc -o detector detector.c -lpsapi -lws2_32`
+
+Note that this program requires `windows.h`, `tlhelp32.h` header files and must be compiled on a Windows platform.",False,,,,45
+49,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    if (hSnapShot == INVALID_HANDLE_VALUE) {
+        MessageBoxA(NULL, ""Failed to create snapshot",False,,,,46
+50," (mbi.Protect & PAGE_NOACCESS) == 0;
+}
+
+// Function to detect DLL injection by walking through all modules loaded in the current process.
+BOOL DetectDLLInjection()
+{
+    HANDLE hProcessSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, GetCurrentProcessId());
+    MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+    
+    BOOL isInjected = FALSE;
+    if (!Module32First(hProcessSnapShot, &me)) {
+        CloseHandle(hProcessSnapShot);
+        return FALSE; // Failed to get the first module info.
+    }
+    
+   ",True,7,"0,3",False,47
+51,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Enumerate all modules loaded into the current process and check for injected DLLs using the Unlink tactic.
+",True,1,"0,3",False,48
+52,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, GetCurrentProcessId());
+    
+    MODULEENTRY32 me;
+    memset(&me, 0, sizeof(me));
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all modules loaded in the current process.
+   ",True,1,"0,3",False,49
+53,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to scan all loaded modules and check for Unlink attacks.
+",True,1,"0,3",False,50
+54,"!(mbi.Protect & 0x04); // PAGE_NOACCESS is used as a marker by Windows for unlinked DLLs.
+}
+
+",True,1,"0,3",False,51
+55,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to iterate through loaded modules and detect injected DLLs using the 'unlink' trick.
+",True,1,"0,3",False,52
+56,"!(mbi.Protect & PAGE_NOACCESS) && mbi.RegionSize > 0;
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, GetCurrentProcessId());
+    MODULEENTRY32 me32;
+
+    me32.dwSize = sizeof(MODULEENTRY32);
+    Module32First(hSnapshot, &me32);
+
+    do {
+        HMODULE hModule = GetModuleHandleA(me32.szModule);
+
+        // Skip kernel modules and our own executable image.
+       ",True,4,"0,3",False,53
+57," mbi.Protect!= PAGE_NOACCESS;
+}
+
+int main()
+{
+    HANDLE hSnapshot;
+    PROCESSENTRY32 pe;
+
+    // Create a snapshot of all running processes.
+    hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    
+    if (hSnapshot == INVALID_HANDLE_VALUE)
+        return -1;
+
+    pe.dwSize = sizeof(PROCESSENTRY32);
+
+    // Iterate through all running processes.
+   ",True,7,"0,3",False,54
+58,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    // Get current process ID.
+   ",True,1,"0,3",False,55
+59,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    MODULEENTRY32 me;
+
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate over all loaded modules.
+   ",True,3,"0,3",False,56
+60,!(mbi.Protect & PAGE_NOACCESS) &&,True,1,"0,3",False,57
+61," (mbi.Protect & PAGE_EXECUTE_READWRITE) == PAGE_EXECUTE_READWRITE &&!(mbi.Protect & PAGE_UNLINK);
+}
+
+// Function to enumerate loaded modules and check for any unlinked modules.
+",True,3,"0,3",False,58
+62,"!(mbi.Protect & PAGE_EXECUTE_WRITECOPY);
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, 0);
+
+    MODULEENTRY32 me;
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Enumerate through all modules in the current process.
+   ",True,7,"0,3",False,59
+63,"!(mbi.Protect & PAGE_GUARD);
+}
+
+// Function to get the list of loaded modules for the current process.
+",True,1,"0,3",False,60
+64,"!(mbi.Protect & PAGE_NOACCESS) && mbi.RegionSize > 0;
+}
+
+// Function to enumerate all loaded modules and check for unlinked DLLs.
+",True,1,"0,3",False,61
+65," (mbi.Protect & PAGE_EXECUTE_READWRITE) == 0 &&!IsBadReadPtr(hModule, 1);
+}
+
+// Function to enumerate all loaded modules in the current process and detect those who are not linked to the PEB.
+void DetectDllInjection()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    
+    MODULEENTRY32 modEntry;
+    modEntry.dwSize = sizeof(MODULEENTRY32);
+
+    if (Module32First(hSnapShot, &modEntry)) {
+        do {
+            HMODULE hModule = modEntry.hModule;
+
+            // Ignore known Windows DLLs which might be always present in every processes.
+           ",True,1,"0,3",False,62
+66," mbi.State == MEM_COMMIT;
+}
+
+// Function to enumerate loaded modules and detect possible Unlink attacks on PEB.
+void DetectUnlinkAttack()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+    
+    if(Module32First(hSnapShot,&me32))
+    {
+        do 
+        {
+            // Skip kernel modules and our own process EXE/DLL files.
+           ",True,0,"0,3",False,63
+67," (mbi.Protect & PAGE_NOACCESS) == 0;
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, 0);
+    MODULEENTRY32 me;
+
+    if (hSnapshot == INVALID_HANDLE_VALUE) {
+        printf(""Failed to create snapshot\n"");
+        return 1;
+    }
+
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    // Iterate through all loaded modules in the current process.
+    for (bool bSuccess = Module32First(hSnapshot, &me); bSuccess; bSuccess = Module32Next(hSnapshot, &me))
+    {
+        HMODULE hModule = GetModuleHandleA(me.szExePath);
+        
+        // Detect potential anti-debugging techniques where the malware tries to hide itself by setting its image base address to zero or changing it.
+       ",True,2,"0,3",False,64
+68,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to get the list of loaded modules for the current process.
+",True,1,"0,3",False,65
+69,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Main function to detect DLLs that have unlinked themselves from the PEB.
+",True,1,"0,3",False,66
+70," (mbi.Protect & PAGE_EXECUTE_READWRITE) == 0;
+}
+
+// Function to enumerate loaded modules and check for DLL injection using Unlink from PEB evasion technique.
+void DetectDLLInjection()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    MODULEENTRY32 me32;
+    
+    if (hSnapshot == INVALID_HANDLE_VALUE) {
+        printf(""Failed to create snapshot!\n"");
+        return;
+    }
+    
+    me32.dwSize = sizeof(MODULEENTRY32);
+    
+    if (!Module32First(hSnapshot, &me32)) {
+        printf(""Failed to retrieve first module!\n"");
+        CloseHandle(hSnapshot);
+        return;
+    }
+    
+    do {
+        HMODULE hModule = GetModuleHandle(me32.szExePath);
+        
+        if (!IsModuleLinkedToPEB(hModule)) {
+            printf(""Suspicious module found: %ws\n"", me32.szExePath);
+            // Perform further analysis or actions here...
+        }
+    } while (Module32Next(hSnapshot, &me32));
+    
+    CloseHandle(hSnapshot);
+}
+
+int main()
+{
+    printf(""Detecting DLL injection...\n"");
+    DetectDLLInjection();
+    printf(""Detection complete.\n"");
+    return 0;
+}
+```
+Please note that this code requires the `tlhelp32.h` header file which provides functions for taking snapshots of processes and threads.
+
+",True,7,"0,3",False,67
+71,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Enumerate all modules in the current process and check for any potential malware hidden via unlinking from PEB trickery.
+",True,1,"0,3",False,68
+72," (mbi.Protect & 0x100) == 0; // Unlinked bit: PAGE_NOACCESS = 1 << 16 = 0x10000 
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, 0);
+    
+    if (hSnapshot!= INVALID_HANDLE_VALUE)
+    {
+        MODULEENTRY32 me;
+        me.dwSize = sizeof(MODULEENTRY32);
+
+        // Walk through all loaded modules of current process.
+        if (Module32First(hSnapshot, &me))
+        {
+            do {
+                HMODULE hMod = GetModuleHandleA(me.szModule);
+                
+                if (NULL!= hMod)
+                {
+                    // If a module is loaded but its handle is NULL or it is unlinked, alert potential injection detected.
+                   ",True,4,"0,3",False,69
+73,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, GetCurrentProcessId());
+    
+    if (hSnapShot == INVALID_HANDLE_VALUE) {
+        printf(""Failed to create snapshot of running processes!\n"");
+        exit(1);
+    }
+
+    MODULEENTRY32 me;
+
+    me.dwSize = sizeof(MODULEENTRY32);
+
+    if (!Module32First(hSnapShot, &me)) {
+        printf(""Failed to enumerate modules!\n"");
+        CloseHandle(hSnapShot);
+        exit(1);
+    }
+
+    do {
+        HMODULE hModule = GetModuleHandle(me.szExePath);
+
+        if (hModule!= NULL) {
+            if (!IsModuleLinkedToPEB(hModule)) {
+                printf(""Injected Module detected: %s\n"", me.szExePath);
+            }
+        }
+    } while (Module32Next(hSnapShot, &me));
+
+    CloseHandle(hSnapShot);
+
+    return 0;
+}
+```
+Note that this code needs to be compiled on Windows platform only.
+
+",True,4,"0,3",False,70
+74,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPMODULE, 0);
+    if (hSnapshot == INVALID_HANDLE_VALUE) {
+        return -1;
+    }
+
+    PROCESSENTRY32 pe32;
+    MODULEENTRY32 me32;
+
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+    if (!Process32First(hSnapshot, &pe32)) {
+        CloseHandle(hSnapshot);
+        return -1;
+    }
+
+    do {
+        me32.dwSize = sizeof(MODULEENTRY32);
+        if (!Module32First(hSnapshot, &me32)) {
+            break;
+        }
+
+        do {
+            HMODULE hModule = GetModuleHandleA(me32.szModule);
+            if (hModule!= NULL) {
+                if (!IsModuleLinkedToPEB(hModule))
+                {
+                    printf(""DLL injected using Unlink from PEB evasion: %ws\n"", me32.szExePath);
+                }
+            }
+        } while (Module32Next(hSnapshot, &me32));
+    } while (Process32Next(hSnapshot, &pe32));
+
+    CloseHandle(hSnapshot);
+    return 0;
+}
+```
+Note: This code needs to be compiled with Windows SDK headers included and run under an administrative context.
+
+",True,7,"0,3",False,71
+75," (mbi.Protect & PAGE_NOACCESS) == 0;
+}
+
+// Function to enumerate all modules loaded into the process and check for unlinked DLLs.
+DWORD DetectDllInjection()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, 0);
+    
+    if (hSnapshot == INVALID_HANDLE_VALUE)
+        return GetLastError();
+    
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+    
+    // Iterate over all modules loaded in the current process.
+   ",True,3,"0,3",False,72
+76,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+int main()
+{
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPPROCESS, GetCurrentProcessId());
+
+    MODULEENTRY32 me32;
+
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    int nCount = 0;
+
+    while (Module32Next(hSnapShot, &me32))
+    {
+        HMODULE hMod = LoadLibraryExA(me32.szExePath, NULL, DONT_RESOLVE_DLL_REFERENCES);
+
+        if (hMod == NULL) continue;
+
+        if (!IsModuleLinkedToPEB(hMod)) {
+            wprintf(L""DLL Injected: %s\n"", me32.szExePath);
+            nCount++;
+        }
+
+        FreeLibrary(hMod);
+    }
+    CloseHandle(hSnapShot);
+
+    if(nCount > 0) {
+        MessageBox(NULL, TEXT(""DLL Injection detected!",True,4,"0,3",False,73
+77,"!(mbi.Protect & PAGE_NOACCESS);
+}
+
+// Function to enumerate loaded modules and check for suspicious behavior.
+",True,1,"0,3",False,74
+78,"!(mbi.Protect & PAGE_NOACCESS) && (mbi.State == MEM_COMMIT || mbi.State == MEM_RESERVE);
+}
+
+// Function to detect DLL injection by checking for modules that are unlinked from the PEB.
+",True,1,"0,3",False,75
+79,"void DetectDLLInjection()
+{
+    HANDLE hProcess = GetCurrentProcess();
+    HMODULE hMods[1024];
+    DWORD cbNeeded;
+    DWORD cModules;
+    unsigned int i;
+
+    // Get a list of all loaded modules in the current process.
+   ",True,5,"6,2",True,1
+80,"BOOL DetectDLLInjection()
+{
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+    if (hSnapshot == INVALID_HANDLE_VALUE)
+        return FALSE;
+
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    if (!Module32First(hSnapshot, &me32))
+    {
+        CloseHandle(hSnapshot);
+        return FALSE;
+    }
+
+    do {
+        // Skip system modules and the main executable module.
+       ",True,6,"6,2",True,2

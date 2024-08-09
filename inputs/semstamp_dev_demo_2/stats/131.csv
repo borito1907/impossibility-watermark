@@ -1,0 +1,119 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+**Monte Carlo Sampling for 1D Classical Ising Model with Magnetic Field**
+====================================================================
+
+Below is an example NumPy implementation of the Metropolis-Hastings algorithm for Monte Carlo sampling of the 1D classical Ising model with an external magnetic field.
+
+",True,6,"0,3",True,1
+2,"
+
+**Monte Carlo Sampling for 1D Classical Ising Model with Magnetic Field**
+====================================================================
+
+Below is an example of how to perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field using NumPy.
+
+",True,6,"0,3",True,2
+3,"
+
+**Monte Carlo Sampling for 1D Classical Ising Model with Magnetic Field**
+=================================================================
+
+Here's an example of how you can perform Monte Carlo sampling for the 1D classical Ising model with a magnetic field using NumPy:
+```python
+
+import numpy as np
+
+def energy(spins, J, h):
+    """"""
+    Calculate the energy of the system.
+
+   ",True,6,"0,3",True,3
+4,"
+
+**Monte Carlo Sampling for 1D Classical Ising Model**
+====================================================
+
+Here's an example implementation of Monte Carlo sampling for the 1D classical Ising model in Python using NumPy.
+
+",True,6,"0,3",True,4
+5,"
+
+**Monte Carlo Sampling for 1D Classical Ising Model with Magnetic Field using NumPy**
+====================================================================================
+
+In this example, we'll implement the Metropolis-Hastings algorithm to perform Monte Carlo sampling on a 1D classical Ising model with an external magnetic field.
+
+",True,6,"0,3",True,5
+6,"
+
+**Monte Carlo Sampling for 1D Classical Ising Model with Magnetic Field**
+====================================================================
+
+**Introduction**
+---------------
+
+The 1D classical Ising model is a statistical mechanical system that consists of a chain of spins, each interacting with its nearest neighbors and an external magnetic field.",True,6,"0,3",True,6
+7,"
+
+**Monte Carlo Sampling for 1D Classical Ising Model with Magnetic Field**
+====================================================================
+
+Here's an implementation of Monte Carlo sampling for the 1D classical Ising model with a magnetic field using NumPy:
+
+```python {highlight=[2, 3]}
+import numpy as np
+
+def ising_energy(spins, J, h):
+    """"""
+    Compute energy of the 1D Ising chain.
+
+   ",True,6,"0,3",True,7
+8,"
+
+To perform Monte Carlo simulations on the one-dimensional (1D) classical Ising model with an external magnetic field using NumPy, we'll follow these steps:
+
+1.",True,6,"0,3",True,8
+9,"
+
+Here is some sample NumPy code to perform Monte Carlo sampling on the 1D Classical Ising Model with an external magnetic field:
+```python
+import numpy as np
+
+# Define constants
+N = 100  # number of spins
+J = 1.0   # coupling constant
+h = 1.0   # magnetic field strength
+T = 2.0   # temperature (in units of k_B)
+num_samples = 100000  # number of Monte Carlo samples
+
+# Initialize spins
+spins = np.random.choice([-1, 1], size=N)
+
+# Define energy function
+def energy(spins):
+    return -J * np.sum(spins[:-1] * spins[1:]) - h * np.sum(spins)
+
+# Perform Monte Carlo simulation
+for _ in range(num_samples):
+    i = np.random.randint(N)  # choose random spin to flip
+    spins_proposed = spins.copy()
+    spins_proposed[i] *= -1  # propose new configuration
+
+    # calculate change in energy
+    dE = energy(spins_proposed) - energy(spins)
+
+    # Metropolis acceptance criterion
+    if dE <= 0 or np.random.rand() < np.exp(-dE / T):
+        spins = spins_proposed
+
+# Compute observables
+magnetization = np.mean(spins)
+energy_avg = energy(spins) / N
+
+print(""Magnetization:"", magnetization)
+print(""Energy per site:"", energy_avg)
+
+```
+This code performs a simple Monte Carlo simulation of the 1D Classical Ising Model with an external magnetic field.",True,0,"0,3",True,9
