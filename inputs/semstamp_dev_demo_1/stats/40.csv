@@ -1,0 +1,819 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+**AutoTune Class in C++**
+==========================
+
+Below is a basic implementation of an AutoTune class in C++.",False,,,,1
+2,"
+
+Here is an example of an Autotune class in C++ that uses the Rubber Band library to perform pitch correction:
+```
+#include <RubberBand/RubberBand.h>
+#include <vector>
+
+class Autotune {
+public:
+    Autotune(float sampleRate, float threshold = 0.2f) 
+        : sampleRate_(sampleRate), threshold_(threshold) {}
+
+    ~Autotune() { delete rubberBander_; }
+
+    void setPitchCorrectionMode(bool enable) { pitchCorrectionEnabled_ = enable; }
+    void setThreshold(float threshold) { threshold_ = threshold; }
+    bool getPitchCorrectionMode() const { return pitchCorrectionEnabled_; }
+
+    void addSamples(float* samples, int numSamples);
+    std::vector<float> processAndGetOutput();
+
+private:
+    // member variables:
+    float sampleRate_;
+    bool pitchCorrectionEnabled_ = true;
+    float threshold_;
+    RubberBand::Stretcher *rubberBander_;
+
+    // internal buffer for audio data:
+    std::vector<float> inputBuffer_;
+};
+
+void Autotune::addSamples(float* samples, int numSamples)
+{
+    inputBuffer_.insert(inputBuffer_.end(), samples, samples + numSamples);
+
+    if (pitchCorrectionEnabled_) {
+        // Create a new RubberBand stretcher with correct parameters:
+        rubberBander_->setTransientsOption(RubberBand::TRANSIENTS Option::SmoothingFastest);
+        rubberBander_->setTimeRatio(1.0); // Time stretching factor
+
+        // Feed the input audio into RubberBand:
+        int outputSize = rubberBander_->getRecommendedBatchSize();
+        float* tempBuffer = new float[outputSize];
+
+        while (inputBuffer_.size() >= rubberBander_->getInputLatency()) {
+            rubberBander_->process(inputBuffer_.data(), outputSize, tempBuffer);
+            processAndGetOutput(); // Process and retrieve output:
+            delete[] tempBuffer;
+        }
+    } else {
+        // Simple playback (no pitch shifting or time stretching):
+        processAndGetOutput(); // Just play back original signal.
+    }
+",True,4,"7,2",True,2
+3,"
+
+**Autotune Class in C++**
+==========================
+
+Below is an example implementation of an Autotune class in C++.",True,0,"7,2",True,3
+4,"
+
+Here is a simple implementation of an Auto-Tune-like pitch correction effect in C++:
+
+**AutoTune.h**
+```cpp {
+#ifndef AUTOTUNE_H_
+#define AUTOTUNE_H_
+
+#include <vector>
+#include <cmath>
+
+class AutoTune {
+public:
+    AutoTune(double sampleRate, int numHarmonics = 10);
+    ~AutoTune();
+
+    void processAudio(const std::vector<float>& input, std::vector<float>& output);
+
+private:
+    double sampleRate_;
+    int numHarmonics_;
+    float* buffer_;
+};
+
+#endif //AUTOTUNE_H_
+```
+
+**AutoTune.cpp**
+```cpp {
+#include ""AutoTune.h""
+
+AutoTune::AutoTune(double sampleRate, int numHarmonics) 
+    : sampleRate_(sampleRate), numHarmonics_(numHarmonics) {
+    buffer_ = new float[sampleRate];
+}
+
+AutoTune::~AutoTune() {
+    delete[] buffer_;
+}
+
+void AutoTune::processAudio(const std::vector<float>& input, std::vector<float>& output) {
+    const int size = input.size();
+    output.resize(size);
+
+    for (int i = 0; i < size; ++i) {
+        // Get the current sample value from the input audio signal.
+       ",False,,,,4
+5,"
+
+Below is a simple example of how you might implement an AutoTune class in C++.",True,0,"7,2",True,5
+6,"
+
+Below is a simple example of an Autotune class written in C++.",False,,,,6
+7,"
+
+Below is a basic example of how you could implement an AutoTune effect in C++ as a simple audio processing class.",False,,,,7
+8,"
+
+**Autotune Class in C++**
+=========================
+
+This is a basic implementation of an Autotune class in C++.",True,0,"7,2",True,8
+9,"
+
+Here is a basic example of an AutoTune class in C++ that uses the SoundTouch library to pitch correct audio:
+
+```cpp 
+// autotune.h
+
+#ifndef AUTOTUNE_H_
+#define AUTOTUNE_H_
+
+#include <SoundTouch/SoundStretch.h>
+#include <vector>
+
+class AutoTune {
+public:
+    AutoTune();
+    ~AutoTune();
+
+    /**
+     * Sets the input audio data.
+    ",True,2,"7,2",True,9
+10," *
+     * @param audioData The raw audio data (16-bit PCM).
+    ",False,,,,1
+11," *
+     * @param data   Input audio data.
+    ",True,1,"5,2",True,2
+12," *
+     * @param data Input audio data.
+    ",True,1,"5,2",True,3
+13," *
+     * @param samples - Input audio sample array.
+    ",True,3,"5,2",True,4
+14," * @param data The audio data to be processed (mono, 16-bit PCM).
+    ",True,1,"5,2",True,5
+15," *
+     * @param samples The audio data.
+    ",False,,,,6
+16," *
+     * @param data Pointer to the audio data buffer.
+    ",True,1,"5,2",True,7
+17," *
+     * @param data The input audio data.
+    ",True,1,"5,2",True,8
+18," *
+     * @param buffer The input audio data.
+    ",True,1,"5,2",True,9
+19," */
+    void setInputAudio(const float* input, int numSamples);
+
+    /**
+     * Sets the number of semitones to tune up or down by.
+    ",True,3,"5,2",True,10
+20," *
+     * @param samples  Audio data buffer (16-bit signed integers)
+     * @param numSamples  Number of samples in the buffer.
+    ",True,1,"5,2",True,11
+21," *
+     * @param samples Input audio sample buffer.
+    ",True,3,"5,2",True,12
+22," *
+     * @param audioSamples A vector of audio samples (mono, 16-bit PCM).
+    ",True,7,"5,2",True,13
+23," *
+     * @param audioData The input audio data.
+    ",False,,,,14
+24," *
+     * @param data - Audio sample data (mono 16-bit)
+     * @param numSamples - Number of samples in the data buffer.
+    ",False,,,,15
+25," *
+     * @param data  The input audio data.
+    ",True,1,"5,2",True,16
+26," *
+     * @param samples       The audio data.
+    ",False,,,,17
+27," *
+     * @param data   Input audio data.
+    ",True,1,"5,2",True,18
+28," *
+     * @param audio Audio data buffer (raw 16-bit PCM).
+    ",True,1,"5,2",True,19
+29," *
+     * @param samples       The input audio samples (mono, 16-bit signed integer)
+     * @param numSamples    The number of audio samples.
+    ",True,0,"5,2",True,20
+30," *
+     * @param samples The input audio samples.
+    ",True,1,"5,2",True,21
+31," *
+     * @param samples The input audio data.
+    ",True,1,"5,2",True,22
+32," *
+     * @param data Input audio data.
+    ",True,1,"5,2",True,23
+33," *
+     * @param audioData The input audio data as a vector of floats.
+    ",True,3,"5,2",True,24
+34," *
+     * @param samples A vector containing 16-bit signed integer PCM audio samples.
+    ",True,1,"5,2",True,25
+35," */
+    void setInputData(float* data, int sampleRate, int numSamples);
+
+    /**
+     * Processes the input audio data and applies the auto-tune effect.
+    ",True,1,"5,2",True,26
+36," *
+     * @param data   The input audio data as an array of floats.
+    ",True,1,"5,2",True,27
+37," *
+     * @param sampleRate  The sample rate of the input audio data.
+    ",True,1,"5,2",True,28
+38," *
+     * @param samples   Input audio samples (16-bit PCM, mono).
+    ",False,,,,29
+39," */
+    void setInput(const std::vector<float>& input);
+
+    /**
+     * Gets the output audio data after pitch correction.
+    ",True,1,"5,2",True,30
+40," *
+     * @param buffer The input audio data as interleaved float samples.
+    ",True,1,"5,2",True,31
+41," *
+     * @param audioData  Audio data as interleaved stereo float array.
+    ",True,3,"5,2",True,32
+42," */
+    void setInputAudio(const std::vector<float>& audioData);
+
+    /**
+     * Set the desired output tempo and pitch.
+    ",True,1,"5,2",True,33
+43," *
+     * @param pcmBuffer Input audio data buffer.
+    ",True,3,"5,2",True,34
+44," *
+     * @param audioData The input audio data as a vector of floats, where each sample is represented by a single float value.
+    ",True,3,"5,2",True,35
+45," *
+     * @param samples The audio sample data.
+    ",True,3,"5,2",True,36
+46," *
+     * @param data The input audio data (mono, 16-bit PCM).
+    ",True,1,"5,2",True,37
+47," *
+     * @param audioData The input audio data.
+    ",False,,,,38
+48," * @param data Pointer to audio data (mono, 16-bit PCM)
+     * @param numSamples Number of samples in audio data.
+    ",True,1,"5,2",True,39
+49," *
+     * @param samples  The audio data.
+    ",False,,,,40
+50," *
+     * @param audioData The audio data to be pitch corrected.
+    ",True,7,"5,2",True,41
+51," *
+     * @param audioData Pointer to audio data buffer.
+    ",True,7,"5,2",True,42
+52," *
+     * @param samples The audio sample rate (e.g., 44.1 kHz).
+    ",True,1,"5,2",True,43
+53," *
+     * @param samples Audio data as interleaved float values (LRLR...).
+    ",True,3,"5,2",True,44
+54," *
+     * @param audioSamples   Audio samples in float format (range -1..1)
+     * @param numSamples     Number of audio samples.
+    ",True,3,"5,2",True,45
+55," *
+     * @param data The audio data to be pitch corrected.
+    ",True,1,"5,2",True,46
+56," *
+     * @param samples The input audio data as an array of float values (16-bit signed).
+    ",True,1,"5,2",True,47
+57," *
+     * @param data   The input audio data.
+    ",True,1,"5,2",True,48
+58," *
+     * @param audioData - pointer to the raw audio data.
+    ",False,,,,49
+59," *
+     * @param samples the audio sample data to be tuned.
+    ",True,3,"5,2",True,50
+60," * @param num_samples the number of audio samples.
+    ",True,1,"6,0",True,1
+61," * @param numSamples the number of samples in the data.
+    ",True,0,"6,0",True,2
+62," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Returns the auto-tuned output data.
+    ",False,,,,1
+63," * @param channels the number of channels (mono/stereo).
+    ",False,,,,2
+64," */
+    void setInputData(short* samples, int numSamples);
+
+    /**
+     * Sets the desired pitch correction semitone offset.
+    ",True,3,"5,2",True,3
+65," */
+    void setInputData(float* samples, int numSamples);
+
+    /**
+     * Tunes the input audio data using the given scale and key.
+    ",True,1,"5,2",True,4
+66," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Performs auto-tuning on the set input data and stores it in the output vector.
+    ",True,1,"5,2",True,5
+67," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Returns the output (tuned) audio data.
+    ",True,1,"5,2",True,6
+68," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Applies auto-tuning to the input data.
+    ",True,1,"5,2",True,7
+69," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Tunes the input audio and outputs the corrected version.
+    ",True,1,"5,2",True,8
+70," * @param channels the number of channels (mono/stereo) in the data.
+    ",True,0,"5,2",True,9
+71," * @param channels the number of audio channels (mono/stereo).
+    ",False,,,,10
+72," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Process the input audio and apply auto-tuning effect.
+    ",True,1,"5,2",True,11
+73," */
+    void setInput(const int16_t* samples, size_t numSamples);
+
+    /**
+     * Get the tuned output audio data.
+    ",True,1,"5,2",True,12
+74," * @param samplingRate the sampling rate of the data.
+    ",True,1,"5,2",True,13
+75," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Sets the desired pitch correction.
+    ",True,3,"5,2",True,14
+76," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Applies the autotune effect.
+    ",True,1,"5,2",True,15
+77," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Sets the desired output sample rate.
+    ",True,1,"5,2",True,16
+78," */
+    void setInputAudio(float* samples, int numSamples);
+
+    /**
+     * Sets the output audio buffer.
+    ",True,1,"5,2",True,17
+79," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Tunes the audio and returns the output.
+    ",True,1,"5,2",True,18
+80," */
+    void setInputData(float* samples, int numSamples);
+
+    /**
+     * Returns the tuned audio data.
+    ",True,1,"5,2",True,19
+81," */
+    void setInputData(float* samples, int numSamples);
+
+    /**
+     * Sets the target note and scale for the auto-tuning.
+    ",True,1,"5,2",True,20
+82," */
+    void setInput(std::vector<float>& samples, int numSamples);
+
+    /**
+     * Sets the desired output sampling rate.
+    ",True,1,"5,2",True,21
+83," * @param sampleRate the sample rate of the audio.
+    ",True,1,"5,2",True,22
+84," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Sets the tuning parameter (in semitones) for a given note range.
+    ",True,3,"5,2",True,23
+85," */
+    void setInput(std::vector<float>& samples, unsigned int numSamples);
+
+    /**
+     * Apply autotune effect with specified parameters.
+    ",True,0,"5,2",True,24
+86," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Gets the tuned output audio data.
+    ",True,1,"5,2",True,25
+87," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Sets the desired output sampling rate.
+    ",True,1,"5,2",True,26
+88," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Gets the tuned audio output data.
+    ",True,1,"5,2",True,27
+89," */
+    void setInput(const int16_t* samples, size_t numSamples);
+
+    /**
+     * Applies AutoTune effect and retrieves output audio data.
+    ",True,1,"5,2",True,28
+90," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Processes the input audio and applies auto tune effect.
+    ",False,,,,29
+91," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Sets the desired output pitch correction.
+    ",True,1,"5,2",True,30
+92," */
+    void setInputData(short* samples, int numSamples);
+
+    /**
+     * Processes the input audio and applies the auto-tune effect.
+    ",True,1,"5,2",True,31
+93," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Gets the tuned output audio data.
+    ",True,1,"5,2",True,32
+94," */
+    void setInput(float* samples, int numSamples);
+
+    /**
+     * Sets the pitch correction value.
+    ",False,,,,33
+95," */
+    void setInput(float* samples, int numSamples);
+
+    /**
+     * Performs auto-tune on the input audio data and returns the output data.
+    ",False,,,,34
+96," */
+    void setInput(const short* samples, unsigned int numSamples);
+
+    /**
+     * Applies auto-tuning to the input audio data.
+    ",True,1,"5,2",True,35
+97," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Gets the output (tuned) audio data.
+    ",True,1,"5,2",True,36
+98," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Sets the target pitch.
+    ",True,1,"5,2",True,37
+99," */
+    void setInputData(short* samples, int numSamples);
+
+    /**
+     * Sets the output container for the tuned audio data.
+    ",True,1,"5,2",True,38
+100," */
+    void setInput(const float* samples, int numSamples);
+
+    /**
+     * Performs auto-tuning on the input audio and outputs the result.
+    ",True,0,"5,2",True,39
+101," */
+    void setInputData(short* samples, int numSamples);
+
+    /**
+     * Gets the tuned audio data.
+    ",True,1,"5,2",True,40
+102," */
+    void setInput(float* samples, int numSamples);
+
+    /**
+     * Returns the pitch-corrected output audio data.
+    ",True,1,"5,2",True,41
+103," * @return true if successful, false otherwise.
+    ",True,0,"5,2",True,42
+104," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Process the audio data and apply pitch correction.
+    ",False,,,,43
+105," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Gets the tuned audio data.
+    ",False,,,,44
+106," */
+    void setInputData(short* samples, int numSamples);
+
+    /**
+     * Pitch corrects the audio data and writes it back into the original data array.
+    ",True,1,"5,2",True,45
+107," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Tunes the audio based on the current settings and outputs the result to 'output'.
+    ",False,,,,46
+108," */
+    void setInputData(float* samples, int numSamples);
+
+    /**
+     * Gets the output audio data after applying auto-tuning.
+    ",True,1,"5,2",True,47
+109," */
+    void setInputAudio(const short* samples, int numSamples);
+
+    /**
+     * Processes the audio and applies auto-tune effect.
+    ",False,,,,48
+110," */
+    void setInput(const short* samples, int numSamples);
+
+    /**
+     * Applies auto-tune effect on the set input data and returns the corrected output.
+    ",True,1,"5,2",True,49
+111," */
+    void setInput(float* samples, int numSamples);
+
+    /**
+     * Gets the tuned output audio data.
+    ",True,1,"5,2",True,50
+112," *
+     * @return the tuned audio sample data.
+    ",True,2,"6,2",True,1
+113," */
+    float* getOutput(int &numSamplesOut);
+
+private:
+    // Instance variables for the soundtouch library.
+   ",True,0,"5,2",True,1
+114," */
+    float* getOutput(int& numSamples);
+
+    /**
+     * Set the pitch correction parameter.
+    ",True,1,"5,2",True,2
+115," */
+    std::vector<float> getOutput();
+
+    /**
+     * Tunes the pitch of the input audio data.
+    ",False,,,,3
+116," */
+    float* getOutput(int& numSamples);
+
+    /**
+     * Sets the desired tuning semitones offset.
+    ",True,3,"5,2",True,4
+117," */
+    std::vector<float> getOutput();
+
+private:
+    float* _samples;
+    int _numSamples;
+
+    SOUNDSTRETCH FloatPcmOutData *_outp; // This is our output pipeline's final output stream.
+
+   ",True,0,"5,2",True,5
+118," */
+    float* getOutput();
+
+    /**
+     * Sets the desired key for tuning.
+    ",True,1,"5,2",True,6
+119," */
+    std::vector<float> getOutput();
+
+private:
+    SoundTouch::SoundStretch m_soundtouch;
+};
+
+#endif // AUTOTUNE_H_
+```
+
+```cpp 
+// autotune.cpp
+
+#include ""autotune.h""
+
+AutoTune::AutoTune() : m_soundtouch() {}
+
+AutoTune::~AutoTune() {}
+
+void AutoTune::setInput(float* samples, int numSamples) {
+    m_soundtouch.putSamples(samples, numSamples);
+}
+
+std::vector<float> AutoTune::getOutput() {
+    std::vector<float> output;
+
+    // Get the output size (i.e., the number of processed samples)
+    unsigned int outputSize = 0;
+    m_soundtouch.receiveSamples(&output[0], &outputSize);
+
+    output.resize(outputSize);
+
+    return output;
+}
+```
+This code defines a basic auto tune effect which pitch-shifts and time-stretches incoming audio.
+
+",True,0,"5,2",True,7
+120," */
+    float* getOutput(int& numSamplesOut);
+
+    /**
+     * Sets the desired pitch correction (semitones).
+    ",False,,,,8
+121," */
+    std::vector<float> getOutput();
+
+private:
+    // SoundTouch object for sound manipulation.
+   ",True,0,"5,2",True,9
+122," */
+    float* getOutput();
+
+    /**
+     * Applies auto-tuning to the input data using the specified key and scale.
+    ",True,1,"5,2",True,10
+123," */
+    std::vector<float> getOutput();
+
+private:
+    float _sampleRate; // Sample rate of the audio (Hz)
+    std::unique_ptr<SOUNDSTRETCH> _soundStretch;
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp 
+// autotune.cpp
+
+#include ""autotune.h""
+
+AutoTune::AutoTune() : _sampleRate(44100) {
+    _soundStretch.reset(new SOUNDSTRETCH);
+}
+
+AutoTune::~AutoTune() {}
+
+void AutoTune::setInput(float* samples, int numSamples) {
+    // Set sound stretch parameters here, if needed.
+   ",True,0,"5,2",True,11
+124," */
+    std::vector<float> getOutput();
+
+    /**
+     * Sets the pitch correction amount (in semitones).
+    ",False,,,,12
+125," */
+    float* getOutput(int& numSamplesOut);
+
+private:
+    // Private member variables.
+   ",True,1,"5,2",True,13
+126," */
+    float* getOutput(int& numSamplesOut);
+
+    /**
+     * Sets the desired pitch correction amount.
+    ",True,1,"5,2",True,14
+127," */
+    std::vector<float> getOutput();
+
+    /**
+     * Sets the tuning parameters.
+    ",False,,,,15
+128," */
+    float* getOutput(int& outNumSamples);
+
+    /**
+     * Sets the target tuning (in semitones).
+    ",True,0,"5,2",True,16
+129," */
+    float* getOutput();
+
+    /**
+     * Tunes the input audio by the specified semitones.
+    ",True,2,"5,2",True,17
+130," *
+     * @param semitones the amount to tune (in semitones).
+    ",True,6,"5,2",True,1
+131," *
+     * @param semitones the number of semitones to tune.
+    ",True,2,"5,2",True,2
+132," */
+    void tune(int semitones);
+
+private:
+    // SoundTouch objects for tempo and pitch control.
+   ",True,3,"5,2",True,1
+133," */
+    void tuneBySemitones(int semitones);
+
+private:
+    float* m_output; // The output audio sample data.
+   ",False,,,,2
+134," */
+    void tune(int semitones);
+
+private:
+    float* m_samples;
+    int m_numSamples;
+    SoundStretch m_soundTouch;
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp 
+// autotune.cpp
+
+#include ""autotune.h""
+#include <iostream>
+
+AutoTune::AutoTune() : m_samples(nullptr), m_numSamples(0) {}
+
+AutoTune::~AutoTune() { delete[] m_samples; }
+
+void AutoTune::setInput(float* samples, int numSamples) {
+    if (m_samples!= nullptr)
+        delete[] m_samples;
+
+    m_samples = new float[numSamples];
+    std::copy(samples, samples + numSamples, m_samples);
+    m_numSamples = numSamples;
+}
+
+float* AutoTune::getOutput() {
+    float* output = new float[m_numSamples];
+    m_soundTouch.putSamples(output);
+    return output;
+}
+
+void AutoTune::tune(int semitones) {
+    if (m_samples == nullptr || m_numSamples <= 0)
+        throw std::runtime_error(""No input audio data"");
+
+    float ratio = powf(2.0, semitones / 12.0);  // Calculate the tuning ratio.
+
+   ",True,2,"5,2",True,3
