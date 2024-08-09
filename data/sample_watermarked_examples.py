@@ -1,8 +1,10 @@
 import pandas as pd 
 
 prompts = pd.read_csv("./data/WQE/dev.csv")[["id", "prompt"]]
-samples = pd.read_csv("./data/WQE/dev_watermarked.csv")
+umd_samples = pd.read_csv("./data/WQE/dev_umd_watermarked.csv")
+semstamp_samples = pd.read_csv("./data/WQE/dev_semstamp_watermarked.csv")
 
+samples = pd.concat([umd_samples, semstamp_samples])
 samples = pd.merge(samples, prompts, how="inner", on="id")
 
 n_samples = 100
