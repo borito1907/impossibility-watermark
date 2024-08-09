@@ -38,6 +38,9 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
 
         # Iterate over all rows
         for _, row in tqdm(df.iterrows(), desc=f'Mutating with {mutator_name}', total=len(df)):
+
+            text = row["text"]
+
             for step in range(mutation_steps):
 
                 # Check if this combination of text, mutator, and step has already been processed
@@ -48,7 +51,7 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
                 start_time = time.time()  # Start timing the mutation
 
                 try:
-                    mutated_text = mutator.mutate(row['text'])
+                    mutated_text = mutator.mutate(text)
                 except Exception as e:
                     print(f"Mutation error with {mutator_name}: {e}")
                     break  # Exit the mutation steps loop if an error occurs

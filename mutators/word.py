@@ -2,7 +2,7 @@ from transformers import pipeline
 import random
 import re
 import difflib
-import hydra
+import torch
 import logging
 
 log = logging.getLogger(__name__)
@@ -11,11 +11,13 @@ class WordMutator:
     def __init__(self, model_name="FacebookAI/roberta-large"):
         self.model_name = model_name
         self.max_length = 256
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # NOTE: Currently does not use GPU
         self.fill_mask = pipeline(
             "fill-mask", 
             model=self.model_name, 
             tokenizer=self.model_name,
+            device=self.device
         )
         self.tokenizer_kwargs = {"truncation": True, "max_length": 512}
 

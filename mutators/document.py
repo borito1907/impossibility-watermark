@@ -52,15 +52,12 @@ class DocumentMutator(object):
             final_input = {k: v.cuda() for k, v in final_input.items()}
 
             with torch.inference_mode():
-                outputs = self.model.generate(**final_input, max_length=max_length, **kwargs)
+                outputs = self.model.generate(**final_input, max_length=max_length, tokenizer=self.tokenizer, stop_strings=[" * ", "////"], **kwargs)
             outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
             prefix += " " + outputs[0]
             output_text += " " + outputs[0]
 
-        # Remove extra asterisks
-        output_text = output_text.replace(' *', '').strip()
-
-        return output_text
+        return output_text.rstrip(" *").strip()
 
 def test():
 
