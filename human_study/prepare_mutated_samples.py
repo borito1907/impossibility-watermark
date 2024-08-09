@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=0 python -m human_study.prepare_mutated_samples
+# RUN: CUDA_VISIBLE_DEVICES=1 python -m human_study.prepare_mutated_samples
 import os
 import time
 import pandas as pd

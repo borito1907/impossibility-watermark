@@ -12,12 +12,13 @@ class DocumentMutator(object):
         self.tokenizer = T5Tokenizer.from_pretrained('google/t5-v1_1-xxl')
         self.model = T5ForConditionalGeneration.from_pretrained(
             model,
-            cache_dir="/data2/.shared_models/"
+            cache_dir="/data2/.shared_models/",
+            device_map="auto"
         )
         if verbose:
             print(f"{model} model loaded in {time.time() - time1}")
         # self.model = self.model.to(torch.device('cuda:1'))
-        self.model.cuda()
+        # self.model.cuda()
         self.model.eval()
 
     def mutate(self, input_text, lex_diversity=60, order_diversity=0, prefix="", sent_interval=1, max_length=1024, **kwargs):
@@ -57,7 +58,7 @@ class DocumentMutator(object):
             output_text += " " + outputs[0]
 
         # Remove extra asterisks
-        output_text = output_text.rstrip(' *').strip()
+        output_text = output_text.replace(' *', '').strip()
 
         return output_text
 
