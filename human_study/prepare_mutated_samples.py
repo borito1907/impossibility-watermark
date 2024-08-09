@@ -23,8 +23,8 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
 
     # Define mutator classes
     mutator_classes = {
-        "WordMutator": WordMutator,
-        "SpanMutator": SpanMutator,
+        # "WordMutator": WordMutator,
+        # "SpanMutator": SpanMutator,
         "SentenceMutator": SentenceMutator,
         "DocumentMutator": DocumentMutator,
     }
