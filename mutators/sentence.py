@@ -18,8 +18,7 @@ def extract_dict(output, keys):
 import re
 
 class SentenceMutator:  
-    def __init__(self, cfg, llm = None) -> None:
-        self.cfg = cfg
+    def __init__(self, llm = None) -> None:
         self.llm = self._initialize_llm(llm)
 
         # Check if NLTK data is downloaded, if not, download it
@@ -27,16 +26,13 @@ class SentenceMutator:
 
     def _initialize_llm(self, llm):
         if not isinstance(llm, (models.LlamaCpp, models.OpenAI)):
-            log.info("Initializing a new Mutator model from cfg...")
-            if "gpt" in self.cfg.model_id:
-                llm = models.OpenAI(self.cfg.model_id)
-            else:
-                llm = models.LlamaCpp(
-                    model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
-                    echo=False,
-                    n_gpu_layers=-1,
-                    n_ctx=2048
-                )
+            log.info("Initializing a new Mutator model...")
+            llm = models.LlamaCpp(
+                model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
+                echo=False,
+                n_gpu_layers=-1,
+                n_ctx=2048
+            )
         return llm
 
     def _ensure_nltk_data(self):
@@ -60,7 +56,7 @@ class SentenceMutator:
         num_retries = 0
         while True:
 
-            if num_retries >= self.cfg.max_retries:
+            if num_retries >= 10:
                 raise RuntimeError(f"Failed to successfully rephrase sentence after {num_retries} attempts!")
 
             # Randomly select a sentence
@@ -133,8 +129,7 @@ def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE 
 
 if __name__ == "__main__":
 
-    @hydra.main(version_base=None, config_path="../conf", config_name="config")
-    def test(cfg):
+    def test():
         import time
         from utils import diff
         import textwrap
@@ -149,7 +144,7 @@ if __name__ == "__main__":
             In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
         """)
 
-        text_mutator = SentenceMutator(cfg.mutator_args)
+        text_mutator = SentenceMutator()
 
         start = time.time()
         mutated_output = text_mutator.mutate(text)

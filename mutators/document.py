@@ -20,7 +20,7 @@ class DocumentMutator(object):
         self.model.cuda()
         self.model.eval()
 
-    def mutate(self, input_text, lex_diversity=60, order_diversity=0, prefix="", sent_interval=1, **kwargs):
+    def mutate(self, input_text, lex_diversity=60, order_diversity=0, prefix="", sent_interval=1, max_length=1024, **kwargs):
         """Paraphrase a text using the DIPPER model.
 
         Args:
@@ -51,10 +51,13 @@ class DocumentMutator(object):
             final_input = {k: v.cuda() for k, v in final_input.items()}
 
             with torch.inference_mode():
-                outputs = self.model.generate(**final_input, **kwargs)
+                outputs = self.model.generate(**final_input, max_length=max_length, **kwargs)
             outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
             prefix += " " + outputs[0]
             output_text += " " + outputs[0]
+
+        # Remove extra asterisks
+        output_text = output_text.rstrip(' *').strip()
 
         return output_text
 
