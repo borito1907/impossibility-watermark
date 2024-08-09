@@ -1,3 +1,4 @@
+# RUN: CUDA_VISIBLE_DEVICES=1,2 python -m mutators.sentence
 import random
 import nltk
 from nltk.tokenize import sent_tokenize
@@ -13,29 +14,22 @@ log = logging.getLogger(__name__)
 def extract_dict(output, keys):
     return {k: output[k] for k in keys}
 
-# TODO: There should be a better way to do this.
-import re
-
 class SentenceMutator:  
-    def __init__(self, cfg, llm = None) -> None:
-        self.cfg = cfg
+    def __init__(self, llm = None) -> None:
         self.llm = self._initialize_llm(llm)
 
         # Check if NLTK data is downloaded, if not, download it
         self._ensure_nltk_data()
 
     def _initialize_llm(self, llm):
-        if not isinstance(llm, (models.Transformers, models.OpenAI)):
-            log.info("Initializing a new Mutator model from cfg...")
-            if "gpt" in self.cfg.model_id:
-                llm = models.OpenAI(self.cfg.model_id)
-            else:
-                llm = models.Transformers(
-                    self.cfg.model_id, 
-                    echo=False,
-                    cache_dir=self.cfg.model_cache_dir, 
-                    device_map=self.cfg.device_map
-                )
+        if not isinstance(llm, (models.LlamaCpp, models.OpenAI)):
+            log.info("Initializing a new Mutator model...")
+            llm = models.LlamaCpp(
+                model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
+                echo=False,
+                n_gpu_layers=-1,
+                n_ctx=2048
+            )
         return llm
 
     def _ensure_nltk_data(self):
@@ -59,20 +53,18 @@ class SentenceMutator:
         num_retries = 0
         while True:
 
-            if num_retries >= self.cfg.max_retries:
+            if num_retries >= 10:
                 raise RuntimeError(f"Failed to successfully rephrase sentence after {num_retries} attempts!")
 
             # Randomly select a sentence
             selected_sentence = random.choice(long_sentences)
-            log.info(f"Sentence to rephrase: {selected_sentence}")
+            # log.info(f"Sentence to rephrase: {selected_sentence}")
 
             output = self.llm + rephrase_sentence(selected_sentence, text)
-            print(output)
-
             rephrased_sentence = output["paraphrased_sentence"]
 
             if rephrased_sentence != selected_sentence:
-                log.info(f"Rephrased sentence: {rephrased_sentence}")
+                # log.info(f"Rephrased sentence: {rephrased_sentence}")
                 break
             else:
                 num_retries += 1
@@ -111,7 +103,7 @@ class SentenceMutator:
 #     return lm
 
 @guidance
-def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE text
+def rephrase_sentence(lm, sentence, text=None, stop=["\n", "<|eot_id|>", "<|im_end|>"]): # NOTE: DOES NOT USE text
     with user():
         lm += f"""\
         ### The original selected sentence: 
@@ -132,8 +124,7 @@ def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE 
 
 if __name__ == "__main__":
 
-    @hydra.main(version_base=None, config_path="../conf", config_name="config")
-    def test(cfg):
+    def test():
         import time
         from utils import diff
         import textwrap
@@ -148,7 +139,7 @@ if __name__ == "__main__":
             In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
         """)
 
-        text_mutator = SentenceMutator(cfg.mutator_args)
+        text_mutator = SentenceMutator()
 
         start = time.time()
         mutated_output = text_mutator.mutate(text)
@@ -161,7 +152,7 @@ if __name__ == "__main__":
         print(f"Sentence to Mutate: {selected_sentence}")
         print(f"Mutated Setence: {rephrased_sentence}")
         print(f"Mutated text: {mutated_text}")
-        print(f"Diff: {diff(text, mutated_text)}")
+        # print(f"Diff: {diff(text, mutated_text)}")
         print(f"Time taken: {delta}")
 
     test()

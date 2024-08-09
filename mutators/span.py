@@ -15,7 +15,7 @@ def count_masks(texts):
     return [len([x for x in text.split() if x.startswith("<extra_id_")]) for text in texts]
 
 def extract_fills(texts):
-    log.info(f"extract_fills (texts in): {texts}")
+    # log.info(f"extract_fills (texts in): {texts}")
     # remove <pad> from beginning of each text
     texts = [x.replace("<pad>", "").replace("</s>", "").strip() for x in texts]
     pattern = re.compile(r"<extra_id_\d+>")
@@ -23,7 +23,7 @@ def extract_fills(texts):
     extracted_fills = [pattern.split(x)[1:-1] for x in texts]
     # remove whitespace around each fill
     extracted_fills = [[y.strip() for y in x] for x in extracted_fills]
-    log.info(f"extract_fills (texts out): {extracted_fills}")
+    # log.info(f"extract_fills (texts out): {extracted_fills}")
     return extracted_fills
 
 def join_tokens(tokens):
@@ -33,8 +33,8 @@ def join_tokens(tokens):
     return joined
 
 def apply_extracted_fills(masked_texts, extracted_fills):
-    log.info(f"apply_extracted_fills (masked_texts in): {masked_texts}")
-    log.info(f"apply_extracted_fills (extracted_fills in): {extracted_fills}")
+    # log.info(f"apply_extracted_fills (masked_texts in): {masked_texts}")
+    # log.info(f"apply_extracted_fills (extracted_fills in): {extracted_fills}")
     # split masked text into tokens, only splitting on spaces (not newlines)
     tokens = [x.split(' ') for x in masked_texts]
 
@@ -50,7 +50,7 @@ def apply_extracted_fills(masked_texts, extracted_fills):
 
     # join tokens back into text
     texts = [join_tokens(x) for x in tokens]
-    log.info(f"apply_extracted_fills (texts out): {texts}")
+    # log.info(f"apply_extracted_fills (texts out): {texts}")lo
     return texts
 
 class Args:
@@ -81,7 +81,7 @@ class SpanMutator:
         self.args = Args()
         self.verbose = self.args.verbose
         self.mask_filling_model_name = self.args.mask_filling_model_name
-        self.n_positions = 512
+        self.n_positions = 1024
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         if 't5' in self.args.mask_filling_model_name:
@@ -117,7 +117,7 @@ class SpanMutator:
         return mask_model
 
     def tokenize_and_mask(self, text, span_len, pct, ceil_pct=False):
-        log.info(f"tokenize_and_mask (text in): {text}")
+        # log.info(f"tokenize_and_mask (text in): {text}")
         tokens = text.replace('\n', ' \n').split(' ')
         mask_string = '<<<mask>>>'
         # only mask one span
@@ -202,7 +202,7 @@ class SpanMutator:
         attempts = 1
         while '' in perturbed_texts:
             idxs = [idx for idx, x in enumerate(perturbed_texts) if x == '']
-            log.warn(f'{len(idxs)} texts have no fills. Trying again [attempt {attempts}].')
+            # log.warn(f'{len(idxs)} texts have no fills. Trying again [attempt {attempts}].')
             masked_texts = [self.tokenize_and_mask(x, span_len, pct, ceil_pct) for idx, x in enumerate(texts) if idx in idxs]
             raw_fills = self.replace_masks(masked_texts)
             extracted_fills = extract_fills(raw_fills)
@@ -222,10 +222,11 @@ class SpanMutator:
 
         outputs = []
         # set chunk_size as 1 to help make sure each original token is replaced.
-        for i in tqdm(range(0, len(texts), chunk_size), desc="Applying perturbations"):
+        for i in range(0, len(texts), chunk_size):
+        # for i in tqdm(range(0, len(texts), chunk_size), desc="Applying perturbations"):
             outputs.extend(self.perturb_texts_(texts[i:i + chunk_size], span_len, pct, ceil_pct=ceil_pct))
 
-        log.info(f"perturb_texts_t5 (texts out): {outputs}")
+        # log.info(f"perturb_texts_t5 (texts out): {outputs}")
         return outputs
 
     def paraphrase(self, texts, k=5):
@@ -251,32 +252,19 @@ class SpanMutator:
         return diff_result
 
 
-@hydra.main(version_base=None, config_path="../conf", config_name="config")
-def test(cfg):
+def test():
 
     import time
     import textwrap
     import os
-
-    CUDA_VISIBLE_DEVICES = str(cfg.cuda_visible_devices)
-    WORLD_SIZE = str(len(str(cfg.cuda_visible_devices).split(",")))
-
-    log.info(f"CUDA_VISIBLE_DEVICES: {CUDA_VISIBLE_DEVICES}")
-    log.info(f"WORLD_SIZE: {WORLD_SIZE}")
-    
-    os.environ["CUDA_VISIBLE_DEVICES"] = CUDA_VISIBLE_DEVICES
-    os.environ["WORLD_SIZE"] = WORLD_SIZE
-
-    text = textwrap.dedent(
-        """
+   
+    text = textwrap.dedent("""
         Power is a central theme in J.R.R. Tolkien's The Lord of the Rings series, as it relates to the characters' experiences and choices throughout the story. Power can take many forms, including physical strength, political authority, and magical abilities. However, the most significant form of power in the series is the One Ring, created by Sauron to control and enslave the free peoples of Middle-earth.
         The One Ring represents the ultimate form of power, as it allows its possessor to dominate and rule over the entire world. Sauron's desire for the Ring drives much of the plot, as he seeks to reclaim it and use its power to enslave all of Middle-earth. Other characters, such as Gandalf and Frodo, also become obsessed with the Ring's power, leading them down dangerous paths and ultimately contributing to the destruction of their own kingdoms.
         Throughout the series, Tolkien suggests that power corrupts even the noblest of beings. As Gandalf says, "The greatest danger of the Ring is the corruption of the bearer." This becomes manifest as the characters who possess or covet the Ring become increasingly consumed by its power, losing sight of their original goals and values. Even those who begin with the best intentions, like Boromir, are ultimately undone by the temptation of the Ring's power.
         However, Tolkien also suggests that true power lies not in domination but in selflessness and sacrifice. Characters who reject the idea of using power solely for personal gain or selfish reasons are often the most effective in resisting the darkness of the Ring. For example, Aragorn's refusal to claim the throne or Sauron's rightful place as the Dark Lord illustrates this point. Instead, they embrace a more altruistic view of power, recognizing the importance of serving others and doing good.
         In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
-        """
-    )
-
+    """)
     text_mutator = SpanMutator()
 
     start = time.time()
@@ -285,7 +273,8 @@ def test(cfg):
 
     log.info(f"Original text: {text}")
     log.info(f"Mutated text: {mutated_text}")
-    log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
+    log.info(f"Original == Mutated: {text == mutated_text}")
+    # log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
     log.info(f"Time taken: {delta}")
 
 if __name__ == "__main__":
