@@ -58,13 +58,13 @@ class SentenceMutator:
 
             # Randomly select a sentence
             selected_sentence = random.choice(long_sentences)
-            log.info(f"Sentence to rephrase: {selected_sentence}")
+            # log.info(f"Sentence to rephrase: {selected_sentence}")
 
             output = self.llm + rephrase_sentence(selected_sentence, text)
             rephrased_sentence = output["paraphrased_sentence"]
 
             if rephrased_sentence != selected_sentence:
-                log.info(f"Rephrased sentence: {rephrased_sentence}")
+                # log.info(f"Rephrased sentence: {rephrased_sentence}")
                 break
             else:
                 num_retries += 1

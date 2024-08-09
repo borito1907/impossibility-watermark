@@ -8,9 +8,9 @@ from mutators.sentence import SentenceMutator
 from mutators.span import SpanMutator
 from mutators.word import WordMutator
 
-def mutate_and_save(input_csv, output_csv, mutation_steps=20):
+def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
     # Load the CSV into a DataFrame
-    df = pd.read_csv(input_csv).head(2)
+    df = pd.read_csv(input_csv)
 
     # Load existing results to avoid reprocessing
     if os.path.exists(output_csv):
@@ -64,7 +64,8 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20):
                     "mutation_time": mutation_time,
                 }
 
-                print(f'Results for {mutator_name} step {step}: {result}')
+                if verbose:
+                    print(f'Results for {mutator_name} step {step}: {result}')
 
                 # Save the result immediately to the CSV
                 result_df = pd.DataFrame([result])
