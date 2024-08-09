@@ -104,22 +104,11 @@ class WordMutator:
 
         return diff_result
 
-@hydra.main(version_base=None, config_path="../conf", config_name="config")
-def test(cfg):
+def test():
 
     import time
     import textwrap
     import os
-
-    CUDA_VISIBLE_DEVICES = str(cfg.cuda_visible_devices)
-    WORLD_SIZE = str(len(str(cfg.cuda_visible_devices).split(",")))
-
-    print(f"CUDA_VISIBLE_DEVICES: {CUDA_VISIBLE_DEVICES}")
-    print(f"WORLD_SIZE: {WORLD_SIZE}")
-    
-    os.environ["CUDA_VISIBLE_DEVICES"] = CUDA_VISIBLE_DEVICES
-    os.environ["WORLD_SIZE"] = WORLD_SIZE
-
    
     text = textwrap.dedent("""
         Power is a central theme in J.R.R. Tolkien's The Lord of the Rings series, as it relates to the characters' experiences and choices throughout the story. Power can take many forms, including physical strength, political authority, and magical abilities. However, the most significant form of power in the series is the One Ring, created by Sauron to control and enslave the free peoples of Middle-earth.
@@ -131,12 +120,13 @@ def test(cfg):
     text_mutator = WordMutator()
 
     start = time.time()
-    mutated_text = text_mutator.mutate(text, num_replacements=0.05)
+    mutated_text = text_mutator.mutate(text)
     delta = time.time() - start
 
     log.info(f"Original text: {text}")
     log.info(f"Mutated text: {mutated_text}")
-    log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
+    log.info(f"Original == Mutated: {text == mutated_text}")
+    # log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
     log.info(f"Time taken: {delta}")
 
 if __name__ == "__main__":

@@ -14,9 +14,6 @@ log = logging.getLogger(__name__)
 def extract_dict(output, keys):
     return {k: output[k] for k in keys}
 
-# TODO: There should be a better way to do this.
-import re
-
 class SentenceMutator:  
     def __init__(self, llm = None) -> None:
         self.llm = self._initialize_llm(llm)
@@ -64,8 +61,6 @@ class SentenceMutator:
             log.info(f"Sentence to rephrase: {selected_sentence}")
 
             output = self.llm + rephrase_sentence(selected_sentence, text)
-            print(output)
-
             rephrased_sentence = output["paraphrased_sentence"]
 
             if rephrased_sentence != selected_sentence:
@@ -108,7 +103,7 @@ class SentenceMutator:
 #     return lm
 
 @guidance
-def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE text
+def rephrase_sentence(lm, sentence, text=None, stop=["\n", "<|eot_id|>", "<|im_end|>"]): # NOTE: DOES NOT USE text
     with user():
         lm += f"""\
         ### The original selected sentence: 
@@ -157,7 +152,7 @@ if __name__ == "__main__":
         print(f"Sentence to Mutate: {selected_sentence}")
         print(f"Mutated Setence: {rephrased_sentence}")
         print(f"Mutated text: {mutated_text}")
-        print(f"Diff: {diff(text, mutated_text)}")
+        # print(f"Diff: {diff(text, mutated_text)}")
         print(f"Time taken: {delta}")
 
     test()

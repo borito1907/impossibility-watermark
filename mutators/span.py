@@ -81,7 +81,7 @@ class SpanMutator:
         self.args = Args()
         self.verbose = self.args.verbose
         self.mask_filling_model_name = self.args.mask_filling_model_name
-        self.n_positions = 512
+        self.n_positions = 1024
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         if 't5' in self.args.mask_filling_model_name:
@@ -252,32 +252,19 @@ class SpanMutator:
         return diff_result
 
 
-@hydra.main(version_base=None, config_path="../conf", config_name="config")
-def test(cfg):
+def test():
 
     import time
     import textwrap
     import os
-
-    CUDA_VISIBLE_DEVICES = str(cfg.cuda_visible_devices)
-    WORLD_SIZE = str(len(str(cfg.cuda_visible_devices).split(",")))
-
-    log.info(f"CUDA_VISIBLE_DEVICES: {CUDA_VISIBLE_DEVICES}")
-    log.info(f"WORLD_SIZE: {WORLD_SIZE}")
-    
-    os.environ["CUDA_VISIBLE_DEVICES"] = CUDA_VISIBLE_DEVICES
-    os.environ["WORLD_SIZE"] = WORLD_SIZE
-
-    text = textwrap.dedent(
-        """
+   
+    text = textwrap.dedent("""
         Power is a central theme in J.R.R. Tolkien's The Lord of the Rings series, as it relates to the characters' experiences and choices throughout the story. Power can take many forms, including physical strength, political authority, and magical abilities. However, the most significant form of power in the series is the One Ring, created by Sauron to control and enslave the free peoples of Middle-earth.
         The One Ring represents the ultimate form of power, as it allows its possessor to dominate and rule over the entire world. Sauron's desire for the Ring drives much of the plot, as he seeks to reclaim it and use its power to enslave all of Middle-earth. Other characters, such as Gandalf and Frodo, also become obsessed with the Ring's power, leading them down dangerous paths and ultimately contributing to the destruction of their own kingdoms.
         Throughout the series, Tolkien suggests that power corrupts even the noblest of beings. As Gandalf says, "The greatest danger of the Ring is the corruption of the bearer." This becomes manifest as the characters who possess or covet the Ring become increasingly consumed by its power, losing sight of their original goals and values. Even those who begin with the best intentions, like Boromir, are ultimately undone by the temptation of the Ring's power.
         However, Tolkien also suggests that true power lies not in domination but in selflessness and sacrifice. Characters who reject the idea of using power solely for personal gain or selfish reasons are often the most effective in resisting the darkness of the Ring. For example, Aragorn's refusal to claim the throne or Sauron's rightful place as the Dark Lord illustrates this point. Instead, they embrace a more altruistic view of power, recognizing the importance of serving others and doing good.
         In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
-        """
-    )
-
+    """)
     text_mutator = SpanMutator()
 
     start = time.time()
@@ -286,7 +273,8 @@ def test(cfg):
 
     log.info(f"Original text: {text}")
     log.info(f"Mutated text: {mutated_text}")
-    log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
+    log.info(f"Original == Mutated: {text == mutated_text}")
+    # log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
     log.info(f"Time taken: {delta}")
 
 if __name__ == "__main__":
