@@ -43,6 +43,7 @@ function App() {
   const [answer2, setAnswer2] = useState('')
   const [choice, setChoice] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pending, setPending] = useState(false);
   const [mode, setMode] = useState(false);
 
   useEffect(() => {
@@ -88,6 +89,7 @@ function App() {
     }
     try {
       // Make a POST request with the selected answer
+      setPending(true);
       const userid = encodeURIComponent(user);
       const post = await fetch(`/api/controlledtest/${userid}`, {
         method: 'POST',
@@ -96,6 +98,7 @@ function App() {
         },
         body: JSON.stringify({ row: data.row, id: data.promptID, user, watermark: data.watermark, mutator: data.mutator, mutation_A: data.mutation_A, mutation_B: data.mutation_B, choice }),
       });
+      setPending(false);
 
       if (!post.ok) {
         throw new Error('Network response was not ok');
@@ -193,8 +196,8 @@ function App() {
         <div className="flex space-x-4 mt-4">
           <button
             onClick={choice !== null && !submitted ? handleSubmit : null}
-            disabled={choice === null || submitted}
-            className={`px-4 py-2 ${choice !== null && !submitted ? 'bg-blue-500' : 'cursor-not-allowed bg-gray-500'} text-white rounded`}
+            disabled={choice === null || submitted || pending}
+            className={`px-4 py-2 ${choice !== null && !submitted && !pending? 'bg-blue-500' : 'cursor-not-allowed bg-gray-500'} text-white rounded`}
           >
             Submit
           </button>
