@@ -80,7 +80,7 @@ def main(cfg):
             fail_count += 1
             continue
 
-        stats = [{'id': row['id'], 'text': row['text_stripped'], 'zscore' : zscore, 'watermarking_scheme': row['watermarking_scheme'], 'model': row['model']}]
+        stats = [{'id': row['id'], 'text': row['text_stripped'], 'zscore' : zscore, 'watermarking_scheme': row['watermarking_scheme'], 'model': row['model'], 'time': row['time']}]
         save_to_csv(stats, new_file_path, rewrite=False)
 
     log.info(f"Fail Count: {fail_count}")
