@@ -8,6 +8,12 @@ from hydra import initialize, compose
 
 log = logging.getLogger(__name__)
 
+prefix ="""system
+
+You are a helpful personal assistant.user
+
+assistant"""
+
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def test(cfg):
     import time
@@ -42,6 +48,8 @@ def test(cfg):
             for _ in range(1):
                 start = time.time()
                 watermarked_text = watermarker.generate(prompt)
+                # If the stupid prefix is still there, remove it
+                watermarked_text = watermarked_text.removeprefix(prefix)
                 is_detected, score = watermarker.detect(watermarked_text)
                 delta = time.time() - start
                 
@@ -50,7 +58,7 @@ def test(cfg):
                 log.info(f"Score: {score}")
                 log.info(f"Time taken: {delta}")
 
-            stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path}]
+            stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
             save_to_csv(stats, watermarked_text_file_path, rewrite=False)
         except Exception as e:
             log.info(f"Exception with Prompt {prompt_num}.")
