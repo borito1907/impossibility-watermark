@@ -1,7 +1,6 @@
 # RUN: CUDA_VISIBLE_DEVICES=0,1 python -m oracles.rewardbench.armorm
 
 import torch
-from transformers import AutoModel, AutoTokenizer
 from oracles.base import ResponseQuality
 from oracles.utils import add_prefix_to_keys
 

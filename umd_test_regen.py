@@ -6,6 +6,12 @@ import pandas as pd
 
 log = logging.getLogger(__name__)
 
+prefix ="""system
+
+You are a helpful personal assistant.user
+
+assistant"""
+
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def test(cfg):
     import time
@@ -16,7 +22,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"umd_test_regen_{cfg.partition}"
+    dir_name = f"umd_test_llama31_regen_round_3_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
 
     cfg.prompt_file='./data/WQE/test.csv'
@@ -25,13 +31,13 @@ def test(cfg):
     
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    path = f"/local1/borito1907/impossibility-watermark/inputs/test_umd/stripped_watermarked_texts.csv"
+    path = f"/local1/borito1907/impossibility-watermark/llama31_test_gens/umd_round_1_polished.csv"
     df = pd.read_csv(path)
     df = df[df['zscore'] < 3]
 
     # Calculate the start and end index based on the partition
-    start_index = (cfg.partition - 1) * 100
-    end_index = start_index + 100
+    start_index = (cfg.partition - 1) * 200
+    end_index = start_index + 200
 
     # Slice the DataFrame to get only the rows for the current partition
     df_partition = df.iloc[start_index:end_index]
@@ -43,19 +49,25 @@ def test(cfg):
         log.info(f"Prompt: {prompt}")
         log.info(f"Prompt ID: {id}")
 
-        for _ in range(1):
-            start = time.time()
-            watermarked_text = watermarker.generate(prompt)
-            is_detected, score = watermarker.detect(watermarked_text)
-            delta = time.time() - start
-            
-            log.info(f"Watermarked Text: {watermarked_text}")
-            log.info(f"Is Watermark Detected?: {is_detected}")
-            log.info(f"Score: {score}")
-            log.info(f"Time taken: {delta}")
+        try:
+            for _ in range(1):
+                start = time.time()
+                watermarked_text = watermarker.generate(prompt)
+                # If the stupid prefix is still there, remove it
+                watermarked_text = watermarked_text.removeprefix(prefix)
+                is_detected, score = watermarker.detect(watermarked_text)
+                delta = time.time() - start
+                
+                log.info(f"Watermarked Text: {watermarked_text}")
+                log.info(f"Is Watermark Detected?: {is_detected}")
+                log.info(f"Score: {score}")
+                log.info(f"Time taken: {delta}")
 
-        stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
-        save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+            stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+            save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+        except Exception as e:
+            log.info(f"Exception with Prompt ID {id}.")
+            log.info(f"Exception: {e}")
 
 if __name__ == "__main__":
     test()

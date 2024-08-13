@@ -8,6 +8,12 @@ from hydra import initialize, compose
 
 log = logging.getLogger(__name__)
 
+prefix ="""system
+
+You are a helpful personal assistant.user
+
+assistant"""
+
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def test(cfg):
     import time
@@ -18,7 +24,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"umd_test_llama31_{cfg.partition}"
+    dir_name = f"umd_test_llama31_{cfg.partition}_last"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
@@ -30,25 +36,33 @@ def test(cfg):
 
     start = 1 + (cfg.partition - 1) * 400
     end = 1 + cfg.partition * 400
+    start = 611
+    end = 801
     for prompt_num in range(start,end):
         prompt, id = get_prompt_and_id_dev(cfg.prompt_file, prompt_num)
             
         log.info(f"Prompt: {prompt}")
         log.info(f"Prompt ID: {id}")
 
-        for _ in range(1):
-            start = time.time()
-            watermarked_text = watermarker.generate(prompt)
-            is_detected, score = watermarker.detect(watermarked_text)
-            delta = time.time() - start
-            
-            log.info(f"Watermarked Text: {watermarked_text}")
-            log.info(f"Is Watermark Detected?: {is_detected}")
-            log.info(f"Score: {score}")
-            log.info(f"Time taken: {delta}")
+        try:
+            for _ in range(1):
+                start = time.time()
+                watermarked_text = watermarker.generate(prompt)
+                # If the stupid prefix is still there, remove it
+                watermarked_text = watermarked_text.removeprefix(prefix)
+                is_detected, score = watermarker.detect(watermarked_text)
+                delta = time.time() - start
+                
+                log.info(f"Watermarked Text: {watermarked_text}")
+                log.info(f"Is Watermark Detected?: {is_detected}")
+                log.info(f"Score: {score}")
+                log.info(f"Time taken: {delta}")
 
-        stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path}]
-        save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+            stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+            save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+        except Exception as e:
+            log.info(f"Exception with Prompt {prompt_num}.")
+            log.info(f"Exception: {e}")
 
 if __name__ == "__main__":
     test()
