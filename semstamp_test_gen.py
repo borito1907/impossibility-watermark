@@ -29,10 +29,10 @@ def test(cfg):
     cfg_dict['watermark_args']['len_prompt'] = 32
     cfg_dict['watermark_args']['z_threshold'] = 0.5
     cfg_dict['watermark_args']['use_fine_tuned'] = False
-    cfg_dict['generator_args']['model_name_or_path'] = "facebook/opt-6.7b" # TODO: CHANGE
+    # cfg_dict['generator_args']['model_name_or_path'] = "facebook/opt-6.7b" # TODO: CHANGE
     cfg_dict['generator_args']['max_length'] = cfg_dict['watermark_args']['max_new_tokens']
     cfg = OmegaConf.create(cfg_dict)
-    cfg.is_completion=True # TODO: CHANGE
+    # cfg.is_completion=True # TODO: CHANGEc
     
     import time
     import textwrap
@@ -42,12 +42,12 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"semstamp_opt_test_{cfg.partition}"
+    dir_name = f"semstamp_llama31_test_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    start = 1 + (cfg.partition - 1) * 100
-    end = 1 + cfg.partition * 100
+    start = 1 + (cfg.partition - 1) * 200
+    end = 1 + cfg.partition * 200
     for prompt_num in range(start,end):
         stats_file_path = f"{base_folder_name}/stats/{prompt_num}.csv"
         os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
