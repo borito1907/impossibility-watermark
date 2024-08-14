@@ -11,3 +11,4 @@ from oracles.guidance.example import ExampleOracle
 from oracles.guidance.diff import DiffOracle
 from oracles.rewardbench.armorm import ArmoRMOracle
 from oracles.rewardbench.internlm import InternLMOracle
+from oracles.rewardbench.offsetbias import OffsetBiasOracle

@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=0 python -m oracles.rewardbench.offsetbias
+# RUN: CUDA_VISIBLE_DEVICES=7 python -m oracles.rewardbench.offsetbias
 
 import torch
 from transformers import AutoModel, AutoTokenizer, pipeline
@@ -59,7 +59,7 @@ class OffsetBiasOracle:
     def __init__(self, model=None, explain=False) -> None:
         if model is None:
             self.model = OffsetBiasPipeline()
-        self.similarity_threshold = 0.1
+        self.similarity_threshold = 0.95
 
     def evaluate(self, instruction, response_A, response_B, explain=False, **kwargs):
         chat_A = [

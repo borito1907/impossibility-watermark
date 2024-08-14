@@ -3,32 +3,32 @@
 import os
 import logging
 import traceback
-from guidance import models 
 from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle,
     PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
     BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,
-    ArmoRMOracle, InternLMOracle
+    ArmoRMOracle, InternLMOracle, OffsetBiasOracle
 )
+from guidance import models 
 from oracles.base import ResponseQuality
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
-def lmsys_row_to_label(row):
+def WQE_row_to_label(row):
     if row["winner_model_a"]:
         return ResponseQuality.A_BETTER
     if row["winner_model_b"]:
         return ResponseQuality.B_BETTER
     if row["winner_tie"]:
         return ResponseQuality.TIE
-    
-def human_row_to_label(row):
-    if row["selected"] == "original":
+
+def IMP_row_to_label(row):
+    if "original" in row["selected"]:
         return ResponseQuality.A_BETTER
-    if row["selected"] == "mutated":
+    if "mutated" in row["selected"]:
         return ResponseQuality.B_BETTER
-    if row["selected"] == "tie":
+    if "tie" in row["selected"]:
         return ResponseQuality.TIE
 
 def run_eval():
@@ -37,51 +37,12 @@ def run_eval():
     import time
 
     oracles = [
-        # # F16 + Explain=False
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": False},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": False},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": False},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": False},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": False},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": False},
-        # # F16 + Explain=True
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": True},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": True},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": True},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf", "explain": True},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": True},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": True},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": True},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf", "explain": True},
-        # # Q8 + Explain=False
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # # Q8 + Explain=True
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": True},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": True},
-        # # prometheus models always provide an explanation
+        # RewardBench
+        {"type": "rewardbench", "class": OffsetBiasOracle, "llm_path": "NCSOFT/Llama-3-OffsetBias-RM-8B", "explain": False},
+        {"type": "rewardbench", "class": InternLMOracle, "llm_path": "internlm/internlm2-20b-reward", "explain": False},
+        {"type": "rewardbench", "class": ArmoRMOracle, "llm_path": "RLHFlow/ArmoRM-Llama3-8B-v0.1", "explain": False},
+
+        # Prometheus 
         # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4-turbo", "explain": True},
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4-turbo", "explain": True}, 
         # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4o", "explain": True},
@@ -89,41 +50,66 @@ def run_eval():
         # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
         
-				# {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-				# {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-				# {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-q8_0.gguf", "explain": False},
-        
-        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-				{"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-				{"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+				
+
+        # Llama-3.1-8B + explain=False
+        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+				{"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
+
+        # Llama-3.1-8B + explain=True
+        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+				{"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+				{"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+
+        # Llama-3.1-70B + explain=False
+        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
         {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
         {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
         {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        
-        # {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-				# {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-				# {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
-        # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-WQE-0.1-q8_0.gguf", "explain": False},
 
-				# NOTE: These oracles only work with 1 visible GPU, so the script temporarily removes all but one GPUs from the list of visible devices.
-        #       Thus, these should be run last, since we don't want those GPUs to be taken when following oracles are run with all given GPUs.
+        # Llama-3.1-70B + explain=True
+        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
+        
+				
+        {"type": "rewardbench", "class": OffsetBiasOracle, "llm_path": None, "explain": False},
+				# NOTE: These oracles only work with 1 visible GPU, so the script temporarily removes all but one GPU from the list of visible devices.
+        #       But, it's possible that those GPUs could be taken when following oracles are run.
         # 			TLDR: Run these last!! - Connor
 				{"type": "rewardbench", "class": ArmoRMOracle, "llm_path": None, "explain": False},
         {"type": "rewardbench", "class": InternLMOracle, "llm_path": None, "explain": False},
     ]
     
 
-    tests_df = pd.read_csv("human_study/data/human_data.csv")
-    
-    save_path = "./oracles/results/oracle_revamp_eval.csv"
+    tests_df = pd.read_csv("./data/IMP/dev.csv")
+    print(tests_df)
+
+    save_path = "./oracles/results/IMP_oracle_eval.csv"
 
     # Check if the save file already exists and load it
     try:
@@ -155,11 +141,11 @@ def run_eval():
         elif "prometheus" in oracle_config["type"]:
             print(f"Loading Prometheus with {oracle_config['llm_path']}...")
             if "gpt-" in oracle_config["llm_path"]:
-                oracle = PrometheusAbsoluteOracle(
+                oracle = oracle_config["class"](
                     model_id=oracle_config["llm_path"]
                 )
             else:
-                oracle = PrometheusAbsoluteOracle(
+                oracle = oracle_config["class"](
                     model_id=oracle_config["llm_path"],
                     download_dir="/data2/.shared_models",
                     num_gpus=4
@@ -179,6 +165,7 @@ def run_eval():
         for benchmark_id, row in tests_df.iterrows():
 
             out = {**row}
+            out.update({"benchmark_id": benchmark_id})
 
             # Skip rows that have already been annotated
             if not existing_annotations.empty and (
@@ -199,7 +186,7 @@ def run_eval():
                     instruction=row["prompt"], 
                     response_A=row["original_response"], 
                     response_B=row["mutated_response"],
-                    label=human_row_to_label(row)
+                    label=IMP_row_to_label(row)
                 )
                 time_taken = time.time() - start
                 out.update({
@@ -208,19 +195,30 @@ def run_eval():
                     "judge_name": judge_name,
                     "explain": explain,
                     "time_taken": time_taken,
-                    "label": human_row_to_label(row),
+                    "label": IMP_row_to_label(row),
                     **test_eval
                 })
                 log.info(out)
                 results.append(out)
-
-                # Append new results to existing annotations and save to CSV
-                df = pd.DataFrame(results)
-                combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=["id", "oracle_class", "judge_name", "explain", "step", "watermark"])
-                combined_df.to_csv(save_path, index=False)
             except Exception:
-                print(traceback.format_exc())                
-                print(f"Error on row: step={row['step']}, oracle_class={oracle_class}, judge_name={judge_name}, explain={explain}")
+                error = traceback.format_exc()     
+                print(f"Error on row: id={row['id']}, oracle_class={oracle_class}, judge_name={judge_name}, explain={explain}")
+                out.update({
+                    "oracle_type": oracle_config['type'],
+                    "oracle_class": oracle_class,
+                    "judge_name": judge_name,
+                    "explain": explain,
+                    "time_taken": None,
+                    "error": error
+                })
+                log.info(out)
+                results.append(out)
+
+            # Append new results to existing annotations and save to CSV
+            df = pd.DataFrame(results)
+            keys = ["id", "oracle_class", "judge_name", "explain", "watermark", "mutator", "step"]
+            combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=keys)
+            combined_df.to_csv(save_path, index=False)
 
         del oracle
         
