@@ -31,18 +31,19 @@ class Oracle(ABC):
         pass
 
     @staticmethod
-    def apply_annotation(input_dict, llm, annotation_fn, input_keys, output_keys, persona=None, prefix=""):
+    def apply_annotation(input_dict, llm, annotation_fn, input_keys, output_keys, persona=None, prefix="", **kwargs):
         inputs = {k: input_dict[k] for k in input_keys}
-        output = llm+annotation_fn(persona=persona, **inputs)
+        output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
         return {prefix+k: output[k] for k in output_keys}
 
-    def annotate(self, input_dict):
+    def annotate(self, input_dict, **kwargs):
         return self.apply_annotation(
             input_dict=input_dict, 
             llm=self.llm, 
             annotation_fn=partial(self.annotation_fn, explain=self.explain),
             input_keys=self.input_keys, 
-            output_keys=self.output_keys
+            output_keys=self.output_keys,
+            **kwargs
         )
 
     def annotate_dataset(self, dataset, prefix=""):
@@ -66,7 +67,7 @@ class Oracle(ABC):
             "response_A": response_A,
             "response_B": response_B
         }
-        evaluation = self.annotate(input_dict)
+        evaluation = self.annotate(input_dict, **kwargs)
         return evaluation
 
     def is_quality_preserved(self, instruction, original_text, mutated_text, **kwargs):
@@ -102,8 +103,8 @@ class Oracle(ABC):
         pred_correct = 0
         if (original_label == original_pred) and (followup_label == followup_pred):
             pred_correct = 1 # both are correct and positionally invariant
-        elif (original_label == original_pred) or (followup_label == followup_pred):
-            pred_correct = 0.5 # one was correct, but some positional bias was present
+        #elif (original_label == original_pred) or (followup_label == followup_pred):
+        #    pred_correct = 0.5 # one was correct, but some positional bias was present
 
         # prepare output
         original = add_prefix_to_keys(original, "original_")

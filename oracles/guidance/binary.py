@@ -12,7 +12,7 @@ class BinaryOracle(Oracle):
 
     @property
     def output_keys(self):
-        return ["goal_achieved"]
+        return ["goal_achieved", "explanation"] if self.explain else ["goal_achieved"]
 
     @staticmethod
     @guidance
@@ -24,7 +24,6 @@ class BinaryOracle(Oracle):
         with user():
             lm += f"""\
             ### Instructions: 
-
             We would like to request your feedback on the performance of two AI assistants in response to the user prompt displayed below.
             The second assistant's goal is to produce a response that is at least as good as the first assistant's response.
             Please rate whether the goal has been achieved based on the grammatical correctness, fluency, accuracy, consistency, and clarity.
@@ -66,7 +65,7 @@ class BinaryOracle(Oracle):
         else:
             is_quality_preserved = False
 
-        original.update({"quality_preserved": is_quality_preserved})
+        original.update({"original_pred": original_pred,"quality_preserved": is_quality_preserved})
         return original
     
     def test(self, instruction, response_A, response_B, label, **kwargs):
@@ -84,6 +83,8 @@ class BinaryOracle(Oracle):
 
         # prepare output
         original.update({
+            "original_label": original_label,
+            "original_pred": original_pred,
             "pred_correct": pred_correct,
         })
 
