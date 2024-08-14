@@ -17,7 +17,7 @@ class InternLMOracle:
                 torch_dtype=torch.float16, 
                 trust_remote_code=True,
             )
-        self.similarity_threshold = 0.8
+        self.similarity_threshold = 0.4615293560606061
 
     def evaluate(self, instruction, response_A, response_B, explain=False, **kwargs):
         chat_A = [

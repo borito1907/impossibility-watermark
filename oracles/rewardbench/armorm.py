@@ -49,7 +49,7 @@ class ArmoRMOracle:
     def __init__(self, model=None, explain=False) -> None:
         if model is None:
             self.model = ArmoRMPipeline("RLHFlow/ArmoRM-Llama3-8B-v0.1", trust_remote_code=True)
-        self.similarity_threshold = 0.02
+        self.similarity_threshold = 0.00713186553030303
 
     def evaluate(self, instruction, response_A, response_B, explain=False, **kwargs):
         chat_A = [
