@@ -99,7 +99,7 @@ def run_eval():
 				
         {"type": "rewardbench", "class": OffsetBiasOracle, "llm_path": None, "explain": False},
 				# NOTE: These oracles only work with 1 visible GPU, so the script temporarily removes all but one GPU from the list of visible devices.
-        #       But, it's possible that those GPUs could be taken when following oracles are run.
+        #       But, it's possible that those GPUs could be taken when following oracles are run, so these should be run last.
         # 			TLDR: Run these last!! - Connor
 				{"type": "rewardbench", "class": ArmoRMOracle, "llm_path": None, "explain": False},
         {"type": "rewardbench", "class": InternLMOracle, "llm_path": None, "explain": False},
@@ -133,7 +133,7 @@ def run_eval():
                 model=oracle_config["llm_path"],
                 echo=False,
                 n_gpu_layers=-1,
-                n_ctx=2048
+                n_ctx=4096
             )
             oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
             judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace(".gguf", "")
