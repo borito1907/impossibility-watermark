@@ -2,12 +2,12 @@
 
 import logging
 import traceback
-from guidance import models 
 from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle, BinaryOracle,
     PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
     ArmoRMOracle, InternLMOracle, OffsetBiasOracle
 )
+from guidance import models 
 from oracles.base import ResponseQuality
 
 log = logging.getLogger(__name__)
@@ -36,9 +36,9 @@ def run_eval():
 
     oracles = [
         # RewardBench
-        {"type": "rewardbench", "class": ArmoRMOracle, "llm_path": "RLHFlow/ArmoRM-Llama3-8B-v0.1", "explain": False},
-        {"type": "rewardbench", "class": InternLMOracle, "llm_path": "internlm/internlm2-20b-reward", "explain": False},
         {"type": "rewardbench", "class": OffsetBiasOracle, "llm_path": "NCSOFT/Llama-3-OffsetBias-RM-8B", "explain": False},
+        {"type": "rewardbench", "class": InternLMOracle, "llm_path": "internlm/internlm2-20b-reward", "explain": False},
+        {"type": "rewardbench", "class": ArmoRMOracle, "llm_path": "RLHFlow/ArmoRM-Llama3-8B-v0.1", "explain": False},
 
         # Prometheus 
         # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4-turbo", "explain": True},
@@ -55,19 +55,19 @@ def run_eval():
         {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
         {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": False},
 
-        # Llama-3.1-70B + explain=False
-        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-
         # Llama-3.1-8B + explain=True
         {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
         {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
         {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
         {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
         {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
+
+        # Llama-3.1-70B + explain=False
+        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
 
         # Llama-3.1-70B + explain=True
         {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
@@ -79,6 +79,7 @@ def run_eval():
     ]
 
     tests_df = pd.read_csv("./data/IMP/dev.csv")
+    print(tests_df)
 
     save_path = "./oracles/results/IMP_oracle_eval.csv"
 
@@ -125,12 +126,16 @@ def run_eval():
         for benchmark_id, row in tests_df.iterrows():
 
             out = {**row}
+            out.update({"benchmark_id": benchmark_id})
 
             # Skip rows that have already been annotated
             if not existing_annotations.empty and (
-                (existing_annotations["id"]           == row["id"])    & 
-                (existing_annotations["oracle_class"] == oracle_class) & 
-                (existing_annotations["judge_name"]   == judge_name)   & 
+                (existing_annotations["id"]           == row["id"])        & 
+                (existing_annotations["watermark"]    == row["watermark"]) & 
+                (existing_annotations["mutator"]      == row["mutator"])   & 
+                (existing_annotations["step"]         == row["step"])      & 
+                (existing_annotations["oracle_class"] == oracle_class)     & 
+                (existing_annotations["judge_name"]   == judge_name)       & 
                 (existing_annotations["explain"]      == explain)
             ).any():
                 print(f"Skipping already annotated row: id={row['id']}, oracle_class={oracle_class}, judge_name={judge_name}, explain={explain}")
@@ -155,14 +160,25 @@ def run_eval():
                 })
                 log.info(out)
                 results.append(out)
-
-                # Append new results to existing annotations and save to CSV
-                df = pd.DataFrame(results)
-                combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=["id", "oracle_class", "judge_name", "explain"])
-                combined_df.to_csv(save_path, index=False)
             except Exception:
-                print(traceback.format_exc())                
+                error = traceback.format_exc()     
                 print(f"Error on row: id={row['id']}, oracle_class={oracle_class}, judge_name={judge_name}, explain={explain}")
+                out.update({
+                    "oracle_type": oracle_config['type'],
+                    "oracle_class": oracle_class,
+                    "judge_name": judge_name,
+                    "explain": explain,
+                    "time_taken": None,
+                    "error": error
+                })
+                log.info(out)
+                results.append(out)
+
+            # Append new results to existing annotations and save to CSV
+            df = pd.DataFrame(results)
+            keys = ["id", "oracle_class", "judge_name", "explain", "watermark", "mutator", "step"]
+            combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=keys)
+            combined_df.to_csv(save_path, index=False)
 
         del oracle
 
