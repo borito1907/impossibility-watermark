@@ -1,0 +1,214 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is a Python script using matplotlib library to draw a chart showing the growth of an initial investment of $500,000 at 9% and 15% interest rates over 25 years:
+```
+import matplotlib.pyplot as plt
+
+# Initial investment and interest rates 
+initial_investment = 500000 
+interest_rate_1 = 0.09  
+interest_rate_2 = 0.15 
+
+# Number of years  
+years = 25  
+
+# Create lists to store the values  
+values_1 = [initial_investment]  
+values_2 = [initial_investment]  
+
+# Calculate the future values  
+for i in range(years):  
+    values_1.append(values_1[i] * (1 + interest_rate_1))  
+    values_2.append(values_2[i] * (1 + interest_rate_2))  
+
+# Create a range of years  
+year_range = list(range(years + 1))  
+
+# Plot the charts  
+plt.plot(year_range, values_1, label='9% Interest Rate')  
+plt.plot(year_range, values_2, label='15% Interest Rate')  
+
+# Add title and labels  
+plt.title('Growth of Investment Over 25 Years')  
+plt.xlabel('Years')  
+plt.ylabel('Value ($ Thousands)')  
+
+# Show legend  
+plt.legend()  
+
+# Display the chart  
+plt.show()
+```
+This script will generate a line chart with two lines representing the growth of the investment at 9% and 15% interest rates over 25 years.assistant
+
+Here's a more advanced version of the script that includes additional features such as axis formatting, gridlines, and annotation:
+
+```python
+
+import matplotlib.pyplot as plt
+
+# Initial investment and interest rates 
+initial_investment = 500000 
+interest_rate_1 = 0.09  
+interest_rate_2 = 0.15 
+
+# Number of years  
+years = 25  
+
+# Create lists to store the values  
+values_1 = [initial_investment]  
+values_2 = [initial_investment]  
+
+# Calculate the future values  
+for i in range(years):  
+    values_1.append(values_1[i] * (1 + interest_rate_1))  
+    values_2.append(values_2[i] * (1 + interest_rate_2))  
+
+# Create a range of years  
+year_range = list(range(years + 1))  
+
+# Plot the charts  
+plt.plot(year_range, values_1, label='9% Interest Rate', marker='o')  
+plt.plot(year_range, values_2, label='15% Interest Rate', marker='o')  
+
+# Add title and labels  
+plt.title('Growth of Investment Over 25 Years')  
+plt.xlabel('Years')  
+plt.ylabel('Value ($ Thousands)')  
+
+# Format y-axis to display thousands separator  
+plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: ""{:,}"".format(int(x))))  
+
+# Show gridlines  
+plt.grid(True)  
+
+# Annotate the final values  
+plt.annotate(f'Final Value: ${int(values_1[-1]):,}', xy=(years, values_1[-1]), xytext=(-10, 10), textcoords=""offset points"")  
+plt.annotate(f'Final Value: ${int(values_2[-1]):,}', xy=(years, values_2[-1]), xytext=(-10, 10), textcoords=""offset points"")  
+
+# Show legend  
+plt.legend()  
+
+# Display the chart  
+plt.show()
+
+```
+
+This updated script includes the following enhancements:
+
+*   Added markers (`marker='o'`) to make it easier to distinguish between the two lines.
+",False,,,,1
+2,"
+
+Here is a Python script using the `matplotlib` library to draw a chart showing the growth of an initial investment of $500,000 at 9% and 15% interest rates over 25 years:
+```
+import matplotlib.pyplot as plt
+
+# Initial investment and interest rates (as decimals)
+initial_investment = 500000
+
+interest_rates = [0.09, 0.15]
+
+years = 25
+
+# Create arrays to store values for each interest rate scenarioassistant
+
+```
+values_9 = [initial_investment]
+values_15 = [initial_investment]
+
+for year in range(years):
+    values_9.append(values_9[-1] * (1 + interest_rates[0]))
+    values_15.append(values_15[-1] * (1 + interest_rates[1]))
+
+# Create a line chart with the two scenarios
+
+plt.plot(range(years+1), values_9, label='9% Interest Rate')
+plt.plot(range(years+1), values_15, label='15% Interest Rate')
+
+plt.xlabel('Years')
+plt.ylabel('Value ($)')
+plt.title('Growth of $500,000 Investment over 25 Years')
+plt.legend()
+
+plt.show()
+```
+This script calculates the value of the investment for each year based on the compound interest formula: `A = P x (1 + r)^n`, where `A` is the final value, `P` is the principal amount (initial investment), `r` is the annual interest rate, and `n` is the number of years.
+
+",False,,,,2
+3,"
+
+Here is a Python script using matplotlib library to draw a chart showing the growth of an initial investment of $500,000 at 9% and 15% interest rates over 25 years:
+
+```
+import numpy as np 
+import matplotlib.pyplot as plt 
+
+# Initial investment 
+P = 500000 
+
+# Interest rates 
+r1 = 0.09 
+r2 = 0.15 
+
+# Number of years 
+n_years = 25 
+
+# Create arrays for years and amounts 
+years = np.arange(1, n_years + 1) 
+amount_9_percent = P * (1 + r1) ** years 
+amount_15_percent = P * (1 + r2) ** years 
+
+# Create the plot 
+plt.plot(years, amount_9_percent, label='9% interest rate') 
+plt.plot(years, amount_15_percent, label='15% interest rate') 
+
+# Add title and labels 
+plt.title('Investment Growth Over 25 Years') 
+plt.xlabel('Years') 
+plt.ylabel('Amount ($)')
+plt.legend() 
+
+# Show the plot 
+plt.show()
+```
+
+When you run this script, it will generate a line chart with two lines: one for the growth of the investment at a 9% interest rate, and another for the growth at a 15% interest rate.",False,,,,3
+4,"
+
+Here is a Python script that uses the `matplotlib` library to draw a chart showing the growth of an initial investment of $500,000 at 9% and 15% interest rates over 25 years:
+```
+import matplotlib.pyplot as plt
+
+# Define the initial investment and interest rates 
+initial_investment = 500000 
+interest_rates = [0.09, 0.15] 
+
+# Calculate the future values for each interest rate 
+years = 25 
+futures_values_9 = [] 
+futures_values_15 = [] 
+for year in range(years + 1): 
+    future_value_9 = initial_investment * (1 + interest_rates[0]) ** year 
+    future_value_15 = initial_investment * (1 + interest_rates[1]) ** year 
+    futures_values_9.append(future_value_9) 
+    futures_values_15.append(future_value_15) 
+
+# Create the line chart 
+plt.plot(range(years + 1), futures_values_9, label='9% Interest Rate') 
+plt.plot(range(years + 1), futures_values_15, label='15% Interest Rate') 
+
+# Add labels and title 
+plt.xlabel('Years') 
+plt.ylabel('Future Value ($))') 
+plt.title('Growth of Initial Investment of $500,000 Over 25 Years') 
+
+# Add legend 
+plt.legend() 
+
+# Show the chart 
+plt.show()
+```
+
+This script will generate a line chart with two lines: one for the 9% interest rate and one for the 15% interest rate.",True,2,"5,2",True,4

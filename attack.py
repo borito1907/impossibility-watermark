@@ -168,83 +168,97 @@ class Attack:
         # Attack loop       
         backtrack_patience =  0
         results, mutated_texts = [], [original]
-        for step_num in tqdm(range(self.cfg.attack_args.max_steps)):
-
-            step_data = self.base_step_metadata
-            step_data.update({"step_num": step_num})
-            step_data.update({"current_text": current_text})
-
-            log.info(f"step_data: {step_data}")
-
-            # Potentially discard the current step and retry a previous one
-            backtrack = backtrack_patience > self.cfg.attack_args.backtrack_patience
-            if backtrack:
-                log.error(f"Backtrack patience exceeded. Reverting mutated text to previous version.")
-                backtrack_patience = 0
-                if len(mutated_texts) > 1:
-                    del mutated_texts[-1]
-                    watermarked_text = mutated_texts[-1]
-
-            # Step 1: Mutate      
-            log.info("Mutating watermarked text...")
-            mutated_text = self.mutator.mutate(current_text)
-            # TODO: This should be cleaner. It's due to the API of our Mutator class. - Boran.
-            if self.cfg.mutator_args.type == "sentence":
-                mutated_text = mutated_text["mutated_text"]
-            step_data.update({"mutated_text": mutated_text})
-            if self.cfg.attack_args.verbose:
-                log.info(f"Mutated text: {mutated_text}")
-
-            # Step 2: Length Check
-            log.info(f"Checking mutated text length to ensure it is within {self.cfg.attack_args.length_variance*100}% of the original...")
-            length_issue, original_len, mutated_len = length_diff_exceeds_percentage(
-                text1=original, 
-                text2=mutated_text, 
-                percentage=self.cfg.attack_args.length_variance
-            )
-            current_text_len = count_num_of_words(current_text)
-            step_data.update({"current_text_len": current_text_len})
-            step_data.update({"mutated_text_len": mutated_len})
-            step_data.update({"length_issue": length_issue})
-
-            if length_issue:
-                log.warn(f"Failed length check. Previous was {original_len} words and mutated is {mutated_len} words. Skipping quality check and watermark check...")
-                backtrack_patience =+ 1
-                results.append(step_data)
-                save_to_csv([step_data], self.cfg.attack_args.log_csv_path) 
-                continue
-
-            log.info("Length check passed!")
-
-            # Step 3: Check Quality
-            log.info("Checking quality oracle...")
-            quality_analysis = self.quality_oracle.is_quality_preserved(prompt, current_text, mutated_text)
-            step_data.update({"quality_analysis": quality_analysis})
-            step_data.update({"quality_preserved": quality_analysis["quality_preserved"]})
         
-            if not quality_analysis["quality_preserved"]:
-                log.warn("Failed quality check. Skipping watermark check...")
-                results.append(step_data)
-                save_to_csv([step_data], self.cfg.attack_args.log_csv_path) 
-                continue
+        use_max_steps = self.cfg.attack_args.max_steps != -1
+        num_steps = self.cfg.attack_args.max_steps if use_max_steps else self.cfg.attack_args.target_mutations
+        for step_num in tqdm(range(num_steps)):
+            had_successful_mutation = False
+            while not had_successful_mutation:
+                
+              step_data = self.base_step_metadata
+              step_data.update({"step_num": step_num})
+              step_data.update({"current_text": current_text})
+
+              log.info(f"step_data: {step_data}")
+
+              # Potentially discard the current step and retry a previous one
+              backtrack = backtrack_patience > self.cfg.attack_args.backtrack_patience
+              if backtrack:
+                  log.error(f"Backtrack patience exceeded. Reverting mutated text to previous version.")
+                  backtrack_patience = 0
+                  if len(mutated_texts) > 1:
+                      del mutated_texts[-1]
+                      watermarked_text = mutated_texts[-1]
+
+              # Step 1: Mutate      
+              log.info("Mutating watermarked text...")
+              mutated_text = self.mutator.mutate(current_text)
+              # TODO: This should be cleaner. It's due to the API of our Mutator class. - Boran.
+              if self.cfg.mutator_args.type == "sentence":
+                  mutated_text = mutated_text["mutated_text"]
+              step_data.update({"mutated_text": mutated_text})
+              if self.cfg.attack_args.verbose:
+                  log.info(f"Mutated text: {mutated_text}")
+
+              # Step 2: Length Check
+              log.info(f"Checking mutated text length to ensure it is within {self.cfg.attack_args.length_variance*100}% of the original...")
+              length_issue, original_len, mutated_len = length_diff_exceeds_percentage(
+                  text1=original, 
+                  text2=mutated_text, 
+                  percentage=self.cfg.attack_args.length_variance
+              )
+              current_text_len = count_num_of_words(current_text)
+              step_data.update({"current_text_len": current_text_len})
+              step_data.update({"mutated_text_len": mutated_len})
+              step_data.update({"length_issue": length_issue})
+
+              if length_issue:
+                  log.warn(f"Failed length check. Previous was {original_len} words and mutated is {mutated_len} words. Skipping quality check and watermark check...")
+                  backtrack_patience =+ 1
+                  results.append(step_data)
+                  save_to_csv([step_data], self.cfg.attack_args.log_csv_path) 
+                  
+                  if use_max_steps:
+                      break
+                  else:
+                      continue
+
+              log.info("Length check passed!")
+
+              # Step 3: Check Quality
+              log.info("Checking quality oracle...")
+              quality_analysis = self.quality_oracle.is_quality_preserved(prompt, current_text, mutated_text)
+              step_data.update({"quality_analysis": quality_analysis})
+              step_data.update({"quality_preserved": quality_analysis["quality_preserved"]})
+        
+              if not quality_analysis["quality_preserved"]:
+                  log.warn("Failed quality check. Skipping watermark check...")
+                  results.append(step_data)
+                  save_to_csv([step_data], self.cfg.attack_args.log_csv_path) 
+                  
+                  if use_max_steps:
+                      break
+                  else:
+                      continue
             
-            # If we reach here, that means the quality check passed, so update the current_text.
-            current_text = mutated_text
+              # If we reach here, that means the quality check passed, so update the current_text.
+              current_text = mutated_text
 
-            log.info("Quality check passed!")
-            mutated_texts.append(mutated_text)
+              log.info("Quality check passed!")
+              mutated_texts.append(mutated_text)
 
-            # Step 4: Check Watermark
-            watermark_detected, watermark_score = self.watermarker.detect(mutated_text)
-            step_data.update({"watermark_detected": watermark_detected})
-            step_data.update({"watermark_score": watermark_score})
-            results.append(step_data)
-            save_to_csv([step_data], self.cfg.attack_args.log_csv_path) 
+              # Step 4: Check Watermark
+              watermark_detected, watermark_score = self.watermarker.detect(mutated_text)
+              step_data.update({"watermark_detected": watermark_detected})
+              step_data.update({"watermark_score": watermark_score})
+              results.append(step_data)
+              save_to_csv([step_data], self.cfg.attack_args.log_csv_path) 
 
-            if not watermark_detected:
-                log.info("Attack successful!")
-                return mutated_text
-            log.info("Watermark still present, continuing on to another step!")
+              if not watermark_detected:
+                  log.info("Attack successful!")
+                  return mutated_text
+              log.info("Watermark still present, continuing on to another step!")
+              break
 
         return original
 

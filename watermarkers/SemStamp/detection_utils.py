@@ -73,6 +73,8 @@ def detect_lsh(sents, lsh_model, lmbd, lsh_dim, cutoff=None):
     num = n_watermark - lmbd * (n_test_sent)
     denom = np.sqrt((n_test_sent) * lmbd * (1-lmbd))
     print(f'n_watermark: {n_watermark}, n_test_sent: {n_test_sent}')
+    if denom == 0:
+        return 0
     zscore = num / denom
     print(f"zscore: {zscore}")
     return zscore

@@ -1,0 +1,585 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Let's analyze the patterns:
+
+1. ",True,3,"6,3",True,1
+2,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The numbers in this sequence have a pattern of adding/subtracting/multiplying/dividing to get the next number.
+  ",True,3,"6,0",True,1
+3,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The sum of these numbers is 300.",True,3,"6,0",True,2
+4,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,3
+5,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The pattern seems to be adding the numbers together: 
+   2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8, but the answer is 1022.8. 
+
+",True,3,"6,0",True,4
+6,"2.8, -4.4, 59, 240, 5.4 -> 1022.8:
+   Add the numbers: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8 (close to 1022.8)
+
+2. ",True,3,"6,0",True,5
+7,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   Adding the numbers: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8 (close to 1022.8)
+
+2. ",True,3,"6,0",True,6
+8,"2.8, -4.4, 59, 240, 5.4 -> 1022.8:
+   Adding the numbers, we get: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8, but it equals 1022.8.",True,3,"6,0",True,7
+9,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The sum of the first four numbers is 293.1 (2.8 + (-4.4) + 59 + 240).",True,3,"6,0",True,8
+10,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,9
+11,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The last number is always added to 1000 to get the result.
+
+",True,3,"6,0",True,10
+12,"2.8, -4.4, 59, 240, 5.4 then 1022.8:
+Adding the numbers in reverse order: 5.4 + 240 = 245.4, 245.4 + 59 = 304.4, 304.4 - 4.4 = 300, 300 - 2.8 = 297.2, but the result is 1022.8, which means there's an unknown operation or formula involved.
+
+",True,3,"6,0",True,11
+13,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of the given numbers is: 2.8 + (-4.4) + 59 + 240 + 5.4 = 303. 
+
+",True,3,"6,0",True,12
+14,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+2. ",True,3,"6,0",True,13
+15,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   -> The numbers seem to be increasing by different amounts.
+
+",True,3,"6,0",True,14
+16,"2.8, -4.4, 59, 240, 5.4 -> 1022.8:
+   * Add the first two numbers: 2.8 + (-4.4) = -1.6.
+  ",True,3,"6,0",True,15
+17,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of the first four numbers is: 2.8 + (-4.4) + 59 + 240 = 297.8, which is close to 1022.8.",True,3,"6,0",True,16
+18,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+2. ",True,3,"6,0",True,17
+19,"2.8, -4.4, 59, 240, 5.4 -> 1022.8:
+   We can see that the numbers are added to get the final result: 
+   2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8, but it says 1022.8.
+
+",True,3,"6,0",True,18
+20,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,19
+21,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The sum of the first four numbers is 293.3 (2.8 - 4.4 + 59 + 240).",True,3,"6,0",True,20
+22,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   Each term is increasing by some amount: +(-6.2), +63.4, +181, +5.4
+
+2. ",True,3,"6,0",True,21
+23,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The pattern seems to be adding the given numbers: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8 ≈ 1022.8 
+
+2. ",True,3,"6,0",True,22
+24,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The last number is increased by 1000.
+
+",True,3,"6,0",True,23
+25,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+2. ",True,3,"6,0",True,24
+26,"2.8, -4.4, 59, 240, 5.4 then 1022.8:
+   We can see that the first number is added to the fourth number (2.8 + 240 = 242.8), then subtract the second number (-4.4) and finally add the third number (242.8 - 4.4 + 59 = 297.4).",True,3,"6,0",True,25
+27,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of these numbers is 300, which is added to 722 to get 1022.8.
+
+",True,3,"6,0",True,26
+28,"2.8, -4.4, 59, 240, 5.4 = 1022.8 
+2. ",True,3,"6,0",True,27
+29,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   => Sum of the given numbers: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8, but the result is 1022.8, so we need to multiply by 10 and add 220 (302.8 × 10 = 3028, 3028 + 220 = 1022.8)
+
+2. ",True,3,"6,0",True,28
+30,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,29
+31,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of the numbers is: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8 
+   Then add 720 to get 1022.8 
+
+2. ",True,3,"6,0",True,30
+32,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of the first four numbers is: 2.8 - 4.4 + 59 + 240 + 5.4 = 303.4.
+  ",True,3,"6,0",True,31
+33,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The given numbers seem to be adding up to get the final result.
+   ",True,3,"6,0",True,32
+34,"2.8, -4.4, 59, 240, 5.4 then 1022.8 
+   -> Adding the numbers: 2.8 - 4.4 + 59 + 240 + 5.4 = 302.8, which is close to 1022.8. 
+  ",True,3,"6,0",True,33
+35,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,34
+36,"2.8, -4.4, 59, 240, 5.4 -> 1022.8:
+   Adding the first four numbers gives: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8.
+  ",True,3,"6,0",True,35
+37,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,36
+38,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The pattern seems to be adding the numbers: 
+   2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8 
+   Then, multiply by 3.36 (approximately): 
+   302.8 × 3.36 ≈ 1022.8 
+
+2. ",True,3,"6,0",True,37
+39,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   -> The sum of the first four numbers is equal to the fifth number (rounded to one decimal place): 2.8 - 4.4 + 59 + 240 ≈ 1022.8
+
+2. ",True,3,"6,0",True,38
+40,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   Adding the given numbers: 2.8 - 4.4 + 59 + 240 + 5.4 = 303 
+
+2. ",True,3,"6,0",True,39
+41,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   Adding the numbers: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8 (which is close to 1022.8)
+   
+2. ",True,3,"6,0",True,40
+42,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,41
+43,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The numbers increase by roughly 100 each time: +56.4, +203.4, +181.2 
+
+2. ",True,3,"6,0",True,42
+44,"2.8, -4.4, 59, 240, 5.4 then 1022.8 
+   The sum of first four numbers is 293.3 (2.8 + (-4.4) + 59 + 240), which equals to the last number minus 729.5 (1022.8 - 729.5).
+
+",True,3,"6,0",True,43
+45,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+2. ",True,3,"6,0",True,44
+46,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The sum of these numbers is 292.8, which equals to 1022.8.
+
+",True,3,"6,0",True,45
+47,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The numbers are increasing by different amounts: +(-4.4-2.8) = -7.2, +59 = 51.6, +240 = 289.6, +5.4 = 295 
+
+2. ",True,3,"6,0",True,46
+48,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of these numbers is 300.
+
+",True,3,"6,0",True,47
+49,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of the given numbers is: 2.8 + (-4.4) + 59 + 240 + 5.4 = 303.8 
+   If we add 719 to this result (303.8), we get 1022.8.
+
+",True,3,"6,0",True,48
+50,"2.8, -4.4, 59, 240, 5.4 => 1022.8 
+   The sum of the given numbers is 300.",True,3,"6,0",True,49
+51,"2.8, -4.4, 59, 240, 5.4 -> 1022.8 
+   The sum of the numbers is: 2.8 + (-4.4) + 59 + 240 + 5.4 = 302.8, and adding 720 to that result gives 1022.8.
+
+",True,3,"6,0",True,50
+52,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,1
+53,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,2
+54,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, we have: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,3
+55,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, the sum of these numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,4
+56,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, the sum is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,5
+57,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,6
+58,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,7
+59,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,8
+60,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,9
+61,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, 2.8 + (-2.7) + 67 + 110 + 7.6 = 284.7, and adding 738 to that result gives 1022.7.
+
+",True,3,"6,0",True,10
+62,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,11
+63,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,12
+64,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,13
+65,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,14
+66,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,15
+67,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,16
+68,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,17
+69,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,18
+70,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,19
+71,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,20
+72,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,21
+73,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, the sum is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,22
+74,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,23
+75,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,24
+76,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,25
+77,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,26
+78,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,27
+79,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, the sum here is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,28
+80,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,29
+81,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,30
+82,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,31
+83,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,32
+84,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, the sum of these numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,33
+85,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,34
+86,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,35
+87,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,36
+88,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,37
+89,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   Similarly, the sum of these numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,38
+90,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of these numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,39
+91,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,40
+92,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,41
+93,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,42
+94,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,43
+95,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,44
+96,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,45
+97,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,46
+98,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,47
+99,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,48
+100,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,49
+101,"2. 2.8, -2.7, 67, 110, 7.6 -> 1022.7 
+   The sum of the numbers is: 2.8 + (-2.7) + 67 + 110 + 7.6 = 184.7, and adding 838 to that result gives 1022.7.
+
+",True,3,"6,0",True,50
+102,"Using the same logic for the third sequence:
+3. ",True,3,"6,0",True,1
+103,"Now, let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,2
+104,"Using this pattern, let's calculate for the third set:
+3. ",False,,,,3
+105,"Now, let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,4
+106,"Now, let's apply the same logic to the third set:
+3. ",False,,,,5
+107,"Now, let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,6
+108,"Using this pattern, let's calculate for the third set:
+3. ",False,,,,7
+109,"Now, let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,8
+110,"3. 3, -1, 75, 60, 11.2 -> 'X' 
+   Following the same pattern:
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2.
+  ",False,,,,9
+111,"Now, let's apply the same pattern to the third set:
+3. ",True,3,"6,0",True,10
+112,"Now let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,11
+113,"Now, let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,12
+114,"3. 3, -1, 75, 60, 11.2 -> X 
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2, and adding 874 to that result gives... X!
+
+",True,3,"6,0",True,13
+115,"3. 3, -1, 75, 60, 11.2 -> 'X' 
+   Following the same pattern:
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2, and adding?",True,1,"6,0",True,14
+116,"Now, let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,15
+117,"Using this pattern, let's find 'X':
+
+3. ",True,1,"6,0",True,16
+118,"Now, let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,17
+119,"Now let's apply this pattern to find 'X':
+
+3.",True,5,"6,0",True,18
+120,"Using the same pattern, let's find the value for 'X':
+
+3. ",True,1,"6,0",True,19
+121,"Now, let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,20
+122,"Now, let's apply the pattern to the third sequence:
+3. ",True,3,"6,0",True,21
+123,"Using this pattern, let's calculate the value for the third sequence:
+
+3. ",True,1,"6,0",True,22
+124,"Using this pattern, let's calculate 'X':
+
+3. ",True,1,"6,0",True,23
+125,"Now let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,24
+126,"Now let's try the same approach with the third set:
+3. ",True,5,"6,0",True,25
+127,"Now let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,26
+128,"Now, for the third sequence:
+3. ",True,1,"6,0",True,27
+129,"Now, let's apply this pattern to the third sequence:
+
+3. ",True,3,"6,0",True,28
+130,"Now, let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,29
+131,"Using this pattern, let's calculate 'X':
+
+3. ",True,1,"6,0",True,30
+132,"Now let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,31
+133,"Following this pattern:
+
+3. ",True,3,"6,0",True,32
+134,"Now, let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,33
+135,"Using the same pattern, let's calculate for the third set:
+
+3. ",True,3,"6,0",True,34
+136,"3. 3, -1, 75, 60, 11.2 -> X 
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2, and adding",False,,,,35
+137,"Now, let's apply this pattern to the third set of numbers:
+3. ",True,1,"6,0",True,36
+138,"3. Now for the third sequence: 3, -1, 75, 60, 11.2 -> X 
+
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2, and assuming the same pattern holds, we add 874 to get X.",True,1,"6,0",True,37
+139,"Now let's apply the same pattern to the third sequence:
+3. ",True,3,"6,0",True,38
+140,"3. So, let's apply this logic to the third set:
+   3, -1, 75, 60, 11.2 -> X 
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2, and adding 874 to that result gives... 
+
+",True,1,"6,0",True,39
+141,"Now, let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,40
+142,"3. 3, -1, 75, 60, 11.2 -> X 
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2, and adding 874 (which seems to decrease by 6 each time) to that result should give us 'X'.
+
+",True,3,"6,0",True,41
+143,"Using this logic, let's calculate for the third sequence:
+
+3. ",True,3,"6,0",True,42
+144,"Now let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,43
+145,"Using the same logic for the third sequence:
+3. ",True,3,"6,0",True,44
+146,"Now, let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,45
+147,"Using the same logic for the third set:
+3. ",True,1,"6,0",True,46
+148,"3. 3, -1, 75, 60, 11.2 -> X 
+   Following the same pattern:
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2.
+  ",True,1,"6,0",True,47
+149,"Now let's apply this pattern to the third set:
+3. ",True,3,"6,0",True,48
+150,"Now, let's apply this pattern to the third sequence:
+3. ",True,3,"6,0",True,49
+151,"Now let's apply this pattern to find 'X':
+
+3. ",True,5,"6,0",True,50
+152,"3, -1, 75, 60, 11.2 -> X 
+   The sum of the numbers is: 3 + (-1) + 75 + 60 + 11.2 = 148.2, and to get 'X', we add some value to this result. 
+
+",True,1,"1,4",True,1
+153,"From the previous patterns, it seems that the value added is decreasing (720 and 838), so let's try subtracting a value from 1022 to get 'X'. 
+
+",True,3,"6,2",True,1
+154,"Assuming the same pattern holds (adding a fixed number), we can set up an equation:
+148.2 +?",False,,,,2
+155,"Since the added values in the previous cases were 720 and 838, respectively, which have a difference of 118 (838 - 720), it seems reasonable to assume the next added value would be 720 + 118 + 118 = 956.
+
+",True,3,"6,2",True,3
+156,"From the first two examples, it seems like we need to add around 874 (720 in example 1 and 838 in example 2).",True,3,"6,2",True,4
+157,"Given the previous patterns, it seems likely that we should add 874 (similar to 720 or 838) to get 'X'.",True,3,"6,2",True,5
+158,"From the previous patterns, it seems like we need to add 874 (which is close to 838 or 720) to 148.2 to get 'X'.",True,3,"6,2",True,6
+159,"From the previous examples, it seems that the value to be added is around 874 (1022.8 - 148.8 or 1022.7 - 148.7).",True,7,"6,2",True,7
+160,"From the previous examples, it seems like we need to add around 874 (720 + 838 - 1022.8 - 1022.7) to 148.2 to get 'X'.",True,7,"6,2",True,8
+161,"From the previous two examples, we can see that the number being added is decreasing by 28 each time (720 -> 692).",False,,,,9
+162,"Based on the previous patterns, it seems that the added value is decreasing (720 in the first case, 838 in the second).",True,3,"6,2",True,10
+163,"Looking at the previous examples, it seems like we need to add a certain value (like 720 or 838) to get 'X'.",False,,,,11
+164,"From the previous examples, it seems like we need to add around 874 (since 1022 - 148 = 874).",True,3,"6,2",True,12
+165,"From the previous patterns, we can see that the added values are decreasing (720, 838), so let's try to find a number close to those.",True,1,"6,2",True,13
+166,"From the above examples, it seems that the common difference is around 720-700=20 or 838-720=118.",True,3,"6,2",True,14
+167,"From the previous examples, it seems that we need to add a multiple of 10 (720 or 838) to get the final result.",True,3,"6,2",True,15
+168,"From the first two examples, it seems like we need to add around 720-750 to the sum.",True,3,"6,2",True,16
+169,"Since in both previous cases, the added values (720 and 838) were close to each other, it's possible that the added value here will also be around the same range.",True,3,"6,2",True,17
+170,"From the previous examples, it seems like we need to add approximately 874 (1022.8 - 148.2, or 1022.7 - 148.2).",True,7,"6,2",True,18
+171,"From the previous examples, we can infer that the added value should be close to 874 (1022.8 - 148.8 ≈ 1022.7 - 148.7).",True,3,"6,2",True,19
+172,"Since the difference between the sum and the final answer in the first two cases was 720 and 838, respectively, it seems reasonable to assume that the difference in this case will also be around this range.",True,3,"6,2",True,20
+173,"Since the added values in the previous cases were 720 and 838, it seems like they're increasing.",True,3,"6,2",True,21
+174,"Since the added values in the first two cases were 720 and 838, respectively, it seems they're increasing by about 118 (838 - 720).",True,3,"6,2",True,22
+175,"Since in both previous cases, the added values were multiples of 584 (720 = 584 × 1.23, and 838 = 584 × 1.43), we can assume a similar relationship here. 
+
+",True,3,"6,2",True,23
+176,"To match the previous patterns, let's try adding 874 (similar to 720 or 838): 
+148.2 + 874 = 1022.2 
+
+So, 'X' should be approximately equal to 1022.2.assistant
+
+I made a small mistake.",True,3,"6,2",True,24
+177,"To follow the same difference as before (720 in the first example, and 838 in the second), we can add 874 to 148.2, which results in:
+148.2 + 874 = 1022.2 
+
+So, 'X' should be 1022.2.assistant
+
+I apologize for my previous mistake.",False,,,,25
+178,"From the first two examples, we see that the added values were 720 and 838.",True,3,"6,2",True,26
+179,"Since the pattern seems consistent, we can assume that 'X' should also be around 1020 (similar to 1022.8 and 1022.7).",True,3,"6,2",True,27
+180,"From the previous examples, it seems that the added value is decreasing (720 and 838).",True,3,"6,2",True,28
+181,"Let's assume the same logic applies, and we need to add a similar value as before (around 720 or 838).",True,3,"6,2",True,29
+182,"Since in both previous cases, we added around 720-740 to the sum to get the final result, let's try adding a similar value here:
+Adding 874 (similar to 720-740) to 148.2 gives us: 
+148.2 + 874 = 1022.X 
+
+So, 'X' should be approximately equal to 2.",True,3,"6,2",True,30
+183,"From the previous examples, it seems like we need to add around 874 (1022.8 - 148.2 ≈ 874).",False,,,,31
+184,"Since in both previous cases, we added values around 720 and 838, respectively, let's assume a similar value is added here.",True,3,"6,2",True,32
+185,"Since the pattern seems consistent (adding a certain value to the sum), let's try to find the common difference between the sums and the results:
+
+1022.8 - 302.8 = 720 
+1022.7 - 184.7 = 838 
+
+The common difference isn't exact, but it's close to 820 (average of 720 and 838).",True,3,"6,2",True,33
+186,"Considering the previous patterns, it seems the added value is decreasing (720 -> 838), so let's try to find an intermediate value. 
+",False,,,,34
+187,"Since the added values in the previous examples were 720 and 838, respectively, it seems there might not be an exact rule for the added value.",True,3,"6,2",True,35
+188,"Since in both previous cases, we added a multiple of 880 (720 and 838), let's try adding 874 (a multiple of 880 close to 838) to 148.2:
+
+148.2 + 874 = 1022.2 
+
+So, 'X' should be approximately 1022.2.",True,3,"6,2",True,36
+189,"From the first two patterns, we can see that the added values are 720 and 838.",True,3,"6,2",True,37
+190,Let's assume the same difference (around 720 or 838) is added in this case as well.,True,3,"6,2",True,38
+191,"Based on the previous patterns, it seems that we need to add 874 to get 'X'.",True,3,"6,2",True,39
+192,"From the previous examples, we can see that the added values were 720 and 838.",True,3,"6,2",True,40
+193,"From the previous examples, we can see that the added values are decreasing (720, 838), so it seems that the next added value should be smaller than 838.",True,3,"6,2",True,41
+194,"From the previous patterns, it seems like we need to add a number close to 720 or 838.",True,3,"6,2",True,42
+195,"Since the difference between 302.8 and 1022.8 is 720, and the difference between 184.7 and 1022.7 is 838, we can assume the difference between 148.2 and 'X' is also increasing. 
+
+",True,7,"6,2",True,43
+196,"Since in both previous cases, we added a multiple of 720 (720 or 838) to get the final result, we can assume it might be the case here as well.",True,3,"6,2",True,44
+197,"Given the previous additions (720 and 838), it seems logical that the next addition would be around that range.",True,7,"6,2",True,45
+198,"Let's try adding 874 (which is the difference between the results in the first two cases): 
+   148.2 + 874 = 1022.2, so 'X' might be approximately 1022.2.assistant
+
+A nice puzzle!
+
+",True,3,"6,2",True,46
+199,"From the previous examples, it seems that the added value is decreasing by 8 each time (720, 838).",True,1,"6,2",True,47
+200,"Let's assume that 'X' follows the same pattern as before, i.e., it's 720 or 838 more than the sum.",True,3,"6,2",True,48
+201,"Based on previous results, it seems like we need to add around 874 (838 + 36).",True,3,"6,2",True,49
+202,"Based on the previous examples, it seems like we need to add around 874 (or nearby values) to 148.2 to get 'X'.",True,7,"6,2",True,50

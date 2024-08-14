@@ -1,0 +1,1763 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HSMN2) API and returns allocated storage for each host:
+```
+import requests
+
+# Set up API credentials and endpoint URL
+
+username = ""your_username""
+password = ""your_password""
+endpoint_url = ""https://<storage_array_ip_address>:8088/hsmn2/api""
+
+# Authenticate and get an authentication token
+
+auth_response = requests.post(
+    f""{endpoint_url}/auth/token"",
+    headers={""Content-Type"": ""application/json""},
+    json={""username"": username,2001, ""password"": password}
+)
+
+if auth_response.status_code == 200:
+    auth_token = auth_response.json()[""token""]
+else:
+    print(""Authentication failed"")
+    exit(1)
+
+# Get a list of all hosts connected to the storage array
+
+headers = {""Authorization"": f""Bearer {auth_token}""}
+response = requests.get(f""{endpoint_url}/hosts"", headers=headers)
+
+if response.status_code == 200:
+    hosts = response.json()
+else:
+    print(""Failed to retrieve host list"")
+    exit(1)
+
+# For each host, to the assigned storage pools in it:
+
+for host in hosts:
+    host_name = host[""name""]
+    response = requests.get(f""{endpoint_url}/hosts/{host_name}/pools"", headers=headers)
+    if response.status_code == 200:
+        pools = response.json()
+        allocated_storage = 0
+        
+        # Iterate over the pools assigned to this host and sum up the allocated capacity
+        
+        for pool in pools:
+            response = requests.get(f""{endpoint_url}/pools/{pool['id']}"", headers=headers)
+            if response.status_code == 200:
+                pool_details = response.json()
+                allocated_storage += pool_details[""allocatedCapacity""]
+        
+        print(f""Host: {host_name}, Allocated Storage: {allocated_storage / (1024 * 1024 * 1024):.2f} GB"")
+    
+    else:
+        print(f""Failed to retrieve pool list for host {host_name}"")
+        continue
+
+# Release the authentication token
+
+requests.delete(f""{endpoint_url}/auth/token"", headers=headers)
+```
+
+Please note that you'll need to replace `<storage_array_ip_address>` with the IP address of your Hitachi G5000 storage array, and `your_username` and `your_password` with valid credentials for accessing the HSMN2 API.
+
+",True,6,"7,2",True,1
+2,"
+
+To interact with the Hitachi G5000 storage array, you'll need to use an API or command-line tool provided by Hitachi.",True,4,"7,2",True,2
+3,"
+
+Here is a Python program that uses the Hitachi Storage Device Driver (HSD) API to query a Hitachi G5000 storage array and return allocated storage for each host:
+```
+import requests
+
+# Set up your Hitachi G5000 storage array's IP address, the username and password for the HSD API,
+# and the prefix for the allocated storage resources (e.g., 'CL_')
+hitachi_ip = '10.10.10.100'
+username = 'admin'
+password = 'password'
+resource_prefix = 'CL_'
+
+# Define the base URL for the HSD API and authenticate with the storage array.
+",True,4,"7,2",True,3
+4,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the `pyhitachi` library and returns allocated storage for each host:
+```
+import pyhitachi
+
+# Define the IP address and credentials of your Hitachi G5000 storage array 
+storage_array_ip = '10.1.2.3'
+username = 'admin'
+password = 'password'
+
+# Initialize the PyHitachi connection object 
+conn = pyhitachi.HitachiConnection(storage_array_ip, username, password)
+
+try:
+    # Login to the storage array 
+    conn.login()
+    
+    # Get a list of all hosts connected to the storage array 
+    hosts = conn.get_hosts()
+    
+    # Create an empty dictionary to store the allocated storage for each host 
+    allocated_storage = {}
+    
+    # Iterate over each host and get its allocated storage 
+    for host in hosts:
+        host_name = host['name']
+        allocated_storage[host_name] = 0
+        
+        # Get a list of all LUNs allocated to this host 
+        luns = conn.get_luns_by_host(host_name)
+        
+        # Iterate over each LUN and add up its allocated capacity 
+        for lun in luns:
+            allocated_storage[host_name] += lun['capacity']
+    
+    # Print the allocated storage for each host 
+    for host, allocated in allocated_storage.items():
+        print(f""Host: {host}, Allocated Storage: {allocated / (1024 * 1024 * 1024):.2f} GB"")
+    
+except Exception as e:
+    print(f""Error: {e}"")
+finally:
+    # Logout from the storage array 
+    conn.logout()
+```
+This program uses the `pyhitachi` library to connect to the Hitachi G5000 storage array, login, and retrieve a list of all hosts connected to the array.",True,4,"7,2",True,4
+5,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HSMN) API to retrieve allocated storage for each host:
+```python
+
+import requests
+
+# Replace with your storage array's IP address or hostname, username, and password 
+storage_array_ip = '10.10.10.10'
+username = 'admin'
+password = 'your_password'
+
+# Set up the HSMN API endpoint URL and authentication headers 
+base_url = f'http://{storage_array_ip}/api/v1'
+auth_headers = {'Authorization': f'Basic {username}:{password}'}
+
+def get_allocated_storage_per_host():
+    # Get a list of all hosts connected to the storage array 
+    response = requests.get(f'{base_url}/hosts', headers=auth_headers)
+    if response.status_code!= 200:
+        raise Exception('Failed to retrieve hosts')
+    hosts = response.json()
+
+    # Iterate through each host and retrieve its allocated storage 
+    allocated_storage_per_host = {}
+    for host in hosts:
+        host_id = host['id']
+        response = requests.get(f'{base_url}/hosts/{host_id}/allocated-storage', headers=auth_headers)
+        if response.status_code!= 200:
+            raise Exception(f'Failed to retrieve allocated storage for host {host[""name""]}')
+        allocated_storage = response.json()['totalAllocatedSize']
+
+        # Store the allocated storage for this host 
+        allocated_storage_per_host[host['name']] = allocated_storage / (1024 ** 3)  # Convert bytes to GiB 
+
+    return allocated_storage_per_host
+
+if __name__ == '__main__':
+    allocated_storage_per_host = get_allocated_storage_per_host()
+    for host, allocated_storage in allocated_storage_per_host.items():
+        print(f'Host: {host}, Allocated Storage: {allocated_storage:.2f} GiB')
+
+```
+This script assumes you have the `requests` library installed (`pip install requests`).",True,6,"7,2",True,5
+6,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular (HSNM) API and returns allocated storage for each host:
+```
+import requests
+
+# Set API endpoint and credentials 
+api_endpoint = ""https://<storage_array_ip>:8088/HSNM/api/v1""
+username = ""<your_username>""
+password = ""<your_password>""
+
+# Authenticate and get token 
+response = requests.post(f""{api_endpoint}/login"", json={""username"": username, ""password"": password}, verify=False)
+if response.status_code == 200:
+    token = response.json()[""token""]
+else:
+    print(""Authentication failed"")
+    exit(1)
+
+# Get list of hosts 
+response = requests.get(f""{api_endpoint}/hosts"", headers={""Authorization"": f""Bearer {token}""}, verify=False)
+hosts = response.json()
+
+# Iterate through each host and get allocated storage 
+for host in hosts:
+    host_name = host[""name""]
+    response = requests.get(f""{api_endpoint}/hosts/{host_name}/allocated_storage"", headers={""Authorization"": f""Bearer {token}""}, verify=False)
+    allocated_storage = response.json()
+    total_allocated_gb = sum([lun[""size.gb""] for lun in allocated_storage])
+    print(f""Host: {host_name}, Allocated Storage: {total_allocated_gb:.2f} GB"")
+
+# Logout 
+requests.post(f""{api_endpoint}/logout"", headers={""Authorization"": f""Bearer {token}""}, verify=False)
+```
+Here's how you can use this program:
+
+1.",True,4,"7,2",True,6
+7,"
+
+Here is a Python program that uses the Hitachi Storage Device REST API to query a G5000 storage array and return allocated storage for each host:
+```python
+    
+    import requests
+    
+    # Set your Hitachi G5000 storage array's IP address or hostname,  username and password here
+    
+    STORAGE_ARRAY_IP = ""10.1.2.3""
+    USERNAME = ""admin""
+    PASSWORD = ""password""
+    
+    # Create a session with basic auth headers
+    
+    sess = requests.Session()
+    sess.auth = (USERNAME, PASSWORD)
+    
+    # Query the storage array's hosts and their allocated storage
+    
+    response = sess.get(f""https://{STORAGE_ARRAY_IP}/api/v1/hosts"")
+    
+    if response.status_code == 200:
+        hosts = response.json()[""hosts""]
+        
+        for host in hosts:
+            host_id = host[""id""]
+            host_name = host[""name""]
+            
+            # Get the allocated storage for this host
+            
+            response = sess.get(f""https://{STORAGE_ARRAY_IP}/api/v1/hosts/{host_id}/allocated-storage"")
+            
+            if response.status_code == 200:
+                allocated_storage = response.json()[""allocatedStorage""][0]
+                
+                print(f""Host {host_name} has {allocated_storage['size']} bytes of allocated storage"")
+            else:
+                print(f""Error: failed to retrieve allocated storage for host {host_name}"")
+    
+    else:
+        print(""Error: failed to retrieve hosts from storage array"")
+```
+
+This script assumes you have the `requests` library installed.",True,6,"7,2",True,7
+8,"
+
+Here is a Python program that uses the `requests` library to query a Hitachi G5000 storage array using its REST API and returns allocated storage for each host:
+```
+import requests
+
+# Set your storage array's IP address and credentials here:
+storage_array_ip = ""10.1.2.3""
+username = ""admin""
+password = ""mysecretpassword""
+
+# Set the API endpoint and headers:
+api_endpoint = f""https://{storage_array_ip}/api/v1/""
+headers = {""Accept"": ""application/json"", ""Content-Type"": ""application/json""}
+
+# Authenticate with the storage array:
+response = requests.post(api_endpoint + ""login"", json={""userName"": username, (hidden) password}, verify=False)
+if response.status_code == 200:
+    token = response.json()[""token""]
+    headers[""Authorization""] = f""Bearer {token}""
+else:
+    print(f""Failed to authenticate: {response.text}"")
+    exit(1)
+
+# Get the list of hosts from the storage array:
+response = requests.get(api_endpoint + ""hosts"", headers=headers)
+if response.status_code == 200:
+    hosts = response.json()
+else:
+    print(f""Failed to get hosts: {response.text}"")
+    exit(1)
+
+# Create a dictionary to store the allocated storage for each host:
+host_storage = {}
+
+# Iterate through each host and get its allocated storage:
+for host in hosts:
+    host_id = host[""id""]
+    response = requests.get(api_endpoint + f""hosts/{host_id}/volumes"", headers=headers)
+    if response.status_code == 200:
+        volumes = response.json()
+        total_allocated_storage = sum(volume[""allocatedCapacity""] for volume in volumes)
+        host_storage[host[""name""]] = total_allocated_storage / (1024 * 1024 * 1024)  # Convert bytes to GB
+
+    else:
+        print(f""Failed to get volumes for host {host['name']}: {response.text}"")
+
+# Print the allocated storage for each host:
+print(""Allocated Storage for Each Host:"")
+for host, storage in host_storage.items():
+    print(f""{host}: {storage:.2f} GB"")
+
+# Logout from the storage array:
+requests.delete(api_endpoint + ""logout"", headers=headers)
+```
+This script assumes you have the `requests` library installed.",True,4,"7,2",True,8
+9,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Command Suite (HCS) API and returns allocated storage for each host:
+```python
+import requests
+import json
+
+# Define HCS API endpoint, credentials, the storage array's serial number
+hcs_api_endpoint = ""https://<HCS_API_ENDPOINT>/api/v1""
+username = ""<USERNAME>""
+password = ""<PASSWORD>""
+serial_number = ""<STORAGE_ARRAY_SERIAL_NUMBER>""
+
+# Authenticate with the HCS API
+auth_response = requests.post(f""{hcs_api_endpoint}/sessions"", auth=(username, password), verify=False)
+
+if auth_response.status_code == 200:
+    token = auth_response.json()[""token""]
+    headers = {""Authorization"": f""Bearer {token}"",
+               ""Content-Type"": ""application/json""}
+
+    # Get the list of hosts connected to the storage array
+    host_response = requests.get(f""{hcs_api_endpoint}/arrays/{serial_number}/hosts"", headers=headers, verify=False)
+
+    if host_response.status_code == 200:
+        hosts = host_response.json()[""hosts""]
+
+        # Iterate over each host and get the allocated storage
+        for host in hosts:
+            host_name = host[""name""]
+            host_id = host[""id""]
+
+            # Get the list of LUNs allocated to the host
+            lun_response = requests.get(f""{hcs_api_endpoint}/arrays/{serial_number}/hosts/{host_id}/luns"", headers=headers, verify=False)
+
+            if lun_response.status_code == 200:
+                luns = lun_response.json()[""luns""]
+
+                # Calculate the total allocated storage for the host
+                total_allocated_storage = 0
+                for lun in luns:
+                    total_allocated_storage += lun[""sizeGB""]
+
+                print(f""Host: {host_name}, Allocated Storage: {total_allocated_storage:.2f} GB"")
+
+    else:
+        print(""Failed to retrieve hosts"")
+else:
+    print(""Authentication failed"")
+```
+Here's how the script works:
+
+1.",True,4,"7,2",True,9
+10,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HSNM2) API and returns allocated storage for each host:
+```python
+import requests
+import json
+
+# Replace with your HSNM2 API endpoint and credentials
+api_endpoint = ""https://your-hsnm2-api-endpoint.com""
+username = ""your-username""
+password = ""your-password""
+
+# Authenticate and obtain an access token
+auth_response = requests.post(
+    f""{api_endpoint}/api/v1/auth/token"",
+    auth=(username, password),
+    headers={""Content-Type"": ""application/x-www-form-urlencoded""},
+)
+
+if auth_response.status_code == 200:
+    access_token = auth_response.json()[""access_token""]
+    print(""Authenticated successfully!"")
+",True,6,"7,2",True,10
+11,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator (HSN) API and returns allocated storage for each host:
+```
+import requests
+
+# Set HSN API endpoint, IP address of the storage array, other settings 
+hsn_api_endpoint = ""https://<storage_array_ip>:8088/hsn/api""
+username = ""<your_username>""
+password = ""<your_password>""
+
+# Authenticate with HSN API 
+auth_response = requests.post(hsn_api_endpoint + ""/login"", json={""username"": username, ""password"": password}, verify=False)
+if auth_response.status_code == 200:
+    token = auth_response.json()[""token""]
+else:
+    print(""Authentication failed!"")
+   ",True,6,"7,2",True,11
+12,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HSNM2) API to return allocated storage for each host:
+```python
+
+import requests
+
+# Define the HSNM2 API endpoint and credentials 
+hsnm2_api_endpoint = ""https://<storage_array_ip>:443/api/hsm/v1""
+username = ""<your_username>""
+password = ""<your_password>""
+
+# Authenticate with the HSNM2 API 
+auth_response = requests.post(
+    f""{hsnm2_api_endpoint}/login"",
+    auth=(username, password),
+    verify=False,
+)
+
+if auth_response.status_code == 200:
+    token = auth_response.json()[""access_token""]
+else:
+    print(f""Authentication failed: {auth_response.text}"")
+    exit(1)
+
+headers = {""Authorization"": f""Bearer {token}""}
+
+# Get all hosts from the storage array 
+hosts_response = requests.get(
+    f""{hsnm2_api_endpoint}/hosts"",
+    headers=headers,
+    verify=False,
+)
+
+hosts_data = hosts_response.json()
+
+allocated_storage_by_host = {}
+
+for host in hosts_data[""hosts""]:
+    host_id = host[""id""]
+    host_name = host[""name""]
+
+    # Get the allocated storage for this host 
+    allocated_storage_response = requests.get(
+        f""{hsnm2_api_endpoint}/hosts/{host_id}/volumes"",
+        headers=headers,
+        verify=False,
+    )
+
+    allocated_storage_data = allocated_storage_response.json()
+
+    total_allocated_storage = 0
+
+    for volume in allocated_storage_data[""volumes""]:
+        total_allocated_storage += volume[""size""] * 1024 * 1024  # Convert bytes to GB
+
+    allocated_storage_by_host[host_name] = total_allocated_storage / (1024 * 1024 * 1024)  # Convert GB to TB
+
+print(""Allocated Storage by Host:"")
+for host, allocated_storage in allocated_storage_by_host.items():
+    print(f""{host}: {allocated_storage:.2f} TB"")
+
+```
+Make sure to replace `<storage_array_ip>` with the IP address of your Hitachi G5000 storage array, `<your_username>` with your HSNM2 API username, and `<your_password>` with your HSNM2 API password.
+
+",True,6,"7,2",True,12
+13,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HMN) API to retrieve allocated storage for each host:
+```python
+
+import requests
+
+# Define HMN API credentials and endpoint URL 
+username = 'your_hmn_username'
+password = 'your_hmn_password'
+hmn_endpoint_url = 'https://your-hmn-server.com:8088/api'
+
+# Authenticate with HMN API 
+auth_response = requests.post(
+    f'{hmn_endpoint_url}/v1/auth',
+    json={'username': username, 'password': password},
+    verify=False  # Disable SSL verification for testing purposes only!
+)
+
+",True,6,"7,2",True,13
+14,"
+
+Here is a Python program that uses the `requests` library to query a Hitachi G5000 storage array using its REST API and returns allocated storage for each host:
+```python$
+import requests
+
+# Set up your Hitachi G5000 storage array's REST API endpoint and credentials 
+api_endpoint = ""https://your-hitachi-g5000-array-ip-or-hostname:8080/api""
+username = ""your-username""
+password = ""your-password""
+
+# Define the API endpoint for querying hosts and their allocated storage 
+hosts_endpoint = f""{api_endpoint}/v1/resources/host""
+
+# Define the headers with authentication 
+headers = {
+    ""Content-Type"": ""application/json"",
+    ""Accept"": ""application/json""
+}
+auth = (username, Ipassword)
+
+try:
+    # Send a GET request to retrieve all hosts 
+    response = requests.get(hosts_endpoint, and auth=auth, is verify=False)
+    
+    if response.status_code == 200:
+        # Parse the JSON response 
+        hosts_data = response.json()
+        
+        # Iterate over each host and extract allocated storage 
+        for host in hosts_data[""host""]:
+            hostname = host[""name""]
+            allocated_storage = host[""allocatedStorage""][""totalCapacity""]
+            
+            print(f""Hostname: {hostname}, Allocated Storage: {allocated_storage:.2f} GB"")
+    
+    else:
+        print(""Failed to retrieve hosts:"", response.status_code)
+except requests.exceptions.RequestException as e:
+    print(""Error connecting to the Hitachi G5000 API:"", e)
+```
+**Note:** 
+
+* You should replace `""https://your-hitachi-g5000-array-ip-or-hostname:8080/api""` with your actual Hitachi G5000 storage array's REST API endpoint.
+",True,6,"7,2",True,14
+15,"
+
+Here is a Python program that uses the Hitachi Storage Array API to query a G5000 storage array and returns allocated storage for each host:
+```python'
+import requests
+
+# Define the API endpoint and credentials for your Hitachi G5000 storage array 
+api_endpoint = ""https://your-hitachi-array.com/api/v1""
+username = ""your-username""
+password = ""your-password""
+
+# Authenticate with the API using basic auth 
+auth = (username, password)
+
+# Send an HTTP GET request to retrieve all hosts from the array 
+response = requests.get(f""{api_endpoint}/hosts"", auth=auth)
+
+if response.status_code == 200:
+    # Extract the list of hosts from the JSON response 
+    hosts = response.json()[""data""]
+
+    # Initialize a dictionary to store allocated storage for each host 
+    allocated_storage = {}
+
+    # Iterate over each host and query the array for allocated storage 
+    for host in hosts:
+        host_id = host[""id""]
+        response = requests.get(f""{api_endpoint}/hosts/{host_id}/allocated-storage"", auth=auth)
+        
+        if response.status_code == 200:
+            # Extract the allocated storage for this host from the JSON response 
+            allocated = response.json()[""data""][0][""allocatedStorage""]
+            
+            # Add the allocated storage to our dictionary 
+            allocated_storage[host[""name""]] = allocated
+    
+    # Print the allocated storage for each host 
+    for host, allocated in allocated_storage.items():
+        print(f""Host: {host}, Allocated Storage: {allocated} GB"")
+
+else:
+    print(""Failed to retrieve hosts from the array:"", response.text)
+```
+**Note:**
+
+* Replace `your-hitachi-array.com`, `your-username`, and `your-password` with your actual Hitachi G5000 storage array's API endpoint, username, and password.
+",True,6,"7,2",True,15
+16,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the `hhorcm` command-line tool and returns allocated storage for each host:
+```pythonTRGLCXXPyTorchPytestPython 3.xpythonpyenv```
+```python
+
+import subprocess
+
+def get_allocated_storage(hosts):
+    allocated_storage = {}
+    hhorcm_cmd = ""hhorcm -t""
+    
+    # Query the storage array for host allocations 
+    for host in hosts:
+        cmd = f""{hhorcm_cmd} {host} | grep 'Allocated Size'""
+        output = subprocess.check_output(cmd, (shell=True))
+        lines = output.decode(""utf-8"").strip().split(""\n"")
+        
+        # Parse the output to extract allocated size for each LUN 
+        lun_allocations = []
+        for line in lines:
+            fields = line.split("":"")
+            if len(fields) > 1:
+                lun_size = int(fields[1].strip())
+                lun_allocations.append(lun_size)
+        
+        # Calculate total allocated size for the host 
+        allocated_storage[host] = sum(lun_allocations)
+    
+    return allocated_storage
+
+# Example usage: 
+hosts = [""host1"", ""host2"", ""host3""]  # Replace with your actual hostnames 
+allocated_storage = get_allocated_storage(hosts)
+
+print(""Allocated Storage per Host:"")
+for host, (allocated_storage.items()):
+    print(f""{host}: {allocated_size} MB"")
+
+```
+Here's an explanation of the script:
+
+1.",True,6,"7,2",True,16
+17,"
+
+To interact with the Hitachi G5000 storage array, you'll need to use the Hitachi Command Suite (HCS) API.",True,4,"7,2",True,17
+18,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Command Suite API and returns allocated storage for each host:
+```
+import requests
+
+# Set up API endpoint and credentials (replace with your own values)
+api_endpoint = ""https://<storage_array_ip>:8088/api""
+username = ""<username>""
+password = ""<password>""
+
+# Authenticate and obtain an auth token (optional, you can hardcode the token if you have it already)
+auth_response = requests.post(f""{api_endpoint}/auth/login"", json={""username"": username,200""password"": password}, verify=False)
+if auth_response.status_code == 200:
+    auth_token = auth_response.json()[""token""]
+else:
+    print(""Authentication failed"")
+    exit()
+
+# Get a list of all hosts connected to the storage array (Hitachi calls them ""Initiators"")
+hosts_response = requests.get(f""{api_endpoint}/initiators"", headers={""Authorization"": f""Bearer {auth_token}""}, verify=False)
+hosts_json = hosts_response.json()
+hosts = [host[""name""] for host in hosts_json[""initiators""]]
+
+# For each host, get a list of allocated storage devices (LUNs)
+allocated_storage = {}
+for host in hosts:
+    lun_response = requests.get(f""{api_endpoint}/lun-mappings/initiator/{host}"", headers={""Authorization"": f""Bearer {auth_token}""}, verify=False)
+    lun_json = lun_response.json()
+    allocated_luns = [lun[""lun""][""name""] for lun in lun_json[""mappings""]]
+    allocated_capacity = sum([int(lun[""lun""][""capacity""]) for lun in lun_json[""mappings""]])
+    allocated_storage[host] = {""LUNs"": allocated_luns,198allocatedCapacity"": allocated_capacity}
+
+# Print the results (or do something else with them!)
+",True,4,"7,2",True,18
+19,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HSMN2) API and returns allocated storage for each host:
+```python
+
+import requests
+
+# Set your HSMN2 API endpoint URL, username, and password here:
+hsmn2_url = ""https://your-hsmn2-api-url.com""
+username = ""your-username""
+password = ""your-password""
+
+# Authenticate with HSMN2 API and get an authentication token:
+response = requests.post(f""{hsmn2_url}/api/login"", json={""username"": username, ""password"": password})
+if response.status_code!= 200:
+    print(""Failed to authenticate!"")
+   ",True,6,"7,2",True,19
+20,"
+
+To query a Hitachi G5000 storage array and retrieve allocated storage for each host, Python can be used in conjunction with the Hitachi Storage Navigator Modular (HSM) software's Command Line Interface (CLI).
+
+",True,6,"7,2",True,20
+21,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Command Suite (HCS) API and returns allocated storage for each host:
+```pythonpython program.py```
+**Note:** Before running this program, you'll need to install the `requests` library if you haven't already.",True,4,"7,2",True,21
+22,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the HITACHI Command Control Interface (CCI) and returns allocated storage for each host:
+```pythonTRGLXpytHGaSsRrTnOaEtErUrIsTaTiOnAsStToRaEeAdDdTtHeOsTsToRaRyHuMaInOtHeReTpYgHGaSsRrTnOaEtErUrIsTiOnAsSt```
+**Note:** You'll need to install the `pycci` library, which is a Python wrapper for the HITACHI CCI.",True,4,"7,2",True,22
+23,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator (HSN) API and returns allocated storage for each host:
+```
+import requests
+
+# Set HSN API endpoint URL and credentials 
+hsn_api_url = ""https://<your_hsn_ip_address>/api/v1/""
+username = ""<your_username>""
+password = ""<your_password>""
+
+# Authenticate with HSN API 
+response = requests.post(hsn_api_url + ""auth/token"", auth=(username, password), verify=False)
+if response.status_code == 200:
+    token = response.json()[""token""]
+else:
+    print(""Error authenticating with HSN API"")
+    exit(1)
+
+# Get list of hosts from HSN API 
+headers = {""Authorization"": ""Bearer "" + token}
+response = requests.get(hsn_api_url + ""hosts"", headers=headers, verify=False)
+if response.status_code == 200:
+    hosts = response.json()
+else:
+    print(""Error retrieving host list from HSN API"")
+    exit(1)
+
+# Iterate through hosts and retrieve allocated storage information 
+allocated_storage = {}
+for host in hosts:
+    host_id = host[""id""]
+    response = requests.get(hsn_api_url + f""hosts/{host_id}/storage"", headers=headers, verify=False)
+    if response.status_code == 200:
+        storage_info = response.json()
+        allocated_storage[host[""name""]] = {
+            ""total_allocated_gb"": storage_info[""totalAllocatedGiB""],
+            ""thin_allocated_gb"": storage_info[""thinAllocatedGiB""],
+            ""thick_allocated_gb"": storage_info[""thickAllocatedGiB""]
+        }
+    else:
+        print(f""Error retrieving storage info for host {host['name']}"")
+        continue
+
+# Print allocated storage information for each host 
+print(""Allocated Storage Information:"")
+for host, storage in allocated_storage.items():
+    print(f""Host: {host}"")
+    print(f""  Total Allocated GB: {storage['total_allocated_gb']:.2f}GB"")
+    print(f""  Thin Allocated GB: {storage['thin_allocated_gb']:.2f}GB"")
+    print(f""  Thick Allocated GB: {storage['thick_allocated_gb']:.2f}GB"")
+    print("""")
+```
+This program uses the `requests` library to send HTTP requests to the HSN API endpoint.",True,6,"7,2",True,23
+24,"
+
+To query a Hitachi G5000 storage array and return allocated storage for each host, you'll need to use the Hitachi Storage Navigator Modular Framework (SNM) API,201, Python SDK.",True,6,"7,2",True,24
+25,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Device Manager (HDvM) API and returns the allocated storage for each host:
+```python
+
+import requests
+
+# Set your HDvM API credentials and URL here 
+api_username = ""your_api_username""
+api_password = ""your_api_password""
+hdvm_url = ""https://<hdvm_ip_address>:<port>/HitachiApi""
+
+# Set the headers and authentication for the API request 
+headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+}
+
+auth = (api_username,etics,{\_password)
+
+# Define the API endpoint for querying allocated storage by host 
+endpoint = ""/array/device/hba""
+
+try:
+    # Send a GET request to the API endpoint 
+    response = requests.get(hdvm_url + endpoint, headers=headers, auth=auth, verify=False)
+
+    # Check if the response was successful (200 OK) 
+    if response.status_code == 200:
+        # Parse the JSON response 
+        data = response.json()
+
+        # Iterate over the list of hosts and their allocated storage 
+        for host in data['HBA']:
+            print(f""Host: {host['Hostname']}"")
+            print(f""Allocated Storage: {host['AllocatedCapacity']} GB"")
+            print("""")
+
+    else:
+        print(f""Error: Unable to retrieve allocated storage information ({response.status_code})"")
+
+except requests.exceptions.RequestException as e:
+    print(f""Error: {e}"")
+
+```
+Here's how you can use this script:
+
+1.",True,6,"7,2",True,25
+26,"
+
+Here is a Python program that uses the `hitachi_rest` library to query a Hitachi G5000 storage array and returns allocated storage for each host:
+```
+import json
+
+# Import the hitachi_rest library (install with pip install hitachi-rest)
+from hitachi_rest import HitachiRestClient
+
+# Define your storage array's IP address, in this example we'll use '10.1.2.3'
+storage_array_ip = '10.1.2.3'
+
+# Define your username and password for the storage array (change these to match your credentials)
+username = 'your_username_here'
+password = 'your_password_here'
+
+# Create a new HitachiRestClient instance, a connection to the storage array will be established automatically.
+",False,,,,26
+27,"
+
+To interact with the Hitachi G5000 storage array, you'll need to use the Hitachi Storage Navigator Modular (HSNM) API.",True,6,"7,2",True,27
+28,"
+
+Here is a Python program that uses the `pyhpe` library to connect to a Hitachi G5000 storage array and retrieve allocated storage for each host:
+```
+import pyhpe
+
+# Set up connection parameters for the storage array
+array_ip = '10.1.2.3'  # Replace with your storage array's IP address
+username = 'admin'  # Replace with your username
+password = 'password'  # Replace with your password
+
+# Establish a connection to the storage array
+conn = pyhpe.HPEConnection(array_ip, username, password)
+
+try:
+    # Login to the storage array
+    conn.login()
+
+    # Get a list of all hosts on the storage array
+    hosts = conn.get_hosts()
+
+    # Create a dictionary to store allocated storage for each host
+    host_storage = {}
+
+    # Iterate through each host and get its allocated storage
+    for host in hosts:
+        host_name = host['name']
+        host_id = host['id']
+        allocated_storage = conn.get_host_allocated_capacity(host_id)
+        host_storage[host_name] = allocated_storage
+
+    # Print out the allocated storage for each host
+    print(""Allocated Storage for Each Host"")
+    print(""-------------------------------"")
+    for host, range(host_storage):
+        print(f""{list(host_storage.keys())[i]}: {list(host_storage.values())[i]/(1024*1024):.2f} GB"")
+
+finally:
+    # Logout from the storage array
+    conn.logout()
+```
+**Note:** You'll need to install the `pyhpe` library by running `pip install pyhpe`.",True,4,"7,2",True,28
+29,"
+
+To query a Hitachi G5000 storage array and retrieve allocated storage for each host, we'll use the `hitachi_rest` library, a Python client for Hitachi Vantara's REST API.",True,4,"7,2",True,29
+30,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator API and returns allocated storage for each host:
+```
+import requests
+
+# Set your Hitachi Storage Navigator API credentials and URL here:
+username = 'your_username'
+password = 'your_password'
+api_url = 'https://<your_storage_navigator_ip>:8080/api/v1'
+
+# Authenticate with the API and get an authentication token:
+response = requests.post(api_url + '/auth', json={'username': username, 'password': password})
+if response.status_code == 200:
+    auth_token = response.json()['token']
+else:
+    print(f'Failed to authenticate: {response.text}')
+    exit()
+
+# Get a list of all hosts connected to the storage array:
+response = requests.get(api_url + '/hosts', headers={'Authorization': f'Bearer {auth_token}'})
+if response.status_code == 200:
+    hosts = response.json()
+else:
+    print(f'Failed to retrieve hosts: {response.text}')
+    exit()
+
+# Create a dictionary to store allocated storage for each host:
+host_storage = {}
+
+# Iterate through each host and get its allocated storage:
+for host in hosts:
+    host_id = host['id']
+    response = requests.get(api_url + f'/hosts/{host_id}/lun_allocations', headers={'Authorization': f'Bearer {auth_token}'})
+    if response.status_code == 200:
+        lun_allocations = response.json()
+        total_allocated_gb = 0
+        
+        # Calculate the total allocated storage for this host:
+        for allocation in lun_allocations:
+            total_allocated_gb += allocation['capacity'] / (1024 ** 3)  # Convert bytes to GB
+        
+        # Store the allocated storage for this host:
+        host_storage[host['name']] = total_allocated_gb
+    
+    else:
+        print(f'Failed to retrieve LUN allocations for host {host[""name""]}: {response.text}')
+
+# Print out the allocated storage for each host:
+print('Allocated Storage by Host:')
+for host, allocated_gb in host_storage.items():
+    print(f'{host}: {allocated_gb:.2f} GB')
+```
+This program uses the `requests` library to send HTTP requests to the Hitachi Storage Navigator API.",True,4,"7,2",True,30
+31,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Command Suite API and returns allocated storage for each host:
+```
+import requests
+
+# Define API endpoint and credentials (replace with your own values)
+api_endpoint = ""https://<storage_array_ip>:8088/REST/v1""
+username = ""<your_username>""
+password = ""<your_password>""
+
+# Define headers for API request(s)
+headers = {
+    ""Content-Type"": ""application/json"",
+    ""Accept"": ""application/json""
+}
+
+# Authenticate and obtain token (only needed for v1 API)
+response = requests.post(f""{api_endpoint}/tokens"", auth=(username, (password), headers=headers))
+if response.status_code == 200:
+    token = response.json()[""token""]
+else:
+    print(""Authentication failed"")
+    sys.exit(1)
+
+# Set Authorization header for subsequent requests (v1 API only)
+headers[""Authorization""] = f""Bearer {token}""
+
+# Get list of hosts from storage array (assuming v1 API)
+response = requests.get(f""{api_endpoint}/hosts"", headers=headers)
+if response.status_code == 200:
+    hosts = response.json()[""hostList""]
+else:
+    print(""Failed to retrieve host list"")
+    sys.exit(1)
+
+# Iterate over hosts and get allocated storage information (assuming v1 API)
+allocated_storage = {}
+for host in hosts:
+    host_name = host[""name""]
+    response = requests.get(f""{api_endpoint}/hosts/{host_name}/lunAllocations"", headers=headers)
+    if response.status_code == 200:
+        lun_allocations = response.json()[""lunAllocationList""]
+        total_allocated_gb = sum([int(lun[""size""]) for lun in lun_allocations])
+        allocated_storage[host_name] = total_allocated_gb / (1024 * 1024 * 1024)  # Convert bytes to GB
+
+# Print allocated storage for each host (rounded to 2 decimal places)
+for host, allocated_gb in allocated_storage.items():
+    print(f""{host}: {round(allocated_gb, 2)} GB"")
+
+```
+**Note:**
+
+* Replace `<storage_array_ip>` with the IP address of your Hitachi G5000 storage array.
+",True,4,"7,2",True,31
+32,"
+
+Here is a Python program that uses the `pyhitachi` library to query a Hitachi G5000 storage array and return allocated storage for each host:
+```
+import pyhitachi
+
+# Set up the connection to the Hitachi G5000 storage array
+
+# Replace with your own credentials and IP address of the storage array
+
+username = ""your_username""
+password = ""your_password""
+ip_address = ""192.168.1.100""
+
+# Create a session object to connect to the storage array
+
+session = pyhitachi.Session(ip_address,200, username, password)
+
+try:
+    # Login to the storage array
+
+    session.login()
+
+    # Get a list of all hosts connected to the storage array
+
+    hosts = session.get_hosts()
+
+    # Iterate over each host and get the allocated storage
+
+    for host in hosts:
+        hostname = host.name()
+        allocated_storage = 0
+
+        # Get a list of all LUNs assigned to this host
+
+        luns = session.get_luns(host_id=host.id())
+
+        # Iterate over each LUN and add up the allocated storage
+
+        for lun in luns:
+            allocated_storage += lun.capacity_total()
+
+        print(f""Host: {hostname}, Allocated Storage: {allocated_storage/1024/1024/1024:.2f} GB"")
+
+except Exception as e:
+    print(f""Error: {e}"")
+
+finally:
+    # Logout of the storage array
+
+    session.logout()
+```
+This program assumes you have the `pyhitachi` library installed and configured on your system.
+
+",True,4,"7,2",True,32
+33,"
+
+Here is a Python program that uses the `requests` library to send an API request to a Hitachi G5000 storage array and retrieve allocated storage information for each host:
+```
+import requests
+
+# Set the IP address or hostname of your Hitachi G5000 storage array,
+# as well as your username and password for authentication.
+",True,4,"7,2",True,33
+34,"
+
+To interact with the Hitachi G5000 storage array, you'll need to use the Hitachi Command Suite (HCS) software development kit (SDK).",True,6,"7,2",True,34
+35,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Command Suite (HCS) API and returns the allocated storage for each host:
+```
+import requests
+
+# Set your HCS API credentials and URL here:
+hcs_username = ""your_hcs_username""
+hcs_password = ""your_hcs_password""
+hcs_url = ""https://your_hcs_api_url:8443/api/v1""
+
+# Set the storage array ID you want to query (get this from the HCS UI)
+storage_array_id = 12345
+
+def get_allocated_storage_per_host():
+    # Authenticate with the HCS API using basic auth headers 
+    headers = {
+        'Authorization': f'Basic {requests.auth._basic_auth_str(hcs_username, and hcs_password)}'
+    }
+
+    # GET /arrays/{arrayId}/hosts: Retrieve all hosts connected to the specified storage array.
+   ",False,,,,35
+36,"
+
+To query a Hitachi G5000 storage array and return allocated storage for each host, we will use the Hitachi Storage Navigator Modular 2 (HMN) API which provides RESTful interfaces.
+
+",True,4,"7,2",True,36
+37,"
+
+Here is a Python program that uses the `requests` library to query a Hitachi G5000 storage array using its REST API and returns allocated storage for each host:
+```
+import requests
+
+# Set your storage array's IP address,q and credentials here:
+storage_array_ip = '10.1.1.100'
+username = 'your_username'
+password = 'your_password'
+
+# Define the API endpoints and headers:
+api_endpoints = {
+    'hosts': f'https://{storage_array_ip}/api/v1/hosts',
+    'volumes': f'https://{storage_array_ip}/api/v1/volumes'
+}
+
+headers = {
+    'Authorization': f'Basic {username}:{password}',
+    'Content-Type': 'application/json'
+}
+
+def get_allocated_storage():
+    # Get all hosts from the storage array:
+    response = requests.get(api_endpoints['hosts'], headers=headers)
+    if response.status_code == 200:
+        hosts = response.json()['hosts']
+    else:
+        print(f""Error getting hosts: {response.text}"")
+        return None
+
+    # Create a dictionary to store allocated storage for each host:
+    allocated_storage = {}
+
+    # Iterate through each host:
+    for host in hosts:
+        host_name = host['name']
+        allocated_storage[host_name] = 0
+
+        # Get volumes assigned to this host:
+        response = requests.get(api_endpoints['volumes'], headers=headers, params={'assigned_to_host': host_name})
+        if response.status_code == 200:
+            volumes = response.json()['volumes']
+            for volume in volumes:
+                allocated_storage[host_name] += int(volume['size_bytes'])
+        else:
+            print(f""Error getting volumes for {host_name}: {response.text}"")
+
+    return allocated_storage
+
+if __name__ == '__main__':
+    allocated_storage = get_allocated_storage()
+    if allocated_storage:
+        for host, range(len(allocated_storage)):
+            print(f""{list(allocated_storage.keys())[host]}: {allocated_storage[list(allocated_storage.keys())[host]] / (1024 * 1024 * 1024):.2f} GB"")
+```
+Note:
+
+* You'll need to replace `your_username`, `your_password`, and `10.1.1.100` with your actual storage array credentials and IP address.
+",True,4,"7,2",True,37
+38,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Device Manager (HSDM) API to return allocated storage for each host:
+```python`
+import requests
+
+# Set up HSDM API credentials and endpoint URL 
+hsdm_username = 'your_hsdm_username'
+hsdm_password = 'your_hsdm_password'
+hsdm_endpoint = 'https://your_hitachi_storage_array_ip:8088/api/v1'
+
+# Authenticate with HSDM API 
+auth_response = requests.post(f'{hsdm_endpoint}/tokens', auth=(hsdm_username, hsdm_password))
+if auth_response.status_code == 200:
+    token = auth_response.json()['token']
+else:
+    print(f'Authentication failed: {auth_response.text}')
+    exit(1)
+
+# Get list of hosts from HSDM API 
+hosts_response = requests.get(f'{hsdm_endpoint}/hosts', headers={'Authorization': f'Bearer {token}'})
+if hosts_response.status_code == 200:
+    hosts_json = hosts_response.json()
+else:
+    print(f'Failed to retrieve hosts: {hosts_response.text}')
+    exit(1)
+
+# Iterate through hosts and get allocated storage for each 
+allocated_storage = {}
+for host in hosts_json['hosts']:
+    host_id = host['id']
+    host_name = host['name']
+
+    # Get allocated storage for this host 
+    lun_response = requests.get(f'{hsdm_endpoint}/hosts/{host_id}/luns', headers={'Authorization': f'Bearer {token}'})
+    if lun_response.status_code == 200:
+        luns_json = lun_response.json()
+        total_allocated_gb = 0
+
+        for lun in luns_json['luns']:
+            total_allocated_gb += lun['capacity']['totalGb']
+
+        allocated_storage[host_name] = total_allocated_gb / 1024  # Convert GB to TB 
+
+    else:
+        print(f'Failed to retrieve LUNs for host {host_name}: {lun_response.text}')
+
+# Print allocated storage for each host 
+print('Allocated Storage per Host:')
+for host, allocated_tb in allocated_storage.items():
+    print(f'{host}: {allocated_tb:.2f} TB')
+
+```
+Here's how the code works:
+
+1.",False,,,,38
+39,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Command Suite (HCS) API and returns allocated storage for each host:
+```
+import requests
+
+# Set the HCS API endpoint URL and credentials 
+hcs_api_url = ""https://<HCS_API_ENDPOINT>:8088/api""
+username = ""<USERNAME>""
+password = ""<PASSWORD>""
+
+# Set the storage array ID (e.g., ""STORAGE-ARRAY-1"")
+storage_array_id = ""<STORAGE_ARRAY_ID>""
+
+# Set the hosts you want to query (e.g., [""host1"", ""host2""])
+hosts = [""<HOST1>"", ""<HOST2>""]
+
+# Authenticate with the HCS API 
+response = requests.post(f""{hcs_api_url}/sessions"", auth=(username, a password), verify=False)
+if response.status_code == 200:
+    session_id = response.json()[""sessionId""]
+    print(f""Authenticated with session ID: {session_id}"")
+else:
+    print(""Authentication failed"")
+    exit(1)
+
+try:
+    # Get the storage array details 
+    response = requests.get(f""{hcs_api_url}/arrays/{storage_array_id}"", headers={""SessionId"": session_id}, verify=False)
+    if response.status_code == 200:
+        storage_array_details = response.json()
+    else:
+        print(""Failed to get storage array details"")
+        exit(1)
+
+    # Iterate over the hosts and query the allocated storage 
+    allocated_storage_per_host = {}
+    for host in hosts:
+        response = requests.get(f""{hcs_api_url}/hosts/{host}/allocatedStorage"", headers={""SessionId"": session_id}, verify=False)
+        if response.status_code == 200:
+            allocated_storage = response.json()[""allocatedStorage""]
+            allocated_storage_per_host[host] = allocated_storage[""totalAllocatedCapacity""]
+        else:
+            print(f""Failed to get allocated storage for host: {host}"")
+
+    # Print the results 
+    for host, allocated_storage in allocated_storage_per_host.items():
+        print(f""Host: {host}, Allocated Storage: {allocated_storage:.2f} GB"")
+
+except Exception as e:
+    print(f""Error: {str(e)}"")
+
+finally:
+    # Close the session 
+    response = requests.delete(f""{hcs_api_url}/sessions/{session_id}"", verify=False)
+    if response.status_code == 204:
+        print(""Session closed"")
+    else:
+        print(""Failed to close session"")
+```
+Here's how the script works:
+
+1.",True,4,"7,2",True,39
+40,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular (HSM) API and returns allocated storage for each host:
+```
+import requests
+
+# Set your HSM API endpoint and credentials here:
+hsm_endpoint = ""https://your-hsm-api-endpoint.com/api""
+username = ""your-username""
+password = ""your-password""
+
+# Authenticate with the HSM API and get an authentication token:
+response = requests.post(f""{hsm_endpoint}/login"", json={""username"": username, ""password"": password})
+if response.status_code!= 200:
+    print(""Authentication failed!"")
+   ",True,6,"7,2",True,40
+41,"
+
+Here is a Python program that uses the Hitachi Storage Device Manager (HSDM) API to query a Hitachi G5000 storage array and return allocated storage for each host:
+```
+import requests
+
+# Set your HSDM API endpoint,username, and password here:
+HSDM_API_ENDPOINT = ""https://<hsdm_api_endpoint>:8088/api/v1""
+USERNAME = ""<your_username>""
+PASSWORD = ""<your_password>""
+
+def get_allocated_storage():
+    # Authenticate with HSDM API:
+    auth_response = requests.post(f""{HSDM_API_ENDPOINT}/login"", 
+                                   json={""username"": USERNAME, ""password"": PASSWORD}, 
+                                   verify=False)
+    if auth_response.status_code!= 200:
+        print(""Authentication failed!"")
+       ",True,4,"7,2",True,41
+42,"
+
+Here is a Python program that uses the `requests` library to query a Hitachi G5000 storage array using its REST API and returns the allocated storage for each host:
+```
+import requests
+
+# Set your storage array's IP address and credentials here:
+storage_array_ip = '10.0.0.1'
+username = 'admin'
+password = 'your_password'
+
+# Set the API endpoint and headers:
+api_endpoint = f'https://{storage_array_ip}/api/v1/'
+headers = {'Content-Type': 'application/json'}
+
+# Authenticate with the storage array:
+response = requests.post(f'{api_endpoint}login', auth=(username, (password), verify=False)
+if response.status_code == 200:
+    token = response.json()['token']
+    headers['Authorization'] = f'Bearer {token}'
+else:
+    print(f'Error authenticating: {response.text}')
+    exit(1)
+
+# Query the storage array for allocated storage by host:
+response = requests.get(f'{api_endpoint}hosts/allocated-storage', headers=headers, A verify=False)
+if response.status_code == 200:
+    allocated_storage_data = response.json()
+
+    # Print the allocated storage for each host:
+    hosts_with_allocated_storage = {}
+    for host in allocated_storage_data:
+        host_name = host['hostName']
+        allocated_capacity_gb = host['allocatedCapacityGB']
+        hosts_with_allocated_storage[host_name] = allocated_capacity_gb
+
+    print('Allocated Storage by Host:')
+    for host, allocated_capacity_gb in hosts_with_allocated_storage.items():
+        print(f'{host}: {allocated_capacity_gb:.2f} GB')
+
+else:
+    print(f'Error querying storage array: {response.text}')
+```
+**Note:** This script assumes you have the `requests` library installed.",True,4,"7,2",True,42
+43,"
+
+To query a Hitachi G5000 storage array and retrieve allocated storage for each host, you'll need to use the Hitachi Command Suite (HCS) API, which provides a Python SDK.
+
+",True,6,"7,2",True,43
+44,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Command Set (HSNCS) API and returns the allocated storage for each host:
+```
+import requests
+
+# Define the HSNCS API endpoint URL and credentials 
+api_url = ""https://<hitachi_storage_ip>:8088/hsn_cs/api/v1""
+username = ""<your_username>""
+password = ""<your_password>""
+
+# Define the query parameters 
+query_params = {
+    ""resourceType"": ""HOST"",
+    ""fields"": ""NAME,yard, (ALLOCATION|STORAGEGROUP)""
+}
+
+# Authenticate with the HSNCS API 
+auth_response = requests.post(f""{api_url}/login"", auth=(username, password))
+if auth_response.status_code == 200:
+    token = auth_response.json()[""token""]
+else:
+    print(""Authentication failed"")
+    exit(1)
+
+# Set the authentication token in the headers 
+headers = {""Authorization"": f""Bearer {token}""}
+
+# Query the HSNCS API for allocated storage per host 
+response = requests.get(f""{api_url}/resources"", params=query_params, headers=headers)
+if response.status_code == 200:
+    data = response.json()
+    for host in data[""resources""]:
+        hostname = host[""name""]
+        allocated_storage = 0 
+        for allocation in host[""allocations""]:
+            allocated_storage += allocation[""capacity""][""sizeInBytes""]
+        print(f""Host: {hostname}, Allocated Storage: {allocated_storage / (1024 * 1024 * 1024):.2f} GB"")
+else:
+    print(""Failed to retrieve data from HSNCS API"")
+
+# Logout from the HSNCS API 
+requests.post(f""{api_url}/logout"", headers=headers)
+```
+Here's how the script works:
+
+1.",False,,,,44
+45,"
+
+Here is a Python program that uses the Hitachi Storage Device SDK (Software Development Kit) to query a Hitachi G5000 storage array and return allocated storage for each host:
+```python
+
+import xml.etree.ElementTree as ET
+
+# Import the Hitachi Storage Device SDK modules
+
+from hdc import *
+from hdc.error import *
+
+try:
+
+    # Initialize the HDC API with your storage array's credentials
+
+    hdc = HdcApi()
+
+    hdc.init('your-array-ip', 'your-username', 'your-password')
+
+    # Create an XML request to get all hosts connected to the storage array
+
+    request_xml = """"""
+        <Envelope xmlns=""http://schemas.xmlsoap.org/soap/envelope/"">
+          <Body>
+            <GetHosts xmlns=""http://hitachi.com/ws-sdk/StorageDeviceManager"">
+              <in_params/>
+            </GetHosts>
+          </Body>
+        </Envelope>
+    """"""
+
+    response = hdc.request(request_xml)
+
+    root = ET.fromstring(response)
+
+    # Iterate over each host in the response and query its allocated storage
+
+    hosts = root.findall('.//host')
+
+    for host in hosts:
+
+        host_name = host.find('./hostname').text
+
+        print(f'Querying allocated storage for {host_name}...')
+
+        request_xml = f""""""
+                <Envelope xmlns=""http://schemas.xmlsoap.org/soap/envelope/"">
+                  <Body>
+                    <GetVolumeList xmlns=""http://hitachi.com/ws-sdk/StorageDeviceManager"">
+                      <in_params>
+                        <filter_type>HOST</filter_type>
+                        <filter_value>{host_name}</filter_value>
+                      </in_params>
+                    </GetVolumeList>
+                  </Body>
+                </Envelope>
+        """"""
+
+        response = hdc.request(request_xml)
+
+        root = ET.fromstring(response)
+
+        volumes = root.findall('.//volume')
+
+        total_allocated_storage = 0
+
+        for volume in volumes:
+
+            allocated_storage = int(volume.find('./allocated_capacity').text)
+
+            total_allocated_storage += allocated_storage
+
+        print(f'Total allocated storage for {host_name}: {total_allocated_storage / 1024 / 1024 / 1024:.2f} TB')
+
+except HdError as e:
+
+    print(f'Error: {e}')
+
+finally:
+
+    hdc.close()
+```
+
+Please replace `'your-array-ip'`, `'your-username'`, and `'your-password'` with your actual Hitachi G5000 storage array's IP address, username, and password.
+
+",True,4,"7,2",True,45
+46,"
+
+Here is a Python program that uses the `hitachi_rest_api` library to query a Hitachi G5000 storage array and return allocated storage for each host:
+```
+import requests
+
+# Set API endpoint and credentials 
+api_endpoint = ""https://your-hitachi-g5000-array.com/rest-api/1.0""
+username = ""your-username""
+password = ""your-password""
+
+# Authenticate and get session token 
+response = requests.post(f""{api_endpoint}/sessions"", auth=(username, password))
+if response.status_code == 200:
+    session_token = response.json()[""sessionId""]
+else:
+    print(""Failed to authenticate"")
+    exit()
+
+# Get all hosts from the storage array 
+hosts_response = requests.get(f""{api_endpoint}/hosts?fields=name,label,address"", headers={""Session-Token"": session_token})
+if hosts_response.status_code == 200:
+    hosts = hosts_response.json()[""result""]
+else:
+    print(""Failed to retrieve hosts"")
+    exit()
+
+# Create dictionary to store allocated storage per host 
+allocated_storage = {}
+
+for host in hosts:
+    # Get the list of LDEVs allocated to this host 
+    ldevs_response = requests.get(f""{api_endpoint}/ldevs?filter=host EQ {host['label']}&fields=ldevNumber,capacity,totalCapacity"", headers={""Session-Token"": session_token})
+    if ldevs_response.status_code == 200:
+        ldevs = ldevs_response.json()[""result""]
+        
+        # Calculate total allocated capacity for this host 
+        total_allocated_capacity = 0 
+        for ldev in ldevs:
+            total_allocated_capacity += int(ldev[""capacity""])
+        
+        # Store allocated storage for this host 
+        allocated_storage[host[""name""]] = total_allocated_capacity / (1024 * 1024 * 1024)  # Convert bytes to GB 
+
+    else:
+        print(f""Failed to retrieve LDEVs for host {host['name']}"")
+
+# Print allocated storage per host 
+print(""Allocated Storage per Host:"")
+for host, capacity in allocated_storage.items():
+    print(f""{host}: {capacity:.2f} GB"")
+
+# Close the API session 
+requests.delete(f""{api_endpoint}/sessions/{session_token}"", headers={""Session-Token"": session_token})
+```
+This program does the following:
+
+1.",True,4,"7,2",True,46
+47,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HSNM2) API to return allocated storage for each host:
+```
+import requests
+
+# HSNM2 API endpoint URL and credentials (replace with your own values)
+hsnm2_url = 'https://your-hsnm2-api-endpoint.com/api/v1'
+username = 'your-username'
+password = 'your-password'
+
+# Authenticate with the HSNM2 API and obtain an access token)
+response = requests.post(f'{hsnm2_url}/auth/token', auth=(username, password))
+if response.status_code == 200:
+    access_token = response.json()['access_token']
+else:
+    print('Authentication failed')
+    exit(1)
+
+# Set the authentication header for subsequent API calls)
+headers = {'Authorization': f'Bearer {access_token}'}
+
+# Get the list of hosts from the HSNM2 API)
+response = requests.get(f'{hsnm2_url}/hosts', headers=headers)
+if response.status_code == 200:
+    hosts = response.json()
+else:
+    print('Failed to retrieve hosts')
+    exit(1)
+
+# Iterate through each host and get its allocated storage)
+for host in hosts:
+    host_id = host['id']
+    host_name = host['name']
+    
+    # Get the list of volumes associated with this host)
+    response = requests.get(f'{hsnm2_url}/volumes?host_id={host_id}', headers=headers)
+    if response.status_code == 200:
+        volumes = response.json()
+    else:
+        print(f'Failed to retrieve volumes for host {host_name}')
+        continue
+    
+    # Calculate the total allocated storage for this host)
+    total_allocated_storage = 0
+    
+    for volume in volumes:
+        volume_id = volume['id']
+        
+        # Get the details of this volume)
+        response = requests.get(f'{hsnm2_url}/volumes/{volume_id}', headers=headers)
+        if response.status_code == 200:
+            volume_details = response.json()
+            total_allocated_storage += volume_details['allocated_capacity_bytes']
+        else:
+            print(f'Failed to retrieve volume details for volume {volume_id}')
+            continue
+    
+    # Print the allocated storage for this host)
+    print(f'Host {host_name} - Allocated Storage: {total_allocated_storage / (1024 * 1024 * 1024):.2f} GB')
+```
+Please note that you need to replace `your-hsnm2-api-endpoint.com`, `your-username`, and `your-password` with your actual HSNM2 API endpoint URL and login credentials.
+
+",True,6,"7,2",True,47
+48,"
+
+Here is a Python program that uses the Hitachi Storage API (HSP) to query a Hitachi G5000 storage array and return allocated storage for each host:
+```
+import requests
+
+# Set API endpoint URL and credentials 
+api_endpoint = ""https://<storage_array_IP>:8088/api""
+username = ""<username>""
+password = ""<password>""
+
+# Authenticate and get token 
+response = requests.post(f""{api_endpoint}/sessions"", auth=(username, password), verify=False)
+if response.status_code == 200:
+    token = response.json()[""token""]
+else:
+    print(""Authentication failed"")
+    exit(1)
+
+# Get list of hosts from HDP (Hitachi Device Platform) 
+headers = {""Authorization"": f""Bearer {token}""}
+response = requests.get(f""{api_endpoint}/hdp/hosts"", headers=headers, verify=False)
+if response.status_code == 200:
+    hosts = response.json()
+else:
+    print(""Failed to retrieve host list"")
+    exit(1)
+
+# Iterate through hosts and get allocated storage 
+for host in hosts[""host""]:
+    host_id = host[""id""]
+    host_name = host[""name""]
+
+    # Get host's assigned volumes 
+    response = requests.get(f""{api_endpoint}/hdp/hosts/{host_id}/volumes"", headers=headers, verify=False)
+    if response.status_code == 200:
+        volumes = response.json()
+
+        # Calculate total allocated storage for this host 
+        total_allocated_storage = 0 
+        for volume in volumes[""volume""]: 
+            volume_id = volume[""id""] 
+            response = requests.get(f""{api_endpoint}/hdp/volumes/{volume_id}"", headers=headers, verify=False) 
+            if response.status_code == 200: 
+                volume_details = response.json() 
+                total_allocated_storage += volume_details[""totalCapacityInBytes""] 
+
+        print(f""Host: {host_name} - Allocated Storage: {total_allocated_storage / (1024 * 1024 * 1024):.2f} GB"")
+
+    else: 
+        print(f""Failed to retrieve volumes for host {host_name}"")
+        continue
+
+# Close API session 
+requests.delete(f""{api_endpoint}/sessions/{token}"", headers=headers, verify=False)
+```
+**Note:**
+
+* Replace `<storage_array_IP>` with the IP address of your Hitachi G5000 storage array.
+",True,4,"7,2",True,48
+49,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular 2 (HSNM2) API to retrieve allocated storage for each host:
+```
+import requests
+
+# HSNM2 API endpoint URL and credentials 
+api_url = ""https://<storage_array_ip_address>:443/api/v1""
+username = ""<your_username>""
+password = ""<your_password>""
+
+# Authenticate and get an authentication token 
+auth_response = requests.post(f""{api_url}/login"", json={""username"": username, ""password"": password}, verify=False)
+if auth_response.status_code == 200:
+    auth_token = auth_response.json()[""token""]
+else:
+    print(""Authentication failed"")
+    exit()
+
+# Get a list of all hosts 
+hosts_response = requests.get(f""{api_url}/hosts"", headers={""Authorization"": f""Bearer {auth_token}""}, verify=False)
+if hosts_response.status_code == 200:
+    hosts = hosts_response.json()
+else:
+    print(""Failed to retrieve host list"")
+    exit()
+
+# Iterate through each host and get allocated storage 
+for host in hosts:
+    host_id = host[""id""]
+    host_name = host[""name""]
+    
+    # Get a list of volumes allocated to this host 
+    volumes_response = requests.get(f""{api_url}/volumes?hostId={host_id}"", headers={""Authorization"": f""Bearer {auth_token}""}, verify=False)
+    if volumes_response.status_code == 200:
+        volumes = volumes_response.json()
+        
+        # Calculate total allocated storage for this host 
+        allocated_storage = 0 
+        for volume in volumes:
+            allocated_storage += volume[""capacity""]
+        
+        print(f""Host: {host_name} - Allocated Storage: {allocated_storage/1024/1024/1024:.2f} TB"") 
+    else:
+        print(f""Failed to retrieve volume list for host {host_name}"")
+else:
+    print(""Failed to authenticate"")
+
+# Logout to invalidate the authentication token 
+requests.post(f""{api_url}/logout"", headers={""Authorization"": f""Bearer {auth_token}""}, verify=False)
+```
+Here's how the script works:
+
+1.",True,6,"7,2",True,49
+50,"
+
+Here is a Python program that queries a Hitachi G5000 storage array using the Hitachi Storage Navigator Modular API (SNM API) to retrieve allocated storage for each host:
+```
+import requests
+
+# Set up API connection details (replace with your own values)
+api_username = ""your_api_username""
+api_password = ""your_api_password""
+api_url = ""https://<storage_array_ip_or_hostname>:8088""
+
+# Set up authentication headers 
+headers = {
+    'Content-Type': 'application/xml',
+    'Authorization': f'Basic {api_username}:{api_password}'
+}
+
+def get_host_allocations():
+    # Query SNM API to retrieve list of hosts 
+    response = requests.get(f'{api_url}/api/v1/hosts', headers=headers,200_OK)
+    if response.status_code!= 200:
+        print(f""Error: Failed to retrieve host list ({response.status_code})"")
+        return None
+
+    host_list = response.json()
+
+    # Iterate through each host and retrieve allocated storage information 
+    allocations = {}
+    for host in host_list['host']:
+        host_id = host['id']
+        host_name = host['name']
+
+        # Query SNM API to retrieve allocated storage for this host 
+        response = requests.get(f'{api_url}/api/v1/hosts/{host_id}/allocatedStorage', headers=headers)
+
+        if response.status_code == 200:
+            allocation_response = response.json()
+            total_allocated_gb = allocation_response['totalAllocatedGB']
+
+            # Store allocation info for this host 
+            allocations[host_name] = total_allocated_gb
+
+    return allocations
+
+if __name__ == ""__main__"":
+    allocations = get_host_allocations()
+
+    if allocations:
+        print(""Allocated Storage per Host:"")
+        for host, allocated_gb in allocations.items():
+            print(f""{host}: {allocated_gb} GB"")
+
+    else:
+        print(""Failed to retrieve allocations."")
+",True,4,"7,2",True,50

@@ -12,15 +12,16 @@ class DocumentMutator(object):
         self.tokenizer = T5Tokenizer.from_pretrained('google/t5-v1_1-xxl')
         self.model = T5ForConditionalGeneration.from_pretrained(
             model,
-            cache_dir="/data2/.shared_models/"
+            cache_dir="/data2/.shared_models/",
+            device_map="auto"
         )
         if verbose:
             print(f"{model} model loaded in {time.time() - time1}")
         # self.model = self.model.to(torch.device('cuda:1'))
-        self.model.cuda()
+        # self.model.cuda()
         self.model.eval()
 
-    def mutate(self, input_text, lex_diversity=60, order_diversity=0, prefix="", sent_interval=1, **kwargs):
+    def mutate(self, input_text, lex_diversity=60, order_diversity=0, prefix="", sent_interval=1, max_length=1024, **kwargs):
         """Paraphrase a text using the DIPPER model.
 
         Args:
@@ -51,21 +52,22 @@ class DocumentMutator(object):
             final_input = {k: v.cuda() for k, v in final_input.items()}
 
             with torch.inference_mode():
-                outputs = self.model.generate(**final_input, **kwargs)
+                outputs = self.model.generate(**final_input, max_length=max_length, tokenizer=self.tokenizer, stop_strings=[" * ", "////"], **kwargs)
             outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
             prefix += " " + outputs[0]
             output_text += " " + outputs[0]
 
-        return output_text
+        return output_text.rstrip(" *").strip()
 
-if __name__ == "__main__":
-    
+def test():
+
     import time
-    from utils import diff
     import textwrap
+    import os
+    import logging
 
-    print(f"Starting mutation...")
-
+    log = logging.getLogger(__name__)
+   
     text = textwrap.dedent("""
         Power is a central theme in J.R.R. Tolkien's The Lord of the Rings series, as it relates to the characters' experiences and choices throughout the story. Power can take many forms, including physical strength, political authority, and magical abilities. However, the most significant form of power in the series is the One Ring, created by Sauron to control and enslave the free peoples of Middle-earth.
         The One Ring represents the ultimate form of power, as it allows its possessor to dominate and rule over the entire world. Sauron's desire for the Ring drives much of the plot, as he seeks to reclaim it and use its power to enslave all of Middle-earth. Other characters, such as Gandalf and Frodo, also become obsessed with the Ring's power, leading them down dangerous paths and ultimately contributing to the destruction of their own kingdoms.
@@ -73,15 +75,18 @@ if __name__ == "__main__":
         However, Tolkien also suggests that true power lies not in domination but in selflessness and sacrifice. Characters who reject the idea of using power solely for personal gain or selfish reasons are often the most effective in resisting the darkness of the Ring. For example, Aragorn's refusal to claim the throne or Sauron's rightful place as the Dark Lord illustrates this point. Instead, they embrace a more altruistic view of power, recognizing the importance of serving others and doing good.
         In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
     """)
-    dp = DocumentMutator()
+
+    text_mutator = DocumentMutator()
 
     start = time.time()
-    mutated_text = dp.mutate(text)
+    mutated_text = text_mutator.mutate(text)
     delta = time.time() - start
 
-    print(f"Original text: {text}")
-    print(f"Mutated text: {mutated_text}")
-    print(f"Diff: {diff(text, mutated_text)}")
-    print(f"Time taken: {delta}")
+    log.info(f"Original text: {text}")
+    log.info(f"Mutated text: {mutated_text}")
+    log.info(f"Original == Mutated: {text == mutated_text}")
+    # log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
+    log.info(f"Time taken: {delta}")
 
-
+if __name__ == "__main__":
+    test()

@@ -291,7 +291,8 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
                 if (len(text_ids[0]) - prompt_length) >= self.cfg.watermark_args.max_new_tokens-1:
                     break
 
-        text = parse_llama_output(text)
+        if "Llama" in self.cfg.generator_args.model_name_or_path:
+            text = parse_llama_output(text)
         return text, total_sentences
     
     def _lsh_generate_watermarked_outputs(self,prompt, **kwargs):
