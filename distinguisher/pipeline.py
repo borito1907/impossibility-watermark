@@ -13,7 +13,6 @@ from utils import get_prompt_or_output, get_watermarked_text, get_nth_successful
 from dotenv import load_dotenv, find_dotenv
 
 
-
 INITIAL_PROMPTS_FILE = './distinguisher/entropy_prompts.csv'
 WATERMARKER = SemStampWatermarker
 WATERMARKED_RESPONSES_FILE = lambda x : f'./distinguisher/watermarked_responses_{WATERMARKER.__name__}_{x}.csv'
@@ -45,15 +44,17 @@ def get_file(entropy, output_num, attack_id):
     csv_file_path = os.path.join(csv_file_directory, first_perturbed_csv_filename)
     return csv_file_path
 
-model_id = "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ"
 
-# Load the model
-llm = models.Transformers(
-    model_id, 
-    echo=False,
-    cache_dir="/data2/.shared_models/", 
-    device_map='auto',
-)
+
+# model_id = "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ"
+
+# # Load the model
+# llm = models.Transformers(
+#     model_id, 
+#     echo=False,
+#     cache_dir="/data2/.shared_models/", 
+#     device_map='auto',
+# )
 
 # load_dotenv(find_dotenv())
 # chatgpt = models.OpenAI("gpt-4o-mini")
@@ -89,7 +90,7 @@ params_list = [
       # {"mutator": SpanMutator, "type": "span", "distinguisher": ReasoningDistinguisher},
       # {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleGPT},
       # {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleInstructDistinguisher},
-      {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleDistinguisher},
+      # {"mutator": SpanMutator, "type": "span", "distinguisher": SimpleDistinguisher},
       
 			# {"mutator": WordMutator, "type": "word", "distinguisher": AggressiveSimple},
       # {"mutator": WordMutator, "type": "word", "distinguisher": AggressiveReasoning},
@@ -125,6 +126,8 @@ def main(cfg):
           df_b = pd.DataFrame(texts_b)
           df_b.to_csv(WATERMARKED_RESPONSES_FILE("b"))  
 
+
+
 	# entropy: 1 (least restrictive) to 10 (most restrictive)
 	# mutator: DocumentMutator, SentenceMutator, SpanMutator, WordMutator
 	# distinguisher: Aggressive (AggressiveSimple, AggressiveReasoning)
@@ -155,14 +158,15 @@ def main(cfg):
               df_b = pd.read_csv(WATERMARKED_RESPONSES_FILE("b"))
               
               cfg.attack_args.max_steps = NUM_STEPS
+              cfg.attack_args.target_mutations = 10 #NUM_STEPS*10
               cfg.attack_args.log_csv_path = mutations_path("a")
               print("Running Mutator:")
               attack.attack(df_a.loc[df_a['entropy'] == entropy].iloc[0]["prompt"], df_a.loc[df_a['entropy'] == entropy].iloc[0]["response"])
               cfg.attack_args.log_csv_path = mutations_path("b")
               attack.attack(df_b.loc[df_b['entropy'] == entropy].iloc[0]["prompt"], df_b.loc[df_b['entropy'] == entropy].iloc[0]["response"])
               print("Finished mutations.")
-              
-          continue
+
+          continue    
           csv_path = f"./distinguisher/results/{Distinguisher.__name__}_{Mutator.__name__}_entropy-{entropy}.csv"
 				
           response_A = AttackParser(mutations_path("a"))
@@ -197,11 +201,8 @@ def main(cfg):
           df["Response_B"] = response_B.get_response() 
           df.to_csv(csv_path)
 
-				  # ./impossibility-watermark> CUDA_VISIBLE_DEVICES=0 python -m distinguisher.evaluate
 
-
-
-
+# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=0 python -m distinguisher.evaluate
                   
 if __name__ == "__main__":
     main()
