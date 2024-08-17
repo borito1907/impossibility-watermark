@@ -2,9 +2,25 @@ from transformers import pipeline
 import random
 import re
 import string
+import pandas as pd
 import difflib
 import torch
 import logging
+import os
+
+def save_to_csv(data, file_path, rewrite=False):
+    df_out = pd.DataFrame(data)
+    
+    # Ensure the directory exists
+    dir_path = os.path.dirname(file_path)
+    os.makedirs(dir_path, exist_ok=True)
+    
+    if os.path.exists(file_path) and not rewrite:
+        df_out.to_csv(file_path, mode='a', header=False, index=False)  # Append without writing headers
+    else:
+        df_out.to_csv(file_path, index=False)  # Create new file with headers
+    
+    print(f"Data saved to {file_path}")
 
 log = logging.getLogger(__name__)
 
@@ -116,6 +132,8 @@ class WordMutator:
     def mutate(self, text, num_replacements=0.01):
         words, end_punctuation = self.get_words(text)
 
+        log.info(f"End Punctuation: {end_punctuation}")
+
         if len(words) > self.max_length:
             segment, start, end = self.select_random_segment(words)
         else:
@@ -126,7 +144,7 @@ class WordMutator:
         if 0 < num_replacements < 1:
             num_replacements = max(1, int(len(segment) * num_replacements))
 
-        # log.info(f"Making {num_replacements} replacements to the input text segment.")
+        log.info(f"Making {num_replacements} replacements to the input text segment.")
 
         replacements_made = 0
         while replacements_made < num_replacements:
@@ -137,25 +155,33 @@ class WordMutator:
             log.info(f"word_to_mask: {word_to_mask}")
             log.info(f"suggested_replacement: {suggested_replacement['token_str']} (score: {suggested_replacement['score']})")
 
-            # TODO: Move this above the log.
             if len(suggested_replacement['token_str'].strip()) == 0:
+                log.info(f"Continuing since suggested replacement is empty...")
                 continue
             
-            left, word, right = strip_punct(word_to_mask)
-            suggested_replacement['token_str'] = left + suggested_replacement['token_str'] + right
+            left, _, right = strip_punct(word_to_mask)
+            _, replacement, _ = strip_punct(suggested_replacement['token_str'])
+            replacement = left + replacement + right
 
-            log.info(f"actual suggested replacement: {suggested_replacement['token_str']}")
+            log.info(f"Polished suggested replacement: {replacement}")
             
             segment = suggested_replacement['sequence'].split()
             replacements_made += 1
+        
+        log.info(f"Old Segment: {segment}")
 
-        # TODO: The last comma is still getting removed. Diagnose the issue and fix it.
-        if end_punctuation:
-            segment[-1] += end_punctuation
-
+        log.info(words[:start])
+        log.info("-------")
+        log.info(segment)
+        log.info("-------")
         log.info(words[end:])
 
         combined_text = ' '.join(words[:start]) + ' ' + ' '.join(segment) + ' ' + ' '.join(words[end:])
+
+        if end_punctuation:
+            log.info(f"Appending to the end of combined_text...")
+            combined_text += end_punctuation
+
         return self.cleanup(combined_text)
 
     def cleanup(self, text):
@@ -233,22 +259,30 @@ Overall, Tempus embodies a fierce dedication to time optimization and resource m
 
     start = time.time()
 
-    mutated_text = text
+    df = pd.read_csv('/local1/borito1907/impossibility-watermark/human_study/data/dev_watermarked.csv')
 
-    words, end_punct = text_mutator.get_words(mutated_text)
+    mutations_file_path = '/local1/borito1907/impossibility-watermark/inputs/word_mutator/test_1.csv'
 
-    log.info(f"Words: {words}")
-    log.info(f"End Punct: {end_punct}")
+    for row in df.head(50).itertuples(index=False):
+        mutated_text = row.text
 
-    for _ in range(20):
-        mutated_text = text_mutator.mutate(mutated_text)
-    delta = time.time() - start
+        words, end_punct = text_mutator.get_words(mutated_text)
 
-    log.info(f"Original text: {text}")
-    log.info(f"Mutated text: {mutated_text}")
-    log.info(f"Original == Mutated: {text == mutated_text}")
-    # log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
-    log.info(f"Time taken: {delta}")
+        log.info(f"Words: {words}")
+        log.info(f"End Punct: {end_punct}")
+
+        for _ in range(20):
+            mutated_text = text_mutator.mutate(mutated_text)
+        delta = time.time() - start
+
+        log.info(f"Original text: {text}")
+        log.info(f"Mutated text: {mutated_text}")
+        log.info(f"Original == Mutated: {text == mutated_text}")
+        # log.info(f"Diff: {text_mutator.diff(text, mutated_text)}")
+        log.info(f"Time taken: {delta}")
+
+        stats = [{'id': row.id, 'text': row.text, 'zscore' : row.zscore, 'watermarking_scheme': row.watermarking_scheme, 'model': row.model, 'gen_time': row.time, 'mutation_time': delta, 'mutated_text': mutated_text}]
+        save_to_csv(stats, mutations_file_path, rewrite=False)
 
 if __name__ == "__main__":
     test()
