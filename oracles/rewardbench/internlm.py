@@ -8,15 +8,15 @@ from oracles.utils import add_prefix_to_keys
 class InternLMOracle:
     
     def __init__(self, model=None, explain=False) -> None:
+        self.device = torch.device("cuda"if torch.cuda.is_available() else"cpu")
         self.tokenizer = AutoTokenizer.from_pretrained("internlm/internlm2-20b-reward", trust_remote_code=True)
         if model is None:
             self.model = AutoModel.from_pretrained(
                 "internlm/internlm2-20b-reward", 
                 cache_dir="/data2/.shared_models/",
-                device_map="auto", 
                 torch_dtype=torch.float16, 
                 trust_remote_code=True,
-            )
+            ).to(self.device)
         self.similarity_threshold = 0.4615293560606061
 
     def evaluate(self, instruction, response_A, response_B, explain=False, **kwargs):

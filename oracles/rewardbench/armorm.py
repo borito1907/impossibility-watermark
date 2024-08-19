@@ -10,20 +10,19 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 
 class ArmoRMPipeline:
-    def __init__(self, model_id, device_map="auto", torch_dtype=torch.bfloat16, truncation=True, trust_remote_code=False, max_length=4096):
+    def __init__(self, model_id, torch_dtype=torch.bfloat16, truncation=True, trust_remote_code=False, max_length=4096):
+        self.device = torch.device("cuda"if torch.cuda.is_available() else"cpu")
         self.model = AutoModelForSequenceClassification.from_pretrained(
             model_id,
             cache_dir="/data2/.shared_models",
-            device_map=device_map,
             trust_remote_code=trust_remote_code,
             torch_dtype=torch_dtype,
-        )
+        ).to(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_id,
             use_fast=True,
         )
         self.truncation = truncation
-        self.device = self.model.device
         self.max_length = max_length
 
     def __call__(self, messages: List[Dict[str, str]]) -> Dict[str, float]:
