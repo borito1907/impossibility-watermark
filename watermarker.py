@@ -37,9 +37,9 @@ class Watermarker(ABC):
                 "top_k": self.cfg.generator_args.top_k,
                 "repetition_penalty": self.cfg.generator_args.repetition_penalty
             }
-        # UMD needs the tokenizer to detect, so we initialize it to the default value here.
+        # UMD and Adaptive need the tokenizer to detect, so we initialize it to the default value here.
         # This only works for Llama3.1, so we might want to change it.
-        elif "umd" == cfg.watermark_args.name:
+        elif self.watermark_args.name != "semstamp_lsh":
             self.tokenizer = AutoTokenizer.from_pretrained(
                 "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4", 
                 use_fast=True, 
