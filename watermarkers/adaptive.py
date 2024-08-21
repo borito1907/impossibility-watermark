@@ -9,34 +9,19 @@ from nltk.tokenize import word_tokenize
 from collections import Counter
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from sentence_transformers import SentenceTransformer
+import random
 import torch.nn as nn
 from watermarker import Watermarker
 from watermarkers.Adaptive.model import TransformModel
 import textwrap
 
+def vocabulary_mapping(vocab_size, sm_output_dim):
+    return [random.randint(0, sm_output_dim-1) for _ in range(vocab_size)]
+
 log = logging.getLogger(__name__)
 
 class AdaptiveWatermarker(Watermarker):
     def __init__(self, cfg, pipeline = None, n_attempts =1 , **kwargs):
-
-        # TODO: Run it with their model.
-        # NOTE: Removed the device parameter. If there's a bug, this might be why.
-
-        # NOTE: Stupid work around because I'm a bad programmer. - Boran
-        cfg.watermark_args.name = "adaptive"
-        cfg.watermark_args.measure_model_name = "gpt2-large"
-        cfg.watermark_args.embedding_model_name= "sentence-transformers/all-mpnet-base-v2"
-        cfg.watermark_args.alpha= 2.0
-        cfg.watermark_args.top_k= 50
-        cfg.watermark_args.top_p= 0.9
-        cfg.watermark_args.repetition_penalty= 1.1
-        cfg.watermark_args.no_repeat_ngram_size= 0
-        cfg.watermark_args.max_new_tokens= 230
-        cfg.watermark_args.min_new_tokens= 170
-        cfg.watermark_args.measure_threshold=50
-        cfg.watermark_args.delta_0= 1.0
-        cfg.watermark_args.delta= 1.5
-
         self.cfg = cfg
         super().__init__(cfg, pipeline, n_attempts, **kwargs)
 
@@ -46,6 +31,8 @@ class AdaptiveWatermarker(Watermarker):
         This function sets up the LLM we'll use for generating watermarked text.
         """
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+        # log.info(f"Device is {device}.")
 
         # This is from their Github.
         # if 'opt' in self.cfg.generator_args.model_name_or_path:
@@ -60,37 +47,20 @@ class AdaptiveWatermarker(Watermarker):
 
         # load semantic mapping model
         self.transform_model = TransformModel()
-        # TODO: This path should be more flexible.
+        
         self.transform_model.load_state_dict(torch.load('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/transform_model.pth'))
         self.transform_model.to(device)
         self.transform_model.eval()
 
         # Load mapping list for the transform model
-        with open('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/mapping_opt.json', 'r') as f:
-            self.mapping_list = json.load(f)
-
-        # TODO: Make it work with Llama.
-        # if 'Llama' in self.cfg.generator_args.model_name_or_path:
-        #     self.gen_config = GenerationConfig.from_pretrained(
-        #                     self.cfg.generator_args.model_name_or_path,
-        #                     return_dict_in_generate=True,
-        #                     max_new_tokens=self.cfg.generator_args.max_new_tokens,
-        #                     min_new_tokens=self.cfg.generator_args.min_new_tokens,
-        #                     do_sample=self.cfg.generator_args.do_sample,
-        #                     temperature=self.cfg.generator_args.temperature,
-        #                     top_k=self.cfg.generator_args.top_k,
-        #                     bad_words_ids=bad_words_ids,
-        #                     repetition_penalty=self.cfg.generator_args.repetition_penalty,                        
-        #                     # top_p=0.96,
-        #                     local_files_only=is_offline
-        #             )
-        # else:
-        #     self.gen_config = None
-        #     self.pipeline._init_pipeline_config(self.cfg.generator_args)
-
-        # self.generator_kwargs.update([('bad_words_ids', bad_words_ids), ('min_new_tokens', self.cfg.watermark_args.min_new_tokens)])
-
-        # self.model.eval()
+        if "opt" in self.cfg.generator_args.model_name_or_path:
+            with open('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/mapping_opt.json', 'r') as f:
+                self.mapping_list = json.load(f)
+        elif "Llama-3.1" in self.cfg.generator_args.model_name_or_path:
+            with open('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/mapping_llama31.json', 'r') as f:
+                self.mapping_list = json.load(f)
+        else:
+            raise Exception("No mapping list provided for Llama!")
 
         log.info(self.generator_kwargs)
     
@@ -240,8 +210,8 @@ class AdaptiveWatermarker(Watermarker):
             logits[0] = self._bias_logits(logits[0], v_embedding, self.cfg.watermark_args.delta_0)
         elif len(ids[0]) > measure_threshold:
             measure_text = self.pipeline.tokenizer.decode(ids[-1])
-            measure_entroy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
-            if measure_entroy >= self.cfg.watermark_args.alpha:
+            measure_entropy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
+            if measure_entropy >= self.cfg.watermark_args.alpha:
                 embedding = self.embedding_model.encode(measure_text, convert_to_tensor=True)
                 t_embedding = self.transform_model(embedding).tolist()   # torch([])
                 t_embedding = [1.0 if x>0.0 else 0.0 for x in t_embedding]
@@ -269,7 +239,7 @@ class AdaptiveWatermarker(Watermarker):
 
         attn = torch.ones_like(input_ids)
         past = None
-        for i in range(self.cfg.max_new_tokens):
+        for i in range(self.cfg.watermark_args.max_new_tokens):
             with torch.no_grad():
                 if past:
                     output = self.pipeline.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past)
@@ -278,7 +248,7 @@ class AdaptiveWatermarker(Watermarker):
             
             logits = output.logits[:,-1, :]
             self._postprocess_next_token_scores(logits, 1, 1, output_ids, repetition_penalty=self.cfg.watermark_args.repetition_penalty, no_repeat_ngram_size=self.cfg.watermark_args.no_repeat_ngram_size)   # repetition penalty: 1.1
-            logits = self._top_k_top_p_filtering(logits, top_k=self.top_k, top_p=self.top_p)   # top-k, top-p filtering
+            logits = self._top_k_top_p_filtering(logits, top_k=self.cfg.watermark_args.top_k, top_p=self.cfg.watermark_args.top_p)   # top-k, top-p filtering
             probs = torch.nn.functional.softmax(logits, dim=-1)   # softmax
             next_id = torch.multinomial(probs, num_samples=1)   # sampling
 
