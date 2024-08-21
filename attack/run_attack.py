@@ -1,25 +1,23 @@
+from watermarker_factory import get_default_watermarker
 from mutators.sentence import SentenceMutator
 from mutators.span import SpanMutator
 from mutators.word import WordMutator
 from mutators.document_1step import DocumentMutator_1step
 from mutators.document_2step import DocumentMutator_2step
-
 from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle,
     PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
     BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,
     ArmoRMOracle, InternLMOracle, OffsetBiasOracle
 )
-
 from attack import Attack
 
+import hydra
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
-
-from watermarker_factory import get_default_watermarker
 
 mutators = {
     "SentenceMutator": SentenceMutator,
@@ -46,9 +44,7 @@ oracles = {
     "OffsetBiasOracle": OffsetBiasOracle
 }
 
-import hydra
-
-@hydra.main(version_base=None, config_path="conf", config_name="new_config")
+@hydra.main(version_base=None, config_path="../conf", config_name="attack")
 def main(cfg):
     watermarker = get_default_watermarker(cfg.watermarker)
 
