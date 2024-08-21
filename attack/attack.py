@@ -39,10 +39,10 @@ class Attack:
         self.num_steps = self.cfg.attack.max_steps if self.use_max_steps else self.cfg.attack.max_mutations
 
         if self.cfg.attack.check_quality:
-            assert quality_oracle is not None
+            assert quality_oracle is not None, "cfg.attack.check_quality=True so you must initialize your attack with a quality oracle!"
 
         if self.cfg.attack.check_watermark:
-            assert watermarker is not None
+            assert watermarker is not None, "cfg.attack.check_watermark=True so you must initialize your attack with a watermark detector!"
 
     def _reset(self):
         self.results = []
