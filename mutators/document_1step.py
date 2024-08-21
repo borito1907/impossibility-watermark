@@ -5,6 +5,7 @@ import guidance
 from guidance import models, gen, select, user, assistant
 import hydra
 import logging
+from .document_2step import StringTokenLength
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -45,7 +46,7 @@ class DocumentMutator_1step:
 
     def mutate(self, text):
         output = self.llm + paraphrase(text)
-        print(f"output: {output}")
+        #print(f"output: {output}")
         return {
             "paraphrase_text": output["paraphrase_text"],
         }
@@ -56,8 +57,8 @@ def paraphrase(lm, text):
     with user():
         lm += f"""\
         ### Task Description: 
-        1. Carefully read the original text. 
-        2. Paraphrase the original text so that it preserves the meaning and quality while varying the underlying words and sentence structures. 
+        Paraphrase the following text so that it preserves the meaning, quality, and format while varying the underlying words and sentence structures. 
+        Keep the text at a similar length. Respond with just the new text.
 
         ### The original text: 
         {text}
@@ -65,10 +66,8 @@ def paraphrase(lm, text):
     with assistant():
         lm += f"""\
         ### Paraphrased text:
-        ```json
-        {{
-            "paraphrase_text": "{gen('paraphrase_text', max_tokens=len(text.split()) * 1.5)}",
-        }}```"""
+        {gen('paraphrase_text', max_tokens=int(StringTokenLength.length(text) * 1.5), stop='<|im_end|>')}
+        """
     return lm
 
 
@@ -78,28 +77,30 @@ if __name__ == "__main__":
     def test(cfg):
         import time
         from utils import diff
-        import textwrap
+        import pandas as pd
 
         print(f"Starting mutation...")
 
-        text = textwrap.dedent("""
-            Power is a central theme in J.R.R. Tolkien's The Lord of the Rings series, as it relates to the characters' experiences and choices throughout the story. Power can take many forms, including physical strength, political authority, and magical abilities. However, the most significant form of power in the series is the One Ring, created by Sauron to control and enslave the free peoples of Middle-earth.
-            The One Ring represents the ultimate form of power, as it allows its possessor to dominate and rule over the entire world. Sauron's desire for the Ring drives much of the plot, as he seeks to reclaim it and use its power to enslave all of Middle-earth. Other characters, such as Gandalf and Frodo, also become obsessed with the Ring's power, leading them down dangerous paths and ultimately contributing to the destruction of their own kingdoms.
-            Throughout the series, Tolkien suggests that power corrupts even the noblest of beings. As Gandalf says, "The greatest danger of the Ring is the corruption of the bearer." This becomes manifest as the characters who possess or covet the Ring become increasingly consumed by its power, losing sight of their original goals and values. Even those who begin with the best intentions, like Boromir, are ultimately undone by the temptation of the Ring's power.
-            However, Tolkien also suggests that true power lies not in domination but in selflessness and sacrifice. Characters who reject the idea of using power solely for personal gain or selfish reasons are often the most effective in resisting the darkness of the Ring. For example, Aragorn's refusal to claim the throne or Sauron's rightful place as the Dark Lord illustrates this point. Instead, they embrace a more altruistic view of power, recognizing the importance of serving others and doing good.
-            In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
-        """)
-
+        dataset = pd.read_csv("./data/WQE/dev.csv")
+        dataset = dataset.sample(frac=1).reset_index(drop=True)
+        n=5
+        avg_time=0
+        dataset = dataset.head(n) 
         text_mutator = DocumentMutator_1step(cfg.mutator_args)
+        for index, row in dataset.iterrows():
+          text = row["response_a"]
 
-        start = time.time()
-        mutated_output = text_mutator.mutate(text)
-        mutated_text = mutated_output["paraphrase_text"]
-        delta = time.time() - start
 
-        print(f"Original text: {text}")
-        print(f"Mutated text: {mutated_text}")
-        print(f"Diff: {diff(text, mutated_text)}")
-        print(f"Time taken: {delta}")
+          start = time.time()
+          mutated_output = text_mutator.mutate(text)
+          mutated_text = mutated_output["paraphrase_text"]
+          delta = time.time() - start
+
+          print(f"Original text: {text}")
+          print(f"Mutated text: {mutated_text}")
+          print(f"Diff: {diff(text, mutated_text)}")
+          print(f"Time taken: {delta}")
+          avg_time += delta
+        print(f"Average time: {avg_time/n}")
 
     test()
