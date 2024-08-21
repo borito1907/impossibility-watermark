@@ -210,8 +210,8 @@ class AdaptiveWatermarker(Watermarker):
             logits[0] = self._bias_logits(logits[0], v_embedding, self.cfg.watermark_args.delta_0)
         elif len(ids[0]) > measure_threshold:
             measure_text = self.pipeline.tokenizer.decode(ids[-1])
-            measure_entroy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
-            if measure_entroy >= self.cfg.watermark_args.alpha:
+            measure_entropy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
+            if measure_entropy >= self.cfg.watermark_args.alpha:
                 embedding = self.embedding_model.encode(measure_text, convert_to_tensor=True)
                 t_embedding = self.transform_model(embedding).tolist()   # torch([])
                 t_embedding = [1.0 if x>0.0 else 0.0 for x in t_embedding]
