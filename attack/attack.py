@@ -12,7 +12,7 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 
 class Attack:
     # The watermarker should be in detection mode so we don't waste resources.
-    def __init__(self, cfg, watermarker, mutator, quality_oracle):
+    def __init__(self, cfg, mutator, quality_oracle=None, watermarker=None, ):
         self.cfg = cfg
         self.watermarker = watermarker
         self.mutator = mutator
@@ -37,6 +37,12 @@ class Attack:
 
         self.use_max_steps = self.cfg.attack.use_max_steps
         self.num_steps = self.cfg.attack.max_steps if self.use_max_steps else self.cfg.attack.max_mutations
+
+        if self.cfg.attack.check_quality:
+            assert quality_oracle is not None
+
+        if self.cfg.attack.check_watermark:
+            assert watermarker is not None
 
     def _reset(self):
         self.results = []

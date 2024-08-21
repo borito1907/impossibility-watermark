@@ -51,7 +51,7 @@ def main(cfg):
     mutator = mutators[cfg.mutator_type]()
     oracle = oracles[cfg.oracle_type]()
 
-    attacker = Attack(cfg, watermarker, mutator, oracle)
+    attacker = Attack(cfg, mutator, oracle, watermarker)
 
     prompt = """Create a psychological portrait of a person who values their time 1000000000usd per second"""
 
