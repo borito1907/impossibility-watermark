@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=0,1,2,3 python -m distinguisher.attack
+# RUN: CUDA_VISIBLE_DEVICES=0,1,2 python -m distinguisher.attack
 import os
 import time
 import pandas as pd
@@ -18,26 +18,28 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
         existing_df = pd.read_csv(output_csv)
         existing_df = existing_df[existing_df['quality_preserved'] == True]
         processed_combinations = set(
-            zip(existing_df['id'], existing_df['mutator'], existing_df['step'])
+            zip(existing_df['id'], existing_df['mutator'], existing_df['step'], existing_df['compare_versus'])
         )
     else:
         processed_combinations = set()
 
     # Define experiment parameters
     class Experiment:
-        def __init__(self, mutator_name, mutator_class, mutation_steps, compare_versus):
-            self.mutator_name = mutator_name
+        def __init__(self, mutator_class, mutation_steps, compare_versus, oracle_class):
+            self.oracle_name = oracle_class.__name__
+            self.oracle_class = oracle_class
+            self.mutator_name = mutator_class.__name__
             self.mutator_class = mutator_class
             self.mutation_steps = mutation_steps
             self.compare_versus = compare_versus
 
     experiment_params = [
-        Experiment("SentenceMutator", SentenceMutator, 500, "origin"),
-        Experiment("SentenceMutator", SentenceMutator, 100, "last"),
-        Experiment("WordMutator", WordMutator, 500, "origin"),
-        Experiment("WordMutator", WordMutator, 100, "last"),
-        Experiment("SpanMutator", SpanMutator, 500, "origin"),
-        Experiment("SpanMutator", SpanMutator, 100, "last"),
+        Experiment(SentenceMutator, 1, "origin", DiffOracle),
+        Experiment(SentenceMutator, 1, "last", DiffOracle),
+        Experiment(WordMutator, 1, "origin", DiffOracle),
+        Experiment(WordMutator, 1, "last", DiffOracle),
+        Experiment(SpanMutator, 1, "origin", DiffOracle),
+        Experiment(SpanMutator, 1, "last", DiffOracle),
     ]
 
     model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf"
@@ -59,7 +61,6 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
             MutatorClass = exp.mutator_class
             mutation_steps = exp.mutation_steps
             compare_versus = exp.compare_versus
-            print(f"Processing with {mutator_name}...")
 
             # Initialize the mutator
             mutator = MutatorClass()
@@ -71,11 +72,11 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
                 step = 0
                 patience = 20
                 while step < mutation_steps: 
-                    pbar.set_description(f"{i+1}/{len(experiment_params)}: {exp.mutator_name} step {step + 1}/{mutation_steps} for row {row['id']+1}/{len(df)}")
+                    pbar.set_description(f"{i+1}/{len(experiment_params)}: {exp.mutator_name} {compare_versus} step {step + 1}/{mutation_steps} for row {row['id']+1}/{len(df)}")
                     # Check if this combination of text, mutator, and step has already been processed
-                    if (row['id'], mutator_name, step + 1) in processed_combinations:
-                        print(f"Skipping {mutator_name} step {step + 1} for id={row['id']}", flush=True)
-                        text = existing_df[(existing_df['id'] == row['id']) & (existing_df['mutator'] == mutator_name) & (existing_df['step'] == step + 1)]['mutated_text'].values[0]
+                    if (row['id'], mutator_name, step + 1, compare_versus) in processed_combinations:
+                        print(f"Skipping {mutator_name} {compare_versus} step {step + 1} for id={row['id']}", flush=True)
+                        text = existing_df[(existing_df['id'] == row['id']) & (existing_df['mutator'] == mutator_name) & (existing_df['step'] == step + 1) & (existing_df['compare_versus'] == compare_versus)]['mutated_text'].values[0]
                         step += 1
                         pbar.update(1)
                         continue  # Skip this combination if already processed
@@ -90,7 +91,7 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
                     try:
                         mutated_text = mutator.mutate(text)
                     except Exception as e:
-                        print(f"Mutation error with {mutator_name}: {e}")
+                        print(f"Mutation error on experiment {i+1}, step {step+1}, patience {patience}: {e}", flush=True)
                         continue # Retry if an error occurs
 
                     mutation_time = time.time() - start_time  # Calculate the mutation time
@@ -105,7 +106,7 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
                             reference_answer=None
                         )['quality_preserved']
                     except Exception as e:
-                        print(f"Oracle error with {mutator_name}: {e}")
+                        print(f"Oracle error on experiment {i+1}, step {step+1}, patience {patience}: {e}", flush=True)
                         continue # Retry if an error occurs
                     oracle_time = time.time() - start_time  # Calculate the oracle time
 
@@ -141,4 +142,4 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
     print(f"Mutation process completed. Results saved to {output_csv}.")
 
 if __name__ == "__main__":
-    mutate_and_save_with_oracle(input_csv="./distinguisher/watermarked_responses.csv", output_csv="./distinguisher/mutations.csv")
+    mutate_and_save_with_oracle(input_csv="./distinguisher/dev.csv", output_csv="./distinguisher/out.csv")
