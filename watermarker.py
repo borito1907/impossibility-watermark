@@ -3,6 +3,7 @@ import torch
 import logging
 
 from model_builders.pipeline import PipeLineBuilder
+from transformers import AutoTokenizer
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -17,7 +18,8 @@ class Watermarker(ABC):
 
         log.info(f"Using device: {self.device}")
 
-        if not self.only_detect or "semstamp" not in self.cfg.watermark_args.name:
+        # if not self.only_detect or "semstamp" not in self.cfg.watermark_args.name:
+        if not self.only_detect:
             if not isinstance(self.pipeline, PipeLineBuilder):
                 self.pipeline = PipeLineBuilder(self.cfg.generator_args)
             
@@ -35,6 +37,13 @@ class Watermarker(ABC):
                 "top_k": self.cfg.generator_args.top_k,
                 "repetition_penalty": self.cfg.generator_args.repetition_penalty
             }
+        # UMD and Adaptive need the tokenizer to detect, so we initialize it to the default value here.
+        # This only works for Llama3.1, so we might want to change it.
+        elif self.watermark_args.name != "semstamp_lsh":
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4", 
+                use_fast=True, 
+                cache_dir="/data2/.shared_models/")
         self._setup_watermark_components()
 
     @abstractmethod

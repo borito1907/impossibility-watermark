@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from functools import partial
 from enum import Enum
 from oracles.utils import add_prefix_to_keys
+from guidance import models 
 
 class ResponseQuality(Enum):
     A_BETTER = 1
@@ -11,9 +12,20 @@ class ResponseQuality(Enum):
 # Abstract base class for all oracles
 class Oracle(ABC):
 
-    def __init__(self, llm, explain=False) -> None:
+    def __init__(self, llm=None, explain=False) -> None:
         self.llm = llm
+        if self.llm is None:
+            self.llm = self._initialize_llm("/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf")
         self.explain=explain
+
+    def _initialize_llm(self, path):
+        llm = models.LlamaCpp(
+            model=path,
+            echo=False,
+            n_gpu_layers=-1,
+            n_ctx=4096
+        )
+        return llm
 
     @property
     @abstractmethod
