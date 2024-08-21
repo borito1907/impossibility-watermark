@@ -10,24 +10,6 @@ def test(cfg):
     import time
     import textwrap
 
-    # cfg.generator_args.model_name_or_path = 'facebook/opt-6.7b'
-
-    # TODO: Stupid workaround because I'm a bad programmer. - Boran
-    # cfg.watermark_args.name = "adaptive_opt"
-    # cfg.watermark_args.measure_model_name = "gpt2-large"
-    # cfg.watermark_args.embedding_model_name= "sentence-transformers/all-mpnet-base-v2"
-    # cfg.watermark_args.alpha= 2.0
-    # cfg.watermark_args.top_k= 50
-    # cfg.watermark_args.top_p= 0.9
-    # cfg.watermark_args.repetition_penalty= 1.1
-    # cfg.watermark_args.no_repeat_ngram_size= 0
-    # cfg.watermark_args.max_new_tokens= 230
-    # cfg.watermark_args.min_new_tokens= 170
-    # cfg.watermark_args.secret_string= None
-    # cfg.watermark_args.measure_threshold=50
-    # cfg.watermark_args.delta_0= 1.0
-    # cfg.watermark_args.delta= 1.5
-
     cfg.prompt_num = 1
     
     log.info(f"Starting to watermark...")

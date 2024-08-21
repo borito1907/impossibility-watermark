@@ -32,8 +32,6 @@ class AdaptiveWatermarker(Watermarker):
         """
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-        # log.info(f"Device is {device}.")
-
         # This is from their Github.
         # if 'opt' in self.cfg.generator_args.model_name_or_path:
         # log.info(f"Using OPT as the generator.")
@@ -350,5 +348,10 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         
         normalized_score = sum(score)/len(score)
         normalized_score = normalized_score.item()
-        return normalized_score*100
+
+        normalized_score = normalized_score * 100
+
+        is_detected = self.cfg.watermark_args.detection_threshold < normalized_score
+
+        return is_detected, normalized_score
     

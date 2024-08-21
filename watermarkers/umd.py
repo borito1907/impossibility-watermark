@@ -43,7 +43,8 @@ class UMDWatermarker(Watermarker):
             device=self.cfg.watermark_args.device,
         )
         
-        self.generator_kwargs["logits_processor"] = LogitsProcessorList([self.watermark_processor])
+        if not self.cfg.watermark_args.only_detect:
+            self.generator_kwargs["logits_processor"] = LogitsProcessorList([self.watermark_processor])
 
     def generate_watermarked_outputs(self, prompt):
         og_prompt = prompt
