@@ -381,4 +381,8 @@ python src/transformers/models/llama/convert_llama_weights_to_hf.py \
 ### upload to hf -- huggingface-cli upload <hf-repo-id> <checkpoint-dir>
 huggingface-cli upload fabriceyhc/Meta-Llama-3-8B-Instruct-DrugDetection-v3 /data2/fabricehc/overdose/.cache/Meta-Llama-3-8B-Instruct-DrugDetection-v3-hf
 
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5
+
+# Llama-3.1-70B-Instruct-IMP 
+
+### finetune
+CUDA_VISIBLE_DEVICES=5,6,7 tune run --master_port 29500 --nproc_per_node 3 lora_finetune_distributed --config /data2/fabricehc/impossibility-watermark/oracles/training/torchtune/configs/llama3_1_70B_IMP.yaml
