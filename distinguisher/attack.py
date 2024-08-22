@@ -6,7 +6,7 @@ from tqdm import tqdm
 from mutators.sentence import SentenceMutator
 from mutators.span import SpanMutator
 from mutators.word import WordMutator
-from oracles import DiffOracle
+from oracles import DiffOracle, OffsetBiasOracle
 from guidance import models        
 
 def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
@@ -33,24 +33,16 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
             self.mutation_steps = mutation_steps
             self.compare_versus = compare_versus
 
+    oracle = OffsetBiasOracle()
+
     experiment_params = [
-        Experiment(SentenceMutator, 1, "origin", DiffOracle),
-        Experiment(SentenceMutator, 1, "last", DiffOracle),
-        Experiment(WordMutator, 1, "origin", DiffOracle),
-        Experiment(WordMutator, 1, "last", DiffOracle),
-        Experiment(SpanMutator, 1, "origin", DiffOracle),
-        Experiment(SpanMutator, 1, "last", DiffOracle),
+        Experiment(SentenceMutator, 200, "origin", OffsetBiasOracle),
+        Experiment(SentenceMutator, 100, "last", OffsetBiasOracle),
+        Experiment(WordMutator, 200, "origin", OffsetBiasOracle),
+        Experiment(WordMutator, 100, "last", OffsetBiasOracle),
+        Experiment(SpanMutator, 200, "origin", OffsetBiasOracle),
+        Experiment(SpanMutator, 100, "last", OffsetBiasOracle),
     ]
-
-    model_id = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf"
-    llm = models.LlamaCpp(
-        model=model_id,
-        echo=False,
-        n_gpu_layers=-1,
-        n_ctx=2048
-    )
-
-    oracle = DiffOracle(llm, explain=False)
 
     # Iterate over each mutator class
     total_iterations = len(df) * sum(exp.mutation_steps for exp in experiment_params)
@@ -142,4 +134,4 @@ def mutate_and_save_with_oracle(input_csv, output_csv, verbose=False):
     print(f"Mutation process completed. Results saved to {output_csv}.")
 
 if __name__ == "__main__":
-    mutate_and_save_with_oracle(input_csv="./distinguisher/dev.csv", output_csv="./distinguisher/out.csv")
+    mutate_and_save_with_oracle(input_csv="./distinguisher/watermarked_responses.csv", output_csv="./distinguisher/offsetbias_mutations.csv")
