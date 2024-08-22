@@ -15,7 +15,7 @@ class Oracle(ABC):
     def __init__(self, llm=None, explain=False) -> None:
         self.llm = llm
         if self.llm is None:
-            self.llm = self._initialize_llm("/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf")
+            self.llm = self._initialize_llm("/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf")
         self.explain=explain
 
     def _initialize_llm(self, path):
