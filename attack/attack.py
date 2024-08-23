@@ -55,11 +55,12 @@ class Attack:
             text2=self.mutated_text, 
             percentage=self.cfg.attack.length_variance
         )
-
         self.current_text_len = count_num_of_words(self.current_text)
-        self.step_data.update({"current_text_len": self.current_text_len})
-        self.step_data.update({"mutated_text_len": self.mutated_len})
-        self.step_data.update({"length_issue": self.length_issue})
+        self.step_data.update({
+            "current_text_len": self.current_text_len,
+            "mutated_text_len": self.mutated_len,
+            "length_issue": self.length_issue
+        })
 
     def append_and_save_step_data(self):
         self.results.append(self.step_data)
@@ -67,10 +68,11 @@ class Attack:
 
     def check_watermark(self):
         watermark_detected, watermark_score = self.watermarker.detect(self.mutated_text)
-        self.step_data.update({"watermark_detected": watermark_detected})
-        self.step_data.update({"watermark_score": watermark_score})
+        self.step_data.update({
+            "watermark_detected": watermark_detected,
+            "watermark_score": watermark_score
+        })
         self.append_and_save_step_data()
-
         return watermark_detected
 
     def is_attack_done(self):
@@ -109,45 +111,45 @@ class Attack:
                 log.info(f"Mutated text: {self.mutated_text}")
 
             # Step 2: Length Check
-            log.info(f"Checking mutated text length to ensure it is within {self.cfg.attack.length_variance*100}% of the original...")
-            self.length_check()
-
-            if self.length_issue:
-                log.warn(f"Failed length check. Original text was {self.original_len} words and mutated is {self.mutated_len} words. Skipping quality check and watermark check...")
-                self.backtrack_patience =+ 1
-                self.append_and_save_step_data()
-                continue
-
-            log.info("Length check passed!")
+            if self.cfg.attack.check_length:
+                log.info(f"Checking mutated text length to ensure it is within {self.cfg.attack.length_variance*100}% of the original...")
+                self.length_check()
+                if self.length_issue:
+                    log.warn(f"Failed length check. Original text was {self.original_len} words and mutated is {self.mutated_len} words. Skipping quality check and watermark check...")
+                    self.backtrack_patience =+ 1
+                    self.append_and_save_step_data()
+                    continue
+                log.info("Length check passed!")
 
             # Step 3: Check Quality
-            log.info("Checking quality oracle...")
-            quality_analysis = self.quality_oracle.is_quality_preserved(prompt, self.current_text, self.mutated_text)
-            self.step_data.update({"quality_analysis": quality_analysis})
-            self.step_data.update({"quality_preserved": quality_analysis["quality_preserved"]})
-    
-            if not quality_analysis["quality_preserved"]:
-                log.warn("Failed quality check. Skipping watermark check...")
-                self.backtrack_patience += 1
-                self.append_and_save_step_data()
-                continue
+            if self.cfg.attack.check_quality:
+                log.info("Checking quality oracle...")
+                quality_analysis = self.quality_oracle.is_quality_preserved(prompt, self.current_text, self.mutated_text)
+                self.step_data.update({
+                    "quality_analysis": quality_analysis,
+                    "quality_preserved": quality_analysis["quality_preserved"]
+                })
+                if not quality_analysis["quality_preserved"]:
+                    log.warn("Failed quality check. Skipping watermark check...")
+                    self.backtrack_patience += 1
+                    self.append_and_save_step_data()
+                    continue
+                log.info("Quality check passed!")
         
-            # If we reach here, that means the quality check passed, so update the current_text.
+            # If we reach here, that means the quality check passed or was skipped, so update the current_text.
             self.current_text = self.mutated_text
             self.mutated_texts.append(self.mutated_text)
 
-            log.info("Quality check passed!")
-
             # Step 4: Check Watermark
-            watermark_detected = self.check_watermark()
-
-            if not watermark_detected:
-                log.info("Attack successful!")
-                return self.mutated_text
-            log.info("Watermark still present, continuing on to another step!")
+            if self.cfg.attack.check_watermark:
+                watermark_detected = self.check_watermark()
+                if not watermark_detected:
+                    log.info("Attack successful!")
+                    return self.mutated_text
+                log.info("Watermark still present, continuing on to another step!")
 
             self.backtrack_patience = 0
             self.successful_mutation_count += 1
             done = self.is_attack_done()
 
-        return self.original_text
+        return self.current_text
