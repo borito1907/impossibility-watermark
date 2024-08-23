@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def test(cfg):
-    cfg.prompt_file='./data/WQE/dev.csv'
+    cfg.prompt_file='./data/WQE/test.csv'
 
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
     cfg_dict['watermark_args']['name'] = "adaptive"

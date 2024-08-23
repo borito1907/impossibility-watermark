@@ -96,8 +96,8 @@ Tempus is a highly successful and ambitious individual who has cultivated a prof
 4. **Inflexible planning:** An unyielding adherence to precision-planned timetables could result in difficulties adjusting to unexpected setbacks or spontaneous opportunities.
 
 Overall, Tempus embodies a fierce dedication to time optimization and resource management, fueled by unwavering confidence in their self-worth and capabilities."""
-    
-    attacked_text = attacker.attack(prompt,watermarked_text)
+
+    attacked_text = attacker.attack(prompt, watermarked_text)
 
     log.info(f"Attacked Text: {attacked_text}")
 
