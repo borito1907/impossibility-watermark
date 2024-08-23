@@ -36,8 +36,6 @@ def test(cfg):
 
     start = 1 + (cfg.partition - 1) * 400
     end = 1 + cfg.partition * 400
-    start = 611
-    end = 801
     for prompt_num in range(start,end):
         prompt, id = get_prompt_and_id_dev(cfg.prompt_file, prompt_num)
             

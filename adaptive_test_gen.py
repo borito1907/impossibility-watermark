@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def test(cfg):
-    cfg.prompt_file='./data/WQE/dev.csv'
+    cfg.prompt_file='./data/WQE/test.csv'
 
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
     cfg_dict['watermark_args']['name'] = "adaptive"
@@ -21,8 +21,8 @@ def test(cfg):
     cfg_dict['watermark_args']['alpha'] = 2.0
     cfg_dict['watermark_args']['top_k'] = 50
     cfg_dict['watermark_args']['top_p'] = 0.9
-    cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
-    cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
+    # cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
+    # cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
     cfg = OmegaConf.create(cfg_dict)
     
     import time

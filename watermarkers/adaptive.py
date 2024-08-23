@@ -174,15 +174,15 @@ class AdaptiveWatermarker(Watermarker):
         return logits
     
     def _stopping_criteria(self, ids, tokenizer):
-        stop_words = ["word.", "word!", "word?", "word...", "word;"]
-        stop_words_ids = [tokenizer.encode(stop_word, return_tensors='pt', add_special_tokens=False)[0][-1].to(self.device) for stop_word in stop_words]
+        # stop_words = ["word.", "word!", "word?", "word...", "word;"]
+        # stop_words_ids = [tokenizer.encode(stop_word, return_tensors='pt', add_special_tokens=False)[0][-1].to(self.device) for stop_word in stop_words]
         
         if ids[0][-1] == self.pipeline.tokenizer.eos_token_id:
             return True
 
-        if ids[0][-1] in stop_words_ids:
-            if len(ids[0]) > self.cfg.watermark_args.min_new_tokens:
-                return True
+        # if ids[0][-1] in stop_words_ids:
+        #     if len(ids[0]) > self.cfg.watermark_args.min_new_tokens:
+        #         return True
         return False
 
     def _next_token_entropy(self, input_text, model, tokenizer, device):
@@ -339,8 +339,8 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
                 score.append(s)
             elif i > self.cfg.watermark_args.measure_threshold:
                 measure_text = self.pipeline.tokenizer.decode(watermark_ids[0][:i])
-                measure_entroy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
-                if measure_entroy >= self.cfg.watermark_args.alpha:
+                measure_entropy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
+                if measure_entropy >= self.cfg.watermark_args.alpha:
                     e = self.embedding_model.encode(measure_text, convert_to_tensor=True, device=self.device)
                     te = self.transform_model(e).tolist()
                     te = [1.0 if x>0.0 else 0.0 for x in te]

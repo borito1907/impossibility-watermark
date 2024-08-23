@@ -5,7 +5,7 @@ import nltk
 import os
 from sentence_transformers import SentenceTransformer
 from custom_transformer import CustomSentenceTransformer
-from transformers import GenerationConfig, StoppingCriteriaList, AutoModel
+from transformers import GenerationConfig, StoppingCriteriaList, AutoModel, StoppingCriteria
 import textwrap
 
 from watermarker import Watermarker
@@ -21,6 +21,14 @@ nltk.download('punkt')
 PUNCTS = '.,!?'
 
 log = logging.getLogger(__name__)
+
+class EOSErrorStoppingCriteria(StoppingCriteria):
+    def __init__(self, eos_token_id):
+        self.eos_token_id = eos_token_id
+
+    def __call__(self, input_ids, _):
+        # Check if the last token is the EOS token
+        return input_ids[0, -1] == self.eos_token_id
 
 # TODO: Throws a circular import errors when in utils.py, we eventually want to fix this.
 def list_to_comma_separated_string(int_list):
@@ -136,6 +144,7 @@ class SemStampWatermarker(Watermarker):
     
     def _lsh_reject_completion(self, prompt: str, margin=0.002, stats_csv_path=None, **kwargs):
         sent_end_criteria = SentenceEndCriteria(self.tokenizer)
+        eos_criteria = EOSErrorStoppingCriteria(self.tokenizer.eos_token_id)
         
         # TODO: Can we move this logic to a better place?
         # We don't want to make it a prompt if it's not a completion.
@@ -178,7 +187,7 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         current_num_tries = 0 # how many times how we tried to generate the current sentence
         
         while True:
-            stopping_criteria = StoppingCriteriaList([sent_end_criteria])
+            stopping_criteria = StoppingCriteriaList([eos_criteria, sent_end_criteria])
 
             candidate_text, candidate_text_ids = self.generate_sentence(text, text_ids, stopping_criteria)
 

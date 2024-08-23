@@ -19,8 +19,8 @@ def test(cfg):
     cfg_dict['watermark_args']['sp_mode'] = "lsh"
     cfg_dict['watermark_args']['sp_dim'] = 3
     cfg_dict['watermark_args']['lmbd'] = 0.25
-    cfg_dict['watermark_args']['max_new_tokens'] = 255
-    cfg_dict['watermark_args']['min_new_tokens'] = 245
+    # cfg_dict['watermark_args']['max_new_tokens'] = 786 # 255
+    # cfg_dict['watermark_args']['min_new_tokens'] = 128 # 245
     cfg_dict['watermark_args']['max_trials'] = 50
     cfg_dict['watermark_args']['critical_max_trials'] = 75
     cfg_dict['watermark_args']['cc_path'] = None

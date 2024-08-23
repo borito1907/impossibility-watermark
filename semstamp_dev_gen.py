@@ -19,13 +19,13 @@ def test(cfg):
     cfg_dict['watermark_args']['sp_mode'] = "lsh"
     cfg_dict['watermark_args']['sp_dim'] = 3
     cfg_dict['watermark_args']['lmbd'] = 0.25
-    cfg_dict['watermark_args']['max_new_tokens'] = 255
-    cfg_dict['watermark_args']['min_new_tokens'] = 245
+    cfg_dict['watermark_args']['max_new_tokens'] = 1024 # 255
+    cfg_dict['watermark_args']['min_new_tokens'] = 128 # 245
     cfg_dict['watermark_args']['max_trials'] = 50
     cfg_dict['watermark_args']['critical_max_trials'] = 75
     cfg_dict['watermark_args']['cc_path'] = None
     cfg_dict['watermark_args']['train_data'] = None
-    cfg_dict['watermark_args']['device'] = "auto"
+    # cfg_dict['watermark_args']['device'] = "auto"
     cfg_dict['watermark_args']['len_prompt'] = 32
     cfg_dict['watermark_args']['z_threshold'] = 0.5
     cfg_dict['watermark_args']['use_fine_tuned'] = False
@@ -42,16 +42,13 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"semstamp_dev_demo_{cfg.partition}"
+    dir_name = f"dev_semstamp_massive_stopfix_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    # start = 1 + (cfg.partition - 1) * 100
-    # end = 1 + cfg.partition * 100
+    start = 1 + (cfg.partition - 1) * 100
+    end = 1 + cfg.partition * 100
 
-    start = 101
-    end = 151
-    
     for prompt_num in range(start,end):
         stats_file_path = f"{base_folder_name}/stats/{prompt_num}.csv"
         os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)

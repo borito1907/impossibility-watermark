@@ -21,8 +21,8 @@ def test(cfg):
     cfg_dict['watermark_args']['alpha'] = 2.0
     cfg_dict['watermark_args']['top_k'] = 50
     cfg_dict['watermark_args']['top_p'] = 0.9
-    cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
-    cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
+    # cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
+    # cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
     cfg = OmegaConf.create(cfg_dict)
     
     import time
@@ -33,13 +33,13 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_long_{cfg.partition}_retry"
+    dir_name = f"adaptive_dev_massive_stopfix_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    partition_size = 100
+    partition_size = 200
     start = 1 + (cfg.partition - 1) * partition_size
     end = 1 + cfg.partition * partition_size
 

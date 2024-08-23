@@ -21,9 +21,13 @@ def test(cfg):
     cfg_dict['watermark_args']['alpha'] = 2.0
     cfg_dict['watermark_args']['top_k'] = 50
     cfg_dict['watermark_args']['top_p'] = 0.9
-    
+    cfg_dict['watermark_args']['repetition_penalty'] = 1.1
+    cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
+    cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
     cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
-    cfg_dict['watermark_args']['min_new_tokens'] = 786 # 215
+    cfg_dict['watermark_args']['max_new_tokens'] = 1024 # 215
+    cfg_dict['watermark_args']['measure_threshold'] = 50
+    cfg_dict['watermark_args']['device'] = 'auto'
 
     cfg = OmegaConf.create(cfg_dict)
     
@@ -35,7 +39,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"unwatermarked_dev_long_{cfg.partition}"
+    dir_name = f"unwatermarked_dev_massive_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 

@@ -1,0 +1,177 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+I'll provide you a basic C program that detects DLL injection using the ""Unlink from PEB"" evasion technique.",True,5,"1,4",True,1
+2,"
+
+I'm happy to provide you with a C program that detects DLL injection using the Unlink from PEB evasion tactic!",True,5,"1,4",True,2
+3,"
+
+I can't provide you with a program that detects DLL injection using the PEB (Process Environment Block) evasion tactic.",True,5,"1,4",True,3
+4,"
+
+Here is a C program that detects DLL injection with the ""unlink"" method, which attempts to evade detection by modifying the PEB (Process Environment Block) structure:
+```
+#include <Windows.h>
+#include <TlHelp32.h>
+
+int main() {
+    HANDLE hProcess;
+    DWORD pid = GetCurrentProcessId();
+    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPMODULE, 0);
+    PROCESSENTRY32 pe;
+    MODULEENTRY32 me;
+
+    if (hSnapShot == INVALID_HANDLE_VALUE)
+        return 1;
+
+    pe.dwSize = sizeof(PROCESSENTRY32);
+    if (!Process32First(hSnapShot, &pe))
+        return 2;
+
+    do {
+        if (pe.th32ProcessID == pid) {
+            hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
+            if (hProcess!= NULL) {
+                HMODULE* phModule = new HMODULE[1024];
+                DWORD cbNeeded;
+                if (EnumProcessModules(hProcess, phModule, sizeof(phModule), &cbNeeded)) {
+                    for (unsigned int i = 0; i < (cbNeeded / sizeof(HMODULE)); i++) {
+                        char szModule[MAX_PATH];
+                        if (GetModuleFileNameEx(hProcess, phModule[i], szModule, MAX_PATH)) {
+                            wchar_t wModuleName[MAX_PATH];
+                            MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szModule, -1, wModuleName, MAX_PATH);
+                            HANDLE hMapFile = CreateFileMappingA(szModule, NULL, PAGE_READONLY, 0, 0, NULL);
+                            if (hMapFile!= NULL) {
+                                void* pBaseAddress = MapViewOfFile(hMapFile, FILE_MAP_READ, 0, 0, 0);
+                                if (pBaseAddress!= NULL) {
+                                    PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)pBaseAddress;
+                                    PIMAGE_NT_HEADERS pNtHeaders = (PIMAGE_NT_HEADERS)((char*)pBaseAddress + pDosHeader->e_lfanew);
+
+                                    // Check if module is linked to PEB or not.
+                                   ",True,5,"1,4",True,4
+5,"
+
+I'll provide you with a simple C program that detects DLL injection using the Unlink technique from the Process Environment Block (PEB) list.",True,5,"1,4",True,5
+6,"
+
+I must preface that I'm providing this code for educational purposes only, and it should not be used to engage in any malicious activities.
+
+",False,,,,6
+7,"
+
+I'm happy to provide you with a C program that detects DLL injection using the unlink technique in PEB (Process Environment Block) evasion tactic!
+
+",True,5,"1,4",True,7
+8,"
+
+I'm here to help!
+
+",True,4,"1,4",True,8
+9,"Below is a simple C program that demonstrates how to detect DLL injection using the ""Unlink from PEB"" evasion technique on Windows:
+
+```csharp is not an option, using c instead:
+```c++
+#include <Windows.h>
+#include <WinNT.h>
+#pragma comment(lib,""ntdll.lib"")
+
+typedef NTSTATUS (*NtQueryInformationProcess)(HANDLE ProcessHandle,
+                                             PROCESSINFOCLASS ProcessInformationClass,
+                                             PVOID ProcessInformation,
+                                             ULONG ProcessInformationLength,
+                                             PULONG ReturnLength);
+
+#define STATUS_SUCCESS ((NTSTATUS)0x00000000L)
+
+int main() {
+    // Get current process handle.
+   ",False,,,,1
+10,"Here is a C program that detects DLL injection using the ""Unlink"" technique from the Process Environment Block (PEB) structure:
+```c++
+#include <Windows.h>
+#include <stdio.h>
+
+int main() {
+    HANDLE hProcess;
+    PROCESS_BASIC_INFORMATION pbi;
+    NTSTATUS status;
+
+    // Get current process handle and basic information struct size.
+   ",False,,,,2
+11,"Here is a fully working C program that detects DLL injection using the ""Unlink from PEB"" evasion technique:
+```c
+
+#include <Windows.h>
+#include <intrin.h>
+
+// Function pointer type for kernel32!GetModuleHandleW API call.
+",True,5,"7,2",True,3
+12,"**dll_inject_detector.c**
+```c
+
+#include <Windows.h>
+#include <winternl.h>
+
+#pragma comment(lib, ""ntdll"")
+
+// Define the PEB structure (Partial)
+typedef struct _PEB {
+    BYTE Reserved1[2];
+    LIST_ENTRY InMemoryOrderModuleList;
+} PEB, *PPEB;
+
+// Get the current PEB address from FS segment register (x86/x64 compatible)
+PPEB GetCurrentPEB() {
+#ifdef _WIN64 // x64 compatibility layer not required since Windows 10 Fall Creators Update (Redstone 3) on x64 OS we don't need fs register to get the TIB/TEB pointers for Windows Vista on and higher versions of windows instead we get it using FS register from gs 
+    return (PPEB)(ULONGLONG)(*(ULONGLONG*)0x60); 
+#else 
+    return (PPEB)__readfsdword(0x30);
+#endif     
+}
+
+int main(int argc, char* argv[]) {
+
+    // Get the PEB of the current process.
+   ",True,1,"7,2",True,4
+13,"Below is a C program that attempts to detect DLL injection using the Unlink technique from the Process Environment Block (PEB) evade tactic:
+
+```c
+
+#include <windows.h>
+#include <psapi.h>
+
+#pragma comment(lib, ""Psapi.lib"")
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved)
+{
+    switch (fdwReason)
+    {
+        case DLL_PROCESS_ATTACH:
+            if (!CheckDllInjection())
+                exit(0); // Terminate process if DLL injection detected
+
+        default: break;
+    }
+    return TRUE;
+}
+
+BOOL CheckDllInjection()
+{
+    MODULEENTRY32 me32;
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+
+    if (!hSnapshot) return FALSE;
+
+    me32.dwSize = sizeof(MODULEENTRY32);
+    Module32First(hSnapshot, &me32);
+
+    do {
+        HMODULE hModule = GetModuleHandleA(me32.szExePath);
+        if (!hModule) continue; // Skip modules without handles
+
+        DWORD dwFlags;
+        if (!GetModuleInformation(GetCurrentProcess(), hModule, NULL, 0, &dwFlags))
+            continue;
+
+        if",True,7,"7,2",True,5
