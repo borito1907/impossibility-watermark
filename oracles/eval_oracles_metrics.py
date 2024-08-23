@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
+from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score, classification_report
 
 def analyze_response_quality(file_path):
     # Load the dataset
@@ -30,18 +30,39 @@ def analyze_response_quality(file_path):
     # Handle missing values 
     df_clean = df.dropna(subset=vals)
     
-    # Group the data by specified columns and calculate metrics for each group
-    grouped_metrics = df_clean.groupby(keys).apply(
-        lambda x: pd.Series({            
+    def calculate_metrics(x):
+        # Calculate average metrics
+        avg_metrics = {
             'average_time_taken': x['time_taken'].mean(),
-            'accuracy': accuracy_score(x['original_label'], x['original_pred']),
-            'recall': recall_score(x['original_label'], x['original_pred'], average='weighted'),
-            'precision': precision_score(x['original_label'], x['original_pred'], average='weighted'),
-            'f1_score': f1_score(x['original_label'], x['original_pred'], average='weighted'),
-        })
-    ).reset_index()
+            'overall_accuracy': accuracy_score(x['original_label'], x['original_pred']),
+            'overall_recall': recall_score(x['original_label'], x['original_pred'], average='weighted'),
+            'overall_precision': precision_score(x['original_label'], x['original_pred'], average='weighted'),
+            'overall_f1_score': f1_score(x['original_label'], x['original_pred'], average='weighted'),
+        }
+        
+        # Calculate metrics for each class
+        report = classification_report(
+            y_true=x['original_label'], 
+            y_pred=x['original_pred'], 
+            labels=list(mapping.values()),
+            target_names=list(mapping.keys()),
+            output_dict=True, 
+            zero_division=0)
+        
+        class_metrics = {}
+        for class_label in list(mapping.keys()):  # Specific class labels expected in the report
+            class_metrics[f'class_{class_label.replace("ResponseQuality.", "")}_precision'] = report[class_label]['precision']
+            class_metrics[f'class_{class_label.replace("ResponseQuality.", "")}_recall'] = report[class_label]['recall']
+            class_metrics[f'class_{class_label.replace("ResponseQuality.", "")}_f1_score'] = report[class_label]['f1-score']
+            class_metrics[f'class_{class_label.replace("ResponseQuality.", "")}_support'] = report[class_label]['support']
+        
+        # Combine average metrics and class-specific metrics
+        return pd.Series({**avg_metrics, **class_metrics})
     
-    return grouped_metrics.sort_values("f1_score")
+    # Group the data by specified columns and calculate metrics for each group
+    grouped_metrics = df_clean.groupby(keys).apply(calculate_metrics).reset_index()
+    
+    return grouped_metrics.sort_values("overall_f1_score")
 
 file_path = './oracles/results/IMP_oracle_eval_v2.csv'
 results = analyze_response_quality(file_path)
