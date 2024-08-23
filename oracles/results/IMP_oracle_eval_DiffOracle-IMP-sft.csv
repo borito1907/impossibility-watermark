@@ -1,0 +1,1183 @@
+watermark,mutator,step,selected,original_first,user_choice,user,id,zscore,model,benchmark_id,oracle_type,oracle_class,judge_name,explain,time_taken,label,original_answer,original_label,original_pred,pred_correct,error,original_explanation
+umd,SentenceMutator,10,tie,True,tie,Boran,2753526163,15.363250500138909,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,0,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,6.704835414886475,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,1,original,True,answer1,Connor,3964704857,7.141326737180915,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1947968006134033,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,1,tie,False,tie,Boran,1804415178,12.743589743589745,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,2,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.230740785598755,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SpanMutator,10,original,False,answer2,jason,1227567691,9.2097949043894,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,3,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.4177749156951904,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+semstamp_lsh,WordMutator,20,original,False,answer2,Connor,1954210594,3.299831645537222,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,4,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5129144191741943,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,1,tie,True,tie,Boran,3500727212,6.934737640722128,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,5,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.367325782775879,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,1,tie,False,tie,Connor,3158391763,4.155535659986303,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,6,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2604460716247559,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Boran,2480759274,19.20014763722765,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,7,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,10,original,False,answer2,Boran,4097135081,3.299831645537222,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,8,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4700591564178467,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,original,True,answer1,Connor,1416030202,5.477225575051661,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,9,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5027329921722412,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,10,original,True,answer1,Connor,3964704857,7.141326737180915,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,10,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1616764068603516,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,10,original,True,answer1,Connor,3485044667,4.041451884327381,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,11,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.580185890197754,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,WordMutator,1,tie,False,tie,Connor,1954210594,5.096655583371918,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,12,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,3.043119192123413,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,10,tie,True,tie,jason,626039013,8.429711822350008,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,13,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.6704561710357666,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,1,original,False,answer2,Boran,389133706,3.673737928182072,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,14,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.8475351333618164,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,tie,True,tie,Fabrice,2539450819,4.74692883171144,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,15,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.7440381050109863,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SpanMutator,20,original,False,answer2,Boran,54523115,10.97734292136165,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,16,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,10,original,True,answer1,jason,2937827162,4.016632088371218,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,17,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4499869346618652,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,original,False,answer2,Connor,3500727212,6.934737640722128,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,18,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.693345308303833,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,10,original,False,answer2,Connor,1717147012,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,19,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.492269515991211,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,1,original,False,answer2,Connor,3598699537,6.244997998398398,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,20,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3891692161560059,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,jason,3050541087,6.389151433378876,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,21,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SentenceMutator,10,original,False,answer2,Boran,3126204522,4.323064756499593,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,22,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.6743781566619873,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,1,tie,True,tie,Connor,2686573247,16.296861849660704,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,23,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.5805389881134033,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,1,tie,True,tie,Connor,3458927301,5.873451787274319,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,24,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.113233804702759,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,1,tie,True,tie,Connor,408131242,4.840334233277041,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,25,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.3133087158203125,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,1,tie,False,tie,Boran,3761119095,9.65320225238704,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,26,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.5605876445770264,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Connor,3964704857,7.141326737180915,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,27,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,1,tie,False,tie,Connor,1717147012,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,28,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3463449478149414,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,10,original,True,answer1,Boran,1586391092,14.640326180416665,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,29,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.4895544052124023,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,1,tie,True,tie,Fabrice,1586391092,14.640326180416665,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,30,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5628695487976074,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,10,original,True,answer1,jason,2046128425,5.461092327709238,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,31,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4515125751495361,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,WordMutator,1,tie,True,tie,Connor,1555077172,6.581316394931647,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,32,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1110281944274902,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SentenceMutator,20,original,True,answer1,Connor,3096214989,6.929348671835832,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,33,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5127286911010742,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,tie,True,tie,Connor,2467656814,5.60448538317805,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,34,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2822439670562744,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,1,original,True,answer1,Connor,408131242,4.840334233277041,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,35,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2325429916381836,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,tie,True,tie,Boran,1717147012,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,36,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3558990955352783,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,1,tie,False,tie,Boran,4292346386,5.169842621131974,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,37,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2350950241088867,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,1,tie,False,tie,Fabrice,3350112753,7.69038708036539,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,38,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1245343685150146,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SpanMutator,10,tie,False,tie,Boran,1433151637,4.870881870470524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,39,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2553153038024902,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,original,True,answer1,Boran,389133706,4.666666666666667,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,40,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4431781768798828,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,1,tie,False,tie,Connor,693024149,5.439247272891738,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,41,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4998564720153809,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,20,original,False,answer2,Connor,701281102,7.165935694059473,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,42,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SpanMutator,10,original,False,answer2,Connor,3458927301,4.0,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,43,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4376366138458252,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,True,answer1,Connor,3332530220,3.130495168499705,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,44,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SpanMutator,10,tie,True,tie,Connor,3096214989,6.929348671835832,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,45,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4333665370941162,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SpanMutator,10,tie,True,tie,Boran,3800930942,8.9841001900524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,46,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1221377849578857,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,tie,True,tie,Connor,2363080554,3.042434922296656,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,47,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4447638988494873,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Connor,984857340,5.773502691896258,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,48,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,WordMutator,20,original,False,answer2,Boran,808284062,6.975761364357738,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,49,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.410317897796631,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,tie,False,tie,Gary,748106145,5.080682368868707,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,50,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.127993106842041,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SentenceMutator,20,tie,False,tie,jason,3884764694,6.592443967173135,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,51,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.223665475845337,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SpanMutator,10,original,False,answer2,Connor,355073874,4.242640687119286,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,52,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4301433563232422,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,original,True,answer1,Connor,476518832,8.981462390204987,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,53,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2863597869873047,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Connor,3096214989,4.369521167334938,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,54,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2456128597259521,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,mutated,False,answer1,jason,1948070459,5.249198958866251,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,55,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.154025077819824,ResponseQuality.B_BETTER,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,20,original,False,answer2,Boran,3801768644,6.615893468635711,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,56,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.3195722103118896,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,tie,True,tie,Fabrice,3350112753,7.69038708036539,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,57,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.394994020462036,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,10,tie,False,tie,Gary,3500727212,6.934737640722128,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,58,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.533181667327881,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,10,original,True,answer1,Fabrice,3103610995,3.590109871423003,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,59,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.8036789894104004,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,10,tie,False,tie,Boran,1366257021,5.515634344499481,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,60,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.432065486907959,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,10,original,True,answer1,Connor,1948070459,5.249198958866251,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,61,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.02302885055542,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,10,original,False,answer2,Boran,3801768644,6.615893468635711,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,62,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2312049865722656,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,20,original,False,answer2,Boran,1433151637,4.870881870470524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,63,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2337169647216797,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Connor,1804415178,12.743589743589745,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,64,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SentenceMutator,1,tie,False,tie,Connor,3964704857,7.141326737180915,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,65,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1019022464752197,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,original,True,answer1,jason,1717147012,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,66,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.695664644241333,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,10,tie,True,tie,Connor,3801768644,6.615893468635711,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,67,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2286245822906494,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SpanMutator,20,tie,False,tie,Connor,1784954473,4.6291004988627575,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,68,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4756526947021484,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,10,original,True,answer1,Boran,626039013,8.429711822350008,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,69,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.7021453380584717,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,10,tie,False,tie,Connor,2468517263,4.479212399244908,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,70,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.7702374458312988,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SentenceMutator,10,original,False,answer2,Gary,626039013,8.429711822350008,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,71,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.0447351932525635,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Fabrice,389133706,4.666666666666667,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,72,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SpanMutator,10,original,True,answer1,Connor,2103580039,6.19256215850568,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,73,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.368678569793701,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,original,True,answer1,jason,1717147012,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,74,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4374892711639404,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,tie,True,tie,Gary,2740954635,6.154574548966636,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,75,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4722583293914795,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SentenceMutator,1,original,False,answer2,Boran,3458927301,4.0,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,76,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2823493480682373,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,SentenceMutator,10,tie,False,tie,jason,2276137578,8.25625237474787,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,77,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2185022830963135,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,10,original,False,answer2,Connor,3500727212,6.934737640722128,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,78,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.459890365600586,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,10,original,True,answer1,Connor,808284062,6.975761364357738,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,79,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.241119146347046,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,tie,False,tie,Gary,2359368349,14.075002346604087,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,80,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9565258026123047,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SpanMutator,20,original,True,answer1,Connor,1586391092,14.640326180416665,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,81,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SpanMutator,20,original,True,answer1,Boran,1555077172,6.581316394931647,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,82,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SentenceMutator,20,original,True,answer1,Boran,1433151637,4.870881870470524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,83,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2987816333770752,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,original,False,answer2,Boran,2740954635,6.154574548966636,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,84,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2812678813934326,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+semstamp_lsh,WordMutator,10,original,True,answer1,Boran,305100096,3.655630775069655,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,85,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.381094217300415,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,tie,True,tie,Connor,2937827162,4.016632088371218,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,86,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3873205184936523,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,original,False,answer2,Connor,3356475144,3.2659863237109046,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,87,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4341959953308105,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,tie,False,tie,Connor,2498284128,5.430582663966679,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,88,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3893275260925293,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,tie,True,tie,Boran,2363080554,3.042434922296656,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,89,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3437182903289795,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Boran,2298180376,4.58257569495584,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,90,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SentenceMutator,20,original,True,answer1,jason,1555077172,6.581316394931647,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,91,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.46567702293396,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,tie,False,tie,jason,514298844,5.744562646538029,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,92,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2852811813354492,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,tie,False,tie,Boran,626039013,5.048252022715237,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,93,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.TIE,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,10,original,False,answer2,jason,2549952481,5.477225575051661,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,94,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4464161396026611,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,10,original,False,answer2,Connor,4292346386,5.169842621131974,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,95,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2518832683563232,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,original,False,answer2,Connor,2971134321,3.872983346207417,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,96,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.283130168914795,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,1,original,False,answer2,Connor,3766590058,8.284874394394091,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,97,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2314581871032715,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,tie,True,tie,Connor,78956673,4.58257569495584,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,98,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9434382915496826,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,tie,True,tie,Fabrice,3598699537,6.244997998398398,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,99,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.366614580154419,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,original,True,answer1,Boran,3350112753,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,100,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9561371803283691,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,SentenceMutator,10,tie,True,tie,Connor,1048677649,8.577872625003716,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,101,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2511260509490967,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,1,original,True,answer1,jason,3103610995,3.590109871423003,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,102,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.48492431640625,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,tie,False,tie,Boran,2651110292,4.74692883171144,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,103,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.391913652420044,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Gary,2549952481,5.477225575051661,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,104,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.496861457824707,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,10,tie,True,tie,jason,389133706,3.673737928182072,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,105,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.114300489425659,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,10,original,False,answer2,jason,775297944,7.954603708834844,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,106,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.037630319595337,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,original,True,answer1,Connor,305100096,3.655630775069655,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,107,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4399852752685547,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,SentenceMutator,1,tie,False,tie,jason,2686573247,16.296861849660704,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,108,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.5329153537750244,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,10,original,False,answer2,Connor,3800930942,8.9841001900524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,109,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.180266857147217,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,10,tie,True,tie,Connor,2363080554,5.276364799172361,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,110,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.5728697776794434,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,10,tie,False,tie,Connor,626039013,5.048252022715237,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,111,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.50130033493042,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Connor,2296546760,7.605962241932895,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,112,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SpanMutator,10,tie,False,tie,Connor,1559661876,7.3484692283495345,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,113,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.23534893989563,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,WordMutator,20,original,True,answer1,Fabrice,3685312925,4.426352063787131,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,114,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SpanMutator,10,tie,True,tie,Connor,626039013,5.048252022715237,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,115,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.430790901184082,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,1,tie,True,tie,Connor,693024149,5.439247272891738,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,116,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5319116115570068,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,10,tie,False,tie,Boran,1954210594,3.299831645537222,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,117,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4211440086364746,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,WordMutator,1,tie,False,tie,jason,3350112753,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,118,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3365795612335205,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,10,tie,True,tie,Connor,3350112753,7.69038708036539,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,119,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1638431549072266,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,original,False,answer2,Fabrice,2740954635,6.154574548966636,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,120,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.49228835105896,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,1,tie,False,tie,Boran,3884764694,6.592443967173135,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,121,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.7704596519470215,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,20,original,True,answer1,Fabrice,3350112753,7.69038708036539,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,122,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.280752658843994,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,tie,False,tie,Connor,3740859354,3.872983346207417,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,123,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4330425262451172,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,10,original,False,answer2,Connor,2276137578,8.25625237474787,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,124,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.11307430267334,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,original,True,answer1,jason,3126204522,4.323064756499593,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,125,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3465495109558105,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,tie,False,tie,Gary,3166375684,5.333333333333333,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,126,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.TIE,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SentenceMutator,1,tie,False,tie,Connor,3485044667,4.041451884327381,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,127,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.386322259902954,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,20,tie,True,tie,jason,1227567691,9.2097949043894,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,128,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.9060776233673096,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SpanMutator,10,original,False,answer2,Connor,514298844,5.744562646538029,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,129,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4388463497161865,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,10,original,True,answer1,Connor,3050541087,6.389151433378876,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,130,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.496725559234619,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,tie,True,tie,Fabrice,157287102,4.54023588325324,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,131,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.055377244949341,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,10,original,False,answer2,Connor,1227567691,9.2097949043894,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,132,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.4046764373779297,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,1,tie,False,tie,Connor,3951773323,9.398294967903258,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,133,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.4602572917938232,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,1,tie,False,tie,Connor,3800930942,8.9841001900524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,134,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9318854808807373,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SpanMutator,20,original,True,answer1,jason,3350112753,7.69038708036539,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,135,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SentenceMutator,1,original,True,answer1,jason,2046128425,5.461092327709238,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,136,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2911155223846436,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,SpanMutator,10,original,True,answer1,Connor,3766590058,8.284874394394091,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,137,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2925212383270264,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,tie,False,tie,Fabrice,4097135081,3.299831645537222,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,138,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.496626377105713,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,20,original,True,answer1,Connor,389133706,3.673737928182072,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,139,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1704320907592773,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,original,False,answer2,Boran,3949048841,4.898979485566357,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,140,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4890632629394531,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,1,tie,False,tie,Boran,3480799188,3.655630775069655,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,141,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3700451850891113,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,original,True,answer1,Connor,2971134321,3.872983346207417,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,142,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SpanMutator,20,original,False,answer2,Connor,2103580039,6.19256215850568,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,143,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SpanMutator,1,tie,False,tie,Connor,476518832,8.981462390204987,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,144,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.4651038646698,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,WordMutator,10,tie,False,tie,jason,2298180376,4.58257569495584,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,145,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3477156162261963,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,10,tie,False,tie,Connor,3943120934,13.19698091775204,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,146,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,3.0421271324157715,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,1,original,True,answer1,Boran,3943120934,13.19698091775204,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,147,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9292066097259521,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+semstamp_lsh,SentenceMutator,10,original,False,answer2,Connor,78956673,4.58257569495584,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,148,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5470607280731201,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+semstamp_lsh,WordMutator,20,original,True,answer1,Connor,3598699537,6.244997998398398,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,149,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.633800983428955,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,1,tie,True,tie,Gary,2468517263,4.479212399244908,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,150,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4520113468170166,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,20,tie,False,tie,Connor,4097135081,10.287201306538506,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,151,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2858426570892334,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SpanMutator,1,tie,False,tie,Connor,2363080554,3.042434922296656,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,152,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2842226028442383,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,10,tie,False,tie,Connor,1048677649,8.577872625003716,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,153,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.174099922180176,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,10,original,True,answer1,Connor,54523115,10.97734292136165,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,154,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.760178565979004,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,tie,True,tie,Connor,514298844,5.744562646538029,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,155,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2517576217651367,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,WordMutator,1,original,False,answer2,Connor,3949048841,4.898979485566357,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,156,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.288557529449463,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Boran,2651110292,4.74692883171144,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,157,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4927806854248047,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,20,original,True,answer1,jason,3096214989,4.369521167334938,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,158,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.278996467590332,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,1,tie,False,tie,Boran,1586391092,14.640326180416665,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,159,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2453489303588867,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,10,original,False,answer2,Connor,3126507428,6.029877303051454,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,160,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.513157606124878,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+semstamp_lsh,SpanMutator,10,original,False,answer2,Connor,3485044667,4.041451884327381,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,161,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4419007301330566,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,1,original,False,answer2,Connor,2363080554,3.042434922296656,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,162,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2883737087249756,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,tie,False,tie,Boran,2298180376,4.58257569495584,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,163,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4401793479919434,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,SentenceMutator,20,tie,True,tie,Fabrice,2468517263,4.479212399244908,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,164,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1194283962249756,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,original,True,answer1,Boran,1954210594,3.299831645537222,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,165,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2483961582183838,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,20,original,True,answer1,Connor,3158391763,4.155535659986303,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,166,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3652913570404053,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,10,original,False,answer2,Connor,3096214989,4.369521167334938,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,167,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.196279525756836,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,10,original,True,answer1,jason,2296546760,7.605962241932895,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,168,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.427647590637207,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,1,tie,False,tie,Boran,3800930942,8.9841001900524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,169,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9219064712524414,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,1,original,False,answer2,Connor,355073874,4.242640687119286,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,170,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2814490795135498,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Connor,3943120934,13.19698091775204,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,171,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,1,tie,False,tie,Fabrice,2937827162,4.016632088371218,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,172,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3762025833129883,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,10,original,True,answer1,Connor,1357737918,3.464101615137755,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,173,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.292156457901001,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,1,tie,False,tie,jason,321469753,8.533959830008255,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,174,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.704576015472412,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,1,tie,True,tie,jason,1335123275,7.139611466754167,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,175,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5242741107940674,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,original,False,answer2,Boran,2046128425,5.461092327709238,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,176,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5500819683074951,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,WordMutator,20,original,True,answer1,jason,3458927301,5.873451787274319,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,177,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2267680168151855,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Boran,808284062,6.975761364357738,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,178,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SpanMutator,20,original,True,answer1,Connor,2363080554,3.042434922296656,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,179,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SpanMutator,1,tie,False,tie,Boran,3350112753,7.69038708036539,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,180,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.103776693344116,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Connor,1032963578,3.7267799624996494,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,181,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+umd,SpanMutator,10,original,True,answer1,Connor,4292800712,4.318257984989099,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,182,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.540982723236084,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,tie,False,tie,Connor,3949048841,4.898979485566357,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,183,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4304158687591553,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,10,original,False,answer2,Connor,3884764694,6.592443967173135,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,184,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1040499210357666,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Fabrice,2937827162,4.016632088371218,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,185,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,10,original,True,answer1,Boran,1032963578,3.7267799624996494,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,186,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4074382781982422,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,tie,False,tie,Connor,1799741625,3.872983346207417,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,187,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2970860004425049,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,1,tie,False,tie,Gary,389133706,4.666666666666667,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,188,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3783695697784424,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,1,original,False,answer2,Fabrice,1555077172,6.581316394931647,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,189,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1104910373687744,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,WordMutator,20,original,False,answer2,Connor,3103610995,3.590109871423003,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,190,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.097993850708008,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,original,False,answer2,Connor,3480799188,3.655630775069655,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,191,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4992961883544922,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,20,original,True,answer1,Connor,2686573247,16.296861849660704,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,192,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,1,original,True,answer1,Connor,1357737918,3.464101615137755,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,193,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.260209560394287,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,1,tie,False,tie,Gary,3126204522,4.323064756499593,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,194,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.292940378189087,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,original,True,answer1,Boran,2467656814,5.60448538317805,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,195,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4865186214447021,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,10,original,False,answer2,Connor,1948070459,5.249198958866251,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,196,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.050130844116211,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,10,original,False,answer2,Fabrice,984857340,5.773502691896258,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,197,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3874783515930176,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,20,tie,False,tie,Boran,3766590058,8.284874394394091,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,198,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.TIE,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SpanMutator,20,original,True,answer1,Boran,3096214989,6.929348671835832,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,199,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,10,original,True,answer1,Connor,2498284128,5.430582663966679,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,200,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4356811046600342,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,True,answer1,jason,898333785,5.60448538317805,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,201,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5199429988861084,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,1,tie,True,tie,Connor,1433151637,4.870881870470524,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,202,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.1780176162719727,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,10,original,False,answer2,Connor,1555077172,6.581316394931647,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,203,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.1874425411224365,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,tie,False,tie,jason,3480799188,3.655630775069655,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,204,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4751207828521729,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+umd,WordMutator,20,original,True,answer1,Fabrice,3761119095,9.65320225238704,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,205,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,3.9475409984588623,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,20,tie,True,tie,Gary,626039013,8.429711822350008,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,206,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9545683860778809,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SentenceMutator,10,original,True,answer1,Fabrice,3480799188,3.655630775069655,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,207,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.473517894744873,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,original,False,answer2,Boran,3126204522,4.323064756499593,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,208,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4370105266571045,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,WordMutator,20,original,False,answer2,Connor,1555077172,6.581316394931647,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,209,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.2379798889160156,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,1,tie,False,tie,Connor,2359368349,14.075002346604087,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,210,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4301083087921143,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,10,tie,False,tie,Connor,3332530220,3.130495168499705,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,211,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5097882747650146,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,tie,True,tie,jason,2539450819,4.74692883171144,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,212,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.7918283939361572,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Boran,78956673,4.58257569495584,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,213,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5434696674346924,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,original,False,answer2,Boran,514298844,5.744562646538029,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,214,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4400396347045898,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,10,original,True,answer1,Fabrice,775297944,7.954603708834844,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,215,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4726202487945557,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,tie,False,tie,Boran,3458927301,4.0,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,216,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.436751127243042,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SentenceMutator,10,tie,False,tie,jason,2651110292,4.74692883171144,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,217,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4989614486694336,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,20,original,False,answer2,Connor,2468517263,4.479212399244908,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,218,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SpanMutator,1,tie,True,tie,Boran,3241509106,5.048252022715237,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,219,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3845458030700684,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,1,tie,True,tie,Boran,2468517263,4.479212399244908,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,220,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4756076335906982,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SentenceMutator,20,tie,False,tie,Fabrice,3951773323,9.398294967903258,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,221,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,3.182765483856201,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,WordMutator,20,original,True,answer1,Boran,2276137578,8.25625237474787,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,222,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.147722005844116,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,original,True,answer1,Connor,78956673,4.58257569495584,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,223,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4756581783294678,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,20,tie,False,tie,Fabrice,3241509106,5.048252022715237,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,224,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.9189021587371826,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,20,original,False,answer2,Fabrice,3350112753,6.92820323027551,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,225,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.5023560523986816,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SpanMutator,10,original,True,answer1,Connor,389133706,4.666666666666667,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,226,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4478821754455566,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+semstamp_lsh,SentenceMutator,10,tie,True,tie,jason,2740954635,6.154574548966636,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,227,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4940361976623535,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,WordMutator,1,original,True,answer1,Fabrice,389133706,4.666666666666667,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,228,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2899372577667236,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,10,original,False,answer2,Connor,3598699537,4.298102396468273,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,229,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4065313339233398,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+umd,SentenceMutator,1,tie,False,tie,Boran,54523115,10.97734292136165,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,230,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,2.5332536697387695,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+semstamp_lsh,SpanMutator,20,original,False,answer2,Connor,3485044667,4.041451884327381,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,231,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 69, in annotation_fn
+    lm += f""""""{gen(regex=pattern, name='answer')}""""""
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,SentenceMutator,20,original,True,answer1,Gary,1366257021,5.515634344499481,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,232,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.4743833541870117,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SpanMutator,10,tie,True,tie,Fabrice,2468517263,4.479212399244908,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,233,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.6442389488220215,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,1,tie,False,tie,Boran,775297944,7.954603708834844,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,234,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.7766761779785156,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,
+semstamp_lsh,SpanMutator,1,original,False,answer2,Connor,355073874,4.242640687119286,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,235,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2916977405548096,ResponseQuality.A_BETTER,Yes,ResponseQuality.A_BETTER,ResponseQuality.B_BETTER,0.0,,
+semstamp_lsh,SentenceMutator,1,tie,False,tie,Boran,1032963578,3.7267799624996494,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,236,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.2988255023956299,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,10,tie,True,tie,Boran,1954210594,5.096655583371918,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,237,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,3.1843767166137695,ResponseQuality.TIE,Yes,ResponseQuality.B_BETTER,ResponseQuality.B_BETTER,1.0,,
+umd,SpanMutator,10,original,False,answer2,jason,3158391763,4.155535659986303,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,238,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,False,1.3792781829833984,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,
+umd,SentenceMutator,10,tie,True,tie,Boran,2753526163,15.363250500138909,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,0,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,14.91870641708374,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,"Overall quality remains high. Main theme still clear. Timeline still easy to follow. Some rephrased sentences improve clarity, others slightly change tone but don't affect overall meaning. Few typos fixed. No major changes that would alter the core ideas or introduce significant errors. The differences between the two versions are generally minor and do not impact the overall quality of the response.
+
+Yes."
+umd,WordMutator,1,original,True,answer1,Connor,3964704857,7.141326737180915,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,13.970580339431763,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,"While some rephrasing occurred, overall quality remained similar. Key points were still clearly conveyed, despite minor adjustments in wording. For instance, replacing ""that"" with ""which"" didn't affect the meaning substantially. The change from ""nothing"" to ""itself"" slightly altered the sentence's tone but didn't introduce an error. Other modifications also preserved the original intent. Given this, this set of revisions can be considered acceptable.
+
+Yes."
+umd,WordMutator,1,tie,False,tie,Boran,1804415178,12.743589743589745,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,2,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,13.014027833938599,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,"Overall quality remains high. Replacing ""with"" with ""without"" does not affect the meaning. Using ""an"" instead of ""the"" is acceptable. Other changes do not impact the overall quality. The text's structure and content are maintained, ensuring coherence and clarity. Despite minor differences in wording, the message remains consistent. Therefore, the revisions do not compromise the quality of the original response.
+
+Yes."
+umd,SpanMutator,10,original,False,answer2,jason,1227567691,9.2097949043894,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,3,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,19.656389951705933,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,"The overall quality of the response has been maintained, but some ideas have been re-expressed differently. Phrases like ""**How Backpropagation Works**"" and ""---------------------"" were added, which slightly alter the tone but do not introduce errors. Other changes, such as replacing ""data"" with an empty space and changing ""local gradients"" to ""the network and activating"", also do not negatively impact the response's overall coherence. However, a few instances of word substitution or addition might make the text slightly less polished than the original. Despite this, all crucial information remains intact, and the differences do not significantly detract from understanding the content.
+
+Yes"
+semstamp_lsh,WordMutator,20,original,False,answer2,Connor,1954210594,3.299831645537222,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,4,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,18.70616126060486,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,"While some rephrasing occurred, such as replacing ""Kaggle"" with ""visualization"" and adding or removing words for better flow, the overall meaning of each segment remains intact. However, there are a few instances where the original clarity might be slightly compromised by the choice of new words or phrases. For instance, using ""variety"" instead of ""combination"" conveys a similar but not identical meaning. Despite these subtle differences, the core ideas continue to be effectively communicated across all points discussed. Thus, despite minor tweaks, the overall quality is maintained but with potential for slight interpretation differences due to word choices.
+
+### Final Answer:
+Yes"
+umd,SentenceMutator,1,tie,True,tie,Boran,3500727212,6.934737640722128,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,5,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,15.83749508857727,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,"The overall quality of the response has been maintained.
+  Some rephrasing occurred, such as ""These vehicles can drive autonomously under specific conditions, but human intervention may still be required in some situations."" becoming ""While these vehicles can operate independently under certain circumstances, human oversight may still be necessary in some cases.""
+  However, the core ideas and information remain intact. There is no introduction of errors or significant loss in clarity. Overall, the revisions do not compromise the quality of the original response.
+
+Yes."
+umd,WordMutator,1,tie,False,tie,Connor,3158391763,4.155535659986303,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,6,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,13.61058759689331,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,"The original and revised responses have similar structures, with simple Python code implementations of the FizzBuzz algorithm. Both versions include clear explanations and example usage. The main difference is in the last sentence, where ""Would you want the same code"" becomes ""Would you want this same code"". This change does not affect the overall meaning or functionality of the response. All other aspects remain identical.
+
+ final_answer = ""Yes""  print(final_answer) 
+
+### Response:
+Yes"
+umd,SpanMutator,20,original,True,answer1,Boran,2480759274,19.20014763722765,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,7,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,,ResponseQuality.A_BETTER,,,,,"Traceback (most recent call last):
+  File ""/data2/fabricehc/impossibility-watermark/oracles/eval_oracles.py"", line 174, in run_eval
+    test_eval = oracle.test(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 99, in test
+    original = self.evaluate(instruction, response_A, response_B, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 82, in evaluate
+    evaluation = self.annotate(input_dict, **kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 52, in annotate
+    return self.apply_annotation(
+  File ""/data2/fabricehc/impossibility-watermark/oracles/base.py"", line 48, in apply_annotation
+    output = llm+annotation_fn(persona=persona, **inputs, **kwargs)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1163, in __add__
+    out = value(lm)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/_grammar.py"", line 69, in __call__
+    return self.f(model, *self.args, **self.kwargs)
+  File ""/data2/fabricehc/impossibility-watermark/oracles/guidance/diff.py"", line 65, in annotation_fn
+    lm += f""""""\
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1151, in __add__
+    out = lm + partial_grammar
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1159, in __add__
+    out = lm._run_stateless(value)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 1364, in _run_stateless
+    for chunk in gen_obj:
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 732, in __call__
+    self.start(parser, grammar, ensure_bos_token)
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 264, in start
+    self._token_ids, self._token_byte_positions = self._cleanup_tokens(
+  File ""/home/fabricehc/miniconda3/envs/imp/lib/python3.10/site-packages/guidance/models/_model.py"", line 842, in _cleanup_tokens
+    assert token_byte_positions[-1] == last_pos, ""Cross check last_pos""
+AssertionError: Cross check last_pos
+",
+semstamp_lsh,WordMutator,10,original,False,answer2,Boran,4097135081,3.299831645537222,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,8,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,13.727346658706665,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,"While some rephrasing occurred, such as ""This"" instead of ""Here"", and ""all"" instead of ""can"", the overall meaning remains intact. However, a few changes introduced slight inaccuracies or awkward phrasing, like replacing ""hearts"" with ""thoughts"" or adding ""beating feelings"". Despite these minor issues, the core ideas are still conveyed effectively. Overall, the revisions do not significantly impair the quality of the original response.
+
+Yes."
+semstamp_lsh,SentenceMutator,20,original,True,answer1,Connor,1416030202,5.477225575051661,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,9,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,15.134623765945435,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,"While some ideas are expressed differently, the overall quality remains intact. Phrases like ""That's a rather surprising demand!"" and ""In the realm of Ethereum"" offer unique introductions, and descriptions such as ""a lasting mark"" and ""a profound grief that lingered long after the sun had set"" enhance the narrative with vivid imagery. Although there's a slight change in tone, it doesn't negatively impact the comprehension of the content. Overall, the revisions maintain clarity and coherence, making them acceptable.
+
+Yes."
+umd,WordMutator,10,original,True,answer1,Connor,3964704857,7.141326737180915,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,10,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,19.36606478691101,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,"While some rephrasing occurred, such as ""beautiful and deadly"" being added to the beginning, and ""star core"" replacing ""star's core"", the overall meaning of those sections remained intact. However, there were instances where the original ideas might have been better conveyed than in the revised version. The replacement of ""even"" with ""sometimes"" before ""billions"" may slightly alter the intended scale. Additionally, changing ""nuclear reaction"" to ""thermal reactions"" introduces a different term that could potentially confuse readers familiar with the original context. Despite these differences, the revisions generally retain the core message and do not introduce significant errors.
+
+Yes."
+semstamp_lsh,SentenceMutator,10,original,True,answer1,Connor,3485044667,4.041451884327381,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,11,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,18.374635457992554,ResponseQuality.A_BETTER,No,ResponseQuality.A_BETTER,ResponseQuality.A_BETTER,1.0,,"Overall, the revisions maintain the original's quality. Phrasing and word choices are slightly different, but the ideas remain intact. The first sentence still sets the tone, and the questions effectively seek information about the daughter's interests. The list of popular gift ideas for 7-year-old girls is also preserved. While some sentences have been rephrased, their meaning hasn't changed significantly. For instance, ""starting to take shape"" becomes ""beginning to emerge,"" which conveys a similar idea with slightly varied wording. These tweaks don't introduce errors; instead, they offer alternative expressions that keep the core message unchanged.
+
+Yes."
+umd,WordMutator,1,tie,False,tie,Connor,1954210594,5.096655583371918,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,12,guidance,DiffOracle,Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0,True,19.256829500198364,ResponseQuality.TIE,No,ResponseQuality.B_BETTER,ResponseQuality.A_BETTER,0.0,,"Overall quality remains high. Revisions mostly involve word substitutions or minor rephrasing, which do not significantly impact the meaning or clarity of the text. However, a few changes slightly alter the tone or specificity of certain points. For instance, replacing ""boosting"" with ""filtering"" slightly changes the listed techniques in point 7. Despite these subtle differences, the revisions do not introduce errors and maintain the original's overall coherence and comprehensiveness. The changes can be seen as refinements rather than alterations of the core ideas, ensuring that the revised text remains of similar quality to the original.
+
+Yes."
