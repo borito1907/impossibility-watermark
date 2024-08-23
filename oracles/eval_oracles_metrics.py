@@ -1,14 +1,19 @@
 import pandas as pd
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score, classification_report
 
-def analyze_response_quality(file_path):
+def analyze_response_quality(file_paths):
     # Load the dataset
     keys = ['oracle_type', 'oracle_class', 'judge_name', 'explain']
     others = ['time_taken']
     vals = ['original_label', 'original_pred']
     cols = keys + others + vals
 
-    df = pd.read_csv(file_path, encoding='ISO-8859-1')[cols]
+    # Load and concatenate the datasets
+    df_list = [pd.read_csv(f, encoding='ISO-8859-1') for f in file_paths]
+    df = pd.concat(df_list, axis=0, ignore_index=True)
+
+    # Ensure the dataframe contains only the columns specified in 'cols'
+    df = df[cols]
 
     for key in keys:
         print(key, df[key].unique())
@@ -64,7 +69,10 @@ def analyze_response_quality(file_path):
     
     return grouped_metrics.sort_values("overall_f1_score")
 
-file_path = './oracles/results/IMP_oracle_eval_v2.csv'
-results = analyze_response_quality(file_path)
+file_paths = [
+    './oracles/results/IMP_oracle_eval_v2.csv',
+    './oracles/results/IMP_oracle_eval_DiffOracle-IMP-sft.csv'
+]
+results = analyze_response_quality(file_paths)
 print(results)
 results.to_csv('./oracles/results/IMP_oracle_eval_v2_metrics.csv', index=False)
