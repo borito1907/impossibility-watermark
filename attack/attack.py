@@ -151,7 +151,7 @@ class Attack:
                 # Step 3: Check Quality
                 if self.cfg.attack.check_quality:
                     log.info("Checking quality oracle...")
-                    quality_analysis = self.quality_oracle.is_quality_preserved(prompt, self.original_text, self.mutated_text)
+                    quality_analysis = self.quality_oracle.is_quality_preserved(prompt, self.current_text, self.mutated_text)
                     self.step_data.update({
                         "quality_analysis": quality_analysis,
                         "quality_preserved": quality_analysis["quality_preserved"]
