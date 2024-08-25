@@ -39,7 +39,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_massive_stopfix2_{cfg.partition}"
+    dir_name = f"adaptive_dev_massive_stopfix5_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
