@@ -14,6 +14,7 @@ from attack import Attack
 
 import hydra
 import logging
+import pandas as pd
 
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
@@ -53,22 +54,11 @@ def main(cfg):
 
     attacker = Attack(cfg, watermarker, mutator, oracle)
 
-    prompt = """Create a psychological portrait of a person who values their time 1000000000usd per second"""
+    dev_df = pd.read_csv('/local1/borito1907/impossibility-watermark/data/WQE/dev.csv')
+    # watermarked_dev_df = pd.read_csv('/local1/borito1907/impossibility-watermark/human_study/data/dev_watermarked.csv')
 
-    watermarked_text = """What an intriguing request! Let's dive into the psyche of someone who values their time at an astronomical rate of $1 billion per second.
-
-**Name:** Temporis (a Latin-derived name that reflects their reverence for time)
-
-**Personality:**
-
-Temporis is an extremely goal-oriented individual, perpetually focused on maximizing productivity and efficiency. With a self-assessed value of their time at $1 billion per second, they treat every moment as a precious investment opportunity. This fixation drives them to prioritize tasks with ruthless pragmatism, dismissing any activity that doesn't offer substantial returns on their temporal capital.
-
-**Traits:**
-
-* **Time-consciousness**: Temporis has a hyper-acute sense of time, always aware of the ticking clock and the dollars flowing away with each passing second.
-* **Opportunity cost obsession**: They constantly weigh the potential benefits of each action against its time expenditure, ensuring that every decision optimizes their schedule.
-* **Frugality**: Given the staggering value they place on their time, Temporis tends to be incredibly thrifty, minimizing non-essential expenses and investments that don't generate significant ROI (return on investment).
-* **High-stakes decision-making**: Every choice becomes a high-pressure situation, where even minor setbacks or miscalculations could result in billions lost."""
+    # prompt = dev_df.loc[dev_df[id] == 3949048841, 'prompt'].values[0]
+    # watermarked_text = watermarked_dev_df.loc[watermarked_dev_df[id] == 3949048841, 'prompt'].values[0]
 
     attacked_text = attacker.attack(prompt, watermarked_text)
 
