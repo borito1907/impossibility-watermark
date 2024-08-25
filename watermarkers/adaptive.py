@@ -284,6 +284,7 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         attn = torch.ones_like(input_ids)
         past = None
 
+        log.info(f"Input IDS: {input_ids}")
         log.info(f"Length of the prompt in terms of tokens: {len(input_ids)}")
         # In order not to break Llama by generating more than 1024 tokens, include the prompt length in the range of the for loop.
         for _ in range(self.cfg.watermark_args.max_new_tokens - len(input_ids)):
