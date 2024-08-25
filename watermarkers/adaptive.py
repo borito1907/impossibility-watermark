@@ -32,8 +32,6 @@ class AdaptiveWatermarker(Watermarker):
         """
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-        # log.info(f"Device is {device}.")
-
         # This is from their Github.
         # if 'opt' in self.cfg.generator_args.model_name_or_path:
         # log.info(f"Using OPT as the generator.")
@@ -121,7 +119,7 @@ class AdaptiveWatermarker(Watermarker):
         
         # lower eos token prob to zero if min_length is not reached
         if prev_output_tokens.size(1) < self.cfg.watermark_args.min_new_tokens:
-            lprobs[:, self.pipeline.tokenizer.eos_token_id] = -float("Inf")
+            lprobs[:, self.tokenizer.eos_token_id] = -float("Inf")
         
         if no_repeat_ngram_size > 0:
             # calculate a list of banned tokens to prevent repetitively generating the same ngrams
@@ -177,7 +175,7 @@ class AdaptiveWatermarker(Watermarker):
         # stop_words = ["word.", "word!", "word?", "word...", "word;"]
         # stop_words_ids = [tokenizer.encode(stop_word, return_tensors='pt', add_special_tokens=False)[0][-1].to(self.device) for stop_word in stop_words]
         
-        if ids[0][-1] == self.pipeline.tokenizer.eos_token_id:
+        if ids[0][-1] == self.tokenizer.eos_token_id:
             return True
 
         # if ids[0][-1] in stop_words_ids:
@@ -209,7 +207,7 @@ class AdaptiveWatermarker(Watermarker):
             v_embedding = torch.tensor([t_embedding[i] for i in self.mapping_list], device=self.device)
             logits[0] = self._bias_logits(logits[0], v_embedding, self.cfg.watermark_args.delta_0)
         elif len(ids[0]) > measure_threshold:
-            measure_text = self.pipeline.tokenizer.decode(ids[-1])
+            measure_text = self.tokenizer.decode(ids[-1])
             measure_entropy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
             if measure_entropy >= self.cfg.watermark_args.alpha:
                 embedding = self.embedding_model.encode(measure_text, convert_to_tensor=True)
@@ -234,7 +232,7 @@ class AdaptiveWatermarker(Watermarker):
         
     # Un-watermarked text generation
     def generate_unwatermarked(self, prompt):
-        input_ids = self.pipeline.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
+        input_ids = self.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
         output_ids = torch.tensor([[]], dtype=torch.int64, device=self.device)
 
         attn = torch.ones_like(input_ids)
@@ -259,12 +257,12 @@ class AdaptiveWatermarker(Watermarker):
             attn = torch.cat([attn, attn.new_ones((attn.shape[0], 1))], dim=-1)
 
             # stopping criteria
-            stop = self._stopping_criteria(output_ids, self.pipeline.tokenizer)
+            stop = self._stopping_criteria(output_ids, self.tokenizer)
             if stop:
-                output_text = self.pipeline.tokenizer.decode(output_ids[0].tolist())
+                output_text = self.tokenizer.decode(output_ids[0].tolist())
                 return output_text
         
-        output_text = self.pipeline.tokenizer.decode(output_ids[0])
+        output_text = self.tokenizer.decode(output_ids[0])
         return output_text
 
     # Adaptive watermark text generation
@@ -278,7 +276,7 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
 
 {prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>""")
 
-        input_ids = self.pipeline.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
+        input_ids = self.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
 
         output_ids = torch.tensor([[]], dtype=torch.int64, device=self.device)
         attn = torch.ones_like(input_ids)
@@ -308,12 +306,12 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
             attn = torch.cat([attn, attn.new_ones((attn.shape[0], 1))], dim=-1)
 
             # stopping criteria
-            stop = self._stopping_criteria(output_ids, self.pipeline.tokenizer)
+            stop = self._stopping_criteria(output_ids, self.tokenizer)
             if stop:
-                output_text = self.pipeline.tokenizer.decode(output_ids[0].tolist())
+                output_text = self.tokenizer.decode(output_ids[0].tolist())
                 return output_text
         
-        output_text = self.pipeline.tokenizer.decode(output_ids[0])
+        output_text = self.tokenizer.decode(output_ids[0])
         
         return output_text
     
@@ -329,7 +327,7 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         return output_text
 
     def detect(self, text):
-        watermark_ids = self.pipeline.tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(self.device)
+        watermark_ids = self.tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(self.device)
         
         e = self.embedding_model.encode(self.cfg.watermark_args.secret_string, convert_to_tensor=True, device=self.device)
         te = self.transform_model(e).tolist()
@@ -354,5 +352,10 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         
         normalized_score = sum(score)/len(score)
         normalized_score = normalized_score.item()
-        return normalized_score*100
+
+        normalized_score = normalized_score * 100
+
+        is_detected = self.cfg.watermark_args.detection_threshold < normalized_score
+
+        return is_detected, normalized_score
     
