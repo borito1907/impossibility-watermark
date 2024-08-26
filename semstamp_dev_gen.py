@@ -13,26 +13,27 @@ def test(cfg):
     cfg.prompt_file='./data/WQE/dev.csv'
 
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    cfg_dict['generator_args']['top_k'] = 50
+    cfg_dict['generator_args']['top_p'] = 0.9
+    cfg_dict['generator_args']['max_new_tokens'] = 1024 # 285
+    cfg_dict['generator_args']['min_new_tokens'] = 128 # 215
+    cfg_dict['generator_args']['repetition_penalty'] = 1.1
+
     cfg_dict['watermark_args']['name'] = "semstamp_lsh"
     cfg_dict['watermark_args']['embedder'] = {}
     cfg_dict['watermark_args']['delta'] = 0.01
     cfg_dict['watermark_args']['sp_mode'] = "lsh"
     cfg_dict['watermark_args']['sp_dim'] = 3
     cfg_dict['watermark_args']['lmbd'] = 0.25
-    cfg_dict['watermark_args']['max_new_tokens'] = 1024 # 255
-    cfg_dict['watermark_args']['min_new_tokens'] = 128 # 245
     cfg_dict['watermark_args']['max_trials'] = 50
     cfg_dict['watermark_args']['critical_max_trials'] = 75
     cfg_dict['watermark_args']['cc_path'] = None
     cfg_dict['watermark_args']['train_data'] = None
-    # cfg_dict['watermark_args']['device'] = "auto"
+    cfg_dict['watermark_args']['device'] = "auto"
     cfg_dict['watermark_args']['len_prompt'] = 32
     cfg_dict['watermark_args']['z_threshold'] = 0.5
     cfg_dict['watermark_args']['use_fine_tuned'] = False
-    # cfg_dict['generator_args']['model_name_or_path'] = "facebook/opt-6.7b" # TODO: CHANGE
-    cfg_dict['generator_args']['max_length'] = cfg_dict['watermark_args']['max_new_tokens']
     cfg = OmegaConf.create(cfg_dict)
-    # cfg.is_completion=True # TODO: CHANGE
     
     import time
     import textwrap

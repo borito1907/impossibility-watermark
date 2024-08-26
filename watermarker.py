@@ -28,14 +28,26 @@ class Watermarker(ABC):
             self.tokenizer = self.pipeline.tokenizer
             self.tokenizer.pad_token = self.tokenizer.pad_token or self.tokenizer.eos_token
 
-            self.generator_kwargs = {
-                "max_new_tokens": self.cfg.generator_args.max_new_tokens,
-                "do_sample": self.cfg.generator_args.do_sample,
-                "temperature": self.cfg.generator_args.temperature,
-                "top_p": self.cfg.generator_args.top_p,
-                "top_k": self.cfg.generator_args.top_k,
-                "repetition_penalty": self.cfg.generator_args.repetition_penalty
-            }
+            if "Llama-3.1" in self.cfg.generator_args.model_name_or_path:
+                self.generator_kwargs = {
+                    "max_length": self.cfg.generator_args.max_new_tokens,
+                    "min_lemgth": self.cfg.generator_args.min_new_tokens,
+                    "do_sample": self.cfg.generator_args.do_sample,
+                    "temperature": self.cfg.generator_args.temperature,
+                    "top_p": self.cfg.generator_args.top_p,
+                    "top_k": self.cfg.generator_args.top_k,
+                    "repetition_penalty": self.cfg.generator_args.repetition_penalty
+                }
+            else:
+                self.generator_kwargs = {
+                    "max_new_tokens": self.cfg.generator_args.max_new_tokens,
+                    "min_new_tokens": self.cfg.generator_args.min_new_tokens,
+                    "do_sample": self.cfg.generator_args.do_sample,
+                    "temperature": self.cfg.generator_args.temperature,
+                    "top_p": self.cfg.generator_args.top_p,
+                    "top_k": self.cfg.generator_args.top_k,
+                    "repetition_penalty": self.cfg.generator_args.repetition_penalty
+                }
         # UMD and Adaptive need the tokenizer to detect, so we initialize it to the default value here.
         # This only works for Llama3.1, so we might want to change it.
         elif self.cfg.watermark_args.name != "semstamp_lsh":

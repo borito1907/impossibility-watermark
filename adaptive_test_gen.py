@@ -13,6 +13,12 @@ def test(cfg):
     cfg.prompt_file='./data/WQE/test.csv'
 
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    cfg_dict['generator_args']['top_k'] = 50
+    cfg_dict['generator_args']['top_p'] = 0.9
+    cfg_dict['generator_args']['max_new_tokens'] = 1024 # 285
+    cfg_dict['generator_args']['min_new_tokens'] = 128 # 215
+    cfg_dict['generator_args']['repetition_penalty'] = 1.1
+
     cfg_dict['watermark_args']['name'] = "adaptive"
     cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
     cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"

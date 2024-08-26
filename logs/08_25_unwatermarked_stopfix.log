@@ -1,0 +1,45 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-08-25 11:07:39,741][__main__][INFO] - Getting the watermarker...
+[2024-08-25 11:07:39,741][watermarker][INFO] - Using device: cuda:0
+[2024-08-25 11:07:39,741][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Loading checkpoint shards:   0%|          | 0/9 [00:00<?, ?it/s]Loading checkpoint shards:  11%|█         | 1/9 [00:01<00:09,  1.13s/it]Loading checkpoint shards:  22%|██▏       | 2/9 [00:02<00:07,  1.13s/it]Loading checkpoint shards:  33%|███▎      | 3/9 [00:03<00:06,  1.16s/it]Loading checkpoint shards:  44%|████▍     | 4/9 [00:04<00:05,  1.08s/it]Loading checkpoint shards:  56%|█████▌    | 5/9 [00:05<00:04,  1.05s/it]Loading checkpoint shards:  67%|██████▋   | 6/9 [00:06<00:03,  1.06s/it]Loading checkpoint shards:  78%|███████▊  | 7/9 [00:07<00:02,  1.12s/it]Loading checkpoint shards:  89%|████████▉ | 8/9 [00:08<00:01,  1.02s/it]Loading checkpoint shards: 100%|██████████| 9/9 [00:09<00:00,  1.16it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:09<00:00,  1.01s/it]
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
+  warn_deprecated(
+[2024-08-25 11:07:54,105][sentence_transformers.SentenceTransformer][INFO] - Use pytorch device_name: cuda
+[2024-08-25 11:07:54,105][sentence_transformers.SentenceTransformer][INFO] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+[2024-08-25 11:07:55,160][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 1, 'is_completion': False, 'generation_stats_file_path': None, 'watermarked_text_file_name': None, 'partition': 1, 'generator_args': {'model_name_or_path': 'hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4', 'revision': 'main', 'model_cache_dir': '/data2/.shared_models/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 1024, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0.0}, 'watermark_args': {'name': 'adaptive', 'gamma': 0.25, 'delta': 1.5, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'auto', 'only_detect': False, 'measure_model_name': 'gpt2-large', 'embedding_model_name': 'sentence-transformers/all-mpnet-base-v2', 'delta_0': 1.0, 'alpha': 2.0, 'top_k': 50, 'top_p': 0.9, 'repetition_penalty': 1.1, 'no_repeat_ngram_size': 0, 'secret_string': 'The quick brown fox jumps over the lazy dog', 'min_new_tokens': 128, 'max_new_tokens': 1024, 'measure_threshold': 50}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}}
+[2024-08-25 11:07:55,161][__main__][INFO] - Got the watermarker. Generating watermarked text...
+[2024-08-25 11:07:55,169][__main__][INFO] - Prompt: for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.
+[2024-08-25 11:07:55,169][__main__][INFO] - Prompt ID: 3332530220
+[2024-08-25 11:07:55,177][watermarkers.adaptive][INFO] - Length of the prompt in terms of tokens: 25
+Traceback (most recent call last):
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/local1/borito1907/impossibility-watermark/unwatermarked_dev.py", line 77, in <module>
+    test()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119, in run
+    ret = run_job(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/local1/borito1907/impossibility-watermark/unwatermarked_dev.py", line 62, in test
+    watermarked_text = watermarker.generate_unwatermarked(prompt)
+  File "/local1/borito1907/impossibility-watermark/watermarkers/adaptive.py", line 248, in generate_unwatermarked
+    self._postprocess_next_token_scores(logits, 1, 1, output_ids, repetition_penalty=self.cfg.watermark_args.repetition_penalty, no_repeat_ngram_size=self.cfg.watermark_args.no_repeat_ngram_size)   # repetition penalty: 1.1
+  File "/local1/borito1907/impossibility-watermark/watermarkers/adaptive.py", line 111, in _postprocess_next_token_scores
+    for previous_token in set(prev_output_tokens[i].tolist()):
+KeyboardInterrupt

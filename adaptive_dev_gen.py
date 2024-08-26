@@ -13,17 +13,18 @@ def test(cfg):
     cfg.prompt_file='./data/WQE/dev.csv'
 
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    cfg_dict['generator_args']['top_k'] = 50
+    cfg_dict['generator_args']['top_p'] = 0.9
+    cfg_dict['generator_args']['max_new_tokens'] = 1024 # 285
+    cfg_dict['generator_args']['min_new_tokens'] = 128 # 215
+    cfg_dict['generator_args']['repetition_penalty'] = 1.1
+    
     cfg_dict['watermark_args']['name'] = "adaptive"
     cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
     cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
     cfg_dict['watermark_args']['delta'] = 1.5
     cfg_dict['watermark_args']['delta_0'] = 1.0
     cfg_dict['watermark_args']['alpha'] = 2.0
-    cfg_dict['watermark_args']['top_k'] = 50
-    cfg_dict['watermark_args']['top_p'] = 0.9
-    cfg_dict['watermark_args']['max_new_tokens'] = 1024 # 285
-    cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
-    cfg_dict['watermark_args']['repetition_penalty'] = 1.1
     cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
     cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
     cfg_dict['watermark_args']['measure_threshold'] = 50
@@ -40,7 +41,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_massive_final4_cont_{cfg.partition}"
+    dir_name = f"adaptive_dev_massive_testtttt_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
@@ -50,8 +51,8 @@ def test(cfg):
     # start = 1 + (cfg.partition - 1) * partition_size
     # end = 1 + cfg.partition * partition_size
 
-    start = 41
-    end = 76
+    start = 7
+    end = 8
 
     for prompt_num in range(start,end):
 

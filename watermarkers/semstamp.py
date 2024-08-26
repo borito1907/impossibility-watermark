@@ -76,7 +76,7 @@ class SemStampWatermarker(Watermarker):
             self.gen_config = None
             self.pipeline._init_pipeline_config(self.cfg.generator_args)
 
-        self.generator_kwargs.update([('bad_words_ids', bad_words_ids), ('min_new_tokens', self.cfg.watermark_args.min_new_tokens)])
+        self.generator_kwargs.update([('bad_words_ids', bad_words_ids), ('min_new_tokens', self.cfg.generator_args.min_new_tokens)])
 
         self.model.eval()
 

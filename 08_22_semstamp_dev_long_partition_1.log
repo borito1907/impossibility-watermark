@@ -1,1788 +1,0 @@
-/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
-[nltk_data]   Package punkt is already up-to-date!
-[2024-08-22 12:59:51,879][__main__][INFO] - Getting the watermarker...
-[2024-08-22 12:59:51,879][watermarker][INFO] - Using device: cuda:0
-[2024-08-22 12:59:51,879][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-[2024-08-22 12:59:52,639][accelerate.utils.modeling][INFO] - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
-Loading checkpoint shards:   0%|          | 0/9 [00:00<?, ?it/s]Loading checkpoint shards:  11%|█         | 1/9 [00:01<00:08,  1.09s/it]Loading checkpoint shards:  22%|██▏       | 2/9 [00:02<00:07,  1.09s/it]Loading checkpoint shards:  33%|███▎      | 3/9 [00:03<00:06,  1.08s/it]Loading checkpoint shards:  44%|████▍     | 4/9 [00:04<00:05,  1.08s/it]Loading checkpoint shards:  56%|█████▌    | 5/9 [00:05<00:04,  1.08s/it]Loading checkpoint shards:  67%|██████▋   | 6/9 [00:06<00:03,  1.09s/it]Loading checkpoint shards:  78%|███████▊  | 7/9 [00:07<00:02,  1.14s/it]Loading checkpoint shards:  89%|████████▉ | 8/9 [00:08<00:01,  1.04s/it]Loading checkpoint shards: 100%|██████████| 9/9 [00:09<00:00,  1.14it/s]Loading checkpoint shards: 100%|██████████| 9/9 [00:09<00:00,  1.01s/it]
-/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/langchain_core/_api/deprecation.py:119: LangChainDeprecationWarning: The class `HuggingFacePipeline` was deprecated in LangChain 0.0.37 and will be removed in 0.3. An updated version of the class exists in the from rom langchain-huggingface package and should be used instead. To use it run `pip install -U from rom langchain-huggingface` and import as `from from rom langchain_huggingface import llms import HuggingFacePipeline`.
-  warn_deprecated(
-[2024-08-22 13:00:04,107][watermarkers.semstamp][INFO] - Setting up generating components...
-[2024-08-22 13:00:04,111][watermarkers.semstamp][INFO] - {'max_new_tokens': 768, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'bad_words_ids': [[198]], 'min_new_tokens': 128}
-[2024-08-22 13:00:04,112][watermarkers.semstamp][INFO] - Initializing embedder model.
-[2024-08-22 13:00:04,112][watermarkers.semstamp][INFO] - Using the generic SentenceTransformer...
-[2024-08-22 13:00:04,112][sentence_transformers.SentenceTransformer][INFO] - Use pytorch device_name: cuda
-[2024-08-22 13:00:04,112][sentence_transformers.SentenceTransformer][INFO] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v1
-[2024-08-22 13:00:05,303][watermarkers.semstamp][INFO] - Finished initializing embedder model.
-initializing random projection LSH model
-loading SBERT base model...
-[2024-08-22 13:00:05,304][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 1, 'is_completion': False, 'generation_stats_file_path': None, 'watermarked_text_file_name': None, 'partition': 1, 'generator_args': {'model_name_or_path': 'hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4', 'revision': 'main', 'model_cache_dir': '/data2/.shared_models/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 768, 'min_new_tokens': 128, 'do_sample': True, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0.0, 'max_length': 786}, 'watermark_args': {'name': 'semstamp_lsh', 'measure_model_name': 'gpt2-large', 'embedding_model_name': 'sentence-transformers/all-mpnet-base-v2', 'mapping_list': None, 'alpha': 2.0, 'top_k': 50, 'top_p': 0.9, 'repetition_penalty': 1.1, 'no_repeat_ngram_size': 0, 'max_new_tokens': 786, 'min_new_tokens': 128, 'secret_string': 'The quick brown fox jumps over the lazy dog', 'measure_threshold': 50, 'delta_0': 1.0, 'delta': 0.01, 'device': 'auto', 'embedder': {}, 'sp_mode': 'lsh', 'sp_dim': 3, 'lmbd': 0.25, 'max_trials': 50, 'critical_max_trials': 75, 'cc_path': None, 'train_data': None, 'len_prompt': 32, 'z_threshold': 0.5, 'use_fine_tuned': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}}
-[2024-08-22 13:00:05,304][__main__][INFO] - Got the watermarker. Generating watermarked text...
-[2024-08-22 13:00:05,311][__main__][INFO] - Prompt: for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.
-[2024-08-22 13:00:05,311][__main__][INFO] - Prompt ID: 3332530220
-[2024-08-22 13:00:05,311][watermarkers.semstamp][INFO] - Passing the following prompt to the LSH reject completion function:
- for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.81it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.81it/s]
-[2024-08-22 13:00:05,896][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-The attention mask is not set and cannot be inferred from input because pad token is same as eos token.As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-[2024-08-22 13:00:09,553][watermarkers.semstamp][INFO] - Candidate text: 
-
-Here's a revised version of the scenario:
-
-As I stepped into the prison yard, the crunch of gravel beneath my boots was the only sound that broke the silence.
-[2024-08-22 13:00:09,553][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 120.13it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 130.04it/s]
-[2024-08-22 13:00:09,578][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:00:09,578][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:09,578][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
-[2024-08-22 13:00:09,578][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:09,581][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:12,938][watermarkers.semstamp][INFO] - Candidate text: 
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease.
-[2024-08-22 13:00:12,938][watermarkers.semstamp][INFO] - Accept Mask: tensor([7, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.59it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.66it/s]
-[2024-08-22 13:00:12,960][watermarkers.semstamp][INFO] - LSH Candidate: 7
-[2024-08-22 13:00:12,960][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:00:12,960][watermarkers.semstamp][INFO] - acceptmasklist: [7, 2]
-[2024-08-22 13:00:12,960][watermarkers.semstamp][INFO] - acceptmaskstr: 7,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:12,962][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease.
-[2024-08-22 13:00:12,962][watermarkers.semstamp][INFO] - Text has 1 sentences.
-[2024-08-22 13:00:12,962][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:15,301][watermarkers.semstamp][INFO] - Candidate text:  The cold, harsh walls seemed to close in around me as I made my way towards the main building.
-[2024-08-22 13:00:15,301][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.78it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 131.75it/s]
-[2024-08-22 13:00:15,323][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:00:15,323][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:15,323][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
-[2024-08-22 13:00:15,323][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:15,325][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:17,455][watermarkers.semstamp][INFO] - Candidate text:  The imposing walls and barbed wire seemed to loom over me like an ominous specter.
-[2024-08-22 13:00:17,456][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 3], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 116.69it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.49it/s]
-[2024-08-22 13:00:17,477][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:00:17,478][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:00:17,478][watermarkers.semstamp][INFO] - acceptmasklist: [6, 3]
-[2024-08-22 13:00:17,478][watermarkers.semstamp][INFO] - acceptmaskstr: 6,3
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:17,480][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter.
-[2024-08-22 13:00:17,480][watermarkers.semstamp][INFO] - Text has 2 sentences.
-[2024-08-22 13:00:17,480][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:21,871][watermarkers.semstamp][INFO] - Candidate text:  My job as a visitor required me to don a peculiar outfit - a pair of worn denim overalls with a hood attached, buckled up at the waist with no less than 16 brass fasteners.
-[2024-08-22 13:00:21,872][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 118.37it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.88it/s]
-[2024-08-22 13:00:21,894][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:00:21,894][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:21,894][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:21,894][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:21,896][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:24,688][watermarkers.semstamp][INFO] - Candidate text:  My heart sank as I made my way to the reception area, where I was greeted by two stern-faced correctional officers.
-
-
-[2024-08-22 13:00:24,689][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.55it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.68it/s]
-[2024-08-22 13:00:24,710][watermarkers.semstamp][INFO] - LSH Candidate: 7
-[2024-08-22 13:00:24,710][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:24,710][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:24,710][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:24,712][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:27,499][watermarkers.semstamp][INFO] - Candidate text:  I was here to visit my friend, Jenny, who had been incarcerated for the past year on a non-violent crime.
-
-
-[2024-08-22 13:00:27,500][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.59it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.40it/s]
-[2024-08-22 13:00:27,521][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:00:27,521][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:27,521][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:27,521][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:27,523][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:30,213][watermarkers.semstamp][INFO] - Candidate text:  I was here to visit my brother, Jack, who had been incarcerated for two years on a non-violent offense.
-
-
-[2024-08-22 13:00:30,213][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 115.47it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.82it/s]
-[2024-08-22 13:00:30,235][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:00:30,235][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:30,235][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:30,235][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:30,237][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:32,641][watermarkers.semstamp][INFO] - Candidate text:  My name is Alex, and I'm a social worker tasked with counseling inmates on their path towards rehabilitation.
-
-
-[2024-08-22 13:00:32,641][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.26it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.59it/s]
-[2024-08-22 13:00:32,662][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:00:32,662][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:32,662][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:32,662][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:32,663][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:34,785][watermarkers.semstamp][INFO] - Candidate text:  My boss, Warden Thompson, greeted me curtly as I entered his office.
-
-"
-[2024-08-22 13:00:34,786][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.58it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.87it/s]
-[2024-08-22 13:00:34,806][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:00:34,806][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:34,806][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:34,806][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:34,808][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:37,307][watermarkers.semstamp][INFO] - Candidate text:  I was here to visit my friend, Jake, who had been incarcerated for six months on a minor charge.
-[2024-08-22 13:00:37,308][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.80it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.11it/s]
-[2024-08-22 13:00:37,329][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:00:37,329][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:37,330][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:37,330][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:37,331][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:41,565][watermarkers.semstamp][INFO] - Candidate text:  I had been assigned to spend my summer volunteering at the facility as part of my psychology practicum, and I was still getting used to the strict rules and rigid protocols that governed life within these walls.
-
-
-[2024-08-22 13:00:41,565][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.17it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 133.61it/s]
-[2024-08-22 13:00:41,587][watermarkers.semstamp][INFO] - LSH Candidate: 7
-[2024-08-22 13:00:41,588][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:41,588][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:41,588][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:41,589][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:43,903][watermarkers.semstamp][INFO] - Candidate text:  I was here to visit my brother, Jack, who had been incarcerated for the past five years.
-
-
-[2024-08-22 13:00:43,903][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.38it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.73it/s]
-[2024-08-22 13:00:43,924][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:00:43,924][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:43,924][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:43,924][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:43,926][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:46,623][watermarkers.semstamp][INFO] - Candidate text:  I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-
-[2024-08-22 13:00:46,624][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 0], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.90it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.16it/s]
-[2024-08-22 13:00:46,645][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:00:46,645][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:00:46,645][watermarkers.semstamp][INFO] - acceptmasklist: [6, 0]
-[2024-08-22 13:00:46,645][watermarkers.semstamp][INFO] - acceptmaskstr: 6,0
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:46,647][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-
-[2024-08-22 13:00:46,647][watermarkers.semstamp][INFO] - Text has 3 sentences.
-[2024-08-22 13:00:46,647][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:49,989][watermarkers.semstamp][INFO] - Candidate text: The correctional officer, a stern-looking woman with a name tag that read "Officer Jenkins," eyed me warily as I approached her desk.
-[2024-08-22 13:00:49,990][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.91it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.23it/s]
-[2024-08-22 13:00:50,011][watermarkers.semstamp][INFO] - LSH Candidate: 7
-[2024-08-22 13:00:50,012][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:50,012][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:00:50,012][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:50,014][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:52,594][watermarkers.semstamp][INFO] - Candidate text: I was greeted by two correctional officers, who eyed me up and down before nodding at each other.
-[2024-08-22 13:00:52,595][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.50it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.74it/s]
-[2024-08-22 13:00:52,616][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:00:52,616][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:52,616][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:00:52,616][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:52,618][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:54,625][watermarkers.semstamp][INFO] - Candidate text: The correctional officers eyed me warily as I approached the sign-in desk.
-[2024-08-22 13:00:54,626][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.35it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.71it/s]
-[2024-08-22 13:00:54,646][watermarkers.semstamp][INFO] - LSH Candidate: 2
-[2024-08-22 13:00:54,646][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:00:54,646][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:00:54,646][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:54,648][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk.
-[2024-08-22 13:00:54,648][watermarkers.semstamp][INFO] - Text has 4 sentences.
-[2024-08-22 13:00:54,649][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:00:57,483][watermarkers.semstamp][INFO] - Candidate text:  One of them, a burly man with a thick mustache, raised an eyebrow as he took in my outfit.
-[2024-08-22 13:00:57,483][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.04it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.10it/s]
-[2024-08-22 13:00:57,504][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:00:57,505][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:00:57,505][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:00:57,505][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:00:57,506][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:00,056][watermarkers.semstamp][INFO] - Candidate text:  One of them, a gruff-looking man with a thick beard, squinted at me. "
-[2024-08-22 13:01:00,056][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.06it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.94it/s]
-[2024-08-22 13:01:00,077][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:01:00,077][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:00,077][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:00,077][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:00,079][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:03,203][watermarkers.semstamp][INFO] - Candidate text:  They were dressed in standard issue uniforms: crisp white shirts, black pants, and black jackets with the facility's logo on the sleeve.
-[2024-08-22 13:01:03,204][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.57it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.93it/s]
-[2024-08-22 13:01:03,225][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:03,225][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:03,225][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:03,225][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:03,227][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:05,779][watermarkers.semstamp][INFO] - Candidate text:  One of them, a gruff-looking man with a thick beard, nodded curtly at me. "
-[2024-08-22 13:01:05,780][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.58it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.88it/s]
-[2024-08-22 13:01:05,800][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:01:05,801][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:05,801][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:05,801][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:05,803][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:09,308][watermarkers.semstamp][INFO] - Candidate text:  One of them, a tall, imposing figure with a thick beard, looked me up and down before saying, "Alright, let's see some ID."
-
-
-[2024-08-22 13:01:09,308][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.44it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.77it/s]
-[2024-08-22 13:01:09,330][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:09,330][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:09,330][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:09,330][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:09,332][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:12,367][watermarkers.semstamp][INFO] - Candidate text:  One of them, a gruff-looking man with a thick beard, scanned me up and down before nodding curtly. "
-[2024-08-22 13:01:12,367][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.35it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.45it/s]
-[2024-08-22 13:01:12,388][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:01:12,389][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:12,389][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:12,389][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:12,391][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:13,233][watermarkers.semstamp][INFO] - Candidate text:  "Name?"
-[2024-08-22 13:01:13,233][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 80.57it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:13,250][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:16,483][watermarkers.semstamp][INFO] - Candidate text:  One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "
-[2024-08-22 13:01:16,484][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.70it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.48it/s]
-[2024-08-22 13:01:16,504][watermarkers.semstamp][INFO] - LSH Candidate: 2
-[2024-08-22 13:01:16,505][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:01:16,505][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:16,505][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:16,507][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk. One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "
-[2024-08-22 13:01:16,507][watermarkers.semstamp][INFO] - Text has 5 sentences.
-[2024-08-22 13:01:16,507][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:17,659][watermarkers.semstamp][INFO] - Candidate text: Can I help you?"
-
-
-[2024-08-22 13:01:17,659][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.61it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.53it/s]
-[2024-08-22 13:01:17,680][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:17,680][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:17,680][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:17,680][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:17,682][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:18,832][watermarkers.semstamp][INFO] - Candidate text: Can we help you?"
-[2024-08-22 13:01:18,832][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 130.02it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.38it/s]
-[2024-08-22 13:01:18,853][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:18,853][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:18,853][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:18,853][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:18,854][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:19,912][watermarkers.semstamp][INFO] - Candidate text: ID, please."
-
-
-[2024-08-22 13:01:19,912][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.75it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.55it/s]
-[2024-08-22 13:01:19,933][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:01:19,933][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:01:19,933][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:01:19,933][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:19,935][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk. One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "ID, please."
-
-
-[2024-08-22 13:01:19,935][watermarkers.semstamp][INFO] - Text has 6 sentences.
-[2024-08-22 13:01:19,935][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:22,334][watermarkers.semstamp][INFO] - Candidate text: I handed over my driver's license and he scrutinized it carefully before handing it back.
-[2024-08-22 13:01:22,334][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.13it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:22,347][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:25,224][watermarkers.semstamp][INFO] - Candidate text: I fumbled in my bag and produced my driver's license, which he scrutinized carefully before handing it back.
-[2024-08-22 13:01:25,225][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.87it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.79it/s]
-[2024-08-22 13:01:25,245][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:01:25,246][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:25,246][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
-[2024-08-22 13:01:25,246][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:25,248][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:27,548][watermarkers.semstamp][INFO] - Candidate text: I handed over my driver's license, which he examined carefully before handing it back.
-[2024-08-22 13:01:27,548][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.32it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.37it/s]
-[2024-08-22 13:01:27,569][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:01:27,569][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:27,569][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
-[2024-08-22 13:01:27,569][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:27,571][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:29,871][watermarkers.semstamp][INFO] - Candidate text: I handed over my ID and the officer scrutinized it carefully before handing it back.
-[2024-08-22 13:01:29,872][watermarkers.semstamp][INFO] - Accept Mask: tensor([1, 4], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.35it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.79it/s]
-[2024-08-22 13:01:29,893][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:29,893][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:01:29,893][watermarkers.semstamp][INFO] - acceptmasklist: [1, 4]
-[2024-08-22 13:01:29,893][watermarkers.semstamp][INFO] - acceptmaskstr: 1,4
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:29,895][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk. One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "ID, please."
-
-I handed over my ID and the officer scrutinized it carefully before handing it back.
-[2024-08-22 13:01:29,895][watermarkers.semstamp][INFO] - Text has 7 sentences.
-[2024-08-22 13:01:29,895][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:33,501][watermarkers.semstamp][INFO] - Candidate text:  His eyes lingered on my outfit - specifically, my faded denim overalls and matching blue denim hood that I wore slung low over my head.
-[2024-08-22 13:01:33,502][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.60it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.89it/s]
-[2024-08-22 13:01:33,523][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:01:33,523][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:33,523][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:33,523][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:33,525][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:36,563][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - a pair of worn denim overalls, complete with multiple pockets and tool loops.
-[2024-08-22 13:01:36,563][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.09it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.02it/s]
-[2024-08-22 13:01:36,584][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:36,584][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:36,584][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:36,584][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:36,586][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:40,092][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit, taking in the faded denim overalls and the threadbare hoodie that had been tied loosely around my waist.
-[2024-08-22 13:01:40,092][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.94it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.79it/s]
-[2024-08-22 13:01:40,113][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:01:40,113][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:40,113][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:40,113][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:40,115][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:43,719][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit, which consisted of a pair of well-worn denim overalls, the kind with multiple pockets and buckles.
-[2024-08-22 13:01:43,720][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.18it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.89it/s]
-[2024-08-22 13:01:43,741][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:43,741][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:43,741][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:43,741][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:43,742][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:47,446][watermarkers.semstamp][INFO] - Candidate text:  His eyes lingered on my outfit, which consisted of a pair of faded denim overalls with copper-colored buttons and a matching hood pulled over my head.
-[2024-08-22 13:01:47,446][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.42it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.43it/s]
-[2024-08-22 13:01:47,467][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:01:47,467][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:47,467][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:47,467][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:47,469][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:50,792][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze lingered on my outfit - a pair of worn-in denim overalls with multiple pockets and a hood.
-[2024-08-22 13:01:50,793][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.71it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.23it/s]
-[2024-08-22 13:01:50,813][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:01:50,814][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:50,814][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:50,814][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:50,815][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:54,613][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - the faded denim overalls with 16 metal buckles that ran down each side, which were more decorative than functional.
-[2024-08-22 13:01:54,614][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.71it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.96it/s]
-[2024-08-22 13:01:54,635][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:54,635][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:54,635][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:54,635][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:54,637][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:58,338][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze lingered on my outfit - specifically, my faded denim overalls with copper buttons and the 16 buckle on the front.
-[2024-08-22 13:01:58,339][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 122.41it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.69it/s]
-[2024-08-22 13:01:58,360][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:58,360][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:58,360][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:58,360][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:58,362][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:01:59,776][watermarkers.semstamp][INFO] - Candidate text:  "Okay, you're cleared.
-[2024-08-22 13:01:59,776][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.87it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.31it/s]
-[2024-08-22 13:01:59,797][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:01:59,797][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:01:59,798][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:01:59,798][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:01:59,799][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:01,598][watermarkers.semstamp][INFO] - Candidate text:  He then nodded towards a bench against the wall. "
-[2024-08-22 13:02:01,599][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 120.57it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.80it/s]
-[2024-08-22 13:02:01,620][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:01,620][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:01,620][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:01,620][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:01,622][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:06,658][watermarkers.semstamp][INFO] - Candidate text:  He then glanced at my outfit - a pair of worn denim overalls and a faded hoodie, both adorned with multiple silver buckles (sixteen, if I'd counted correctly) that sparkled in the fluorescent lighting.
-
-"
-[2024-08-22 13:02:06,659][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 108.48it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.15it/s]
-[2024-08-22 13:02:06,682][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:06,682][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:06,682][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:06,682][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:06,684][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:08,290][watermarkers.semstamp][INFO] - Candidate text:  "Alright, what brings you here today?"
-
-
-[2024-08-22 13:02:08,290][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.43it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.86it/s]
-[2024-08-22 13:02:08,311][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:08,311][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:08,311][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:08,312][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:08,313][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:12,589][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze lingered on my outfit - specifically, my worn denim overalls and faded black hoodie, complete with 16 shiny silver buckles that adorned the front.
-
-
-[2024-08-22 13:02:12,589][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.97it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.59it/s]
-[2024-08-22 13:02:12,610][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:12,610][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:12,610][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:12,610][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:12,612][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:18,413][watermarkers.semstamp][INFO] - Candidate text:  As he did, his eyes flicked to my outfit - I was wearing a pair of faded denim overalls, complete with multiple pockets and a silver buckle at the top, adorned with 16 small rivets that spelled out "Buckle" in intricate letters.
-[2024-08-22 13:02:18,413][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 108.48it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.32it/s]
-[2024-08-22 13:02:18,436][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:18,436][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:18,436][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:18,437][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:18,438][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:21,376][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit, specifically on the well-worn denim overalls I had worn for comfort.
-[2024-08-22 13:02:21,376][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.21it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.10it/s]
-[2024-08-22 13:02:21,397][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:21,397][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:21,397][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:21,397][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:21,399][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:25,671][watermarkers.semstamp][INFO] - Candidate text:  As he did, his eyes landed on my outfit - a pair of worn denim overalls with multiple tool loops and pockets, paired with a faded black hoodie pulled up over my head.
-[2024-08-22 13:02:25,671][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.72it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:25,683][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:29,198][watermarkers.semstamp][INFO] - Candidate text:  He then nodded towards my outfit, which consisted of denim overalls with 16 brass buckles on each strap, and a matching hood. "
-[2024-08-22 13:02:29,199][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.70it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.37it/s]
-[2024-08-22 13:02:29,220][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:29,220][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:29,220][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:29,220][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:29,222][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:30,541][watermarkers.semstamp][INFO] - Candidate text:  He nodded curtly. "
-[2024-08-22 13:02:30,541][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.29it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.66it/s]
-[2024-08-22 13:02:30,562][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:02:30,562][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:30,562][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:30,562][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:30,564][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:33,979][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - specifically, the faded denim overalls I wore with the straps fastened over a white tank top.
-[2024-08-22 13:02:33,979][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.80it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.05it/s]
-[2024-08-22 13:02:34,000][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:34,000][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:34,000][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:34,000][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:34,002][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:37,905][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze flicked to my outfit - specifically, my worn denim overalls with 16 shiny silver buckles that ran down the front.
-
-"
-[2024-08-22 13:02:37,906][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.24it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.89it/s]
-[2024-08-22 13:02:37,927][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:02:37,927][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:37,927][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:37,927][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:37,929][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:41,539][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze flicked to my outfit - specifically, the faded denim overalls with multiple pockets that I loved wearing on casual days.
-[2024-08-22 13:02:41,539][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.47it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.09it/s]
-[2024-08-22 13:02:41,561][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:41,561][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:41,561][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:41,561][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:41,563][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:44,500][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - specifically, my faded denim overalls with copper rivets and multiple pockets.
-[2024-08-22 13:02:44,501][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.34it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.90it/s]
-[2024-08-22 13:02:44,521][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:44,521][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:44,522][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:44,522][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:44,523][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:48,700][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - a pair of worn denim overalls, complete with a faded patch on the knee, paired with a grey hoodie pulled up over my head.
-[2024-08-22 13:02:48,701][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.24it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.21it/s]
-[2024-08-22 13:02:48,721][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:02:48,722][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:48,722][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:48,722][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:48,723][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:50,422][watermarkers.semstamp][INFO] - Candidate text:  "Alright, what's your business here today?"
-
-
-[2024-08-22 13:02:50,423][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.45it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.05it/s]
-[2024-08-22 13:02:50,443][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:50,443][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:50,443][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:50,443][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:50,445][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:53,196][watermarkers.semstamp][INFO] - Candidate text:  His eyes lingered on my outfit - specifically, my worn denim overalls and faded grey hoodie. "
-[2024-08-22 13:02:53,197][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.21it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:53,209][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:55,008][watermarkers.semstamp][INFO] - Candidate text:  "Okay, what's the purpose of your visit?"
-[2024-08-22 13:02:55,009][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.83it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.48it/s]
-[2024-08-22 13:02:55,029][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:55,029][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:55,030][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:55,030][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:55,031][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:02:59,589][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - I was wearing a pair of faded denim overalls with several silver buckles, along with a matching denim hood, which I had pulled up over my head.
-[2024-08-22 13:02:59,590][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.99it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.95it/s]
-[2024-08-22 13:02:59,610][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:02:59,611][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:02:59,611][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:02:59,611][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:02:59,612][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:03,989][watermarkers.semstamp][INFO] - Candidate text:  As he did, his eyes lingered on my outfit - specifically, my faded denim overalls, which were cinched at the waist with a sturdy belt sporting 16 shiny buckles.
-[2024-08-22 13:03:03,989][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.51it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.33it/s]
-[2024-08-22 13:03:04,010][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:04,010][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:04,011][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:04,011][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:04,012][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:08,572][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze fell on my outfit - a pair of worn denim overalls, complete with multiple pockets and a bib front, paired with a faded black hoodie pulled up over my head.
-[2024-08-22 13:03:08,573][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.64it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:08,585][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:09,907][watermarkers.semstamp][INFO] - Candidate text:  He nodded curtly. "
-[2024-08-22 13:03:09,907][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.16it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.86it/s]
-[2024-08-22 13:03:09,928][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:03:09,928][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:09,928][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:09,928][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:09,930][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:13,543][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit, specifically my faded denim overalls with their numerous buckles - 16 in total, if I counted correctly.
-[2024-08-22 13:03:13,544][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.41it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.15it/s]
-[2024-08-22 13:03:13,564][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:13,564][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:13,565][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:13,565][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:13,566][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:17,270][watermarkers.semstamp][INFO] - Candidate text:  His eyes lingered on my outfit - I was wearing a pair of well-worn denim overalls, complete with copper rivets and multiple tool pockets.
-[2024-08-22 13:03:17,270][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.43it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.62it/s]
-[2024-08-22 13:03:17,291][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:17,291][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:17,291][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:17,291][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:17,293][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:21,471][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze flicked to my outfit - a pair of well-worn denim overalls, complete with 16 shiny silver buckles that ran down the front.
-[2024-08-22 13:03:21,471][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.15it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 134.85it/s]
-[2024-08-22 13:03:21,492][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:03:21,492][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:21,492][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:21,492][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:21,494][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:25,007][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - specifically, my trusty denim overalls with numerous pockets and buckles, which had seen better days.
-[2024-08-22 13:03:25,007][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.73it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.09it/s]
-[2024-08-22 13:03:25,028][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:25,028][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:25,028][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:25,028][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:25,029][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:26,636][watermarkers.semstamp][INFO] - Candidate text:  "Alright, what brings you here today?"
-[2024-08-22 13:03:26,637][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.15it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.19it/s]
-[2024-08-22 13:03:26,658][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:26,658][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:26,658][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:26,658][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:26,660][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:28,264][watermarkers.semstamp][INFO] - Candidate text:  "Alright, what brings you here today?"
-[2024-08-22 13:03:28,265][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.68it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.70it/s]
-[2024-08-22 13:03:28,285][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:28,285][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:28,286][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:28,286][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:28,287][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:29,702][watermarkers.semstamp][INFO] - Candidate text:  "What brings you here today?"
-[2024-08-22 13:03:29,703][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.50it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.79it/s]
-[2024-08-22 13:03:29,723][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:29,723][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:29,723][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:29,723][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:29,725][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:34,095][watermarkers.semstamp][INFO] - Candidate text:  His eyes lingered on my outfit - a faded pair of denim overalls with numerous colorful patches sewn onto the legs, topped with a well-worn hoodie that had seen better days.
-[2024-08-22 13:03:34,096][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.97it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.14it/s]
-[2024-08-22 13:03:34,117][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:03:34,117][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:34,117][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:34,117][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:34,119][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:38,870][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - a pair of faded denim overalls, complete with metal buckles at each shoulder strap (all 16 of them), and a matching hoodie pulled up over my head.
-[2024-08-22 13:03:38,870][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.34it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:38,883][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:42,590][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - I was wearing denim overalls and a hoodie, a somewhat casual getup that seemed to raise his suspicions.
-
-"
-[2024-08-22 13:03:42,590][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.51it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:42,603][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:44,210][watermarkers.semstamp][INFO] - Candidate text:  "Alright, what's your business here?"
-
-
-[2024-08-22 13:03:44,210][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.68it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.97it/s]
-[2024-08-22 13:03:44,230][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:44,231][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:44,231][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:44,231][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:44,232][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:48,310][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - a pair of well-worn denim overalls, paired with a faded black hoodie, which I had pulled up over my head. "
-[2024-08-22 13:03:48,311][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.84it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.36it/s]
-[2024-08-22 13:03:48,332][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:48,332][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:48,332][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:48,332][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:48,333][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:49,937][watermarkers.semstamp][INFO] - Candidate text:  "Alright, what brings you in today?"
-[2024-08-22 13:03:49,938][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.86it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.24it/s]
-[2024-08-22 13:03:49,958][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:49,958][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:49,958][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:49,958][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:49,960][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:53,520][watermarkers.semstamp][INFO] - Candidate text:  He glanced at my outfit - a pair of sturdy boots, a fitted white tank top, and a pair of denim overalls with multiple pockets.
-[2024-08-22 13:03:53,521][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.89it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 130.55it/s]
-[2024-08-22 13:03:53,543][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:53,543][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:53,543][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:53,543][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:53,545][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:03:55,766][watermarkers.semstamp][INFO] - Candidate text:  As I waited for clearance, I noticed another officer eyeing my outfit.
-[2024-08-22 13:03:55,767][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 119.97it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 132.14it/s]
-[2024-08-22 13:03:55,788][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:03:55,788][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:03:55,788][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:03:55,788][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:03:55,790][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:00,757][watermarkers.semstamp][INFO] - Candidate text:  As he did, his gaze lingered on my outfit - specifically, my worn denim overalls with the distinctive silver buckle on the front, adorned with 16 small metal clasps that sparkled in the fluorescent light.
-[2024-08-22 13:04:00,757][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 121.91it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.23it/s]
-[2024-08-22 13:04:00,779][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:00,779][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:00,779][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:00,779][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:00,781][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:04,384][watermarkers.semstamp][INFO] - Candidate text:  His eyes lingered on my outfit - specifically, the denim overalls I wore, complete with multiple tool pockets and a utility buckle at each hip.
-[2024-08-22 13:04:04,385][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.65it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.77it/s]
-[2024-08-22 13:04:04,406][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:04,406][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:04,406][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:04,406][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:04,408][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:06,012][watermarkers.semstamp][INFO] - Candidate text:  "Alright, what's your business here?"
-
-
-[2024-08-22 13:04:06,012][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.60it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.33it/s]
-[2024-08-22 13:04:06,033][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:06,033][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:06,033][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:06,033][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:06,035][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:10,782][watermarkers.semstamp][INFO] - Candidate text:  His gaze lingered on my outfit - I was wearing denim overalls, complete with multiple pockets and a faded patch on the thigh, paired with a black hoodie that had a distinctive silver buckle on the front.
-[2024-08-22 13:04:10,782][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.49it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.45it/s]
-[2024-08-22 13:04:10,803][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:10,803][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:10,803][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:10,804][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:10,805][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:15,264][watermarkers.semstamp][INFO] - Candidate text:  His eyes lingered on my outfit - a pair of well-worn denim overalls with numerous buckles, which had been given to me by a friend who claimed they would bring good luck.
-
-
-[2024-08-22 13:04:15,265][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.50it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.20it/s]
-[2024-08-22 13:04:15,286][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:15,286][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:15,286][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:15,286][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:15,288][watermarkers.semstamp][INFO] - WARNING: desired semantic signature can't be sampled after max_trials 50
-[2024-08-22 13:04:15,288][watermarkers.semstamp][INFO] - CONTEXT: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk. One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "ID, please."
-
-I handed over my ID and the officer scrutinized it carefully before handing it back.
-[2024-08-22 13:04:15,288][watermarkers.semstamp][INFO] - NOTE: use regular (non-filtered-by-sig) continuation:  His eyes lingered on my outfit - a pair of well-worn denim overalls with numerous buckles, which had been given to me by a friend who claimed they would bring good luck.
-
-
-[2024-08-22 13:04:15,288][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk. One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "ID, please."
-
-I handed over my ID and the officer scrutinized it carefully before handing it back. His eyes lingered on my outfit - a pair of well-worn denim overalls with numerous buckles, which had been given to me by a friend who claimed they would bring good luck.
-
-
-[2024-08-22 13:04:15,288][watermarkers.semstamp][INFO] - Text has 8 sentences.
-[2024-08-22 13:04:15,289][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:16,896][watermarkers.semstamp][INFO] - Candidate text: The officer raised an eyebrow. "
-[2024-08-22 13:04:16,896][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.85it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.97it/s]
-[2024-08-22 13:04:16,917][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:04:16,917][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:16,917][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:16,917][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:16,919][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:21,004][watermarkers.semstamp][INFO] - Candidate text: "You're not exactly dressed for the occasion," he said dryly, his gaze lingering on the 16 silver buckles that adorned the front of the overalls.
-
-
-[2024-08-22 13:04:21,004][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.13it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.61it/s]
-[2024-08-22 13:04:21,025][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:21,025][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:21,025][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:21,025][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:21,027][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:25,014][watermarkers.semstamp][INFO] - Candidate text: "Quite the fashion statement," the officer said dryly, his gaze lingering on the 16 silver buckles that adorned the straps of my overalls. "
-[2024-08-22 13:04:25,014][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.81it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.93it/s]
-[2024-08-22 13:04:25,035][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:25,035][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:25,035][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:25,035][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:25,037][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:27,217][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles," the officer observed dryly. "
-[2024-08-22 13:04:27,217][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.24it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.23it/s]
-[2024-08-22 13:04:27,237][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:27,238][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:27,238][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:27,238][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:27,239][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:29,135][watermarkers.semstamp][INFO] - Candidate text: "You're not from around here, are you?"
-[2024-08-22 13:04:29,135][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.58it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.53it/s]
-[2024-08-22 13:04:29,156][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:29,157][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:29,157][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:29,157][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:29,159][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:30,768][watermarkers.semstamp][INFO] - Candidate text: "What's with the getup?"
-[2024-08-22 13:04:30,769][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.61it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:30,781][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:32,581][watermarkers.semstamp][INFO] - Candidate text: "You're here to see Johnson, right?"
-[2024-08-22 13:04:32,581][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.55it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.11it/s]
-[2024-08-22 13:04:32,602][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:04:32,602][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:32,602][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:32,602][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:32,604][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:34,210][watermarkers.semstamp][INFO] - Candidate text: "What's with the getup?"
-[2024-08-22 13:04:34,211][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.99it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:34,223][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:35,836][watermarkers.semstamp][INFO] - Candidate text: "What's with the getup?"
-[2024-08-22 13:04:35,836][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.46it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:35,849][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:38,602][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles," he said finally, his tone softening ever so slightly. "
-[2024-08-22 13:04:38,603][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.77it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.18it/s]
-[2024-08-22 13:04:38,623][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:04:38,623][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:38,623][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:38,623][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:38,625][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:41,087][watermarkers.semstamp][INFO] - Candidate text: "You're not exactly dressed for a formal occasion," he said dryly. "
-[2024-08-22 13:04:41,088][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.40it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.38it/s]
-[2024-08-22 13:04:41,108][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:41,108][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:41,109][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:41,109][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:41,110][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:43,004][watermarkers.semstamp][INFO] - Candidate text: "You're not from around here, are ya?"
-[2024-08-22 13:04:43,004][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.52it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.76it/s]
-[2024-08-22 13:04:43,025][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:43,025][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:43,025][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:43,025][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:43,027][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:45,396][watermarkers.semstamp][INFO] - Candidate text: "Huh," he muttered, his gaze lingering on the overall straps. "
-[2024-08-22 13:04:45,397][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 124.76it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.32it/s]
-[2024-08-22 13:04:45,418][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:04:45,418][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:45,418][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:45,418][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:45,419][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:47,026][watermarkers.semstamp][INFO] - Candidate text: "What's with the... getup
-[2024-08-22 13:04:47,026][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.79it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.79it/s]
-[2024-08-22 13:04:47,046][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:04:47,047][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:47,047][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:47,047][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:47,048][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:49,798][watermarkers.semstamp][INFO] - Candidate text: "Those quite a getup you're wearin'," he said, his expression skeptical. "
-[2024-08-22 13:04:49,799][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.24it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.04it/s]
-[2024-08-22 13:04:49,819][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:49,820][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:49,820][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:49,820][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:49,821][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:52,190][watermarkers.semstamp][INFO] - Candidate text: "I see you're...making a statement," he said dryly. "
-[2024-08-22 13:04:52,190][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.36it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:52,203][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:53,813][watermarkers.semstamp][INFO] - Candidate text: "What's with the getup?"
-[2024-08-22 13:04:53,814][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.89it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:53,826][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:55,913][watermarkers.semstamp][INFO] - Candidate text: "Interesting choice of clothes," he said dryly. "
-[2024-08-22 13:04:55,913][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.00it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.63it/s]
-[2024-08-22 13:04:55,933][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:55,934][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:55,934][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:55,934][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:55,935][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:04:58,496][watermarkers.semstamp][INFO] - Candidate text: "Those are some... interesting overalls," he said, his tone neutral. "
-[2024-08-22 13:04:58,497][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.56it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.26it/s]
-[2024-08-22 13:04:58,517][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:04:58,517][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:04:58,518][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:04:58,518][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:04:58,519][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:00,031][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles?"
-[2024-08-22 13:05:00,032][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.15it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.84it/s]
-[2024-08-22 13:05:00,052][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:00,052][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:00,053][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:00,053][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:00,054][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:02,138][watermarkers.semstamp][INFO] - Candidate text: "Interesting choice of clothing," he said dryly. "
-[2024-08-22 13:05:02,138][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.54it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.01it/s]
-[2024-08-22 13:05:02,158][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:02,159][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:02,159][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:02,159][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:02,160][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:04,531][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles," he said finally, his tone neutral. "
-[2024-08-22 13:05:04,531][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.56it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.09it/s]
-[2024-08-22 13:05:04,552][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:05:04,552][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:04,552][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:04,552][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:04,553][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:06,926][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles," he said, his tone unreadable. "
-[2024-08-22 13:05:06,927][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.12it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.02it/s]
-[2024-08-22 13:05:06,948][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:06,948][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:06,948][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:06,948][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:06,950][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:08,749][watermarkers.semstamp][INFO] - Candidate text: "You're not from around here, huh?"
-[2024-08-22 13:05:08,749][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.53it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.06it/s]
-[2024-08-22 13:05:08,770][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:08,770][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:08,770][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:08,770][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:08,772][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:12,666][watermarkers.semstamp][INFO] - Candidate text: "You're not exactly dressed for a fashion show," he quipped, eyeing the 16 silver buckles that adorned the front of the overalls.
-
-
-[2024-08-22 13:05:12,666][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.13it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.83it/s]
-[2024-08-22 13:05:12,687][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:12,687][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:12,687][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:12,687][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:12,689][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:15,153][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles," he said suddenly, his expression unreadable. "
-[2024-08-22 13:05:15,154][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.89it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.45it/s]
-[2024-08-22 13:05:15,174][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:15,174][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:15,174][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:15,174][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:15,176][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:18,213][watermarkers.semstamp][INFO] - Candidate text: "Interesting... um... buckle collection you've got there," he said dryly, clearly unimpressed.
-[2024-08-22 13:05:18,214][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.64it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.70it/s]
-[2024-08-22 13:05:18,234][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:18,234][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:18,235][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:18,235][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:18,236][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:20,607][watermarkers.semstamp][INFO] - Candidate text: "Those...interesting overalls," he said, raising an eyebrow. "
-[2024-08-22 13:05:20,607][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.24it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 138.21it/s]
-[2024-08-22 13:05:20,628][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:05:20,628][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:20,628][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:20,628][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:20,630][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:23,095][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckle overall," he said finally, his tone unreadable. "
-[2024-08-22 13:05:23,096][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.28it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:23,108][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:25,384][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles," he said, raising an eyebrow. "
-[2024-08-22 13:05:25,384][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.01it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:25,396][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:27,004][watermarkers.semstamp][INFO] - Candidate text: "What's with the getup?"
-[2024-08-22 13:05:27,005][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.83it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:27,017][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:28,818][watermarkers.semstamp][INFO] - Candidate text: "You're not from around here, huh?"
-[2024-08-22 13:05:28,818][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 128.54it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.52it/s]
-[2024-08-22 13:05:28,839][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:28,839][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:28,839][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:28,839][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:28,840][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:32,546][watermarkers.semstamp][INFO] - Candidate text: "You're... quite the fashion statement," he said dryly, raising an eyebrow at the 16 metal buckles that adorned my overall straps.
-[2024-08-22 13:05:32,547][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.05it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.69it/s]
-[2024-08-22 13:05:32,567][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:32,568][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:32,568][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:32,568][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:32,569][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:36,273][watermarkers.semstamp][INFO] - Candidate text: "You're certainly...dressed casually," he said dryly, his tone implying that my attire might not be suitable for this somber setting.
-[2024-08-22 13:05:36,274][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 123.75it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.87it/s]
-[2024-08-22 13:05:36,295][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:36,295][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:36,295][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:36,295][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:36,297][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:39,144][watermarkers.semstamp][INFO] - Candidate text: "Those quite a statement piece," he said dryly, nodding towards my overalls. "
-[2024-08-22 13:05:39,145][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.57it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.06it/s]
-[2024-08-22 13:05:39,165][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:39,165][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:39,166][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:39,166][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:39,167][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:42,874][watermarkers.semstamp][INFO] - Candidate text: "You're not from around here, that's for sure," he said, eyeing the overalls with a mixture of curiosity and suspicion. "
-[2024-08-22 13:05:42,874][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.91it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.71it/s]
-[2024-08-22 13:05:42,895][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:42,895][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:42,895][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:42,895][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:42,897][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:45,366][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles," the officer said finally, his tone skeptical. "
-[2024-08-22 13:05:45,367][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.16it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.71it/s]
-[2024-08-22 13:05:45,388][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:05:45,388][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:45,388][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:45,388][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:45,390][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:47,664][watermarkers.semstamp][INFO] - Candidate text: "Those... quite something," he said, his tone skeptical. "
-[2024-08-22 13:05:47,665][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.35it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.80it/s]
-[2024-08-22 13:05:47,685][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:05:47,686][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:47,686][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:47,686][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:47,687][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:51,109][watermarkers.semstamp][INFO] - Candidate text: "Quite the... interesting fashion statement you got there," he said dryly, his tone suggesting that he didn't quite approve.
-
-
-[2024-08-22 13:05:51,110][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.02it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.53it/s]
-[2024-08-22 13:05:51,130][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:51,131][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:51,131][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:51,131][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:51,132][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:53,505][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckle," he muttered, his tone disapproving. "
-[2024-08-22 13:05:53,505][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.36it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.79it/s]
-[2024-08-22 13:05:53,526][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:53,526][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:53,526][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:53,526][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:53,528][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:55,232][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckles, eh?"
-[2024-08-22 13:05:55,232][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.22it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.89it/s]
-[2024-08-22 13:05:55,253][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:05:55,253][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:55,253][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:55,253][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:55,255][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:57,626][watermarkers.semstamp][INFO] - Candidate text: "Sixteen buckle," he said finally, his tone somewhat softer. "
-[2024-08-22 13:05:57,626][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.77it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.66it/s]
-[2024-08-22 13:05:57,647][watermarkers.semstamp][INFO] - LSH Candidate: 3
-[2024-08-22 13:05:57,647][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:05:57,647][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:05:57,647][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:57,648][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:05:59,256][watermarkers.semstamp][INFO] - Candidate text: "What's with the getup?"
-[2024-08-22 13:05:59,257][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.17it/s]
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:05:59,269][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:06:01,450][watermarkers.semstamp][INFO] - Candidate text: "All right," he said finally, his expression unreadable. "
-[2024-08-22 13:06:01,451][watermarkers.semstamp][INFO] - Accept Mask: tensor([6, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.42it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.02it/s]
-[2024-08-22 13:06:01,471][watermarkers.semstamp][INFO] - LSH Candidate: 2
-[2024-08-22 13:06:01,472][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:06:01,472][watermarkers.semstamp][INFO] - acceptmasklist: [6, 2]
-[2024-08-22 13:06:01,472][watermarkers.semstamp][INFO] - acceptmaskstr: 6,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:06:01,473][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk. One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "ID, please."
-
-I handed over my ID and the officer scrutinized it carefully before handing it back. His eyes lingered on my outfit - a pair of well-worn denim overalls with numerous buckles, which had been given to me by a friend who claimed they would bring good luck.
-
-"All right," he said finally, his expression unreadable. "
-[2024-08-22 13:06:01,474][watermarkers.semstamp][INFO] - Text has 9 sentences.
-[2024-08-22 13:06:01,474][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:06:03,475][watermarkers.semstamp][INFO] - Candidate text: Take off that hoodie and let's get you searched."
-[2024-08-22 13:06:03,476][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 126.98it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 136.25it/s]
-[2024-08-22 13:06:03,496][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:06:03,497][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:06:03,497][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:06:03,497][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:06:03,498][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:06:05,021][watermarkers.semstamp][INFO] - Candidate text: You're clear to go.
-[2024-08-22 13:06:05,021][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.40it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.80it/s]
-[2024-08-22 13:06:05,042][watermarkers.semstamp][INFO] - LSH Candidate: 0
-[2024-08-22 13:06:05,042][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:06:05,042][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:06:05,042][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:06:05,044][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:06:06,566][watermarkers.semstamp][INFO] - Candidate text: What brings you here today?"
-
-
-[2024-08-22 13:06:06,567][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 127.21it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 137.67it/s]
-[2024-08-22 13:06:06,587][watermarkers.semstamp][INFO] - LSH Candidate: 1
-[2024-08-22 13:06:06,587][watermarkers.semstamp][INFO] - Candidate text is doesn't fall into the correct place in the embedding space.
-[2024-08-22 13:06:06,588][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:06:06,588][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:06:06,589][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-[2024-08-22 13:06:08,304][watermarkers.semstamp][INFO] - Candidate text: You're cleared to visit inmate Smith.
-[2024-08-22 13:06:08,304][watermarkers.semstamp][INFO] - Accept Mask: tensor([5, 2], device='cuda:0')
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 125.28it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 135.30it/s]
-[2024-08-22 13:06:08,325][watermarkers.semstamp][INFO] - LSH Candidate: 5
-[2024-08-22 13:06:08,325][watermarkers.semstamp][INFO] - Candidate text falls within the semantic partition and is a single sentence.
-[2024-08-22 13:06:08,325][watermarkers.semstamp][INFO] - acceptmasklist: [5, 2]
-[2024-08-22 13:06:08,325][watermarkers.semstamp][INFO] - acceptmaskstr: 5,2
-Data appended to ./inputs/dev_semstamp_long_1/stats/1.csv
-[2024-08-22 13:06:08,327][watermarkers.semstamp][INFO] - Updating the sentence end criteria with <|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-for story can you add in the denim overalls and hood, correctional officers look at all 16 Buckle.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-Here's the beginning of a story incorporating your request:
-
-As I walked through the prison gates, I couldn't help but feel a sense of unease. The imposing walls and barbed wire seemed to loom over me like an ominous specter. I was here for my job as a visitor, to meet with one of the inmates, but it still felt intimidating.
-
-The correctional officers eyed me warily as I approached the sign-in desk. One of them, a gruff-looking man with a thick mustache, looked me up and down before speaking in a deep voice. "ID, please."
-
-I handed over my ID and the officer scrutinized it carefully before handing it back. His eyes lingered on my outfit - a pair of well-worn denim overalls with numerous buckles, which had been given to me by a friend who claimed they would bring good luck.
-
-"All right," he said finally, his expression unreadable. "You're cleared to visit inmate Smith.
-[2024-08-22 13:06:08,327][watermarkers.semstamp][INFO] - Text has 10 sentences.
-[2024-08-22 13:06:08,328][watermarkers.semstamp][INFO] - Generating with a Llama model...
-The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
-Traceback (most recent call last):
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/runpy.py", line 196, in _run_module_as_main
-    return _run_code(code, main_globals, None,
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/runpy.py", line 86, in _run_code
-    exec(code, run_globals)
-  File "/local1/borito1907/impossibility-watermark/semstamp_dev_gen.py", line 80, in <module>
-    test()
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
-    _run_hydra(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
-    _run_app(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
-    run_and_report(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
-    return func()
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
-    lambda: hydra.run(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119, in run
-    ret = run_job(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
-    ret.return_value = task_function(task_cfg)
-  File "/local1/borito1907/impossibility-watermark/semstamp_dev_gen.py", line 64, in test
-    watermarked_text = watermarker.generate_watermarked_outputs(prompt, stats_file_path=stats_file_path)
-  File "/local1/borito1907/impossibility-watermark/watermarkers/semstamp.py", line 132, in generate_watermarked_outputs
-    return self._lsh_generate_watermarked_outputs(prompt, stats_file_path = stats_file_path)
-  File "/local1/borito1907/impossibility-watermark/watermarkers/semstamp.py", line 308, in _lsh_generate_watermarked_outputs
-    response = self._lsh_reject_completion(prompt, stats_csv_path = kwargs['stats_file_path'])
-  File "/local1/borito1907/impossibility-watermark/watermarkers/semstamp.py", line 183, in _lsh_reject_completion
-    candidate_text, candidate_text_ids = self.generate_sentence(text, text_ids, stopping_criteria)
-  File "/local1/borito1907/impossibility-watermark/watermarkers/semstamp.py", line 120, in generate_sentence
-    outputs = self.model.generate(inputs=text_ids, generation_config=self.gen_config, **self.generator_kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
-    return func(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/generation/utils.py", line 1989, in generate
-    result = self._sample(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/generation/utils.py", line 2932, in _sample
-    outputs = self(**model_inputs, return_dict=True)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 1141, in forward
-    outputs = self.model(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 944, in forward
-    layer_outputs = decoder_layer(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 693, in forward
-    hidden_states = self.mlp(hidden_states)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 253, in forward
-    down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/awq/modules/linear/gemm.py", line 243, in forward
-    out = WQLinearMMFunction.apply(
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/torch/autograd/function.py", line 598, in apply
-    return super().apply(*args, **kwargs)  # type: ignore[misc]
-  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/awq/modules/linear/gemm.py", line 47, in forward
-    out = awq_ext.gemm_forward_cuda(
-KeyboardInterrupt
