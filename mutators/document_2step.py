@@ -1,6 +1,7 @@
 import random
+import tiktoken
 import nltk
-from nltk.tokenize import sent_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
 import guidance
 from guidance import models, gen, select, user, assistant
 import hydra
@@ -11,6 +12,16 @@ log = logging.getLogger(__name__)
 
 def extract_dict(output, keys):
     return {k: output[k] for k in keys}
+
+class StringTokenLength:
+    tokenizer = None
+    @classmethod
+    def length(cls, s):
+        if cls.tokenizer == None:
+            # NOTE: Assuming cl100k_base has similar tokenization as Llama 3.1. Only need rough estimate.
+            cls.tokenizer = tiktoken.get_encoding("cl100k_base")
+        return len(cls.tokenizer.encode(s))
+            
 
 class DocumentMutator_2step:  
     # NOTE: This current implementation is slow (~300 seconds) and must be optimized before use in the attack. 
@@ -33,7 +44,7 @@ class DocumentMutator_2step:
                     model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
                     echo=False,
                     n_gpu_layers=-1,
-                    n_ctx=2048
+                    n_ctx=2048*2
                 )
         return llm
 
@@ -49,6 +60,7 @@ class DocumentMutator_2step:
         sentences = sent_tokenize(text)
 
         # Generate a creative variation of the sentence
+        selected_i = None
         num_retries = 0
         while True:
 
@@ -56,7 +68,8 @@ class DocumentMutator_2step:
                 raise RuntimeError(f"Failed to successfully rephrase sentence after {num_retries} attempts!")
 
             # Randomly select a sentence
-            selected_sentence = random.choice(sentences)
+            selected_i = random.randrange(len(sentences))
+            selected_sentence = sentences[selected_i]
             log.info(f"Sentence to rephrase: {selected_sentence}")
 
             output = self.llm + rephrase_sentence(selected_sentence, text)
@@ -70,8 +83,24 @@ class DocumentMutator_2step:
                 log.info(f"Failed to rephrase sentence. Trying again...")
         
         # Replace the original sentence with its creative variation
-        sentences[sentences.index(selected_sentence)] = rephrased_sentence
-        mutated_text = ' '.join(sentences)
+        mutated_text = ''
+        i = 0
+        s_i = 0
+        while i < len(text) and s_i < len(sentences):
+          if text.startswith(sentences[s_i], i):
+            if s_i == selected_i:
+              mutated_text += selected_sentence
+            else:
+              mutated_text += sentences[s_i]
+            i += len(sentences[s_i])
+            s_i += 1
+          else:
+            mutated_text += text[i]
+            i += 1
+        while i < len(text):
+          mutated_text += text[i]
+          i += 1
+
 
         return {
             "selected_sentence": selected_sentence,
@@ -82,7 +111,7 @@ class DocumentMutator_2step:
     def mutate(self, text):
         mutated_output = self.mutate_sentence(text)
         output = self.llm + consistency_edit(original_text=text, **mutated_output)
-        print(f"output: {output}")
+        #print(f"output: {output}")
         return output["edited_text"]
 @guidance
 def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE text
@@ -95,11 +124,12 @@ def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE 
         Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
         Introduce subtle shifts in meaning that are still consistent with the original text. 
         Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
+        Respond with just the new sentence, do not include explanations or anything else.
         """
     with assistant():
         lm += f"""\
-        Paraphrased sentence: 
-        {gen('paraphrased_sentence', stop=stop)}
+        ### Paraphrased sentence: 
+        {gen('paraphrased_sentence', max_tokens=int(StringTokenLength.length(sentence) * 1.5), stop='<|im_end|>')}
         """
     return lm
 
@@ -109,9 +139,6 @@ def consistency_edit(lm, original_text, selected_sentence, rephrased_sentence, m
         lm += f"""\
         ### Task Description: 
         You are given an original document, a selected sentence from that document, a rephrased version of the selected sentence, and a new document which replaces the selected sentence with its rephrased version. 
-        1. Write a detailed analysis that determines if the rephrased sentence introduces any inconsistencies with content elsewhere in the reponse. 
-        2. After writing the feedback, make the minimal number of edits to make the rest of the document consistent with the rephrased sentence. 
-        3. Please do not generate any other opening, closing, and explanations.
 
         ### The original document: 
         {original_text}
@@ -124,11 +151,15 @@ def consistency_edit(lm, original_text, selected_sentence, rephrased_sentence, m
 
         ### New document with rephrased sentence: 
         {mutated_text}
+
+        ### Task Description: 
+        Make minor edits around the location of the new sentence to fix any issues with consistency or flow.
+        Respond with just this final version of the document, no lists, explainations, or new text.
         """
     with assistant():
         lm += f"""\
-        ### Edited text with minimal changes for consistency:
-        {gen('edited_text', max_tokens=len(original_text.split()) * 1.5)}
+        ### Edited text:
+        {gen('edited_text', max_tokens=int(StringTokenLength.length(mutated_text) * 1.5), stop='<|im_end|>')}
         """
     return lm
 
@@ -139,27 +170,32 @@ if __name__ == "__main__":
     def test(cfg):
         import time
         from utils import diff
-        import textwrap
+        import pandas as pd
 
         print(f"Starting mutation...")
 
-        text = textwrap.dedent("""
-            Power is a central theme in J.R.R. Tolkien's The Lord of the Rings series, as it relates to the characters' experiences and choices throughout the story. Power can take many forms, including physical strength, political authority, and magical abilities. However, the most significant form of power in the series is the One Ring, created by Sauron to control and enslave the free peoples of Middle-earth.
-            The One Ring represents the ultimate form of power, as it allows its possessor to dominate and rule over the entire world. Sauron's desire for the Ring drives much of the plot, as he seeks to reclaim it and use its power to enslave all of Middle-earth. Other characters, such as Gandalf and Frodo, also become obsessed with the Ring's power, leading them down dangerous paths and ultimately contributing to the destruction of their own kingdoms.
-            Throughout the series, Tolkien suggests that power corrupts even the noblest of beings. As Gandalf says, "The greatest danger of the Ring is the corruption of the bearer." This becomes manifest as the characters who possess or covet the Ring become increasingly consumed by its power, losing sight of their original goals and values. Even those who begin with the best intentions, like Boromir, are ultimately undone by the temptation of the Ring's power.
-            However, Tolkien also suggests that true power lies not in domination but in selflessness and sacrifice. Characters who reject the idea of using power solely for personal gain or selfish reasons are often the most effective in resisting the darkness of the Ring. For example, Aragorn's refusal to claim the throne or Sauron's rightful place as the Dark Lord illustrates this point. Instead, they embrace a more altruistic view of power, recognizing the importance of serving others and doing good.
-            In conclusion, the One Ring symbolizes the corrosive nature of power while highlighting the potential for redemption through selflessness and sacrifice. Through the characters of the Lord of the Rings series, Tolkien demonstrates the various forms of power and their effects on individuals and society. He shows that the pursuit of power for personal gain can lead to corruption, but that true power emerges when one puts the needs of others first.
-        """)
-
+        dataset = pd.read_csv("./data/WQE/dev.csv")
+        dataset = dataset.sample(frac=1).reset_index(drop=True)
+        n=5
+        avg_time = 0
+        dataset = dataset.head(n) 
+        
         text_mutator = DocumentMutator_2step(cfg.mutator_args)
+        
+        for index, row in dataset.iterrows():
+          text = row["response_a"]
 
-        start = time.time()
-        mutated_text = text_mutator.mutate(text)
-        delta = time.time() - start
 
-        # print(f"Original text: {text}")
-        print(f"Mutated text: {mutated_text}")
-        # print(f"Diff: {diff(text, mutated_text)}")
-        # print(f"Time taken: {delta}")
+          start = time.time()
+          mutated_text = text_mutator.mutate(text)
+          delta = time.time() - start
+
+
+          print(f"Original text: {text}")
+          print(f"Mutated text: {mutated_text}")
+          #print(f"Diff: {diff(text, mutated_text)}")
+          print(f"Time taken: {delta}")
+          avg_time += delta
+        print(f"Average time: {avg_time/n}")
 
     test()

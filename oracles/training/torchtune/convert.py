@@ -5,8 +5,8 @@ import torch
 from tqdm import tqdm
 from safetensors.torch import save_file
 
-epoch_id = 4
-model_file_path = f"/data2/.shared_models/models--meta-llama--Meta-Llama-3.1-70B-Instruct-WQE-0.1"
+epoch_id = 9
+model_file_path = f"/data2/.shared_models/models--meta-llama--Meta-Llama-3.1-70B-Instruct-IMP-0.1"
 
 pt_to_merge = glob.glob(f"{model_file_path}/hf_model_00*_{epoch_id}.pt")
 state_dicts = [torch.load(p) for p in tqdm(pt_to_merge)]

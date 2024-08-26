@@ -50,17 +50,14 @@ class DiffOracle(Oracle):
             ### Revisions:
             {report}
             
-            
             ### Final Response:
             {kwargs['response_B']}
-            
 
             ### Instructions:
             We want to know if these revisions will lead to a loss in quality compared to the original.
             It is fine if some ideas are expressed differently, but we want to avoid introducing errors into the response.
             Be strict in your evaluation and consider the overall quality of the response, and take note of the differences between the two.
             If the revisions are acceptable, respond with "Yes", and if not, "No".
-            
             """
        
         with assistant():

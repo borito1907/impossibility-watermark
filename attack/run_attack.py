@@ -51,7 +51,7 @@ def main(cfg):
     mutator = mutators[cfg.mutator_type]()
     oracle = oracles[cfg.oracle_type]()
 
-    attacker = Attack(cfg, watermarker, mutator, oracle)
+    attacker = Attack(cfg, mutator, oracle, watermarker)
 
     prompt = """What is Kolmogorov 0-1 law?"""
 
