@@ -10,7 +10,7 @@ from oracles import (
     BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,
     ArmoRMOracle, InternLMOracle, OffsetBiasOracle
 )
-from attack import Attack
+from attack.attack import Attack
 
 import hydra
 import logging
@@ -55,20 +55,14 @@ def main(cfg):
 
     prompt = """Create a psychological portrait of a person who values their time 1000000000usd per second"""
 
-    watermarked_text = """What an intriguing request! Let's dive into the psyche of someone who values their time at an astronomical rate of $1 billion per second.
+    watermarked_text = """What an fascinating individual! Based solely upon valuing time at such an astronomical rate, I'll create an educated portrait of someone I'll call... Chrono (a name that reflects an affinity and obsession over time).
 
-**Name:** Temporis (a Latin-derived name that reflects their reverence for time)
+**Personification:**
+ Chrono is someone who lives and breaths time management and prioritization. Their every thought, decision, and move is calculated to optimize each passing microsecond for ultimate utility. This person has transcended mere mortal concepts like ""leisure"" or ""dawdling."" For them, time is both precious and perilously scarce.
 
-**Personality:**
+**Key Traits:**
 
-Temporis is an extremely goal-oriented individual, perpetually focused on maximizing productivity and efficiency. With a self-assessed value of their time at $1 billion per second, they treat every moment as a precious investment opportunity. This fixation drives them to prioritize tasks with ruthless pragmatism, dismissing any activity that doesn't offer substantial returns on their temporal capital.
-
-**Traits:**
-
-* **Time-consciousness**: Temporis has a hyper-acute sense of time, always aware of the ticking clock and the dollars flowing away with each passing second.
-* **Opportunity cost obsession**: They constantly weigh the potential benefits of each action against its time expenditure, ensuring that every decision optimizes their schedule.
-* **Frugality**: Given the staggering value they place on their time, Temporis tends to be incredibly thrifty, minimizing non-essential expenses and investments that don't generate significant ROI (return on investment).
-* **High-stakes decision-making**: Every choice becomes a high-pressure situation, where even minor setbacks or miscalculations could result in billions lost."""
+1. **Frugality with Time**: Chrono is extremely stingy with his or her own time, as it's worth $1 billion every tick of one second (approximately $31."""
 
     attacked_text = attacker.attack(prompt, watermarked_text)
 

@@ -28,7 +28,6 @@ class Watermarker(ABC):
             self.tokenizer = self.pipeline.tokenizer
             self.tokenizer.pad_token = self.tokenizer.pad_token or self.tokenizer.eos_token
 
-
             self.generator_kwargs = {
                 "max_new_tokens": self.cfg.generator_args.max_new_tokens,
                 "do_sample": self.cfg.generator_args.do_sample,
@@ -39,7 +38,7 @@ class Watermarker(ABC):
             }
         # UMD and Adaptive need the tokenizer to detect, so we initialize it to the default value here.
         # This only works for Llama3.1, so we might want to change it.
-        elif self.watermark_args.name != "semstamp_lsh":
+        elif self.cfg.watermark_args.name != "semstamp_lsh":
             self.tokenizer = AutoTokenizer.from_pretrained(
                 "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4", 
                 use_fast=True, 

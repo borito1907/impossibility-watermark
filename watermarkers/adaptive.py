@@ -59,8 +59,6 @@ class AdaptiveWatermarker(Watermarker):
                 self.mapping_list = json.load(f)
         else:
             raise Exception("No mapping list provided for Llama!")
-
-        log.info(self.generator_kwargs)
     
     def paraphrase(self, openai_api_key, input_text):
         openai.api_key = openai_api_key
@@ -237,7 +235,9 @@ class AdaptiveWatermarker(Watermarker):
 
         attn = torch.ones_like(input_ids)
         past = None
-        for i in range(self.cfg.watermark_args.max_new_tokens):
+        log.info(f"Length of the prompt in terms of tokens: {len(input_ids[0])}")
+        # In order not to break Llama by generating more than 1024 tokens, include the prompt length in the range of the for loop.
+        for _ in range(self.cfg.watermark_args.max_new_tokens - len(input_ids[0]) - 100):
             with torch.no_grad():
                 if past:
                     output = self.pipeline.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past)
@@ -285,7 +285,8 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         # log.info(f"Input IDS: {input_ids}")
         log.info(f"Length of the prompt in terms of tokens: {len(input_ids[0])}")
         # In order not to break Llama by generating more than 1024 tokens, include the prompt length in the range of the for loop.
-        for _ in range(self.cfg.watermark_args.max_new_tokens - len(input_ids[0])):
+        # It broke even when I substracted 150.
+        for _ in range(self.cfg.watermark_args.max_new_tokens - len(input_ids[0]) - 150):
             with torch.no_grad():
                 if past:
                     output = self.pipeline.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past)
@@ -340,7 +341,7 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
                 s = ve[watermark_ids[0][i]]
                 score.append(s)
             elif i > self.cfg.watermark_args.measure_threshold:
-                measure_text = self.pipeline.tokenizer.decode(watermark_ids[0][:i])
+                measure_text = self.tokenizer.decode(watermark_ids[0][:i])
                 measure_entropy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
                 if measure_entropy >= self.cfg.watermark_args.alpha:
                     e = self.embedding_model.encode(measure_text, convert_to_tensor=True, device=self.device)

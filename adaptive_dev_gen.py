@@ -27,6 +27,7 @@ def test(cfg):
     cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
     cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
     cfg_dict['watermark_args']['measure_threshold'] = 50
+    cfg_dict['watermark_args']['detection_threshold'] = 95.0
     cfg_dict['watermark_args']['device'] = 'auto'
 
     cfg = OmegaConf.create(cfg_dict)
@@ -39,15 +40,18 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_massive_stopfix5_{cfg.partition}"
+    dir_name = f"adaptive_dev_massive_final4_cont_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
     partition_size = 200
-    start = 1 + (cfg.partition - 1) * partition_size
-    end = 1 + cfg.partition * partition_size
+    # start = 1 + (cfg.partition - 1) * partition_size
+    # end = 1 + cfg.partition * partition_size
+
+    start = 41
+    end = 76
 
     for prompt_num in range(start,end):
 
@@ -60,14 +64,15 @@ def test(cfg):
             for _ in range(1):
                 start = time.time()
                 watermarked_text = watermarker.generate_watermarked_outputs(prompt)
-                is_detected = watermarker.detect(watermarked_text)
+                is_detected, score = watermarker.detect(watermarked_text)
                 delta = time.time() - start
                 
                 log.info(f"Watermarked Text: {watermarked_text}")
                 log.info(f"Is Watermark Detected?: {is_detected}")
+                log.info(f"Score: {score}")
                 log.info(f"Time taken: {delta}")
 
-                stats = [{'id': id, 'text': watermarked_text, 'zscore': is_detected, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
                 save_to_csv(stats, watermarked_text_file_path, rewrite=False)
         except Exception as e:
             log.info(f"Exception with Prompt {prompt_num}.")

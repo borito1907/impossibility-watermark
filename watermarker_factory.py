@@ -55,6 +55,7 @@ semstamp_cfg = OmegaConf.create(semstamp_dict)
 
 adaptive_dict = {}
 adaptive_dict['watermark_args'] = {}
+adaptive_dict['generator_args'] = {}
 adaptive_dict['watermark_args']['name'] = "adaptive"
 adaptive_dict['watermark_args']['measure_model_name'] = "gpt2-large"
 adaptive_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
@@ -68,6 +69,9 @@ adaptive_dict['watermark_args']['min_new_tokens'] = 128 # 215
 adaptive_dict['watermark_args']['only_detect'] = True
 adaptive_dict['watermark_args']['device'] = 'auto'
 adaptive_dict['watermark_args']['detection_threshold'] = 95.0
+adaptive_dict['generator_args']['model_name_or_path'] = "Llama-3.1"
+adaptive_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
+adaptive_dict['watermark_args']['measure_threshold'] = 50
 adaptive_cfg = OmegaConf.create(adaptive_dict)
 
 def get_default_watermarker(watermarker_name):
