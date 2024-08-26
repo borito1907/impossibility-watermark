@@ -1,0 +1,32 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-08-23 02:57:25,156][__main__][INFO] - Getting the watermarker...
+[2024-08-23 02:57:25,156][watermarker][INFO] - Using device: cuda:0
+[2024-08-23 02:57:25,156][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/accelerate/utils/modeling.py:1365: UserWarning: Current model requires 34673403776 bytes of buffer for offloaded layers, which seems does not fit any GPU's remaining memory. If you are experiencing a OOM later, please consider using offload_buffers=True.
+  warnings.warn(
+Error executing job with overrides: []
+Traceback (most recent call last):
+  File "/local1/borito1907/impossibility-watermark/semstamp_dev_gen.py", line 41, in test
+    watermarker = get_watermarker(cfg, only_detect=False)
+  File "/local1/borito1907/impossibility-watermark/watermarker_factory.py", line 13, in get_watermarker
+    return SemStampWatermarker(cfg, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarkers/semstamp.py", line 48, in __init__
+    super().__init__(cfg, pipeline, n_attempts, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarker.py", line 22, in __init__
+    self.pipeline = PipeLineBuilder(self.cfg.generator_args)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 28, in __init__
+    self._init_model(self.cfg)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 83, in _init_model
+    self.model = AutoModelForCausalLM.from_pretrained(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/modeling_utils.py", line 3865, in from_pretrained
+    hf_quantizer.validate_environment(device_map=device_map)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/quantizers/quantizer_awq.py", line 65, in validate_environment
+    raise ValueError(
+ValueError: You are attempting to load an AWQ model with a device_map that contains a CPU or disk device. This is not supported. Please remove the CPU or disk device from the device_map.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

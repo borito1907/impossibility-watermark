@@ -190,6 +190,7 @@ if __name__ == "__main__":
           mutated_text = text_mutator.mutate(text)
           delta = time.time() - start
 
+
           print(f"Original text: {text}")
           print(f"Mutated text: {mutated_text}")
           #print(f"Diff: {diff(text, mutated_text)}")

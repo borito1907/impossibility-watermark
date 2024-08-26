@@ -1,0 +1,87 @@
+/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-08-23 02:55:14,489][__main__][INFO] - Getting the watermarker...
+[2024-08-23 02:55:14,489][watermarker][INFO] - Using device: cuda:0
+[2024-08-23 02:55:14,489][model_builders.pipeline][INFO] - Initializing hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Traceback (most recent call last):
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/local1/borito1907/impossibility-watermark/adaptive_dev_gen.py", line 71, in <module>
+    test()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119, in run
+    ret = run_job(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/local1/borito1907/impossibility-watermark/adaptive_dev_gen.py", line 32, in test
+    watermarker = get_watermarker(cfg, only_detect=False)
+  File "/local1/borito1907/impossibility-watermark/watermarker_factory.py", line 15, in get_watermarker
+    return AdaptiveWatermarker(cfg, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarkers/adaptive.py", line 26, in __init__
+    super().__init__(cfg, pipeline, n_attempts, **kwargs)
+  File "/local1/borito1907/impossibility-watermark/watermarker.py", line 22, in __init__
+    self.pipeline = PipeLineBuilder(self.cfg.generator_args)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 28, in __init__
+    self._init_model(self.cfg)
+  File "/local1/borito1907/impossibility-watermark/model_builders/pipeline.py", line 83, in _init_model
+    self.model = AutoModelForCausalLM.from_pretrained(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/models/auto/auto_factory.py", line 485, in from_pretrained
+    resolved_config_file = cached_file(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/transformers/utils/hub.py", line 402, in cached_file
+    resolved_file = hf_hub_download(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1221, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1282, in _hf_hub_download_to_cache_dir
+    (url_to_download, etag, commit_hash, expected_size, head_call_error) = _get_metadata_or_catch_error(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1722, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(url=url, proxies=proxies, timeout=etag_timeout, headers=headers)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1645, in get_hf_file_metadata
+    r = _request_wrapper(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 372, in _request_wrapper
+    response = _request_wrapper(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 395, in _request_wrapper
+    response = get_session().request(method=method, url=url, **params)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/huggingface_hub/utils/_http.py", line 66, in send
+    return super().send(request, *args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/requests/adapters.py", line 589, in send
+    resp = conn.urlopen(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/urllib3/connectionpool.py", line 793, in urlopen
+    response = self._make_request(
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/urllib3/connectionpool.py", line 537, in _make_request
+    response = conn.getresponse()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/site-packages/urllib3/connection.py", line 466, in getresponse
+    httplib_response = super().getresponse()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/http/client.py", line 1375, in getresponse
+    response.begin()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/ssl.py", line 1307, in recv_into
+    return self.read(nbytes, buffer)
+  File "/local1/borito1907/anaconda3/envs/watermark/lib/python3.10/ssl.py", line 1163, in read
+    return self._sslobj.read(len, buffer)
+KeyboardInterrupt
