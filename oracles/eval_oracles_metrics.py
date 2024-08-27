@@ -112,8 +112,8 @@ def analyze_response_quality(file_paths, penalty_weights=None):
     return grouped_metrics.sort_values("average_f1_score")
 
 file_paths = [
-    './oracles/results/IMP_oracle_eval_v2.csv',
-    './oracles/results/IMP_oracle_eval_DiffOracle-IMP-sft.csv'
+    './oracles/results/IMP_oracle_eval_v3.csv',
+    # './oracles/results/IMP_oracle_eval_DiffOracle-IMP-sft.csv'
 ]
 
 # Example usage with different penalty weights for each class
@@ -125,4 +125,4 @@ penalty_weights = {
 
 results = analyze_response_quality(file_paths, penalty_weights=penalty_weights)
 print(results)
-results.to_csv('./oracles/results/IMP_oracle_eval_v2_metrics.csv', index=False)
+results.to_csv('./oracles/results/IMP_oracle_eval_v3_metrics.csv', index=False)
