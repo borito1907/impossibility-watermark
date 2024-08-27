@@ -3,6 +3,7 @@
 import os
 import logging
 import traceback
+from dotenv import load_dotenv
 from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle,
     PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
@@ -65,16 +66,16 @@ def run_eval():
 		# {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf", "explain": True},
 
         # Llama-3.1-70B + explain=False
-        {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": RankOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": JointOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": False},
+        # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": False},
 
 		# Llama-3.1-70B + explain=True
         # {"type": "guidance", "class": SoloOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
@@ -86,9 +87,13 @@ def run_eval():
         # {"type": "guidance", "class": Mutation1Oracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
         # {"type": "guidance", "class": ExampleOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
         # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf", "explain": True},
-        {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": True},
+        # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": True},
         
-
+        # GPT-4o fine-tuned on IMP
+        {"type": "guidance", "class": MutationOracle, "llm_path": "ft:gpt-4o-2024-08-06:ucla-pluslab:imp-binary-diff-mutation:A0kklWac", "explain": False},
+        {"type": "guidance", "class": BinaryOracle, "llm_path": "ft:gpt-4o-2024-08-06:ucla-pluslab:imp-binary-diff-mutation:A0kklWac", "explain": False},
+        {"type": "guidance", "class": DiffOracle, "llm_path": "ft:gpt-4o-2024-08-06:ucla-pluslab:imp-binary-diff-mutation:A0kklWac", "explain": False},
+        
         # Prometheus 
         # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "gpt-4-turbo", "explain": True},
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4-turbo", "explain": True}, 
@@ -102,7 +107,7 @@ def run_eval():
     tests_df = pd.read_csv("./data/IMP/test.csv")
     print(tests_df)
 
-    save_path = "./oracles/results/IMP_oracle_eval_v3.csv"
+    save_path = "./oracles/results/IMP_oracle_eval_gpt-4o-ft.csv"
 
     # Check if the save file already exists and load it
     try:
@@ -118,15 +123,22 @@ def run_eval():
 
         # Initialize Oracle
         if "guidance" in oracle_config["type"]:
-            llm = models.LlamaCpp(
-                model=oracle_config["llm_path"],
-                echo=False,
-                n_gpu_layers=-1,
-                n_ctx=4096
-            )
+            if "gpt-" in oracle_config["llm_path"]: 
+                load_dotenv()
+                llm = models.OpenAI(
+                    model=oracle_config["llm_path"]
+                )
+                judge_name = oracle_config["llm_path"]
+            else:
+                llm = models.LlamaCpp(
+                    model=oracle_config["llm_path"],
+                    echo=False,
+                    n_gpu_layers=-1,
+                    n_ctx=4096
+                )
+                judge_name = oracle_config["llm_path"].replace("/data2/.shared_models/llama.cpp_models/", "").replace(".gguf", "")
             oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
-            judge_name = oracle_config["llm_path"].replace("/data2/.shared_models/llama.cpp_models/", "").replace(".gguf", "")
-            
+
         elif "prometheus" in oracle_config["type"]:
             print(f"Loading Prometheus with {oracle_config['llm_path']}...")
             if "gpt-" in oracle_config["llm_path"]:
