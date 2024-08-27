@@ -10,9 +10,15 @@ log = logging.getLogger(__name__)
 
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def test(cfg):
-    cfg.prompt_file='./data/WQE/dev.csv'
+    cfg.prompt_file='./data/WQE/test.csv'
 
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    cfg_dict['generator_args']['top_k'] = 50
+    cfg_dict['generator_args']['top_p'] = 0.9
+    cfg_dict['generator_args']['max_new_tokens'] = 1024 # 285
+    cfg_dict['generator_args']['min_new_tokens'] = 128 # 215
+    cfg_dict['generator_args']['repetition_penalty'] = 1.1
+
     cfg_dict['watermark_args']['name'] = "adaptive"
     cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
     cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
@@ -21,8 +27,8 @@ def test(cfg):
     cfg_dict['watermark_args']['alpha'] = 2.0
     cfg_dict['watermark_args']['top_k'] = 50
     cfg_dict['watermark_args']['top_p'] = 0.9
-    cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
-    cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
+    # cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
+    # cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
     cfg = OmegaConf.create(cfg_dict)
     
     import time
@@ -33,13 +39,13 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_700_test_{cfg.partition}"
+    dir_name = f"adaptive_massive_test_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    partition_size = 700
+    partition_size = 200
     start = 1 + (cfg.partition - 1) * partition_size
     end = 1 + cfg.partition * partition_size
 

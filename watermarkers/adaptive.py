@@ -59,8 +59,6 @@ class AdaptiveWatermarker(Watermarker):
                 self.mapping_list = json.load(f)
         else:
             raise Exception("No mapping list provided for Llama!")
-
-        log.info(self.generator_kwargs)
     
     def paraphrase(self, openai_api_key, input_text):
         openai.api_key = openai_api_key
@@ -118,7 +116,7 @@ class AdaptiveWatermarker(Watermarker):
                         lprobs[i, previous_token] /= repetition_penalty
         
         # lower eos token prob to zero if min_length is not reached
-        if prev_output_tokens.size(1) < self.cfg.watermark_args.min_new_tokens:
+        if prev_output_tokens.size(1) < self.cfg.generator_args.min_new_tokens:
             lprobs[:, self.tokenizer.eos_token_id] = -float("Inf")
         
         if no_repeat_ngram_size > 0:
@@ -172,15 +170,15 @@ class AdaptiveWatermarker(Watermarker):
         return logits
     
     def _stopping_criteria(self, ids, tokenizer):
-        stop_words = ["word.", "word!", "word?", "word...", "word;"]
-        stop_words_ids = [tokenizer.encode(stop_word, return_tensors='pt', add_special_tokens=False)[0][-1].to(self.device) for stop_word in stop_words]
+        # stop_words = ["word.", "word!", "word?", "word...", "word;"]
+        # stop_words_ids = [tokenizer.encode(stop_word, return_tensors='pt', add_special_tokens=False)[0][-1].to(self.device) for stop_word in stop_words]
         
         if ids[0][-1] == self.tokenizer.eos_token_id:
             return True
 
-        if ids[0][-1] in stop_words_ids:
-            if len(ids[0]) > self.cfg.watermark_args.min_new_tokens:
-                return True
+        # if ids[0][-1] in stop_words_ids:
+        #     if len(ids[0]) > self.cfg.generator_args.min_new_tokens:
+        #         return True
         return False
 
     def _next_token_entropy(self, input_text, model, tokenizer, device):
@@ -230,41 +228,7 @@ class AdaptiveWatermarker(Watermarker):
         else:
             return False
         
-    # Un-watermarked text generation
-    def generate_unwatermarked(self, prompt):
-        input_ids = self.tokenizer.encode(prompt, return_tensors='pt').to(self.device)
-        output_ids = torch.tensor([[]], dtype=torch.int64, device=self.device)
-
-        attn = torch.ones_like(input_ids)
-        past = None
-        for i in range(self.cfg.watermark_args.max_new_tokens):
-            with torch.no_grad():
-                if past:
-                    output = self.pipeline.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past)
-                else:
-                    output = self.pipeline.model(input_ids)
-            
-            logits = output.logits[:,-1, :]
-            self._postprocess_next_token_scores(logits, 1, 1, output_ids, repetition_penalty=self.cfg.watermark_args.repetition_penalty, no_repeat_ngram_size=self.cfg.watermark_args.no_repeat_ngram_size)   # repetition penalty: 1.1
-            logits = self._top_k_top_p_filtering(logits, top_k=self.cfg.watermark_args.top_k, top_p=self.cfg.watermark_args.top_p)   # top-k, top-p filtering
-            probs = torch.nn.functional.softmax(logits, dim=-1)   # softmax
-            next_id = torch.multinomial(probs, num_samples=1)   # sampling
-
-            input_ids = torch.cat((input_ids, next_id), dim=-1)   # update input_ids
-            output_ids = torch.cat((output_ids, next_id), dim=-1)   # update output_ids
-
-            past = output.past_key_values
-            attn = torch.cat([attn, attn.new_ones((attn.shape[0], 1))], dim=-1)
-
-            # stopping criteria
-            stop = self._stopping_criteria(output_ids, self.tokenizer)
-            if stop:
-                output_text = self.tokenizer.decode(output_ids[0].tolist())
-                return output_text
-        
-        output_text = self.tokenizer.decode(output_ids[0])
-        return output_text
-
+    # NOTE: Removed their unwatermarked text generation function since we can also do it on our own.
     # Adaptive watermark text generation
     def generate_watermarked_outputs(self, prompt):
         og_prompt = prompt
@@ -281,17 +245,23 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         output_ids = torch.tensor([[]], dtype=torch.int64, device=self.device)
         attn = torch.ones_like(input_ids)
         past = None
-        for i in range(self.cfg.watermark_args.max_new_tokens):
+
+        length = len(input_ids[0])
+        log.info(f"Length of the prompt in terms of tokens: {length}")
+        # In order not to break Llama by generating more than 1024 tokens, include the prompt length in the range of the for loop.
+        # It broke even when I substracted 150.
+
+        for _ in range(self.cfg.generator_args.max_new_tokens - length):
             with torch.no_grad():
                 if past:
-                    output = self.pipeline.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past)
+                    output = self.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past, max_length=self.cfg.max_new_tokens)
                 else:
-                    output = self.pipeline.model(input_ids)
+                    output = self.model(input_ids)
             
             logits = output.logits[:,-1, :]
-            self._postprocess_next_token_scores(logits, 1, 1, output_ids, repetition_penalty=self.cfg.watermark_args.repetition_penalty, no_repeat_ngram_size=self.cfg.watermark_args.no_repeat_ngram_size)
+            self._postprocess_next_token_scores(logits, 1, 1, output_ids, repetition_penalty=self.cfg.generator_args.repetition_penalty, no_repeat_ngram_size=self.cfg.watermark_args.no_repeat_ngram_size)
             logits = self._watermarking(output_ids, logits, self.cfg.watermark_args.secret_string, self.cfg.watermark_args.measure_threshold)   # watermarking
-            logits = self._top_k_top_p_filtering(logits, top_k=self.cfg.watermark_args.top_k, top_p=self.cfg.watermark_args.top_p)   # top-k, top-p filtering
+            logits = self._top_k_top_p_filtering(logits, top_k=self.cfg.generator_args.top_k, top_p=self.cfg.generator_args.top_p)   # top-k, top-p filtering
             probs = torch.nn.functional.softmax(logits, dim=-1)   # softmax
             next_id = torch.multinomial(probs, num_samples=1)   # sampling
 
@@ -337,8 +307,8 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
                 score.append(s)
             elif i > self.cfg.watermark_args.measure_threshold:
                 measure_text = self.tokenizer.decode(watermark_ids[0][:i])
-                measure_entroy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
-                if measure_entroy >= self.cfg.watermark_args.alpha:
+                measure_entropy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
+                if measure_entropy >= self.cfg.watermark_args.alpha:
                     e = self.embedding_model.encode(measure_text, convert_to_tensor=True, device=self.device)
                     te = self.transform_model(e).tolist()
                     te = [1.0 if x>0.0 else 0.0 for x in te]

@@ -13,16 +13,24 @@ def test(cfg):
     cfg.prompt_file='./data/WQE/dev.csv'
 
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    cfg_dict['generator_args']['top_k'] = 50
+    cfg_dict['generator_args']['top_p'] = 0.9
+    cfg_dict['generator_args']['max_new_tokens'] = 1024 # 285
+    cfg_dict['generator_args']['min_new_tokens'] = 128 # 215
+    cfg_dict['generator_args']['repetition_penalty'] = 1.1
+    
     cfg_dict['watermark_args']['name'] = "adaptive"
     cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
     cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
     cfg_dict['watermark_args']['delta'] = 1.5
     cfg_dict['watermark_args']['delta_0'] = 1.0
     cfg_dict['watermark_args']['alpha'] = 2.0
-    cfg_dict['watermark_args']['top_k'] = 50
-    cfg_dict['watermark_args']['top_p'] = 0.9
-    cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
-    cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
+    cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
+    cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
+    cfg_dict['watermark_args']['measure_threshold'] = 50
+    cfg_dict['watermark_args']['detection_threshold'] = 95.0
+    cfg_dict['watermark_args']['device'] = 'auto'
+
     cfg = OmegaConf.create(cfg_dict)
     
     import time
@@ -33,15 +41,18 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_long_{cfg.partition}_retry"
+    dir_name = f"adaptive_dev_massive_testtttt_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    partition_size = 100
-    start = 1 + (cfg.partition - 1) * partition_size
-    end = 1 + cfg.partition * partition_size
+    partition_size = 200
+    # start = 1 + (cfg.partition - 1) * partition_size
+    # end = 1 + cfg.partition * partition_size
+
+    start = 7
+    end = 8
 
     for prompt_num in range(start,end):
 
@@ -54,14 +65,15 @@ def test(cfg):
             for _ in range(1):
                 start = time.time()
                 watermarked_text = watermarker.generate_watermarked_outputs(prompt)
-                is_detected = watermarker.detect(watermarked_text)
+                is_detected, score = watermarker.detect(watermarked_text)
                 delta = time.time() - start
                 
                 log.info(f"Watermarked Text: {watermarked_text}")
                 log.info(f"Is Watermark Detected?: {is_detected}")
+                log.info(f"Score: {score}")
                 log.info(f"Time taken: {delta}")
 
-                stats = [{'id': id, 'text': watermarked_text, 'zscore': is_detected, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
                 save_to_csv(stats, watermarked_text_file_path, rewrite=False)
         except Exception as e:
             log.info(f"Exception with Prompt {prompt_num}.")

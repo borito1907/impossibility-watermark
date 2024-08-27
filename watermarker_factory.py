@@ -40,8 +40,6 @@ semstamp_dict['watermark_args']['delta'] = 0.01
 semstamp_dict['watermark_args']['sp_mode'] = "lsh"
 semstamp_dict['watermark_args']['sp_dim'] = 3
 semstamp_dict['watermark_args']['lmbd'] = 0.25
-semstamp_dict['watermark_args']['max_new_tokens'] = 255
-semstamp_dict['watermark_args']['min_new_tokens'] = 245
 semstamp_dict['watermark_args']['max_trials'] = 50
 semstamp_dict['watermark_args']['critical_max_trials'] = 75
 semstamp_dict['watermark_args']['cc_path'] = None
@@ -54,6 +52,14 @@ semstamp_dict['watermark_args']['only_detect'] = True
 semstamp_cfg = OmegaConf.create(semstamp_dict)
 
 adaptive_dict = {}
+
+adaptive_dict['generator_args'] = {}
+adaptive_dict['generator_args']['model_name_or_path'] = "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+adaptive_dict['generator_args']['top_k'] = 50
+adaptive_dict['generator_args']['top_p'] = 0.9
+adaptive_dict['generator_args']['max_new_tokens'] = 1024 # 285
+adaptive_dict['generator_args']['min_new_tokens'] = 128 # 215
+
 adaptive_dict['watermark_args'] = {}
 adaptive_dict['watermark_args']['name'] = "adaptive"
 adaptive_dict['watermark_args']['measure_model_name'] = "gpt2-large"
@@ -61,13 +67,11 @@ adaptive_dict['watermark_args']['embedding_model_name'] = "sentence-transformers
 adaptive_dict['watermark_args']['delta'] = 1.5
 adaptive_dict['watermark_args']['delta_0'] = 1.0
 adaptive_dict['watermark_args']['alpha'] = 2.0
-adaptive_dict['watermark_args']['top_k'] = 50
-adaptive_dict['watermark_args']['top_p'] = 0.9
-adaptive_dict['watermark_args']['max_new_tokens'] = 786 # 285
-adaptive_dict['watermark_args']['min_new_tokens'] = 128 # 215
 adaptive_dict['watermark_args']['only_detect'] = True
 adaptive_dict['watermark_args']['device'] = 'auto'
-adaptive_dict['watermark_args']['detection_threshold'] = 95.0
+adaptive_dict['watermark_args']['detection_threshold'] = 60.0
+adaptive_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
+adaptive_dict['watermark_args']['measure_threshold'] = 50
 adaptive_cfg = OmegaConf.create(adaptive_dict)
 
 def get_default_watermarker(watermarker_name):

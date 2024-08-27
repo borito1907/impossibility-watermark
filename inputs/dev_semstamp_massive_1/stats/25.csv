@@ -1,0 +1,1042 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+**Publication-Ready Plot in Python**
+=====================================
+
+This document provides an example of creating a publication-ready plot in Python using the popular `matplotlib` library.",True,6,"1,4",True,1
+2,"
+
+**Publication-Ready Plot in Python**
+=====================================
+
+In this example, we will create a high-quality, publication-ready plot using the popular `matplotlib` library in Python.
+
+",True,6,"1,4",True,2
+3,"
+
+Creating a Comprehensive Publication-Ready Plot with Python Using Matplotlib and Seaborn 
+====================================================================================
+
+In this guide, we will create a publication-ready plot using the `matplotlib` and `seaborn` libraries in Python.
+
+",True,6,"1,4",True,3
+4,"
+
+Here is an example of a publication-ready plot created using Python's matplotlib library:
+```python title: Visualization of COVID-19 Cases over Time
+
+```python
+
+# Import necessary libraries 
+import matplotlib.pyplot as plt 
+import pandas as pd  
+import seaborn as sns 
+
+### Load data from csv file  
+data = pd.read_csv(""COVID_cases.csv"")
+
+### Data Cleaning and Preprocessing ###
+
+# Filter out any rows with missing values 
+data.dropna(inplace=True)  
+
+# Convert 'Date' column to datetime format for easier manipulation 
+data['Date'] = pd.to_datetime(data['Date'])
+
+### Data Visualization ###
+
+# Set style for plot  
+sns.set_style('whitegrid')
+
+# Create figure and axis object 
+fig, ax = plt.subplots(figsize=(12,8))
+
+# Plot time series data using seaborn lineplot 
+sns.lineplot(x='Date', y='Cases', hue='Country', data=data, ax=ax)
+
+# Customize plot appearance 
+ax.set_title(""Number of COVID-19 Cases Over Time"", fontsize=18)
+ax.set_xlabel(""Date"", labelpad=15)
+ax.set_ylabel(""Cumulative Number of Cases"", labelpad=20)
+ax.legend(loc=""upper left"", bbox_to_anchor=[1.04,1])
+ax.grid(True)
+
+# Display vertical gridlines every 2 months 
+monthslocator = plt.MonthLocator(interval=2) 
+monthsfmt = '%b %Y'
+ax.xaxis.set_major_locator(monthslocator)
+ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, pos: monthsfmt if pos == 0 else ''))
+
+# Save figure as PNG with high DPI 
+plt.savefig('covid_plot.png', dpi=300, bbox_inches='tight')  
+
+# Show the plot 
+plt.show()
+```
+
+This script reads in a CSV file ""COVID_cases.csv"" containing columns for date, country, and cumulative number of cases, then produces a well-styled line plot showing the progression of cases across different countries.
+",True,6,"1,4",True,4
+5,"
+
+Here's an example of how you could structure your code to make it more publication-ready:
+
+```python 
+# -*- coding: utf-8 -*-
+""""""
+Publication Ready Plot Example
+
+This script generates a high-quality line plot with multiple lines, error bars,
+and a legend.",True,7,"1,4",True,5
+6,"
+
+Here's an example of a comprehensive publication-ready plot using Python:
+
+```python
+
+import matplotlib.pyplot as plt  # Import the plotting library.
+",True,7,"1,4",True,6
+7,"
+
+**Publication-Ready Plot with Python**
+=====================================
+
+In this example, we will create a high-quality plot using Python's popular `matplotlib` library.",True,6,"1,4",True,7
+8,"
+
+Here is an example of a comprehensive, publication-ready plot created with Python using the `matplotlib` library:
+
+**Figure: Comparison of Climate Change Impacts on Global Temperature**
+
+```python import matplotlib.pyplot as plt import numpy as np
+
+# Data preparation
+
+# Simulated climate model data ( replace with your actual data)
+np.random.seed(1234) temp_data = np.random.normal(loc=14, scale=2, size=(100))
+
+# Historical temperature data (replace with your actual data)
+historical_temp_data = np.random.normal(loc=10, scale=1, size=(50))
+
+# Create figure and axis object
+
+fig, ax = plt.subplots(figsize=(8, 6)) # Set title and labels
+
+ax.set_title('Comparison of Climate Change Impacts on Global Temperature') ax.set_xlabel('Year') ax.set_ylabel('Temperature ($^\circ$C)')
+
+# Plot historical temperature data
+
+ax.plot(np.arange(1950, 2000), historical_temp_data, color='#4f81bd', label='Historical Data (1950-1999)', linewidth=2, marker='o', markersize=5)
+
+# Plot simulated climate model data
+
+ax.plot(np.arange(2000, 2100), temp_data, color='#e16534', label='Simulated Climate Model (2000-2099)', linewidth=2, linestyle='--', marker='^', markersize=5)
+
+# Annotate key events or features
+
+ax.annotate('El Niño Event', xy=(1972, 12), xytext=(-30, -20), textcoords='offset points', arrowprops=dict(facecolor='black'))
+
+ax.axvline(x=2010, color='gray', linestyle='--') ax.text(2010, -3.5, 'Present Day', ha='center', rotation=90)
+
+# Customize legend and tick marks
+
+ax.legend(loc='upper left', bbox_to_anchor=(1.05, 1), borderaxespad=0) ax.grid(axis='both', linestyle='--') ax.yaxis.tick_right() ax.yaxis.set_label_position(""right"")
+
+# Display grid lines for reference
+
+plt.grid(True, which='major', axis='both', linestyle='-', alpha=.25)
+
+# Adjust layout to make room for labels and titles
+
+fig.tight_layout(rect=[0.05, 0.07, 0.95, 0.92])
+
+# Add publication metadata
+
+plt.figtext(.02,.02,""Source: Our Research Group, Example University"",ha=""left"") 
+
+plt.show()
+```
+
+This code produces a high-quality, publication-ready plot suitable for a scientific journal.
+
+",True,6,"1,4",True,8
+9,"
+
+Here is an example of a comprehensive publication-ready plot created using Python's popular data visualization library, Matplotlib.
+
+",True,7,"1,4",True,9
+10,"
+
+**Creating a Comprehensive Publication-Ready Plot with Python**
+====================================================================
+
+In this example, we will create a publication-ready plot using the `matplotlib` library in Python.",True,6,"1,4",True,10
+11,"
+
+**Comprehensive Publication-Ready Plot in Python**
+=====================================================
+
+This example demonstrates how to create a high-quality, publication-ready plot using Python's popular `matplotlib` library.
+
+",True,6,"1,4",True,11
+12,"
+
+Here is an example of a well-documented and comprehensive Python code for creating a publication-ready plot:
+```
+import matplotlib.pyplot as plt
+
+# Set figure dimensions and resolution (300 DPI)
+fig = plt.figure(figsize=(8, 6), dpi=300)
+
+# Define plot title and labels (use LaTeX formatting for mathematical expressions)
+title = r'$y = \sin(x)$: A Simple Sinusoidal Function'
+xlabel = 'X-axis label (units)'
+ylabel = 'Y-axis label (units)'
+
+# Create the x-data array using numpy's linspace function (-2π to 2π with 100 samples)
+import numpy as np
+
+x = np.linspace(-2*np.pi, 2*np.pi, 1000)
+
+# Calculate y-values from the x-array using the sin() function from numpy's trigonometric module.
+",True,7,"1,4",True,12
+13,"
+
+**Comprehensive Plotting Example**
+====================================
+
+This example showcases a well-structured and annotated code for creating a comprehensive publication-ready plot using Python's popular `matplotlib` library.
+
+",True,6,"1,4",True,13
+14,"
+
+**Plotting Example: A Comprehensive Guide**
+=============================================
+
+This example demonstrates how to create a high-quality, publication-ready plot using Python's popular `matplotlib` library.
+
+",True,6,"1,4",True,14
+15,"
+
+**Comprehensive Plotting Example**
+=====================================
+
+This example demonstrates a high-quality, publication-ready plotting style using Python's popular data visualization library, Matplotlib.
+
+",True,7,"1,4",True,15
+16,"
+
+Below is an example of how you can structure a comprehensive publication-ready plot using Python with the matplotlib library.
+
+",True,6,"1,4",True,16
+17,"
+
+**Publication-Ready Plotting with Python**
+=====================================
+
+This code creates a high-quality, publication-ready plot using Python's popular `matplotlib` library.",True,6,"1,4",True,17
+18,"
+
+Here is an example of a comprehensive publication-ready plot created using Python with Matplotlib:
+```python`
+import matplotlib.pyplot as plt
+
+# Data generation for demonstration purposes only (replace with your actual data)
+x = [1, 2, 3, 4, 5]
+y1 = [10, 15, 12, 18, 20]
+y2 = [8, 11, 9, 14, 16]
+
+# Set plot style and layout parameters for clarity and consistency across publications 
+plt.style.use('seaborn-whitegrid')
+plt.figure(figsize=(6.5, 4)) 
+
+# Create the main figure with subplot titles, labels, and legends for publication quality plots  
+fig, ax = plt.subplots()
+
+# Plotting and styling 
+ax.plot(x, y1, marker='o', linestyle='-',
+        color='#348F69', label='Group A') # Color hex code 
+ax.plot(x, y2, marker='s', linestyle='--',
+        color='#FFC07E', label='Group B')
+
+ax.set_xlabel('X-axis Label [Units]', fontsize=12) # Customize x-axis label font size  
+ax.set_ylabel('Y-axis Label [Units]', fontsize=12)
+ax.title.set_text('Example Publication-Ready Plot')
+ax.legend(frameon=False, loc='upper right', bbox_to_anchor=(1.01, 1),
+          ncol=1, fontsize=10)
+
+# Set limits on X and Y axis to improve readability  
+ax.set_xlim(0, 6)
+ax.set_ylim(0, 25)
+
+# Remove unnecessary gridlines to enhance visual appeal and reduce clutter  
+ax.grid(axis='both', which='major', linestyle='-', linewidth=0.7,
+        color='#ccc')
+ax.grid(axis='both', which='minor', linestyle='--', linewidth=0.2,
+        color='#aaa')
+        
+# Show plot  
+plt.tight_layout(pad=0.5)
+plt.show()
+```
+
+This script creates a high-quality, publication-ready line graph that follows standard plotting conventions, which can be modified according to research requirements.
+
+",True,7,"1,4",True,18
+19,"
+
+**Publication-Ready Plotting with Python**
+=============================================
+
+This document provides a step-by-step guide to creating a comprehensive and publication-ready plot using Python.",True,6,"1,4",True,19
+20,"
+
+Here is an example of a comprehensive publication-ready plot in Python using Matplotlib:
+```python markup# Import necessary libraries import matplotlib.pyplot as pltimport numpy as np
+
+# Define the data x = np.linspace(0, 10, 100)y1 = np.sin(x)y2 = np.cos(x)
+
+# Create a figure and axis object fig, ax = plt.subplots(figsize=(8, 6))
+
+# Plot the first line with error bars ax.plot(x, y1, label='Sine Wave', linewidth=2, linestyle='-', marker='o', markersize=5, color='#1f77b4')ax.errorbar(x[::10], y1[::10], yerr=np.random.normal(0, 0.1, size=len(x[::10])), fmt='none', elinewidth=1, ecolor='gray', capsize=3)
+
+# Add a secondary y-axis for the cosine wave ax2 = ax.twinx()ax2.plot(x, y2, label='Cosine Wave', linewidth=2, linestyle='--', marker='s', markersize=5, color='#ff7f0e')
+
+# Set title and labels ax.set_title('Plot Title', fontsize=20)ax.set_xlabel('X Axis Label', fontsize=16)ax.set_ylabel('Primary Y Axis Label', fontsize=16)ax2.set_ylabel('Secondary Y Axis Label', fontsize=16)
+
+# Legend settings ax.legend(loc='upper right', bbox_to_anchor=(1.05, 0.9), frameon=False, fontsize=14)ax2.legend(loc='upper left', bbox_to_anchor=(0.95, 0.9), frameon=False, fontsize=14)
+
+# Ticks and gridlines ax.tick_params(axis='both', which='major', length=6, width=1.5, direction='out')ax.grid(which='major', axis='y', linestyle='--', alpha=0.7)
+
+# Layout adjustments fig.tight_layout(rect=[0, 0, 1, 0.95])fig.savefig('plot.pdf', dpi=300)
+```
+
+**Plot Details:**
+
+* The plot consists of two lines: a sine wave (primary y-axis) and a cosine wave (secondary y-axis).
+",True,7,"1,4",True,20
+21,"
+
+**Publication-Ready Plotting with Python**
+======================================
+
+This example demonstrates how to create a comprehensive and visually appealing publication-ready plot using Python's popular data visualization libraries, `matplotlib` and `seaborn`.
+
+",True,6,"1,4",True,21
+22,"
+
+**Comprehensive Publication-Ready Plot in Python**
+=====================================================
+
+This code generates a high-quality, publication-ready plot using Python's popular data visualization library, Matplotlib.
+
+",True,6,"1,4",True,22
+23,"
+
+**Plotting with Python**
+==========================
+
+This is an example of a comprehensive publication-ready plot created using Python's popular `matplotlib` library.
+
+",False,,,,23
+24,"
+
+Here is a comprehensive example of a publication-ready plot created using Python's popular data visualization library, Matplotlib.
+
+",True,7,"1,4",True,24
+25,"
+
+Here's an example of a comprehensive publication-ready plot created using Python with the matplotlib library.
+
+",True,6,"1,4",True,25
+26,"
+
+**Comprehensive Plotting Example**
+=====================================
+
+This example demonstrates how to create a publication-ready plot using Python's popular `matplotlib` library.
+
+",True,6,"1,4",True,26
+27,"
+
+**Creating a Comprehensive Publication-Ready Plot with Python**
+=================================================================
+
+In this section, we will go through the steps to create a high-quality, publication-ready plot using Python.",True,6,"1,4",True,27
+28,"
+
+**Publication-Ready Plotting with Python**
+=============================================
+
+This guide provides a step-by-step walkthrough on creating a comprehensive and visually appealing publication-ready plot using Python.",True,6,"1,4",True,28
+29,"
+
+**Publication-Ready Plot with Python**
+=====================================
+
+This is an example of a high-quality, publication-ready plot created using Python's popular data visualization library, Matplotlib.
+
+",True,6,"1,4",True,29
+30,"
+
+Here is an example of a publication-ready plot created using Python's matplotlib library:
+```python markup template
+
+```pythonUsageIdimport matplotlib.pyplot as plt import numpy as np
+
+# Data Generation ===============
+
+np.random.seed(123) x = np.linspace(0, 10, 100) y1 = np.sin(x) + np.random.normal(size=len(x), scale=0.2) y2 = np.cos(x) + np.random.normal(size=len(x), scale=0.2)
+
+# Plotting ============== fig, ax = plt.subplots(figsize=(8, 6))
+
+# Primary Plot -------------- line, = ax.plot(x, y1, label='Sine wave', color='#3498db', lw=2) scatter, = ax.scatter(x, y1, c='#3498db', marker='o', s=50, alpha=0.5)
+
+# Secondary Plot ------------- ax2 = ax.twinx() line, = ax2.plot(x, y2, label='Cosine wave', color='#f1c40f', lw=2) scatter, = ax2.scatter(x, y2, c='#f1c40f', marker='^', s=50, alpha=0.5)
+
+# Aesthetics ============== ax.set_xlabel('X axis', fontsize=14) ax.set_ylabel('Y axis (primary)', fontsize=14) ax2.set_ylabel('Y axis (secondary)', fontsize=14, rotation=-90) ax.legend(loc='upper left') ax2.legend(loc='upper right')
+
+ax.set_title('Example Publication-Ready Plot')
+ax.grid(True)
+ax.set_xlim([0, 10])
+ax.set_ylim([-2, 2])
+
+ax2.set_ylim([-2, 2])",True,7,"1,4",True,30
+31,"
+
+**Publication-Ready Plot with Python**
+=====================================
+
+In this example, we will create a high-quality, publication-ready plot using Python's popular data visualization library, Matplotlib.
+
+",True,6,"1,4",True,31
+32,"
+
+**Plotting with Python: A Comprehensive Guide**
+=====================================================
+
+Table of Contents:
+---------------
+
+*   [Introduction](#introduction)
+*   [Importing Libraries](#importing-libraries)
+*   [Data Generation](#data-generation)
+*   [Plotting Functions](#plotting-functions)
+    *   [Line Plot](#line-plot)
+    *   [Scatter Plot](#scatter-plot)
+    *   [Bar Chart](#bar-chart)
+    *   [Histogram](#histogram)
+*   [Customization Options](#customization-options)
+    *   [Title and Labels](#title-and-labels)
+    *   [Axis Limits](#axis-limits)
+    *   [Grid Lines](#grid-lines)
+    *   [Legend](#legend)
+*   [Multiple Plots](#multiple-plots)
+    *   [Subplots](#subplots)
+    *   [Overlaying Plots](#overlaying-plots)
+
+```python { title=""plotting_example.py"" }
+import matplotlib.pyplot as plt import numpy as np
+
+```
+
+### Importing Libraries
+
+To begin with plotting in Python, we need to import the necessary libraries:
+
+```python 
+import matplotlib.pyplot as plt import numpy as np
+
+```
+
+`matplotlib` is one of the most widely used data visualization libraries in Python.
+
+",True,2,"1,4",True,32
+33,"
+
+**Plotting with Python: A Comprehensive Guide**
+=====================================================
+
+### Introduction
+
+Python is an ideal language for creating high-quality plots due to its extensive range of libraries and tools.",True,6,"1,4",True,33
+34,"
+
+Below is an example of a high-quality, publication-ready plot created with Python's `matplotlib` library.",True,6,"1,4",True,34
+35,"
+
+**Publication-Ready Plot in Python**
+=====================================
+
+This code generates a high-quality, publication-ready plot using the popular matplotlib library in Python.
+
+",True,6,"1,4",True,35
+36,"
+
+**Publication-Ready Plotting with Python**
+====================================================
+
+In this example, we will create a high-quality publication-ready plot using Python's popular `matplotlib` library.",True,6,"1,4",True,36
+37,"
+
+**Publication-Ready Plot with Python**
+=====================================
+
+In this example, we will create a comprehensive and visually appealing plot using Python's popular data science libraries, `matplotlib` and `seaborn`.",True,6,"1,4",True,37
+38,"
+
+**Publication-Ready Plot Creation with Python**
+======================================================
+
+In this example, we will create a comprehensive publication-ready plot using Python's popular data visualization library, Matplotlib.",True,6,"1,4",True,38
+39,"
+
+**Comprehensive Plotting Guide in Python**
+=====================================
+
+**Table of Contents**
+
+1.",True,2,"1,4",True,39
+40,"
+
+Below is an example of a well-documented, publication-ready Python code to generate a comprehensive and customizable plot using matplotlib.
+
+",True,6,"1,4",True,40
+41,"
+
+**Creating a Comprehensive Publication-Ready Plot in Python**
+===========================================================
+
+In this section, we will go through the process of creating a high-quality, publication-ready plot using Python's popular `matplotlib` library.
+
+",True,6,"1,4",True,41
+42,"
+
+Here is a well-documented, high-quality Python script that generates a comprehensive plot using matplotlib, complete with title, labels, legend, gridlines, and more.
+",True,6,"1,4",True,42
+43,"
+
+Here is an example of a publication-ready plot created using Python's popular `matplotlib` library:
+
+```python { linenos=table }
+import matplotlib.pyplot as plt  # Import the plotting library
+
+# Define data for a sample dataset with three series: 'A', 'B', and 'C'
+x = [1, 2, 3, 4, 5]
+y_A = [10, 15, 7, 12, 18]
+y_B = [8, 9, 13, 10, 14]
+y_C = [6, 11, 16, 17, 19]
+
+# Create a figure and axis object using a size that adheres to journal standards (e.g., APS journals)
+fig, ax = plt.subplots(figsize=(3.25, 2.75))  # inches
+
+# Plot each series on the same axes, specifying colors, labels, line styles, and marker shapes and sizes.
+",True,6,"1,4",True,43
+44,"
+
+Here is a comprehensive example of a publication-ready plot created using Python's matplotlib library:
+
+```python`
+# Import necessary libraries 
+import matplotlib.pyplot as plt 
+import numpy as np 
+
+# Data Generation for Plotting 
+np.random.seed(19680801)
+x = np.arange(-4*np.pi, 4*np.pi, 0.1)
+
+# Calculate three different lines (sin(x), sin(x)+2*sinh(x) and cos(x))
+y_sin_x = np.sin(x)
+y_sin_2_shin_x = np.sin(x) + 2*np.sinh(np.sqrt(abs(x)))
+
+y_cos_x = np.cos(x)
+
+# Define Colors 
+color1 = '#3498db'
+color2 = '#f1c40f'
+color3 = '#e74c3c'
+
+# Create figure with specified size in inches  
+fig = plt.figure(figsize=(10,6))
+
+ax = fig.add_subplot(111)
+
+# Set title of the graph and labels 
+plt.title('Publication Ready Plot', fontsize=20, weight='bold')
+plt.xlabel('Distance ($m$)', fontsize=16)
+plt.ylabel('Amplitude', fontsize=16)
+
+# First line - plot of sin(x)
+line_sin_x, = ax.plot(x,y_sin_x, label='Sine wave', 
+                       color=color1,
+                       linewidth=2, 
+                       linestyle='-',
+                       marker='o', 
+                       markersize=5, 
+                       fillstyle=""none"")
+
+# Second line - plot of sin(x) + 2*sinh(sqrt|x|)
+line_sin_2_shin_x, = ax.plot(x,y_sin_2_shin_x, label=r'$sin(x)+2\cdot sinh(\sqrt{|x|})$', 
+                              color=color2,
+                              linewidth=2, 
+                              linestyle='--',
+                              marker=None, 
+                              markersize=8)
+
+# Third line - plot of cos(x)
+line_cos_x, = ax.plot(x,y_cos_x, label='Cosine wave', 
+                      color=color3,
+                      linewidth=2, 
+                      linestyle=':', 
+                      marker=""^"",
+                      markersize=10)
+
+# Grid On 
+ax.grid(True,linestyle='-', alpha=.7, which='both')
+
+# Legend outside the frame 
+leg = ax.legend(loc='center left', bbox_to_anchor=(1,.95),
+                 ncol=1, title=""Line Type"", fancybox=True)
+plt.setp(leg.get_title(),fontsize=15)
+plt.setp(leg.get_texts(),fontsize=13)
+frame = leg.get_frame()
+frame.set_facecolor(""white"")
+frame.set_alpha(.9)
+plt.draw()
+
+# Show Y/X Ticks on the grid 
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
+
+plt.tight_layout(rect=[0,0,1,.75])
+plt.show()
+
+```
+
+Let me describe this code snippet.
+
+",True,7,"1,4",True,44
+45,"
+
+**Comprehensive Publication-Ready Plot with Python**
+=====================================================
+
+In this example, we will create a publication-ready plot using Python's popular data visualization library, Matplotlib.",True,6,"1,4",True,45
+46,"
+
+**Comprehensive Plotting Guide in Python**
+=====================================
+
+Table of Contents:
+-----------------
+
+1.",True,2,"1,4",True,46
+47,"
+
+Here is an example of a well-documented and structured Python script for creating a comprehensive publication-ready plot:
+```python code (using Matplotlib)
+```
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Set up some sample data
+np.random.seed(123)
+x = np.linspace(0, 10, 100)
+y1 = np.sin(x) + 0.5 * np.random.randn(100)
+y2 = np.cos(x) + 0.2 * np.random.randn(100)
+
+# Create the figure and axis object
+fig, ax = plt.subplots(figsize=(8, 6))
+
+# Plot the data
+ax.plot(x, y1, label='Sine wave', color='#4CAF50', linestyle='-', marker='o', markersize=6, linewidth=2)
+ax.plot(x, y2, label='Cosine wave', color='#9C27B0', linestyle='--', marker='s', markersize=6, linewidth=2)
+
+# Add title and labels
+ax.set_title('Comparison of Sine and Cosine Waves')
+ax.set_xlabel('X Axis Label (units)')
+ax.set_ylabel('Y Axis Label (units)')
+
+# Add legend
+ax.legend(loc='upper right', bbox_to_anchor=(1.05, 1), frameon=False, fontsize=14)
+
+# Customize ticks and grid
+ax.tick_params(axis='both', which='major', direction='out', length=5, width=1, pad=4)
+ax.grid(True, linestyle='--', alpha=0.7)
+
+# Add annotations
+ax.annotate('Peak value', xy=(3, 1.2), xytext=(2.5, 1.5), arrowprops=dict(facecolor='black', shrink=0.05))
+
+# Save the plot to file
+plt.savefig('publication_ready_plot.pdf', dpi=300, bbox_inches='tight')
+
+# Show the plot
+plt.show()
+```
+
+This code will generate a high-quality, publication-ready plot with:
+
+*   Two sine and cosine waves plotted on the same axis with different colors and line styles.
+",True,7,"1,4",True,47
+48,"
+
+**Creating a Comprehensive Publication-Ready Plot with Python**
+===========================================================
+
+In this example, we will create a professional-grade publication-ready plot using Python's popular `matplotlib` library.
+
+",True,6,"1,4",True,48
+49,"
+
+**Publication-Ready Plotting with Python**
+======================================
+
+This document provides a step-by-step guide to creating high-quality, publication-ready plots using Python's popular data visualization libraries: Matplotlib and Seaborn.
+
+",True,6,"1,4",True,49
+50,"
+
+**Publication-Ready Plot with Python**
+=====================================
+
+In this example, we will create a comprehensive and publication-ready plot using Python's popular data visualization library, Matplotlib.",True,6,"1,4",True,50
+51," Our goal is to produce a high-quality plot that meets the standards of a scientific publication.
+
+",True,7,"0,3",True,1
+52," We will generate a plot that showcases the relationship between two variables, including error bars, annotations, and a clean design.
+
+",True,7,"0,3",True,2
+53," We'll generate a sample dataset and then use various customization options to make the plot look professional.
+
+",True,7,"0,3",True,3
+54," Our goal is to produce a high-quality plot that can be used in academic papers or presentations.
+
+",True,7,"0,3",True,4
+55," We'll cover the essential steps to produce a high-quality figure that is suitable for scientific publications.
+
+",True,7,"0,3",True,5
+56," We'll use a sample dataset to demonstrate how to customize various aspects of the plot.
+
+",True,5,"0,3",True,6
+57," We will use a sample dataset to demonstrate the process.
+
+",True,1,"0,3",True,7
+58," We will use a sample dataset to demonstrate the creation of a well-styled and informative plot.
+
+",False,,,,8
+59," Our plot will include multiple elements such as title, labels, legend, axis limits, and more.
+
+",False,,,,9
+60," We will demonstrate how to create a well-structured and visually appealing plot that can be easily customized and refined.
+
+",True,7,"0,3",True,10
+61," We'll generate a sample dataset, customize the appearance of the plot, and include all the necessary elements for a high-quality figure.
+
+",False,,,,11
+62," We will cover various aspects of creating a high-quality plot, including choosing the right colors, fonts, and layout.
+
+",True,7,"0,3",True,12
+63," We will generate a plot that is suitable for inclusion in a scientific paper or presentation.
+
+",True,7,"0,3",True,13
+64," We will cover various aspects of creating a high-quality plot, including customization of colors, fonts, labels, titles, legends, and more.
+
+",True,7,"0,3",True,14
+65," We will also use Seaborn for additional styling and customization.
+
+",True,7,"0,3",True,15
+66," We'll generate a sample dataset and then use various features of Matplotlib to create a visually appealing and informative plot.
+
+",True,5,"0,3",True,16
+67," We will use a sample dataset to demonstrate how to create a high-quality plot that is suitable for publication.
+
+",True,7,"0,3",True,17
+68," Our goal is to create a clean, well-annotated, and visually appealing plot that can be used in academic publications.
+
+",True,7,"0,3",True,18
+69," We will also utilize other libraries such as Seaborn for styling and Pandas for data manipulation.
+
+",True,3,"0,3",True,19
+70,"**Required Libraries**
+----------------------
+
+*   `matplotlib`
+*   `seaborn`
+*   `pandas`
+
+**Code**
+------
+```python 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+import pandas as pd 
+
+# Load the sample dataset 
+data = {'Category': ['A', 'B', 'C', 'D'], 
+        'Value1': [20, 30, 40, 50], 
+        'Value2': [10, 15, 35, 45]} 
+ 
+df = pd.DataFrame(data) 
+ 
+# Set the style of the plot 
+sns.set_style(""whitegrid"") 
+ 
+# Create a figure and a set of subplots 
+fig, ax = plt.subplots(figsize=(8,6)) 
+ 
+# Plot the first variable 
+ax.bar(df['Category'], df['Value1'], label='Value 1') 
+ 
+# Plot the second variable 
+ax.bar(df['Category'], df['Value2'], bottom=df['Value1'], label='Value 2') 
+ 
+# Add labels and title 
+ax.set_xlabel('Category') 
+ax.set_ylabel('Values') 
+ax.set_title('Example Bar Plot') 
+ 
+# Legend configuration 
+legend_properties = {'weight':'bold'} 
+plt.legend(loc=""upper right"", prop=legend_properties) 
+ 
+# Layout so plots do not overlap 
+fig.tight_layout() 
+ 
+# Save the plot to a file 
+plt.savefig('example_plot.png', bbox_inches='tight')
+```
+This code generates a stacked bar chart that compares two variables (`Value1` and `Value2`) across different categories.",True,3,"6,0",True,1
+71,"**Libraries Used:**
+
+*   `matplotlib` for creating static, animated, and interactive visualizations.
+",True,6,"6,0",True,2
+72,"*   `seaborn` for providing a high-level interface for drawing attractive statistical graphics.
+",True,7,"0,3",True,1
+73,"*   `seaborn` for creating informative and attractive statistical graphics.
+",True,7,"0,3",True,2
+74,"*   `seaborn` for high-level interface for drawing attractive statistical graphics.
+",True,7,"0,3",True,3
+75,"*   `seaborn` for visualizing datasets and making statistical graphics more attractive and informative.
+",True,6,"0,3",True,4
+76,"*   `seaborn` for attractive and informative statistical graphics.
+",False,,,,5
+77,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,6
+78,"*   `seaborn` for high-level interface for drawing attractive and informative statistical graphics.
+",True,6,"0,3",True,7
+79,"*   `seaborn` for high-level interface for drawing attractive statistical graphics.
+",True,7,"0,3",True,8
+80,"*   `seaborn` for styling the plots.
+",True,7,"0,3",True,9
+81,"*   `seaborn` for providing informative and attractive statistical graphics.
+",True,7,"0,3",True,10
+82,"*   `seaborn` for providing a high-level interface for drawing attractive and informative statistical graphics.
+",True,7,"0,3",True,11
+83,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,12
+84,"*   `seaborn` for providing a high-level interface for drawing attractive and informative statistical graphics.
+",True,7,"0,3",True,13
+85,"*   `seaborn` for statistical graphics.
+",True,7,"0,3",True,14
+86,"*   `seaborn` for attractive statistical graphics.
+",True,7,"0,3",True,15
+87,"*   `seaborn` for building informative and attractive statistical graphics.
+",True,6,"0,3",True,16
+88,"*   `seaborn` for providing a high-level interface for drawing attractive statistical graphics.
+",True,7,"0,3",True,17
+89,"*   `seaborn` for providing an interface for drawing attractive and informative statistical graphics.
+",True,7,"0,3",True,18
+90,"*   `seaborn` for statistical graphics.
+",True,7,"0,3",True,19
+91,"*   `seaborn` for visualization styling and themes.
+",True,7,"0,3",True,20
+92,"*   `seaborn` for attractive and informative statistical graphics.
+",False,,,,21
+93,"*   `seaborn` for attractive statistical graphics.
+",True,7,"0,3",True,22
+94,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,23
+95,"*   `seaborn` for attractive statistical graphics.
+",True,7,"0,3",True,24
+96,"*   `seaborn` for attractive statistical graphics and informative data visualizations.
+",False,,,,25
+97,"*   `seaborn` for visually appealing statistical graphics.
+",True,7,"0,3",True,26
+98,"*   `seaborn` for attractive statistical graphics.
+",True,7,"0,3",True,27
+99,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,28
+100,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,29
+101,"*   `seaborn` for providing a high-level interface for drawing attractive and informative statistical graphics.
+",True,7,"0,3",True,30
+102,"*   `seaborn` for visualization-based statistical analysis.
+",True,6,"0,3",True,31
+103,"*   `seaborn` for providing informative and attractive statistical graphics.
+",True,7,"0,3",True,32
+104,"*   `seaborn` for attractive statistical graphics.
+",True,7,"0,3",True,33
+105,"*   `seaborn` for statistical graphics.
+",True,7,"0,3",True,34
+106,"*   `seaborn` for visualization styling.
+",True,7,"0,3",True,35
+107,"*   `seaborn` for visualization based on matplotlib that provides high-level abstractions and an appealing color palette.
+",True,7,"0,3",True,36
+108,"*   `seaborn` for creating informative and attractive statistical graphics.
+",True,7,"0,3",True,37
+109,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,38
+110,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,39
+111,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,40
+112,"*   `seaborn` for high-level interface for drawing attractive statistical graphics.
+",True,7,"0,3",True,41
+113,"*   `seaborn` for informative and attractive statistical graphics.
+",True,6,"0,3",True,42
+114,"*   `seaborn` for styling the plot and making it more visually appealing.
+",True,7,"0,3",True,43
+115,"*   `seaborn` for attractive statistical graphics.
+",True,7,"0,3",True,44
+116,"*   `seaborn` for high-level interface for drawing attractive statistical graphics.
+",True,7,"0,3",True,45
+117,"*   `seaborn` for attractive statistical graphics.
+",True,7,"0,3",True,46
+118,"*   `seaborn` for providing a high-level interface for drawing attractive and informative statistical graphics.
+",True,7,"0,3",True,47
+119,"*   `seaborn` for building informative and attractive statistical graphics.
+",True,6,"0,3",True,48
+120,"*   `seaborn` for providing a high-level interface for drawing attractive statistical graphics.
+",True,7,"0,3",True,49
+121,"*   `seaborn` for visualizing datasets and making informative and attractive statistical graphics.
+",True,6,"0,3",True,50
+122,"*   `pandas` for efficient data analysis and manipulation.
+
+",True,2,"0,3",True,1
+123,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,2
+124,"*   `pandas` for efficient data processing and analysis.
+
+",False,,,,3
+125,"*   `pandas` for efficient data analysis and data manipulation.
+
+",True,2,"0,3",True,4
+126,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,5
+127,"*   `pandas` for efficient data manipulation and analysis.
+",True,2,"0,3",True,6
+128,"*   `pandas` for efficient data manipulation and analysis.
+
+",True,2,"0,3",True,7
+129,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,8
+130,"*   `pandas` for efficient data processing and analysis.
+
+",False,,,,9
+131,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,10
+132,"*   `pandas` for efficient data processing and analysis.
+
+",False,,,,11
+133,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,12
+134,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,13
+135,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,14
+136,"*   `pandas` for efficient data analysis and manipulation.
+
+",True,2,"0,3",True,15
+137,"*   `pandas` for data manipulation and analysis.
+
+",True,2,"0,3",True,16
+138,"*   `pandas` for high-performance, easy-to-use data structures and data analysis tools.
+",True,0,"0,3",True,17
+139,"*   `numpy` for numerical operations.
+
+",True,3,"5,2",True,1
+140,"*   `numpy` for efficient numerical computation.
+
+",True,2,"5,2",True,2
+141,"**Import Libraries and Set Theme**
+-----------------------------------
+
+```python
+
+import matplotlib.pyplot as plt  # Import matplotlib's pyplot module and assign it the alias 'plt'.
+",True,6,"5,2",True,1
+142,"**Plot Details:**
+
+For demonstration purposes, let's assume that we want to visualize the relationship between the amount of time spent on exercise per week (`hours_exercised`) and the corresponding change in body mass index (`bmi_change`) after six months.",True,7,"5,2",True,2
+143,"**Code Structure:**
+
+We will follow the standard structure of an executable code block, including imports, variable definitions, plotting functions, and the main function to generate the plot.
+
+",True,3,"5,2",True,3
+144,"**Plot Description:**
+-------------------
+
+We will create a multi-panel figure that includes:
+
+1. ",True,7,"5,2",True,4
+145,"**Importing Libraries**
+-----------------------
+
+```python 
+import matplotlib.pyplot as plt 
+import seaborn as sns  
+import pandas as pd   
+import numpy as np    
+```
+
+**Loading Data**
+---------------
+
+For demonstration purposes, let's assume we have the following sample dataset in a CSV file named `data.csv`.",True,2,"5,2",True,5
+146," The dataset consists of exam scores for two different subjects across various age groups.
+
+",True,7,"5,2",True,1
+147," This dataset includes some randomly generated data for temperature (in degrees Celsius) and precipitation (in mm) across different cities.
+
+",True,0,"5,2",True,2
+148," The dataset contains information about exam scores of students from different schools.
+
+",True,1,"5,2",True,3
+149," You can replace this with your own data.
+
+",True,1,"5,2",True,4
+150," This dataset contains information about exam scores of students along with their ages and study hours per week.
+
+",True,1,"5,2",True,5
+151," This dataset contains random values representing sales figures across four quarters of the year 2022.
+
+",True,3,"5,2",True,6
+152," This dataset contains information about different types of cars, including their fuel efficiency (in miles per gallon), engine size (in liters), number of cylinders, and whether they use automatic or manual transmission.
+
+",True,0,"5,2",True,7
+153," The dataset consists of exam scores from different schools across various subjects.
+
+",True,1,"5,2",True,8
+154," This dataset contains information about exam scores of students across different subjects.
+
+",True,1,"5,2",True,9
+155," The dataset contains information about students' math scores and their corresponding grades:
+
+| Math Score | Grade |
+| --- | --- |
+| 85      | A     |
+| 75      | B     |
+| 65      | C     |
+| 95      | A     |
+| 55      | F     |
+
+```python 
+# Load the data into a DataFrame using Pandas.
+",True,2,"5,2",True,10

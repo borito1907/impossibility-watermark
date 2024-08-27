@@ -34,32 +34,11 @@ class PipeLineBuilder:
 
             self._init_pipeline_config(self.cfg)
 
-            # Create the pipeline
-            if "grammarly" in cfg.model_name_or_path:
-                self.pipeline_base = pipeline("text2text-generation", **self.pipeline_config)
-                self.pipeline = HuggingFacePipeline(pipeline=self.pipeline_base)                 
-            else:
-                self.pipeline_base = pipeline("text-generation", **self.pipeline_config)
-                self.pipeline = HuggingFacePipeline(pipeline=self.pipeline_base) 
+            self.pipeline_base = pipeline("text-generation", **self.pipeline_config)
+            self.pipeline = HuggingFacePipeline(pipeline=self.pipeline_base) 
 
-    def _init_model(self, cfg):
-        if cfg.model_name_or_path == "MaziyarPanahi/Meta-Llama-3-70B-Instruct-GPTQ":
-            self.quantize_config = BaseQuantizeConfig(
-                bits=4,
-                group_size=128,
-                desc_act=False
-            )
-            
-            self.model = AutoGPTQForCausalLM.from_quantized(
-                cfg.model_name_or_path,
-                use_safetensors=True,
-                cache_dir=cfg.model_cache_dir,
-                device_map=cfg.device_map,
-                quantize_config=self.quantize_config,
-                use_marlin=False, # NOTE: Not using the use_marlin option because it threw an error.
-                trust_remote_code=cfg.trust_remote_code)
-            
-        elif "Mixtral" in cfg.model_name_or_path:            
+    def _init_model(self, cfg):   
+        if "Mixtral" in cfg.model_name_or_path:            
             # Initialize and load the model and tokenizer
             self.model = AutoModelForCausalLM.from_pretrained(
                 cfg.model_name_or_path,
@@ -67,17 +46,7 @@ class PipeLineBuilder:
                 cache_dir=cfg.model_cache_dir,
                 device_map=cfg.device_map,
                 trust_remote_code=cfg.trust_remote_code
-                )
-            
-        # NOTE: We might want to remove this if we don't end up using it.
-        elif 'grammarly' in cfg.model_name_or_path:
-            # Initialize and load the model and tokenizer
-            self.model = T5ForConditionalGeneration.from_pretrained(
-                cfg.model_name_or_path,
-                revision=cfg.revision,
-                cache_dir=cfg.model_cache_dir,
-                device_map=cfg.device_map,
-                trust_remote_code=cfg.trust_remote_code)      
+                )    
         else:
             # Initialize and load the model and tokenizer
             self.model = AutoModelForCausalLM.from_pretrained(
