@@ -102,10 +102,11 @@ class Attack:
         self.current_text = watermarked_text
         self.original_text = watermarked_text
         
-        watermark_detected, watermark_score = self.watermarker.detect(self.original_text)
-        if not watermark_detected:
-            raise ValueError("No watermark detected on input text. Nothing to attack! Exiting...")
-        log.info(f"The original text has watermark score {watermark_score}.")
+        if self.cfg.attack.check_watermark:
+            watermark_detected, watermark_score = self.watermarker.detect(self.original_text)
+            if not watermark_detected:
+                raise ValueError("No watermark detected on input text. Nothing to attack! Exiting...")
+            log.info(f"The original text has watermark score {watermark_score}.")
         
         self.mutated_texts.append(self.original_text)
         self.step_num = -1

@@ -8,7 +8,7 @@ from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle,
     PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
     BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,
-    ArmoRMOracle, InternLMOracle, OffsetBiasOracle
+    ArmoRMOracle, InternLMOracle, OffsetBiasOracle, HumanOracle
 )
 from attack.attack import Attack
 
@@ -42,13 +42,13 @@ oracles = {
     "DiffOracle": DiffOracle,
     "ArmoRMOracle": ArmoRMOracle,
     "InternLMOracle": InternLMOracle,
-    "OffsetBiasOracle": OffsetBiasOracle
+    "OffsetBiasOracle": OffsetBiasOracle,
+    "HumanOracle": HumanOracle
 }
 
 @hydra.main(version_base=None, config_path="../conf", config_name="attack")
 def main(cfg):
-    df = pd.read_csv("./distinguisher/semstamp_responses.csv")
-    df = df.loc[[10, 11, 15, 17]]
+    df = pd.read_csv("./distinguisher/dev.csv")
 
     mutator = mutators[cfg.mutator_type]()
     oracle = oracles[cfg.oracle_type]()
@@ -56,7 +56,7 @@ def main(cfg):
     attacker = Attack(cfg, mutator, oracle)
 
     for i, row in tqdm(df.iterrows(), total=len(df), desc="ID progress"):
-        cfg.attack.log_csv_path = f"./distinguisher/attack/sentence/diff_last_{i}.csv"
+        cfg.attack.log_csv_path = f"./distinguisher/attack/word/human_{i}.csv"
         prompt = row["prompt"]
         watermarked_text = row["text"]
         attacked_text = attacker.attack(prompt, watermarked_text)
