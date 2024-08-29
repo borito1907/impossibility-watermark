@@ -48,12 +48,16 @@ oracles = {
 
 @hydra.main(version_base=None, config_path="../conf", config_name="attack")
 def main(cfg):
-    df = pd.read_csv("./distinguisher/dev.csv")
+    df = pd.read_csv("./distinguisher/semstamp_responses.csv")
+    df = df.loc[[0,1,2]]
 
+    watermarker = None
+    if cfg.attack.check_watermark:
+        watermarker = get_default_watermarker(cfg.watermarker)
     mutator = mutators[cfg.mutator_type]()
     oracle = oracles[cfg.oracle_type]()
 
-    attacker = Attack(cfg, mutator, oracle)
+    attacker = Attack(cfg, mutator, oracle, watermarker)
 
     for i, row in tqdm(df.iterrows(), total=len(df), desc="ID progress"):
         cfg.attack.log_csv_path = f"./distinguisher/attack/word/human_{i}.csv"
@@ -65,3 +69,5 @@ def main(cfg):
 
 if __name__ == "__main__":
     main()
+
+# CUDA_VISIBLE_DEVICES=0 python -m distinguisher.run_attack
