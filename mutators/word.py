@@ -7,6 +7,7 @@ import difflib
 import torch
 import logging
 import os
+from itertools import chain, zip_longest
 
 def save_to_csv(data, file_path, rewrite=False):
     df_out = pd.DataFrame(data)
@@ -89,19 +90,22 @@ class WordMutator:
         self.tokenizer_kwargs = {"truncation": True, "max_length": 512}
 
     def get_words(self, text):
-        # Use a more comprehensive regex to capture more types of trailing punctuation
-        m = re.match(r'^(.*?)([\.!?,:;()-]+)?$', text)
-        core_text, end_punctuation = m.groups() if m else (text, None)
-        words = core_text.split()
-        return words, end_punctuation
+        split = re.split(r'(\W+)', text)
+        words = split[::2]
+        punctuation = split[1::2]
+        return words, punctuation
 
-    def select_random_segment(self, words):
+    def select_random_segment(self, words, punctuation):
         if len(words) <= self.max_length:
             return words, 0, len(words)
         start_index = random.randint(0, len(words) - self.max_length)
-        return words[start_index:start_index + self.max_length], start_index, start_index + self.max_length
+        return words[start_index:start_index + self.max_length], punctuation[start_index:start_index + self.max_length-1], start_index, start_index + self.max_length
 
-    def mask_random_word(self, words):
+    def intersperse_lists(self, list1, list2):
+        flattened = chain.from_iterable((x or '' for x in pair) for pair in zip_longest(list1, list2))
+        return ''.join(flattened)
+
+    def mask_random_word(self, words, punctuation):
         if not words:  # Return the original text if there are no words to mask
             return words, None
 
@@ -111,11 +115,12 @@ class WordMutator:
             index_to_mask = random.randint(0, len(words) - 1)  # Select a random index to mask
             word_to_mask = words[index_to_mask]  # Get the word at the selected index
 
-            if not is_bullet_point(word_to_mask):
+            if not word_to_mask == '' and not is_bullet_point(word_to_mask):
                 found_nice_word = True
 
         # Create masked text by replacing only the selected word
-        masked_text = ' '.join('<mask>' if i == index_to_mask else word for i, word in enumerate(words))
+        words = ['<mask>' if i == index_to_mask else word for i, word in enumerate(words)]
+        masked_text = self.intersperse_lists(words, punctuation)
         return masked_text, word_to_mask
 
     def get_highest_score_index(self, suggested_replacements, blacklist):
@@ -129,15 +134,13 @@ class WordMutator:
         else:
             return suggested_replacements[0]
 
-    def mutate(self, text, num_replacements=0.01):
-        words, end_punctuation = self.get_words(text)
-
-        log.info(f"End Punctuation: {end_punctuation}")
+    def mutate(self, text, num_replacements=0.001):
+        words, punctuation = self.get_words(text)
 
         if len(words) > self.max_length:
-            segment, start, end = self.select_random_segment(words)
+            segment, seg_punc, start, end = self.select_random_segment(words, punctuation)
         else:
-            segment, start, end = words, 0, len(words)
+            segment, seg_punc, start, end = words, punctuation, 0, len(words)
 
         if num_replacements < 0:
             raise ValueError("num_replacements must be larger than 0!")
@@ -148,24 +151,22 @@ class WordMutator:
 
         replacements_made = 0
         while replacements_made < num_replacements:
-            masked_text, word_to_mask = self.mask_random_word(segment)
+            masked_text, word_to_mask = self.mask_random_word(segment, seg_punc)
             candidates = self.fill_mask(masked_text, top_k=3, tokenizer_kwargs=self.tokenizer_kwargs)
             suggested_replacement = self.get_highest_score_index(candidates, blacklist=[word_to_mask.lower()])
 
             log.info(f"word_to_mask: {word_to_mask}")
             log.info(f"suggested_replacement: {suggested_replacement['token_str']} (score: {suggested_replacement['score']})")
 
-            if len(suggested_replacement['token_str'].strip()) == 0:
-                log.info(f"Continuing since suggested replacement is empty...")
+            if not bool(re.fullmatch(r'\w+', suggested_replacement['token_str'].strip())):
+                log.info(f"Continuing since suggested replacement is not a word...")
                 continue
-            
-            left, _, right = strip_punct(word_to_mask)
-            _, replacement, _ = strip_punct(suggested_replacement['token_str'])
-            replacement = left + replacement + right
 
-            log.info(f"Polished suggested replacement: {replacement}")
-            
-            segment = suggested_replacement['sequence'].split()
+            if suggested_replacement['score'] < 0.001:
+                log.info(f"Continuing since suggested replacement score is too low...")
+                continue
+
+            segment = re.split(r'(\W+)', suggested_replacement['sequence'])[::2]
             replacements_made += 1
         
         log.info(f"Old Segment: {segment}")
@@ -176,11 +177,7 @@ class WordMutator:
         log.info("-------")
         log.info(words[end:])
 
-        combined_text = ' '.join(words[:start]) + ' ' + ' '.join(segment) + ' ' + ' '.join(words[end:])
-
-        if end_punctuation:
-            log.info(f"Appending to the end of combined_text...")
-            combined_text += end_punctuation
+        combined_text = self.intersperse_lists(words[:start], punctuation[:start]) + self.intersperse_lists(segment, seg_punc) + self.intersperse_lists(punctuation[end:], words[end:])
 
         return self.cleanup(combined_text)
 
@@ -266,10 +263,10 @@ Overall, Tempus embodies a fierce dedication to time optimization and resource m
     for row in df.head(50).itertuples(index=False):
         mutated_text = row.text
 
-        words, end_punct = text_mutator.get_words(mutated_text)
+        words, punct = text_mutator.get_words(mutated_text)
 
         log.info(f"Words: {words}")
-        log.info(f"End Punct: {end_punct}")
+        log.info(f"Punct: {punct}")
 
         for _ in range(20):
             mutated_text = text_mutator.mutate(mutated_text)

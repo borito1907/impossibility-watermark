@@ -60,7 +60,7 @@ def main(cfg):
     attacker = Attack(cfg, mutator, oracle, watermarker)
 
     for i, row in tqdm(df.iterrows(), total=len(df), desc="ID progress"):
-        cfg.attack.log_csv_path = f"./distinguisher/attack/word/human_{i}.csv"
+        cfg.attack.log_csv_path = f"./distinguisher/attack/word/human_dev.csv"
         prompt = row["prompt"]
         watermarked_text = row["text"]
         attacked_text = attacker.attack(prompt, watermarked_text)
