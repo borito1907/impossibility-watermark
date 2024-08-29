@@ -413,3 +413,22 @@ python -m oracles.training.torchtune.convert
 
 ## convert hf to gguf with llama.cpp
 python convert_hf_to_gguf.py /data2/.shared_models/models--meta-llama--Meta-Llama-3.1-70B-Instruct-IMP-MutationOracle-0.1-hf --outfile /data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-MutationOracle-0.1-q8_0.gguf --outtype q8_0
+
+# Llama-3.1-70B-Instruct-IMP3
+
+# add new custom loader class to torchtune/torchtune/datasets/_chat.py
+# reference class in torchtune/torchtune/datasets/__init__.py
+# create custom yaml config for torchtune and reference class, e.g. impossibility-watermark/oracles/training/torchtune/configs/llama3_1_70B_IMP3.yaml
+#   also create unique folder name for trained model output
+# find server with 240+ GB of GPU memory for training the 70B model
+
+## finetune
+CUDA_VISIBLE_DEVICES=1,2,3 tune run --master_port 29500 --nproc_per_node 3 lora_finetune_distributed --config /data2/fabricehc/impossibility-watermark/oracles/training/torchtune/configs/llama3_1_70B_IMP3.yaml
+
+## convert 30 shards into single safetensors model
+python -m oracles.training.torchtune.convert
+
+## move model.safetensors into dedicated repository with all the required config files (e.g. tokenizer.model, etc)
+
+## convert hf to gguf with llama.cpp
+python convert_hf_to_gguf.py /data2/.shared_models/models--meta-llama--Meta-Llama-3.1-70B-Instruct-IMP3-0.1-hf --outfile /data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf --outtype q8_0
