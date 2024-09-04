@@ -77,7 +77,7 @@ adaptive_cfg = OmegaConf.create(adaptive_dict)
 def get_default_watermarker(watermarker_name):
     if watermarker_name == "umd":
         return UMDWatermarker(umd_cfg)
-    elif watermarker_name == "semstamp":
+    elif watermarker_name == "semstamp" or watermarker_name == "semstamp_lsh":
         return SemStampWatermarker(semstamp_cfg)
     elif watermarker_name == "adaptive":
         return AdaptiveWatermarker(adaptive_cfg)

@@ -27,8 +27,8 @@ class DocumentMutator_2step:
     # NOTE: This current implementation is slow (~300 seconds) and must be optimized before use in the attack. 
     # One idea would be to have it suggest the edits in some structured format and then apply them outside of generation. 
     # This prevents it from having to copy / paste over the bulk of the response unchanged. 
-    def __init__(self, cfg, llm = None) -> None:
-        self.cfg = cfg
+    def __init__(self, llm = None, max_retries=5) -> None:
+        self.max_retries = max_retries
         self.llm = self._initialize_llm(llm)
 
         # Check if NLTK data is downloaded, if not, download it
@@ -36,16 +36,13 @@ class DocumentMutator_2step:
 
     def _initialize_llm(self, llm):
         if not isinstance(llm, (models.LlamaCpp, models.OpenAI)):
-            log.info("Initializing a new Mutator model from cfg...")
-            if "gpt" in self.cfg.model_id:
-                llm = models.OpenAI(self.cfg.model_id)
-            else:
-                llm = models.LlamaCpp(
-                    model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
-                    echo=False,
-                    n_gpu_layers=-1,
-                    n_ctx=2048*2
-                )
+            log.info("Initializing a new Mutator model...")
+            llm = models.LlamaCpp(
+                model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
+                echo=False,
+                n_gpu_layers=-1,
+                n_ctx=2048*2
+            )
         return llm
 
     def _ensure_nltk_data(self):
@@ -58,13 +55,20 @@ class DocumentMutator_2step:
 
         # Use NLTK to split the text into sentences
         sentences = sent_tokenize(text)
+        
+				# TODO: Adding this since the tokenizer thinks '2.' is a sentence, which the mutator then tries to mutate. SEE SentenceMutator
+        # Thus, we only mutate long enough sentences.
+        sentences = [sentence for sentence in sentences if len(sentence) > 20]
+
+        if not sentences:
+            raise ValueError("No sentences longer than 20 characters to rephrase.")       
 
         # Generate a creative variation of the sentence
         selected_i = None
         num_retries = 0
         while True:
 
-            if num_retries >= self.cfg.max_retries:
+            if num_retries >= self.max_retries:
                 raise RuntimeError(f"Failed to successfully rephrase sentence after {num_retries} attempts!")
 
             # Randomly select a sentence
@@ -101,7 +105,6 @@ class DocumentMutator_2step:
           mutated_text += text[i]
           i += 1
 
-
         return {
             "selected_sentence": selected_sentence,
             "rephrased_sentence": rephrased_sentence, 
@@ -112,7 +115,7 @@ class DocumentMutator_2step:
         mutated_output = self.mutate_sentence(text)
         output = self.llm + consistency_edit(original_text=text, **mutated_output)
         #print(f"output: {output}")
-        return output["edited_text"]
+        return output["edited_text"].strip()
 @guidance
 def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE text
     with user():
@@ -122,14 +125,13 @@ def rephrase_sentence(lm, sentence, text=None, stop="\n"): # NOTE: DOES NOT USE 
 
         ### Task Description: 
         Rephrase the sentence above by altering the wording and structure while maintaining the core meaning. 
-        Introduce subtle shifts in meaning that are still consistent with the original text. 
-        Avoid using the same words and phrases to ensure the original and rephrased sentences are distinct. 
+        Introduce subtle shifts in meaning that avoid using the same words and phrases. 
         Respond with just the new sentence, do not include explanations or anything else.
         """
     with assistant():
         lm += f"""\
         ### Paraphrased sentence: 
-        {gen('paraphrased_sentence', max_tokens=int(StringTokenLength.length(sentence) * 1.5), stop='<|im_end|>')}
+        {gen('paraphrased_sentence', max_tokens=int(StringTokenLength.length(sentence) * 1.25), stop=['<|im_end|>', '|im_end|>'])}
         """
     return lm
 
@@ -158,8 +160,8 @@ def consistency_edit(lm, original_text, selected_sentence, rephrased_sentence, m
         """
     with assistant():
         lm += f"""\
-        ### Edited text:
-        {gen('edited_text', max_tokens=int(StringTokenLength.length(mutated_text) * 1.5), stop='<|im_end|>')}
+        ### Final document:
+        {gen('edited_text', max_tokens=int(StringTokenLength.length(mutated_text) * 1.25), stop=['<|im_end|>', '|im_end|>'])}
         """
     return lm
 
