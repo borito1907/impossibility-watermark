@@ -16,7 +16,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"umd_dev_llama31_regen_2"
+    dir_name = f"umd_dev_llama31_massive_regen1"
     base_folder_name = f'./inputs/{dir_name}'
 
     cfg.prompt_file='./data/WQE/dev.csv'
@@ -25,7 +25,7 @@ def test(cfg):
     
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    path = f"/local1/borito1907/impossibility-watermark/inputs/umd_llama31_dev_first_round_2.csv"
+    path = f"/local1/borito1907/impossibility-watermark/inputs/umd_dev_massive_1/watermarked_texts.csv"
     df = pd.read_csv(path)
     df = df[df['zscore'] < 3]
 

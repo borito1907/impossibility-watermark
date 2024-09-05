@@ -41,18 +41,18 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_massive_testtttt_{cfg.partition}"
+    dir_name = f"adaptive_dev_massive_last5_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    partition_size = 200
+    # partition_size = 200
     # start = 1 + (cfg.partition - 1) * partition_size
     # end = 1 + cfg.partition * partition_size
 
-    start = 7
-    end = 8
+    start = 150
+    end = 151
 
     for prompt_num in range(start,end):
 
