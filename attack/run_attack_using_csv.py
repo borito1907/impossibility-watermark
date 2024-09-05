@@ -46,8 +46,7 @@ def main(cfg):
     # dev_df = pd.read_csv('/local1/borito1907/impossibility-watermark/data/WQE/dev.csv')
     watermarked_dev_df = pd.read_csv('human_study/data/wqe_watermark_samples.csv')
     
-    #watermarked_dev_df = watermarked_dev_df.sample(frac=1).reset_index(drop=True).head(1)
-    watermarked_dev_df = watermarked_dev_df[watermarked_dev_df['id'] == 1717147012]
+    watermarked_dev_df = watermarked_dev_df.sample(frac=1).reset_index(drop=True).head(1)
     prompt = watermarked_dev_df.iloc[0]["prompt"]
     watermarked_text = watermarked_dev_df.iloc[0]["text"]
     watermarker_scheme = watermarked_dev_df.iloc[0]["watermarking_scheme"]

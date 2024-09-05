@@ -23,7 +23,6 @@ class Attack:
         self.backtrack_patience = 0
         self.patience = 0
         self.max_mutation_achieved = 0
-        self.prev_time = time.time()
         self.base_step_metadata = {
             "step_num": -1,
             "mutation_num": 0,
@@ -37,7 +36,9 @@ class Attack:
             "watermark_detected": False,
             "watermark_score": -1,
             "backtrack" : False,
-            "time": "",
+            "total_time": "",
+            "mutator_time": "",
+            "oracle_time": "",
         }
 
         self.use_max_steps = self.cfg.attack.use_max_steps
@@ -78,9 +79,7 @@ class Attack:
         })
 
     def append_and_save_step_data(self):
-        curr_time = time.time()
-        self.step_data.update({"time": curr_time - self.prev_time})
-        self.prev_time = curr_time
+        self.step_data.update({"total_time": time.time() - self.start_time})
         self.results.append(self.step_data)
         save_to_csv([self.step_data], self.cfg.attack.log_csv_path) 
         self.step_data.update({"backtrack": False})
@@ -118,6 +117,8 @@ class Attack:
         done = False
         with tqdm(total=self.num_steps) as pbar:
             while not done:
+                self.start_time = time.time()
+                
                 if self.patience >= self.cfg.attack.patience:
                     log.error(f"Patience exceeded on mutation {self.successful_mutation_count}. Exiting attack.")
                     break
@@ -136,11 +137,13 @@ class Attack:
                 self.step_data.update({"current_text": self.current_text})
 
                 # Step 1: Mutate
+                mutate_start_time = time.time()
                 log.info(f"Mutating watermarked text...")
                 self.mutated_text = self.mutator.mutate(self.current_text)
                 self.step_data.update({"mutated_text": self.mutated_text})
+                self.step_data.update({"mutator_time": time.time() - mutate_start_time})       
                 if self.cfg.attack.verbose:
-                    log.info(f"Mutated text: {self.mutated_text}")
+                    log.info(f"Mutated text: {self.mutated_text}")         
 
                 # Step 2: Length Check
                 if self.cfg.attack.check_length:
@@ -158,6 +161,7 @@ class Attack:
                     log.info("Length check passed!")
 
                 # Step 3: Check Quality
+                oracle_start_time = time.time()
                 if self.cfg.attack.check_quality:
                     log.info("Checking quality oracle...")
                     quality_analysis = self.quality_oracle.is_quality_preserved(prompt, self.original_text if self.cfg.attack.origin else self.current_text, self.mutated_text)
@@ -169,11 +173,13 @@ class Attack:
                         log.warn("Failed quality check. Skipping watermark check...")
                         self.backtrack_patience += 1
                         self.patience += 1
+                        self.step_data.update({"oracle_time": time.time() - oracle_start_time})
                         self.append_and_save_step_data()
                         if self.use_max_steps:
                             pbar.update(1)
                             done = self.is_attack_done()
                         continue
+                    self.step_data.update({"oracle_time": time.time() - oracle_start_time})
                     log.info("Quality check passed!")
             
                 # If we reach here, that means the quality check passed or was skipped, so update the current_text.
