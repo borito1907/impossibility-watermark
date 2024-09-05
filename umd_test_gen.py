@@ -24,7 +24,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"umd_test_llama31_{cfg.partition}_last"
+    dir_name = f"umd_test_llama31_massive_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
@@ -34,8 +34,8 @@ def test(cfg):
     
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    start = 1 + (cfg.partition - 1) * 400
-    end = 1 + cfg.partition * 400
+    start = 1 + (cfg.partition - 1) * 200
+    end = 1 + cfg.partition * 200
     for prompt_num in range(start,end):
         prompt, id = get_prompt_and_id_dev(cfg.prompt_file, prompt_num)
             

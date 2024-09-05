@@ -1,0 +1,112 @@
+id,text,zscore,watermarking_scheme,model,time
+1560594781,"
+
+To achieve that, you can use JavaScript's `document` object and methods such as `querySelector()` or `getElementsByClassName()` (depending upon where exactly you're trying locate `.html` files) alongside an attribute selector (`a[href$="".html""]`) to find specific link elements.
+
+Here is a basic script that finds every link (`<a></a>`) element within the current web page that has an HREF value ending with "".csv"". This example utilizes `document.querySelectorAll()` which returns a NodeList of all matches.
+
+```javascript
+function getCSVHrefs() {
+  // Get a NodeList of all <a href=""...""> tags that reference.CSV files.
+  var linkElems = document.querySelectorAll('a[href$="".csv""]');
+  
+  // Create an Array from NodeList for easier handling.
+  var linkHrefs = Array.prototype.map.call(linkElems, function(aTag) { 
+    return aTag.href
+  });
+
+  console.log(""CSV Links: "" + linkHrefs.join(', '));
+}
+
+// Call Function when Page Loads
+window.addEventListener('load', getCSVHrefs);
+```
+
+This snippet should be executed within a web browser context because it depends on a loaded `document`.<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,183.55062174797058
+1090771855,"
+
+To call another workflow from within one of GitHub's workflows, you can use `github-actions/trigger` or `github-actions/worklfows-discover` action.
+
+However, I would advise against using either of that as they are not recommended by GitHub itself due to the limitations they bring along with them.
+
+Instead, you should leverage the power of the ""Reusable Workflows"" feature that was recently rolled out across the platform. 
+
+Here's a brief overview on how you could be calling other workflows:
+
+**Reusable Workflows**:
+These are essentially workflows that can be used as an action within other workflows, making it easier for you to share actions across multiple workflows. You could define the other workflow (which we'll name 'called-workflow' here) as re-usable, which means that you will add this keyword (`reuse`) at its top level.
+
+```yaml
+name: Called Workflow
+on: 
+  # Triggering event goes here
+jobs:
+  # Jobs definitions goes here
+```
+Now, let's convert the 'called-workflow' file (named '.github/workflows/called-workflow.yml') into a re-usable workflow:
+
+```yml
+#.github/workflows/called-workflow.yml
+name: Called Workflow
+on:
+  workflow_call:
+
+jobs:
+  called-workflow-job: # Job id must be unique
+    runs-on: # runner selection
+    # rest of job definitions
+```
+
+Then in the main workflow file (e.g., '.github/workflows/main-workflow.yml'), you can reference the 'Called Workflow':
+
+```yml
+name: Primary Workflow
+
+on:
+  push:
+    branches: [""*""]
+
+jobs:
+  primary-workflow:
+    runs-on: ubuntu
+    # rest of job definitions
+    - name: Run Called Workflow
+      if: true # Optional
+      id: callingJobID # Optional: Useful when you're expecting output from the job
+      continue-on-error: false # Optional
+      timeout-minutes: 5 # Optional; default value is 360 minutes (~6hr), maximum value: 24 hours
+      needs: previous_step # Optional: If there's any preceding job/steps, add the required ones here.
+      # Note the 'called-workflow' reference below
+    uses:.github/called-workflow
+```
+Note: The 'called-workflow' must reside in your repository, otherwise you may face errors while running the main workflow.
+This solution does provide the ability to pass inputs to the 'called-workflow'.<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,678.8543207645416
+1039299190,"
+
+To define default values or provide default props when using Vue 3 within an application built upon Vue's own SSR (server-side rendered) solution, which includes but not limited, you can use `default` property inside `Props` object.
+
+However, since you are specifically asking about Nuxt3, I will provide the correct method of setting default values. 
+
+In Nuxt3, you can define default values of props within your components.
+
+Here is the example:
+
+```javascript
+export default {
+  props: {
+    title: {
+      default: ""This is default title"",
+      required: false,
+      validator(value) {
+        return typeof value ==='string';
+      }
+    },
+    description: {
+      type: Object as Prop<string[]>,
+      default: () => ['This', 'is', 'a', 'default', 'array']
+    },
+  },
+}
+```
+Please note that the `default` property should be either primitive values or functions. If it is an object or array then it needs to be wrapped in an anonymus functions otherwise Vue will share same instance across all component's instance and may cause unexpected behavior.
+For further information, please refer [to this link](https://composition-vue-challenge.netlify.app/prop-validation/#default-values).<|eot_id|>",99.99999403953552,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,199.13686060905457

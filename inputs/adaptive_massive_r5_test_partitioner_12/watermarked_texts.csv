@@ -1,0 +1,240 @@
+id,text,zscore,watermarking_scheme,model,time
+136282836,"
+
+**Global Interpreter Lock (GIL) and Multitthreaded Performance Issues**
+=============================================================
+
+Python's Global Interpreter Lock (often shortened as `gil`) creates difficulties when using multitthreaded programming.
+
+### The Global Interpreter Lock (GiI)
+
+Python has the concept of the GIL, which prevents multiple threads from executing Python bytecodes at once. It allows only one Python execution context to be active per Python process. 
+
+### Problem with Multithreading due to the GIL
+
+Because of this, if we want to achieve true parallelism where multiple CPU-bound operations are performed simultaneously, Python will prevent it because of the GIL. When we create multiple CPU-bound processes, the operating system can execute each one concurrently. When we create multiple CPU-bound threads within the same process, the operating system can't execute those in parallel, because of the restriction placed by the global interpreter lock.
+## Example Use Cases
+- **I/O Bounded Programs**: Python programs that spend most time I/O bounded (e.g., web servers, database clients), the GIL doesn't significantly affect their performance.
+
+- **Computationally Expensive Programs**: On the other hand, computationally expensive programs may experience severe performance degradation due to the restrictions imposed by the GIL.
+
+## Overcome the Problem Using Alternative Approaches:
+
+Here are a couple approaches that allow us to overcome the issues related to multithreading due to the presence of the GIL:
+
+- **Multiprocessing Module** 
+Python has the multiprocessing module which helps spawn new python interpreter processes. Because each new process has its own Python interpreter, the main program can continue running while the new processes execute.
+
+```python
+from multiprocessing import Process
+import os
+
+def info(title):
+    """"""Helper Function.""""""
+    return 'function {} '.format(title)
+
+
+def compute(n):
+    """"""Compute the sum of squares for all number up to n.""""""
+    # Compute the sum of squares of all number up to n
+    sum_of_squares = 1
+    sum_of_squaring_integers = 1
+    i = 1
+    while(i < n):
+        sum_of_squaring_integers += pow((i+1), 3)
+        i += 1
+    
+    return print(f""sum of squares {sum_of_squaring_intengers}"")
+
+if __name__ == ""__main__"":
+    # Creating two processes
+    processes = []
+
+    # Creating first process for computation
+    proc = Process(target=compute, args=(100000,))
+    processes.append(proc)
+    proc.start()
+
+    # Creating second process for computation
+    proc2 = Process(target=compute, args=(200000,))
+    processes.append(proc2)
+    proc2.start()
+    
+    # Waiting for both computations
+    proc.wait()
+    proc2.wait()
+
+```
+
+**Asyncio Library**
+
+Another alternative approach could be leveraging the asyncio library. Asyncio allows us to write concurrent programs that are asynchronous, allowing the execution flow to move forward even when there is some blocking operation involved like I/O.
+
+For example you would define your coroutine functions with async/await syntax. Here is how it might look like:
+```python
+import asyncio
+async def fetch_page(session, url):
+    async with session.get(url) as page:
+        text = page.text()
+        return text
+        
+# Usage
+async def main():
+    async with aiohttp.ClientSession() as session: 
+        html =  fetch_page(session, 'https://example.com')
+
+# Python 3.7+
+await main()
+```
+Note: Both of these methods can help mitigate the effects of the Global Interpreter Lock but are not perfect substitutes for traditional threaded or multiprocessed models. Choose the solution wisely based on requirements.<|eot_id|>",99.47506785392761,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1334.465262413025
+4025748760,"
+
+When it comes down it, there are two primary approaches that can be taken when modeling and understanding human behavior: statistical modeling and mechanism or processes modeling.
+
+**1) Statistical Modeling of Behavioral Date:**
+This approach focuses primarily upon finding correlations within available information as well as making forecasts about upcoming events. It's commonly used for data mining, pattern recognition, and predictive analysis. The emphasis here is placed on describing what has occurred and what may possibly occur in the future by employing statistical methods to identify significant correlations and interactions within data sets.
+
+However, these kinds of analyses typically fail to provide insight into why specific behaviors are exhibited; instead, concentrating more so upon identification and prediction of said behaviors through statistical means.
+
+
+**2) Mechanistic or Process Models of Behavioral Data:**
+The other type of model, which we'll term ""mechanism"" (sometimes also referred to as process), offers significantly greater depth when compared with statistical ones. These particular kinds try to explain the fundamental principles driving observed behaviors - essentially, the 'why' behind actions people display.
+
+
+Here, you're not merely looking at surface levels trends but instead attempting to grasp the root causes influencing behaviors, and doing this involves creating theoretical assumptions about the decision-making processes involved and then testing these against collected data.<|eot_id|>",99.45946335792542,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,196.15547633171082
+124418647,"
+
+To cast (convert) an `double` value (a floating-point type) that can be represented as an `int` (a whole, decimal-only type) within C programming, you typically use an assignment or an expression that explicitly converts one type to another. This process of converting from `double` to `int` is commonly referred to as either narrowing conversion or downcasting.
+
+Here are ways you might perform this operation, but keep in mind the potential issues:
+
+### Using Assignment and Implicit Conversion:
+
+If you assign a `double` value to an `int` within your C code, it will implicitly convert the `double` to an `int`. The decimal part will be truncated, which means it simply gets removed without warning or error message. This could result in unexpected behavior or errors depending on how you use the result:
+
+```cpp {line-height:1}
+#include <stdlib.h>
+#include <printf.h>
+
+void exampleImplicitConversion() {
+    double doubleValue = -3.7;
+    int intValue = doubleValue;  // Implicitly casts double to int
+    
+    // Print out results.
+    // Note: The decimal.7 gets truncated, leaving you with -3
+    //       If you were using positive numbers, this could still cause problems.
+    printf(""Int Value after Implicit Casting: %d\n"", intValue);
+}
+
+// Usage:
+// exampleImplicitConversion();
+```
+
+### Explicit Casting with C Syntax:
+
+You can explicitly cast using C syntax like so:
+
+```c {line-height:1}
+#include <stdio.h>
+
+void exampleExplicitCasting() {
+    double doubleValue = -3.7;
+    int intValue = (int)doubleValue;  // C syntax cast
+    
+    printf(""Int Value after C-style Casting: %d\n"", intValue);
+}
+```
+
+### Cautionary Note about Casting:
+
+Be aware that when you cast from `double` to `int`, all decimal information will get truncated. If you need precision beyond integers (e.g., fractions), consider rounding instead. There are functions available for this, like `round()` from `cmath` or similar libraries (`<cmath>` or `<stdlib.h>`).
+
+Do not rely on these casts when dealing with non-precious arithmetic. You may lose accuracy and introduce bugs into your application if not handled correctly.
+
+Hope this helps!<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,550.1246201992035
+270956550,"
+
+When using Mockito and JUnit 5 (JUnit Jupiter) together, you can use `TestPropertySources` or `SpringBootContext.SpringBootTest` annotations from Spring's testing suite.
+
+**Method 1: Using `TestPropertySources`**
+You can use `@TestpropertyValue` annotation along with `@TestpropertySource` annotation.
+
+```properties
+@TestPropertyValue(""my.property=value"")
+```
+
+```java
+@Test
+@TestPropertyValue(""my.property=value"")
+void testWithCustomPropertyValue() {
+    // your test code here
+}
+```
+
+Or for a whole properties files:
+
+```java
+@Test
+@TestPropertyValue(locations = ""test.properties"", properties = ""key1=custom-value-1,key2=custom-value-2"")
+void testWithCustomPropertyFile() {
+    // your test code here
+}
+```
+In above example we are overriding application properties values. If key is not present then new one would be create.
+
+However, these methods have some limitation. It doesnot allows us to change properties which are autwired.
+
+If that is also required then consider below solution 
+
+**Method 3: By creating custom configuration bean**
+You can create a custom `@Bean` that returns an instance of `org.springframework.core.env.PropertiesConfigurationFactory`, which allows setting properties programmatically.
+
+```java
+@Bean
+public org.springframework.core.env.PropertiesConfigurationFactory propertiesConfigurationFactory(){
+    return new PropertiesConfigurationFactory();
+}
+
+// Inside your test class
+@Autowired
+private org.springframework.core.env.PropertiesConfigurationFactory propertiesConfigurationFactory;
+
+@Before
+public void setup() {
+    propertiesConfigurationFactory.set(""key"",""value"");
+}
+```
+One other solution could be mocking `Environment` object.
+
+To manipulate an application properties, another possible solution is mocking `Environment` object. Below is a basic example of mocking `Environment`.
+
+```java
+import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableEnvironment;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.support.TestEnvironment;
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(initializers = MockApplicationPropertiesTest.InitializerTestConfig.class)
+class MockEnvironmentUsageExample {
+
+    public record InitializerTestConfig(@Mocked Bean bean) implements ApplicationContextInitializer<ConfigurableEnvironment>{
+
+        public void configure(final ApplicationEnvironment env){
+            env.getProperty Sources().get(""key"")=""value"";
+        }
+    }
+
+    // your tests 
+}
+```
+In last example I am trying to show that `Environment` can be manipulated but that should happen before application context gets loaded otherwise changes might get overwritten later.
+
+Note that these solutions may require additional dependencies, e.g., `@RunWith(Mockitospring)` for spring boot versions < 3.x<|eot_id|>",99.99999403953552,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,901.6085832118988

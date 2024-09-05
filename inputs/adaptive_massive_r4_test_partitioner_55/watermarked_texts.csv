@@ -1,0 +1,24 @@
+id,text,zscore,watermarking_scheme,model,time
+3453481263,"
+
+I'll write something that's intentionally flawed, but please keep it as an example of not-so-good code.
+
+**bad_program.py**
+````python
+x=""hello""
+y=x
+print('x',x)
+
+while True: 
+  print(y+"" world"")
+  x=x+y
+  if x > ""goodbye"": break
+````  
+
+Why it’s a terrible code:
+
+*   The `while True` loop can lead to an infinite loop since there isn’t any mechanism for it to stop.
+*   The `if x > ""goodbye""` statement compares two different variables using `>`, which may raise a TypeError or incorrect results due to comparing different object references or variable lengths instead of numerical value.
+*   The `y = y + x` line keeps increasing memory space unnecessarily, making it hard to track down issues.
+*   There’s no error handling or validation for edge cases, such as when `x = None`.
+*   Code readability has taken a hit; there are no comments or docstrings, making it tough to understand its original intention.<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,142.1387870311737

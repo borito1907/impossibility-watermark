@@ -1,0 +1,64 @@
+id,text,zscore,watermarking_scheme,model,time
+1183019112,"
+
+Puedo ayudarlo con eso.
+
+Parezca un mensaje crítografado utilizando una sustitución de letras, específicalemente un tipo de reordenimiento alfanético conocedo como sustitución por desplacenimiento o cifrador Cesar.
+
+Después de aplicar algunas técnicas de análisis, creo que pude decodificar parte del mensaje. Sin embargo, es posible que haya algunos erroes debido a la complejidad del cifrado.
+
+Aquí está una posible interpretación:
+
+WTFDYW -> WHAT DID YOU WRITE?
+ISLBHBTYBF -> IS IT SOMETHING BETTER FOR YOU
+SAMFL IWNGY -> SOMETHING MAKES YOU GIGGLE ALWAYS YOU'RE SO FUNNY 
+MOWITE... -> MOST PEOPLE WILL SAY YOU ARE...
+IWFYA... -> I THINK YOU ARE PRETTY GOOD HEARD YOU'RE...
+...MXDFF!  No he sido able de decrifrar este fragmento.
+
+Si no es correcta, proporcioname más información sobre cómo funciona la codificación para poder ayudarte mejor.
+
+¿Es correcta? o tienes alguna otra información adicional para ayudarme a decrptificarlo correctamente?.<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,235.27364683151245
+1111067161,"
+
+**Warning: Be cautious when running untrusted code, as it may cause unintended behavior or harm!** 
+
+`:():{:|:}&;: ` appears at first glance, innocuous, but beware of running it, as it will create an endless loop of subprocesses that consume system resources.
+
+Here's what happens:
+
+1. `:()` defines an anonymous function named "":""
+2. `{:|:&;}` defines the body of this function, which contains two parts:
+	* `:`, which simply returns true (i.e., has exit code 0).
+	* `|` pipes output to...
+	* `&`, which executes its left operand (`{...}`) as an asynchronous subprocess
+3. The semicolon `;` ends the statement.
+
+The problem arises because `:` recursively invokes its anonymous definition `:`, creating an infinite recursion. Since each call forks an asynchronous process, you'll see many processes spawned quickly consuming CPU cycles.
+
+Do NOT execute this command directly, as your system might freeze due to resource overload. If executed, stop it using `Ctrl-C` or `killall -9 bash`. To avoid issues, never paste unknown commands into shells.
+
+In case you are interested in understanding more, here is a safer alternative:
+
+```bash
+#!/bin/bash
+count=0
+fork() {
+    ((count+=1))
+    echo $count
+}
+while true; do
+     echo $(fork)
+done | tail -f
+# Stop it manually after observing desired number of outputs
+# Ctrl+C
+# echo Total processes spawned: ${count} # add this line at start and observe total processes spawned
+# Note: The 'while true' loop keeps calling 'fork' until we interrupt.
+# The 'pipe' operator sends every number printed from 'fork' to 'tail'
+# 'tail -f' displays last ten outputs from pipe
+# We could replace 'while true' with 'for ((i=0;i<50;i++));do', then remove 'Ctrl + C'. Run it once!
+```
+
+In this alternative version, I've introduced counters, limited execution time and demonstrated usage of while loop, conditional operators and 'for' loop.
+
+Use this opportunity to understand better, please be careful when dealing with untested commands, especially ones containing pipes and redirections like this!<|eot_id|>",99.70149397850037,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,564.9404702186584

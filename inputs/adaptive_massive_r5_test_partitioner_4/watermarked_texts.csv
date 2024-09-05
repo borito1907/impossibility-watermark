@@ -1,0 +1,122 @@
+id,text,zscore,watermarking_scheme,model,time
+1018340716,"
+
+COVID, which stands from Coronavirus disease, was first introduced as COVID 19 (Coro-n-a-viRus-disease) by World Health Organization (W-H-O). It's an infectious disease caused by SARS-Co-v-two virus, and it has had devastating effects on the world.
+
+As of my knowledge cutoff, the pandemic began to unfold globally at the turn of 20203, spreading across more than 200 countries. The rapid transmission led the world health organ-is-a-t-ion declaring it an outbreak.
+
+Here are some key facts that highlight the impact in 2023: **Global Cases & Vaccination Efforts** By 2023 about 640 million cases were reported worldwide, along with over 6 million deaths.
+
+However as vaccination efforts have accelerated, the number of new infections has decreased dramatically, especially among those who received their shots.
+
+Vaccination rates varied greatly depending on region, country, and even within countries due to various socio-economic, cultural, political, religious factors. Some countries achieved remarkable success while others struggled.
+
+There is still ongoing research into long-term effects of Covid 19, including lingering symptoms and conditions often collectively known ""Long COVID"". These can range from mild issues, such as fatigue or brain fog, all way up to severe complications affecting multiple organs.
+
+Many people suffered financially, emotionally, physically, spiritually. Mental health issues skyrocketed during lockdowns, isolation. Small businesses went bankrupt, employees laid off temporarily, permanently.
+
+Globally, economies contracted, trade plummeted, tourism stopped.
+
+In 2023, we see that though many countries have lifted restrictions, mask mandates, social gatherings resumed slowly life returning semblance of normalcy.
+
+Travel restrictions relaxed allowing families reunite after years apart but also raised fears of resurgence.
+
+This pandemic exposed glaring gaps healthcare infrastructure preparedness worldwide, prompting governments reassessing emergency response plans for better handling pandemics future.
+
+While we are making great strides toward healing, rebuilding, it's clear that effects of Covid 19 be felt years come.
+
+The pandemic accelerated digital transformation, online shopping, e-learning; changing lives, workplaces forever<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,468.81062388420105
+3962114279,"
+
+I'll provide you an example of Acoustic Nearfield Holography ( SONAh) code using python.
+
+**Please Note:** Before we dive straightaway, I would suggest that you should be aware of basic signal processing and numerical methods as they are used extensively in SONAH.
+
+```python 
+import numpy as np
+from numpy.fft import fft2, fftshift
+import math 
+
+def calculate_pressure(pressure_field):
+    # This is a simplified method to calculate sound pressure at each point from source position 
+    return 1/(np.sqrt((pressure_field[:, 1])**2+(pressure_field[:, 3])**2+(pressure_field[:, 6])**2))
+
+# Pressure field array: [x, y, amplitude] * number of mics 
+num_of_mic = 16 
+mic_positions = np.zeros([num_of_mic, 9])
+for j in range(num_of_mic):
+    x = j/4 
+    mic_positions[j] = [0.1*x, 1, 1,0.1*x+1,1,0.1*x+2,0.05, x+ 1, 1]
+
+sona-pressure = calculate_pressure(mic_positions)
+
+reconstruction_space_size_x = 512 
+reconstruction_space_size_y = 512
+
+px = 1e-3  # pixel size of reconstructed space (m)
+
+fx = np.linspace(-1 / (2 * px), 1 / (2 * px), int(reconstruction_space_size_x))  # spatial frequencies along x
+fy = np.linspace(-1 / (2 * px), 1 / (2 * px), int(reconstruction_space_size_y))  # spatial frequencies along y
+
+Fxx, _ =np.meshgri(fx,fy)
+
+Fxx = fftshift(Fxx)
+Fyy = fftshift(fy)
+
+k = 1e8  # angular spectrum sampling rate (1/m)
+
+H = 1/np.sqrt(1+(k*math.pi/6*math.pi/6)*((k*fx*k*fxx+ k*fy*k*fyy)))  
+
+for f in k:
+    P = fftshift(fft(sona_pressure))
+```
+Here's what it does:
+1. The `calculate_pressure` function calculates sound pressure at each microphone position based on some assumptions (distance between source to microphones etc). You can replace it with any other method to get sound pressures at each point.
+
+2. It then generates an array for storing sound pressure values at different microphones.
+
+3. We then define a 3d space (reconstructed space). Each point represents a possible source location.
+
+4. We generate a mesh of spatial frequencies (fx and fy).
+
+5. We shift these spatial frequencies to centre at zero.
+
+6. We compute angular spectrum of sound field at each point (H).
+
+7. In last loop we perform fast fourier transform (FFT) over sound pressures and multiply it by angular spectrum of sound field to get reconstructed sound field at each point of reconstructed space.
+
+Note : Please note that real-world applications may be quite complex and might include many factors which are ignored here (like sound velocity, temperature etc). Hence, you may see variations in output.
+
+Also, remember this is just a simple Python script illustrating Acoustic Nearfield Holography ( SONAh ) concepts. Real-life implementation could be lot more involved.
+
+Do let me know if I can help further!<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1188.8479034900665
+1211046482,"
+
+What an exciting and challenging pursuit! Mastering Super StringTheory requires an incredible amount of effort, but I'll provide you an overview of an ideal learning roadmap, assuming you're proficient at least at an intermediate level of linear algebra and basic differential/integral calculus. Here's a step-by-step curriculum to help you reach your target:
+
+**Phase 1: Mathematical Prerequisites (6-12 months)**
+
+Before diving into Superstring Theory itself, it's crucial to develop your skills in advanced physics and pure mathematics.
+
+1. Linear Algebra Refresher
+	* Study advanced topics not typically covered in introductory courses, such as eigendecomposition, orthogonal group, and representation theory.
+2. Multivaried and Tensor Algebras
+	* Learn tensor analysis, including contravariant and covariant vectors, tensor fields, and exterior forms.
+3. Real and Functional Analysis
+4. Measure Theory and Lebesgue Integral for advanced probability concepts.
+5. Probability Theory and Stochastic Processes
+6. Geometry and Torsion: study Riemannian and non-Euclidean geometry.
+
+**Physics Foundation Phase II (6-12 months)**
+
+Establish a fundamental understanding of modern physics principles that lay the groundwork for Superstring Theory:
+
+1. Mechanics and Electromagnetism (classical field theory)
+	* Newton's Law and Lagrangian/Hamiltoanian formulations
+	* Maxwell's equations; Lorentz transformations; relativistic energy/momentum conservation
+2. Thermodynamics
+	* Equilibrium thermodynamics; phase transitions; Gibbs free energy; partition functions
+3. General Relativity 
+    * Curvature; geodesics; Bianchi identities; stress energy tensor; Schwarzschild black holes
+4. Particle Physics and Feynman Diagrams:
+    * Elementary particles; interactions and symmetry groups; Feynman diagrams for QED/QCD processes<|eot_id|>",99.53917264938354,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,385.8829939365387

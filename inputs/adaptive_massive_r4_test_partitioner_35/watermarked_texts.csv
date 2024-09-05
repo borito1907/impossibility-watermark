@@ -1,0 +1,67 @@
+id,text,zscore,watermarking_scheme,model,time
+333333295,"
+
+Aquí te dejo un ejemplo de un formulario de login sencillode JavaScript,HTML,Cookie  :
+
+**HTML**
+````html
+<!DOCTYPE html> 
+ <html lang=""esp""> 
+ <meta name=""viewport""content=""width=device-width, initial-scale=1.0"">
+<head>
+ <title>Login </title>
+</head>
+
+<body>
+ <form id=""formulario_login"" name=""form_login"">
+     <h2>Iniciar Sesisión </h2>
+     <label for=""username"">Nombre usuario: </label>
+     <input type=""text"" id=""username"" name=""usernamelabel""><BR><BR>
+     <label for=""password""> Contraseña: </label>
+     <input type=""password"" id=""password""name=""passworlabel ""><BR><BR>
+    <button type=""submit"">Ingresarl </button>
+    <a href=""#"" >No tienes una Cuennta?Regístrate aqui </a>
+ </form>
+ <script src=""script.js""></script>
+ </body>
+</html>
+````
+
+**JavaScript**
+
+```javascript 
+const form=document.getElementById('formulario_login');
+ const user_name=document.getElementById('username');
+ const password=document.getElementById ('password');
+
+ form.addEventListener('sumbit', (e)=>{
+ e.preventDefault();
+ if(user_name.value=='' || password.value ==''){
+   alert("" Porfavor ingrese su usuario contraseña"")
+ }else{
+   let user_data={
+       'username':user_name.value,
+       'password':password.value
+   }
+  fetch('/API/login',{
+       'metd' : 'POST',
+      'body': JSON.stringify(user_data),
+      headers:{'Content-Type': 'aplication/json'}
+  }).then((response) => {
+        return response.json()
+    })
+   .catch(function(error){
+      alert (""Error al enviar la solicitud"")
+    });
+}
+ });
+
+```
+
+En este formulario se piden credencialles basicas (usuario/clave), si esque se deja un espacio  se le notificara al usuario porfavor ingresa tus credencialles.
+
+Luego se hace una petición POST con la información proporcionada por usuario hacia una url especifica, si la petición falla se mostrara un mensaje al usuario.
+
+Te recomiendo implementar seguridad adional con token, cookies, etc.
+
+Estoy list@ si requieres mas ayuda, solo dime!<|eot_id|>",98.70129823684692,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,588.08962059021

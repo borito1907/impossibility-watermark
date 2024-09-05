@@ -1,0 +1,93 @@
+id,text,zscore,watermarking_scheme,model,time
+1937701104,"
+
+**Roblox Lua Example: Advanced Platformer Level Generation**
+=========================================================
+
+This example generates an obstacle course level using Lua scripts and object oriented programming (classes) within ROBOX's built-In scripting engine, **Lu**.
+
+### Level Generator Class
+```markdown# Level class to handle generation of platforms, enemies, powerups etc.
+
+Level = {}
+Level.__index = Level
+
+function Level.new()
+    return setmetatable({}, Level)
+end
+
+function Level:generate()
+    self.platforms = {}
+    self.enemies = {}
+    self.powerups = {}
+
+    for _ = 1, math.random(5,8) do
+        table.insert(self.platforms, self:create_platform(math.random(-100,100),math.random(50,200)))
+    end
+
+    for _ = 1, 3 do
+        table.insert(self.enemies, self:create_enemy(math.random(-150,150),math.random(75,175)))
+    end
+
+    for _ = 1, math.random(2,3) do
+        table.insert(self.powerups, self:create_powerup(math.random(-125,125),math.random(100,150)))
+    end
+
+    return {platforms=self.platforms,enemies=self.enemies,powerups=self.powerups}
+end
+
+function Level:create_platform(x,y)
+    return {
+        Position=Vector3.new(x,y,30),
+        Part=part({Color=Color3.new(1,0.7,0.3),Anchored=true,Position=Vector3.new(x,y,-30)})
+    }
+end
+
+function Level:create_enemy(x,y)
+    local character_model = Model(""Enemy"")
+
+    character_model:SetPrimaryCframe(CFrame.lookAt(Vector3.new(x,y,40)))
+
+    return {Position=Vector3.new(x,y,40), Model=character_model}
+end
+
+function Level:create_powerup(x,y)
+    return {Position=Vector3.new(x,y,50)}
+end
+```
+### Game Script to use Level Generator Class
+```lua-- Get a reference to the Workspace service to create objects 
+local WorkspaceService = Game:GetService(""Workspace"")
+
+-- Create a new Level object 
+local LevelGenerator = Level.new()
+
+-- Create a new folder to store all generated objects 
+local LevelFolder = Folder(""level"",WorkspaceService)
+
+while true do
+    wait(math.random(3,7)) -- wait a random time from three to seven second
+    
+    LevelGenerator:generate()
+
+    for i,v in pairs(LevelGenerator.platforms) do
+        v.Part.Parent= LevelFolder 
+    End
+    
+    for i,v in pairs(LevelGenerator.enemies) do
+        v.Model.Parent=LevelFolder 
+    end
+
+    for i,v in pairs(LevelGenerator.powerups) do
+       part({Color=Color3.fromHSV(1,1,1),Anchored=false,Parent=v})
+    end
+end
+```
+
+This code demonstrates:
+
+* Object-Oriented Programming (OOP) principles through creation of `level` class that handles generating platforms/enemies/power-ups 
+* Roblox LuAu's built-in `math.random()` to add variability/randomness into generated platforms' size/location, enemies' spawn location, number of power-ups per round, waiting time until each round begins 
+* Creating a `folder`, `parts` (to be used as platforms) & `models` (used as characters) within Roblox's `Workspace`.
+    
+Feel free to ask if you need further clarification or modifications!<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1202.4625651836395

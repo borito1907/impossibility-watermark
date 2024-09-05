@@ -1,0 +1,46 @@
+id,text,zscore,watermarking_scheme,model,time
+2765770341,"
+
+To calculate or identify values at specific indices, such as finding values at certain peripherical (edge) indices of an existing 1D or 3D numpy arrays, you can use NumPY's slicing and/or boolean masks.
+
+However, when we typically think about perimeters, it usually refers to images, matrices, arrays. Thus I'll assume that for calculating 'perimeter', we are looking for values present at boundaries of array.
+
+
+Here is an example code snippet:
+
+```python 
+import numpy as np
+
+# Create an example array.
+data = np.arange(25).reshape((5,5))
+print(""Original Array:\n"", data)
+
+def find_perimeter(array):
+    if len(data.shape)!=2:
+        raise ValueError('This only works for two-dimensional arrays.')
+
+    rows,columns=data.shape
+    # Find top and bottom periphery
+    top_edge=array[0,:]
+    bottom_edge=array[-1,:]
+
+    # Find first and last element of each middle line to represent right and left periphery 
+   
+    middle_edges=np.zeros((rows-2,2))
+
+    for index in range(rows - 2):
+       middle_edges[index][0] = array[index,0]
+       middle_edges[index][1] =array[index,-1]
+
+   # Stack all periphery together
+    edges =np.vstack([top_edge,m middle_edges,bottom_edge]).ravel()
+    return(edges)
+edges = find_perimeter(data)
+    
+print('\nPeriphery Values:',edges )
+
+```
+
+Note: The `ravel()` function returns flattened version of given numpy multi-dimentional array. This is used to transform multi dimensional array to one dimensional array.
+
+Hope this helps!<|eot_id|>",99.99999403953552,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,314.35427927970886

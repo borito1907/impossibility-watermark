@@ -1,0 +1,101 @@
+id,text,zscore,watermarking_scheme,model,time
+978511693,"
+
+Oh boy, are you gonna learn something new today! 
+
+Let's play pretend we're trying read and understand two different books.
+
+**Book 1: The Storybook (Recurrent Neurl Networks - RNN)**
+You know when you read a book one page at a time? You finish reading one page and then you turn the page to see what's going on with your favorite characters. That's kind of similar to an RNN.
+
+Imagine each word you read has some information that helps you understand what happens next. An RNN reads this book by looking at each word one by one, remembering what happened before, and using that to help it make sense of the current word.
+
+Here's an example:
+
+Page 1: The sun is shining.
+Memory: ""The sun""
+Page 1 becomes Page 1+1: It makes flowers bloom.
+New memory: ""The sun makes flowers""
+
+An RNN keeps track of what happened before (the sun) and tries to make predictions based on that info. Easy peasy!
+
+**Book 1 has a few issues though**
+
+It's hard for it to keep track of lots of pages (long text). It might forget what happened earlier!
+Sometimes, it takes too long to finish reading because it only looks at one word/page at a time.
+
+**Now let's switch to Book 3... er, I mean Book 4... no wait, Book 5... Oh dear! (Transformer)** 
+In this magical book, you get to read ALL THE PAGES at once!
+
+A Transformer doesn't care where in the book the important parts are – it just looks at everything simultaneously and figures out how all the pieces fit together. No turning pages needed! 
+
+Imagine having a bunch of friends who each read a part of the book, but they share what they found interesting, making it easier for you to understand everything.
+
+This helps Transformers be faster than Book 1 readers (RNNs), especially when there's a lot of text to process. They're great at catching important context from any part of the book, not just what happened right before.
+
+However, sometimes, Book 5 readers (Transformers) might get overwhelmed by too many pages (text) at once...
+
+So, to sum up:
+
+**RNNs (Book 1):** Read one step at a time, keeping track of what happened previously, but may struggle to keep up with longer books.
+
+**Transformers (Book 5):** Look at everything simultaneously, connecting important pieces across pages, but might need help handling extremely large books.
+
+How's that explanation? Do you feel you understand a bit about both types now? I hope so! Do ask questions, I'll try my best to clarify!<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,843.5337038040161
+1695645555,"
+
+Many commercial Softwares use **Hardware-Based Licensing** or **Hardware Identification** (HWID) methods, which involve using unique information from computer's physical components as an identification mechanism.
+
+Typically, one or several of below mentioned information are collected and processed to generate an identifier for the system. This ensures that the same key can only be used on a specific machine. The most frequently used pieces include: 
+
+- CPU ID (Central Processing Unit Identifier): The CPU serial number is used by some programs to identify the system uniquely.
+- Motherboard ID
+- BIOS UUID (Unique Identifier)
+- Network Card (NIC) ID: The network card’s serial number can be utilized as an identification element for the system. 
+- Graphics Card ID: The graphics processing unit (GPU) ID might also be employed for this purpose.  
+- RAM (Memory Module Information)
+- Storage Drive ID<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,123.18066167831421
+1649419005,"
+
+**What are cross-validation?**
+=====================================
+
+**Overview**
+------------- 
+
+**`k-Folds cross-validation`** (often abbreviated as `k-fold cv`)  or simply **`k-Folds`**,  **`k-Folds cross validation`**, is a resampling procedure utilized in evaluative bias and variance of model performance while training and testing it using available unseen observation.
+
+*Cross-validation helps you evaluate models more effectively, especially when there's not a ton of training data available*. It works well for small- or mid-sized training sets where splitting into separate training/test sets could lead to overfit/undertilting.
+
+**Why is cross-validation Important in machine learning?**
+
+1.  **Reduces overfit/underfit:** *Cross-validation ensures that we're not overfit/underfit models*. When you fit a model using a single training/test split, there's a chance that it will either overfit (too closely fits) the training set, resulting in low accuracy, or underfit, failing to capture essential patterns.
+
+2.  **Provides better estimate:** *Cross-validation gives you a better estimate*. The average score from k-folds can be considered a better estimate of what you can achieve than a single test score.
+
+3.  **Hyperparameter tuning:** With cross-validation, you don't need a separate test-set for choosing hyperparameters.
+
+### Example Walk Through
+
+Below is an example using Python's scikit-learn:
+
+```python
+from sklearn.model_selection import KFold
+import numpy as np
+
+# Create a random sample
+X = np.random.rand(1000, 5)
+y = np.random.choice([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], size=1000)
+
+kfolds = KFold(n=1000, # total size of samples
+               n_folds=5, # desired number of splits
+               random_state=None, shuffle=False)  
+
+for i, (train_index, val_index) in enumerate(kfolds):
+    X_train, X_val =  X.iloc[train_index], X.iloc[val_index]
+    #print(""fold: {} \n Train indices : {} \n Val indices : {}"".format(i,train_index,val_index))
+```
+
+In practice, we can see that cross-validation plays an increasingly important role in ensuring that a model performs well out of the box, which is particularly useful given that real-life scenarios rarely present us with perfect conditions.
+
+Let me know if you want any additional information about cross-validation<|eot_id|>",99.99999403953552,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,861.506979227066

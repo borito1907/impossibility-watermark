@@ -254,7 +254,7 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         for _ in range(self.cfg.generator_args.max_new_tokens - length):
             with torch.no_grad():
                 if past:
-                    output = self.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past, max_length=self.cfg.max_new_tokens)
+                    output = self.model(input_ids[:,-1:], attention_mask=attn, past_key_values=past)
                 else:
                     output = self.model(input_ids)
             

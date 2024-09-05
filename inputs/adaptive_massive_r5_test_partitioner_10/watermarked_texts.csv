@@ -1,0 +1,82 @@
+id,text,zscore,watermarking_scheme,model,time
+3886881095,"
+
+**What's The Point of All These Algorithms?**
+=============================================
+
+You're probably here looking at different algorithms, and you're thinking: *Why should I care? Why are all of  algorithms important? Well, they are crucial as they help us to write more efficent programs.
+
+**Polynomial Time Algorithms**
+-----------------------
+
+Pollards rho is a popular factorization algorithm used for factoring large integers. This is useful because it can be used in cryptography and coding.
+
+Here is the Pollard's rho Algorithm:
+
+The basic idea behind the Pollard's rho algorithm is that we want to find a non-trivial factor of `n`. We start with a randomly chosen number `x0` between `1` and `n-1`, and a constant `c`.
+
+We define a sequence `xi+1 = x^a mod N + c mod N`. The key idea is that this will generate a periodic sequence with a relatively small cycle length, where each element depends only on the one before it.
+
+When we encounter a repetition in the sequence, which means we find two values `i` and `j` with `xi == xk`, then we know that `GCD(xk - xj, N)` is a non trivial factor of `N`.
+
+Now let's dive into an example of how to create this using Python:
+
+```
+import time
+import sys
+import functools
+import inspect
+
+def egcd(a, b):
+    """"""returns (g, x, a) where ax = g,  a > b > 1, and g = gdc(b,a)""""""
+
+    while b not  ==  1:
+        a,b = b, a  % b
+        # return a, b
+    return a, None, None
+
+
+# Pollards rho
+def rho(n,c = 1): 
+   
+    # Pollard's Rho Function
+    # returns a nontrivilal factor of n
+    
+    # we start with a randomly selected number x0 between [2, 3,...,N)
+   x =  5
+   X = 5
+   stage = 1
+   
+    
+    while True:
+       # Generate a sequence using the formula
+      x = (x * x  -c)%  (stage * 10000)
+      
+       # Compute the greatest common divisor(GCD)
+       # of the absolute difference between x and X, and 'N'
+      d = egcd(stage * abs(x-X), 10000000007)[1]
+      
+       # when the divsion is not 1 and not 'N' we've
+      # successfully factored 'N'
+      # otherwise continue the loop
+     if d!= 1 and d!= 10000000007 :
+            break
+         # Periodically re-set X to be the current x
+            # to avoid overflow
+        if stage > 1000000 :
+          X= x
+           stage = 1
+
+     stage += 1 
+
+    return d
+
+
+# Test the functions
+start = time.time()
+rho_factor = rho(10000000007)
+
+end =time.time()
+
+print(""Time Taken "" ,  (end-start)*100, "" seconds"")
+```<|eot_id|>",99.76247549057007,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1066.067326784134

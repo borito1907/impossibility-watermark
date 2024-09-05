@@ -5,6 +5,7 @@ import os
 from utils import save_to_csv, get_prompt_or_output, get_prompt_and_id_dev, get_prompt_from_id, count_csv_entries
 from omegaconf import OmegaConf
 from hydra import initialize, compose
+import torch
 
 log = logging.getLogger(__name__)
 
@@ -25,10 +26,11 @@ def test(cfg):
     cfg_dict['watermark_args']['delta'] = 1.5
     cfg_dict['watermark_args']['delta_0'] = 1.0
     cfg_dict['watermark_args']['alpha'] = 2.0
-    cfg_dict['watermark_args']['top_k'] = 50
-    cfg_dict['watermark_args']['top_p'] = 0.9
-    # cfg_dict['watermark_args']['max_new_tokens'] = 786 # 285
-    # cfg_dict['watermark_args']['min_new_tokens'] = 128 # 215
+    cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
+    cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
+    cfg_dict['watermark_args']['measure_threshold'] = 50
+    cfg_dict['watermark_args']['detection_threshold'] = 95.0
+    cfg_dict['watermark_args']['device'] = 'auto'
     cfg = OmegaConf.create(cfg_dict)
     
     import time
@@ -39,13 +41,13 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_massive_test_{cfg.partition}"
+    dir_name = f"adaptive_massive_test_partitioner_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    partition_size = 200
+    partition_size = 25
     start = 1 + (cfg.partition - 1) * partition_size
     end = 1 + cfg.partition * partition_size
 
@@ -58,20 +60,24 @@ def test(cfg):
 
         try:
             for _ in range(1):
-                start = time.time()
+                start_time = time.time()
                 watermarked_text = watermarker.generate_watermarked_outputs(prompt)
-                is_detected = watermarker.detect(watermarked_text)
-                delta = time.time() - start
+                is_detected, score = watermarker.detect(watermarked_text)
+                delta = time.time() - start_time
                 
                 log.info(f"Watermarked Text: {watermarked_text}")
                 log.info(f"Is Watermark Detected?: {is_detected}")
+                log.info(f"Score: {score}")
                 log.info(f"Time taken: {delta}")
 
-                stats = [{'id': id, 'text': watermarked_text, 'zscore': is_detected, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
                 save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+        except torch.cuda.CudaError as cuda_error:
+            log.error(f"CUDA error encountered: {cuda_error}. Reinitializing watermarker.")
+            watermarker = get_watermarker(cfg, only_detect=False)  # Reinitialize watermarker
         except Exception as e:
-            log.info(f"Exception with Prompt {prompt_num}.")
-            log.info(f"Exception: {e}")
+            log.error(f"Exception with Prompt {prompt_num}.")
+            log.error(f"Exception: {e}")
 
 if __name__ == "__main__":
     test()
