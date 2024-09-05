@@ -17,8 +17,7 @@ class DocumentMutator_1step:
     # NOTE: This current implementation is slow (~300 seconds) and must be optimized before use in the attack. 
     # One idea would be to have it suggest the edits in some structured format and then apply them outside of generation. 
     # This prevents it from having to copy / paste over the bulk of the response unchanged. 
-    def __init__(self, cfg, llm = None) -> None:
-        self.cfg = cfg
+    def __init__(self, llm = None) -> None:
         self.llm = self._initialize_llm(llm)
 
         # Check if NLTK data is downloaded, if not, download it
@@ -26,16 +25,13 @@ class DocumentMutator_1step:
 
     def _initialize_llm(self, llm):
         if not isinstance(llm, (models.LlamaCpp, models.OpenAI)):
-            log.info("Initializing a new Mutator model from cfg...")
-            if "gpt" in self.cfg.model_id:
-                llm = models.OpenAI(self.cfg.model_id)
-            else:
-                llm = models.LlamaCpp(
-                    model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
-                    echo=False,
-                    n_gpu_layers=-1,
-                    n_ctx=2048
-                )
+            log.info("Initializing a new Mutator model...")
+            llm = models.LlamaCpp(
+                model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
+                echo=False,
+                n_gpu_layers=-1,
+                n_ctx=2048
+            )
         return llm
 
     def _ensure_nltk_data(self):
@@ -47,9 +43,7 @@ class DocumentMutator_1step:
     def mutate(self, text):
         output = self.llm + paraphrase(text)
         #print(f"output: {output}")
-        return {
-            "paraphrase_text": output["paraphrase_text"],
-        }
+        return output["paraphrase_text"].strip()
 
 
 @guidance
@@ -58,7 +52,7 @@ def paraphrase(lm, text):
         lm += f"""\
         ### Task Description: 
         Paraphrase the following text so that it preserves the meaning, quality, and format while varying the underlying words and sentence structures. 
-        Keep the text at a similar length. Respond with just the new text.
+        Keep the text at a similar length. Respond with just the new version of the text.
 
         ### The original text: 
         {text}
@@ -66,7 +60,7 @@ def paraphrase(lm, text):
     with assistant():
         lm += f"""\
         ### Paraphrased text:
-        {gen('paraphrase_text', max_tokens=int(StringTokenLength.length(text) * 1.5), stop='<|im_end|>')}
+        {gen('paraphrase_text', max_tokens=int(StringTokenLength.length(text) * 1.25), temperature=.6, stop=['<|im_end|>', '|im_end|>'])}
         """
     return lm
 
@@ -89,7 +83,6 @@ if __name__ == "__main__":
         text_mutator = DocumentMutator_1step(cfg.mutator_args)
         for index, row in dataset.iterrows():
           text = row["response_a"]
-
 
           start = time.time()
           mutated_output = text_mutator.mutate(text)

@@ -23,6 +23,7 @@ class Attack:
         self.backtrack_patience = 0
         self.patience = 0
         self.max_mutation_achieved = 0
+        self.prev_time = time.time()
         self.base_step_metadata = {
             "step_num": -1,
             "mutation_num": 0,
@@ -36,7 +37,7 @@ class Attack:
             "watermark_detected": False,
             "watermark_score": -1,
             "backtrack" : False,
-            "timestamp": "",
+            "time": "",
         }
 
         self.use_max_steps = self.cfg.attack.use_max_steps
@@ -77,7 +78,9 @@ class Attack:
         })
 
     def append_and_save_step_data(self):
-        self.step_data.update({"timestamp": time.time()})
+        curr_time = time.time()
+        self.step_data.update({"time": curr_time - self.prev_time})
+        self.prev_time = curr_time
         self.results.append(self.step_data)
         save_to_csv([self.step_data], self.cfg.attack.log_csv_path) 
         self.step_data.update({"backtrack": False})
@@ -119,13 +122,13 @@ class Attack:
                     log.error(f"Patience exceeded on mutation {self.successful_mutation_count}. Exiting attack.")
                     break
                 self.step_num += 1
-                pbar.set_description(f"Step {self.step_num}. Patience: {self.backtrack_patience};{self.patience} (Goal: {self.max_mutation_achieved+1}).")
+                pbar.set_description(f"Step {self.step_num}. Patience: {self.backtrack_patience};{self.patience} (Goal: {self.max_mutation_achieved+1})")
                 self.step_data = self.base_step_metadata
 
                 if self.backtrack_patience >= self.cfg.attack.backtrack_patience:
-                    log.error(f"Backtrack patience exceeded. Reverting current text to previous mutated text.")
-                    pbar.update(-1)
-
+                    if len(self.mutated_texts) > 1:
+                      log.error(f"Backtrack patience exceeded. Reverting current text to previous mutated text.")
+                      pbar.update(-1)
                     self.backtrack()
                 
                 self.step_data.update({"step_num": self.step_num})
@@ -148,6 +151,9 @@ class Attack:
                         self.backtrack_patience += 1
                         self.patience += 1
                         self.append_and_save_step_data()
+                        if self.use_max_steps:
+                            pbar.update(1)
+                            done = self.is_attack_done()
                         continue
                     log.info("Length check passed!")
 
@@ -164,6 +170,9 @@ class Attack:
                         self.backtrack_patience += 1
                         self.patience += 1
                         self.append_and_save_step_data()
+                        if self.use_max_steps:
+                            pbar.update(1)
+                            done = self.is_attack_done()
                         continue
                     log.info("Quality check passed!")
             

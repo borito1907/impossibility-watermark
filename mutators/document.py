@@ -5,6 +5,7 @@ from transformers import T5Tokenizer, T5ForConditionalGeneration
 import nltk
 from nltk.tokenize import sent_tokenize
 nltk.download('punkt')
+nltk.download('punkt_tab')
 
 class DocumentMutator(object):
     def __init__(self, model="kalpeshk2011/dipper-paraphraser-xxl", verbose=True):
@@ -36,28 +37,42 @@ class DocumentMutator(object):
         lex_code = int(100 - lex_diversity)
         order_code = int(100 - order_diversity)
 
-        input_text = " ".join(input_text.split())
+        input_text = input_text.strip()
         sentences = sent_tokenize(input_text)
-        prefix = " ".join(prefix.replace("\n", " ").split())
+        prefix = prefix.strip()
         output_text = ""
+        whitespace_i = 0
 
         for sent_idx in range(0, len(sentences), sent_interval):
             curr_sent_window = " ".join(sentences[sent_idx:sent_idx + sent_interval])
-            final_input_text = f"lexical = {lex_code}, order = {order_code}"
-            if prefix:
-                final_input_text += f" {prefix}"
-            final_input_text += f" <sent> {curr_sent_window} </sent>"
+            
+            if len(curr_sent_window) < 10:
+                outputs = [curr_sent_window]
+            else:
+              stuck = True
+              retry_count = 0
+              while stuck and retry_count < 10:
+                final_input_text = f"lexical = {lex_code}, order = {order_code}"
+                if prefix:
+                    final_input_text += f" {prefix}"
+                final_input_text += f" <sent> {curr_sent_window} </sent>"
+                final_input = self.tokenizer([final_input_text], return_tensors="pt", max_length=max_length)
+                final_input = {k: v.cuda() for k, v in final_input.items()}
 
-            final_input = self.tokenizer([final_input_text], return_tensors="pt")
-            final_input = {k: v.cuda() for k, v in final_input.items()}
-
-            with torch.inference_mode():
-                outputs = self.model.generate(**final_input, max_length=max_length, tokenizer=self.tokenizer, stop_strings=[" * ", "////"], **kwargs)
-            outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
-            prefix += " " + outputs[0]
-            output_text += " " + outputs[0]
-
-        return output_text.rstrip(" *").strip()
+                with torch.inference_mode():
+                    outputs = self.model.generate(**final_input, max_length=max_length, tokenizer=self.tokenizer, do_sample=True, temperature=.4, **kwargs)
+                outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+                stuck = all(char == '*' for char in outputs[0].replace(" ", ""))
+                retry_count += 1
+						# re-insert whitespace
+            whitespace = ''
+            while not input_text.startswith(sentences[sent_idx], whitespace_i):
+                whitespace += input_text[whitespace_i]
+                whitespace_i += 1
+            whitespace_i += len(sentences[sent_idx])
+            prefix += whitespace + outputs[0]
+            output_text += whitespace + outputs[0]
+        return output_text.strip()
 
 def test():
 
@@ -67,24 +82,27 @@ def test():
 
     print(f"Starting mutation...")
 
-    dataset = pd.read_csv("./data/WQE/dev.csv")
+    dataset = pd.read_csv('human_study/data/wqe_watermark_samples.csv')
     dataset = dataset.sample(frac=1).reset_index(drop=True)
-    n=10
+    #dataset = dataset[dataset["id"] == 1717147012]
+    n=1
     avg_time=0
     dataset = dataset.head(n) 
     text_mutator = DocumentMutator()
     for index, row in dataset.iterrows():
-      text = row["response_a"]
+      for i in range(10):
+        text = row["text"]
 
-      start = time.time()
-      mutated_text = text_mutator.mutate(text)
-      delta = time.time() - start
+        start = time.time()
+        mutated_text = text_mutator.mutate(text)
+        delta = time.time() - start
 
-      print(f"Original text: {text}")
-      print(f"Mutated text: {mutated_text}")
-      print(f"Diff: {diff(text, mutated_text)}")
-      print(f"Time taken: {delta}")
-      avg_time += delta
+        print(f"ID: {row['id']}")
+        print(f"Original text: {text}")
+        print(f"Mutated text: {mutated_text}")
+        #print(f"Diff: {diff(text, mutated_text)}")
+        print(f"Time taken: {delta}")
+        avg_time += delta
     print(f"Average time: {avg_time/n}")
 
 if __name__ == "__main__":
