@@ -1,0 +1,154 @@
+id,text,zscore,watermarking_scheme,model,time
+3608365949,"
+
+When using Arduino, you're likely running code that's been adapted from C++ and optimized by Espressifs' SDK (for which Arduino provides an easy entry-point).
+
+ESP32 has two CPU cores: `core 0` and `core 1`. When using the Arduino environment for the EPS2, here's how tasks are typically distributed:
+
+**core 1 (PRO_CPU):**
+This core handles most of the user application, which includes:
+	1. The Arduino sketch (i.e., the program written by you).
+	2. Most of the Free RTOS (a free and open-source Real-Time Operating System) components.
+
+In essence, Core 1 executes the bulk of your application, handling tasks, events, and interrupts triggered by various I/O operations.
+
+**core 2 (App_CPU):**
+This core takes care of:
+	1. WiFi/Bluetooth/BBLE (Bluetooth low energy) and other network-related tasks.
+	2. Other system-level tasks not directly related to the user application.
+
+While it's technically possible to write user code that utilizes both cores, this typically involves more complexity due to synchronization issues between the two CPU instances. However, there are ways to achieve dual-core execution within Arduino, but it's relatively uncommon.
+
+Keep in mind that while the Arduino environment abstracts many low-level aspects of programming the EPS2 microcontroller, you can still explore the capabilities of both CPU cores through the official Espressif SDK or other frameworks.
+
+Would you like me to help with a related inquiry? Or perhaps assist with a coding issue involving the EPS2 and Arduino? Feel free to share any questions!<|eot_id|>",99.16317462921143,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,342.24882912635803
+304652999,"
+
+Installing new tools and utilities can be an exciting part of using Kail Linus.
+
+To help you, I'll provide step by step directions.
+
+**Method 1: Using.AppImages (recommended)**
+Epic Browser provides an AppImages that can run the application as non-root.
+Here are the steps to download it.
+
+- Open your preferred text editor or create a new file called `~/. bash_aliases` (e.g., nano ~/.bash_aliases)
+- Copy the line below
+  `alias epc=""./path/to/Eclipse\ Browser.AppImage""`
+  Replace ""/path/to/"" with where you saved the downloaded appimage.
+- Restart the session or source the changes (source ~/.bash_aliases).
+ 
+**Method 3:** **From Source**
+You may need root privilege. Install the dependencies first:
+
+```
+# Install required dependencies
+sudo apt-get install build-essential libgtk2.0-dev \
+libx11-dev \
+libgdk-pixbuf2.0-dev \
+libcairo2-dev \
+libffi-dev
+```
+
+
+
+* Clone the repository
+```bash
+git clone https://github.com/KBhatta/Epic.git
+cd Epic
+```<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,195.3223738670349
+3476038138,"
+
+SAT (Boolean Satisfied) solvers are algorithms that determine, given an instance of proposotional logic, either that it has no solution or provide one model that makes all formulas true.
+
+1) **Deduce and Decide**: 
+This approach involves using logical rules to infer new constraints until the formula is solved. It's used as a part of most modern solvers. The basic rules are: 
+
+   - Unit Propagation: If there's one variable assignment which would make the whole formula false for any other possible values in the rest of variables then we can assign that variable immediately. 
+   - Pure Literal: If some variable never appear negated, we can set it true. Similarly if some variable is present everywhere as complemented then you might be able to set it false.
+
+2)  The second major class uses local search methods like:
+   - Walksat: randomly selects an unsatisfiable variable, flips it, then repeats until satisfied.
+   - SAT solver based on Genetic Algorithms where the population contains possible truth values of the literals.
+
+3)  Another class of solvers are based on divide and conquer methods: 
+   - Binary decomposition: splitting the problem into smaller ones, solving each recursively, then combining the partial solutions.
+
+4)  Yet another approach is based on the concept of ""clause-learning"":
+   - When the solver encounters a conflict, it learns from it. The solver identifies the reason for this conflict, adds it to a knowledge-base and backtracks. The solver will avoid similar conflicts later.
+
+5)  There exist several hybrid methods that incorporate both systematic and non-systematic methods. These are typically faster than purely systematic approaches and can prove unsatisfiability when the problem does not admit any model.
+
+6)  Stochastic local search methods such as probSAT, which combines randomization with heuristics.
+
+7)  Model- Based Solving: Uses machine learning to select the most useful variable to assign at each step<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,471.65248346328735
+99141574,"
+
+**Resizing an Array Dynamically**
+=====================================
+
+### Introduction
+
+This C code snippet creates an initially-sized static-like dynamically resized 1D-array, and resizes it using `malloc` and `free`.
+
+### The code
+````cpp
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <assert.h>
+
+// Macro for dynamic reallocations
+#define REALLOC(ptr, size) realloc((ptr), (size))
+
+int main() {
+    // Initial size of an array
+    size_t arr_size = sizeof(int);
+
+    // Create a pointer to integer
+    // Using malloc instead of a local var for dynamism.
+    // This allows us to use realloc to change the size
+    int* arr_ptr = malloc(arr_size);
+
+    if (arr_ptr == NULL) { // handle malloc failure
+        printf(""Memory error: could not allocate required amount\n"");
+        exit(1);         // exit program
+    }
+
+    assert(arr_ptr!= NULL);
+
+    // Assign some value to first elem of an array
+    *arr_ptr = -10;
+    
+	// Resize an array and assign another value to newly created space
+	size++;
+	arr_ptr = REALLOC(arr_ptr, arr_size * 2);
+	assert(NULL!= arr_ptr);
+	*((arr_ptr+1)) = -20;
+
+    printf(""Values are: \n""
+            ""%d \n"" 
+            ""\n %d"", *arr_ptr,*((arr_ptr + 1)));
+
+	free( arr_ptr ); // free dynamically allocated space
+
+	return 0;
+}
+````
+### How it works
+
+This example demonstrates:
+
+* Creating an `int*`, which can be used as an `array`.
+* Allocating space for that `int` by calling `malloc()` to create a single `int`.
+* Assigning a value to this memory location (`*arr_ptr = -10;`)
+* Increasing the memory block's size to fit two `ints` by allocating twice the original size (`arr_ptr = REALLOC(arr_ptr, arr_size * 2);`).
+* Assign a value to this second memory slot.
+
+After running the program you will get an `Output:`
+```
+Values are:
+-10
+-20
+```<|eot_id|>",99.56896305084229,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,642.1799392700195

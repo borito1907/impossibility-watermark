@@ -1,0 +1,108 @@
+id,text,zscore,watermarking_scheme,model,time
+2741850401,"
+
+**Calculates Sun Position**
+=========================
+
+This code provides two python methods: `sun_altazi` and `sun_topo` which calculate sun's altitude, azmuth angle, and topocentric solar elevation given location (lat,lon) and time.
+
+### Dependencies
+```python
+from datetime import datetime, timedelta
+import numpy as np
+
+# Define some constants for convenience
+pi = 3.1415927
+twopi = 7.6431238
+deg_to_rad = pi / 1.8
+rad_to_deg = 1/ deg_to_rad
+sol_per_d = 360.0/365.242199 #solar degrees per day 
+sol_per_yr = sol_per_d * 365.24219 #solar degrees per year
+```
+
+### Function to Calculate Altitude and AZimuth of the sun 
+
+This function takes latitude, longitude, date and time as arguments.
+```python
+def sun_altazi(lat, lon, dtime):
+    """"""
+    Parameters:
+    - Lat (float): Latitude of location (-90 to +90 degrees)
+    - Lon (float): Longitude of location (-180 to +180 degrees)
+    - Dtime (datetime object): Date and Time
+    
+     returns:
+    - Altitude: The angle between sun's apparent image and local horizontal plane
+    - Azimuth : The compass bearing of the sun relative to true south.
+    
+     """"""
+    # Calculate day of the year and hour in radians.
+    day_of_year = dtime.timetuple().tm_yday 
+   
+   
+    # Calculate Greenwich Mean Sidereal Time
+    GST = ((day_of_year-1)*sol_per_d+((hour*360)/23.93))/360
+   
+   
+    # Calculate Hourly correction
+     Hcorr =  0.0053*sin(360/364*((day_of_year-81)))
+   
+  
+     # Calculate local hour
+      LHA = GST+(Lon/360)+Hcorr
+
+
+     # Calculate Right Ascension
+     Ra=(((283.2404+102.93768193*((day_of_year-1)))/360)%1)
+     
+     # Calculate Obliquity (degrees) [23° 45']
+     O=23.45
+       
+     # Calculate Altitude
+       alt = arcsin(sin(radians(Lat))*(O*sin(sol_dec))+(Ra*cos(Ra))*((Ra*cos(Lat)*(O*sin(sol_dec))))
+        azimuth= atan2(sin(HourAngle),  ((Ra*O*sin(Lat)) -  ((Ra*cos(O)*cos(Lat))))
+        
+      #Convert to degrees
+        alt = alt * rad_to_deg
+         azimuth = 360 - ((360 -  ((HRA * rad_to_deg))) % 360)
+
+    return alt,azimuth
+  ```
+
+   ### Example Usage
+  This is an example of using this code:
+
+```python
+if name == ""__main__"":
+ lat = 37.77493 #San Francisco
+     lon=-121.42411 #San Francisco
+  date_time_obj = 2023-03-30 12:00:00'
+date_time_str= '2023-03-30 14:30:00' 
+dt=datetime.strptime(date_time_str,' %y-%d %h:%m:%s')
+altitude, azmuth_angle= sun_altazi(lat, lon, dt)
+print(""Altitude in degrees"",altitude)
+     print('Azimuth in degree',azmuth_angle)
+  ```<|eot_id|>",99.74160194396973,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1278.322130203247
+2550100956,"
+
+This C++ code (it's not C, by they are similar) has an issue when `foo.Length()` returns 0.
+
+When `foo.Length()` returns 0, `i` will be assigned `-1` due unsigned under/overflow. Since `unsigned int` can never be negative, it wraps around to the largest value that can be expressed as `unsigned int`. The loop then becomes a potentially huge loop.
+
+For example if `unsigned int i = foo.Length()-1;` becomes `i = 4294967195` on most systems because of integer overflow.
+
+Here is a revised version of your loop that avoids the problem.
+
+```cpp
+for (int i = static_cast<int>(Foo.Length()) - 1; i > 1; --i)
+```
+
+Note I've changed `i >= 1` to `i > 1`, so that `i == 1` does not cause issues.
+
+Alternatively, using reverse_iterator could be more idiomatic c++. It eliminates off-by-one errors.
+
+```cpp
+for(auto it = --Foo.end(), rend(Foo.rbegin()); it!= rend; ++it){
+    //do stuff here
+}
+```<|eot_id|>",99.99999403953552,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,188.14095783233643

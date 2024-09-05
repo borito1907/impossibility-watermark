@@ -1,0 +1,275 @@
+id,text,zscore,watermarking_scheme,model,time
+2985141475,"
+
+I can provide you an example code snippet that covers loading and basic numerical analyses of numerical columns from an example dataset using pandas.
+
+**Loading and Analyizing Numerial Column Example**
+====================================================
+
+### Prerequisitess
+
+This example requires `pandas`. You can install it via `pip` with the following command:
+```bash
+pip install pandas
+```
+### Code
+```python
+import pandas as pd
+
+# Sample CSV data
+data = """"""
+,A,B,C,D
+1,a,6,9.5,True
+2,b,3,8.4,False
+3,c,4,5.3,True
+4,d,7,3.4,True
+""""""
+
+# Create pandas data frame
+df = pd.DataFrame([
+    [""a"", 5., ""female""], 
+    [""b"", None, ""male""],
+    [""c"", -3.4, ""other""],
+    [""d"", -5.1, ""other""]
+], columns=['A', 'B', 'C'])
+
+# Alternatively load data directly into data frame from CSV file
+# Make sure that 'example.csv' exists within same directory 
+# or provide absolute path where it's located.
+
+# Import CSV into data frame, skipping header row (if applicable)
+# headers should be present within first row for automatic naming purposes.
+# Note we are explicitly stating which columns contain numerical values here by passing 'use_cols'.
+try: 
+    # Read CSV into Pandas data frame
+    # We'll assume there is no header row; pass 'None' as argument to 'index_col'
+    # To include any existing headers, simply remove 'index_col=None'.
+    df = pd.read_csv('example.csv', header= None, usecols=[i])
+except Exception as e:
+    print(""Error reading CSV: %s"" %(e))
+
+numerical_columns = ['A']
+for col in numerical_columns:
+
+    # Ensure selected columns are numerical, skip over non-numerical ones.
+    try:
+        series = pd.to_numeric(df[col]) 
+    except Exception as e:
+        print(f""{col} contains non-numeric values."")
+        print(e)
+        pass
+
+
+    # Calculate summary statistics per numerical column
+    mean_val = series.mean()
+    median_val = series.median()
+    std_dev = series.std()
+
+    # Calculate percentiles per column
+    percentile_25th = series.quantile(q=.025)
+    percentile_75th = series.quantile(q=.975)
+
+    # Determine most frequently occurring values within each series.
+    most_common_value = series.mode().values[series.mode().values.size>3][series.mode().value_counts()]
+
+    # Perform other calculations as needed based on available functions within Pandas package 
+
+    # Example: Find top-n highest values per series, default returns all values sorted descending if 'N' parameter omitted
+    top_n_highest = series.nlargest(3) 
+
+print(""Summary Statistics:"")
+print(f""mean: {mean_val}"")
+print(f""median: {median_val}"")
+print(f""std dev: {std_dev}"")
+
+print(""\nOther Statistics"")
+print(f""most common: {most_common_value}"")
+print(f""top-n-highest:\n{top_n_highest}"")
+```
+
+To get started, save this example into Python (.py) sourcefile then execute it within terminal or IDE.
+
+Before running make sure that pandas has been correctly installed.
+
+Replace `'example.csv'` with your own CSV's name or provide correct absolute file path.
+
+Adjust `use_cols`, and `index_col` according to what suits your CSV best.
+
+Example assumes there exists `A`, `B`, `D` columns containing numerical data.
+
+Let me know if you've any questions or issues while implementing these functionalities!<|eot_id|>",99.72677230834961,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1397.5794570446014
+2196628477,"
+
+1) My new coworker just moved from Chicago and now she's living at 1423 Willow Creek, but I'll make it easier by calling it simply as: She currently stays at ADDRESS.
+
+become 
+She currently stays at ADDRESS.
+
+ 
+
+2) The invitation card had the venue address written as 345 Maple Avenue, so let me rephrase that as: The party location can be found at: 345 Maple Avenue which is same as: The party will take place at: ADDRESS.
+
+ becomes
+The party will take place at: ADDRESS.
+
+3) When filling out the form, please use the billing address of: P. O. Box No. -1234 instead of using: You should enter ADDRESS.
+
+becomes 
+ You should enter ADDRESS.
+
+4) If you are planning to send her gifts then use her office address: Level -5, Building - Alpha, Sector -7 instead of using: All parcels should be sent to ADDRESS.
+
+becomes
+All parcels should be sent to ADDRESS.
+
+5) He has been staying in the same old house at: No. -56, South Park all these years instead of: He still lives at the very familiar:ADDRESS.
+
+becomes
+He still lives at the very familiar ADDRESS.
+
+6) You need to fill in the permanent address section with: A/15, First floor, Mumbai instead of: Just type down:ADDRESS.
+
+becomes 
+Just type down: ADDRESS.
+
+7) It took him two hours to locate her new flat at: B/17, Second floor after searching everywhere else instead of saying: Her new home can be reached at :ADDRESS.
+
+becomes 
+Her new home can be reached at ADDRESS.
+
+8) As per records, he has shifted from: Newyork, USA to: Canada recently instead of saying: His current residence is located at:ADDRESS.
+
+becomes 
+His current residence is located at: ADDRESS.
+
+9) Can you please forward that important mail from: P. O. Box -5678 instead of saying: Could you kindly redirect that mail to:ADDRESS?
+
+becomes 
+ Could you kindly redirect that mail to: ADDRESS?
+
+10) The GPS led us directly to her new workplace at: Plot no.-101, Udyog viha instead of saying: Her daily commute begins from:ADDRESS.
+
+becomes 
+ Her daily commute begins from: ADDRESS<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,583.1786856651306
+2017752666,"
+
+**Finding Primitives: JavaScript Implementation**
+=====================================================
+
+### primeNumbers.js
+This JavaScript code snippet provides an efficient solution using trial factorization.
+
+**Function Signature**
+`function primeNumbers(num)`: returns all prime numbers below `num`.
+
+**Code**
+```javascript
+/**
+ * Finds all primary factors of integers up to and including num.
+ *
+ * This is an optimized version that only checks divisibility up until sqrt(n)
+ * due to mathematical property that every factor has another corresponding 
+ * factor which when both are smaller than sqrt(n), then there is always one 
+ * factor greater than sqrt(n).
+ *
+ * Example usage:
+ * console.log(primeNumbers(30));
+ *
+ * output: 1, 3, 5, 7, 11, 23, 25, 31 - 8
+ *
+ * Time complexity O(N*√N) and space complexity of (O(N))
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+export function primeNumbers(num = 20) {
+    const result = new Array(num - 1);
+    let j = 1;
+
+    // Create initial boolean values
+    result.fill(false, 1, result.length);
+
+    for (let i = 1; i < Math.floor(Math.sqrt(num)) ; ++i ) {
+        // start checking each number's multiples beginning with itself squared
+        let k = 1;
+        while ((k * (i + 1) * (i + 1)) < result.length) {
+            // marking as not being possible candidates
+            result[(k++ * (i + 1) * (i + 1))] = true;
+        }
+    }
+
+    let counter = 0;
+    // loop through result and push indices of remaining 'false' values
+    for (let n = 1; n <= result.length && counter < 20; ++n) {
+      if (! result[n]) {
+        counter++;
+        result[j++] = n;
+      }
+   }   
+    return result.slice(0,j);
+}
+// Example Usage
+console.log(primeNumbers(50));
+// output [1, 3, 5, 11, 17, 23, 37, 47]
+// output length is 9
+// Example Usage two
+console.log(primeNumbers(200));
+// output length is 48```.
+Note: The above given JS program finds and prints 20 (default) and can be changed by giving arguments. It takes an argument to determine what range it should find within. The time complexity of this program has been reduced to N*sqrt(N). The space complexity remains linear. The output is an array of integers. The program utilizes an optimal strategy that eliminates multiple iterations over large ranges. The time spent is directly affected by the square root of your desired range.
+Please note that this program may not be perfect but I tried optimizing as much as possible. There could still be improvements. Please feel free to suggest. Thank you! 😊. 
+Hope this helps! 🤞. 
+Let me know if any questions. 👂. 
+I'll be glad helping! 😁<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,983.6069104671478
+2031602975,"
+
+**Title:** Enhance Arize Implementation: Extend ml_platform_utils Compatibility
+
+**Description:**
+================
+
+### Background
+Our `ml_platform_utils` provides essential tools and utilities that streamline machine learning workflows within projects, ensuring seamless execution and monitoring of machine learning tasks. One crucial aspect of these workflows is the logging of model performance using Arzie.
+
+### Task
+Enhance the existing Arize logging mechanism to accept `spark.DataFrame` as an additional parameter type for logging model outputs or predictions on `spark.DataFrame` objects directly through the `ArizeImplementation`.
+
+### Objectifs:
+
+1. Modify the current Arize interface in `m_platform_utils` to support passing `spark.DataFrame` objects directly for logging purposes.
+
+2. Ensure backward compatibility with existing functionalities to avoid disruptions to current workflows.
+
+3. Implement error handling mechanisms to catch any incompatible types passed to new functions.
+
+4. Write unit tests to cover all possible scenarios including edge cases (e.g., empty `DataFrame`, missing columns, etc.).
+
+5. Document changes clearly, including any updates needed to the README or other documentation files, especially regarding the use of `spark.DataFrame`.
+
+### Requirements:
+- Python 3.x (Specifically tested against the versions currently utilized by the team/project requirements),
+- Pytest for writing unit tests,
+- Existing knowledgebase of `spark.DataFrame` manipulation,
+- Current understanding of the Arize platform's capabilities.
+
+### Steps for Implementation:
+
+1. Clone the repository, create an issue branch, e.g., `feat/extend-arize-logging`.
+   
+2. Identify the core method responsible for Arize logging, then duplicate or expand the method's parameter handling.
+
+3. Implement the conversion or processing needed to make `spark.DataFrame` objects readable by Arize.
+
+4. Write extensive tests using Pytest, focusing on both positive cases (correct types, sizes) and edge cases (incorrect types, empty frames).
+
+5. Commit changes, push, and open PR, detailing the enhancements.
+
+6. Merge code post-peer review.
+
+7. Document the changes, especially focusing on the new parameter's capabilities and limitations.
+
+8. Verify the changes do not disrupt current workflows via regression testing before releasing the new features to production.
+
+By completing this task, we will significantly improve the usability and adaptability of `m_platform_utils` across wider ML workflows, especially where `spark.DataFrame` objects are prevalent, thus streamlining the logging of model outputs or predictions directly through our Arize implementation.<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,631.926810503006

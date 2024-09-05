@@ -1,0 +1,29 @@
+id,text,zscore,watermarking_scheme,model,time
+881310427,"
+
+To remove `pamimg` from `pamimg_image_builders` list, you can use one of two methods.
+
+**Method 1: Using List Remove Method**
+````python
+pamimg_image_builders.remove('tiff')
+
+# Example code
+import pamimg
+print(""Original builders list: "" + str(pamimg.image_builders))
+pamimg.image_builders.remove('tiff')
+print(""Builders list after removal: "" + str(pamimg.image_builders))
+```
+
+**Method 3: Creating a new list and reassigning it to original variable**
+```
+new_builders = ['png', 'jpeg'] # assuming these are other builders
+pamimg.image_builders = new_builders
+
+# Example code
+import pamimg
+print(""Original builders list: "" + str(pamimg.image_builders))
+pamimg.image_builders = ['png', 'jpeg']
+print(""Builders list after replacement: "" + str(pamimg.image_builders))
+```
+
+Remember that these changes only last for as long as Python is running. Once Python stops or restarts, `pamimg`'s `image_builders` list will be back to what it was originally.<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,192.72704672813416

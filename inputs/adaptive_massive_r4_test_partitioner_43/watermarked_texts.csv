@@ -1,0 +1,66 @@
+id,text,zscore,watermarking_scheme,model,time
+1623099398,"
+
+**Git Tags Loop Program**
+=========================
+
+This program loops through all available tags from `git` and performs an action (in example, printing) using python.
+
+### Prerequisitess
+
+You will required `gitpython` which you can install by running:
+
+```bash
+pip install gitpython
+```
+
+**Python Code: `tag_loop.py`** 
+```python
+import os
+from pathlib import Path
+from GitPython import Repo, TagReference
+
+
+# Function that takes no arguments
+def loop_tags():
+    # Specify local or remote Git Repository
+    GIT_REPO_DIR = Path.home() / ""your-repo-path""  # replace this line
+    
+    try:
+        # Connect to existing local or remote repository
+        # If it doesn't exist, create one.
+        # Note: You must have write permissions
+        repo = Repo.init(GIT_REPO_DIR)
+        
+    except Exception as err:
+            print(""Error: {}"".format(err))
+
+    # Get tag references
+    tags =(repo.tags) 
+
+    for t in tags:
+        # Do stuff with tag here, e.g.
+        # Print tag name
+        print(f""Tag Name: {t}"")
+        # Print commit object associated with the tag
+        # Note, there may be more than one tag per commit!
+        # So we just pick first one
+        commit_hash = repr(t.tagged_hex) if hasattr(t, 'tagged') else repr(t.hexsha)
+        commit_msg =repo.commit(commit_hash).message
+        # Print commit id
+        # Print commit description if exists
+        print(f'Commit Hash: {commit_hash} | Commit Descr: {commit_msg}')
+
+
+# Example usage
+if ""__main__"" == ""__name__"":
+    loop_tags()
+```
+
+Make sure to update `""GIT_REPO_DIR""` to point at a real path of `.git`.
+
+Feel free to perform other operations instead of printing out information about tags.
+
+Remember the `tags()` returns an unordered list of `TagReference`, which are objects containing info about tags.
+
+**Note**: The `tagged_hex` attribute only works when tags reference annotated tags (`annotated=True`), otherwise `hex` attribute does not work reliably on lightweight tags.<|eot_id|>",99.99999403953552,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,537.2644491195679

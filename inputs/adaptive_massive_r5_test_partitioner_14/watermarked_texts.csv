@@ -1,0 +1,57 @@
+id,text,zscore,watermarking_scheme,model,time
+2202612325,"
+
+I'll be glad explain it.
+
+**What are vectors, matrices, and...tensortors?**
+=============================================
+
+To understand **tensortors**, let's first review **scalars**, **vector**, and **matrics**.
+
+*  Scalar: a single number (e.g., `x`)
+*  Vector: an ordered list of scalar numbers (e.g., `[a,b,c]` or `[1,2,3]`)
+* Matrix: A table of values with rows and columns (e.g., `[ [1,2],[3,4],[5,6] ]`)
+
+A tensor is a higher-dimensional extension of these concepts. While a matrix has only one set of rows and columns, a tensor can have more than two.
+
+Think of a tensor like a cube or a cube of cubes (yes, you read that right!). Each element of the tensor can represent a value at a specific point in space or time.
+
+Now, imagine you are trying to model a video sequence where each frame has a width, height, color channels (RGB). You could think of it as a tensor with 3-dimensions:
+
+- Dimension 1: Time (frames)
+- Dimension 1: Width
+- Dimension 1: Height 
+- Dimension 1: Color Channels
+
+**Tensor Properties**
+
+Tensors can be described based on its properties:
+
+* Rank (number of Dimensions): e.g. a matrix has a Rank  of  1, while the video tensor we just imagined would have a rank of 3.
+* Shape (the size of each Dimension): A tensor with a Rank of 3 might have a Shape of `(time_steps, width, height)`
+
+**Transformation Based Models: How Tensor relates**
+
+With that basic understanding of what tensors are, let us dive into transformation based models.
+
+Transformation based language model typically refers to a class of deep learning model called Transformers. The Transformer model revolutionized natural language processing (NLP) when introduced in 2017 by a research team atGoogle led by researcher Bapanaish.
+
+Transformer model relies heavily on Self-attention mechanism which allows it to weigh each word’s influence when generating text, making it better suited for sequential inputs (text).
+
+Here are some key aspects where tensor plays a crucial role:
+
+1.  Embeddings: When a text sequence (like a Sentence) is fed into a Transformer model, each word gets embedded as a tensor of fixed length (d-model). These vectors capture semantic information of each token (words or pieces of tokens).
+
+2.  Attention Weights: The attention weights are calculated between every possible pairs of tokens, resulting in a tensor of attention values.
+
+    * Query (q): The output from previous layer (in case of Decoder) or Embeddings (in case of Encodeer). It represents what you want to compute attention over.
+
+    * Key (k) : The output from previous layers (in case of Decoder) or Embeddings (in case of Encoder). It represents what you want to compute attention over, same as query.
+
+    * Values ( v ): Same as Keys, used as weighted sum once attention has been determined.
+
+This computation results in a tensor of attention values, which are then applied to values to obtain context vectors.
+
+The Transformer model relies extensively on tensor computations, leveraging parallelization to improve efficiency compared to traditional Recurrent Neural Networks (RNNs).
+
+So there you have it, folks! That's a brief overview of what a tensor is, its properties, and its significance in transformation-based modeling. I'll be here whenever you want me to expand upon other related topics or even unrelated ones if you wish<|eot_id|>",100.0,adaptive,hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4,1304.3795850276947
