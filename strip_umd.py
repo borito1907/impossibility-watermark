@@ -22,19 +22,28 @@ log = logging.getLogger(__name__)
 # def remove_after_assistant(input_string):
 #     return input_string
 
-def remove_after_assistant(input_string):
-    prefix ="""system
+# def remove_after_assistant(input_string):
+#     prefix ="""system
 
-You are a helpful personal assistant.user
+# You are a helpful personal assistant.user
 
-assistant"""
+# assistant"""
 
-    input_string = input_string.removeprefix(prefix)
-    return input_string
+#     input_string = input_string.removeprefix(prefix)
+#     return input_string
+
+def strip_prompt(text, prompt):
+    last_word = prompt.split()[-1]
+    assistant_marker = f"{last_word} assistant"
+    log.info(f"Marker: {assistant_marker}")
+    if assistant_marker in text:
+        stripped_text = text.split(assistant_marker, 1)[1].strip()
+        return stripped_text
+    return text
 
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def main(cfg):
-    new_file_path = f'/local1/borito1907/impossibility-watermark/llama31_test_gens/umd_final_polished.csv'
+    new_file_path = f'/local1/borito1907/impossibility-watermark/inputs/unwatermarked_dev_massive_proper_1/watermarked_texts_polished.csv' # TODO: Put the new file name here.
 
     cfg.watermark_args.only_detect = True
 
@@ -48,10 +57,17 @@ def main(cfg):
     #     test_dfs.append(df)
     # df = pd.concat(test_dfs, axis=0)
 
-    path = f'/local1/borito1907/impossibility-watermark/llama31_test_gens/umd_final_unpolished.csv'
+    dev_df = pd.read_csv('/local1/borito1907/impossibility-watermark//data/WQE/dev.csv')
+
+    path = f'/local1/borito1907/impossibility-watermark/inputs/unwatermarked_dev_massive_proper_1/watermarked_texts.csv' # TODO: Put the new file name here.
     df = pd.read_csv(path)
 
-    df['text_stripped'] = df['text'].apply(remove_after_assistant)
+    for idx, row in df.iterrows():
+        # Get the prompt for the current row
+        prompt = dev_df.loc[dev_df['id'] == row['id'], 'prompt'].values[0]
+        
+        # Apply the function and assign the result back to the DataFrame using the index
+        df.at[idx, 'text_stripped'] = strip_prompt(row['text'], prompt)
 
     umd = get_watermarker(cfg)
 
