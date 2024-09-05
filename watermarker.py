@@ -31,7 +31,7 @@ class Watermarker(ABC):
             if "Llama-3.1" in self.cfg.generator_args.model_name_or_path:
                 self.generator_kwargs = {
                     "max_length": self.cfg.generator_args.max_new_tokens,
-                    "min_lemgth": self.cfg.generator_args.min_new_tokens,
+                    "min_length": self.cfg.generator_args.min_new_tokens,
                     "do_sample": self.cfg.generator_args.do_sample,
                     "temperature": self.cfg.generator_args.temperature,
                     "top_p": self.cfg.generator_args.top_p,
