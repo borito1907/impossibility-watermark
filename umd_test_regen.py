@@ -22,7 +22,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"umd_test_llama31_regen_round_3_{cfg.partition}"
+    dir_name = f"umd_test_llama31_massive_regen_r3_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
 
     cfg.prompt_file='./data/WQE/test.csv'
@@ -31,13 +31,13 @@ def test(cfg):
     
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    path = f"/local1/borito1907/impossibility-watermark/llama31_test_gens/umd_round_1_polished.csv"
+    path = f"/local1/borito1907/impossibility-watermark/llama31_massive_dev_gens/umd_massive_test_first_round.csv"
     df = pd.read_csv(path)
     df = df[df['zscore'] < 3]
 
     # Calculate the start and end index based on the partition
-    start_index = (cfg.partition - 1) * 200
-    end_index = start_index + 200
+    start_index = (cfg.partition - 1) * 70
+    end_index = start_index + 70
 
     # Slice the DataFrame to get only the rows for the current partition
     df_partition = df.iloc[start_index:end_index]
