@@ -43,7 +43,7 @@ def strip_prompt(text, prompt):
 
 @hydra.main(version_base=None, config_path="conf", config_name="gen_conf")
 def main(cfg):
-    new_file_path = f'/local1/borito1907/impossibility-watermark/inputs/unwatermarked_dev_massive_proper_1/watermarked_texts_polished.csv' # TODO: Put the new file name here.
+    new_file_path = f'/local1/borito1907/impossibility-watermark/llama31_massive_dev_gens/umd_final_massive_polished.csv' # TODO: Put the new file name here.
 
     cfg.watermark_args.only_detect = True
 
@@ -57,9 +57,9 @@ def main(cfg):
     #     test_dfs.append(df)
     # df = pd.concat(test_dfs, axis=0)
 
-    dev_df = pd.read_csv('/local1/borito1907/impossibility-watermark//data/WQE/dev.csv')
+    dev_df = pd.read_csv('/local1/borito1907/impossibility-watermark//data/WQE/test.csv') # TODO: Change this if needed.
 
-    path = f'/local1/borito1907/impossibility-watermark/inputs/unwatermarked_dev_massive_proper_1/watermarked_texts.csv' # TODO: Put the new file name here.
+    path = f'/local1/borito1907/impossibility-watermark/llama31_massive_dev_gens/umd_final_massive_unpolished.csv' # TODO: Put the new file name here.
     df = pd.read_csv(path)
 
     for idx, row in df.iterrows():
