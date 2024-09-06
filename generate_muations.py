@@ -1,119 +1,138 @@
+# RUN: CUDA_VISIBLE_DEVICES=1 python -m human_study.prepare_mutated_samples
 import os
 import time
 import pandas as pd
-import hydra
 from tqdm import tqdm
-import logging
-import matplotlib.pyplot as plt
 from guidance import models 
+from mutators.document import DocumentMutator
+from mutators.sentence import SentenceMutator
+from mutators.span import SpanMutator
+from mutators.word import WordMutator
 from extractors import FluencyMetric, GrammarMetric
+from mutators.document_1step import DocumentMutator_1step
+from mutators.document_2step import DocumentMutator_2step
+from oracles import (
+    DiffOracle
+)
 
-log = logging.getLogger(__name__)
+def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
+    # Load the CSV into a DataFrame
+    df = pd.read_csv(input_csv)
 
-# from langchain.globals import set_debug; set_debug(True)
+    # Load existing results to avoid reprocessing
+    if os.path.exists(output_csv):
+        existing_df = pd.read_csv(output_csv)
+        processed_combinations = set(
+            zip(existing_df['id'], existing_df['mutator'], existing_df['mutation_step'])
+        )
+    else:
+        processed_combinations = set()
 
-@hydra.main(version_base=None, config_path="conf", config_name="config")
-def eval(cfg):
+    # Define mutator classes
+    mutator_classes = {
+        "WordMutator": WordMutator,
+        "SpanMutator": SpanMutator,
+        "SentenceMutator": SentenceMutator,
+        "DocumentMutator": DocumentMutator,
+        "Document_1stepMutator": DocumentMutator_1step,
+        "Document_2stepMutator": DocumentMutator_2step
+    }
 
-    # os.environ["CUDA_VISIBLE_DEVICES"] = str(cfg.cuda_visible_devices)
-    os.environ["WORLD_SIZE"] = str(len(str(cfg.cuda_visible_devices).split(",")))
-
-    # Tucking import here because 'import torch' prior to setting CUDA_VISIBLE_DEVICES causes an error
-    # https://discuss.pytorch.org/t/runtimeerror-device-0-device-num-gpus-internal-assert-failed/178118/6
-    from model_builders.pipeline import PipeLineBuilder
-    # from watermark import Watermarker
-    # from oracle import (
-    #     RankOracle,
-    #     JointOracle,
-    #     RelativeOracle,
-    #     SoloOracle
-    # )
-    from mutators.document import DocumentMutator
-    from mutators.document_1step import DocumentMutator_1step
-    from mutators.document_2step import DocumentMutator_2step
-    from mutators.sentence import SentenceMutator
-    from mutators.span import SpanMutator
-    from mutators.word import WordMutator
-    # Set number of mutation steps to analyze
-    mutation_steps = 20
-    log.info(f"Setting number of mutation steps to {mutation_steps}...")
-
-    # Load test data
-    # NOTE: we will reuse the outputs from the quality oracle tests
-    log.info("Loading tests...")
-    tests_df = pd.read_csv("data/wqe_watermark_samples_converted.csv")
-    log.info(tests_df)
+    oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": False}
+    llm = models.LlamaCpp(
+                model=oracle_config["llm_path"],
+                echo=False,
+                n_gpu_layers=-1,
+                n_ctx=2048
+            )
+    oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
+    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
 
     fluency = FluencyMetric()
     grammar = GrammarMetric()
-    oracles = []
-    # for t, c in templates:
-    #     cfg.oracle_args.template = t
-    #     oracles.append(c(cfg=cfg.oracle_args, pipeline=pipeline))
+    # Iterate over each mutator class
+    for mutator_name, MutatorClass in mutator_classes.items():
+        print(f"Processing with {mutator_name}...")
 
-    # Init mutators
-    log.info(f"Initializing mutators...")
-    # doc_mutator = DocumentMutator()
-    # sent_mutator = SentenceMutator(cfg.oracle_args)
-    # span_mutator = SpanMutator()
-    # word_mutator = WordMutator()
-    # mutators = [ "span", "word", "doc", "doc_1", "doc_2", "sent"]
-    mutators = ["doc", "sent", "doc_1", "doc_2"]
+        # Initialize the mutator
+        mutator = MutatorClass()
 
-    # Construct eval loop
-    results = []
-    for mutator_name in tqdm(mutators, desc='Mutators'):
-        if mutator_name == "doc":
-            mutator = DocumentMutator()
-        elif mutator_name == "sent":
-            mutator = SentenceMutator(cfg.oracle_args) 
-        elif mutator_name == "span":
-            mutator = SpanMutator()
-        elif mutator_name == "word":
-            mutator = WordMutator()
-        elif mutator_name == "doc_1":
-            mutator = DocumentMutator_1step(cfg.mutator_args)
-        elif mutator_name == "doc_2":
-            mutator = DocumentMutator_2step(cfg.mutator_args)
-        for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
-            text = row["text"]
-            out_dict = {}
-            out_dict.update(row)
-            for mutation_step in range(mutation_steps):
+        # Iterate over all rows
+        for _, row in tqdm(df.iterrows(), desc=f'Mutating with {mutator_name}', total=len(df)):
 
-                # Initialize output_dict
-                
+            text = row["response_a"]
 
-                # Mutate text
-                start = time.time()
-                # print(text)
-                # print(type(text))
+            for step in range(mutation_steps):
+
+                # Check if this combination of text, mutator, and step has already been processed
+                if (row['id'], mutator_name, step + 1) in processed_combinations:
+                    print(f"Skipping {mutator_name} step {step + 1} for id={row['id']}")
+                    continue  # Skip this combination if already processed
+
+                start_time = time.time()  # Start timing the mutation
+
                 try:
-                    text = mutator.mutate(text)
-                    if mutator_name == "sent":
-                        text = text['mutated_text']
+                    mutated_text = mutator.mutate(text)
+                except Exception as e:
+                    print(f"Mutation error with {mutator_name}: {e}")
+                    break  # Exit the mutation steps loop if an error occurs
+
+                mutation_time = time.time() - start_time  # Calculate the mutation time
+
+                try:
+                    evals = oracle.is_quality_preserved(row["prompt"], row["response_a"], text)
+                    is_quality_preserved = evals["quality_preserved"]
                 except Exception as e:
                     print("-"*20)
                     print(f"ERROR ERRO ERROR: {e}")
+                    print("-"*20)
                     with open("mutator_testing.errors", "a") as f:
                         f.write(str(e))
-                    print("-"*20)
-                    continue
+                    is_quality_preserved = "Unknown"
+                    evals = {}
 
-                mutation_time = time.time() - start
-                out_dict.update({
-                    f"mutation_step{mutation_step + 1}": text,
-                    "time": mutation_time,
-                    "mutator": mutator.__class__.__name__
+                
+
+                # Collect metadata and mutated text
+                result = {
+                    **row.to_dict(),
+                    "mutated_text": mutated_text,
+                    "mutator": mutator_name,
+                    "mutation_step": step + 1,
+                    "mutation_time": mutation_time,
+                }
+
+                result.update({
+                    "oracle": judge_name,
+                    "quality_preserved": is_quality_preserved,
+                    **evals
                 })
-                # log.info(f"Test {index}: {out_dict}")
-            results.append(out_dict)
 
-            # Incremental saving over time...
-            log.info("Saving results to csv...")
-            df = pd.DataFrame(results)
-            df.to_csv("./results/mutated_text4.csv", index=False)
+                # Evaluate Fluency (via Perplexity)
+                fluency_score = fluency.evaluate([text])
+
+                # Evaluate Grammar Errors
+                count_grammar_errors = grammar.evaluate([text])
+
+                result.update({
+                    "fluency_score": fluency_score,
+                    "count_grammar_errors": count_grammar_errors,
+                })
+                
+                if verbose:
+                    print(f'Results for {mutator_name} step {step}: {result}')
+
+                # Save the result immediately to the CSV
+                result_df = pd.DataFrame([result])
+                result_df.to_csv(output_csv, mode='a', header=not os.path.exists(output_csv), index=False)
+
+                # Update text for the next mutation step
+                text = mutated_text
+
+        # Delete the mutator instance to free up resources
         del mutator
-        
+
+    print(f"Mutation process completed. Results saved to {output_csv}.")
+
 if __name__ == "__main__":
-    eval()
+    mutate_and_save(input_csv="data/WQE/dev.csv", output_csv="./data/mutated_eval.csv")
