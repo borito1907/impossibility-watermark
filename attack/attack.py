@@ -13,7 +13,7 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 
 class Attack:
     # The watermarker should be in detection mode so we don't waste resources.
-    def __init__(self, cfg, mutator, quality_oracle=None, watermarker=None, ):
+    def __init__(self, cfg, mutator, quality_oracle=None, watermarker=None):
         self.cfg = cfg
         self.watermarker = watermarker
         self.mutator = mutator

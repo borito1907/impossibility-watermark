@@ -1,14 +1,14 @@
+# RUN: CUDA_VISIBLE_DEVICES=0,1,2,3 python -m attack.attack_eval
+
+import traceback
+import pandas as pd
+from guidance import models 
 from watermarker_factory import get_default_watermarker
 from mutators import (
     SentenceMutator, SpanMutator, WordMutator, 
     DocumentMutator, DocumentMutator_1step, DocumentMutator_2step
 )
-from oracles import (
-    SoloOracle, RankOracle, JointOracle, RelativeOracle,
-    PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
-    BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,
-    ArmoRMOracle, InternLMOracle, OffsetBiasOracle
-)
+from oracles import DiffOracle
 from attack.attack import Attack
 
 import hydra
@@ -22,27 +22,27 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 def main(cfg):
 
     watermarkers = [
-        "adaptive",
+        "umd",
         "semstamp", 
-        "umd"
+        "adaptive",
     ]
 
     mutators = [
-        SentenceMutator,
-        SpanMutator,
         WordMutator,
+        SpanMutator,
+        SentenceMutator,
         DocumentMutator,
         DocumentMutator_1step,
         DocumentMutator_2step
     ]
 
     # Step 1: Initialize Quality Oracle
-    model_path = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf"
+    model_path = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf"
     llm = models.LlamaCpp(
         model=model_path,
         echo=False,
         n_gpu_layers=-1,
-        n_ctx=4096
+        n_ctx=8192
     )
     oracle = DiffOracle(llm=llm, explain=False)
 
@@ -59,22 +59,26 @@ def main(cfg):
             # Step 4: Initialize Mutator
             mutator = mutator()
 
-            # Step 5: Initialize Attacker
-            o_str = oracle.__class__.__name__
-            w_str = watermarker.__class__.__name__
-            m_str = mutator.__class__.__name__
-            cfg.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_attack_results.csv"
-            
-            attacker = Attack(cfg, mutator, oracle, watermarker)
+            for compare_against_origin in [False, True]:
 
-            for benchmark_id, row in data.iterrows():
+                # Step 5: Initialize Attacker
+                o_str = oracle.__class__.__name__
+                w_str = watermarker.__class__.__name__
+                m_str = mutator.__class__.__name__
+                cfg.attack.origin = compare_against_origin
+                cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-origin={compare_against_origin}_attack_results.csv"
+                
+                attacker = Attack(cfg, mutator, oracle, watermarker)
 
-                out = {**row}
-                out.update({"benchmark_id": benchmark_id})
+                # Step 6: Attack each row in dataset
+                for benchmark_id, row in data.iterrows():
 
-                attacked_text = attacker.attack(prompt, watermarked_text)
-
-                log.info(f"Attacked Text: {attacked_text}")
+                    try:
+                        log.info(f"Attacking Row: {row}")
+                        attacked_text = attacker.attack(row['prompt'], row['text'])
+                        log.info(f"Attacked Text: {attacked_text}")
+                    except Exception:
+                        log.info(traceback.format_exc())
 
 if __name__ == "__main__":
     main()

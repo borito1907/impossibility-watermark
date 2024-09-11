@@ -110,6 +110,7 @@ class WordMutator:
             return words, None
 
         found_nice_word = False
+        index_to_mask = None
 
         while not found_nice_word:
             index_to_mask = random.randint(0, len(words) - 1)  # Select a random index to mask
@@ -119,8 +120,8 @@ class WordMutator:
                 found_nice_word = True
 
         # Create masked text by replacing only the selected word
-        words = ['<mask>' if i == index_to_mask else word for i, word in enumerate(words)]
-        masked_text = self.intersperse_lists(words, punctuation)
+        words_with_mask = ['<mask>' if i == index_to_mask else word for i, word in enumerate(words)]
+        masked_text = self.intersperse_lists(words_with_mask, punctuation)
         return masked_text, word_to_mask
 
     def get_highest_score_index(self, suggested_replacements, blacklist):
@@ -152,20 +153,30 @@ class WordMutator:
         replacements_made = 0
         while replacements_made < num_replacements:
             masked_text, word_to_mask = self.mask_random_word(segment, seg_punc)
+            
+            if word_to_mask is None:
+                log.warning("No valid word found to mask!")
+                continue
+
+            log.info(f"Masked word: {word_to_mask}")
+
+            # Use fill-mask pipeline
             candidates = self.fill_mask(masked_text, top_k=3, tokenizer_kwargs=self.tokenizer_kwargs)
+
+            if not candidates:
+                log.warning("No candidates returned from fill-mask pipeline")
+                continue
+
             suggested_replacement = self.get_highest_score_index(candidates, blacklist=[word_to_mask.lower()])
+            
+            # Ensure valid replacement
+            if suggested_replacement is None or not re.fullmatch(r'\w+', suggested_replacement['token_str'].strip()):
+                log.info(f"Skipping replacement: {suggested_replacement['token_str'] if suggested_replacement else 'None'}")
+                continue
 
             log.info(f"word_to_mask: {word_to_mask}")
             log.info(f"suggested_replacement: {suggested_replacement['token_str']} (score: {suggested_replacement['score']})")
-
-            if not bool(re.fullmatch(r'\w+', suggested_replacement['token_str'].strip())):
-                log.info(f"Continuing since suggested replacement is not a word...")
-                continue
-
-            if suggested_replacement['score'] < 0.001:
-                log.info(f"Continuing since suggested replacement score is too low...")
-                continue
-
+            
             segment = re.split(r'(\W+)', suggested_replacement['sequence'])[::2]
             replacements_made += 1
         
