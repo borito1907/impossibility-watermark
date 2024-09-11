@@ -24,16 +24,18 @@ def eval(cfg):
     # https://discuss.pytorch.org/t/runtimeerror-device-0-device-num-gpus-internal-assert-failed/178118/6
     from model_builders.pipeline import PipeLineBuilder
     # from watermark import Watermarker
-    # from oracle import (
-    #     RankOracle,
-    #     JointOracle,
-    #     RelativeOracle,
-    #     SoloOracle
-    # )
-    from mutators.document import DocumentMutator
-    from mutators.sentence import SentenceMutator
-    from mutators.span import SpanMutator
-    from mutators.word import WordMutator
+    from oracles import (
+        RankOracle,
+        JointOracle,
+        RelativeOracle,
+        SoloOracle,
+        DiffOracle
+    )
+    from mutators import (
+        DocumentMutator, SentenceMutator, WordMutator,  
+        SpanMutator, Span2Mutator, Span3Mutator, Span4Mutator 
+    )
+    
     # Set number of mutation steps to analyze
     mutation_steps = 100
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
@@ -41,17 +43,11 @@ def eval(cfg):
     # Load test data
     # NOTE: we will reuse the outputs from the quality oracle tests
     log.info("Loading tests...")
-    tests_df = pd.read_csv("data/lmsys-150-test-set.csv")
+    tests_df = pd.read_csv("./data/WQE_adaptive/dev.csv")
     log.info(tests_df)
-    oracle_config = {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False}
-    llm = models.LlamaCpp(
-                model=oracle_config["llm_path"],
-                echo=False,
-                n_gpu_layers=-1,
-                n_ctx=2048
-            )
-    oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
-    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
+    oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf", "explain": False}
+    oracle = oracle_config["class"](explain=oracle_config["explain"])
+    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace(".ggml", "")
 
     fluency = FluencyMetric()
     grammar = GrammarMetric()
@@ -64,14 +60,16 @@ def eval(cfg):
     log.info(f"Initializing mutators...")
     # doc_mutator = DocumentMutator()
     # sent_mutator = SentenceMutator(cfg.oracle_args)
-    span_mutator = SpanMutator()
-    word_mutator = WordMutator()
-    mutators = [span_mutator, word_mutator]
+    # span_mutator = SpanMutator()
+    # word_mutator = WordMutator()
+
+    mutators = [SpanMutator, Span2Mutator, Span3Mutator, Span4Mutator]
 
     # Construct eval loop
     results = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
-        for mutator in tqdm(mutators, desc='Mutators'):
+        for mutator_class in tqdm(mutators, desc='Mutators'):
+            mutator = mutator_class()
             # if mutator_name == "doc":
             #     mutator = DocumentMutator()
             # elif mutator_name == "sent":
