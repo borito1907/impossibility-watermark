@@ -67,8 +67,7 @@ def paraphrase(lm, text):
 
 if __name__ == "__main__":
 
-    @hydra.main(version_base=None, config_path="../conf", config_name="config")
-    def test(cfg):
+    def test():
         import time
         from utils import diff
         import pandas as pd
@@ -80,7 +79,7 @@ if __name__ == "__main__":
         n=5
         avg_time=0
         dataset = dataset.head(n) 
-        text_mutator = DocumentMutator_1step(cfg.mutator_args)
+        text_mutator = DocumentMutator_1step()
         for index, row in dataset.iterrows():
           text = row["response_a"]
 
