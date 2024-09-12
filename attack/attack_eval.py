@@ -55,7 +55,7 @@ def main(cfg):
         watermarker = get_default_watermarker(watermarker)
 
         for mutator in mutators:
-
+            log.info("Initializing mutator...")
             # Step 4: Initialize Mutator
             mutator = mutator()
 
@@ -68,6 +68,7 @@ def main(cfg):
                 cfg.attack.origin = compare_against_origin
                 cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-origin={compare_against_origin}_attack_results.csv"
                 
+                log.info(f"Initializing attacker...")
                 attacker = Attack(cfg, mutator, oracle, watermarker)
 
                 # Step 6: Attack each row in dataset
