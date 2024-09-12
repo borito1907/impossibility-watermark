@@ -59,14 +59,14 @@ def main(cfg):
             # Step 4: Initialize Mutator
             mutator = mutator()
 
-            for compare_against_origin in [False, True]:
+            for compare_against_original in [False, True]:
 
                 # Step 5: Initialize Attacker
                 o_str = oracle.__class__.__name__
                 w_str = watermarker.__class__.__name__
                 m_str = mutator.__class__.__name__
-                cfg.attack.origin = compare_against_origin
-                cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-origin={compare_against_origin}_attack_results.csv"
+                cfg.attack.compare_against_original = compare_against_original
+                cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-original={compare_against_original}_attack_results.csv"
                 
                 log.info(f"Initializing attacker...")
                 attacker = Attack(cfg, mutator, oracle, watermarker)

@@ -89,8 +89,7 @@ def get_quality_on_successful_attacks(df):
         "mean_original_quality": mean_original_quality,
         "mean_original_quality": mean_original_quality,
     }
-
-    
+   
 
 if __name__ == "__main__":
 
@@ -99,8 +98,6 @@ if __name__ == "__main__":
 
     traces = glob.glob("./attack_traces/*attack_results.csv")
 
-    
-
     results = []
     for trace in traces:
 
@@ -108,8 +105,6 @@ if __name__ == "__main__":
         compare_against_origin = "True" in compare_against_origin
 
         df = assign_unique_group_ids(pd.read_csv(trace))
-
-        print()
 
         results.append({
             "oracle": o,
