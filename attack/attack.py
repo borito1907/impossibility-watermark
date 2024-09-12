@@ -26,6 +26,7 @@ class Attack:
         self.base_step_metadata = {
             "step_num": -1,
             "mutation_num": 0,
+            "prompt": "", 
             "current_text": "",
             "mutated_text": "", 
             "current_text_len": -1,
@@ -134,6 +135,7 @@ class Attack:
                 
                 self.step_data.update({"step_num": self.step_num})
                 self.step_data.update({"mutation_num": self.successful_mutation_count})
+                self.step_data.update({"prompt": prompt})
                 self.step_data.update({"current_text": self.current_text})
 
                 # Step 1: Mutate
