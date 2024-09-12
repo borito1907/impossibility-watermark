@@ -3,6 +3,11 @@
 import pandas as pd
 from extractors import FluencyMetric, GrammarMetric, QualityMetric
 
+# Initialize metric extractors
+fluency = FluencyMetric()
+grammar = GrammarMetric()
+quality = QualityMetric()
+
 def assign_unique_group_ids(df):
     df['new_group'] = (df['step_num'] == 0).astype(int)
     df['group_id'] = df['new_group'].cumsum()
@@ -14,17 +19,20 @@ def get_support(df):
 def get_max_step_count(df):
     return df['step_num'].max()
 
-def get_successully_attacked_rows(df):
-    return df[(df['quality_preserved'] == True) & (df['watermark_detected'] == False)]
+def get_successully_attacked_rows(df, watermark_threshold=0.0):
+    successful_df = df[(df['quality_preserved'] == True) & 
+                       (df['watermark_score'] < watermark_threshold)]
+    successful_df = successful_df.sort_values(by='step_num').groupby('group_id').first().reset_index()
+    return successful_df
 
-def get_mean_step_count_to_break_watermark(df):
-    successful_df = get_successully_attacked_rows(df)
+def get_mean_step_count_to_break_watermark(df, watermark_threshold=0.0):
+    successful_df = get_successully_attacked_rows(df, watermark_threshold)
     if successful_df.empty:
         return 0
     return successful_df["step_num"].mean()
 
-def get_attack_success_rate(df):
-    success_count = len(get_successully_attacked_rows(df))
+def get_attack_success_rate(df, watermark_threshold=0.0):
+    success_count = len(get_successully_attacked_rows(df, watermark_threshold))
     divisor = get_support(df)
     if divisor == 0:
         return 0
@@ -37,57 +45,91 @@ def get_mean_mutation_time(df):
 def get_mean_oracle_time(df):
     return df["oracle_time"].mean()
 
-def get_mean_change_in_z_scores(df):
-    quality_preserved_df = df[df['quality_preserved'] == True]
+def get_mean_change_in_z_scores(df, watermark_threshold=0.0):
+    quality_preserved_df = df[df['quality_preserved'] == True].copy()
     quality_preserved_df = quality_preserved_df.sort_values(by='step_num')
-    quality_preserved_df['watermark_score_change'] = quality_preserved_df['watermark_score'].diff()
-    average_change = quality_preserved_df['watermark_score_change'].mean()
-    return average_change
+    z_score_changes = []
+    for group_id, group_df in quality_preserved_df.groupby('group_id'):
+        first_success_idx = group_df[group_df['watermark_score'] < watermark_threshold].index.min()
+        if pd.notna(first_success_idx):
+            group_df = group_df.loc[:first_success_idx]  # Consider only steps before the threshold
+        else:
+            group_df = group_df  # If no success, consider the whole group
+        group_df['watermark_score_change'] = group_df['watermark_score'].diff()
+        z_score_changes.extend(group_df['watermark_score_change'].dropna().tolist())
+    if z_score_changes:
+        mean_change = sum(z_score_changes) / len(z_score_changes)
+    else:
+        mean_change = 0
+    return mean_change
 
-def get_mean_total_time_for_successful_attacks(df):
-    successful_df = get_successully_attacked_rows(df)
-    successful_group_ids = successful_df['group_id'].unique()
-    successful_groups = df[df['group_id'].isin(successful_group_ids)]
-    total_time_per_group = successful_groups.groupby('group_id')['total_time'].sum()
-    mean_total_time = total_time_per_group.mean()
+def get_mean_total_time_for_successful_attacks(df, watermark_threshold=0.0):
+    successful_df = get_successully_attacked_rows(df, watermark_threshold)
+    successful_group_ids = successful_df['group_id'].unique()  
+    total_times = []
+    for group_id in successful_group_ids:
+        group_df = df[df['group_id'] == group_id]
+        first_success_idx = group_df[group_df['watermark_score'] < watermark_threshold].index.min()
+        total_time_before_success = group_df.loc[:first_success_idx, 'total_time'].sum()
+        total_times.append(total_time_before_success)
+    if total_times:
+        mean_total_time = sum(total_times) / len(total_times)
+    else:
+        mean_total_time = 0
     return mean_total_time
 
-def get_original_and_final_text_comparisons(df):
+def get_original_and_final_text_comparisons(df, watermark_threshold=0.0):
     original_text_df = df[df['step_num'] == 0][['group_id', 'prompt', 'current_text']]
-    final_text_df = df[(df['quality_preserved'] == True) & (df['watermark_detected'] == False)][['group_id', 'mutated_text']]
+    final_text_df = get_successully_attacked_rows(df, watermark_threshold)[['group_id', 'mutated_text']]
     comparison_df = pd.merge(original_text_df, final_text_df, on='group_id', how='inner')
     comparison_df.rename(columns={'current_text': 'original_text', 'mutated_text': 'final_mutated_text'}, inplace=True)
     return comparison_df
 
-def get_fluencies_on_successful_attacks(df):
-    fluency = FluencyMetric()
-    comparison_df = get_original_and_final_text_comparisons(df)
-    mean_original_fluency = fluency.evaluate(comparison_df['original_text'])
-    mean_attacked_fluency = fluency.evaluate(comparison_df['final_mutated_text'])
-    return {
-        "mean_original_fluency": mean_original_fluency,
-        "mean_attacked_fluency": mean_attacked_fluency,
-    }
+def get_fluencies_on_successful_attacks(df, watermark_threshold=0.0):
+    comparison_df = get_original_and_final_text_comparisons(df, watermark_threshold)
+    if not comparison_df.empty:
+        mean_original_fluency = fluency.evaluate(comparison_df['original_text'])
+        mean_attacked_fluency = fluency.evaluate(comparison_df['final_mutated_text'])
+        return {
+            f"mean_original_fluency_@_{watermark_threshold}": mean_original_fluency,
+            f"mean_attacked_fluency_@_{watermark_threshold}": mean_attacked_fluency,
+        }
+    else:
+        return {
+            f"mean_original_fluency_@_{watermark_threshold}": 0,
+            f"mean_attacked_fluency_@_{watermark_threshold}": 0,
+        }
     
-def get_grammaticality_on_successful_attacks(df):
-    grammar = GrammarMetric()
-    comparison_df = get_original_and_final_text_comparisons(df)
-    mean_original_grammar_errors = grammar.evaluate(comparison_df['original_text'])
-    mean_attacked_grammar_errors = grammar.evaluate(comparison_df['final_mutated_text'])
-    return {
-        "mean_original_grammar_errors": mean_original_grammar_errors,
-        "mean_attacked_grammar_errors": mean_attacked_grammar_errors,
-    }
+def get_grammaticality_on_successful_attacks(df, watermark_threshold=0.0):
+    comparison_df = get_original_and_final_text_comparisons(df, watermark_threshold)
+    if not comparison_df.empty: 
+        mean_original_grammar_errors = grammar.evaluate(comparison_df['original_text'])
+        mean_attacked_grammar_errors = grammar.evaluate(comparison_df['final_mutated_text'])
+        return {
+            f"mean_original_grammar_errors_@_{watermark_threshold}": mean_original_grammar_errors,
+            f"mean_attacked_grammar_errors_@_{watermark_threshold}": mean_attacked_grammar_errors,
+        }
+    else:
+        return {
+            f"mean_original_grammar_errors_@_{watermark_threshold}": 0,
+            f"mean_attacked_grammar_errors_@_{watermark_threshold}": 0,
+        }
 
-def get_quality_on_successful_attacks(df):
-    quality = QualityMetric()
-    comparison_df = get_original_and_final_text_comparisons(df)
-    mean_original_quality = quality.evaluate(comparison_df['prompt'], comparison_df['original_text'])
-    mean_original_quality = quality.evaluate(comparison_df['prompt'], comparison_df['final_mutated_text'])
-    return {
-        "mean_original_quality": mean_original_quality,
-        "mean_attacked_quality": mean_original_quality,
-    }
+def get_quality_on_successful_attacks(df, watermark_threshold=0.0):
+    comparison_df = get_original_and_final_text_comparisons(df, watermark_threshold)
+    if not comparison_df.empty:
+        mean_original_quality = quality.evaluate(comparison_df['prompt'], comparison_df['original_text'])
+        mean_attacked_quality = quality.evaluate(comparison_df['prompt'], comparison_df['final_mutated_text'])
+        return {
+            f"mean_original_quality_@_{watermark_threshold}": mean_original_quality,
+            f"mean_attacked_quality_@_{watermark_threshold}": mean_attacked_quality,
+        }
+    else:
+        return {
+            f"mean_original_quality_@_{watermark_threshold}": 0,
+            f"mean_attacked_quality_@_{watermark_threshold}": 0,
+        }
+
    
 
 if __name__ == "__main__":
@@ -97,31 +139,42 @@ if __name__ == "__main__":
 
     traces = glob.glob("./attack_traces/*attack_results.csv")
 
+    watermark_thresholds ={
+        "UMDWatermarker": [0.5, 1.0, 2.0],
+        "SemStampWatermarker": [0.5, 1.0, 2.0],
+        "AdaptiveWatermarker": [60.0, 70.0, 80.0], 
+    }
+
     results = []
     for trace in traces:
 
-        o, w, m, compare_against_origin = os.path.basename(trace).split("_")[:4]
-        compare_against_origin = "True" in compare_against_origin
-
+        o, w, m, compare_against_original = os.path.basename(trace).split("_")[:4]
+        compare_against_original = "True" in compare_against_original
+        
         df = assign_unique_group_ids(pd.read_csv(trace))
+
+        threshold_results = {}
+        for t in watermark_thresholds[w]:
+            threshold_results[f"attack_success_@_{t}"] = get_attack_success_rate(df, t)
+            threshold_results[f"mean_steps_to_success_@_{t}"] = get_mean_step_count_to_break_watermark(df, t)
+            threshold_results[f"mean_time_to_success_@_{t}"] = get_mean_total_time_for_successful_attacks(df, t)
+            threshold_results[f"mean_change_in_watermark_score_@_{t}"] = get_mean_change_in_z_scores(df, t)
+            threshold_results.update(get_fluencies_on_successful_attacks(df,t))
+            threshold_results.update(get_grammaticality_on_successful_attacks(df,t))
+            threshold_results.update(get_quality_on_successful_attacks(df,t))
 
         results.append({
             "oracle": o,
             "watermarker": w,
             "mutator": m,
-            "compare_against_origin": compare_against_origin,
-            "attack_success_rate": get_attack_success_rate(df),
-            "mean_steps_to_break_watermark_when_successful": get_mean_step_count_to_break_watermark(df),
-            "max_steps": get_max_step_count(df),
+            "compare_against_original": compare_against_original,
             "mean_mutation_time_in_s": get_mean_mutation_time(df),
             "mean_oracle_time_in_s": get_mean_oracle_time(df),
-            "mean_total_time_for_successful_attacks_in_s": get_mean_total_time_for_successful_attacks(df),
-            "mean_change_in_z_scores": get_mean_change_in_z_scores(df),
-            **get_fluencies_on_successful_attacks(df),
-            **get_grammaticality_on_successful_attacks(df),
-            **get_quality_on_successful_attacks(df),
+            **threshold_results,
+            "max_steps": get_max_step_count(df),
             "support": get_support(df),
         })
 
     df = pd.DataFrame(results)
+    df.to_csv("./attack_traces/metrics.csv", index=False)
     print(df)
