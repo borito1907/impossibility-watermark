@@ -119,7 +119,7 @@ if __name__ == "__main__":
             "mean_change_in_z_scores": get_mean_change_in_z_scores(df),
             **get_fluencies_on_successful_attacks(df),
             **get_grammaticality_on_successful_attacks(df),
-            **get_quality_on_successful_attacks(df)
+            **get_quality_on_successful_attacks(df),
             "support": get_support(df),
         })
 
