@@ -1,8 +1,7 @@
-# RUN: python -m attack.attack_metrics
+# RUN: CUDA_VISIBLE_DEVICES=4 python -m attack.attack_metrics
 
 import pandas as pd
-from extractors import FluencyMetric, GrammarMetric
-from oracles import InternLMOracle
+from extractors import FluencyMetric, GrammarMetric, QualityMetric
 
 def assign_unique_group_ids(df):
     df['new_group'] = (df['step_num'] == 0).astype(int)
@@ -81,13 +80,13 @@ def get_grammaticality_on_successful_attacks(df):
     }
 
 def get_quality_on_successful_attacks(df):
-    quality = InternLMOracle()
+    quality = QualityMetric()
     comparison_df = get_original_and_final_text_comparisons(df)
     mean_original_quality = quality.evaluate(comparison_df['prompt'], comparison_df['original_text'])
     mean_original_quality = quality.evaluate(comparison_df['prompt'], comparison_df['final_mutated_text'])
     return {
         "mean_original_quality": mean_original_quality,
-        "mean_original_quality": mean_original_quality,
+        "mean_attacked_quality": mean_original_quality,
     }
    
 
@@ -118,10 +117,10 @@ if __name__ == "__main__":
             "mean_oracle_time_in_s": get_mean_oracle_time(df),
             "mean_total_time_for_successful_attacks_in_s": get_mean_total_time_for_successful_attacks(df),
             "mean_change_in_z_scores": get_mean_change_in_z_scores(df),
-            "support": get_support(df),
             **get_fluencies_on_successful_attacks(df),
             **get_grammaticality_on_successful_attacks(df),
             **get_quality_on_successful_attacks(df)
+            "support": get_support(df),
         })
 
     df = pd.DataFrame(results)
