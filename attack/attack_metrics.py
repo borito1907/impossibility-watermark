@@ -140,9 +140,9 @@ if __name__ == "__main__":
     traces = glob.glob("./attack_traces/*attack_results.csv")
 
     watermark_thresholds ={
-        "UMDWatermarker": [0.5, 1.0, 2.0],
-        "SemStampWatermarker": [0.5, 1.0, 2.0],
-        "AdaptiveWatermarker": [60.0, 70.0, 80.0], 
+        "UMDWatermarker": [0.5, 1.0, 2.0, 3.0],
+        "SemStampWatermarker": [0.5, 1.0, 2.0, 3.0],
+        "AdaptiveWatermarker": [60.0, 70.0, 80.0, 90.0], 
     }
 
     results = []

@@ -5,7 +5,7 @@ from transformers import AutoModel, AutoTokenizer
 class QualityMetric:
     
     def __init__(self, model=None, explain=False) -> None:
-        self.device = torch.device("cuda"if torch.cuda.is_available() else"cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.tokenizer = AutoTokenizer.from_pretrained("internlm/internlm2-20b-reward", trust_remote_code=True)
         if model is None:
             self.model = AutoModel.from_pretrained(
@@ -14,17 +14,28 @@ class QualityMetric:
                 torch_dtype=torch.float16, 
                 trust_remote_code=True,
             ).to(self.device)
+            self.model.gradient_checkpointing_enable()
 
-    def evaluate(self, prompts, texts, return_mean=True):
+    def batchify(self, data, batch_size):
+        """Helper function to split data into batches."""
+        for i in range(0, len(data), batch_size):
+            yield data[i:i + batch_size]
+
+    def evaluate(self, prompts, texts, return_mean=True, batch_size=8):
         chats = []
         for prompt, text in zip(prompts, texts):
             chats.append([
                 {"role": "user", "content": prompt},
                 {"role": "assistant", "content": text}
             ])
-        scores = self.model.get_scores(self.tokenizer, chats)
-        scores = np.array(scores)
-        return scores.mean() if return_mean else scores
+        all_scores = []
+        for batch in self.batchify(chats, batch_size):
+            batch_scores = self.model.get_scores(self.tokenizer, batch)
+            if not isinstance(batch_scores, list):
+                batch_scores = [batch_scores]
+            all_scores.extend(batch_scores)
+        all_scores = np.array(all_scores)
+        return all_scores.mean() if return_mean else all_scores
         
 
 if __name__ == '__main__':
