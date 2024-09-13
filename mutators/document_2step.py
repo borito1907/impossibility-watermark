@@ -93,7 +93,7 @@ class DocumentMutator_2step:
         while i < len(text) and s_i < len(sentences):
           if text.startswith(sentences[s_i], i):
             if s_i == selected_i:
-              mutated_text += selected_sentence
+              mutated_text += rephrased_sentence
             else:
               mutated_text += sentences[s_i]
             i += len(sentences[s_i])
@@ -168,8 +168,7 @@ def consistency_edit(lm, original_text, selected_sentence, rephrased_sentence, m
 
 if __name__ == "__main__":
 
-    @hydra.main(version_base=None, config_path="../conf", config_name="config")
-    def test(cfg):
+    def test():
         import time
         from utils import diff
         import pandas as pd
@@ -178,11 +177,11 @@ if __name__ == "__main__":
 
         dataset = pd.read_csv("./data/WQE/dev.csv")
         dataset = dataset.sample(frac=1).reset_index(drop=True)
-        n=5
+        n=1
         avg_time = 0
         dataset = dataset.head(n) 
         
-        text_mutator = DocumentMutator_2step(cfg.mutator_args)
+        text_mutator = DocumentMutator_2step()
         
         for index, row in dataset.iterrows():
           text = row["response_a"]
@@ -195,7 +194,7 @@ if __name__ == "__main__":
 
           print(f"Original text: {text}")
           print(f"Mutated text: {mutated_text}")
-          #print(f"Diff: {diff(text, mutated_text)}")
+          print(f"Diff: {diff(text, mutated_text)}")
           print(f"Time taken: {delta}")
           avg_time += delta
         print(f"Average time: {avg_time/n}")
