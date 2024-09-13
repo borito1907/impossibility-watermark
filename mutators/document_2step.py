@@ -93,7 +93,7 @@ class DocumentMutator_2step:
         while i < len(text) and s_i < len(sentences):
           if text.startswith(sentences[s_i], i):
             if s_i == selected_i:
-              mutated_text += selected_sentence
+              mutated_text += rephrased_sentence
             else:
               mutated_text += sentences[s_i]
             i += len(sentences[s_i])
@@ -194,7 +194,7 @@ if __name__ == "__main__":
 
           print(f"Original text: {text}")
           print(f"Mutated text: {mutated_text}")
-          #print(f"Diff: {diff(text, mutated_text)}")
+          print(f"Diff: {diff(text, mutated_text)}")
           print(f"Time taken: {delta}")
           avg_time += delta
         print(f"Average time: {avg_time/n}")

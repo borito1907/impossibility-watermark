@@ -8,6 +8,7 @@ import numpy as np
 import difflib
 import hydra
 import logging
+from nltk.tokenize import word_tokenize
 
 log = logging.getLogger(__name__)
 
@@ -157,7 +158,9 @@ class SpanMutator:
                 tokens[idx] = f'<extra_id_{num_filled}>'
                 num_filled += 1
         assert num_filled == n_masks, f"num_filled {num_filled} != n_masks {n_masks}"
-        text = ' '.join(tokens)
+        
+        text = ' '.join(tokens).replace(" \n", "\n")
+				
         if self.verbose: log.info(f"tokenize_and_mask (text out): {text}")
         return text
 
@@ -266,7 +269,7 @@ if __name__ == "__main__":
 
         dataset = pd.read_csv("./data/WQE/dev.csv")
         dataset = dataset.sample(frac=1).reset_index(drop=True)
-        n=3
+        n=1
         avg_time = 0
         dataset = dataset.head(n) 
         
