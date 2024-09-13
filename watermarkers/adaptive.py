@@ -296,6 +296,8 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         watermark_ids = self.tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(self.device)
         
         e = self.embedding_model.encode(self.cfg.watermark_args.secret_string, convert_to_tensor=True, device=self.device)
+        e = e.to(self.device)
+        self.transform_model.to(self.device)
         te = self.transform_model(e).tolist()
         te = [1.0 if x>0.0 else 0.0 for x in te]
         ve = torch.tensor([te[i] for i in self.mapping_list], device=self.device)

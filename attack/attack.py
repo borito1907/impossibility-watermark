@@ -13,7 +13,7 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 
 class Attack:
     # The watermarker should be in detection mode so we don't waste resources.
-    def __init__(self, cfg, mutator, quality_oracle=None, watermarker=None, ):
+    def __init__(self, cfg, mutator, quality_oracle=None, watermarker=None):
         self.cfg = cfg
         self.watermarker = watermarker
         self.mutator = mutator
@@ -26,6 +26,7 @@ class Attack:
         self.base_step_metadata = {
             "step_num": -1,
             "mutation_num": 0,
+            "prompt": "", 
             "current_text": "",
             "mutated_text": "", 
             "current_text_len": -1,
@@ -134,6 +135,7 @@ class Attack:
                 
                 self.step_data.update({"step_num": self.step_num})
                 self.step_data.update({"mutation_num": self.successful_mutation_count})
+                self.step_data.update({"prompt": prompt})
                 self.step_data.update({"current_text": self.current_text})
 
                 # Step 1: Mutate
@@ -164,7 +166,7 @@ class Attack:
                 oracle_start_time = time.time()
                 if self.cfg.attack.check_quality:
                     log.info("Checking quality oracle...")
-                    quality_analysis = self.quality_oracle.is_quality_preserved(prompt, self.original_text if self.cfg.attack.origin else self.current_text, self.mutated_text)
+                    quality_analysis = self.quality_oracle.is_quality_preserved(prompt, self.original_text if self.cfg.attack.compare_against_original else self.current_text, self.mutated_text)
                     self.step_data.update({
                         "quality_analysis": quality_analysis,
                         "quality_preserved": quality_analysis["quality_preserved"]
