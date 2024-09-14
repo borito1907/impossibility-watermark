@@ -5,11 +5,19 @@ import hydra
 from tqdm import tqdm
 import logging
 import matplotlib.pyplot as plt
-from guidance import models 
+from guidance import models
 from extractors import FluencyMetric, GrammarMetric
+
+from mutators import (
+	SentenceMutator, WordMutator, 
+  SpanMutator, Span2Mutator, Span3Mutator, Span4Mutator,
+	DocumentMutator, DocumentMutator_1step, DocumentMutator_2step)
 from oracles import (
-    DiffOracle
+	SoloOracle, RankOracle, JointOracle, RelativeOracle,
+	BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,
+	ArmoRMOracle, InternLMOracle, OffsetBiasOracle
 )
+from attack import Attack
 log = logging.getLogger(__name__)
 
 # from langchain.globals import set_debug; set_debug(True)
@@ -22,18 +30,16 @@ def eval(cfg):
 
     # Tucking import here because 'import torch' prior to setting CUDA_VISIBLE_DEVICES causes an error
     # https://discuss.pytorch.org/t/runtimeerror-device-0-device-num-gpus-internal-assert-failed/178118/6
+    
+    input_data_file = "./data/WQE_adaptive/dev.csv"
+    output_data_file = "./results/span_mutator_eval.csv"
 
-    tests_df = pd.read_csv("./data/mutated_eval.csv")
+    tests_df = pd.read_csv(input_data_file)
     log.info(tests_df)
-    oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": False}
-    llm = models.LlamaCpp(
-                model=oracle_config["llm_path"],
-                echo=False,
-                n_gpu_layers=-1,
-                n_ctx=2048
-            )
-    oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
-    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
+    oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf", "explain": False}
+
+    oracle = oracle_config["class"](explain=oracle_config["explain"])
+    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace(".gguf", "")
 
     fluency = FluencyMetric()
     grammar = GrammarMetric()
@@ -80,9 +86,9 @@ def eval(cfg):
         # Incremental saving over time...
         log.info("Saving results to csv...")
         df = pd.DataFrame([out_dict])
-        df.to_csv("./results/mutator_eval.csv", header=not os.path.exists("./results/mutator_eval.csv"), mode="a", index=False)
+        df.to_csv(output_data_file, header=not os.path.exists(output_data_file), mode="a", index=False)
 
-    tests_df = pd.read_csv("./results/mutator_eval.csv")
+    tests_df = pd.read_csv(output_data_file)
     data = {}
     output = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'):
@@ -103,8 +109,7 @@ def eval(cfg):
             temp["mutation step"] = j
             temp["percent preserved"] = data[i][j][0]/ data[i][j][1]
             output.append(temp)
-    df = pd.DataFrame(output)
-    df.to_csv("./results/mutator_percent.csv")
+    
     fig, ax = plt.subplots(3, len(data.keys()), figsize=(12, 15))
     for i, mut in enumerate(data.keys()):
         ax[0][i].plot(data[mut].keys(), [i[1]/i[0] for i in data[mut].values()], label="quality preserved")

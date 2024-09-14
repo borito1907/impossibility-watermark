@@ -24,34 +24,30 @@ def eval(cfg):
     # https://discuss.pytorch.org/t/runtimeerror-device-0-device-num-gpus-internal-assert-failed/178118/6
     from model_builders.pipeline import PipeLineBuilder
     # from watermark import Watermarker
-    # from oracle import (
-    #     RankOracle,
-    #     JointOracle,
-    #     RelativeOracle,
-    #     SoloOracle
-    # )
-    from mutators.document import DocumentMutator
-    from mutators.sentence import SentenceMutator
-    from mutators.span import SpanMutator
-    from mutators.word import WordMutator
+    from oracles import (
+        RankOracle,
+        JointOracle,
+        RelativeOracle,
+        SoloOracle,
+        DiffOracle
+    )
+    from mutators import (
+        DocumentMutator, SentenceMutator, WordMutator,  
+        SpanMutator, Span2Mutator, Span3Mutator, Span4Mutator 
+    )
+    
     # Set number of mutation steps to analyze
-    mutation_steps = 100
+    mutation_steps = 20
     log.info(f"Setting number of mutation steps to {mutation_steps}...")
 
     # Load test data
     # NOTE: we will reuse the outputs from the quality oracle tests
     log.info("Loading tests...")
-    tests_df = pd.read_csv("data/lmsys-150-test-set.csv")
+    tests_df = pd.read_csv("./data/WQE_adaptive/dev.csv").head(20)
     log.info(tests_df)
-    oracle_config = {"type": "guidance", "class": RelativeOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-q8_0.gguf", "explain": False}
-    llm = models.LlamaCpp(
-                model=oracle_config["llm_path"],
-                echo=False,
-                n_gpu_layers=-1,
-                n_ctx=2048
-            )
-    oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
-    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
+    oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf", "explain": False}
+    oracle = oracle_config["class"](explain=oracle_config["explain"])
+    judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace(".ggml", "")
 
     fluency = FluencyMetric()
     grammar = GrammarMetric()
@@ -64,14 +60,18 @@ def eval(cfg):
     log.info(f"Initializing mutators...")
     # doc_mutator = DocumentMutator()
     # sent_mutator = SentenceMutator(cfg.oracle_args)
-    span_mutator = SpanMutator()
-    word_mutator = WordMutator()
-    mutators = [span_mutator, word_mutator]
+    # span_mutator = SpanMutator()
+    # word_mutator = WordMutator()
+
+    mutators = [SpanMutator, Span2Mutator, Span3Mutator, Span4Mutator]
 
     # Construct eval loop
     results = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
-        for mutator in tqdm(mutators, desc='Mutators'):
+        break
+        for mutator_class in tqdm(mutators, desc='Mutators'):
+            mutator = mutator_class()
+            log.info(f"Initializing {mutator_class.__name__}...")
             # if mutator_name == "doc":
             #     mutator = DocumentMutator()
             # elif mutator_name == "sent":
@@ -80,7 +80,7 @@ def eval(cfg):
             #     mutator = SpanMutator()
             # elif mutator_name == "word":
             #     mutator = WordMutator()
-            choose = "response_a"
+            choose = "text"
             # if row["winner_model_a"] == "1":
             #     choose = "response_a"
             # else:
@@ -88,6 +88,8 @@ def eval(cfg):
             text = row[choose]
 
             for mutation_step in tqdm(range(mutation_steps)):
+                if mutation_step % 10 == 0:
+                    log.info(f"Mutating step {mutation_step}...")
 
                 # Initialize output_dict
                 out_dict = {}
@@ -148,10 +150,12 @@ def eval(cfg):
                 # Incremental saving over time...
                 log.info("Saving results to csv...")
                 df = pd.DataFrame(results)
-                df.to_csv("./results/mutator_eval.csv", index=False)
+                #df.to_csv("./results/mutator_eval.csv", index=False)
+                df.to_csv("./results/span_mutator_eval.csv", index=False)
             del mutator
 
-    tests_df = pd.read_csv("./results/mutator_eval.csv")
+    #tests_df = pd.read_csv("./results/mutator_eval.csv")
+    tests_df = pd.read_csv("./results/span_mutator_eval.csv")
     data = {}
     output = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'):
@@ -160,7 +164,7 @@ def eval(cfg):
         if row["mutation_step"] not in data[row["mutator"]]:
             data[row["mutator"]][row["mutation_step"]] = [0,0,0,0]
         data[row["mutator"]][row["mutation_step"]][0] += 1
-        if row["quality_preserved"]:
+        if row["quality_preserved"] == "True":
             data[row["mutator"]][row["mutation_step"]][1] += 1
         data[row["mutator"]][row["mutation_step"]][2] += row["fluency_score"]
         data[row["mutator"]][row["mutation_step"]][3] += row["count_grammar_errors"]
@@ -175,7 +179,7 @@ def eval(cfg):
             temp["count_grammar_errors"] = data[i][j][3]/ data[i][j][0]
             output.append(temp)
     df = pd.DataFrame(output)
-    df.to_csv("./results/mutator_percent.csv")
+    df.to_csv("./results/span_mutator_stats.csv")
 
     fig, ax = plt.subplots(3, len(data.keys()), figsize=(12, 15))
 
@@ -197,7 +201,7 @@ def eval(cfg):
         ax[2][i].set_title(f"Percentage vs steps for {mut}")
         ax[2][i].set_xlabel("Number of mutation steps")
         ax[2][i].set_ylabel("Average \n Grammar errors")
-        ax[2][i].set_ylim([0,1.2])
+        # ax[2][i].set_ylim([0,1.2])
 
     plt.show()
     plt.savefig("mutator3.png")
