@@ -60,7 +60,7 @@ class DocumentMutator(object):
                 final_input = {k: v.cuda() for k, v in final_input.items()}
 
                 with torch.inference_mode():
-                    outputs = self.model.generate(**final_input, max_length=max_length, tokenizer=self.tokenizer, do_sample=True, temperature=.4, diversity_penalty=1.5, **kwargs)
+                    outputs = self.model.generate(**final_input, max_length=max_length, tokenizer=self.tokenizer, do_sample=True, temperature=.4, repetition_penalty=1.5, **kwargs)
                 outputs = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
                 stuck = all(char == '*' for char in outputs[0].replace(" ", ""))
                 retry_count += 1
