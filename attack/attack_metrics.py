@@ -16,6 +16,10 @@ def assign_unique_group_ids(df):
 def get_support(df):
     return (df['step_num'] == 0).sum()
 
+def get_successfully_attacked_support(df, watermark_threshold=0.0):
+    df = get_successully_attacked_rows(df, watermark_threshold)
+    return len(df['group_id'].unique())
+
 def get_max_step_count(df):
     return df['step_num'].max()
 
@@ -28,14 +32,14 @@ def get_successully_attacked_rows(df, watermark_threshold=0.0):
 def get_mean_step_count_to_break_watermark(df, watermark_threshold=0.0):
     successful_df = get_successully_attacked_rows(df, watermark_threshold)
     if successful_df.empty:
-        return 0
+        return None
     return successful_df["step_num"].mean()
 
 def get_attack_success_rate(df, watermark_threshold=0.0):
     success_count = len(get_successully_attacked_rows(df, watermark_threshold))
     divisor = get_support(df)
     if divisor == 0:
-        return 0
+        return None
     success_rate = success_count / divisor
     return success_rate
 
@@ -60,7 +64,7 @@ def get_mean_change_in_z_scores(df, watermark_threshold=0.0):
     if z_score_changes:
         mean_change = sum(z_score_changes) / len(z_score_changes)
     else:
-        mean_change = 0
+        mean_change = None
     return mean_change
 
 def get_mean_total_time_for_successful_attacks(df, watermark_threshold=0.0):
@@ -75,7 +79,7 @@ def get_mean_total_time_for_successful_attacks(df, watermark_threshold=0.0):
     if total_times:
         mean_total_time = sum(total_times) / len(total_times)
     else:
-        mean_total_time = 0
+        mean_total_time = None
     return mean_total_time
 
 def get_original_and_final_text_comparisons(df, watermark_threshold=0.0):
@@ -96,8 +100,8 @@ def get_fluencies_on_successful_attacks(df, watermark_threshold=0.0):
         }
     else:
         return {
-            f"mean_original_fluency_@_{watermark_threshold}": 0,
-            f"mean_attacked_fluency_@_{watermark_threshold}": 0,
+            f"mean_original_fluency_@_{watermark_threshold}": None,
+            f"mean_attacked_fluency_@_{watermark_threshold}": None,
         }
     
 def get_grammaticality_on_successful_attacks(df, watermark_threshold=0.0):
@@ -111,8 +115,8 @@ def get_grammaticality_on_successful_attacks(df, watermark_threshold=0.0):
         }
     else:
         return {
-            f"mean_original_grammar_errors_@_{watermark_threshold}": 0,
-            f"mean_attacked_grammar_errors_@_{watermark_threshold}": 0,
+            f"mean_original_grammar_errors_@_{watermark_threshold}": None,
+            f"mean_attacked_grammar_errors_@_{watermark_threshold}": None,
         }
 
 def get_quality_on_successful_attacks(df, watermark_threshold=0.0):
@@ -126,11 +130,9 @@ def get_quality_on_successful_attacks(df, watermark_threshold=0.0):
         }
     else:
         return {
-            f"mean_original_quality_@_{watermark_threshold}": 0,
-            f"mean_attacked_quality_@_{watermark_threshold}": 0,
+            f"mean_original_quality_@_{watermark_threshold}": None,
+            f"mean_attacked_quality_@_{watermark_threshold}": None,
         }
-
-   
 
 if __name__ == "__main__":
 
@@ -140,9 +142,9 @@ if __name__ == "__main__":
     traces = glob.glob("./attack_traces/*attack_results.csv")
 
     watermark_thresholds ={
-        "UMDWatermarker": [0.5, 1.0, 2.0, 3.0],
-        "SemStampWatermarker": [0.5, 1.0, 2.0, 3.0],
-        "AdaptiveWatermarker": [60.0, 70.0, 80.0, 90.0], 
+        "UMDWatermarker": [0.0, 0.25, 0.5, 1.0, 2.0, 3.0],
+        "SemStampWatermarker": [0.0, 0.25, 0.5, 1.0, 2.0, 3.0],
+        "AdaptiveWatermarker": [50.0, 60.0, 70.0, 80.0, 90.0], 
     }
 
     results = []
@@ -162,6 +164,7 @@ if __name__ == "__main__":
             threshold_results.update(get_fluencies_on_successful_attacks(df,t))
             threshold_results.update(get_grammaticality_on_successful_attacks(df,t))
             threshold_results.update(get_quality_on_successful_attacks(df,t))
+            threshold_results[f"support_@_{t}"] = get_successfully_attacked_support(df, t)
 
         results.append({
             "oracle": o,
