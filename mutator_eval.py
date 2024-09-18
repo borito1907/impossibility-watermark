@@ -68,7 +68,6 @@ def eval(cfg):
     # Construct eval loop
     results = []
     for index, row in tqdm(tests_df.iterrows(), desc='Tests'): 
-        break
         for mutator_class in tqdm(mutators, desc='Mutators'):
             mutator = mutator_class()
             log.info(f"Initializing {mutator_class.__name__}...")

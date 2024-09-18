@@ -30,7 +30,7 @@ class DocumentMutator_1step:
                 model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
                 echo=False,
                 n_gpu_layers=-1,
-                n_ctx=2048
+                n_ctx=2048*2
             )
         return llm
 
