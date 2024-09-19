@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=0,1,2,3 python -m attack.attack_eval
+# RUN: CUDA_VISIBLE_DEVICES=3,4,5 python -m attack.attack_eval
 
 import traceback
 import pandas as pd
@@ -22,8 +22,8 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 def main(cfg):
 
     watermarkers = [
-        "umd",
-        "semstamp", 
+        # "umd",
+        # "semstamp", 
         "adaptive",
     ]
 
@@ -66,7 +66,7 @@ def main(cfg):
                 w_str = watermarker.__class__.__name__
                 m_str = mutator.__class__.__name__
                 cfg.attack.compare_against_original = compare_against_original
-                cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-original={compare_against_original}_attack_results.csv"
+                cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-original={compare_against_original}_{cfg.attack.max_steps}_attack_results.csv"
                 
                 log.info(f"Initializing attacker...")
                 attacker = Attack(cfg, mutator, oracle, watermarker)
