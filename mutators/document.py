@@ -90,19 +90,18 @@ def test():
     dataset = dataset.head(n) 
     text_mutator = DocumentMutator()
     for index, row in dataset.iterrows():
-      for i in range(10):
-        text = row["text"]
+      text = row["text"]
 
-        start = time.time()
-        mutated_text = text_mutator.mutate(text)
-        delta = time.time() - start
+      start = time.time()
+      mutated_text = text_mutator.mutate(text)
+      delta = time.time() - start
 
-        print(f"ID: {row['id']}")
-        print(f"Original text: {text}")
-        print(f"Mutated text: {mutated_text}")
-        #print(f"Diff: {diff(text, mutated_text)}")
-        print(f"Time taken: {delta}")
-        avg_time += delta
+      print(f"ID: {row['id']}")
+      print(f"Original text: {text}")
+      print(f"Mutated text: {mutated_text}")
+      #print(f"Diff: {diff(text, mutated_text)}")
+      print(f"Time taken: {delta}")
+      avg_time += delta
     print(f"Average time: {avg_time/n}")
 
 if __name__ == "__main__":

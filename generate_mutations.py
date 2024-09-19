@@ -8,7 +8,7 @@ from mutators.document import DocumentMutator
 from mutators.sentence import SentenceMutator
 from mutators.span import SpanMutator
 from mutators.word import WordMutator
-from extractors import FluencyMetric, GrammarMetric
+from extractors import FluencyMetric, GrammarMetric, QualityMetric
 from mutators.document_1step import DocumentMutator_1step
 from mutators.document_2step import DocumentMutator_2step
 from oracles import (
@@ -17,7 +17,7 @@ from oracles import (
 
 def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
     # Load the CSV into a DataFrame
-    df = pd.read_csv(input_csv)
+    df = pd.read_csv(input_csv).head(20)
 
     # Load existing results to avoid reprocessing
     if os.path.exists(output_csv):
@@ -30,26 +30,30 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
 
     # Define mutator classes
     mutator_classes = {
-        "WordMutator": WordMutator,
-        "SpanMutator": SpanMutator,
-        "SentenceMutator": SentenceMutator,
+        # "WordMutator": WordMutator,
+        # "SpanMutator": SpanMutator,
+        # "SentenceMutator": SentenceMutator,
         "DocumentMutator": DocumentMutator,
         "Document_1stepMutator": DocumentMutator_1step,
         "Document_2stepMutator": DocumentMutator_2step
     }
 
-    oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": False}
+    oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf", "explain": False}
     llm = models.LlamaCpp(
                 model=oracle_config["llm_path"],
                 echo=False,
                 n_gpu_layers=-1,
-                n_ctx=2048
+                n_ctx=4096
             )
+    
     oracle = oracle_config["class"](llm, explain=oracle_config["explain"])
     judge_name = oracle_config["llm_path"].split("/data2/.shared_models/llama.cpp_models/")[-1].replace("/ggml-model", "")
 
     fluency = FluencyMetric()
     grammar = GrammarMetric()
+    # takes a lot of memory
+    #quality = QualityMetric()
+    
     # Iterate over each mutator class
     for mutator_name, MutatorClass in mutator_classes.items():
         print(f"Processing with {mutator_name}...")
@@ -95,7 +99,9 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
 
                 # Collect metadata and mutated text
                 result = {
-                    **row.to_dict(),
+                    "id": row["id"],
+                    "prompt": row["prompt"],
+                    #**row.to_dict(),
                     "mutated_text": mutated_text,
                     "mutator": mutator_name,
                     "mutation_step": step + 1,
@@ -113,10 +119,14 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
 
                 # Evaluate Grammar Errors
                 count_grammar_errors = grammar.evaluate([text])
+                
+								# Evaulate quality score (InternLM)
+                #quality_score = quality.evaluate(row["prompt"], [text])
 
                 result.update({
                     "fluency_score": fluency_score,
                     "count_grammar_errors": count_grammar_errors,
+                    #"quality_score": quality_score,
                 })
                 
                 if verbose:
@@ -135,4 +145,4 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
     print(f"Mutation process completed. Results saved to {output_csv}.")
 
 if __name__ == "__main__":
-    mutate_and_save(input_csv="data/WQE/dev.csv", output_csv="./data/mutated_eval.csv")
+    mutate_and_save(input_csv="data/WQE/dev.csv", output_csv="./results/mutated_eval_docs.csv")
