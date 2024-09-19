@@ -21,7 +21,7 @@ class QualityMetric:
         for i in range(0, len(data), batch_size):
             yield data[i:i + batch_size]
 
-    def evaluate(self, prompts, texts, return_mean=True, batch_size=8):
+    def evaluate(self, prompts, texts, return_mean=True, batch_size=4):
         chats = []
         for prompt, text in zip(prompts, texts):
             chats.append([
