@@ -1,10 +1,10 @@
-# RUN: CUDA_VISIBLE_DEVICES=4 python -m attack.attack_metrics
+# RUN: CUDA_VISIBLE_DEVICES=5 python -m attack.attack_metrics
 
 import pandas as pd
-from extractors import perplexityMetric, GrammarMetric, QualityMetric
+from extractors import FluencyMetric, GrammarMetric, QualityMetric
 
 # Initialize metric extractors
-perplexity = perplexityMetric()
+fluency = FluencyMetric()
 grammar = GrammarMetric()
 quality = QualityMetric()
 
@@ -92,8 +92,8 @@ def get_original_and_final_text_comparisons(df, watermark_threshold=0.0):
 def get_perplexities_on_successful_attacks(df, watermark_threshold=0.0):
     comparison_df = get_original_and_final_text_comparisons(df, watermark_threshold)
     if not comparison_df.empty:
-        mean_original_perplexity = perplexity.evaluate(comparison_df['original_text'])
-        mean_attacked_perplexity = perplexity.evaluate(comparison_df['final_mutated_text'])
+        mean_original_perplexity = fluency.evaluate(comparison_df['original_text'].tolist())
+        mean_attacked_perplexity = fluency.evaluate(comparison_df['final_mutated_text'].tolist())
         return {
             f"mean_original_perplexity_@_{watermark_threshold}": mean_original_perplexity,
             f"mean_attacked_perplexity_@_{watermark_threshold}": mean_attacked_perplexity,
@@ -107,8 +107,8 @@ def get_perplexities_on_successful_attacks(df, watermark_threshold=0.0):
 def get_grammaticality_on_successful_attacks(df, watermark_threshold=0.0):
     comparison_df = get_original_and_final_text_comparisons(df, watermark_threshold)
     if not comparison_df.empty: 
-        mean_original_grammar_errors = grammar.evaluate(comparison_df['original_text'])
-        mean_attacked_grammar_errors = grammar.evaluate(comparison_df['final_mutated_text'])
+        mean_original_grammar_errors = grammar.evaluate(comparison_df['original_text'].tolist())
+        mean_attacked_grammar_errors = grammar.evaluate(comparison_df['final_mutated_text'].tolist())
         return {
             f"mean_original_grammar_errors_@_{watermark_threshold}": mean_original_grammar_errors,
             f"mean_attacked_grammar_errors_@_{watermark_threshold}": mean_attacked_grammar_errors,
@@ -122,8 +122,8 @@ def get_grammaticality_on_successful_attacks(df, watermark_threshold=0.0):
 def get_quality_on_successful_attacks(df, watermark_threshold=0.0):
     comparison_df = get_original_and_final_text_comparisons(df, watermark_threshold)
     if not comparison_df.empty:
-        mean_original_quality = quality.evaluate(comparison_df['prompt'], comparison_df['original_text'])
-        mean_attacked_quality = quality.evaluate(comparison_df['prompt'], comparison_df['final_mutated_text'])
+        mean_original_quality = quality.evaluate(comparison_df['prompt'].tolist(), comparison_df['original_text'].tolist())
+        mean_attacked_quality = quality.evaluate(comparison_df['prompt'].tolist(), comparison_df['final_mutated_text'].tolist())
         return {
             f"mean_original_quality_@_{watermark_threshold}": mean_original_quality,
             f"mean_attacked_quality_@_{watermark_threshold}": mean_attacked_quality,
