@@ -1,3 +1,4 @@
+
 from textdiversity import (
     TokenSemantics, DocumentSemantics, AMR, # semantics
     DependencyParse, ConstituencyParse,     # syntactical
@@ -9,91 +10,48 @@ from nltk import ngrams
 from nltk.tokenize import word_tokenize
 import numpy as np
 
+class BaseDiversityMetric:
+    def __init__(self, metric):
+        self.metric = metric
 
-class DocumentSemanticDiversity:
-    def __init__(self):
-        self.metric = DocumentSemantics({"normalize": False})
+    def evaluate(self, df):
+        return self.metric(df['text'])
     
-    def evaluate(self, dataset):
-        return dataset, self.metric(dataset['text'])
-    
-    def evaluate_before_and_after(self, before_dataset, after_dataset, annotate_after_dataset=True):
+    def evaluate_before_and_after(self, before_df, after_df, annotate_after_df=True):
         """
-        Anything lower than 1 means that the changes made 
-        to the text reduced diversity. 
+        Compares diversity metrics before and after changes.
+        Anything lower than 1 means that the changes reduced diversity.
         """
-        before_dataset, before_div = self.evaluate(before_dataset)
-        after_dataset, after_div   = self.evaluate(after_dataset)
+        before_div = self.evaluate(before_df)
+        after_div = self.evaluate(after_df)
         div = np.nan_to_num(after_div / before_div)
-        return after_dataset, div
-    
-class DocumentDependencyParseDiversity:
-    def __init__(self):
-        self.metric = DependencyParse({"normalize": False})
-    
-    def evaluate(self, dataset):
-        return dataset, self.metric(dataset['text'])
-    
-    def evaluate_before_and_after(self, before_dataset, after_dataset, annotate_after_dataset=True):
-        """
-        Anything lower than 1 means that the changes made 
-        to the text reduced diversity. 
-        """
-        before_dataset, before_div = self.evaluate(before_dataset)
-        after_dataset, after_div   = self.evaluate(after_dataset)
-        div = np.nan_to_num(after_div / before_div)
-        return after_dataset, div
+        return div
 
-class DocumentPartOfSpeechSequenceDiversity:
-    def __init__(self):
-        self.metric = PartOfSpeechSequence({"normalize": False})
-    
-    def evaluate(self, dataset):
-        return dataset, self.metric(dataset['text'])
-    
-    def evaluate_before_and_after(self, before_dataset, after_dataset, annotate_after_dataset=True):
-        """
-        Anything lower than 1 means that the changes made 
-        to the text reduced diversity. 
-        """
-        before_dataset, before_div = self.evaluate(before_dataset)
-        after_dataset, after_div   = self.evaluate(after_dataset)
-        div = np.nan_to_num(after_div / before_div)
-        return after_dataset, div    
 
-class MATTRDiversity:
+class DocumentSemanticDiversity(BaseDiversityMetric):
     def __init__(self):
-        self.metric = LDHelper().mattr
-    
-    def evaluate(self, dataset):
-        return dataset, self.metric(dataset['text'])
-    
-    def evaluate_before_and_after(self, before_dataset, after_dataset, annotate_after_dataset=True):
-        """
-        Anything lower than 1 means that the changes made 
-        to the text reduced diversity. 
-        """
-        before_dataset, before_div = self.evaluate(before_dataset)
-        after_dataset, after_div   = self.evaluate(after_dataset)
-        div = np.nan_to_num(after_div / before_div)
-        return after_dataset, div   
-    
-class UniqueBigramsDiversity:
+        super().__init__(DocumentSemantics({"normalize": False}))
+
+
+class DocumentDependencyParseDiversity(BaseDiversityMetric):
     def __init__(self):
-        self.metric = UniqueNgramHelper().bigrams
-    
-    def evaluate(self, dataset):
-        return dataset, self.metric(dataset['text'])
-    
-    def evaluate_before_and_after(self, before_dataset, after_dataset, annotate_after_dataset=True):
-        """
-        Anything lower than 1 means that the changes made 
-        to the text reduced diversity. 
-        """
-        before_dataset, before_div = self.evaluate(before_dataset)
-        after_dataset, after_div   = self.evaluate(after_dataset)
-        div = np.nan_to_num(after_div / before_div)
-        return after_dataset, div   
+        super().__init__(DependencyParse({"normalize": False}))
+
+
+class DocumentPartOfSpeechSequenceDiversity(BaseDiversityMetric):
+    def __init__(self):
+        super().__init__(PartOfSpeechSequence({"normalize": False}))
+
+
+class MATTRDiversity(BaseDiversityMetric):
+    def __init__(self):
+        super().__init__(LDHelper().mattr)
+
+
+class UniqueBigramsDiversity(BaseDiversityMetric):
+    def __init__(self):
+        super().__init__(UniqueNgramHelper().bigrams)
+
 
 class LDHelper:
 
@@ -162,83 +120,34 @@ class UniqueNgramHelper:
     
 if __name__ == "__main__":
     
-    from fada.transform import Transform
-    from fada.augmenter import Augmenter
     from datasets import load_dataset
-    import sibyl
     import numpy as np
 
     dataset_config = ("glue", "sst2")
     task_name = "sentiment"
 
-    dataset = load_dataset(*dataset_config, split="train[:3]")
-    dataset = dataset.rename_column("sentence", "text")
-
-    transforms = [
-        sibyl.ChangeHypernym,
-        sibyl.ChangeHyponym,
-        sibyl.InsertPunctuationMarks
-    ]
-    transforms = [Transform(t, task_name=task_name) for t in transforms]
-
-    num_augmentations_per_record = 1
-    num_transforms_to_apply = 1
-    batch_size = 1
-
-    # uniform sampling probabilities
-    uni_augmenter = Augmenter(
-        dataset=dataset, 
-        transforms=transforms,  
-        transform_probabilities=None,
-        num_augmentations_per_record=num_augmentations_per_record,
-        num_transforms_to_apply=num_transforms_to_apply,
-        keep_originals=False,
-        batch_size=batch_size)
-    aug_dataset = uni_augmenter.augment()
+    dataset_slice1 = load_dataset(*dataset_config, split="train[0:3]").rename_column("sentence", "text")
+    dataset_slice2 = load_dataset(*dataset_config, split="train[3:6]").rename_column("sentence", "text")
 
     metrics = [
-        DocumentSemanticDiversity(),
-        DocumentDependencyParseDiversity(),
-        DocumentPartOfSpeechSequenceDiversity(),
+        # DocumentSemanticDiversity(),
+        # DocumentDependencyParseDiversity(),
+        # DocumentPartOfSpeechSequenceDiversity(),
         MATTRDiversity(),
         UniqueBigramsDiversity()
     ]
 
-    print(f"original_dataset_text: {dataset['text']}")
-    print(f"augmented_dataset_text: {aug_dataset['text']}")
+    print(f"dataset_slice1: {dataset_slice1['text']}")
+    print(f"dataset_slice2: {dataset_slice2['text']}")
 
     for metric in metrics:
         metric_name = metric.__class__.__name__
         print(f"Calculating {metric_name}...")
 
-        dataset, orig_div = metric.evaluate(dataset)
-        aug_dataset, aug_div = metric.evaluate(aug_dataset)
-        aug_dataset, diff_div = metric.evaluate_before_and_after(dataset, aug_dataset)
+        dataset_slice1, div1 = metric.evaluate(dataset_slice1)
+        dataset_slice2, div2 = metric.evaluate(dataset_slice2)
+        dataset_slice2, div1vs2 = metric.evaluate_before_and_after(dataset_slice1, dataset_slice2)
 
-        print(f"original_{metric_name}_score: {orig_div}")
-        print(f"augmented_{metric_name}_score: {aug_div}")
-        print(f"diffed_{metric_name}_scores: {diff_div}")
-
-    # (fada) C:\Users\fabri\Documents\GitHub\fada>python -m fada.extractors.diversity      
-    # original_dataset_text: ['hide new secretions from the parental units ', 'contains no wit , only labored gags ', 'that loves its characters and communicates something rather beautiful about human nature ']
-    # augmented_dataset_text: ['wrap new humour from the parental construct ', 'repress no substance , only labored humour ', 'that loves its characters and ? communicates something rather ; beautiful about human nature ? ']
-    # Calculating DocumentSemanticDiversity...
-    # original_DocumentSemanticDiversity_score: 1.7467101260393558
-    # augmented_DocumentSemanticDiversity_score: 1.4460646222521027
-    # diffed_DocumentSemanticDiversity_scores: 0.8278789941700497
-    # Calculating DocumentDependencyParseDiversity...
-    # original_DocumentDependencyParseDiversity_score: 2.9663878358148343
-    # augmented_DocumentDependencyParseDiversity_score: 2.9478208621973376
-    # diffed_DocumentDependencyParseDiversity_scores: 0.9937408812855395
-    # Calculating DocumentPartOfSpeechSequenceDiversity...
-    # original_DocumentPartOfSpeechSequenceDiversity_score: 1.6879078928779354
-    # augmented_DocumentPartOfSpeechSequenceDiversity_score: 1.8470650772229111
-    # diffed_DocumentPartOfSpeechSequenceDiversity_scores: 1.0942925766367546
-    # Calculating MATTRDiversity...
-    # original_MATTRDiversity_score: 0.9285714285714286
-    # augmented_MATTRDiversity_score: 0.8928571428571429
-    # diffed_MATTRDiversity_scores: 0.9615384615384616
-    # Calculating UniqueBigramsDiversity...
-    # original_UniqueBigramsDiversity_score: 25
-    # augmented_UniqueBigramsDiversity_score: 28
-    # diffed_UniqueBigramsDiversity_scores: 1.12
+        print(f"div1_{metric_name}_score: {div1}")
+        print(f"div2_{metric_name}_score: {div2}")
+        print(f"div1vs2_{metric_name}_scores: {div1vs2}")
