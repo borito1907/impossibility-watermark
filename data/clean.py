@@ -37,7 +37,7 @@ for split in ["dev", "test"]:
 
     original_df.to_csv(f"./data/WQE/{split}.csv", encoding="utf-8", index=False)
 
-    for wm in ["adaptive", "semstamp", "umd"]:
+    for wm in ["adaptive", "semstamp", "umd", "unwatermarked"]:
 
         wm_df = pd.read_csv(f"./data/WQE_{wm}/{split}.csv", index_col=False)
 
