@@ -4,8 +4,8 @@ from transformers import AutoModel, AutoTokenizer
 
 class QualityMetric:
     
-    def __init__(self, model=None, explain=False) -> None:
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    def __init__(self, model=None, explain=False, device="cuda") -> None:
+        self.device = device # torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.tokenizer = AutoTokenizer.from_pretrained("internlm/internlm2-20b-reward", trust_remote_code=True)
         if model is None:
             self.model = AutoModel.from_pretrained(
@@ -21,12 +21,13 @@ class QualityMetric:
         for i in range(0, len(data), batch_size):
             yield data[i:i + batch_size]
 
-    def evaluate(self, prompts, texts, return_mean=True, batch_size=4):
+    def evaluate(self, prompts, texts, return_mean=True, batch_size=1):
         chats = []
         for prompt, text in zip(prompts, texts):
+            # Ensure prompts and texts are explicitly converted to strings
             chats.append([
-                {"role": "user", "content": prompt},
-                {"role": "assistant", "content": text}
+                {"role": "user", "content": str(prompt)},
+                {"role": "assistant", "content": str(text)}
             ])
         all_scores = []
         for batch in self.batchify(chats, batch_size):
@@ -36,6 +37,7 @@ class QualityMetric:
             all_scores.extend(batch_scores)
         all_scores = np.array(all_scores)
         return all_scores.mean() if return_mean else all_scores
+
         
 
 if __name__ == '__main__':
