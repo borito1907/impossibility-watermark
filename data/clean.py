@@ -40,6 +40,9 @@ for split in ["dev", "test"]:
     for wm in ["adaptive", "semstamp", "umd", "unwatermarked"]:
 
         wm_df = pd.read_csv(f"./data/WQE_{wm}/{split}.csv", index_col=False)
+        
+        # Filter wm_df to only include rows that exist in original_df based on 'id'
+        wm_df = wm_df[wm_df['id'].isin(original_df['id'])]
 
         # Merge the 'prompt' column from original_df into wm_df on 'id'
         if "prompt" not in wm_df.columns:
