@@ -49,7 +49,7 @@ oracles = {
 @hydra.main(version_base=None, config_path="../conf", config_name="attack")
 def main(cfg):
     df = pd.read_csv("./distinguisher/semstamp_responses.csv")
-    df = df.loc[[0,1,2]]
+    df = df.loc[[1,2]]
 
     watermarker = None
     if cfg.attack.check_watermark:
@@ -60,7 +60,7 @@ def main(cfg):
     attacker = Attack(cfg, mutator, oracle, watermarker)
 
     for i, row in tqdm(df.iterrows(), total=len(df), desc="ID progress"):
-        cfg.attack.log_csv_path = f"./distinguisher/attack/word/human_dev.csv"
+        cfg.attack.log_csv_path = f"./distinguisher/attack/word/human_{i}.csv"
         prompt = row["prompt"]
         watermarked_text = row["text"]
         attacked_text = attacker.attack(prompt, watermarked_text)

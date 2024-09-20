@@ -9,6 +9,10 @@ class Distinguisher(ABC):
         self.persona = persona
         self.origin_A = origin_A
         self.origin_B = origin_B
+
+    def set_origin(self, origin_A, origin_B):
+        self.origin_A = origin_A
+        self.origin_B = origin_B
     
     @staticmethod
     @abstractmethod

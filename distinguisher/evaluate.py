@@ -1,13 +1,15 @@
 from guidance import models
 from distinguisher.models import (AggressiveSimple, SimpleGPT)
+from distinguisher.utils import all_attacks
 import pandas as pd
 import os
 import datasets
 from dotenv import load_dotenv, find_dotenv
 
 class AttackParser():
-    def __init__(self, file):
-        df = pd.read_csv(file)
+    def __init__(self, file, df=None):
+        if file is not None:
+            df = pd.read_csv(file)
         df = df[(df['quality_preserved'] == True) & (df['length_issue'] == False)]
         end = df[df['mutation_num'] == df['mutation_num'].max()].tail(1)['step_num']
         df = df[df['step_num'] <= end.values[0]]
@@ -26,6 +28,9 @@ class AttackParser():
     def get_response(self):
         return self.response
     
+    def __len__(self):
+        return len(self.df)
+    
     def get_nth(self, n):
         return self.df[n]
         
@@ -35,6 +40,7 @@ def get_file(entropy, output_num, attack_id):
     first_perturbed_csv_filename = f"output_{output_num}/corpuses/attack_{attack_id}.csv"
     csv_file_path = os.path.join(csv_file_directory, first_perturbed_csv_filename)
     return csv_file_path
+
 
 # load_dotenv(find_dotenv())
 # chatgpt = models.OpenAI("gpt-4o-mini")
@@ -47,48 +53,42 @@ Your expertise in linguistic analysis allows you to distinguish which responses 
 Your goal is to provide a clear, concise, and accurate assessment of the provided instructions.
 """
 
-response_A = AttackParser("distinguisher/attack/sentence/diff_10.csv")
-response_B = AttackParser("distinguisher/attack/sentence/diff_11.csv")
-
-response_C = AttackParser("distinguisher/attack/sentence/diff_15.csv")
-response_D = AttackParser("distinguisher/attack/sentence/diff_17.csv")
-
-trials = [
-    {"prefix": "aggressive_4_", "votes": 5, "mutations": 200, "class": AggressiveSimple, "origin_A": response_A, "origin_B": response_B, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf"},
-    {"prefix": "simple_4_", "votes": 5, "mutations": 200, "class": SimpleGPT, "origin_A": response_A, "origin_B": response_B, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf"},
-    {"prefix": "aggressive_6_", "votes": 5, "mutations": 115, "class": AggressiveSimple, "origin_A": response_C, "origin_B": response_D, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf"},
-    {"prefix": "simple_6_", "votes": 5, "mutations": 115, "class": SimpleGPT, "origin_A": response_C, "origin_B": response_D, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf"},
-]
-
 llm = models.LlamaCpp(
-    model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-q8_0.gguf",
+    model="/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-8B-Instruct-q8_0.gguf",
     echo=False,
     n_gpu_layers=-1,
     n_ctx=2048
 )
 
-for config in trials:
-    if "llama" in config["llm_path"]:
-        origin_A = config["origin_A"]
-        origin_B = config["origin_B"]
-        sd = config["class"](llm, distinguisher_persona, origin_A.get_response(), origin_B.get_response())
+sd = AggressiveSimple(llm, distinguisher_persona, None, None)
+for i in range(8):
+    for entropy in range(10):
+        attack1 = all_attacks[i*30+entropy*3]
+        attack2 = all_attacks[i*30+entropy*3+1]
+        origin_A = AttackParser(None, attack1["attack_data"])
+        origin_B = AttackParser(None, attack2["attack_data"])
         dataset = []
-        for n in range(config["mutations"]):
+        for n in range(min(len(origin_A), len(origin_B))):
             dataset.append({
-                "P": response_A.get_nth(n),
+                "P": origin_A.get_nth(n),
                 "Num": n,
                 "Origin": "A",
             })
             dataset.append({
-                "P": response_B.get_nth(n),
+                "P": origin_B.get_nth(n),
                 "Num": n,
                 "Origin": "B",
             })
+        sd.set_origin(origin_A.get_response(), origin_B.get_response())
         dataset = datasets.Dataset.from_pandas(pd.DataFrame(data=dataset))
-        if config["votes"] == 1:
-            dataset = sd.distinguish(dataset, config["prefix"])
-        else:
-            dataset = sd.distinguish_majority(dataset, config["votes"], config["prefix"])
-        dataset.to_csv(f"./distinguisher/results/{config['prefix']}semstamp_sentence.csv")
+        dataset = sd.distinguish(dataset).to_pandas()
+        dataset["o_str"] = attack1["o_str"]
+        dataset["w_str"] = attack1["w_str"]
+        dataset["m_str"] = attack1["m_str"]
+        dataset["compare_against_original"] = attack1["compare_against_original"]
+        dataset["entropy"] = entropy
+        dataset["id"] = i*10+entropy
+        output_path='distinguisher/results/stationary_distribution_full.csv'
+        dataset.to_csv(output_path, mode='a', header=not os.path.exists(output_path))
 
-# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=0 python -m distinguisher.evaluate
+# ./impossibility-watermark> CUDA_VISIBLE_DEVICES=7 python -m distinguisher.evaluate
