@@ -46,16 +46,16 @@ class AdaptiveWatermarker(Watermarker):
         # load semantic mapping model
         self.transform_model = TransformModel()
         
-        self.transform_model.load_state_dict(torch.load('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/transform_model.pth'))
+        self.transform_model.load_state_dict(torch.load('/data2/.shared_models/adaptive_watermarker/transform_model.pth'))
         self.transform_model.to(device)
         self.transform_model.eval()
 
         # Load mapping list for the transform model
         if "opt" in self.cfg.generator_args.model_name_or_path:
-            with open('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/mapping_opt.json', 'r') as f:
+            with open('/data2/.shared_models/adaptive_watermarker/mapping_opt.json', 'r') as f:
                 self.mapping_list = json.load(f)
         elif "Llama-3.1" in self.cfg.generator_args.model_name_or_path:
-            with open('/local1/borito1907/impossibility-watermark/watermarkers/Adaptive/mapping_llama31.json', 'r') as f:
+            with open('/data2/.shared_models/adaptive_watermarker/mapping_llama31.json', 'r') as f:
                 self.mapping_list = json.load(f)
         else:
             raise Exception("No mapping list provided for Llama!")
