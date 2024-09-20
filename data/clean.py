@@ -28,6 +28,15 @@ for split in ["dev", "test"]:
 
     original_df = pd.read_csv(f"./data/WQE/{split}.csv")
 
+    print(split, len(original_df))
+
+    # Filter out non-english texts
+    original_df = filter_non_english(original_df, 'prompt')
+
+    print(split, len(original_df))
+
+    original_df.to_csv(f"./data/WQE/{split}.csv", encoding="utf-8", index=False)
+
     for wm in ["adaptive", "semstamp", "umd"]:
 
         wm_df = pd.read_csv(f"./data/WQE_{wm}/{split}.csv", index_col=False)
@@ -42,8 +51,12 @@ for split in ["dev", "test"]:
         # Remove 'Unnamed' columns
         wm_df = wm_df.loc[:, ~wm_df.columns.str.contains('^Unnamed')]
 
+        print(split, wm, len(original_df))
+
         # Filter out non-english texts
         wm_df = filter_non_english(wm_df, 'text')
+
+        print(split, wm, len(original_df))
 
         # Reordering columns
         key_cols = ['id', 'prompt', 'text']
