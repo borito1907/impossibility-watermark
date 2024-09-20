@@ -22,16 +22,16 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 def main(cfg):
 
     watermarkers = [
-        # "umd",
-        # "semstamp", 
+        "umd",
+        "semstamp", 
         "adaptive",
     ]
 
     mutators = [
-        WordMutator,
-        SpanMutator,
-        SentenceMutator,
-        DocumentMutator,
+        # WordMutator,
+        # SpanMutator,
+        # SentenceMutator,
+        # DocumentMutator,
         DocumentMutator_1step,
         DocumentMutator_2step
     ]
@@ -68,6 +68,10 @@ def main(cfg):
                 cfg.attack.compare_against_original = compare_against_original
                 cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-original={compare_against_original}_{cfg.attack.max_steps}_attack_results.csv"
                 
+                if os.path.exists(cfg.attack.log_csv_path):
+                    log.info("existing attack trace already found, skipping for now...")
+                    continue
+
                 log.info(f"Initializing attacker...")
                 attacker = Attack(cfg, mutator, oracle, watermarker)
 

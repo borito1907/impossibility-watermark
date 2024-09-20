@@ -1,10 +1,10 @@
 # RUN: CUDA_VISIBLE_DEVICES=4 python -m attack.attack_metrics
 
 import pandas as pd
-from extractors import FluencyMetric, GrammarMetric, QualityMetric
+from extractors import perplexityMetric, GrammarMetric, QualityMetric
 
 # Initialize metric extractors
-fluency = FluencyMetric()
+perplexity = perplexityMetric()
 grammar = GrammarMetric()
 quality = QualityMetric()
 
@@ -89,19 +89,19 @@ def get_original_and_final_text_comparisons(df, watermark_threshold=0.0):
     comparison_df.rename(columns={'current_text': 'original_text', 'mutated_text': 'final_mutated_text'}, inplace=True)
     return comparison_df
 
-def get_fluencies_on_successful_attacks(df, watermark_threshold=0.0):
+def get_perplexities_on_successful_attacks(df, watermark_threshold=0.0):
     comparison_df = get_original_and_final_text_comparisons(df, watermark_threshold)
     if not comparison_df.empty:
-        mean_original_fluency = fluency.evaluate(comparison_df['original_text'])
-        mean_attacked_fluency = fluency.evaluate(comparison_df['final_mutated_text'])
+        mean_original_perplexity = perplexity.evaluate(comparison_df['original_text'])
+        mean_attacked_perplexity = perplexity.evaluate(comparison_df['final_mutated_text'])
         return {
-            f"mean_original_fluency_@_{watermark_threshold}": mean_original_fluency,
-            f"mean_attacked_fluency_@_{watermark_threshold}": mean_attacked_fluency,
+            f"mean_original_perplexity_@_{watermark_threshold}": mean_original_perplexity,
+            f"mean_attacked_perplexity_@_{watermark_threshold}": mean_attacked_perplexity,
         }
     else:
         return {
-            f"mean_original_fluency_@_{watermark_threshold}": None,
-            f"mean_attacked_fluency_@_{watermark_threshold}": None,
+            f"mean_original_perplexity_@_{watermark_threshold}": None,
+            f"mean_attacked_perplexity_@_{watermark_threshold}": None,
         }
     
 def get_grammaticality_on_successful_attacks(df, watermark_threshold=0.0):
@@ -161,7 +161,7 @@ if __name__ == "__main__":
             threshold_results[f"mean_steps_to_success_@_{t}"] = get_mean_step_count_to_break_watermark(df, t)
             threshold_results[f"mean_time_to_success_@_{t}"] = get_mean_total_time_for_successful_attacks(df, t)
             threshold_results[f"mean_change_in_watermark_score_@_{t}"] = get_mean_change_in_z_scores(df, t)
-            threshold_results.update(get_fluencies_on_successful_attacks(df,t))
+            threshold_results.update(get_perplexities_on_successful_attacks(df,t))
             threshold_results.update(get_grammaticality_on_successful_attacks(df,t))
             threshold_results.update(get_quality_on_successful_attacks(df,t))
             threshold_results[f"support_@_{t}"] = get_successfully_attacked_support(df, t)
