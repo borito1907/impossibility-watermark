@@ -105,11 +105,23 @@ class Attack:
         self.current_text = watermarked_text
         self.original_text = watermarked_text
         
+				# prep initial text data
+        self.step_data = self.base_step_metadata
+        
         if self.cfg.attack.check_watermark:
             watermark_detected, watermark_score = self.watermarker.detect(self.original_text)
             if not watermark_detected:
                 raise ValueError("No watermark detected on input text. Nothing to attack! Exiting...")
             log.info(f"The original text has watermark score {watermark_score}.")
+            self.step_data.update({"watermark_detected": watermark_detected})
+            self.step_data.update({"watermark_score": watermark_score})
+        
+				# save initial text data and watermark
+        self.step_data.update({"mutation_num": -1})
+        self.step_data.update({"prompt": prompt})
+        self.step_data.update({"current_text": self.original_text})
+        self.step_data.update({"quality_preserved": True})
+        save_to_csv([self.step_data], self.cfg.attack.log_csv_path) 
         
         self.mutated_texts.append(self.original_text)
         self.step_num = -1
@@ -136,7 +148,7 @@ class Attack:
                 self.step_data.update({"step_num": self.step_num})
                 self.step_data.update({"mutation_num": self.successful_mutation_count})
                 self.step_data.update({"prompt": prompt})
-                self.step_data.update({"current_text": self.current_text})
+                self.step_data.update({"mutated_text": self.current_text})
 
                 # Step 1: Mutate
                 mutate_start_time = time.time()
