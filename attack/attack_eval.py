@@ -6,7 +6,7 @@ from guidance import models
 from watermarker_factory import get_default_watermarker
 from mutators import (
     SentenceMutator, SpanMutator, WordMutator, 
-    DocumentMutator, DocumentMutator_1step, DocumentMutator_2step
+    DocumentMutator, Document1StepMutator, Document2StepMutator
 )
 from oracles import DiffOracle
 from attack.attack import Attack
@@ -28,12 +28,12 @@ def main(cfg):
     ]
 
     mutators = [
-        # WordMutator,
-        # SpanMutator,
-        # SentenceMutator,
-        # DocumentMutator,
-        DocumentMutator_1step,
-        DocumentMutator_2step
+        WordMutator,
+        SpanMutator,
+        SentenceMutator,
+        Document1StepMutator,
+        Document2StepMutator,
+        DocumentMutator,
     ]
 
     # Step 1: Initialize Quality Oracle

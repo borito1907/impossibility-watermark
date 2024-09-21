@@ -11,7 +11,7 @@ from extractors import FluencyMetric, GrammarMetric
 from mutators import (
 	SentenceMutator, WordMutator, 
   SpanMutator, Span2Mutator, Span3Mutator, Span4Mutator,
-	DocumentMutator, DocumentMutator_1step, DocumentMutator_2step)
+	DocumentMutator, Document1StepMutator, Document2StepMutator)
 from oracles import (
 	SoloOracle, RankOracle, JointOracle, RelativeOracle,
 	BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,

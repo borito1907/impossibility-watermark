@@ -2,8 +2,8 @@ from watermarker_factory import get_default_watermarker
 from mutators.sentence import SentenceMutator
 from mutators.span import SpanMutator
 from mutators.word import WordMutator
-from mutators.document_1step import DocumentMutator_1step
-from mutators.document_2step import DocumentMutator_2step
+from mutators.document_1step import Document1StepMutator
+from mutators.document_2step import Document2StepMutator
 from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle,
     PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
@@ -24,8 +24,8 @@ mutators = {
     "SentenceMutator": SentenceMutator,
     "SpanMutator": SpanMutator,
     "WordMutator": WordMutator,
-    "DocumentMutator_1step": DocumentMutator_1step,
-    "DocumentMutator_2step": DocumentMutator_2step
+    "Document1StepMutator": Document1StepMutator,
+    "Document2StepMutator": Document2StepMutator
 }
 
 oracles = {

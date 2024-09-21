@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 def extract_dict(output, keys):
     return {k: output[k] for k in keys}
 
-class DocumentMutator_1step:  
+class Document1StepMutator:  
     # NOTE: This current implementation is slow (~300 seconds) and must be optimized before use in the attack. 
     # One idea would be to have it suggest the edits in some structured format and then apply them outside of generation. 
     # This prevents it from having to copy / paste over the bulk of the response unchanged. 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         n=1
         avg_time=0
         dataset = dataset.head(n) 
-        text_mutator = DocumentMutator_1step()
+        text_mutator = Document1StepMutator()
         for index, row in dataset.iterrows():
           text = row["response_a"]
 

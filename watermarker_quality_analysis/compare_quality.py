@@ -62,16 +62,16 @@ def main():
         }
         
     def get_grammaticality(unwatermarked_data, watermarked_data):
-        mean_unwatermarked_grammar_errors = grammar.evaluate(unwatermarked_data['text'])
-        mean_watermarked_grammar_errors = grammar.evaluate(watermarked_data['text'])
+        mean_unwatermarked_grammar_errors = grammar.evaluate(unwatermarked_data['text'].tolist())
+        mean_watermarked_grammar_errors = grammar.evaluate(watermarked_data['text'].tolist())
         return {
             "mean_unwatermarked_grammar_errors": mean_unwatermarked_grammar_errors,
             "mean_watermarked_grammar_errors": mean_watermarked_grammar_errors,
         }
 
     def get_quality(unwatermarked_data, watermarked_data):
-        mean_unwatermarked_quality = quality.evaluate(unwatermarked_data['prompt'], unwatermarked_data['text'])
-        mean_watermarked_quality = quality.evaluate(watermarked_data['prompt'], watermarked_data['text'])
+        mean_unwatermarked_quality = quality.evaluate(unwatermarked_data['prompt'].tolist(), unwatermarked_data['text'].tolist())
+        mean_watermarked_quality = quality.evaluate(watermarked_data['prompt'].tolist(), watermarked_data['text'].tolist())
         return {
             "mean_unwatermarked_quality": mean_unwatermarked_quality,
             "mean_watermarked_quality": mean_watermarked_quality,
@@ -102,7 +102,7 @@ def main():
     # Initialize metric extractors
     fluency = FluencyMetric(device="cpu")
     grammar = GrammarMetric()
-    quality = QualityMetric(device="cuda:1")        
+    quality = QualityMetric(device="cpu")        
     mattr   = MATTRDiversity()
     bigram  = UniqueBigramsDiversity()
 
