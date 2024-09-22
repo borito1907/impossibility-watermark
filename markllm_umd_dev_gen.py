@@ -5,6 +5,11 @@ import os
 from utils import save_to_csv, get_prompt_or_output, get_prompt_and_id_dev, get_prompt_from_id, count_csv_entries
 from omegaconf import OmegaConf
 from hydra import initialize, compose
+from model_builders.pipeline import PipeLineBuilder
+import torch
+from markllm.watermark.auto_watermark import AutoWatermark
+from markllm.utils.transformers_config import TransformersConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 log = logging.getLogger(__name__)
 
