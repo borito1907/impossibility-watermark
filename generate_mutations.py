@@ -9,8 +9,8 @@ from mutators.sentence import SentenceMutator
 from mutators.span import SpanMutator
 from mutators.word import WordMutator
 from extractors import FluencyMetric, GrammarMetric, QualityMetric
-from mutators.document_1step import DocumentMutator_1step
-from mutators.document_2step import DocumentMutator_2step
+from mutators.document_1step import Document1StepMutator
+from mutators.document_2step import Document2StepMutator
 from oracles import (
     DiffOracle
 )
@@ -34,8 +34,8 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
         # "SpanMutator": SpanMutator,
         # "SentenceMutator": SentenceMutator,
         "DocumentMutator": DocumentMutator,
-        "Document_1stepMutator": DocumentMutator_1step,
-        "Document_2stepMutator": DocumentMutator_2step
+        "Document_1stepMutator": Document1StepMutator,
+        "Document_2stepMutator": Document2StepMutator
     }
 
     oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf", "explain": False}
