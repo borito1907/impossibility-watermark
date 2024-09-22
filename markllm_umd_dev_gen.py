@@ -73,8 +73,9 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         try:
             for _ in range(1):
                 start = time.time()
-                watermarked_text = watermarker.generate_watermarked_outputs(prompt)
-                is_detected, score = watermarker.detect(watermarked_text)
+                watermarked_text = myWatermark.generate_watermarked_text(prompt)
+                score = myWatermark.detect_watermark(watermarked_text)
+                is_detected = (score >= cfg.watermark_args.z_threshold)
                 delta = time.time() - start
                 
                 log.info(f"Watermarked Text: {watermarked_text}")
