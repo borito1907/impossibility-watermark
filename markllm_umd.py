@@ -5,6 +5,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import hydra
 import logging
 from model_builders.pipeline import PipeLineBuilder
+import textwrap
 
 log = logging.getLogger(__name__)
 
@@ -35,6 +36,14 @@ def main(cfg):
 
     # Prompt
     prompt = "Explain the daily life of a citizen in Ancient Greece."
+
+    if not cfg.is_completion:
+        if "Llama" in model.config._name_or_path:
+            prompt = textwrap.dedent(f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>""")
 
     # Generate and detect
     watermarked_text = myWatermark.generate_watermarked_text(prompt)
