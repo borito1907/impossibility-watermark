@@ -45,7 +45,7 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"umd_dev_08_26_test_{cfg.partition}"
+    dir_name = f"umd_dev_09_22_markllm_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
@@ -73,8 +73,9 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
         try:
             for _ in range(1):
                 start = time.time()
-                watermarked_text = watermarker.generate_watermarked_outputs(prompt)
-                is_detected, score = watermarker.detect(watermarked_text)
+                watermarked_text = myWatermark.generate_watermarked_text(prompt)
+                score = myWatermark.detect_watermark(watermarked_text)
+                is_detected = (score >= cfg.watermark_args.z_threshold)
                 delta = time.time() - start
                 
                 log.info(f"Watermarked Text: {watermarked_text}")
