@@ -12,6 +12,7 @@ from oracles import DiffOracle
 from attack.attack import Attack
 
 import hydra
+import os
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -22,9 +23,11 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 def main(cfg):
 
     watermarkers = [
-        "umd",
-        "semstamp", 
-        "adaptive",
+        # "umd",
+        "umd_new",
+        "unigram",
+        # "semstamp", 
+        # "adaptive",
     ]
 
     mutators = [
@@ -52,7 +55,8 @@ def main(cfg):
         data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
 
         # Step 3: Initialize watermark detector
-        watermarker = get_default_watermarker(watermarker)
+        # watermarker = get_default_watermarker(watermarker)
+        watermarker = None
 
         for mutator in mutators:
             log.info("Initializing mutator...")
