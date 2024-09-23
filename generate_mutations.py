@@ -34,8 +34,8 @@ def mutate_and_save(input_csv, output_csv, mutation_steps=20, verbose=False):
         # "SpanMutator": SpanMutator,
         # "SentenceMutator": SentenceMutator,
         "DocumentMutator": DocumentMutator,
-        "Document_1stepMutator": Document1StepMutator,
-        "Document_2stepMutator": Document2StepMutator
+        "Document1stepMutator": Document1StepMutator,
+        "Document2stepMutator": Document2StepMutator
     }
 
     oracle_config = {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf", "explain": False}

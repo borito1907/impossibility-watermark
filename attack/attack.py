@@ -105,7 +105,7 @@ class Attack:
         self.current_text = watermarked_text
         self.original_text = watermarked_text
         
-				# prep initial text data
+		# prep initial text data
         self.step_data = self.base_step_metadata
         
         if self.cfg.attack.check_watermark:
@@ -116,7 +116,7 @@ class Attack:
             self.step_data.update({"watermark_detected": watermark_detected})
             self.step_data.update({"watermark_score": watermark_score})
         
-				# save initial text data and watermark
+		# save initial text data and watermark
         self.step_data.update({"mutation_num": -1})
         self.step_data.update({"prompt": prompt})
         self.step_data.update({"current_text": self.original_text})
@@ -164,7 +164,7 @@ class Attack:
                     log.info(f"Checking mutated text length to ensure it is within {self.cfg.attack.length_variance*100}% of the original...")
                     self.length_check()
                     if self.length_issue:
-                        log.warn(f"Failed length check. Original text was {self.original_len} words and mutated is {self.mutated_len} words. Skipping quality check and watermark check...")
+                        log.warn(f"Failed length check. Original text was {self.original_len} words and mutated is {self.mutated_len} words. Skipping quality check...")
                         self.backtrack_patience += 1
                         self.patience += 1
                         self.append_and_save_step_data()
@@ -184,7 +184,7 @@ class Attack:
                         "quality_preserved": quality_analysis["quality_preserved"]
                     })
                     if not quality_analysis["quality_preserved"]:
-                        log.warn("Failed quality check. Skipping watermark check...")
+                        log.warn("Failed quality check...")
                         self.backtrack_patience += 1
                         self.patience += 1
                         self.step_data.update({"oracle_time": time.time() - oracle_start_time})
