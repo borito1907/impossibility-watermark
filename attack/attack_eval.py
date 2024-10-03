@@ -13,6 +13,7 @@ from oracles import DiffOracle
 from attack.attack import Attack
 
 import hydra
+import os
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -25,9 +26,11 @@ def main(cfg):
     cfg.attack.check_watermark = False
 
     watermarkers = [
-        "umd",
-        "semstamp", 
-        "adaptive",
+        # "umd",
+        "umd_new",
+        # "unigram",
+        # "semstamp", 
+        # "adaptive",
     ]
 
     mutators = [
@@ -51,11 +54,14 @@ def main(cfg):
 
     for watermarker in watermarkers:
 
-        # Step 2: Load data for that particular watermarker
-        data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
+        # Step 2: Load data for that particular watermarkerp
+        data = pd.read_csv('/data2/borito1907/impossibility-watermark/09_27_high_semstamp_good_embedder.csv')
+        # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
+        # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv").sample(n=10, random_state=42)
 
         # Step 3: Initialize watermark detector
-        watermarker = get_default_watermarker(watermarker)
+        # watermarker = get_default_watermarker(watermarker)
+        watermarker_obj = None
 
         for mutator in mutators:
             log.info("Initializing mutator...")
@@ -64,17 +70,18 @@ def main(cfg):
 
             # Step 5: Initialize Attacker
             o_str = oracle.__class__.__name__
-            w_str = watermarker.__class__.__name__
+            # w_str = watermarker_obj.__class__.__name__
             m_str = mutator.__class__.__name__
             cfg.attack.compare_against_original = True
-            cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
+            # cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
+            cfg.attack.log_csv_path = f"./attack_traces/good_embedder_{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
 
             if os.path.exists(cfg.attack.log_csv_path):
                 log.info(f"skipping this attack configuration: {cfg.attack.log_csv_path}")
                 continue
 
             log.info(f"Initializing attacker...")
-            attacker = Attack(cfg, mutator, oracle, watermarker)
+            attacker = Attack(cfg, mutator, oracle, watermarker_obj)
 
             # Step 6: Attack each row in dataset
             for benchmark_id, row in data.iterrows():

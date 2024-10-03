@@ -57,6 +57,7 @@ class Attack:
         self.backtrack_patience = 0
         self.patience = 0
         self.max_mutation_achieved = 0
+        self.mutated_text = ""
 
     def backtrack(self):
         self.backtrack_patience = 0
@@ -148,16 +149,31 @@ class Attack:
                 self.step_data.update({"step_num": self.step_num})
                 self.step_data.update({"mutation_num": self.successful_mutation_count})
                 self.step_data.update({"prompt": prompt})
-                self.step_data.update({"mutated_text": self.current_text})
+                self.step_data.update({"current_text": self.current_text})
 
                 # Step 1: Mutate
                 mutate_start_time = time.time()
                 log.info(f"Mutating watermarked text...")
-                self.mutated_text = self.mutator.mutate(self.current_text)
-                self.step_data.update({"mutated_text": self.mutated_text})
-                self.step_data.update({"mutator_time": time.time() - mutate_start_time})       
-                if self.cfg.attack.verbose:
-                    log.info(f"Mutated text: {self.mutated_text}")         
+
+                # NOTE: Added a try-except block since some of the mutators are buggy.
+                max_retries = self.cfg.attack.mutator_retries
+                retry_count = 0
+
+                while retry_count < max_retries:
+                    try:
+                        mutate_start_time = time.time()  # Start timer for mutator
+                        self.mutated_text = self.mutator.mutate(self.current_text)
+                        self.step_data.update({"mutated_text": self.mutated_text})
+                        self.step_data.update({"mutator_time": time.time() - mutate_start_time})       
+                        if self.cfg.attack.verbose:
+                            log.info(f"Mutated text: {self.mutated_text}")
+                        break  # Break if mutation succeeds
+                    except Exception as e:
+                        retry_count += 1
+                        log.error(f"Mutation attempt {retry_count} failed. Error: {e}")
+                        if retry_count >= max_retries:
+                            log.error("Max retries reached. Mutation failed.")
+                            raise  # Re-raise the exception after max retries
 
                 # Step 2: Length Check
                 if self.cfg.attack.check_length:

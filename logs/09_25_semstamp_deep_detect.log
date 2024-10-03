@@ -1,0 +1,198 @@
+/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/transformers/utils/hub.py:127: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[nltk_data] Downloading package punkt to /home/borito1907/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[2024-09-25 11:19:09,018][__main__][INFO] - Getting the watermarker...
+[2024-09-25 11:19:09,018][watermarker][INFO] - Using device: cuda:0
+[2024-09-25 11:19:09,049][watermarkers.semstamp][INFO] - Initializing embedder model.
+[2024-09-25 11:19:09,049][watermarkers.semstamp][INFO] - Using the generic SentenceTransformer...
+[2024-09-25 11:19:09,049][sentence_transformers.SentenceTransformer][INFO] - Use pytorch device_name: cuda
+[2024-09-25 11:19:09,078][sentence_transformers.SentenceTransformer][INFO] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v1
+/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+[2024-09-25 11:19:10,607][watermarkers.semstamp][INFO] - Finished initializing embedder model.
+initializing random projection LSH model
+loading SBERT base model...
+[2024-09-25 11:19:10,608][__main__][INFO] - {'prompt': None, 'prompt_file': './data/WQE/dev.csv', 'prompt_num': 1, 'is_completion': False, 'generation_stats_file_path': None, 'watermarked_text_file_name': None, 'partition': 1, 'generator_args': {'model_name_or_path': 'hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4', 'revision': 'main', 'model_cache_dir': '/data2/.shared_models/', 'device_map': 'auto', 'trust_remote_code': True, 'max_new_tokens': 1024, 'min_new_tokens': 128, 'do_sample': True, 'no_repeat_ngram_size': 0, 'temperature': 1.0, 'top_p': 0.95, 'top_k': 40, 'repetition_penalty': 1.1, 'watermark_score_threshold': 5.0, 'diversity_penalty': 0.0, 'max_length': 255}, 'watermark_args': {'name': 'semstamp_lsh', 'gamma': 0.25, 'delta': 0.01, 'seeding_scheme': 'selfhash', 'ignore_repeated_ngrams': True, 'normalizers': [], 'z_threshold': 0.5, 'device': 'auto', 'only_detect': False, 'embedder': {}, 'sp_mode': 'lsh', 'sp_dim': 3, 'lmbd': 0.25, 'max_new_tokens': 255, 'min_new_tokens': 245, 'max_trials': 50, 'critical_max_trials': 75, 'cc_path': None, 'train_data': None, 'len_prompt': 32, 'use_fine_tuned': False}, 'attack_args': {'prompt': None, 'prompt_file': './inputs/dynamic_prompts.csv', 'prompt_num': 6, 'watermarked_text': None, 'watermarked_text_path': None, 'watermarked_text_num': 1, 'num_steps': 2000, 'patience': 250, 'stop_at_removal': False, 'num_successful_steps': 100, 'results_dir': None, 'model_cache_dir': '/local1/borito1907/.cache/', 'save_name': None, 'use_watermark': False, 'backtrack_patience': 50, 'is_completion': False, 'json_path': None, 'json_index': 0, 'is_continuation': False, 'prev_csv_file': None, 'cuda': '1'}}
+[2024-09-25 11:19:10,631][__main__][INFO] - Got the watermarker. Generating watermarked text...
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00,  2.45it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00,  2.45it/s]
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 128.33it/s]
+[2024-09-25 11:19:11,127][watermarkers.SemStamp.detection_utils][INFO] - Sentence 1 is watermarked.
+[2024-09-25 11:19:11,143][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 2 is tensor([0, 3], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 109.34it/s]
+[2024-09-25 11:19:11,182][watermarkers.SemStamp.detection_utils][INFO] - Sentence 2 is watermarked.
+[2024-09-25 11:19:11,198][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 3 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 158.28it/s]
+[2024-09-25 11:19:11,236][watermarkers.SemStamp.detection_utils][INFO] - Sentence 3 is watermarked.
+[2024-09-25 11:19:11,254][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 4 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 87.07it/s]
+[2024-09-25 11:19:11,295][watermarkers.SemStamp.detection_utils][INFO] - Sentence 4 is watermarked.
+[2024-09-25 11:19:11,306][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 5 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 89.06it/s]
+[2024-09-25 11:19:11,344][watermarkers.SemStamp.detection_utils][INFO] - Sentence 5 is watermarked.
+[2024-09-25 11:19:11,360][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 6 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 69.58it/s]
+[2024-09-25 11:19:11,404][watermarkers.SemStamp.detection_utils][INFO] - Sentence 6 is watermarked.
+[2024-09-25 11:19:11,415][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 7 is tensor([1, 4], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.90it/s]
+[2024-09-25 11:19:11,456][watermarkers.SemStamp.detection_utils][INFO] - Sentence 7 is watermarked.
+[2024-09-25 11:19:11,469][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 8 is tensor([7, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 69.49it/s]
+[2024-09-25 11:19:11,513][watermarkers.SemStamp.detection_utils][INFO] - Sentence 8 is watermarked.
+[2024-09-25 11:19:11,523][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 9 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 71.02it/s]
+[2024-09-25 11:19:11,565][watermarkers.SemStamp.detection_utils][INFO] - Sentence 9 is watermarked.
+[2024-09-25 11:19:11,577][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 10 is tensor([1, 4], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 71.40it/s]
+[2024-09-25 11:19:11,622][watermarkers.SemStamp.detection_utils][INFO] - Sentence 10 is watermarked.
+[2024-09-25 11:19:11,630][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 11 is tensor([7, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.83it/s]
+[2024-09-25 11:19:11,687][watermarkers.SemStamp.detection_utils][INFO] - Sentence 11 is watermarked.
+[2024-09-25 11:19:11,704][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 12 is tensor([6, 3], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.51it/s]
+[2024-09-25 11:19:11,748][watermarkers.SemStamp.detection_utils][INFO] - Sentence 12 is watermarked.
+[2024-09-25 11:19:11,756][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 13 is tensor([0, 3], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 71.50it/s]
+[2024-09-25 11:19:11,795][watermarkers.SemStamp.detection_utils][INFO] - Sentence 13 is watermarked.
+[2024-09-25 11:19:11,806][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 14 is tensor([6, 0], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 80.20it/s]
+[2024-09-25 11:19:11,846][watermarkers.SemStamp.detection_utils][INFO] - Sentence 14 is watermarked.
+[2024-09-25 11:19:11,856][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 15 is tensor([0, 3], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.34it/s]
+[2024-09-25 11:19:11,896][watermarkers.SemStamp.detection_utils][INFO] - Sentence 15 is watermarked.
+[2024-09-25 11:19:11,906][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 16 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.42it/s]
+[2024-09-25 11:19:11,948][watermarkers.SemStamp.detection_utils][INFO] - Sentence 16 is watermarked.
+[2024-09-25 11:19:11,956][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 17 is tensor([1, 4], device='cuda:0').
+n_watermark: 16, n_test_sent: 16
+[2024-09-25 11:19:11,977][watermarkers.SemStamp.detection_utils][INFO] - Watermarked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+[2024-09-25 11:19:11,977][watermarkers.SemStamp.detection_utils][INFO] - LSH Seeds: [7, 6, 0, 2, 2, 2, 5, 4, 2, 5, 4, 7, 6, 3, 6, 0, 5]
+zscore: 6.92820323027551
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.51it/s]
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 80.90it/s]
+[2024-09-25 11:19:12,030][watermarkers.SemStamp.detection_utils][INFO] - Sentence 1 is NOT watermarked.
+[2024-09-25 11:19:12,031][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 2 is tensor([0, 3], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 91.19it/s]
+[2024-09-25 11:19:12,070][watermarkers.SemStamp.detection_utils][INFO] - Sentence 2 is NOT watermarked.
+[2024-09-25 11:19:12,078][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 3 is tensor([7, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.26it/s]
+[2024-09-25 11:19:12,124][watermarkers.SemStamp.detection_utils][INFO] - Sentence 3 is watermarked.
+[2024-09-25 11:19:12,129][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 4 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.54it/s]
+[2024-09-25 11:19:12,174][watermarkers.SemStamp.detection_utils][INFO] - Sentence 4 is watermarked.
+[2024-09-25 11:19:12,179][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 5 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.93it/s]
+[2024-09-25 11:19:12,224][watermarkers.SemStamp.detection_utils][INFO] - Sentence 5 is NOT watermarked.
+[2024-09-25 11:19:12,229][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 6 is tensor([7, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.35it/s]
+[2024-09-25 11:19:12,274][watermarkers.SemStamp.detection_utils][INFO] - Sentence 6 is NOT watermarked.
+[2024-09-25 11:19:12,282][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 7 is tensor([0, 3], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 71.24it/s]
+[2024-09-25 11:19:12,326][watermarkers.SemStamp.detection_utils][INFO] - Sentence 7 is watermarked.
+[2024-09-25 11:19:12,340][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 8 is tensor([6, 0], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.41it/s]
+[2024-09-25 11:19:12,381][watermarkers.SemStamp.detection_utils][INFO] - Sentence 8 is NOT watermarked.
+[2024-09-25 11:19:12,390][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 9 is tensor([6, 0], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.62it/s]
+[2024-09-25 11:19:12,431][watermarkers.SemStamp.detection_utils][INFO] - Sentence 9 is NOT watermarked.
+[2024-09-25 11:19:12,439][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 10 is tensor([6, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 70.35it/s]
+[2024-09-25 11:19:12,480][watermarkers.SemStamp.detection_utils][INFO] - Sentence 10 is NOT watermarked.
+[2024-09-25 11:19:12,490][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 11 is tensor([7, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 71.19it/s]
+[2024-09-25 11:19:12,530][watermarkers.SemStamp.detection_utils][INFO] - Sentence 11 is NOT watermarked.
+[2024-09-25 11:19:12,540][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 12 is tensor([1, 4], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 88.22it/s]
+[2024-09-25 11:19:12,576][watermarkers.SemStamp.detection_utils][INFO] - Sentence 12 is NOT watermarked.
+[2024-09-25 11:19:12,590][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 13 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 92.63it/s]
+[2024-09-25 11:19:12,626][watermarkers.SemStamp.detection_utils][INFO] - Sentence 13 is NOT watermarked.
+[2024-09-25 11:19:12,639][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 14 is tensor([6, 0], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 91.32it/s]
+[2024-09-25 11:19:12,673][watermarkers.SemStamp.detection_utils][INFO] - Sentence 14 is watermarked.
+[2024-09-25 11:19:12,690][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 15 is tensor([0, 3], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 94.50it/s]
+[2024-09-25 11:19:12,726][watermarkers.SemStamp.detection_utils][INFO] - Sentence 15 is watermarked.
+[2024-09-25 11:19:12,739][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 16 is tensor([5, 2], device='cuda:0').
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|██████████| 1/1 [00:00<00:00, 89.75it/s]
+[2024-09-25 11:19:12,774][watermarkers.SemStamp.detection_utils][INFO] - Sentence 16 is watermarked.
+[2024-09-25 11:19:12,790][watermarkers.SemStamp.detection_utils][INFO] - Accept Mask for sentence 17 is tensor([1, 4], device='cuda:0').
+n_watermark: 6, n_test_sent: 16
+[2024-09-25 11:19:12,812][watermarkers.SemStamp.detection_utils][INFO] - Watermarked: [3, 4, 7, 14, 15, 16]
+[2024-09-25 11:19:12,812][watermarkers.SemStamp.detection_utils][INFO] - LSH Seeds: [5, 6, 4, 2, 2, 4, 6, 3, 3, 1, 4, 5, 2, 3, 6, 0, 5]
+zscore: 1.1547005383792517
+
+Comparison of the LSH Seeds
+
+LSH Seeds: [7, 6, 0, 2, 2, 2, 5, 4, 2, 5, 4, 7, 6, 3, 6, 0, 5]
+LSH Seeds: [5, 6, 4, 2, 2, 4, 6, 3, 3, 1, 4, 5, 2, 3, 6, 0, 5]
+

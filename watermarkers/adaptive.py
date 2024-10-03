@@ -15,6 +15,8 @@ from watermarker import Watermarker
 from watermarkers.Adaptive.model import TransformModel
 import textwrap
 
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, GPT2Config
+
 def vocabulary_mapping(vocab_size, sm_output_dim):
     return [random.randint(0, sm_output_dim-1) for _ in range(vocab_size)]
 
@@ -182,7 +184,11 @@ class AdaptiveWatermarker(Watermarker):
         return False
 
     def _next_token_entropy(self, input_text, model, tokenizer, device):
-        input_ids = tokenizer.encode(input_text, return_tensors='pt', add_special_tokens=False).to(device)
+        if self.cfg.watermark_args.measure_model_name == "gpt2-large":
+            input_ids = tokenizer.encode(input_text, truncation=True, max_length=1024, return_tensors='pt', add_special_tokens=False).to(device)
+        else:
+            input_ids = tokenizer.encode(input_text, return_tensors='pt', add_special_tokens=False).to(device)
+
         outputs = model(input_ids)
         probs = torch.nn.functional.softmax(outputs.logits[0, -1, :], dim=-1)
         mask = probs > 0

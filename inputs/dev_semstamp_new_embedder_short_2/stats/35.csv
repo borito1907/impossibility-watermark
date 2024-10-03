@@ -1,0 +1,1297 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+**Autotune Class in C++**
+=========================
+
+### Overview
+
+This is an example implementation of an Autotune class in C++.",True,1,"1,4",True,1
+2," The class takes audio data as input and applies the autotune effect to it.
+
+",True,4,"6,2",True,1
+3," Autotune is a vocal effect that corrects pitch errors and adds a distinctive sound to vocals.
+
+",True,7,"6,2",True,2
+4," Autotune is a vocal pitch correction technique that can be used to adjust the pitch of audio signals.
+
+",True,7,"6,2",True,3
+5," The Autotune class applies the Autotune effect to an audio signal, adjusting the pitch correction based on a given scale.
+
+",True,4,"6,2",True,4
+6," The Autotune class applies the Autotune effect to a given audio signal.
+
+",True,4,"6,2",True,5
+7," The Autotune effect is a vocal processing technique that uses pitch correction to produce a distinctive sound.
+
+",True,4,"6,2",True,6
+8," The Autotune effect is a vocal pitch correction technique that can be used to correct off-key singing or create a robotic vocal sound.
+
+",True,6,"6,2",True,7
+9,"### Dependencies
+
+* `fft` library (e.g., [Kiss FFT](https://github.com/mborgerding/kissfft))
+* `cmath` for mathematical functions
+
+### Implementation
+
+```cpp++
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+// Define the Autotune class structure.
+",True,1,"0,3",True,1
+10,"### Code
+
+```cpp++
+// Autotune.h
+
+#ifndef AUTOTUNE_H_
+#define AUTOTUNE_H_
+
+#include <vector>
+#include <cmath>
+
+class Autotune {
+public:
+    /**
+     * Constructor.
+    ",True,1,"0,3",True,2
+11,"### Code
+
+```cpp++
+#include <iostream>
+#include <vector>
+
+class Autotune {
+public:
+    /**
+     * Constructor.
+    ",True,1,"0,3",True,3
+12,"### Dependencies
+
+* `cmath` for mathematical operations
+
+### Code
+
+```cpp {.language-cpp}
+#include <cmath>
+
+/**
+ * @brief Autotune class for vocal pitch correction and effects.
+",False,,,,4
+13,"### Code
+
+```cpp=
+// autotune.h
+
+#ifndef AUTOTUNE_H_
+#define AUTOTUNE_H_
+
+#include <cmath>
+#include <vector>
+
+class Autotune {
+public:
+    /**
+     * Constructor.
+    ",True,1,"0,3",True,5
+14,"### Code
+
+```cpp++
+#include <cmath>
+#include <vector>
+
+class Autotune {
+public:
+    /**
+     * Constructor for the Autotune class.
+    ",True,1,"0,3",True,6
+15,"### Code
+
+```cpp`
+#include <iostream>
+#include <vector>
+
+// Define the Autotune class header file (autotune.h)
+#ifndef AUTOTUNE_H_
+#define AUTOTUNE_H_
+
+class Autotune {
+public:
+    /**
+     * Constructor.
+    ",True,1,"0,3",True,7
+16,"### Code
+
+```cpp++
+// autotune.h
+
+#ifndef AUTOTUNE_H_
+#define AUTOTUNE_H_
+
+#include <cmath>
+#include <vector>
+
+class Autotune {
+public:
+    Autotune(int sampleRate, float threshold = 0.1f);
+    ~Autotune();
+
+    void process(float* audioData, int numSamples);
+
+private:
+    int sampleRate_;
+    float threshold_;
+    float correctionFactor_;
+
+    std::vector<float> pitchCorrectionBuffer_;
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp++
+// autotune.cpp
+
+#include ""autotune.h""
+
+Autotune::Autotune(int sampleRate, float threshold) 
+    : sampleRate_(sampleRate), threshold_(threshold), correctionFactor_(2.71828f) { // 2^10 / 12 (semitone ratio)
+
+}
+
+Autotune::~Autotune() {}
+
+void Autotune::process(float* audioData, int numSamples) {
+    for (int i = ",True,1,"0,3",True,8
+17,"### Dependencies
+
+* `std::vector` for storing audio data
+
+### Code
+
+```cpp hl_lines=""1-4""
+#include <vector>
+#include <cmath>
+
+class Autotune {
+public:
+    /**
+     * Constructor: Initializes the Autotune object with the desired parameters.
+    ",False,,,,9
+18,"### Dependencies
+
+* `libfftw3` for Fast Fourier Transform (FFT) calculations
+
+### Code
+
+```cpp++
+#include <cmath>
+#include <complex>
+#include <fftw3.h>
+
+class Autotune {
+public:
+    /**
+     * Constructor.
+    ",True,1,"0,3",True,10
+19,"### Dependencies
+
+* `cmath` for mathematical operations
+
+### Implementation
+
+```cpp++
+// Autotune.h
+
+#ifndef AUTOTUNE_H_
+#define AUTOTUNE_H_
+
+class Autotune {
+public:
+    /**
+     * Constructor.
+    ",True,0,"0,3",True,11
+20," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,1
+21," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,2
+22," *
+     * @param sampleRate Audio sample rate (e.g., 44100)
+     */
+    Autotune(float sampleRate);
+
+    /**
+     * Destructor.
+    ",True,6,"5,2",True,3
+23," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,4
+24," *
+     * @param sampleRate The sample rate of the audio data.
+    ",True,7,"5,2",True,5
+25," *
+     * @param sampleRate The audio sample rate.
+    ",True,7,"5,2",True,6
+26," *
+     * @param sampleRate   Sample rate of the audio signal.
+    ",True,7,"5,2",True,7
+27," *
+     * @param sampleRate Sample rate of the input audio signal.
+    ",True,7,"5,2",True,8
+28," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,9
+29," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,10
+30," *
+     * @param sampleRate Audio sample rate (e.g., 44100 Hz)
+     * @param tuningSpeed Tuning speed (range: 0 - 1, default: 0.5)
+     */
+    Autotune(int sampleRate = 44100, float tuningSpeed = 0.5);
+
+    /**
+     * Apply Autotune effect on input audio data.
+    ",False,,,,11
+31," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,12
+32," *
+     * @param sampleRate Sample rate of the audio signal.
+    ",True,7,"5,2",True,13
+33," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,14
+34," *
+     * @param sampleRate Sample rate of the audio signal.
+    ",True,7,"5,2",True,15
+35," *
+     * @param sampleRate The audio sample rate.
+    ",True,7,"5,2",True,16
+36," *
+     * @param sampleRate Sample rate of the audio signal.
+    ",True,7,"5,2",True,17
+37," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,18
+38," *
+     * @param sampleRate Sample rate of the audio signal.
+    ",True,7,"5,2",True,19
+39," *
+     * @param sampleRate Audio sample rate (Hz)
+     */
+    Autotune(float sampleRate);
+
+    /**
+     * Destructor.
+    ",True,6,"5,2",True,20
+40," *
+     * @param sampleRate The sample rate of the audio signal.
+    ",True,7,"5,2",True,21
+41," *
+     * @param sampleRate Audio sample rate (e.g., 44100)
+     */
+    Autotune(int sampleRate);
+
+    /**
+     * Destructor.
+    ",True,6,"5,2",True,22
+42," *
+     * @param sampleRate Audio sample rate (e.g., 44100)
+     */
+    explicit Autotune(int sampleRate);
+
+    /**
+     * Destructor.
+    ",False,,,,23
+43," *
+     * @param sampleRate Audio sample rate (e.g., 44100)
+     * @param bufferLength Buffer length for processing audio data (power of 2 recommended)
+     */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",False,,,,24
+44," *
+     * @param sampleRate   Sample rate of the input audio signal.
+    ",True,7,"5,2",True,25
+45," *
+     * @param sampleRate - the sample rate of the audio signal.
+    ",True,7,"5,2",True,26
+46," *
+     * @param sampleRate The audio sample rate (e.g., 44100 Hz).
+    ",True,7,"5,2",True,27
+47," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,28
+48," *
+     * @param sampleRate The sample rate of the audio signal.
+    ",True,7,"5,2",True,29
+49," *
+     * @param sampleRate The sample rate of the input audio signal.
+    ",True,7,"5,2",True,30
+50," *
+     * @param sampleRate The audio sample rate.
+    ",True,7,"5,2",True,31
+51," *
+     * @param sampleRate   Sample rate of the input audio signal.
+    ",True,7,"5,2",True,32
+52," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,33
+53," *
+     * @param sampleRate Sample rate of the input audio signal.
+    ",True,7,"5,2",True,34
+54," *
+     * @param sampleRate The audio sample rate.
+    ",True,7,"5,2",True,35
+55," *
+     * @param sampleRate The audio sample rate (e.g., 44100).
+    ",True,7,"5,2",True,36
+56," *
+     * @param sampleRate The audio sample rate (e.g., 44100).
+    ",True,7,"5,2",True,37
+57," *
+     * @param sampleRate Audio sample rate (e.g., 44.1 kHz)
+     * @param pitchCorrection Amount of pitch correction (0-100%)
+     */
+    Autotune(int sampleRate, float pitchCorrection);
+
+    /**
+     * Destructor.
+    ",False,,,,38
+58," *
+     * @param sampleRate Sample rate of the audio signal.
+    ",True,7,"5,2",True,39
+59," *
+     * @param sampleRate Audio sample rate (Hz)
+     * @param numBins Number of frequency bins for the Fast Fourier Transform (FFT)
+     */
+    Autotune(float sampleRate, int numBins);
+
+    /**
+     * Apply the autotune effect to a given audio buffer.
+    ",True,0,"5,2",True,40
+60," *
+     * @param sampleRate Audio sample rate (e.g., 44100 Hz).
+    ",True,7,"5,2",True,41
+61," *
+     * @param sampleRate Audio sample rate (e.g., 44100)
+     */
+    explicit Autotune(int sampleRate);
+
+    /**
+     * Destructor.
+    ",False,,,,42
+62," *
+     * @param sampleRate  Sample rate of the audio signal (e.g., 44.1 kHz).
+    ",True,7,"5,2",True,43
+63," *
+     * @param sampleRate Sample rate of the audio signal.
+    ",True,7,"5,2",True,44
+64," *
+     * @param sampleRate   Audio sample rate.
+    ",True,7,"5,2",True,45
+65," *
+     * @param sampleRate The audio sample rate (e.g., 44.1 kHz)
+     * @param pitchCorrectionAmount The amount of pitch correction (0.0 - 1.0)
+     */
+    Autotune(float sampleRate, float pitchCorrectionAmount);
+
+    /**
+     * Process the input audio signal and apply Autotune effect.
+    ",False,,,,46
+66," *
+     * @param sampleRate   Sample rate of the audio signal.
+    ",True,7,"5,2",True,47
+67," *
+     * @param sampleRate  Sample rate of the audio signal.
+    ",True,7,"5,2",True,48
+68," *
+     * @param sampleRate Audio sample rate.
+    ",True,7,"5,2",True,49
+69," *
+     * @param sampleRate   Sample rate of the audio signal.
+    ",True,7,"5,2",True,50
+70," * @param bufferSize   Size of the input buffer.
+    ",False,,,,1
+71," * @param bufferLength Length of the audio buffer.
+    ",True,6,"6,3",True,2
+72," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Process the audio data and apply the Autotune effect.
+    ",True,4,"0,3",True,1
+73," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process the audio signal through the autotune effect.
+    ",True,4,"0,3",True,2
+74," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,3
+75," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,4
+76," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Apply the Autotune effect to a given audio buffer.
+    ",False,,,,5
+77," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,6
+78," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Apply Autotune effect to the input audio buffer.
+    ",True,4,"0,3",True,7
+79," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Apply Autotune effect to the input audio buffer.
+    ",True,4,"0,3",True,8
+80," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Set the target pitch.
+    ",False,,,,9
+81," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process the input audio buffer and apply the autotune effect.
+    ",True,4,"0,3",True,10
+82," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,11
+83," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process an audio buffer and apply the Autotune effect.
+    ",True,4,"0,3",True,12
+84," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,13
+85," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process an audio buffer through the Autotune effect.
+    ",True,4,"0,3",True,14
+86," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Apply Autotune effect to the input audio buffer.
+    ",True,4,"0,3",True,15
+87," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Apply autotune effect to the input audio buffer.
+    ",False,,,,16
+88," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,17
+89," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Applies the Autotune effect to the input audio data.
+    ",True,4,"0,3",True,18
+90," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Apply autotune effect to the input audio buffer.
+    ",False,,,,19
+91," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,20
+92," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,21
+93," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process an audio buffer through the Autotune effect.
+    ",True,4,"0,3",True,22
+94," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process the audio signal through the Autotune effect.
+    ",True,4,"0,3",True,23
+95," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,24
+96," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,25
+97," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,26
+98," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,27
+99," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,28
+100," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,29
+101," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,30
+102," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,31
+103," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,32
+104," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Process audio samples and apply Autotune effect.
+    ",False,,,,33
+105," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Applies the Autotune effect to a given audio buffer.
+    ",False,,,,34
+106," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,35
+107," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Set the scale and key of the song.
+    ",True,7,"0,3",True,36
+108," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,37
+109," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,38
+110," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,39
+111," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,40
+112," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,41
+113," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,42
+114," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process the audio signal through the autotune effect.
+    ",True,4,"0,3",True,43
+115," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,44
+116," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,45
+117," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Process a single sample through the Autotune effect.
+    ",True,4,"0,3",True,46
+118," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Apply Autotune effect to the input audio buffer.
+    ",False,,,,47
+119," */
+    Autotune(float sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,48
+120," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,49
+121," */
+    Autotune(int sampleRate, int bufferLength);
+
+    /**
+     * Destructor.
+    ",True,6,"0,3",True,50
+122," */
+    ~Autotune();
+
+    /**
+     * Apply Autotune effect to a given audio buffer.
+    ",True,0,"0,3",True,1
+123," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,1
+124," *
+     * @param audioBuffer Audio buffer to process.
+    ",True,7,"5,2",True,2
+125," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,3
+126," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,4
+127," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,5
+128," *
+     * @param buffer Input audio buffer.
+    ",True,6,"5,2",True,6
+129," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,7
+130," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,8
+131," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,9
+132," *
+     * @param buffer Audio buffer to apply the effect to.
+    ",False,,,,10
+133," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,11
+134," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,12
+135," *
+     * @param buffer  Audio buffer to process.
+    ",True,7,"5,2",True,13
+136," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,14
+137," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,15
+138," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,16
+139," *
+     * @param buffer  Audio buffer to apply Autotune to.
+    ",True,0,"5,2",True,17
+140," *
+     * @param audioBuffer Input audio buffer.
+    ",True,6,"5,2",True,18
+141," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,19
+142," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,20
+143," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,21
+144," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,22
+145," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,23
+146," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,24
+147," *
+     * @param audioBuffer  Input audio buffer.
+    ",True,6,"5,2",True,25
+148," *
+     * @param audioBuffer Input audio buffer.
+    ",True,6,"5,2",True,26
+149," *
+     * @param buffer  Audio buffer to apply the effect on.
+    ",False,,,,27
+150," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,28
+151," *
+     * @param audioBuffer Audio buffer to process.
+    ",True,7,"5,2",True,29
+152," *
+     * @param audioBuffer Audio buffer to apply the effect to.
+    ",False,,,,30
+153," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,31
+154," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,32
+155," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,33
+156," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,34
+157," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,35
+158," *
+     * @param audioBuffer Audio buffer to process.
+    ",True,7,"5,2",True,36
+159," *
+     * @param audioBuffer Audio buffer to process.
+    ",True,7,"5,2",True,37
+160," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,38
+161," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,39
+162," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,40
+163," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,41
+164," *
+     * @param buffer  Audio buffer to apply the effect to.
+    ",False,,,,42
+165," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,43
+166," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,44
+167," *
+     * @param audioBuffer Audio buffer to process.
+    ",True,7,"5,2",True,45
+168," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,46
+169," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,47
+170," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,48
+171," *
+     * @param inputBuffer  Input audio buffer.
+    ",True,6,"5,2",True,49
+172," *
+     * @param buffer  Audio buffer to apply the effect to.
+    ",True,0,"5,2",True,50
+173," * @param size    Size of the audio buffer.
+    ",True,6,"5,2",True,1
+174," * @param length  Length of the audio buffer.
+    ",True,6,"5,2",True,2
+175," */
+    void process(float* buffer);
+
+private:
+    int _sampleRate;        // Sample rate of the audio signal.
+   ",True,7,"5,2",True,3
+176," * @param size    Size of the audio buffer.
+    ",True,6,"5,2",True,4
+177," * @return        Modified audio buffer with the Autotune effect applied.
+    ",True,2,"5,2",True,5
+178," */
+    float* process(float* buffer);
+
+private:
+    // Constants and variables.
+   ",True,3,"5,2",True,1
+179," */
+    float* process(float* buffer);
+
+private:
+    // Internal variables and helper functions...
+
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp++
+// Autotune.cpp
+
+#include ""Autotune.h""
+#include <cmath>
+
+Autotune::Autotune(int sample",True,0,"5,2",True,2
+180," */
+    float* process(float* buffer);
+
+private:
+    int _sampleRate;         ///< Sample rate of the audio signal.
+   ",False,,,,3
+181," */
+    void process(float* buffer);
+
+private:
+    // Parameters for the Autotune effect.
+   ",True,4,"5,2",True,4
+182," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+    float* delayedBuffer_;
+};
+
+#endif // AUTOTUNE_H_
+```
+
+```cpp++
+// Autotune.cpp
+
+#include ""Autotune.h""
+#include <cmath>
+
+Autot",False,,,,5
+183," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;          ///< Sample rate of the audio signal.
+   ",False,,,,6
+184," */
+    float* process(float* buffer);
+
+private:
+    int m_sampleRate;
+    int m_bufferLength;
+    float m_tuningFactor; // tuning factor (1 = no change, >1 = increase, <1 = decrease)
+    float* m_buffer;      // internal buffer",True,7,"5,2",True,7
+185," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+    float* delayBuffer_; // Ring buffer for delay effect
+
+    /**
+     * Calculate the pitch shift amount based on the input frequency and desired pitch.
+    ",False,,,,8
+186," */
+    float* processAudio(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+    float* correctedBuffer_;
+
+    /**
+     * Get the closest note frequency to a given frequency.
+    ",False,,,,9
+187," */
+    float* process(float* buffer);
+
+private:
+    // Private member variables and helper functions...
+};
+```
+
+```cpp++
+// Autotune.cpp
+
+#include ""Autotune.h""
+#include <cmath>
+
+const float PI = 3.14159265358979323846f;
+
+",True,1,"5,2",True,10
+188," */
+    float* process(float* buffer);
+
+private:
+    int _sampleRate;
+    int _bufferLength;
+    float _correctionFactor;
+
+    // Calculate the correction factor based on the input parameters.
+   ",True,3,"5,2",True,11
+189," */
+    float* process(float* buffer);
+
+private:
+    // Private members and functions...
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp++
+// Autotune.cpp
+
+#include ""Autotune.h""
+
+Autotune::Autotune(int sampleRate, int bufferLength",True,0,"5,2",True,12
+190," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+    float* bufferProcessed_; // Temporary buffer to store processed samples
+
+    /**
+     * Calculate the corrected pitch based on the input frequency and target pitch.
+    ",True,3,"5,2",True,13
+191," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+    const float correctionSpeed_ = 0.05f; // Adjusts how fast the pitch is corrected
+
+    /**
+     * Calculates the closest semitone to a given frequency.
+    ",True,3,"5,2",True,14
+192," */
+    float* process(float* buffer);
+
+private:
+    // Internal state variables.
+   ",True,1,"5,2",True,15
+193," */
+    float* process(float* buffer);
+
+private:
+    // Private members and functions...
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp++
+// Autotune.cpp
+
+#include ""Autotune.h""
+#include <cmath>
+
+Autotune::Autotune(int sampleRate",True,0,"5,2",True,16
+194," */
+    void process(float* buffer);
+
+private:
+    // Sample rate of the audio signal.
+   ",True,7,"5,2",True,17
+195," */
+    void process(float* buffer);
+
+private:
+    // Private member variables and functions...
+
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp++
+// Autotune.cpp
+
+#include ""Autotune.h""
+#include <cmath>
+
+// Define a simple sawtooth wave generator function",True,1,"5,2",True,18
+196," */
+    float* process(float* buffer);
+
+private:
+    // Sampling frequency (Hz)
+    int sampleRate_;
+
+    // Buffer length (samples)
+    int bufferLength_;
+
+    // Ratio between target and actual frequencies (i.e., tuning)
+    float ratio_;
+
+    // Previous phase value for",False,,,,19
+197," */
+    float* process(float* buffer);
+
+private:
+    int _sampleRate;
+    int _bufferLength;
+
+    // Autotune parameters (see comments below)
+    float _threshold;       ///< Threshold above which the signal is considered 'correct'
+    float _correctionGain; ",False,,,,20
+198," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+
+    // Autotune parameters (adjustable)
+    float threshold_; // Threshold below which no correction is made (in semitones)
+    float sensitivity_; // Sensitivity of the effect",True,4,"5,2",True,21
+199," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;         ///< Sample rate of the audio signal.
+   ",False,,,,22
+200," */
+    float* process(float* buffer);
+
+private:
+    // Parameters for the Autotune effect.
+   ",True,0,"5,2",True,23
+201," */
+    float* process(float* buffer);
+
+private:
+    // Parameters for the Autotune algorithm.
+   ",True,0,"5,2",True,24
+202," */
+    float* process(float* buffer);
+
+private:
+    // Autotune parameters.
+   ",True,0,"5,2",True,25
+203," */
+    float* process(float* buffer);
+
+private:
+    int _sampleRate;
+    int _bufferLength;
+
+    // Minimum and maximum allowed frequencies (in Hz)
+    const static float MIN_FREQ = 20.0f;
+    const static float MAX_FREQ = 20000.0",False,,,,26
+204," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+    const float MIN_PITCH_ = 20.0f; // Minimum allowed pitch value (Hz)
+    const float MAX_PITCH_ = 4000.0f; //",True,1,"5,2",True,27
+205," */
+    float* process(float* buffer);
+
+private:
+    int m_sampleRate;           ///< Sample rate of the audio signal.
+   ",False,,,,28
+206," */
+    float* process(float* buffer);
+
+private:
+    // Tuning parameters (adjust these values to your liking)
+    const float m_threshold = 0.01f;      // Threshold for detecting off-pitch vocals (in Hz)
+    const float m_correctionStrength = 0.",False,,,,29
+207," */
+    float* process(float* buffer);
+
+private:
+    // Parameters for the Autotune effect.
+   ",True,0,"5,2",True,30
+208," */
+    float* processAudio(float* buffer);
+
+private:
+    // Sample rate of the audio signal.
+   ",False,,,,31
+209," */
+    float* process(float* buffer);
+
+private:
+    int _sampleRate;           // Sample rate of the audio signal.
+   ",False,,,,32
+210," */
+    float* process(float* buffer);
+
+private:
+    // Parameters for the Autotune effect.
+   ",True,0,"5,2",True,33
+211," */
+    float* process(float* buffer);
+
+private:
+    // Parameters for Autotune algorithm.
+   ",True,0,"5,2",True,34
+212," */
+    float* process(float* buffer);
+
+private:
+    // Maximum and minimum frequency values (Hz)
+    const float MAX_FREQ = 4000.0f;
+    const float MIN_FREQ = 20.0f;
+
+    // Default step size ( Hz)
+    const float STEP_SIZE",False,,,,35
+213," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+
+    // Constants for the Autotune algorithm.
+   ",True,0,"5,2",True,36
+214," */
+    float* process(float* buffer);
+
+private:
+    // Parameters for the Autotune algorithm.
+   ",True,0,"5,2",True,37
+215," */
+    void applyEffect(float* buffer);
+
+private:
+    // Sampling rate of the audio signal.
+   ",True,6,"5,2",True,38
+216," */
+    float* process(float* buffer);
+
+private:
+    // Parameters for the Autotune algorithm.
+   ",True,0,"5,2",True,39
+217," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;       ///< Sample rate of the audio signal.
+   ",False,,,,40
+218," */
+    float* process(float* buffer);
+
+private:
+    int _sampleRate;
+    int _bufferLength;
+    float _correction; // Pitch correction factor (octaves)
+};
+
+#endif  // AUTOTUNE_H_
+```
+
+```cpp++
+// Autotune.cpp
+
+#include """,True,1,"5,2",True,41
+219," */
+    float* process(float* buffer);
+
+private:
+    int sampleRate_;
+    int bufferLength_;
+    float* delayedBuffer_;
+
+    // Delay line parameters (in samples)
+    const int delayLineSize_ = 1000;
+    int delayIndex_ = 0;
+
+    //",True,7,"5,2",True,42
+220," */
+    float* process(float* buffer);
+
+private:
+    int m_sampleRate;
+    int m_bufferLength;
+    const double m_minPitch; // Minimum allowed pitch (e.g., A2 = 110 Hz)
+    const double m_maxPitch; // Maximum allowed pitch (e.g",True,5,"5,2",True,43

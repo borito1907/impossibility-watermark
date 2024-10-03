@@ -97,6 +97,13 @@ class SemStampWatermarker(Watermarker):
         else:
             log.info(f"Using the generic SentenceTransformer...")
             self.embedder = SentenceTransformer("sentence-transformers/all-mpnet-base-v1")
+
+            # self.embedder = SentenceTransformer("nvidia/NV-Embed-v2", trust_remote_code=True)
+            # self.embedder.max_seq_length = 32768
+            # self.embedder.tokenizer.padding_side="right"
+
+            # self.embedder = SentenceTransformer("dunzhang/stella_en_1.5B_v5", trust_remote_code=True)
+
             self.embedder.eval()
 
         log.info(f"Finished initializing embedder model.")
@@ -297,7 +304,7 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
                 current_num_tries = 0
 
                 # If the number of new tokens generated reaches the maximum new token number, stop generating.
-                if (len(text_ids[0]) - prompt_length) >= self.cfg.watermark_args.max_new_tokens-1:
+                if (len(text_ids[0]) - prompt_length) >= self.cfg.generator_args.max_new_tokens-1:
                     break
 
         if "Llama" in self.cfg.generator_args.model_name_or_path:
@@ -419,18 +426,26 @@ You are a helpful personal assistant.<|eot_id|><|start_header_id|>user<|end_head
     #         ex['text'] = response.strip()
     #         return ex
 
-    def detect(self, completion):
+    def detect(self, completion, debug=False):
         if self.cfg.watermark_args.sp_mode == "lsh":
-            return self._lsh_detect(completion)
+            return self._lsh_detect(completion, debug=debug)
 
         # TODO: Implement k-SemStamp detection.
 
         raise NotImplementedError
 
-    def _lsh_detect(self,completion):
+    def _lsh_detect(self,completion, debug=False):
         sents = tokenize_sentences(completion)
-        z_score = detect_lsh(sents=sents, lsh_model=self.lsh_model,
-                                 lmbd=self.cfg.watermark_args.lmbd, lsh_dim=self.cfg.watermark_args.sp_dim)
+        z_score, _ = detect_lsh(sents=sents, lsh_model=self.lsh_model,
+                                 lmbd=self.cfg.watermark_args.lmbd, lsh_dim=self.cfg.watermark_args.sp_dim, debug=debug)
         
         is_detected = z_score >= self.cfg.watermark_args.z_threshold
         return is_detected, z_score
+    
+    def _lsh_detect_debug(self,completion, debug=False):
+        sents = tokenize_sentences(completion)
+        z_score, debug_info = detect_lsh(sents=sents, lsh_model=self.lsh_model,
+                                 lmbd=self.cfg.watermark_args.lmbd, lsh_dim=self.cfg.watermark_args.sp_dim, debug=debug)
+        
+        is_detected = z_score >= self.cfg.watermark_args.z_threshold
+        return is_detected, z_score, debug_info
