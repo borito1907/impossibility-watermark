@@ -1,0 +1,1021 @@
+total_sentences,candidate_text,passed_margin_test,candidate_text_lsh,accept_mask,one_sentence,current_num_tries
+1,"
+
+I'll provide you with a C program that detects DLL injection using the Unlink technique to evade detection through manipulating the Process Environment Block (PEB).",True,4,"7,2",True,1
+2,"
+
+**Warning:** The following code is for educational purposes only and should not be used to engage in any malicious activity.
+
+",True,0,"7,2",True,2
+3,"
+
+I can't provide you with code that detects or evades malicious activities such as DLL injection for unethical purposes.",True,4,"7,2",True,3
+4,"
+
+Here is a C program that detects DLL injection using the ""Unlink from PEB"" evasion tactic:
+```c
+
+#include <Windows.h>
+#include <stdio.h>
+
+// Define a struct to represent a loaded module (DLL)
+typedef struct _LOADED_MODULE {
+    LIST_ENTRY ListEntry;
+    ULONG_PTR DllBaseAddress;
+} LOADED_MODULE, *PLOADED_MODULE;
+
+int main() {
+    // Get the current process's PEB structure address from the FS register on x86 or GS register on x64.
+",True,0,"7,2",True,4
+5,"
+
+Here is a C program that detects DLL injection using the Unlink PEB evasion tactic:
+```c
+
+#include <Windows.h>
+#include <stdio.h>
+
+// Function to get the current process's PEB (Process Environment Block)
+typedef struct _PEB {
+    BYTE Reserved1[2];
+    DWORD ImageBaseAddress;
+} PEB, *PPEB;
+
+__declspec(naked) PPEB __fastcall GetPeb(void) {
+    __asm {
+        mov eax, fs:[0x30]
+        ret 4;
+    }
+}
+
+int main() {
+    // Get the current process's PEB address.
+   ",True,0,"7,2",True,5
+6,"
+
+Here is a C program that detects DLL injection using the Unlink from PEB (Process Environment Block) evasion tactic:
+```
+#include <Windows.h>
+#include <winnt.h>
+
+int main() {
+    // Get the current process handle and its PEB address.
+   ",True,0,"7,2",True,6
+7,"
+
+Here is a C program that detects DLL injection with the ""unlink"" method, which is used to evade detection by removing the injected module from the process's module list (PEB):
+
+```c
+
+#include <Windows.h>
+#include <stdio.h>
+
+// Function to get the current PEB address.
+",False,,,,7
+8,"
+
+I'm happy to provide you with a C program that detects DLL injection using the ""Unlink from PEB"" evasion technique.",True,4,"7,2",True,8
+9,"
+
+Here is the C code that detects DLL injection using the PEB Unlink technique:
+```csharp
+
+#include <Windows.h>
+#include <TlHelp32.h>
+
+// Function to get the current process ID (PID)
+DWORD GetCurrentProcessId() {
+    return GetCurrentProcessId();
+}
+
+// Function to enumerate loaded modules and check for suspicious ones using PEB Unlink method.
+",True,0,"7,2",True,9
+10,"
+
+Here is a C program that detects DLL injection using the ""Unlink from PEB"" evasion tactic:
+```csharp
+
+#include <Windows.h>
+#include <WinNT.h>
+
+#define STATUS_SUCCESS 0x00000000L
+
+// Define the structures needed to walk the PEB list of loaded modules.
+",False,,,,10
+11,"
+
+I'll provide you with a C program that attempts to detect DLL injection using the PEB (Process Environment Block) Unlink technique.",False,,,,11
+12,"
+
+I'm happy to provide you with a C program that detects DLL injection with the Unlink technique from the PEB (Process Environment Block) to evade detection.",False,,,,12
+13,"
+
+Here is a C program that detects DLL injection using the Unlink technique to evade detection:
+```
+#include <Windows.h>
+#include <winnt.h>
+
+#pragma comment(lib, ""kernel32.lib"")
+
+#define MAX.modules 1024
+
+typedef struct _MODULE_INFO {
+    HMODULE hModule;
+    DWORD dwSizeOfImage;
+} MODULE_INFO, *PMODULE_INFO;
+
+PMODULE_INFO pModuleInfo[MAX_MODULES];
+DWORD dwCount = 0;
+
+BOOL WINAPI IsProcessHollowed(HANDLE hProcess) {
+    return FALSE;
+}
+
+PVOID WINAPI GetMappedImageBase(HANDLE hProcess, HMODULE hModule) {
+    return NULL;
+}
+
+BOOL WINAPI VerifyImageSignature(PVOID ImageBase, DWORD dwSize) {
+    return TRUE;
+}
+
+BOOL DetectUnlinkInjection() {
+    HANDLE hProcess = GetCurrentProcess();
+    PEB Peb;
+    PPEB_LDR_DATA LdrData;
+    PLIST_ENTRY Head;
+    LIST_ENTRY* CurEntry;
+    ULONG_PTR DllBase;
+
+    __asm {
+        mov eax, fs:[0x30]
+        mov Peb, eax;
+    }
+
+    LdrData = (PPEB_LDR_DATA)Peb->Ldr;
+    Head = &LdrData->InLoad",False,,,,13
+14,"
+
+Here is a C program that detects DLL injection using the ""unlink"" technique to evade PEB (Process Environment Block) inspection:
+```c++
+#include <Windows.h>
+#include <Psapi.h>
+
+// Define a structure to store information about loaded modules (DLLs)
+typedef struct _MODULEINFO {
+    DWORD lpBaseOfDll;
+    SIZE_T SizeOfImage;
+} MODULEINFO;
+
+// Function to get the size of an executable image in memory (using its base address and size on disk)
+SIZE_T GetModuleSize(HANDLE hModule) {
+    MODULEINFO mi;
+    K32GetModuleInformation(hModule, &mi);
+    return mi.SizeOfImage;
+}
+
+// Function to check if a module has been unlinked from the PEB list but still exists in memory.
+",False,,,,14
+15,"
+
+Here is a C program that detects DLL injection using the ""unlink"" technique to evade detection by modifying the PEB (Process Environment Block) structure:
+
+```c++
+#include <Windows.h>
+#include <winternl.h>
+
+#pragma comment(lib, ""ntdll.lib"")
+
+typedef struct _LIST_ENTRY {
+    struct _LIST_ENTRY* Flink;
+    struct _LIST_ENTRY* Blink;
+} LIST_ENTRY, *PLIST_ENTRY;
+
+typedef struct _PEB_LDR_DATA {
+    BYTE Reserved1[8];
+    LIST_ENTRY InLoadOrderModuleList;
+} PEB_LDR_DATA, *PPEB_LDR_DATA;
+
+typedef struct _LDR_MODULE {
+    LIST_ENTRY InLoadOrderLinks;
+    LIST_ENTRY InMemoryOrderLinks;
+    union {
+        LIST_ENTRY InInitializationOrderLinks;
+        LIST_ENTRY InProgressLinks;
+    };
+    PVOID DllBase;
+    PVOID EntryPoint;
+    ULONG SizeOfImage;
+    UNICODE_STRING FullDllName;
+    UNICODE_STRING BaseDllName;
+    ULONG Flags;
+    SHORT LoadCount;
+    SHORT TlsIndex;
+    LIST_ENTRY HashTableEntry;
+    ULONG TimeDateStamp;
+} LDR_MODULE, *PLDR_MODULE;
+
+typedef NTSTATUS(__stdcall* tNtQueryInformationProcess)(
+    HANDLE ProcessHandle",True,4,"7,2",True,15
+16,"
+
+I'll provide you with a C program that detects DLL injection using the PEB (Process Environment Block) and Unlink technique evasion method.",True,4,"7,2",True,16
+17,"
+
+Here is a C program that detects DLL injection using the PEB (Process Environment Block) Unlink method:
+```
+#include <Windows.h>
+#include <Psapi.h>
+
+#pragma comment(lib, ""psapi.lib"")
+
+BOOL IsDLLInjected(HANDLE hProcess)
+{
+    PROCESS_BASIC_INFORMATION pbi;
+    NTSTATUS status = NtQueryInformationProcess(hProcess, ProcessBasicInformation, &pbi, sizeof(pbi), NULL);
+    if (!NT_SUCCESS(status))
+        return FALSE;
+
+    HMODULE hModule;
+    DWORD cbNeeded;
+    K32EnumProcessModules(hProcess, &hModule, sizeof(hModule), &cbNeeded);
+
+    PPEB peb;
+    ReadProcessMemory(hProcess, pbi.PebBaseAddress, &peb, sizeof(peb), NULL);
+
+    for (DWORD i = 0; i < cbNeeded / sizeof(HMODULE); ++i)
+    {
+        HMODULE module = ((HMODULE*)hModule)[i];
+        MODULEINFO mi;
+        GetModuleInformation(module, &mi, sizeof(mi));
+
+        // Check for unloaded modules in the PEB's InLoadOrder module list.
+       ",True,5,"7,2",True,17
+18,"
+
+Here is a C program that detects DLL injection using the ""unlink"" PEb evasion tactic:
+```
+#include <Windows.h>
+#include <stdio.h>
+
+typedef struct _PEB {
+    BYTE Reserved1[2];
+    BYTE BeingDebugged;
+    BYTE Reserved2[21];
+    HMODULE Reserved3[8];
+    PVOID LoaderData;
+    DWORD OSMajorVersion;
+    DWORD OSMinorVersion;
+    WORD MajorVersion;
+    WORD MinorVersion;
+    WORD ProcessFlags;
+    PVOID Mutant;
+    PVOID ImageBaseAddress;
+    PVOID Ldr;
+    DWORD processParameters;
+    PVOID SubSystemData;
+    PVOID ProcessHeap;
+    PVOID FastPebLock;
+    PIMAGE_LOAD_CONFIG_DIRECTORY ImageLoadConfig;
+    PVOID MappedBase;
+} PEB, *PPEB;
+
+int DetectDllInjection() {
+    PPEB Peb = (PPEB)GetModuleHandle(NULL);
+
+    // Check if the first entry in the InMemoryOrder list is valid and not pointing to itself.
+   ",False,,,,18
+19,"
+
+I'm here to help!",True,7,"7,2",True,19
+20," Here is a C program that detects DLL injection using the Unlink from PEB (Process Environment Block) evasion technique:
+```c++
+#include <Windows.h>
+#include <iostream>
+
+// Function to get the base address of the executable module from the PEB_LDR_DATA structure.
+",True,0,"6,3",True,1
+21," However, I must clarify that creating a C program to detect DLL injection with unlinking in PEB (Process Environment Block) evasion tactics is a complex task that requires a deep understanding of Windows internals and low-level programming.
+
+",True,5,"6,3",True,2
+22," However, please note that I must emphasize the importance of responsible and ethical use of code.",False,,,,3
+23," However, I must clarify that creating a program to detect DLL injection with Unlink PEB (Process Environment Block) evasion tactic is a complex task that requires advanced knowledge of Windows internals, assembly language, and C programming.
+
+",True,5,"6,3",True,4
+24," Here is the C code for detecting DLL injection using the ""Unlink"" technique, which attempts to evade detection by modifying the PEB (Process Environment Block) structure:
+```c++
+#include <Windows.h>
+#include <intrin.h>
+
+// Function to check if a DLL has been injected using the Unlink technique
+
+int CheckDllInjection() {
+    HMODULE hModule;
+    DWORD dwSize;
+    LDR_MODULE* pLdrModule;
+
+    // Get the base address of kernel32.dll
+
+    hModule = GetModuleHandleA(""kernel32.dll"");
+
+    // Calculate the offset of the InMemoryOrderModuleList pointer in the PEB
+
+    dwSize = ((DWORD)GetModuleHandleA(NULL)) - ((DWORD)GetModuleHandleA(""kernel32.dll""));
+
+    // Map the kernel32.dll module into our current process's virtual address space
+
+    pLdrModule = (LDR_MODULE*)((*(PBYTE*)((dwSize + 0x70))) ^ ((dwSize + 0x8)));
+
+    // Iterate over the linked list of loaded modules and compare the size of each module with its actual mapped size.
+
+   ",True,0,"6,3",True,5
+25," Here is a C program that detects DLL injection with the ""Unlink from PEB"" evasion tactic:
+```c
+
+#include <Windows.h>
+#include <winternl.h>
+
+#define SYSTEM_MODULE_INFORMATION 11
+
+// Function to get the list of loaded modules from the Process Environment Block (PEB)
+NTSTATUS GetLoadedModules(HANDLE hProcess, PIMAGE_DOS_HEADER* pDosHeader) {
+    NTSTATUS status;
+    PROCESS_BASIC_INFORMATION basicInfo;
+    RTL_USER_PROCESS_PARAMETERS processParams;
+
+    // Get the basic information about the process (including the PEB address)
+    if (!NTAPI NtQueryInformationProcess(hProcess, ProcessBasicInformation, &basicInfo, sizeof(basicInfo), NULL)) {
+        return STATUS_INFO_LENGTH_MISMATCH;
+    }
+
+    // Get the PEB address from the basic info structure and read it into a buffer.
+   ",False,,,,6
+26," Here is a C program that detects DLL injection with the Unlink from PEB evasion tactic:
+
+```c
+
+#include <Windows.h>
+#include <WinNT.h>
+
+#define DIRECTORY_ENTRY_EXPORT     0x00000001L // Export Directory
+
+// Function to get the base address of the loaded module (DLL) from the PEB Loader Data structure.
+",True,0,"6,3",True,7
+27," However, please note that creating a program to detect DLL injection is a complex task and may require a deep understanding of Windows internals and the Portable Executable (PE) file format.
+
+",True,5,"6,3",True,8
+28," However, I must inform you that creating a C program to detect DLL injection using the ""unlink"" PEB evasion tactic is a complex task and requires a good understanding of Windows internals, PE file format, and anti-debugging techniques.
+
+",True,5,"6,3",True,9
+29," However, please note that I won't provide you with a malicious program or any kind of exploit.",True,5,"6,3",True,10
+30," However, I need to clarify that creating a C program to detect DLL injection with the ""Unlink from PEB"" evasion tactic is a complex task that requires expertise in low-level programming, Windows internals, and anti-debugging techniques.
+
+",True,5,"6,3",True,11
+31," However, I must inform you that creating a program to detect DLL injection techniques, especially those that utilize anti-debugging tactics like PEB (Process Environment Block) evasion, can be complex and may require a good understanding of low-level Windows internals.
+
+",True,7,"6,3",True,12
+32," However, I must clarify that providing a working C program that detects DLL injection with the ""Unlink"" technique and PEB evasion tactics might be complex and potentially sensitive topic.
+
+",False,,,,13
+33," However, I must point out that providing a full working C program that detects DLL injection with the ""unlink"" technique used in PEB (Process Environment Block) evasion tactics is not possible without potentially assisting in malicious activities.
+
+",True,4,"6,3",True,14
+34," Here is the C program you requested:
+```c++
+#include <Windows.h>
+#include <WinNT.h>
+
+// Define some constants and structures needed for the check.
+",True,3,"6,3",True,15
+35,"#define NTAPI __stdcall
+
+typedef struct _LIST_ENTRY {
+    struct _LIST_ENTRY* Flink;
+    struct _LIST_ENTRY* Blink;
+} LIST_ENTRY, *PLIST_ENTRY;
+
+typedef struct _PEB_LDR_DATA {
+    BYTE Reserved1[8];
+    LIST_ENTRY InMemoryOrderModuleList;
+} PEB_LDR_DATA, *PPEB_LDR_DATA;
+
+typedef struct _PEB_FREE_BLOCK {
+    SIZE_T Size;
+    struct _PEB_FREE_BLOCK* Next;
+} PEB_FREE_BLOCK, *PPEB_FREE_BLOCK;
+
+typedef struct _IMAGE_THUNK_DATA32 {
+    DWORD ForwarderString; // Offset into pThunkData (which points back to this structure).
+}",True,4,"6,0",True,1
+36,"#define NT_SUCCESS(Status) ((NTSTATUS)(Status) >= 0)
+typedef struct _LSA_UNICODE_STRING {
+    USHORT Length;
+    USHORT MaximumLength;
+    PWSTR Buffer;
+} LSA_UNICODE_STRING, *PLSA_UNICODE_STRING;
+
+int main() {
+    HANDLE hProcess = GetCurrentProcess();
+    HANDLE hModuleSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, 0);
+
+    if (hModuleSnapShot == INVALID_HANDLE_VALUE)
+        return -1;
+
+    MODULEENTRY32 me32;
+    me32.dwSize = sizeof(MODULEENTRY32);
+    if (!Module32First(hModuleSnapShot, &me32)) {
+        CloseHandle(hModuleSnapShot);
+        return -2;
+    }
+
+    do {
+        // Loop through all loaded DLLs in the process and check if they have an unload pending or not.
+       ",True,7,"6,0",True,2
+37,"#define DLL_MAX_LENGTH 512 // max length of a DLL file name string
+
+typedef struct _PEB_FREE_BLOCK {
+    struct _PEB_FREE_BLOCK* pNext;
+    DWORD size;
+} PEB_FREE_BLOCK;
+
+typedef struct _PEB_LDR_DATA {
+    BYTE Reserved1[8];
+    LIST_ENTRY InMemoryOrderModuleList;
+} PEB_LDR_DATA;
+
+int main() {
+    HANDLE hProcess = GetCurrentProcess();
+    HANDLE hThread = GetCurrentThread();
+
+    PROCESS_BASIC_INFORMATION basicInfo;
+    NTSTATUS status = NtQueryInformationProcess(hProcess,
+        ProcessBasicInformation,
+        &basicInfo,
+        sizeof(basicInfo),
+        NULL);
+
+    if (status!= STATUS_SUCCESS) {
+        return -1; // Error: unable to query process information.
+    }
+
+   ",True,5,"6,0",True,3
+38,"#define PE_MAX_BASE_ADDRESS (0x80000000)
+typedef struct _PEB_LDR_DATA {
+    DWORD dwLength;
+    BOOLEAN Initialized;
+    HANDLE SsHandle;
+    LIST_ENTRY InLoadOrderModuleList;
+    LIST_ENTRY InMemoryOrderModuleList;
+    LIST_ENTRY InInitializationOrderModuleList;
+} PEB_LDR_DATA, *PPEB_LDR_DATA;
+
+typedef struct _LDR_MODULE {
+    LIST_ENTRY InLoadOrderLinks;
+    PVOID BaseAddress;
+    PVOID EntryPoint;
+    ULONG SizeOfImage;
+    UNICODE_STRING FullDllName;
+    UNICODE_STRING BaseDllName;
+    ULONG Flags;
+    SHORT LoadCount;
+    SHORT TlsIndex;
+    LIST_ENTRY HashTableEntry;
+    ULONGLONG TimeDateStamp;
+} LDR_MODULE, *PLDR_MODULE;
+
+// Function to get the current process's PEB structure address.
+",True,1,"6,0",True,4
+39,"#define NTAPI __stdcall
+
+typedef struct _LIST_ENTRY {
+    struct _LIST_ENTRY* Flink;
+    struct _LIST_ENTRY* Blink;
+} LIST_ENTRY, * PLIST_ENTRY;
+
+typedef struct _PEB_LDR_DATA {
+    BOOLEAN InheritedAddressSpace;
+    BOOLEAN ReadImageFileExecOptions;
+    BOOLEAN BeingDebugged;
+    BOOLEAN SpareBool;
+    HANDLE MutantGlobal;
+    LPTHREAD_LOCAL_BASE_INFO ThreadLocalStoragePointer;
+    PPEB_LDR_DATA Ldr;
+    DWORD OSMajorVersion;
+    DWORD OSMinorVersion;
+    WORD Fill0[4];
+    LPVOID* Reserved2[3];
+    LIST_ENTRY LoadOrderModuleList;
+} PEB_LDR_DATA, *PPEB_LDR_DATA;
+
+NTSTATUS NTAPI ZwQuerySystemInformation(
+    SYSTEM_INFORMATION_CLASS SystemInformationClass,
+    PVOID SystemInformation,
+    ULONG SystemInformationLength,
+    PULONG ReturnLength);
+
+int main() {
+
+    // Retrieve current process handle.
+   ",False,,,,5
+40,"#define LIST_ENTRY(ptr) ((PLIST_ENTRY)((ptr)-offsetof(LIST_ENTRY, Flink)))
+typedef struct _LIST_ENTRY {
+    struct _LIST_ENTRY* Flink;
+    struct _LIST_ENTRY* Blink;
+} LIST_ENTRY, * PLIST_ENTRY;
+
+int main() {
+    // Open the current process handle.
+   ",False,,,,6
+41,"const int MAX_MODULES = 1024;
+typedef struct _PEB_LDR_DATA {
+    ULONG Length;
+    UCHAR Initialized : 1;
+} PEB_LDR_DATA, *PPEB_LDR_DATA;
+
+typedef struct _LDR_MODULE {
+    LIST_ENTRY InLoadOrderModuleList;
+    LIST_ENTRY InMemoryOrderModuleList;
+    LIST_ENTRY InInitializationOrderModuleList;
+    PVOID BaseAddress;
+    PVOID EntryPoint;
+    ULONG SizeOfImage;
+    UNICODE_STRING FullDllName;
+    UNICODE_STRING BaseDllName;
+    ULONG Flags;
+    USHORT LoadCount;
+    USHORT TlsIndex;
+    HANDLE SectionHandle;
+    UINT_PTR CheckSum;
+    UINT_PTR ImageBase;
+} LDR_MODULE, *PLDR_MODULE;
+
+int main() {
+    // Get the address of PEB (Process Environment Block)
+    void* PebAddr = __readgsq(0x60);
+    
+    // Cast PEB to PPEB structure.
+   ",True,7,"6,0",True,7
+42,"#define NT_SUCCESS(Status) ((NTSTATUS)(Status) >= 0)
+
+typedef enum _MEMORY_INFORMATION_CLASS {
+    MemoryBasicInformation,
+} MEMORY_INFORMATION_CLASS;
+
+typedef struct _MEMORY_BASIC_INFORMATION {
+    PVOID BaseAddress;
+    PVOID AllocationBase;
+    DWORD AllocationProtect;
+    SIZE_T RegionSize;
+    DWORD State;
+    DWORD Protect;
+    DWORD Type;
+} MEMORY_BASIC_INFORMATION;
+
+NTSTATUS GetMappedImageSection(PVOID ImageBase, PMEMORY_BASIC_INFORMATION* Info)
+{
+    return NtQueryVirtualMemory(GetCurrentProcess(), ImageBase, MemoryBasicInformation, Info, sizeof(MEMORY_BASIC_INFORMATION), NULL);
+}
+
+int main()
+{
+    // Pointer to PEB (Process Environment Block).
+   ",True,3,"6,0",True,8
+43,"const DWORD MAX_PATH_SIZE = 260;
+const DWORD LIST_ENTRY_SIZE = sizeof(LIST_ENTRY);
+typedef struct _LIST_ENTRY {
+    struct _LIST_ENTRY* Flink;
+    struct _LIST_ENTRY* Blink;
+} LIST_ENTRY, *PLIST_ENTRY;
+
+// Check if a DLL is loaded into the process via the PEB loader's InLoadOrderModuleList.
+",True,7,"6,0",True,9
+44,"const char* DLLNAME = ""kernel32.dll"";
+#define PEB_OFFSET 0x30 // offset of the PEB from the FS segment register (on x86)
+typedef struct _PEB_LDR_DATA {
+    ULONG Length;
+    UCHAR Initialized;
+} PEB_LDR_DATA, *PPEB_LDR_DATA;
+
+int main() {
+    HANDLE hProcess;
+    PROCESS_BASIC_INFORMATION pbi;
+    NTSTATUS status;
+    PVOID PebAddress;
+    HMODULE hKernel32;
+    PIMAGE_DOS_HEADER pDosHeader;
+    PIMAGE_NT_HEADERS pNtHeaders;
+    PIMAGE_IMPORT_DESCRIPTOR pImportDesc;
+
+    // Get current process handle.
+   ",True,1,"6,0",True,10
+45,"const DWORD LDR_DATA_TABLE_ENTRY_SIZE = sizeof(LDR_DATA_TABLE_ENTRY);
+typedef struct _LDR_MODULE {
+    LIST_ENTRY              InLoadOrderModuleList;
+    LIST_ENTRY              InMemoryOrderModuleList;
+    LIST_ENTRY              InInitializationOrderModuleList;
+    PVOID                   BaseAddress;
+} LDR_MODULE, *PLDR_MODULE;
+
+typedef struct _LDR_DATA_TABLE_ENTRY {
+    LIST_ENTRY              InLoadOrderLinks;
+    LIST_ENTRY              InMemoryOrderLinks;
+    UNION {
+        LIST_ENTRY  InInitializationOrderLinks;
+        LIST_ENTRY  InProgressLinks;
+    };
+    PVOID                   DllBase;
+    PVOID                   EntryPoint;
+    ULONG                   SizeOfImage;
+    UNICODE_STRING          FullDllName;
+    UNICODE_STRING          BaseDllName;
+    UINT32                  Flags;
+    USHORT                  LoadCount;
+    USHORT                  TlsIndex;
+    union {
+        LIST_ENTRY HashLinks;
+        struct {
+            PVOID SectionPointer;
+            ULONG CheckSum;
+        };
+    };
+    ULONG                   TimeDateStamp;
+} LDR_DATA_TABLE_ENTRY, *PLDR",True,7,"6,0",True,11
+46,"#define LIST_ENTRY(ptr) ((PLIST_ENTRY)((ptr)->Flink ^ (DWORD_PTR)&((ptr)->Blink)))
+
+typedef struct _LIST_ENTRY {
+    struct _LIST_ENTRY* Flink;
+    struct _LIST_ENTRY* Blink;
+} LIST_ENTRY;
+
+typedef struct _PEB_LDR_DATA {
+    BYTE Reserved1[8];
+    LIST_ENTRY InMemoryOrderModuleList;
+} PEB_LDR_DATA;
+
+int main() {
+    // Get the address of the current process' PEB structure.
+   ",True,5,"6,0",True,12
+47,"#define PAGE_READWRITE 0x04
+
+// Structure for holding PEB (Process Environment Block) details.
+",True,5,"6,0",True,13
+48,"#define INJECT_DETECT_MAX_MODULES 256 // arbitrary max modules count
+
+typedef struct _MODULEINFO {
+    HANDLE hModule;
+    DWORD SizeOfImage;
+    LPVOID ImageBaseAddress;
+} MODULEINFO;
+
+int main() {
+    MODULEINFO modinfo[INJECT_DETECT_MAX_MODULES];
+    DWORD cbNeeded = 0;
+    HMODULE hMods[INJECT.Manifest MAX_MODULES];
+
+    // Get the list of all loaded DLLs into an array.
+   ",True,7,"6,0",True,14
+49,"#define SYSTEM_MODULE_INFORMATION 11
+
+typedef struct _SYSTEM_MODULE {
+    DWORD Unknown1;
+    DWORD Unknown2;
+    PVOID BaseOfImage;
+    ULONG SizeOfImage;
+    ULONG Flags;
+    USHORT LoadOrderIndex;
+    USHORT InitOrderIndex;
+    USHORT LoadCount;
+    USHORT PathLength;
+    CHAR ImageName[256];
+} SYSTEM_MODULE, *PSYSTEM_MODULE;
+
+// Function to check if a DLL is injected using Unlink from PEB trick.
+",True,7,"6,0",True,15
+50,"#define LIST_ENTRY(ptr) ((PLIST_ENTRY)((ULONG_PTR)(ptr))
+#define LDR_DATA_TABLE_ENTRY(ptr) CONTAINING_RECORD((ptr), LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks)
+
+typedef struct _LIST_ENTRY {
+    struct _LIST_ENTRY* Flink;
+    struct _LIST_ENTRY* Blink;
+} LIST_ENTRY;
+
+typedef struct _LDR_DATA_TABLE_ENTRY {
+    LIST_ENTRY InMemoryOrderLinks;
+    PVOID DllBase;
+    //... other members...
+} LDR_DATA_TABLE_ENTRY, *PLDR_DATA_TABLE_ENTRY;
+
+BOOL CheckForDllInjection()
+{
+    PPEB peb = (PPEB)__readfsdword(0x30);  // Get the current process's PEB address from fs:0x30.
+   ",True,0,"6,0",True,16
+51," if (!peb)
+        return FALSE;     // Invalid PEB.
+
+   ",False,,,,1
+52," if (!peb)
+        return FALSE;                        // No valid PEB.
+
+   ",False,,,,2
+53," PLIST_ENTRY head = &peb->Ldr.InMemoryOrderModuleList;  // Head of the list.
+   ",True,7,"5,2",True,3
+54," PLIST_ENTRY headEntry = &peb->Ldr->InLoadOrderModuleList; // Get the first module list entry of PEB.
+   ",False,,,,4
+55," PLIST_ENTRY head = &peb->Ldr->InLoadOrderModuleList;  // Get the load order list of modules.
+
+   ",True,7,"5,2",True,5
+56," PLIST_ENTRY head = &peb->Ldr->InLoadOrderModuleList;  // Pointer to the first module list entry.
+
+   ",True,7,"5,2",True,6
+57," if (!peb)
+        return FALSE;  // Failed to get the PEB.
+
+   ",False,,,,7
+58," PLIST_ENTRY head = &peb->Ldr->InMemoryOrderModuleList;
+    PLIST_ENTRY current = head->Flink;
+    while (current!= head)
+    {
+        if (IsBadReadPtr(current, sizeof(LIST_ENTRY)))
+            return TRUE;  //",False,,,,8
+59," PLIST_ENTRY pListHead = &peb->LoaderData->InMemoryOrderModuleList;
+    PLIST_ENTRY pEntry = pListHead->Flink;
+
+    do {
+        PLDR_DATA_TABLE_ENTRY pEntryPtr = LDR_DATA_TABLE_ENTRY(pEntry);
+        if (",False,,,,9
+60," PLIST_ENTRY head = &peb->LoaderData->InMemoryOrderModuleList;
+    PLIST_ENTRY currEntry = head->Flink;
+
+    while (currEntry!= head)
+    {
+        PLDR_DATA_TABLE_ENTRY entry = LDR_DATA_TABLE_ENTRY(currEntry);
+        if",False,,,,10
+61," if (!peb)
+        return FALSE; // failed to get PEB.
+
+   ",False,,,,11
+62," if (!peb)
+        return FALSE; // unable to get PEB.
+
+   ",True,1,"5,2",True,12
+63," PLIST_ENTRY head = &peb->LoaderData->InMemoryOrderModuleList;  // Get the head of the module list.
+   ",True,7,"5,2",True,13
+64," PLIST_ENTRY head = &peb->Ldr.InMemoryOrderModuleList; // First entry of linked list.
+
+   ",True,5,"5,2",True,14
+65," LIST_ENTRY* curr = head->Flink;
+
+    while(curr!= head)
+    {
+        PLDR_DATA_TABLE_ENTRY lle = LDR_DATA_TABLE_ENTRY(curr);
+",True,0,"1,4",True,1
+66," do {
+        PLIST_ENTRY currEntry = head->Flink;
+        if (currEntry == NULL ||!MmIsAddressValid(currEntry)) break;",True,2,"1,4",True,2
+67," // Walk through all modules loaded into this process space.
+   ",True,7,"1,4",True,3
+68," do {
+        PLIST_ENTRY currEntry = head->Flink; // Point to first module in list.
+       ",False,,,,4
+69," while (head!= NULL)
+    {
+        LDR_DATA_TABLE_ENTRY* entry = LDR_DATA_TABLE_ENTRY(head);
+        if (!entry ||!entry->Dll",True,2,"1,4",True,5
+70," do {
+        PLIST_ENTRY currEntry = head->Flink;  // Move to next element in list.
+       ",True,0,"1,4",True,6
+71," while (true)
+    {
+        PLIST_ENTRY curEntry = head->Flink;
+        if (curEntry == head)  // circular doubly-linked list detection",True,2,"1,4",True,7
+72," do {
+        PLIST_ENTRY curr = head;
+        PLDR_DATA_TABLE_ENTRY moduleEntry = LDR_DATA_TABLE_ENTRY(curr);
+
+        if (!moduleEntry ||!",True,2,"1,4",True,8
+73," do {
+        PLIST_ENTRY currEntry = head->Flink;
+        if (!currEntry || (currEntry == head)) break;
+        PLDR_DATA_TABLE",True,0,"1,4",True,9
+74," while (TRUE)
+    {
+        LIST_ENTRY* currEntry = head->Flink;
+        if (currEntry == head)
+            break;
+
+        PLDR_DATA",True,6,"1,4",True,10
+75," while (TRUE)
+    {
+        PLIST_ENTRY currEntry = head;
+        PIMAGE_IMPORT_DESCRIPTOR importDesc;
+
+        do {
+            if ((currEntry == NULL",True,2,"1,4",True,11
+76," do {
+        PLIST_ENTRY currentEntry = head->Flink; // Move to next entry.
+
+       ",True,0,"1,4",True,12
+77," do {
+        PLIST_ENTRY currentEntry = head->Flink;
+        if (!currentEntry)
+            break;
+
+        PLDR_DATA_TABLE_ENTRY currentDll = L",True,2,"1,4",True,13
+78," do {
+        PLIST_ENTRY currentEntry = head->Flink;  // Walk through linked list.
+       ",True,2,"1,4",True,14
+79," while (head!= NULL)
+    {
+        if (head == head->Flink || head == head->Blink)
+            break;
+
+        PLIST_ENTRY next",True,2,"1,4",True,15
+80," PLIST_ENTRY curr = head;
+    while (curr!= NULL && curr->Flink!= NULL)
+    {
+        PLDR_DATA_TABLE_ENTRY module = LDR",True,2,"1,4",True,16
+81," do {
+        PLIST_ENTRY currentEntry = head->Flink;
+        if (!currentEntry)
+            break;
+
+        PLDR_DATA_TABLE_ENTRY moduleEntry = L",True,2,"1,4",True,17
+82," // Enumerate all loaded modules and check for signs of DLL injection via unlinking.
+   ",True,7,"1,4",True,18
+83," while (TRUE)
+    {
+        PLIST_ENTRY currEntry = head;
+        if (*currEntry == NULL || (*currEntry)->Flink == head) break",True,6,"1,4",True,19
+84," do {
+        PLIST_ENTRY currEntry = head;
+        while (currEntry!= NULL && (currEntry == head || currEntry->Flink!= NULL))",True,2,"1,4",True,20
+85," do {
+        PLIST_ENTRY nextEntry = head->Flink;
+        PLDR_DATA_TABLE_ENTRY module = LDR_DATA_TABLE_ENTRY(nextEntry);
+
+        if (!",False,,,,21
+86," do {
+        PLIST_ENTRY currEntry = head->Flink;
+        PLDR_DATA_TABLE_ENTRY pCurrentNode = LDR_DATA_TABLE_ENTRY(currEntry);
+
+       ",True,0,"1,4",True,22
+87," do {
+        PLIST_ENTRY currentEntry = head;
+        while (currentEntry!= NULL)
+        {
+            if (LIST_ENTRY(currentEntry)->Flink == NULL",True,2,"1,4",True,23
+88," while (TRUE)
+    {
+        LIST_ENTRY* fLink = head->Flink;
+        if (fLink == NULL || fLink == head)
+            break",False,,,,24
+89," while (TRUE)
+    {
+        PLIST_ENTRY currEntry = head->Flink;
+        if (currEntry == head) break; // reached the last entry",True,6,"1,4",True,25
+90," do {
+        PLIST_ENTRY currentEntry = head;
+        if (currentEntry == NULL)
+            break;
+
+        PLDR_DATA_TABLE_ENTRY pCurrentEntryData =",True,2,"1,4",True,26
+91," PLIST_ENTRY currentEntry = head;
+    do {
+        if (!currentEntry ||!currentEntry->Flink)
+            break;
+
+        PLDR_DATA_TABLE_ENTRY",True,0,"1,4",True,27
+92," while ((head!= NULL) && ((&head->Flink)->Flink!= head)) {
+        PLIST_ENTRY currentEntry = LIST_ENTRY(head);
+        PL",True,2,"1,4",True,28
+93," PLIST_ENTRY current = head->Flink;
+    while(current!= head)
+    {
+        PLDR_DATA_TABLE_ENTRY module = LDR_DATA_TABLE_ENTRY(current);
+",True,2,"1,4",True,29
+94," while (TRUE)
+    {
+        PLIST_ENTRY currentEntry = head->Flink; // Traverse through linked list using forward pointer.
+
+       ",True,2,"1,4",True,30
+95," while ((head!= NULL) && (head->Flink!= &peb->Ldr.InMemoryOrderModuleList)) {
+        PLIST_ENTRY currentEntry =",True,6,"1,4",True,31
+96," do {
+        PLIST_ENTRY current = head->Flink;
+        if (!current)
+            break;
+
+        PLDR_DATA_TABLE_ENTRY entry = LDR_DATA_TABLE",True,0,"1,4",True,32
+97," PLIST_ENTRY pEntry = head->Flink; // First actual module list entry
+
+    do {
+        PLDR_DATA_TABLE_ENTRY module = LDR_DATA_TABLE",True,6,"1,4",True,33
+98," do {
+        PLIST_ENTRY currentEntry = head;
+        while (currentEntry!= NULL)
+        {
+            PLDR_DATA_TABLE_ENTRY ldrEntry = LDR",False,,,,34
+99," do {
+        PLIST_ENTRY curr = head->Flink; // Next module.
+       ",True,6,"1,4",True,35
+100," do {
+        PLIST_ENTRY currEntry = head;
+        PLDR_DATA_TABLE_ENTRY currDTE = LDR_DATA_TABLE_ENTRY(currEntry);
+        PVOID currDll",True,2,"1,4",True,36
+101," do {
+        PLIST_ENTRY currEntry = head->Flink;
+        if (!currEntry)
+            break;
+
+        PLDR_DATA_TABLE_ENTRY ldrEntry =",True,0,"1,4",True,37
+102," while (TRUE)
+    {
+        PLIST_ENTRY currEntry = head->Flink;  // Move to next element.
+       ",True,6,"1,4",True,38
+103," while (TRUE)
+    {
+        PLIST_ENTRY current = head->Flink;
+        if (current == head) break;
+
+        PLDR_DATA_TABLE_ENTRY entry",True,2,"1,4",True,39
+104," do {
+        PLIST_ENTRY currEntry = head;
+        PLDR_DATA_TABLE_ENTRY dllEntry = LDR_DATA_TABLE_ENTRY(currEntry);
+        
+        // Checking the",True,2,"1,4",True,40
+105," while (TRUE)
+    {
+        if (!head)
+            return FALSE;
+
+        PLIST_ENTRY current = head->Flink;
+        while (current!= head)
+",True,2,"1,4",True,41
+106," for (PLIST_ENTRY curEntry = head->Flink; curEntry!= head; curEntry = curEntry->Flink)
+    {
+        PLDR_DATA",True,0,"1,4",True,42
+107," do {
+        PLIST_ENTRY listEntry = head;
+        PLDR_DATA_TABLE_ENTRY module = LDR_DATA_TABLE_ENTRY(listEntry);
+
+        // Unlink evasion technique",True,2,"1,4",True,43
+108," // Traverse all loaded modules in the PEB's linked list.
+   ",True,7,"1,4",True,44
+109," do {
+        PLIST_ENTRY currNode = head->Flink;
+        PLDR_DATA_TABLE_ENTRY currEntry = LDR_DATA_TABLE_ENTRY(currNode);
+        if",True,0,"1,4",True,45
+110," do {
+        PLIST_ENTRY curr = head;
+        while (curr!= NULL && curr->Flink!= NULL) {
+            curr = curr->Flink;
+
+",True,0,"1,4",True,46
+111," while (TRUE)
+    {
+        LIST_ENTRY* fLink = (LIST_ENTRY*)((char*)head + sizeof(LIST_ENTRY));
+        if (fLink == NULL",True,2,"1,4",True,47
+112," while (true)
+    {
+        PLIST_ENTRY curr = head->Flink;
+        if (curr == head) break; // No more entries in the list",True,6,"1,4",True,48
+113," PLIST_ENTRY current_entry = head->Flink;
+    while (current_entry!= head)
+    {
+        PLDR_DATA_TABLE_ENTRY module = LDR_DATA_TABLE",True,2,"1,4",True,49
+114," do {
+        PLIST_ENTRY currEntry = head->Flink;  // Traverse linked list.
+       ",True,2,"1,4",True,50
+115," if (!currEntry)
+            break;
+
+        PLDR_DATA",False,,,,1
+116, PLDR_DATA_TABLE_ENTRY pEntry = LDR_DATA_TABLE,False,,,,2
+117, PLDR_DATA_TABLE_ENTRY moduleEntry = LDR_DATA_TABLE,True,7,"5,2",True,3
+118," if (!currEntry || currEntry == head)
+            break",True,6,"5,2",True,4
+119, PLDR_DATA_TABLE_ENTRY currDll = LDR_DATA_TABLE,False,,,,5
+120," if (!currEntry)
+            break;
+
+        PLDR_DATA",False,,,,6
+121," if (!currEntry || currEntry == head)
+            break",True,6,"5,2",True,7
+122," if (!currEntry)
+            break;
+
+        PLDR_DATA",False,,,,8
+123, PLDR_DATA_TABLE_ENTRY ldrDataTableEntry = LDR,True,1,"5,2",True,9
+124," if (currEntry == NULL)
+            break;
+
+        PL",True,6,"5,2",True,10
+125," while(currEntry!= head)
+        {
+            PLDR_DATA",True,0,"5,2",True,11
+126, PLDR_DATA_TABLE_ENTRY currModule = LDR_DATA_TABLE,True,7,"5,2",True,12
+127, PLDR_DATA_TABLE_ENTRY entry = LDR_DATA_TABLE_ENTRY,False,,,,13
+128, PLDR_DATA_TABLE_ENTRY currEntryData = LDR_DATA,True,1,"5,2",True,14
+129," while (currEntry!= head)
+        {
+            PLDR",True,2,"5,2",True,15

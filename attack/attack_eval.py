@@ -1,5 +1,6 @@
-# RUN: CUDA_VISIBLE_DEVICES=3,4,5 python -m attack.attack_eval
+# RUN: CUDA_VISIBLE_DEVICES=4,5 python -m attack.attack_eval
 
+import os
 import traceback
 import pandas as pd
 from guidance import models 
@@ -22,10 +23,12 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 @hydra.main(version_base=None, config_path="../conf", config_name="attack")
 def main(cfg):
 
+    cfg.attack.check_watermark = False
+
     watermarkers = [
         # "umd",
         "umd_new",
-        "unigram",
+        # "unigram",
         # "semstamp", 
         # "adaptive",
     ]
@@ -51,43 +54,44 @@ def main(cfg):
 
     for watermarker in watermarkers:
 
-        # Step 2: Load data for that particular watermarker
-        data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
+        # Step 2: Load data for that particular watermarkerp
+        data = pd.read_csv('/data2/borito1907/impossibility-watermark/09_27_high_semstamp_good_embedder.csv')
+        # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
+        # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv").sample(n=10, random_state=42)
 
         # Step 3: Initialize watermark detector
         # watermarker = get_default_watermarker(watermarker)
-        watermarker = None
+        watermarker_obj = None
 
         for mutator in mutators:
             log.info("Initializing mutator...")
             # Step 4: Initialize Mutator
             mutator = mutator()
 
-            for compare_against_original in [False, True]:
+            # Step 5: Initialize Attacker
+            o_str = oracle.__class__.__name__
+            # w_str = watermarker_obj.__class__.__name__
+            m_str = mutator.__class__.__name__
+            cfg.attack.compare_against_original = True
+            # cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
+            cfg.attack.log_csv_path = f"./attack_traces/good_embedder_{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
 
-                # Step 5: Initialize Attacker
-                o_str = oracle.__class__.__name__
-                w_str = watermarker.__class__.__name__
-                m_str = mutator.__class__.__name__
-                cfg.attack.compare_against_original = compare_against_original
-                cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{w_str}_{m_str}_compare-original={compare_against_original}_{cfg.attack.max_steps}_attack_results.csv"
-                
-                if os.path.exists(cfg.attack.log_csv_path):
-                    log.info("existing attack trace already found, skipping for now...")
-                    continue
+            if os.path.exists(cfg.attack.log_csv_path):
+                log.info(f"skipping this attack configuration: {cfg.attack.log_csv_path}")
+                continue
 
-                log.info(f"Initializing attacker...")
-                attacker = Attack(cfg, mutator, oracle, watermarker)
+            log.info(f"Initializing attacker...")
+            attacker = Attack(cfg, mutator, oracle, watermarker_obj)
 
-                # Step 6: Attack each row in dataset
-                for benchmark_id, row in data.iterrows():
+            # Step 6: Attack each row in dataset
+            for benchmark_id, row in data.iterrows():
 
-                    try:
-                        log.info(f"Attacking Row: {row}")
-                        attacked_text = attacker.attack(row['prompt'], row['text'])
-                        log.info(f"Attacked Text: {attacked_text}")
-                    except Exception:
-                        log.info(traceback.format_exc())
+                try:
+                    log.info(f"Attacking Row: {row}")
+                    attacked_text = attacker.attack(row['prompt'], row['text'])
+                    log.info(f"Attacked Text: {attacked_text}")
+                except Exception:
+                    log.info(traceback.format_exc())
 
 if __name__ == "__main__":
     main()

@@ -13,6 +13,9 @@ import numpy as np
 from typing import List, Tuple, Callable, Optional, Iterator
 global Device
 
+def add_eos(model, input_examples):
+  input_examples = [input_example + model.tokenizer.eos_token for input_example in input_examples]
+  return input_examples
 
 class LSHModel:
     def __init__(self, device, batch_size, lsh_dim):
@@ -80,6 +83,7 @@ class SBERTLSHModel(LSHModel):
         super(SBERTLSHModel, self).__init__(device, batch_size, lsh_dim)
         self.sbert_type = sbert_type
         self.dimension = 1024 if 'large' in self.sbert_type else 768
+        # self.dimension = 1024
 
         print(f'loading SBERT {self.sbert_type} model...')
 
@@ -109,6 +113,8 @@ class SBERTLSHModel(LSHModel):
         self.hasher.reset(dim=self.dimension)
 
     def get_embeddings(self, sents: Iterator[str]) -> np.ndarray:
-        all_embeddings = self.embedder.encode(
-            sents, batch_size=self.batch_size)
+        all_embeddings = self.embedder.encode(sents, batch_size=self.batch_size)
+        # all_embeddings = self.embedder.encode(
+        #     add_eos(self.embedder, sents), batch_size=self.batch_size)
+        # # TODO: Change this part if you end up removing NVIDIA.
         return np.stack(all_embeddings)

@@ -57,6 +57,7 @@ class Attack:
         self.backtrack_patience = 0
         self.patience = 0
         self.max_mutation_achieved = 0
+        self.mutated_text = ""
 
     def backtrack(self):
         self.backtrack_patience = 0
@@ -105,7 +106,7 @@ class Attack:
         self.current_text = watermarked_text
         self.original_text = watermarked_text
         
-				# prep initial text data
+		# prep initial text data
         self.step_data = self.base_step_metadata
         
         if self.cfg.attack.check_watermark:
@@ -116,7 +117,7 @@ class Attack:
             self.step_data.update({"watermark_detected": watermark_detected})
             self.step_data.update({"watermark_score": watermark_score})
         
-				# save initial text data and watermark
+		# save initial text data and watermark
         self.step_data.update({"mutation_num": -1})
         self.step_data.update({"prompt": prompt})
         self.step_data.update({"current_text": self.original_text})
@@ -148,23 +149,38 @@ class Attack:
                 self.step_data.update({"step_num": self.step_num})
                 self.step_data.update({"mutation_num": self.successful_mutation_count})
                 self.step_data.update({"prompt": prompt})
-                self.step_data.update({"mutated_text": self.current_text})
+                self.step_data.update({"current_text": self.current_text})
 
                 # Step 1: Mutate
                 mutate_start_time = time.time()
                 log.info(f"Mutating watermarked text...")
-                self.mutated_text = self.mutator.mutate(self.current_text)
-                self.step_data.update({"mutated_text": self.mutated_text})
-                self.step_data.update({"mutator_time": time.time() - mutate_start_time})       
-                if self.cfg.attack.verbose:
-                    log.info(f"Mutated text: {self.mutated_text}")         
+
+                # NOTE: Added a try-except block since some of the mutators are buggy.
+                max_retries = self.cfg.attack.mutator_retries
+                retry_count = 0
+
+                while retry_count < max_retries:
+                    try:
+                        mutate_start_time = time.time()  # Start timer for mutator
+                        self.mutated_text = self.mutator.mutate(self.current_text)
+                        self.step_data.update({"mutated_text": self.mutated_text})
+                        self.step_data.update({"mutator_time": time.time() - mutate_start_time})       
+                        if self.cfg.attack.verbose:
+                            log.info(f"Mutated text: {self.mutated_text}")
+                        break  # Break if mutation succeeds
+                    except Exception as e:
+                        retry_count += 1
+                        log.error(f"Mutation attempt {retry_count} failed. Error: {e}")
+                        if retry_count >= max_retries:
+                            log.error("Max retries reached. Mutation failed.")
+                            raise  # Re-raise the exception after max retries
 
                 # Step 2: Length Check
                 if self.cfg.attack.check_length:
                     log.info(f"Checking mutated text length to ensure it is within {self.cfg.attack.length_variance*100}% of the original...")
                     self.length_check()
                     if self.length_issue:
-                        log.warn(f"Failed length check. Original text was {self.original_len} words and mutated is {self.mutated_len} words. Skipping quality check and watermark check...")
+                        log.warn(f"Failed length check. Original text was {self.original_len} words and mutated is {self.mutated_len} words. Skipping quality check...")
                         self.backtrack_patience += 1
                         self.patience += 1
                         self.append_and_save_step_data()
@@ -184,7 +200,7 @@ class Attack:
                         "quality_preserved": quality_analysis["quality_preserved"]
                     })
                     if not quality_analysis["quality_preserved"]:
-                        log.warn("Failed quality check. Skipping watermark check...")
+                        log.warn("Failed quality check...")
                         self.backtrack_patience += 1
                         self.patience += 1
                         self.step_data.update({"oracle_time": time.time() - oracle_start_time})

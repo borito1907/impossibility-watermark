@@ -15,7 +15,7 @@ def test(cfg):
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
     cfg_dict['generator_args']['top_k'] = 50
     cfg_dict['generator_args']['top_p'] = 0.9
-    cfg_dict['generator_args']['max_new_tokens'] = 1024 # 285
+    cfg_dict['generator_args']['max_new_tokens'] = 300 # 285 # 1024
     cfg_dict['generator_args']['min_new_tokens'] = 128 # 215
     cfg_dict['generator_args']['repetition_penalty'] = 1.1
 
@@ -43,12 +43,15 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"dev_semstamp_massive_stopfix_{cfg.partition}"
+    dir_name = f"dev_semstamp_new_embedder_short_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    start = 1 + (cfg.partition - 1) * 100
-    end = 1 + cfg.partition * 100
+    # start = 1 + (cfg.partition - 1) * 20
+    # end = 1 + cfg.partition * 20
+
+    start = 30
+    end = 100
 
     for prompt_num in range(start,end):
         stats_file_path = f"{base_folder_name}/stats/{prompt_num}.csv"
@@ -59,23 +62,23 @@ def test(cfg):
         log.info(f"Prompt: {prompt}")
         log.info(f"Prompt ID: {id}")
 
-        try:
-            for _ in range(1):
-                start = time.time()
-                watermarked_text = watermarker.generate_watermarked_outputs(prompt, stats_file_path=stats_file_path)
-                is_detected, score = watermarker.detect(watermarked_text)
-                delta = time.time() - start
-                
-                log.info(f"Watermarked Text: {watermarked_text}")
-                log.info(f"Is Watermark Detected?: {is_detected}")
-                log.info(f"Score: {score}")
-                log.info(f"Time taken: {delta}")
+        # try:
+        for _ in range(1):
+            start = time.time()
+            watermarked_text = watermarker.generate_watermarked_outputs(prompt, stats_file_path=stats_file_path)
+            is_detected, score = watermarker.detect(watermarked_text)
+            delta = time.time() - start
+            
+            log.info(f"Watermarked Text: {watermarked_text}")
+            log.info(f"Is Watermark Detected?: {is_detected}")
+            log.info(f"Score: {score}")
+            log.info(f"Time taken: {delta}")
 
-                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
-                save_to_csv(stats, watermarked_text_file_path, rewrite=False)
-        except Exception as e:
-            log.info(f"Exception with Prompt {prompt_num}.")
-            log.info(f"Exception: {e}")
+            stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+            save_to_csv(stats, watermarked_text_file_path, rewrite=False)
+        # except Exception as e:
+        #     log.info(f"Exception with Prompt {prompt_num}.")
+        #     log.info(f"Exception: {e}")
 
 if __name__ == "__main__":
     test()

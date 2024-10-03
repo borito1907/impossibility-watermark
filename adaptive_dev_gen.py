@@ -20,7 +20,9 @@ def test(cfg):
     cfg_dict['generator_args']['repetition_penalty'] = 1.1
     
     cfg_dict['watermark_args']['name'] = "adaptive"
-    cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
+    # cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
+    cfg_dict['watermark_args']['measure_model_name'] = "EleutherAI/gpt-neo-2.7B"
+
     cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
     cfg_dict['watermark_args']['delta'] = 1.5
     cfg_dict['watermark_args']['delta_0'] = 1.0
@@ -41,18 +43,15 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_massive_last5_{cfg.partition}"
+    dir_name = f"adaptive_dev_neo_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    # partition_size = 200
-    # start = 1 + (cfg.partition - 1) * partition_size
-    # end = 1 + cfg.partition * partition_size
-
-    start = 150
-    end = 151
+    partition_size = 200
+    start = 1 + (cfg.partition - 1) * partition_size
+    end = 1 + cfg.partition * partition_size
 
     for prompt_num in range(start,end):
 

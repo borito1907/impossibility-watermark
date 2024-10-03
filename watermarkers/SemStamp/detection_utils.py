@@ -10,6 +10,9 @@ import os
 device = "cuda" if torch.cuda.is_available() else "cpu"
 rng = torch.Generator(device)
 #scorer = BERTScorer(model_type = "models/deberta-xlarge-mnli", rescale_with_baseline=True, device=device, lang = "en")
+import logging
+
+log = logging.getLogger(__name__)
 
 def run_bert_score(gen_sents, para_sents):
     P, R, F1 = scorer.score(gen_sents, para_sents)
@@ -56,28 +59,36 @@ def detect_kmeans(sents, embedder, lmbd, k_dim, cluster_centers):
     print(f'n_watermark: {n_watermark}, n_test_sent: {n_test_sent}')
     return num / denom
 
-def detect_lsh(sents, lsh_model, lmbd, lsh_dim, cutoff=None):
+def detect_lsh(sents, lsh_model, lmbd, lsh_dim, cutoff=None, debug=False):
     if cutoff == None:
         cutoff = lsh_dim
     n_sent = len(sents)
     n_watermark = 0
+    watermarked = []
+    lsh_seeds = []
     lsh_seed = lsh_model.get_hash([sents[0]])[0]
+    lsh_seeds.append(lsh_seed)
     accept_mask = get_mask_from_seed(lsh_dim, lmbd, lsh_seed)
     for i in range(1, len(sents)):
         lsh_candidate = lsh_model.get_hash([sents[i]])[0]
         if lsh_candidate in accept_mask:
+            watermarked.append(i)
             n_watermark += 1
         lsh_seed = lsh_candidate
         accept_mask = get_mask_from_seed(lsh_dim, lmbd, lsh_seed)
+        lsh_seeds.append(lsh_seed)
     n_test_sent = n_sent - 1  # exclude the prompt and the ending
     num = n_watermark - lmbd * (n_test_sent)
     denom = np.sqrt((n_test_sent) * lmbd * (1-lmbd))
     print(f'n_watermark: {n_watermark}, n_test_sent: {n_test_sent}')
     if denom == 0:
         return 0
+    if debug:
+        log.info(f"Watermarked: {watermarked}")
+        log.info(f"LSH Seeds: {lsh_seeds}")
     zscore = num / denom
     print(f"zscore: {zscore}")
-    return zscore
+    return zscore, [watermarked, lsh_seeds]
 
 def get_roc_metrics(labels, preds):
     fpr, tpr, _ = roc_curve(labels, preds)

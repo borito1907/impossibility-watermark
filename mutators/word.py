@@ -138,6 +138,7 @@ class WordMutator:
     def mutate(self, text, num_replacements=0.001):
         words, punctuation = self.get_words(text)
 
+        # TODO: Fix the bug here.
         if len(words) > self.max_length:
             segment, seg_punc, start, end = self.select_random_segment(words, punctuation)
         else:
