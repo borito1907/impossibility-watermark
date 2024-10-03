@@ -209,6 +209,19 @@ class FluencyMetric:
         scores = np.array(scores)
         return scores.mean() if return_mean else scores
     
+    def evaluate_dataframe(self, df, text_column, new_column):
+        """
+        Evaluate a pandas DataFrame, adding a new column with perplexity scores.
+        
+        :param df: pandas DataFrame containing the text data.
+        :param text_column: the name of the column containing the text to evaluate.
+        :param new_column: the name of the new column to store the results.
+        :return: DataFrame with new column containing perplexity scores.
+        """
+        perplexities = self.evaluate(df[text_column].tolist(), return_mean=False)
+        df[new_column] = perplexities
+        return df
+    
 
 if __name__ == '__main__':
     

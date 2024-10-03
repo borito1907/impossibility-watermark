@@ -19,6 +19,17 @@ class GrammarMetric:
         scores = np.array(scores)
         return scores.mean() if return_mean else scores
 
+    def evaluate_dataframe(self, df, text_column, new_column):
+        """
+        Evaluate a pandas DataFrame, adding a new column with grammar issue counts.
+        
+        :param df: pandas DataFrame containing the text data.
+        :param text_column: the name of the column containing the text to evaluate.
+        :param new_column: the name of the new column to store the results.
+        :return: DataFrame with new column containing grammar issue counts.
+        """
+        df[new_column] = df[text_column].apply(lambda text: len(self.find_grammar_issues(text)))
+        return df
 
 if __name__ == '__main__':
     

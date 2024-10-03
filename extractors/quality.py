@@ -37,7 +37,24 @@ class QualityMetric:
             all_scores.extend(batch_scores)
         all_scores = np.array(all_scores)
         return all_scores.mean() if return_mean else all_scores
+    
 
+    def evaluate_dataframe(self, df, prompt_column, text_column, new_column, batch_size=1):
+        """
+        Evaluate a pandas DataFrame, adding a new column with quality scores.
+        
+        :param df: pandas DataFrame containing the prompts and texts.
+        :param prompt_column: the name of the column containing the prompts.
+        :param text_column: the name of the column containing the texts.
+        :param new_column: the name of the new column to store the quality scores.
+        :param batch_size: batch size for model evaluation.
+        :return: DataFrame with new column containing quality scores.
+        """
+        prompts = df[prompt_column].tolist()
+        texts = df[text_column].tolist()
+        scores = self.evaluate(prompts, texts, return_mean=False, batch_size=batch_size)
+        df[new_column] = scores
+        return df
         
 
 if __name__ == '__main__':
