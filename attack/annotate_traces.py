@@ -17,6 +17,7 @@ if __name__ == "__main__":
 
     import os
     import glob
+    import traceback
     from extractors import FluencyMetric, GrammarMetric, QualityMetric, EditsMetric
         
     # Initialize metric extractors
@@ -25,27 +26,46 @@ if __name__ == "__main__":
     quality = QualityMetric()
     edits   = EditsMetric()
 
-    traces = glob.glob("./attack_traces/*attack_results.csv")
+    traces = glob.glob("./attack_traces/*attack_results_annotated.csv")
 
     for trace in traces:
+
+        print(trace)
 
         o, w, m, s = os.path.basename(trace).split("_")[:4]
         s = int(s.replace("n-steps=", ""))
         
-        df = assign_unique_group_ids(pd.read_csv(trace)).head(5)
+        df = assign_unique_group_ids(pd.read_csv(trace))
         df["mutated_text"] = df["mutated_text"].fillna(df["current_text"])
         df['current_text'] = df['mutated_text'].shift(1)
         df["current_text"] = df["current_text"].fillna(df["mutated_text"])
 
         # step_num,mutation_num,prompt,current_text,mutated_text,current_text_len,mutated_text_len,length_issue,quality_analysis,quality_preserved,watermark_detected,watermark_score,backtrack,total_time,mutator_time,oracle_time
-        if "edit_count" not in df.columns:
-            df = edits.evaluate_dataframe(df, texts1_column="current_text", texts2_column="mutated_text", new_column="perplexity")
-        if "perplexity_score" not in df.columns:
-            df = fluency.evaluate_dataframe(df, text_column="mutated_text", new_column="perplexity")
-        if "grammar_score" not in df.columns:    
-            df = grammar.evaluate_dataframe(df, text_column="mutated_text", new_column="grammar_errors")
-        if "internlm_quality_score" not in df.columns:
-            df = quality.evaluate_dataframe(df, prompt_column="prompt", text_column="mutated_text", new_column="internlm_quality")
+        if "words_edited" not in df.columns:
+            try:
+                df = edits.evaluate_dataframe(df, current_text_column="current_text", mutated_text_column="mutated_text", new_column="words_edited")
+            except:
+                print(f"{'=' * 50} words_edited {'=' * 50}")
+                print(traceback.format_exc())
+        if "perplexity" not in df.columns:
+            try:
+                df = fluency.evaluate_dataframe(df, text_column="mutated_text", new_column="perplexity")
+            except:
+                print(f"{'=' * 50} perplexity {'=' * 50}")
+                print(traceback.format_exc())
+        if "grammar_errors" not in df.columns:    
+            try:
+                df = grammar.evaluate_dataframe(df, text_column="mutated_text", new_column="grammar_errors")
+            except:
+                print(f"{'=' * 50} grammar_errors {'=' * 50}")
+                print(traceback.format_exc())
+        if "internlm_quality" not in df.columns:
+            try:
+                df = quality.evaluate_dataframe(df, prompt_column="prompt", text_column="mutated_text", new_column="internlm_quality")
+            except:
+                print(f"{'=' * 50} internlm_quality {'=' * 50}")
+                print(traceback.format_exc())
 
-        df.to_csv(trace.replace("attack_results.csv", "attack_results_annotated.csv"), index=False)
         print(df)
+        print(trace)
+        df.to_csv(trace, index=False)
