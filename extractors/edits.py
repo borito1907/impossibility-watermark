@@ -32,17 +32,21 @@ class EditsMetric:
         scores = np.array(scores)
         return scores.mean() if return_mean else scores
 
-    def evaluate_dataframe(self, df, text1_column, text2_column, new_column):
+    def evaluate_dataframe(self, df, current_text_column, mutated_text_column, new_column):
         """
-        Evaluate a pandas DataFrame, adding a new column with grammar issue counts.
+        Evaluate a pandas DataFrame, adding a new column with edit counts.
         
         :param df: pandas DataFrame containing the text data.
-        :param text_column: the name of the column containing the text to evaluate.
+        :param current_text_column: the name of the column containing the original text.
+        :param mutated_text_column: the name of the column containing the modified text (can have null values).
         :param new_column: the name of the new column to store the results.
-        :return: DataFrame with new column containing grammar issue counts.
+        :return: DataFrame with new column containing edit counts.
         """
-        df[new_column] = df[[text1_column, text2_column]].apply(lambda text1, text2: len(self.diff_analysis(text1, text2)))
+        
+        # Apply the diff_analysis for each row in the DataFrame
+        df[new_column] = df.apply(lambda row: self.diff_analysis(row[current_text_column], row[mutated_text_column]), axis=1)
         return df
+
 
 if __name__ == '__main__':
 
