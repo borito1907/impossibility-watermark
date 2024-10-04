@@ -1,6 +1,7 @@
 import logging
 import time
 from tqdm import tqdm
+import copy
 from utils import (
     save_to_csv,
     length_diff_exceeds_percentage,
@@ -25,7 +26,7 @@ class Attack:
         self.max_mutation_achieved = 0
         self.base_step_metadata = {
             "step_num": -1,
-            "mutation_num": 0,
+            "mutation_num": -1,
             "prompt": "", 
             "current_text": "",
             "mutated_text": "", 
@@ -107,7 +108,7 @@ class Attack:
         self.original_text = watermarked_text
         
 		# prep initial text data
-        self.step_data = self.base_step_metadata
+        self.step_data = copy.copy(self.base_step_metadata)
         
         if self.cfg.attack.check_watermark:
             watermark_detected, watermark_score = self.watermarker.detect(self.original_text)
@@ -118,7 +119,6 @@ class Attack:
             self.step_data.update({"watermark_score": watermark_score})
         
 		# save initial text data and watermark
-        self.step_data.update({"mutation_num": -1})
         self.step_data.update({"prompt": prompt})
         self.step_data.update({"current_text": self.original_text})
         self.step_data.update({"quality_preserved": True})
@@ -138,7 +138,7 @@ class Attack:
                     break
                 self.step_num += 1
                 pbar.set_description(f"Step {self.step_num}. Patience: {self.backtrack_patience};{self.patience} (Goal: {self.max_mutation_achieved+1})")
-                self.step_data = self.base_step_metadata
+                self.step_data = copy.copy(self.base_step_metadata)
 
                 if self.backtrack_patience >= self.cfg.attack.backtrack_patience:
                     if len(self.mutated_texts) > 1:
