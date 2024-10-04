@@ -8,26 +8,43 @@ INFO:datasets:PyTorch version 2.3.1 available.
 [nltk_data] Downloading package punkt_tab to
 [nltk_data]     /home/borito1907/nltk_data...
 [nltk_data]   Package punkt_tab is already up-to-date!
-Error executing job with overrides: []
-Traceback (most recent call last):
-  File "/data2/borito1907/impossibility-watermark/attack/attack_eval.py", line 58, in main
-    data = pd.read_csv('/data2/borito1907/impossibility-watermark/10_03_less_high_semstamp_good_embedder.csv')
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/util/_decorators.py", line 311, in wrapper
-    return func(*args, **kwargs)
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/io/parsers/readers.py", line 586, in read_csv
-    return _read(filepath_or_buffer, kwds)
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/io/parsers/readers.py", line 482, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/io/parsers/readers.py", line 811, in __init__
-    self._engine = self._make_engine(self.engine)
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/io/parsers/readers.py", line 1040, in _make_engine
-    return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 51, in __init__
-    self._open_handles(src, kwds)
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/io/parsers/base_parser.py", line 222, in _open_handles
-    self.handles = get_handle(
-  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/pandas/io/common.py", line 702, in get_handle
-    handle = open(
-FileNotFoundError: [Errno 2] No such file or directory: '/data2/borito1907/impossibility-watermark/10_03_less_high_semstamp_good_embedder.csv'
-
-Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+[2024-10-03 23:53:07,850][__main__][INFO] - Initializing mutator...
+[2024-10-03 23:53:10,525][__main__][INFO] - skipping this attack configuration: ./attack_traces/good_embedder_DiffOracle_semstamp_WordMutator_n-steps=1000_attack_results.csv
+[2024-10-03 23:53:10,532][__main__][INFO] - Initializing mutator...
+You are using the default legacy behaviour of the <class 'transformers.models.t5.tokenization_t5.T5Tokenizer'>. This is expected, and simply means that the `legacy` (previous) behavior will be used so nothing changes for you. If you want to use the new behaviour, set `legacy=False`. This should only be set if you understand what it means, and thoroughly read the reason why this was added as explained in https://github.com/huggingface/transformers/pull/24565
+[2024-10-03 23:54:33,292][__main__][INFO] - Initializing attacker...
+[2024-10-03 23:54:33,295][__main__][INFO] - Attacking Row: Unnamed: 0                                                             0
+id                                                            2298180376
+text                   What a fun and imaginative request!\n\nHere's ...
+zscore                                                          4.351941
+watermarking_scheme                                         semstamp_lsh
+model                  hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ...
+time                                                          969.260058
+prompt                 an image of a painted tiger cub driving a car ...
+Name: 0, dtype: object
+Data saved to ./attack_traces/good_embedder_DiffOracle_semstamp_SpanMutator_n-steps=200_attack_results.csv
+  0%|          | 0/200 [00:00<?, ?it/s]Step 0. Patience: 0;0 (Goal: 1):   0%|          | 0/200 [00:00<?, ?it/s][2024-10-03 23:54:33,350][attack.attack][INFO] - Mutating watermarked text...
+[2024-10-03 23:54:36,005][attack.attack][INFO] - Checking mutated text length to ensure it is within 25.0% of the original...
+[2024-10-03 23:54:36,006][attack.attack][INFO] - Length check passed!
+[2024-10-03 23:54:36,006][attack.attack][INFO] - Checking quality oracle...
+[2024-10-03 23:54:39,190][attack.attack][INFO] - Quality check passed!
+Step 0. Patience: 0;0 (Goal: 1):   0%|          | 1/200 [00:05<19:27,  5.87s/it]Step 1. Patience: 0;0 (Goal: 2):   0%|          | 1/200 [00:05<19:27,  5.87s/it]Data saved to ./attack_traces/good_embedder_DiffOracle_semstamp_SpanMutator_n-steps=200_attack_results.csv
+[2024-10-03 23:54:39,217][attack.attack][INFO] - Mutating watermarked text...
+[2024-10-03 23:54:39,551][attack.attack][INFO] - Checking mutated text length to ensure it is within 25.0% of the original...
+[2024-10-03 23:54:39,551][attack.attack][INFO] - Length check passed!
+[2024-10-03 23:54:39,586][attack.attack][INFO] - Checking quality oracle...
+[2024-10-03 23:54:40,587][attack.attack][INFO] - Quality check passed!
+Step 1. Patience: 0;0 (Goal: 2):   1%|          | 2/200 [00:07<10:40,  3.23s/it]Step 2. Patience: 0;0 (Goal: 3):   1%|          | 2/200 [00:07<10:40,  3.23s/it]Data saved to ./attack_traces/good_embedder_DiffOracle_semstamp_SpanMutator_n-steps=200_attack_results.csv
+[2024-10-03 23:54:40,627][attack.attack][INFO] - Mutating watermarked text...
+[2024-10-03 23:54:40,896][attack.attack][INFO] - Checking mutated text length to ensure it is within 25.0% of the original...
+[2024-10-03 23:54:40,896][attack.attack][INFO] - Length check passed!
+[2024-10-03 23:54:40,896][attack.attack][INFO] - Checking quality oracle...
+[2024-10-03 23:54:43,003][attack.attack][INFO] - Quality check passed!
+Step 2. Patience: 0;0 (Goal: 3):   2%|▏         | 3/200 [00:09<09:28,  2.89s/it]Step 3. Patience: 0;0 (Goal: 4):   2%|▏         | 3/200 [00:09<09:28,  2.89s/it]Data saved to ./attack_traces/good_embedder_DiffOracle_semstamp_SpanMutator_n-steps=200_attack_results.csv
+[2024-10-03 23:54:43,118][attack.attack][INFO] - Mutating watermarked text...
+[2024-10-03 23:54:43,408][attack.attack][INFO] - Checking mutated text length to ensure it is within 25.0% of the original...
+[2024-10-03 23:54:43,408][attack.attack][INFO] - Length check passed!
+[2024-10-03 23:54:43,415][attack.attack][INFO] - Checking quality oracle...
+[2024-10-03 23:54:44,631][attack.attack][INFO] - Quality check passed!
+Step 3. Patience: 0;0 (Goal: 4):   2%|▏         | 4/200 [00:11<07:44,  2.37s/it]Step 4. Patience: 0;0 (Goal: 5):   2%|▏         | 4/200 [00:11<07:44,  2.37s/it]Data saved to ./attack_traces/good_embedder_DiffOracle_semstamp_SpanMutator_n-steps=200_attack_results.csv
+[2024-10-03 23:54:44,656][attack.attack][INFO] - Mutating watermarked text...

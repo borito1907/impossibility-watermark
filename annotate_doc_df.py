@@ -75,8 +75,8 @@ def main(cfg):
     # logfile_path = '/data2/borito1907/impossibility-watermark/10_01_adaptive_annotate_watermark_score.log'
     # score_lines = extract_score_values(logfile_path)
 
-    # watermarking_scheme = "adaptive"
-    watermarking_scheme = "semstamp"
+    watermarking_scheme = "adaptive"
+    # watermarking_scheme = "semstamp"
 
     if watermarking_scheme == "semstamp":
         filename_pattern = "SemStamp"
