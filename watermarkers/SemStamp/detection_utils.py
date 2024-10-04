@@ -82,7 +82,7 @@ def detect_lsh(sents, lsh_model, lmbd, lsh_dim, cutoff=None, debug=False):
     denom = np.sqrt((n_test_sent) * lmbd * (1-lmbd))
     print(f'n_watermark: {n_watermark}, n_test_sent: {n_test_sent}')
     if denom == 0:
-        return 0
+        return 0, []
     if debug:
         log.info(f"Watermarked: {watermarked}")
         log.info(f"LSH Seeds: {lsh_seeds}")

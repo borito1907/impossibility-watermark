@@ -80,7 +80,6 @@ class WordMutator:
         self.model_name = model_name
         self.max_length = 256
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        # NOTE: Currently does not use GPU
         self.fill_mask = pipeline(
             "fill-mask", 
             model=self.model_name, 
@@ -97,52 +96,66 @@ class WordMutator:
 
     def select_random_segment(self, words, punctuation):
         if len(words) <= self.max_length:
-            return words, 0, len(words)
-        start_index = random.randint(0, len(words) - self.max_length)
-        return words[start_index:start_index + self.max_length], punctuation[start_index:start_index + self.max_length-1], start_index, start_index + self.max_length
+            # Ensure lengths match
+            if len(punctuation) < len(words):
+                punctuation.append('')
+            return words, punctuation, 0, len(words)
+        
+        max_start = len(words) - self.max_length
+        start_index = random.randint(0, max_start)
+        end_index = start_index + self.max_length
+
+        segment_words = words[start_index:end_index]
+        segment_punct = punctuation[start_index:end_index]
+
+        # Adjust punctuation length if necessary
+        if len(segment_punct) < len(segment_words):
+            segment_punct.append('')
+
+        return segment_words, segment_punct, start_index, end_index
 
     def intersperse_lists(self, list1, list2):
         flattened = chain.from_iterable((x or '' for x in pair) for pair in zip_longest(list1, list2))
         return ''.join(flattened)
 
     def mask_random_word(self, words, punctuation):
-        if not words:  # Return the original text if there are no words to mask
-            return words, None
+        if not words:
+            return words, None, None
 
         found_nice_word = False
         index_to_mask = None
 
-        while not found_nice_word:
-            index_to_mask = random.randint(0, len(words) - 1)  # Select a random index to mask
-            word_to_mask = words[index_to_mask]  # Get the word at the selected index
+        attempt_count = 0
+        max_attempts = 100
 
-            if not word_to_mask == '' and not is_bullet_point(word_to_mask):
+        while not found_nice_word and attempt_count < max_attempts:
+            index_to_mask = random.randint(0, len(words) - 1)
+            word_to_mask = words[index_to_mask]
+
+            if word_to_mask and not is_bullet_point(word_to_mask):
                 found_nice_word = True
+            attempt_count += 1
 
-        # Create masked text by replacing only the selected word
-        words_with_mask = ['<mask>' if i == index_to_mask else word for i, word in enumerate(words)]
+        if not found_nice_word:
+            return words, None, None
+
+        # Mask the word
+        words_with_mask = words.copy()
+        words_with_mask[index_to_mask] = self.fill_mask.tokenizer.mask_token
         masked_text = self.intersperse_lists(words_with_mask, punctuation)
-        return masked_text, word_to_mask
 
-    def get_highest_score_index(self, suggested_replacements, blacklist):
-        # Filter out dictionaries where 'token_str' is a blacklisted word
-        filtered_data = [d for d in suggested_replacements if d['token_str'].strip().lower() not in blacklist]
-
-        # Find the index of the dictionary with the highest score
-        if filtered_data:
-            highest_score_index = max(range(len(filtered_data)), key=lambda i: filtered_data[i]['score'])
-            return filtered_data[highest_score_index]
-        else:
-            return suggested_replacements[0]
+        return masked_text, word_to_mask, index_to_mask
 
     def mutate(self, text, num_replacements=0.001):
         words, punctuation = self.get_words(text)
 
-        # TODO: Fix the bug here.
         if len(words) > self.max_length:
             segment, seg_punc, start, end = self.select_random_segment(words, punctuation)
         else:
             segment, seg_punc, start, end = words, punctuation, 0, len(words)
+            # Ensure lengths match
+            if len(seg_punc) < len(segment):
+                seg_punc.append('')
 
         if num_replacements < 0:
             raise ValueError("num_replacements must be larger than 0!")
@@ -153,13 +166,21 @@ class WordMutator:
 
         replacements_made = 0
         while replacements_made < num_replacements:
-            masked_text, word_to_mask = self.mask_random_word(segment, seg_punc)
-            
-            if word_to_mask is None:
+            masked_text, word_to_mask, index_to_mask = self.mask_random_word(segment, seg_punc)
+
+            if word_to_mask is None or index_to_mask is None:
                 log.warning("No valid word found to mask!")
-                continue
+                break
 
             log.info(f"Masked word: {word_to_mask}")
+
+            # Print the masked text for debugging
+            log.info(f"Masked text: {masked_text}")
+
+            # Ensure that the mask token is present
+            if self.fill_mask.tokenizer.mask_token not in masked_text:
+                log.warning("Mask token not found in masked_text")
+                continue
 
             # Use fill-mask pipeline
             candidates = self.fill_mask(masked_text, top_k=3, tokenizer_kwargs=self.tokenizer_kwargs)
@@ -169,7 +190,7 @@ class WordMutator:
                 continue
 
             suggested_replacement = self.get_highest_score_index(candidates, blacklist=[word_to_mask.lower()])
-            
+
             # Ensure valid replacement
             if suggested_replacement is None or not re.fullmatch(r'\w+', suggested_replacement['token_str'].strip()):
                 log.info(f"Skipping replacement: {suggested_replacement['token_str'] if suggested_replacement else 'None'}")
@@ -177,40 +198,51 @@ class WordMutator:
 
             log.info(f"word_to_mask: {word_to_mask}")
             log.info(f"suggested_replacement: {suggested_replacement['token_str']} (score: {suggested_replacement['score']})")
-            
-            segment = re.split(r'(\W+)', suggested_replacement['sequence'])[::2]
+
+            # Replace the masked word in the segment using the index
+            segment[index_to_mask] = suggested_replacement['token_str'].strip()
             replacements_made += 1
-        
-        log.info(f"Old Segment: {segment}")
 
-        log.info(words[:start])
-        log.info("-------")
-        log.info(segment)
-        log.info("-------")
-        log.info(words[end:])
+        # Ensure punctuation lengths match for reconstruction
+        punct_before = punctuation[:start]
+        if len(punct_before) < len(words[:start]):
+            punct_before.append('')
 
-        combined_text = self.intersperse_lists(words[:start], punctuation[:start]) + self.intersperse_lists(segment, seg_punc) + self.intersperse_lists(punctuation[end:], words[end:])
+        punct_after = punctuation[end:]
+        if len(punct_after) < len(words[end:]):
+            punct_after.append('')
+
+        if len(seg_punc) < len(segment):
+            seg_punc.append('')
+
+        # Reconstruct the text
+        combined_text = self.intersperse_lists(words[:start], punct_before) + \
+                        self.intersperse_lists(segment, seg_punc) + \
+                        self.intersperse_lists(words[end:], punct_after)
 
         return self.cleanup(combined_text)
+
+
+    def get_highest_score_index(self, suggested_replacements, blacklist):
+        filtered_data = [d for d in suggested_replacements if d['token_str'].strip().lower() not in blacklist]
+
+        if filtered_data:
+            highest_score_index = max(range(len(filtered_data)), key=lambda i: filtered_data[i]['score'])
+            return filtered_data[highest_score_index]
+        else:
+            return None
 
     def cleanup(self, text):
         return text.replace("<s>", "").replace("</s>", "")
 
     def diff(self, text1, text2):
-        # Splitting the texts into lines as difflib works with lists of lines
         text1_lines = text1.splitlines()
         text2_lines = text2.splitlines()
-        
-        # Creating a Differ object
         d = difflib.Differ()
-
-        # Calculating the difference
         diff = list(d.compare(text1_lines, text2_lines))
-
-        # Joining the result into a single string for display
         diff_result = '\n'.join(diff)
-
         return diff_result
+
 
 def test():
 
@@ -268,12 +300,12 @@ Overall, Tempus embodies a fierce dedication to time optimization and resource m
 
     start = time.time()
 
-    df = pd.read_csv('/local1/borito1907/impossibility-watermark/human_study/data/dev_watermarked.csv')
+    df = pd.read_csv('/data2/borito1907/impossibility-watermark/data/WQE_adaptive/dev.csv')
 
-    mutations_file_path = '/local1/borito1907/impossibility-watermark/inputs/word_mutator/test_1.csv'
+    mutations_file_path = '/data2/borito1907/impossibility-watermark/inputs/word_mutator/test_1new.csv'
 
-    for row in df.head(50).itertuples(index=False):
-        mutated_text = row.text
+    for idx, row in df.head(50).iterrows():
+        mutated_text = row['text']
 
         words, punct = text_mutator.get_words(mutated_text)
 
