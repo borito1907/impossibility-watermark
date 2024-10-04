@@ -75,8 +75,8 @@ def main(cfg):
     # logfile_path = '/data2/borito1907/impossibility-watermark/10_01_adaptive_annotate_watermark_score.log'
     # score_lines = extract_score_values(logfile_path)
 
-    watermarking_scheme = "adaptive"
-    # watermarking_scheme = "semstamp"
+    # watermarking_scheme = "adaptive"
+    watermarking_scheme = "semstamp"
 
     if watermarking_scheme == "semstamp":
         filename_pattern = "SemStamp"
@@ -99,7 +99,7 @@ def main(cfg):
             log.info(f"Processing file: {df_path}")
 
             # Set new_df_path by annotating the filename before .csv
-            new_df_path = os.path.join(dir_path, filename.replace('.csv', '_annotatednew.csv'))
+            new_df_path = os.path.join(dir_path, filename.replace('.csv', '_annotatedfix.csv'))
      
             df = pd.read_csv(df_path) 
 
@@ -130,9 +130,7 @@ def main(cfg):
 
                     # Run the watermark detection every 20 steps
                     if idx % 20 == 0:
-                        
                         # log.info(f"Detecting Current Text: {current_text}")
-
                         # zscore = score_lines[counter]
                         # is_detected = (zscore >= 60.0)
                         is_detected, zscore = watermarker.detect(current_text)
@@ -151,10 +149,13 @@ def main(cfg):
 
                 # zscore = score_lines[counter]
                 # is_detected = (zscore >= 60.0)
-                # is_detected, zscore = watermarker.detect(current_text)
-                # df.at[-1, 'watermark_detected'] = is_detected
-                # df.at[-1, 'watermark_score'] = zscore
+                is_detected, zscore = watermarker.detect(current_text)
+                last_index = df.index[-1]
+                df.at[last_index, 'watermark_detected'] = is_detected
+                df.at[last_index, 'watermark_score'] = zscore
                 # counter +=1 
+
+                log.info(f"Last Row: {df.iloc[-1]}")
 
                 modified_dfs.append(df)
             

@@ -268,9 +268,9 @@ Overall, Tempus embodies a fierce dedication to time optimization and resource m
 
     start = time.time()
 
-    df = pd.read_csv('/local1/borito1907/impossibility-watermark/human_study/data/dev_watermarked.csv')
+    df = pd.read_csv('/data2/borito1907/impossibility-watermark/data/WQE/dev.csv')
 
-    mutations_file_path = '/local1/borito1907/impossibility-watermark/inputs/word_mutator/test_1.csv'
+    mutations_file_path = '/data2/borito1907/impossibility-watermark/inputs/word_mutator/test_1new.csv'
 
     for row in df.head(50).itertuples(index=False):
         mutated_text = row.text

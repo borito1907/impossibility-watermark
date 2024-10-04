@@ -27,9 +27,9 @@ def main(cfg):
 
     watermarkers = [
         # "umd",
-        "umd_new",
+        # "umd_new",
         # "unigram",
-        # "semstamp", 
+        "semstamp", 
         # "adaptive",
     ]
 
@@ -37,9 +37,9 @@ def main(cfg):
         WordMutator,
         SpanMutator,
         SentenceMutator,
-        Document1StepMutator,
-        Document2StepMutator,
-        DocumentMutator,
+        # Document1StepMutator,
+        # Document2StepMutator,
+        # DocumentMutator,
     ]
 
     # Step 1: Initialize Quality Oracle
@@ -55,7 +55,7 @@ def main(cfg):
     for watermarker in watermarkers:
 
         # Step 2: Load data for that particular watermarkerp
-        data = pd.read_csv('/data2/borito1907/impossibility-watermark/09_27_high_semstamp_good_embedder.csv')
+        data = pd.read_csv('/data2/borito1907/impossibility-watermark/10_03_less_high_semstamp_good_embedder.csv')
         # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
         # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv").sample(n=10, random_state=42)
 
@@ -73,6 +73,14 @@ def main(cfg):
             # w_str = watermarker_obj.__class__.__name__
             m_str = mutator.__class__.__name__
             cfg.attack.compare_against_original = True
+
+            if m_str == "WordMutator":
+                cfg.attack.max_steps = 1000
+            if m_str == "SpanMutator":
+                cfg.attack.max_steps = 200
+            if m_str == "SentenceMutator":
+                cfg.attack.max_steps = 100
+
             # cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
             cfg.attack.log_csv_path = f"./attack_traces/good_embedder_{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
 
