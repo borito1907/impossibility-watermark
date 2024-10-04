@@ -92,8 +92,8 @@ def main(cfg):
     # Loop over all CSV files in the directory
     for filename in os.listdir(dir_path):
         # Filter for files with SemStamp or Adaptive watermarkers and n-steps=200
-        if (filename_pattern in filename) and "n-steps=200" in filename and filename.endswith("results.csv"):
-        # if (filename_pattern in filename) and "good_embedder" in filename and filename.endswith(".csv"):
+        if (filename_pattern in filename) and "n-steps=200" in filename and filename.endswith("results.csv") and "DocumentMutator" in filename:
+        # if (filename_pattern in filename) and "good_embedder" in filename and filename.endswith(".csv") and "Word" not in filename:
 
             df_path = os.path.join(dir_path, filename)
             log.info(f"Processing file: {df_path}")
@@ -112,6 +112,8 @@ def main(cfg):
             modified_dfs = []
 
             for df in dfs:
+                if len(df) <= 5:
+                    continue
                 log.info(f"Length of the DF: {len(df)}")
                 prompt = df.iloc[0]['prompt']
                 original_text = df.iloc[0]['current_text']
@@ -123,6 +125,7 @@ def main(cfg):
                 df['diff_length'] = 0  # Initialize a new column for diff_length
 
                 for idx, row in df.iterrows():
+
                     if not pd.isna(row['mutated_text']):
                         diff_length = diff_analysis(current_text, row['mutated_text'])
                         # log.info(f"Diff Length: {diff_length}")
@@ -138,14 +141,14 @@ def main(cfg):
                         df.at[idx, 'watermark_score'] = zscore
                         log.info(f"Watermark Score: {zscore}")
 
-                        # counter +=1 
-
                     if row['quality_preserved']:
                         if pd.isna(row['mutated_text']):
                             log.info(f"Row with NaN in 'mutated_text': {row}")
                             current_text = row['current_text']
                         else:
                             current_text = row['mutated_text']
+
+                    # counter +=1 
 
                 # zscore = score_lines[counter]
                 # is_detected = (zscore >= 60.0)

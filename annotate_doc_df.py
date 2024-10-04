@@ -75,8 +75,8 @@ def main(cfg):
     # logfile_path = '/data2/borito1907/impossibility-watermark/10_01_adaptive_annotate_watermark_score.log'
     # score_lines = extract_score_values(logfile_path)
 
-    watermarking_scheme = "adaptive"
-    # watermarking_scheme = "semstamp"
+    # watermarking_scheme = "adaptive"
+    watermarking_scheme = "semstamp"
 
     if watermarking_scheme == "semstamp":
         filename_pattern = "SemStamp"
@@ -92,7 +92,7 @@ def main(cfg):
     # Loop over all CSV files in the directory
     for filename in os.listdir(dir_path):
         # Filter for files with SemStamp or Adaptive watermarkers and n-steps=200
-        if (filename_pattern in filename) and "n-steps=200" in filename and filename.endswith("results.csv") and "Document" in filename:
+        if (filename_pattern in filename) and "n-steps=200" in filename and filename.endswith("results.csv") and "DocumentMutator" in filename:
 
             df_path = os.path.join(dir_path, filename)
             log.info(f"Processing file: {df_path}")
@@ -111,6 +111,8 @@ def main(cfg):
             modified_dfs = []
 
             for df in dfs:
+                if len(df) <= 5:
+                    continue
                 success_count = 0
                 log.info(f"Length of the DF: {len(df)}")
                 prompt = df.iloc[0]['prompt']
@@ -142,6 +144,7 @@ def main(cfg):
 
                         # counter +=1 
 
+
                     quality_preserved = row['quality_preserved']
                     if quality_preserved:
                         if pd.isna(row['mutated_text']):
@@ -150,7 +153,11 @@ def main(cfg):
                         else:
                             current_text = row['mutated_text']
                             success_count += 1
-                    
+
+                # is_detected, zscore = watermarker.detect(current_text)
+                # last_index = df.index[-1]
+                # df.at[last_index, 'watermark_detected'] = is_detected
+                # df.at[last_index, 'watermark_score'] = zscore
                     
                 modified_dfs.append(df)
             
