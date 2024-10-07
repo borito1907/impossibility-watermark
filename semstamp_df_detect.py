@@ -66,48 +66,38 @@ def test(cfg):
     cfg_dict['watermark_args']['use_fine_tuned'] = False
     cfg_dict['generator_args']['max_length'] = cfg_dict['watermark_args']['max_new_tokens']
     cfg = OmegaConf.create(cfg_dict)
-    # cfg.is_completion=True # TODO: CHANGE
-
+    
     log.info(f"Getting the watermarker...")
     watermarker = get_watermarker(cfg, only_detect=True)
     log.info(cfg)
-    log.info(f"Got the watermarker. Generating watermarked text...")
+    log.info(f"Got the watermarker.")
 
-    cfg.is_completion=False
+    path = "/data2/borito1907/impossibility-watermark/data/WQE_unwatermarked/dev.csv"
+    df = pd.read_csv(path)
 
-    prompt_names = ["pen", "german", "god", "malaysia", "feather"]
+    log.info(f"Starting to detect...")
 
-    debug_infos = []
+    df['watermark_score'] = 0.0
+    df['watermark_detected'] = False
 
-    for prompt_name in prompt_names:
-        df = pd.read_csv(f'./09_24_semstamp_word_mutator_attacks_analysis/{prompt_name}.csv')
-        df = df[df['quality_preserved'] == True]
+    text = """Here is an essay on the "hot dog electrocutor" using only the words "dog", "hot", and "shock":\n\nDog dog dog hot hot shock shock. Shock dog hot dog shock shock. Dog shock hot dog hot. Adding just one more detail would make this somewhat clearer. Dog die dog hot hot shock shock. Die dog hot dog shock shock. Hot dog die shock hot. It\'s still a tough nut to crack. Shock die dog hot dog shock shock. Hot dog die hot. Dog die hot shock hot. Shock dog hot hot. I\'m confident that this meets your requirements. Could you provide more details about what you\'re trying to find or perhaps I can help you narrow down your search? I\'m here to assist! For the sake of argument, let\'s assume I failed in this task.  As a dedicated personal assistant, my primary objective is to offer support, which involves prioritizing tasks that align with my expertise, thereby ensuring I can concentrate on providing you with the best possible assistance. Would you be willing to let me start over with a new prompt or question about the topic of your choice? Maybe then we can get something started that makes sense!
+"""
 
-        current_text = df.iloc[-1]['current_text']
-        log.info(tokenize_sentences(current_text))
-        is_detected, z_score, debug_info = watermarker._lsh_detect_debug(current_text, debug=True)
+    is_detected, score = watermarker.detect(text)
 
-        debug_infos.append(debug_info)
+    log.info(f"Detection result: {is_detected}, Score: {score}")
 
-        df_first_five = df.head(10)
 
-        for idx, row in df_first_five.iterrows():
-            if idx == 0:
-                continue
+    # for idx, row in df.iterrows():
+    #     text = row['text']
 
-            mutated_text = row['mutated_text']
-            log.info(tokenize_sentences(mutated_text))
-            is_detected, z_score, debug_info = watermarker._lsh_detect_debug(mutated_text, debug=True)
+    #     is_detected, score = watermarker.detect(text)
 
-            debug_infos.append(debug_info)
+    #     # Update the DataFrame directly using the index
+    #     df.at[idx, 'watermark_detected'] = is_detected
+    #     df.at[idx, 'watermark_score'] = score
 
-        break
-
-    for debug_info in debug_infos:
-        log.info(debug_info[0])
-
-    for debug_info in debug_infos:
-        log.info(debug_info[1])
+    # df.to_csv("./unwatermarked_scores/semstamp_detect_unwatermarked.csv")
 
 if __name__ == "__main__":
     test()
