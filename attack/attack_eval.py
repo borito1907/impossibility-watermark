@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=4,5 python -m attack.attack_eval
+# RUN: CUDA_VISIBLE_DEVICES=0,1,2 python -m attack.attack_eval
 
 import os
 import traceback
@@ -29,17 +29,17 @@ def main(cfg):
         # "umd",
         # "umd_new",
         # "unigram",
-        "semstamp", 
-        # "adaptive",
+        # "semstamp", 
+        "adaptive",
     ]
 
     mutators = [
-        WordMutator,
-        SpanMutator,
-        SentenceMutator,
+        # WordMutator,
+        # SpanMutator,
+        # SentenceMutator,
         # Document1StepMutator,
         # Document2StepMutator,
-        # DocumentMutator,
+        DocumentMutator,
     ]
 
     # Step 1: Initialize Quality Oracle
@@ -55,8 +55,8 @@ def main(cfg):
     for watermarker in watermarkers:
 
         # Step 2: Load data for that particular watermarkerp
-        data = pd.read_csv('/data2/borito1907/impossibility-watermark/10_03_less_high_semstamp_good_embedder.csv')
-        # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
+        # data = pd.read_csv('/data2/borito1907/impossibility-watermark/10_03_less_high_semstamp_good_embedder.csv')
+        data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
         # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv").sample(n=10, random_state=42)
 
         # Step 3: Initialize watermark detector
@@ -80,9 +80,11 @@ def main(cfg):
                 cfg.attack.max_steps = 200
             if m_str == "SentenceMutator":
                 cfg.attack.max_steps = 100
+            if m_str == "DocumentMutator":
+                cfg.attack.max_steps = 50
 
-            # cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
-            cfg.attack.log_csv_path = f"./attack_traces/good_embedder_{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
+            cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
+            # cfg.attack.log_csv_path = f"./attack_traces/good_embedder_{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
 
             if os.path.exists(cfg.attack.log_csv_path):
                 log.info(f"skipping this attack configuration: {cfg.attack.log_csv_path}")
