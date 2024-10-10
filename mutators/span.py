@@ -28,7 +28,7 @@ def extract_fills(texts):
     return extracted_fills
 
 def join_tokens(tokens):
-    joined = " ".join(tokens)
+    joined = " ".join(tokens).replace(" \n", "\n")
     # Remove spaces before certain punctuation marks
     joined = re.sub(r'\s([,.;!?])', r'\1', joined)
     return joined
@@ -37,7 +37,7 @@ def apply_extracted_fills(masked_texts, extracted_fills):
     # log.info(f"apply_extracted_fills (masked_texts in): {masked_texts}")
     # log.info(f"apply_extracted_fills (extracted_fills in): {extracted_fills}")
     # split masked text into tokens, only splitting on spaces (not newlines)
-    tokens = [x.split(' ') for x in masked_texts]
+    tokens = [x.replace('\n', ' \n').split(' ') for x in masked_texts]
 
     n_expected = count_masks(masked_texts)
 
@@ -269,11 +269,11 @@ if __name__ == "__main__":
 
         dataset = pd.read_csv("./data/WQE/dev.csv")
         dataset = dataset.sample(frac=1).reset_index(drop=True)
-        n=1
+        n=20
         avg_time = 0
         dataset = dataset.head(n) 
         
-        text_mutator = Span2Mutator()
+        text_mutator = SpanMutator()
         
         for index, row in dataset.iterrows():
           text = row["response_a"]

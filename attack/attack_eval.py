@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=4,5 python -m attack.attack_eval
+# RUN: CUDA_VISIBLE_DEVICES=0,1,2 python -m attack.attack_eval
 
 import os
 import traceback
@@ -29,17 +29,17 @@ def main(cfg):
         # "umd",
         # "umd_new",
         # "unigram",
-        "semstamp", 
-        # "adaptive",
+        # "semstamp", 
+        "adaptive",
     ]
 
     mutators = [
-        WordMutator,
+        # WordMutator,
         # SpanMutator,
         # SentenceMutator,
         # Document1StepMutator,
         # Document2StepMutator,
-        # DocumentMutator,
+        DocumentMutator,
     ]
 
     # Step 1: Initialize Quality Oracle
@@ -74,7 +74,16 @@ def main(cfg):
             m_str = mutator.__class__.__name__
             cfg.attack.compare_against_original = True
 
-            cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results_newest.csv"
+            if m_str == "WordMutator":
+                cfg.attack.max_steps = 1000
+            if m_str == "SpanMutator":
+                cfg.attack.max_steps = 200
+            if m_str == "SentenceMutator":
+                cfg.attack.max_steps = 100
+            if m_str == "DocumentMutator":
+                cfg.attack.max_steps = 50
+
+            cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
             # cfg.attack.log_csv_path = f"./attack_traces/good_embedder_{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
 
             if os.path.exists(cfg.attack.log_csv_path):
