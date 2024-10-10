@@ -42,21 +42,27 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker.")
 
-    path = "../MarkLLM/09_23_overnight_semstamp_attacks/09_23_attack_sandpaper_adaptive_full.csv"
+    path = "/data2/borito1907/impossibility-watermark/data/WQE_unwatermarked/dev.csv"
     df = pd.read_csv(path)
 
-    log.info(f"Starting to generate...")
+    log.info(f"Starting to detect...")
+
+    df['watermark_score'] = 0.0
+    df['watermark_detected'] = False
 
     for idx, row in df.iterrows():
-        mutated_text = row['mutated_text']
+        text = row['text']
 
-        is_detected, score = watermarker.detect(mutated_text)
+        is_detected, score = watermarker.detect(text)
 
         # Update the DataFrame directly using the index
         df.at[idx, 'watermark_detected'] = is_detected
         df.at[idx, 'watermark_score'] = score
 
-    df.to_csv("../MarkLLM/09_23_overnight_semstamp_attacks/09_23_attack_sandpaper_adaptive_full_with_zscores.csv")
+        log.info(f"Watermark Detected: {is_detected}")
+        log.info(f"Watermark Score: {score}")
+
+    df.to_csv("./unwatermarked_scores/adaptive_detect_unwatermarked.csv")
 
 if __name__ == "__main__":
     test()

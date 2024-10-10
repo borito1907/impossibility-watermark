@@ -36,7 +36,7 @@ class Attack:
             "quality_analysis" : {},
             "quality_preserved": False,
             "watermark_detected": False,
-            "watermark_score": -1,
+            "watermark_score": None,
             "backtrack" : False,
             "total_time": "",
             "mutator_time": "",

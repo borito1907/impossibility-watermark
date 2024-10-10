@@ -75,8 +75,8 @@ def main(cfg):
     # logfile_path = '/data2/borito1907/impossibility-watermark/10_01_adaptive_annotate_watermark_score.log'
     # score_lines = extract_score_values(logfile_path)
 
-    # watermarking_scheme = "adaptive"
-    watermarking_scheme = "semstamp"
+    watermarking_scheme = "adaptive"
+    # watermarking_scheme = "semstamp"
 
     if watermarking_scheme == "semstamp":
         filename_pattern = "SemStamp"
@@ -92,14 +92,14 @@ def main(cfg):
     # Loop over all CSV files in the directory
     for filename in os.listdir(dir_path):
         # Filter for files with SemStamp or Adaptive watermarkers and n-steps=200
-        if (filename_pattern in filename) and "n-steps=200" in filename and filename.endswith("results.csv") and "DocumentMutator" in filename:
+        if (filename_pattern in filename) and "n-steps=200" in filename and filename.endswith("results.csv"):
         # if (filename_pattern in filename) and "good_embedder" in filename and filename.endswith(".csv") and "Word" not in filename:
 
             df_path = os.path.join(dir_path, filename)
             log.info(f"Processing file: {df_path}")
 
             # Set new_df_path by annotating the filename before .csv
-            new_df_path = os.path.join(dir_path, filename.replace('.csv', '_annotatedfix.csv'))
+            new_df_path = os.path.join(dir_path, filename.replace('.csv', '_annotatedlast.csv'))
      
             df = pd.read_csv(df_path) 
 
@@ -132,14 +132,14 @@ def main(cfg):
                         df.at[idx, 'diff_length'] = diff_length
 
                     # Run the watermark detection every 20 steps
-                    if idx % 20 == 0:
-                        # log.info(f"Detecting Current Text: {current_text}")
-                        # zscore = score_lines[counter]
-                        # is_detected = (zscore >= 60.0)
-                        is_detected, zscore = watermarker.detect(current_text)
-                        df.at[idx, 'watermark_detected'] = is_detected
-                        df.at[idx, 'watermark_score'] = zscore
-                        log.info(f"Watermark Score: {zscore}")
+                    # if idx % 20 == 0:
+                    #     # log.info(f"Detecting Current Text: {current_text}")
+                    #     # zscore = score_lines[counter]
+                    #     # is_detected = (zscore >= 60.0)
+                    #     is_detected, zscore = watermarker.detect(current_text)
+                    #     df.at[idx, 'watermark_detected'] = is_detected
+                    #     df.at[idx, 'watermark_score'] = zscore
+                    #     log.info(f"Watermark Score: {zscore}")
 
                     if row['quality_preserved']:
                         if pd.isna(row['mutated_text']):
@@ -156,6 +156,7 @@ def main(cfg):
                 last_index = df.index[-1]
                 df.at[last_index, 'watermark_detected'] = is_detected
                 df.at[last_index, 'watermark_score'] = zscore
+                log.info(f"Watermark Score: {zscore}")
                 # counter +=1 
 
                 log.info(f"Last Row: {df.iloc[-1]}")
