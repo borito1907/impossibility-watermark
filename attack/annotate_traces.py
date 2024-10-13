@@ -13,7 +13,7 @@ def get_max_step_count(df):
 
 if __name__ == "__main__":
 
-    # RUN: CUDA_VISIBLE_DEVICES=3 python -m attack.annotate_traces
+    # RUN: CUDA_VISIBLE_DEVICES=3,4 python -m attack.annotate_traces
 
     import os
     import glob
