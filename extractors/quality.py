@@ -1,8 +1,49 @@
 import numpy as np
 import torch
-from transformers import AutoModel, AutoTokenizer
+from transformers import AutoModel, AutoModelForSequenceClassification, AutoTokenizer
 
 class QualityMetric:
+    
+    def __init__(self, model_id="Skywork/Skywork-Reward-Gemma-2-27B-v0.2") -> None:
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        self.model = AutoModelForSequenceClassification.from_pretrained(
+            model_id,
+            torch_dtype=torch.bfloat16,
+            cache_dir="/data2/.shared_models",
+            device_map="auto",
+            attn_implementation="flash_attention_2",
+            num_labels=1,
+        )
+
+    def evaluate(self, prompts, texts, return_mean=True):
+        all_scores = []
+        for prompt, text in zip(prompts, texts):
+            chat = [{"role": "user", "content": prompt},{"role": "assistant", "content": text}]
+            chat = self.tokenizer.apply_chat_template(chat, tokenize=True, return_tensors="pt").to(self.model.device)
+            with torch.no_grad():
+                score = self.model(chat).logits[0][0].item() 
+                all_scores.append(score)  # Fixed typo from scor to score
+        all_scores = np.array(all_scores)
+        return all_scores.mean() if return_mean else all_scores
+
+    def evaluate_dataframe(self, df, prompt_column, text_column, new_column):
+        """
+        Evaluate a pandas DataFrame, adding a new column with quality scores.
+        
+        :param df: pandas DataFrame containing the prompts and texts.
+        :param prompt_column: the name of the column containing the prompts.
+        :param text_column: the name of the column containing the texts.
+        :param new_column: the name of the new column to store the quality scores.
+        :param batch_size: batch size for model evaluation.
+        :return: DataFrame with new column containing quality scores.
+        """
+        prompts = df[prompt_column].tolist()
+        texts = df[text_column].tolist()
+        scores = self.evaluate(prompts, texts, return_mean=False)
+        df[new_column] = scores
+        return df
+
+class InternLMQualityMetric:
     
     def __init__(self, model=None, explain=False, device="cuda") -> None:
         self.device = device # torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -55,9 +96,11 @@ class QualityMetric:
         scores = self.evaluate(prompts, texts, return_mean=False, batch_size=batch_size)
         df[new_column] = scores
         return df
-        
+
 
 if __name__ == '__main__':
+
+    # RUN: CUDA_VISIBLE_DEVICES=2 python -m extractors.quality
     
     prompts = [
         "What is your favorite chappell roan song lyric?",
@@ -80,7 +123,7 @@ if __name__ == '__main__':
         "Every night's another reason why I left it all",
     ]
 
-    q_metric = QualityMetric()
+    q_metric = QualityMetric(model_id="Skywork/Skywork-Reward-Gemma-2-27B-v0.2")
 
     q_scores = q_metric.evaluate(prompts, texts_a, return_mean=False)
     print(f"texts: {texts_a}")
