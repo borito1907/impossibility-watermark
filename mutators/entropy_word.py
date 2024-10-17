@@ -48,7 +48,7 @@ def compute_entropies(words, model, tokenizer, device):
     return entropy_scores
 
 
-def compute_entropies_efficiently(text, model, tokenizer, device):
+def compute_entropies_efficiently(text, model, tokenizer):
     """
     Computes the entropy of the next token probabilities for each token in the input text efficiently.
 
@@ -56,12 +56,10 @@ def compute_entropies_efficiently(text, model, tokenizer, device):
         text (str): The input text.
         model: The language model used for entropy measurement.
         tokenizer: The tokenizer associated with the model.
-        device: The device (CPU/GPU) to perform computations on.
 
     Returns:
         List[float], List[str]: A list of entropy values and corresponding tokens for each token position.
     """
-    # model.to(device)
     model.eval()
     with torch.no_grad():
         # Move input_ids to the same device as the model
@@ -262,7 +260,7 @@ class WordMutator:
                 seg_punc.append('')
 
         # Unpack the returned entropies and tokens
-        entropies, tokens = compute_entropies_efficiently(text, self.measure_model, self.measure_tokenizer, self.device)
+        entropies, tokens = compute_entropies_efficiently(text, self.measure_model, self.measure_tokenizer)
 
         # Create a list of (index, entropy) pairs
         entropy_scores = list(enumerate(entropies))
