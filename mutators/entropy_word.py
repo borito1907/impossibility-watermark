@@ -61,11 +61,11 @@ def compute_entropies_efficiently(text, model, tokenizer, device):
     Returns:
         List[float], List[str]: A list of entropy values and corresponding tokens for each token position.
     """
-    model.to(device)
+    # model.to(device)
     model.eval()
     with torch.no_grad():
         # Move input_ids to the same device as the model
-        input_ids = tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(device)
+        input_ids = tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(model.device)
         
         # Get model outputs
         outputs = model(input_ids)
