@@ -59,36 +59,35 @@ def compute_entropies_efficiently(text, model, tokenizer, device):
         device: The device (CPU/GPU) to perform computations on.
 
     Returns:
-        List[float]: A list of entropy values for each token position.
+        List[float], List[str]: A list of entropy values and corresponding tokens for each token position.
     """
     model.to(device)
     model.eval()
     with torch.no_grad():
-        # Encode the entire text
-        # input_ids = tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(next(model.parameters()).device)  # shape: [1, seq_len]
-        input_ids = tokenizer.encode(text, return_tensors='pt', add_special_tokens=False)
-        # print(f"Model is on device: {next(model.parameters()).device}")
-        # print(f"Input IDs are on device: {input_ids.device}")
-
+        # Move input_ids to the same device as the model
+        input_ids = tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(device)
+        
         # Get model outputs
         outputs = model(input_ids)
         logits = outputs.logits.cpu()  # shape: [1, seq_len, vocab_size]
+        
+        # Get tokens (excluding the last token, which doesn't have a next-token prediction)
+        tokens = tokenizer.convert_ids_to_tokens(input_ids[0])[:-1]
+        
+        # Now you can delete input_ids if necessary
         del outputs
         del input_ids
         
         # Compute probabilities using softmax
         probs = torch.nn.functional.softmax(logits, dim=-1)  # shape: [1, seq_len, vocab_size]
         
-        # Compute entropy for each position (excluding the last token, as there is no next-token prediction)
+        # Compute entropy for each position (excluding the last token)
         entropies = []
-        seq_len = input_ids.size(1)
+        seq_len = logits.size(1)
         for t in range(seq_len - 1):
             prob_dist = probs[0, t, :]  # The model's prediction for the next token at position t+1
             entropy = -torch.sum(prob_dist * torch.log(prob_dist + 1e-12))  # Add epsilon to avoid log(0)
             entropies.append(entropy.item())
-        
-        # Get tokens (excluding the last token, which doesn't have a next-token prediction)
-        tokens = tokenizer.convert_ids_to_tokens(input_ids[0])[:-1]
         
         return entropies, tokens
 
@@ -165,7 +164,6 @@ class WordMutator:
         self.max_length = 256
         self.accelerator = Accelerator()
         self.device = self.accelerator.device
-        # self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.fill_mask = pipeline(
             "fill-mask", 
@@ -174,7 +172,6 @@ class WordMutator:
             device=self.device
         )
         self.tokenizer_kwargs = {"truncation": True, "max_length": 512}
-
 
         self.measure_tokenizer = AutoTokenizer.from_pretrained("bigscience/bloomz-560m")
         self.measure_model = AutoModelForCausalLM.from_pretrained("bigscience/bloomz-560m", device_map="auto")
@@ -215,12 +212,11 @@ class WordMutator:
         Attempts to mask a word from the given list of candidate indices.
         If none of the candidates work, returns None.
         """
-
         if not words or not candidate_indices:
-            return words, None, None
-        
+            return None, None, None
+
         random.shuffle(candidate_indices)
-        
+
         found_nice_word = False
         index_to_mask = None
 
@@ -230,16 +226,20 @@ class WordMutator:
         while not found_nice_word and attempt_count < max_attempts:
             # Use the provided candidate indices to try masking
             index_to_mask = candidate_indices[attempt_count]
+            attempt_count += 1
+
+            if index_to_mask < 0 or index_to_mask >= len(words):
+                continue  # Skip invalid indices
+
             word_to_mask = words[index_to_mask]
 
             # Check if the selected word is valid (not a bullet point)
             if word_to_mask and not is_bullet_point(word_to_mask):
                 found_nice_word = True
-            attempt_count += 1
 
         # If no suitable word was found, return None
         if not found_nice_word:
-            return None
+            return None, None, None
 
         # Mask the selected word
         words_with_mask = words.copy()
@@ -261,16 +261,22 @@ class WordMutator:
             if len(seg_punc) < len(segment):
                 seg_punc.append('')
 
-        entropy_scores = compute_entropies_efficiently(text, self.measure_model, self.measure_tokenizer, self.device)
+        # Unpack the returned entropies and tokens
+        entropies, tokens = compute_entropies_efficiently(text, self.measure_model, self.measure_tokenizer, self.device)
+
+        # Create a list of (index, entropy) pairs
+        entropy_scores = list(enumerate(entropies))
 
         log.info(f"Length of Entropy Scores: {len(entropy_scores)}")
         log.info(f"Length of Words: {len(words)}")
-        
 
         # Filter entropy scores to only include those within the selected segment
         segment_entropies = [
             (i, entropy) for i, entropy in entropy_scores if start <= i < end
         ]
+
+        # Adjust indices to be relative to the segment
+        segment_entropies = [ (i - start, entropy) for i, entropy in segment_entropies ]
 
         # Sort by entropy in descending order and select the top 20 indices
         top_20_indices = sorted(segment_entropies, key=lambda x: x[1], reverse=True)[:20]
@@ -419,9 +425,9 @@ Overall, Tempus embodies a fierce dedication to time optimization and resource m
 
     start = time.time()
 
-    df = pd.read_csv('/data2/borito1907/impossibility-watermark/data/WQE_adaptive/dev.csv')
+    df = pd.read_csv('./data/WQE_adaptive/dev.csv')
 
-    mutations_file_path = '/data2/borito1907/impossibility-watermark/inputs/word_mutator/test_1new.csv'
+    mutations_file_path = './inputs/word_mutator/test_1new.csv'
 
     for idx, row in df.head(50).iterrows():
         mutated_text = row['text']
