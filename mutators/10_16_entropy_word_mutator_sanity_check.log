@@ -1,0 +1,49 @@
+/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+You shouldn't move a model that is dispatched using accelerate hooks.
+Traceback (most recent call last):
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/data2/borito1907/impossibility-watermark/mutators/entropy_word.py", line 448, in <module>
+    test()
+  File "/data2/borito1907/impossibility-watermark/mutators/entropy_word.py", line 435, in test
+    mutated_text = text_mutator.mutate(mutated_text)
+  File "/data2/borito1907/impossibility-watermark/mutators/entropy_word.py", line 264, in mutate
+    entropy_scores = compute_entropies_efficiently(text, self.measure_model, self.measure_tokenizer, self.device)
+  File "/data2/borito1907/impossibility-watermark/mutators/entropy_word.py", line 74, in compute_entropies_efficiently
+    outputs = model(input_ids)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/accelerate/hooks.py", line 166, in new_forward
+    output = module._old_forward(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/transformers/models/bloom/modeling_bloom.py", line 971, in forward
+    transformer_outputs = self.transformer(
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/transformers/models/bloom/modeling_bloom.py", line 749, in forward
+    outputs = block(
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/accelerate/hooks.py", line 166, in new_forward
+    output = module._old_forward(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/transformers/models/bloom/modeling_bloom.py", line 446, in forward
+    layernorm_output = self.input_layernorm(hidden_states)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/accelerate/hooks.py", line 166, in new_forward
+    output = module._old_forward(*args, **kwargs)
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/modules/normalization.py", line 201, in forward
+    return F.layer_norm(
+  File "/local1/borito1907/anaconda3/envs/gptq/lib/python3.10/site-packages/torch/nn/functional.py", line 2573, in layer_norm
+    return torch.layer_norm(input, normalized_shape, weight, bias, eps, torch.backends.cudnn.enabled)
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:1 and cuda:0! (when checking argument for argument weight in method wrapper_CUDA__native_layer_norm)
