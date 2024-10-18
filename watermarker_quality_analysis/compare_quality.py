@@ -1,5 +1,6 @@
-# RUN: CUDA_VISIBLE_DEVICES=5,7 python -m watermarker_quality_analysis.compare_quality
+# RUN: CUDA_VISIBLE_DEVICES=2,7 python -m watermarker_quality_analysis.compare_quality
 
+import os
 import traceback
 from tqdm import tqdm
 import numpy as np
@@ -9,8 +10,6 @@ from extractors import (
     FluencyMetric, 
     GrammarMetric, 
     QualityMetric,
-    MATTRDiversity,
-    UniqueBigramsDiversity,
 )
 
 import logging
@@ -22,132 +21,113 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 def main():
 
     def check_watermark(df, return_mean=True):
+        if 'watermark_detected' in df.columns and 'watermark_scores' in df.columns:
+            return df  # Return the DataFrame with existing data
+
         watermarks_detected, watermark_scores = [], []
-        for benchmark_id, row in tqdm(df.iterrows(), total=len(df), desc=f"Running {check_watermark.__name__}"):
+        for _, row in tqdm(df.iterrows(), total=len(df), desc=f"Running {check_watermark.__name__}"):
             try:
                 watermark_detected, watermark_score = watermarker_fn.detect(row['text'])
                 watermarks_detected.append(watermark_detected)
                 watermark_scores.append(watermark_score)
             except Exception:
                 print(traceback.format_exc())
-                watermarks_detected.append(np.nan)  # Use NaN to ignore in mean calculation
+                watermarks_detected.append(np.nan)
                 watermark_scores.append(np.nan)
         
-        watermarks_detected = np.array(watermarks_detected)
-        watermark_scores = np.array(watermark_scores)
+        df['watermark_detected'] = watermarks_detected
+        df['watermark_scores'] = watermark_scores
+        return df  # Return the updated DataFrame
 
-        if return_mean:
-            watermarks_detected = np.nanmean(watermarks_detected)  # Ignore NaN in mean
-            watermark_scores = np.nanmean(watermark_scores)
+    def process_dataframe(df, text_column='text', prompt_column='prompt'):
+        # Process each metric and update the DataFrame with new columns
         
-        return {
-            "watermark_detected": watermarks_detected,
-            "watermark_scores": watermark_scores,
-        }
+        # Compute watermark detection
+        if "watermark_scores" not in df.columns:
+            df = check_watermark(df)
 
-    def get_watermark_scores(unwatermarked_data, watermarked_data):
-        mean_unwatermark_score = check_watermark(unwatermarked_data)
-        mean_watermark_score = watermarked_data['zscore'].mean()
-        return {
-            "mean_unwatermark_score": mean_unwatermark_score,
-            "mean_watermark_score": mean_watermark_score,
-        }
+        # Compute perplexity (fluency)
+        if "perplexity" not in df.columns:
+            df = fluency.evaluate_dataframe(df, text_column=text_column, new_column='perplexity')
 
-    def get_perplexities(unwatermarked_data, watermarked_data):
-        mean_unwatermarked_perplexity = fluency.evaluate(unwatermarked_data['text'].tolist())
-        mean_watermarked_perplexity = fluency.evaluate(watermarked_data['text'].tolist())
-        return {
-            "mean_unwatermarked_perplexity": mean_unwatermarked_perplexity,
-            "mean_watermarked_perplexity": mean_watermarked_perplexity,
-        }
-        
-    def get_grammaticality(unwatermarked_data, watermarked_data):
-        mean_unwatermarked_grammar_errors = grammar.evaluate(unwatermarked_data['text'].tolist())
-        mean_watermarked_grammar_errors = grammar.evaluate(watermarked_data['text'].tolist())
-        return {
-            "mean_unwatermarked_grammar_errors": mean_unwatermarked_grammar_errors,
-            "mean_watermarked_grammar_errors": mean_watermarked_grammar_errors,
-        }
+        # Compute grammaticality
+        if "grammar_errors" not in df.columns:
+            df = grammar.evaluate_dataframe(df, text_column=text_column, new_column='grammar_errors')
 
-    def get_quality(unwatermarked_data, watermarked_data):
-        mean_unwatermarked_quality = quality.evaluate(unwatermarked_data['prompt'].tolist(), unwatermarked_data['text'].tolist())
-        mean_watermarked_quality = quality.evaluate(watermarked_data['prompt'].tolist(), watermarked_data['text'].tolist())
-        return {
-            "mean_unwatermarked_quality": mean_unwatermarked_quality,
-            "mean_watermarked_quality": mean_watermarked_quality,
-        }
+        # Compute quality
+        if "skywork27B_quality" not in df.columns:
+            df = quality.evaluate_dataframe(df, prompt_column=prompt_column, text_column=text_column, new_column='skywork27B_quality')
 
-    def get_diversities(unwatermarked_data, watermarked_data):
-        unwatermarked_mattr = mattr.evaluate(unwatermarked_data)
-        watermarked_mattr = mattr.evaluate(watermarked_data)
-        unwatermarked_bigram = bigram.evaluate(unwatermarked_data)
-        watermarked_bigram = bigram.evaluate(watermarked_data)
-        return {
-            "unwatermarked_mattr": unwatermarked_mattr,
-            "watermarked_mattr": watermarked_mattr,
-            "unwatermarked_bigram": unwatermarked_bigram,
-            "watermarked_bigram": watermarked_bigram,
-        }
+        return df
 
-    watermarkers = [
-        "adaptive",
-        "semstamp", 
-        "umd",
-    ]
+    watermarkers = ["umd_new", "adaptive_neo", "unigram"]
 
-    # Load default, non-watermarked dataset for comparison
+    # Load unwatermarked dataset
     unwatermarked_data_path = "./data/WQE_unwatermarked/dev.csv"
     unwatermarked_data = pd.read_csv(unwatermarked_data_path)
 
     # Initialize metric extractors
     fluency = FluencyMetric(device="cpu")
     grammar = GrammarMetric()
-    quality = QualityMetric(device="cpu")        
-    mattr   = MATTRDiversity()
-    bigram  = UniqueBigramsDiversity()
+    quality = QualityMetric()
 
-    results = []
     for watermarker in watermarkers:
-
         print(watermarker)
 
-        # Load data for that particular watermarker
+        # Load watermarked data
         watermarked_data_path = f"./data/WQE_{watermarker}/dev.csv"
         watermarked_data = pd.read_csv(watermarked_data_path)
 
         # Initialize watermark detector
         watermarker_fn = get_default_watermarker(watermarker)
 
-        # Collect evaluation statistics
-        print("get_watermark_scores...")
-        w_scores = get_watermark_scores(unwatermarked_data, watermarked_data) 
-        print(w_scores)
-        print("get_perplexities...")
-        p_scores = get_perplexities(unwatermarked_data, watermarked_data) 
-        print(p_scores)
-        print("get_grammaticality...")
-        g_scores = get_grammaticality(unwatermarked_data, watermarked_data) 
-        print(g_scores)
-        print("get_quality...")
-        q_scores = get_quality(unwatermarked_data, watermarked_data) 
-        print(q_scores)
-        print("get_diversities...")
-        d_scores = get_diversities(unwatermarked_data, watermarked_data) 
-        print(d_scores)
-        results.append({
-            "watermarker": watermarker, 
-            "unwatermarked_data_path": unwatermarked_data_path,
-            "watermarked_data_path": watermarked_data_path,
-            **w_scores,
-            **p_scores,
-            **g_scores,
-            **q_scores,
-            **d_scores,
-        })
+        # Process the unwatermarked and watermarked datasets
+        print("Processing unwatermarked data...")
+        unwatermarked_data = process_dataframe(unwatermarked_data)
 
-        df = pd.DataFrame(results)
-        df.to_csv("./watermarker_quality_analysis/watermarker_quality_analysis_results.csv", index=False)
-        print(df)
+        print("Processing watermarked data...")
+        watermarked_data = process_dataframe(watermarked_data)
+
+        # Save the updated CSVs
+        unwatermarked_data.to_csv(unwatermarked_data_path, index=False)
+        watermarked_data.to_csv(watermarked_data_path, index=False)
+        
+def summarize():
+    import glob
+
+    results = []
+    for path in glob.glob("./data/WQE*/dev.csv"):
+        df = pd.read_csv(path)
+        out = {"path": path}
+        # Compute watermark detection
+        if "watermark_scores" in df.columns:
+            out["watermark_scores_mean"] = df["watermark_scores"].mean()
+            out["watermark_scores_std"] = df["watermark_scores"].std()
+
+        # Compute perplexity (fluency)
+        if "perplexity" in df.columns:
+            out["perplexity_mean"] = df["perplexity"].mean()
+            out["perplexity_std"] = df["perplexity"].std()
+
+        # Compute grammaticality
+        if "grammar_errors" in df.columns:
+            out["grammar_errors_mean"] = df["grammar_errors"].mean()
+            out["grammar_errors_std"] = df["grammar_errors"].std()
+
+        # Compute quality
+        if "skywork27B_quality" in df.columns:
+            out["skywork27B_quality_mean"] = df["skywork27B_quality"].mean()
+            out["skywork27B_quality_std"] = df["skywork27B_quality"].std()
+
+        results.append(out)
+    
+    results_df = pd.DataFrame(results)
+    print(results_df)
+
+    results_df.to_csv("./watermarker_quality_analysis/watermarker_quality_analysis_results_v2.csv")
+
 
 if __name__ == "__main__":
-    main()
+    # main()
+    summarize()
+ 

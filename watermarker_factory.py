@@ -5,15 +5,15 @@ from omegaconf import OmegaConf
 from hydra import initialize, compose
 
 def get_watermarker(cfg, **kwargs):
-    if cfg.watermark_args.name == "umd":
+    if "umd" in cfg.watermark_args.name:
         return UMDWatermarker(cfg, **kwargs)
-    elif cfg.watermark_args.name == "unigram":
+    elif "unigram" in cfg.watermark_args.name:
         return UnigramWatermarker(cfg, **kwargs)
-    elif cfg.watermark_args.name == "exp":
+    elif "exp" in cfg.watermark_args.name:
         return EXPWatermarker(cfg, **kwargs)
     elif "semstamp" in cfg.watermark_args.name:
         return SemStampWatermarker(cfg, **kwargs)
-    elif cfg.watermark_args.name == "adaptive":
+    elif "adaptive" in cfg.watermark_args.name:
         return AdaptiveWatermarker(cfg, **kwargs)
     else:
         raise NotImplementedError(f"Watermarker with name {cfg.watermark_args.name}.")
@@ -75,11 +75,11 @@ adaptive_dict['watermark_args']['measure_threshold'] = 50
 adaptive_cfg = OmegaConf.create(adaptive_dict)
 
 def get_default_watermarker(watermarker_name):
-    if watermarker_name == "umd":
+    if "umd" in watermarker_name:
         return UMDWatermarker(umd_cfg)
-    elif watermarker_name == "semstamp" or watermarker_name == "semstamp_lsh":
+    elif "semstamp" in watermarker_name:
         return SemStampWatermarker(semstamp_cfg)
-    elif watermarker_name == "adaptive":
+    elif "adaptive" in watermarker_name:
         return AdaptiveWatermarker(adaptive_cfg)
     else:
         raise NotImplementedError(f"Watermarker with name {watermarker_name}.")

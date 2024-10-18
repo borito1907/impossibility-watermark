@@ -24,7 +24,7 @@ def filter_non_english(df, text_column):
 
     return english_df
 
-for split in ["dev", "test"]:
+for split in ["dev"]:
 
     original_df = pd.read_csv(f"./data/WQE/{split}.csv")
 
@@ -37,7 +37,7 @@ for split in ["dev", "test"]:
 
     original_df.to_csv(f"./data/WQE/{split}.csv", encoding="utf-8", index=False)
 
-    for wm in ["adaptive", "semstamp", "umd", "unwatermarked"]:
+    for wm in ["adaptive_neo"]: # ["adaptive", "semstamp", "umd", "unwatermarked"]:
 
         wm_df = pd.read_csv(f"./data/WQE_{wm}/{split}.csv", index_col=False)
         
