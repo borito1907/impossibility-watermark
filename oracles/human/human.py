@@ -3,7 +3,7 @@ import socketio
 import time
 
 class HumanOracle():
-    def __init__(self, server_url="http://131.179.88.52:5000"):
+    def __init__(self, server_url="http://131.179.88.53:5000"):
         self.sio = socketio.Client()
         self.response_data = None
         self.roomid = None
