@@ -18,15 +18,15 @@ if __name__ == "__main__":
     import os
     import glob
     import traceback
-    from extractors import FluencyMetric, GrammarMetric, QualityMetric, EditsMetric
+    from extractors import FluencyMetric, GrammarMetric, QualityMetric, EditsMetric, InternLMQualityMetric
         
     # Initialize metric extractors
     fluency = FluencyMetric()
     grammar = GrammarMetric()
-    quality = QualityMetric()
+    quality = InternLMQualityMetric()
     edits   = EditsMetric()
 
-    traces = glob.glob("./attack_traces/*attack_results_annotated.csv")
+    traces = glob.glob("./attack_traces/*attack_results_annotated*.csv")
 
     for trace in traces:
 
