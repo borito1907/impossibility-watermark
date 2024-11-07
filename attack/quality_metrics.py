@@ -1,116 +1,99 @@
 import pandas as pd
-from extractors import FluencyMetric, GrammarMetric, QualityMetric
 import os
+import glob
 import random
 import matplotlib.pyplot as plt
 
 
-# quality_metric = QualityMetric()
-# perplexity_metric = FluencyMetric()
-# grammar_metric = GrammarMetric()
+def graph_data(annotated_file):
+  print(f"QUALITY_METRICS: Graphing {annotated_file}")
 
+  data_df = pd.read_csv(annotated_file)
+  data_df = data_df[(data_df["quality_preserved"] == True) & (data_df["length_issue"] == False) & (data_df["mutation_num"] != -1)]
 
-def generate_data(file):
-  attack_trace_df = pd.read_csv(file)
-
-  # only care about times where mutations were successful
-  successful_mutation_df = attack_trace_df[(attack_trace_df["quality_preserved"] == True) & (attack_trace_df["length_issue"] == False)]
-  #successful_mutation_df = successful_mutation_df[['mutation_num', 'prompt', 'current_text', 'mutated_text', 'watermark_score']]
-
-  # separate by prompt, add initial text as step -1
-  # TODO: need initial watermark score. until then, just dont include initial step
-  # for name, group in successful_mutation_df.groupby('prompt'):
-  #   group.iloc[-1] = [-1, group.iloc[0]['prompt'], group.iloc[0]['current_text'], group.iloc[0]['current_text'], something]
-  #   group.index = group.index + 1
-  #   group.sort_index()
-    
-  # contains mimimum necessary data
-  successful_mutation_df = successful_mutation_df[['mutation_num', 'prompt', 'mutated_text', 'watermark_score']]
-
-  # compute metrics
-  # successful_mutation_df['quality'] = successful_mutation_df.apply(lambda row: quality_metric.evaluate([row['prompt']], [row['mutated_text']]), axis=1)
-  # successful_mutation_df['perplexity'] = successful_mutation_df.apply(lambda row: perplexity_metric.evaluate([row['mutated_text']]), axis=1)
-  # successful_mutation_df['grammar'] = successful_mutation_df.apply(lambda row: perplexity_metric.evaluate([row['mutated_text']]), axis=1)
-
-  # batch compute
-  successful_mutation_df['quality'] = quality_metric.evaluate(successful_mutation_df['prompt'], successful_mutation_df['mutated_text'], return_mean=False)
-  successful_mutation_df['perplexity'] = perplexity_metric.evaluate(list(successful_mutation_df['mutated_text']), return_mean=False)
-  successful_mutation_df['grammar'] = grammar_metric.evaluate(successful_mutation_df['mutated_text'], return_mean=False)
-
-  return successful_mutation_df
-
-
-
-
-def graph_data(data_df, image_file):
   # Graphs:
 
   # Quality score vs nth successful step
   # Fluency vs nth successful step
   # Grammar errors vs nth successful step
+  # Words edited vs nth successful step
 
-  fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(22, 10))
-
-  max_steps = data_df['mutation_num'].max()+1
+  fig, (ax1, ax3, ax4, ax5) = plt.subplots(1, 4, figsize=(36, 10))
 
   # separate by prompt
   for name, group in data_df.groupby('prompt'):
-    #alpha = len(group)/max_steps
-    lowest_watermark = group['watermark_score'].min()
-    group['quality'] -= group.iloc[0]['quality']
+
+    group['internlm_quality'] -= group.iloc[0]['internlm_quality']
     group['perplexity'] -= group.iloc[0]['perplexity']
-    group['grammar'] -= group.iloc[0]['grammar']
+    group['grammar_errors'] -= group.iloc[0]['grammar_errors']
+    group['words_edited'] /= group.iloc[0]['current_text_len']
+    #group['skywork_quality'] -= group.iloc[0]['skywork_quality']
   
-    if lowest_watermark < 0:
-      ax1.plot(group['mutation_num'], group['quality'], linewidth=1.2, label=name[:8])
-      ax2.plot(group['mutation_num'], group['perplexity'], linewidth=1.2, label=name[:8])
-      ax3.plot(group['mutation_num'], group['grammar'], linewidth=1.2, label=name[:8])
+    # color_trace = False
+    # if 'Adaptive' in annotated_file:
+    #   color_trace = group[group['watermark_score'] != -1.]['watermark_score'].min() < 60
+    # elif 'SemStamp' in annotated_file:
+    #   color_trace = group[group['watermark_score'] != -1.]['watermark_score'].min() < 0
+    try:
+      color_trace = group[group['normalized_watermark_score'] != -1.]['normalized_watermark_score'].min() < 0
+    except:
+      print(f"QUALITY_METRICS: No column 'normalized_watermark_score'")
+      return
+
+    if color_trace:
+      ax1.plot(group['mutation_num'], group['internlm_quality'], linewidth=1.2, label=name[:8])
+      #ax2.plot(group['mutation_num'], group['skywork_quality'], linewidth=1.2, label=name[:8])
+      ax3.plot(group['mutation_num'], group['perplexity'], linewidth=1.2, label=name[:8])
+      ax4.plot(group['mutation_num'], group['grammar_errors'], linewidth=1.2, label=name[:8])
+      ax5.plot(group['mutation_num'], group['words_edited'], linewidth=1.2, label=name[:8])
     else:
-      ax1.plot(group['mutation_num'], group['quality'], linewidth=.6, label=name[:8], color="silver")
-      ax2.plot(group['mutation_num'], group['perplexity'], linewidth=.6, label=name[:8], color="silver")
-      ax3.plot(group['mutation_num'], group['grammar'], linewidth=.6, label=name[:8], color="silver")
+      ax1.plot(group['mutation_num'], group['internlm_quality'], zorder=-1, linewidth=.6, label=name[:8], color="silver")
+      #ax2.plot(group['mutation_num'], group['skywork_quality'], zorder=-1, linewidth=.6, label=name[:8], color="silver")
+      ax3.plot(group['mutation_num'], group['perplexity'], zorder=-1, linewidth=.6, label=name[:8], color="silver")
+      ax4.plot(group['mutation_num'], group['grammar_errors'], zorder=-1, linewidth=.6, label=name[:8], color="silver")
+      ax5.plot(group['mutation_num'], group['words_edited'], zorder=-1, linewidth=.6, label=name[:8], color="silver")
 
+  size=16
 
-  # Quality
-  ax1.set_title(f"Change in Quality Score VS Successful Steps")
-  ax1.set_xlabel("Successful Mutations")
-  ax1.set_ylabel("Change in InternLM Quality Scoree")
+  # InternLM Quality
+  ax1.set_title("Change in Quality Score VS Successful Steps (InternLM)", fontsize=size)
+  ax1.set_xlabel("Successful Mutations", fontsize=size)
+  ax1.set_ylabel("Change in InternLM Quality Scoree", fontsize=size)
+  
+  # Skywork Quality
+  # ax2.set_title("Change in Quality Score VS Successful Steps (Skywork)", fontsize=size)
+  # ax2.set_xlabel("Successful Mutations", fontsize=size)
+  # ax2.set_ylabel("Change in Skywork Quality Scoree", fontsize=size)
 
   # Perplexity
-  ax2.set_title(f"Change in Perplexity VS Successful Steps")
-  ax2.set_xlabel("Successful Mutations")
-  ax2.set_ylabel("Change in Perplexity Score")
+  ax3.set_title("Change in Perplexity VS Successful Steps", fontsize=size)
+  ax3.set_xlabel("Successful Mutations", fontsize=size)
+  ax3.set_ylabel("Change in Perplexity Score", fontsize=size)
 
   # Grammar
-  ax3.set_title(f"Change in Grammar Errors VS Successful Steps")
-  ax3.set_xlabel("Successful Mutations")
-  ax3.set_ylabel("Change in Grammar Errors Count")
-  #plt.show()
+  ax4.set_title("Change in Grammar Errors VS Successful Steps", fontsize=size)
+  ax5.set_xlabel("Successful Mutations", fontsize=size)
+  ax5.set_ylabel("Change in Grammar Errors Count", fontsize=size)
+
+  # Words edited
+  ax5.set_title("Percentage of Words Changed VS Successful Steps", fontsize=size)
+  ax5.set_xlabel("Successful Mutations", fontsize=size)
+  ax5.set_ylabel("Percentage of Words Changed", fontsize=size)
+
+  
+  # Title + Info
+  analysis_info = annotated_file.split("attack_traces/")[1].split("_")[:4]
+  plt.suptitle(f"Quality Analysis for {analysis_info[1]} using {analysis_info[0]} and {analysis_info[2]} for {analysis_info[3]}", fontsize=26)
+
+  file_path, file_name = os.path.split(annotated_file)
+  image_file = os.path.join(file_path, "quality", "quality_" + file_name[:-3] + "png")
+  print(f"QUALITY_METRICS: Saving to file {image_file}")
   plt.savefig(image_file)
 
 
-
-
-
 if __name__ == "__main__":
-  files = ["attack_traces/DiffOracle_UMDWatermarker_DocumentMutator_compare-original=False_200_attack_results.csv",
-           #"attack_traces/DiffOracle_UMDWatermarker_DocumentMutator_1step_compare-original=False_200_attack_results.csv",
-           "attack_traces/DiffOracle_UMDWatermarker_SentenceMutator_compare-original=False_200_attack_results.csv",
-           "attack_traces/DiffOracle_UMDWatermarker_SentenceMutator_compare-original=True_200_attack_results.csv",
-           "attack_traces/DiffOracle_UMDWatermarker_SpanMutator_compare-original=False_200_attack_results.csv",
-           "attack_traces/DiffOracle_UMDWatermarker_SpanMutator_compare-original=True_200_attack_results.csv",
-           "attack_traces/DiffOracle_UMDWatermarker_WordMutator_compare-original=False_200_attack_results.csv",
-           "attack_traces/DiffOracle_UMDWatermarker_WordMutator_compare-original=True_200_attack_results.csv",]
-  
-  for file in files:
+  traces = glob.glob("./attack_traces/*attack_results_annotated*.csv")
 
-    data_file = file.split("/")[0] + "/quality/" + "quality_" + file.split("/")[1]
-    # generate data if it doesnt exist already
-    if not os.path.isfile(data_file):
-      data_df = generate_data(file)
-      data_df.to_csv(data_file, index=False)
+  for file in traces:
+    graph_data(file)
     
-    data_df = pd.read_csv(data_file)
-    
-    image_file = data_file.split(".csv")[0] + ".png"
-    graph_data(data_df, image_file)

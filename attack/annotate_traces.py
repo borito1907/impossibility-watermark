@@ -26,7 +26,7 @@ if __name__ == "__main__":
     quality = InternLMQualityMetric()
     edits   = EditsMetric()
 
-    traces = glob.glob("./attack_traces/*attack_results_annotated.csv")
+    traces = glob.glob("./attack_traces/*attack_results_annotated*.csv")
 
     for trace in traces:
 
