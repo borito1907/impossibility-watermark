@@ -175,6 +175,7 @@ class Attack:
                             log.error("Max retries reached. Mutation failed.")
                             raise  # Re-raise the exception after max retries
 
+                # log.info(f"Mutated Text: {self.mutated_text}")
                 # Step 2: Length Check
                 if self.cfg.attack.check_length:
                     log.info(f"Checking mutated text length to ensure it is within {self.cfg.attack.length_variance*100}% of the original...")

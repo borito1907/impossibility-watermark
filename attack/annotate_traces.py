@@ -18,12 +18,12 @@ if __name__ == "__main__":
     import os
     import glob
     import traceback
-    from extractors import FluencyMetric, GrammarMetric, QualityMetric, EditsMetric
+    from extractors import FluencyMetric, GrammarMetric, InternLMQualityMetric, EditsMetric
         
     # Initialize metric extractors
     fluency = FluencyMetric()
     grammar = GrammarMetric()
-    quality = QualityMetric()
+    quality = InternLMQualityMetric()
     edits   = EditsMetric()
 
     traces = glob.glob("./attack_traces/*attack_results_annotated.csv")
@@ -33,6 +33,7 @@ if __name__ == "__main__":
         print(trace)
 
         o, w, m, s = os.path.basename(trace).split("_")[:4]
+        print(s)
         s = int(s.replace("n-steps=", ""))
         
         df = assign_unique_group_ids(pd.read_csv(trace))

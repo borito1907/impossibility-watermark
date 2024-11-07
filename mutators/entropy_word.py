@@ -2,7 +2,6 @@
 
 import random
 import re
-import string
 import pandas as pd
 import difflib
 import torch
@@ -11,191 +10,29 @@ import os
 from itertools import chain, zip_longest
 from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 from accelerate import Accelerator
+from utils import is_bullet_point
 
 log = logging.getLogger(__name__)
 
-# This is from the Adaptive codebase.
-def compute_entropies_efficiently(text, model, tokenizer):
-    """
-    Computes the entropy of the next token probabilities for each token in the input text efficiently.
-
-    Args:
-        text (str): The input text.
-        model: The language model used for entropy measurement.
-        tokenizer: The tokenizer associated with the model.
-
-    Returns:
-        List[float], List[str]: A list of entropy values and corresponding tokens for each token position.
-    """
+def compute_token_entropies_and_word_ids(segment_words, model, tokenizer):
     model.eval()
     with torch.no_grad():
-        # Move input_ids to the same device as the model
-        input_ids = tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(model.device)
-        
-        # Get model outputs
-        outputs = model(input_ids)
-        logits = outputs.logits.cpu()  # shape: [1, seq_len, vocab_size]
-        
-        # Get tokens (excluding the last token, which doesn't have a next-token prediction)
-        tokens = tokenizer.convert_ids_to_tokens(input_ids[0])[:-1]
-        
-        # Now you can delete input_ids if necessary
-        del outputs
-        del input_ids
-        
-        # Compute probabilities using softmax
-        probs = torch.nn.functional.softmax(logits, dim=-1)  # shape: [1, seq_len, vocab_size]
-        
-        # Compute entropy for each position (excluding the last token)
-        entropies = []
-        seq_len = logits.size(1)
-        for t in range(seq_len - 1):
-            prob_dist = probs[0, t, :]  # The model's prediction for the next token at position t+1
-            entropy = -torch.sum(prob_dist * torch.log(prob_dist + 1e-12))  # Add epsilon to avoid log(0)
-            entropies.append(entropy.item())
-        
-        return entropies, tokens
-
-# This function is old, it's just here in case I need it. - Boran
-def compute_entropies_bloomz(text, model, tokenizer):
-    model.eval()
-    with torch.no_grad():
-        # Move input_ids to the same device as the model
-        input_ids = tokenizer.encode(text, return_tensors='pt', add_special_tokens=False).to(model.device)
-        
-        # Get model outputs
-        outputs = model(input_ids)
-        logits = outputs.logits.cpu()  # shape: [1, seq_len, vocab_size]
-        
-        # Get tokens (excluding the last token, which doesn't have a next-token prediction)
-        tokens = tokenizer.convert_ids_to_tokens(input_ids[0])[:-1]
-        
-        # Now you can delete input_ids if necessary
-        del outputs
-        del input_ids
-        
-        # Compute probabilities using softmax
-        probs = torch.nn.functional.softmax(logits, dim=-1)  # shape: [1, seq_len, vocab_size]
-    
-        entropies = []
-        words = []
-        current_word_tokens = []
-        current_entropy_sum = 0.0
-        current_token_count = 0  # To keep track of the number of tokens in the current word
-
-        def split_word(word):
-            # Include hyphens and apostrophes in words
-            return re.findall(r"[a-zA-Z0-9]+(?:['’-][a-zA-Z0-9]+)*|[^\w\s]", word)
-        
-        word_token_counts = []  # To store the number of tokens per word
-
-        for idx, token in enumerate(tokens):
-            # Check for word boundary using 'Ġ' or newline tokens
-            if (token.startswith('Ġ') or token == '</s>') and current_word_tokens:
-                # Flush the current word
-                word = tokenizer.convert_tokens_to_string(current_word_tokens).strip()
-                # Split the word into parts (words, punctuation)
-                word_parts = split_word(word)
-                word_entropy = current_entropy_sum / current_token_count
-                for part in word_parts:
-                    if part.strip():
-                        words.append(part.strip())
-                        entropies.append(word_entropy)
-                        word_token_counts.append(current_token_count)  # All parts have the same token count here
-                current_word_tokens = []
-                current_entropy_sum = 0.0
-                current_token_count = 0
-
-            # Handle newline tokens
-            if token == '\n':
-                # Flush current word if any
-                if current_word_tokens:
-                    word = tokenizer.convert_tokens_to_string(current_word_tokens).strip()
-                    word_parts = split_word(word)
-                    word_entropy = current_entropy_sum / current_token_count
-                    for part in word_parts:
-                        if part.strip():
-                            words.append(part.strip())
-                            entropies.append(word_entropy)
-                            word_token_counts.append(current_token_count)
-                    current_word_tokens = []
-                    current_entropy_sum = 0.0
-                    current_token_count = 0
-                # Add newline as a separate word
-                words.append('\n')
-                prob_dist = probs[0, idx, :]
-                token_entropy = -torch.sum(prob_dist * torch.log(prob_dist + 1e-12))
-                entropies.append(token_entropy.item())
-                word_token_counts.append(1)
-                continue
-
-            # Accumulate tokens
-            current_word_tokens.append(token)
-            current_token_count += 1
-            
-            # Compute token entropy
-            prob_dist = probs[0, idx, :]
-            token_entropy = -torch.sum(prob_dist * torch.log(prob_dist + 1e-12))
-            current_entropy_sum += token_entropy.item()
-        
-        # Flush the last accumulated word, if any
-        if current_word_tokens:
-            word = tokenizer.convert_tokens_to_string(current_word_tokens).strip()
-            word_parts = split_word(word)
-            word_entropy = current_entropy_sum / current_token_count
-            for part in word_parts:
-                if part.strip():
-                    words.append(part.strip())
-                    entropies.append(word_entropy)
-                    word_token_counts.append(current_token_count)
-        
-        # Now perform post-processing to combine punctuation with the previous word
-        final_words = []
-        final_entropies = []
-        i = 0
-        while i < len(words):
-            word = words[i]
-            entropy = entropies[i]
-            token_count = word_token_counts[i]
-            # If the word is punctuation (excluding apostrophes and hyphens)
-            if re.match(r'^[^\w\s\'-]+$', word):
-                if final_words:
-                    # Combine with the previous word
-                    final_words[-1] += word
-                    # Recompute the entropy as weighted average
-                    prev_token_count = word_token_counts[i-1]
-                    total_token_count = prev_token_count + token_count
-                    prev_entropy = final_entropies[-1]
-                    combined_entropy = (prev_entropy * prev_token_count + entropy * token_count) / total_token_count
-                    final_entropies[-1] = combined_entropy
-                    word_token_counts[i-1] = total_token_count
-                else:
-                    # If there's no previous word, keep the punctuation as is
-                    final_words.append(word)
-                    final_entropies.append(entropy)
-            else:
-                # Regular word, just append
-                final_words.append(word)
-                final_entropies.append(entropy)
-            i += 1
-
-        return final_entropies, final_words
-
-def compute_gpt_token_entropies_and_word_ids(words_list, model, tokenizer):
-    model.eval()
-    with torch.no_grad():
-
-        # Tokenize the text with is_split_into_words=True
-        encoding = tokenizer(words_list, return_tensors='pt', is_split_into_words=True, add_special_tokens=False)
+        # Tokenize the words with is_split_into_words=True
+        encoding = tokenizer(
+            segment_words,
+            is_split_into_words=True,
+            return_tensors='pt',
+            add_special_tokens=False
+        )
         input_ids = encoding['input_ids'].to(model.device)
         word_ids = encoding.word_ids(batch_index=0)
         
         # Get model outputs
         outputs = model(input_ids)
-        logits = outputs.logits.cpu()  # shape: [1, seq_len, vocab_size]
+        logits = outputs.logits.cpu()
                 
         # Compute probabilities using softmax
-        probs = torch.nn.functional.softmax(logits, dim=-1)  # shape: [1, seq_len, vocab_size]
+        probs = torch.nn.functional.softmax(logits, dim=-1)
     
         # Compute token entropies
         token_entropies = []
@@ -203,13 +40,6 @@ def compute_gpt_token_entropies_and_word_ids(words_list, model, tokenizer):
             prob_dist = probs[0, idx, :]
             token_entropy = -torch.sum(prob_dist * torch.log(prob_dist + 1e-12))
             token_entropies.append(token_entropy.item())
-
-        # Now you can delete input_ids if necessary
-        del outputs
-        del input_ids
-
-        log.info(f"Token Entropies: {token_entropies}")
-        log.info(f"Length of Token Entropies: {len(token_entropies)}")
 
     return token_entropies, word_ids
 
@@ -241,81 +71,11 @@ def aggregate_entropies_per_word(token_entropies, word_ids):
 
     return entropies
 
-def compute_entropies_bloomz_with_list(words_list, model, tokenizer):
-    token_entropies, word_ids = compute_bloomz_token_entropies_and_word_ids(words_list, model, tokenizer)
+def compute_entropies(text, model, tokenizer):
+    token_entropies, word_ids = compute_token_entropies_and_word_ids(text, model, tokenizer)
     entropies = aggregate_entropies_per_word(token_entropies, word_ids)
     
     return entropies
-
-def compute_entropies_gpt_with_list(words_list, model, tokenizer):
-    token_entropies, word_ids = compute_gpt_token_entropies_and_word_ids(words_list, model, tokenizer)
-    entropies = aggregate_entropies_per_word(token_entropies, word_ids)
-    
-    return entropies
-
-def save_to_csv(data, file_path, rewrite=False):
-    df_out = pd.DataFrame(data)
-    
-    # Ensure the directory exists
-    dir_path = os.path.dirname(file_path)
-    os.makedirs(dir_path, exist_ok=True)
-    
-    if os.path.exists(file_path) and not rewrite:
-        df_out.to_csv(file_path, mode='a', header=False, index=False)  # Append without writing headers
-    else:
-        df_out.to_csv(file_path, index=False)  # Create new file with headers
-    
-    print(f"Data saved to {file_path}")
-
-def is_bullet_point(word):
-    """
-    Checks if the given word is a bullet point in the format '1.', '2.', etc.
-
-    Args:
-    word (str): The word to check.
-
-    Returns:
-    bool: True if the word is a bullet point, False otherwise.
-    """
-    # Regular expression pattern to match a digit followed by a period
-    pattern = r'^\d+\.$'
-    
-    # Use re.match to check if the word matches the pattern
-    return re.match(pattern, word) is not None
-
-def strip_punct(word):
-    """
-    Strips punctuation from the left and right of the word and returns a tuple.
-
-    Args:
-    word (str): The word to process.
-
-    Returns:
-    tuple: A tuple containing the left punctuation, the stripped word, and the right punctuation.
-    """
-    if not word:  # If the word is empty, return an empty tuple
-        return ("", "", "")
-    
-    # Initialize variables
-    left_punctuation = ""
-    right_punctuation = ""
-
-    # Strip left punctuation
-    i = 0
-    while i < len(word) and word[i] in string.punctuation:
-        left_punctuation += word[i]
-        i += 1
-    
-    # Strip right punctuation
-    j = len(word) - 1
-    while j >= 0 and word[j] in string.punctuation:
-        right_punctuation = word[j] + right_punctuation
-        j -= 1
-    
-    # The stripped word
-    stripped_word = word[i:j+1]
-
-    return (left_punctuation, stripped_word, right_punctuation)
 
 class EntropyWordMutator:
     def __init__(self, model_name="FacebookAI/roberta-large", measure_model_name="EleutherAI/gpt-neo-2.7B"):
@@ -387,16 +147,12 @@ class EntropyWordMutator:
         while not found_nice_word and attempt_count < max_attempts:
             # Use the provided candidate indices to try masking
             index_to_mask = candidate_indices[attempt_count]
-            attempt_count += 1
-
-            if index_to_mask < 0 or index_to_mask >= len(words):
-                continue  # Skip invalid indices
-
             word_to_mask = words[index_to_mask]
 
             # Check if the selected word is valid (not a bullet point)
             if word_to_mask and not is_bullet_point(word_to_mask):
                 found_nice_word = True
+            attempt_count += 1
 
         # If no suitable word was found, return None
         if not found_nice_word:
@@ -415,46 +171,43 @@ class EntropyWordMutator:
         words, punctuation = self.get_words(text)
 
         if len(words) > self.max_length:
-            segment, seg_punc, start, end = self.select_random_segment(words, punctuation)
+            segment_words, seg_punc, start, end = self.select_random_segment(words, punctuation)
         else:
-            segment, seg_punc, start, end = words, punctuation, 0, len(words)
+            segment_words, seg_punc, start, end = words, punctuation, 0, len(words)
             # Ensure lengths match
-            if len(seg_punc) < len(segment):
+            if len(seg_punc) < len(segment_words):
                 seg_punc.append('')
 
-        # Unpack the returned entropies and tokens
-        entropies = compute_entropies_gpt_with_list(text, self.measure_model, self.measure_tokenizer)
 
-        # Create a list of (index, entropy) pairs
-        entropy_scores = list(enumerate(entropies))
+        # Compute entropies
+        entropies = compute_entropies(segment_words, self.measure_model, self.measure_tokenizer)
 
-        log.info(f"Entropy Scores: {entropy_scores}")
-        log.info(f"Length of Entropy Scores: {len(entropy_scores)}")
-        log.info(f"Length of Words: {len(words)}")
-        log.info(f"Words: {words}")
+        log.info(f"Segment Words: {segment_words}")
+        log.info(f"Length of the Segment Words: {len(segment_words)}")
+        log.info(f"Entropies: {entropies}")
+        log.info(f"Length of the Entropies: {len(entropies)}")
 
-        # Filter entropy scores to only include those within the selected segment
-        segment_entropies = [
-            (i, entropy) for i, entropy in entropy_scores if start <= i < end
-        ]
+        # Create a list of (index, word, entropy)
+        word_entropies = list(zip(range(len(segment_words)), segment_words, entropies))
 
-        # Adjust indices to be relative to the segment
-        segment_entropies = [ (i - start, entropy) for i, entropy in segment_entropies ]
+        # Sort by entropy in descending order
+        word_entropies_sorted = sorted(word_entropies, key=lambda x: x[2], reverse=True)
 
-        # Sort by entropy in descending order and select the top 20 indices
-        top_20_indices = sorted(segment_entropies, key=lambda x: x[1], reverse=True)[:20]
-        candidate_indices = [index for index, _ in top_20_indices]
-
+        # Get the indices of the top 20 words
+        top_n = 20
+        top_words = word_entropies_sorted[:top_n]
+        candidate_indices = [idx for idx, _, _ in top_words]
+        
         if num_replacements < 0:
             raise ValueError("num_replacements must be larger than 0!")
         if 0 < num_replacements < 1:
-            num_replacements = max(1, int(len(segment) * num_replacements))
+            num_replacements = max(1, int(len(segment_words) * num_replacements))
 
         log.info(f"Making {num_replacements} replacements to the input text segment.")
 
         replacements_made = 0
         while replacements_made < num_replacements:
-            masked_text, word_to_mask, index_to_mask = self.mask_word_using_candidate_indices(segment, seg_punc, candidate_indices)
+            masked_text, word_to_mask, index_to_mask = self.mask_word_using_candidate_indices(segment_words, seg_punc, candidate_indices)
 
             if word_to_mask is None or index_to_mask is None:
                 log.warning("No valid word found to mask!")
@@ -488,7 +241,7 @@ class EntropyWordMutator:
             log.info(f"suggested_replacement: {suggested_replacement['token_str']} (score: {suggested_replacement['score']})")
 
             # Replace the masked word in the segment using the index
-            segment[index_to_mask] = suggested_replacement['token_str'].strip()
+            segment_words[index_to_mask] = suggested_replacement['token_str'].strip()
             replacements_made += 1
 
         # Ensure punctuation lengths match for reconstruction
@@ -500,12 +253,12 @@ class EntropyWordMutator:
         if len(punct_after) < len(words[end:]):
             punct_after.append('')
 
-        if len(seg_punc) < len(segment):
+        if len(seg_punc) < len(segment_words):
             seg_punc.append('')
 
         # Reconstruct the text
         combined_text = self.intersperse_lists(words[:start], punct_before) + \
-                        self.intersperse_lists(segment, seg_punc) + \
+                        self.intersperse_lists(segment_words, seg_punc) + \
                         self.intersperse_lists(words[end:], punct_after)
 
         return self.cleanup(combined_text)

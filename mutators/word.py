@@ -8,72 +8,9 @@ import torch
 import logging
 import os
 from itertools import chain, zip_longest
-
-def save_to_csv(data, file_path, rewrite=False):
-    df_out = pd.DataFrame(data)
-    
-    # Ensure the directory exists
-    dir_path = os.path.dirname(file_path)
-    os.makedirs(dir_path, exist_ok=True)
-    
-    if os.path.exists(file_path) and not rewrite:
-        df_out.to_csv(file_path, mode='a', header=False, index=False)  # Append without writing headers
-    else:
-        df_out.to_csv(file_path, index=False)  # Create new file with headers
-    
-    print(f"Data saved to {file_path}")
+from utils import save_to_csv, is_bullet_point
 
 log = logging.getLogger(__name__)
-
-def is_bullet_point(word):
-    """
-    Checks if the given word is a bullet point in the format '1.', '2.', etc.
-
-    Args:
-    word (str): The word to check.
-
-    Returns:
-    bool: True if the word is a bullet point, False otherwise.
-    """
-    # Regular expression pattern to match a digit followed by a period
-    pattern = r'^\d+\.$'
-    
-    # Use re.match to check if the word matches the pattern
-    return re.match(pattern, word) is not None
-
-def strip_punct(word):
-    """
-    Strips punctuation from the left and right of the word and returns a tuple.
-
-    Args:
-    word (str): The word to process.
-
-    Returns:
-    tuple: A tuple containing the left punctuation, the stripped word, and the right punctuation.
-    """
-    if not word:  # If the word is empty, return an empty tuple
-        return ("", "", "")
-    
-    # Initialize variables
-    left_punctuation = ""
-    right_punctuation = ""
-
-    # Strip left punctuation
-    i = 0
-    while i < len(word) and word[i] in string.punctuation:
-        left_punctuation += word[i]
-        i += 1
-    
-    # Strip right punctuation
-    j = len(word) - 1
-    while j >= 0 and word[j] in string.punctuation:
-        right_punctuation = word[j] + right_punctuation
-        j -= 1
-    
-    # The stripped word
-    stripped_word = word[i:j+1]
-
-    return (left_punctuation, stripped_word, right_punctuation)
 
 class WordMutator:
     def __init__(self, model_name="FacebookAI/roberta-large"):

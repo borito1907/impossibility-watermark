@@ -24,9 +24,9 @@ def test(cfg):
     cfg_dict['watermark_args']['measure_model_name'] = "EleutherAI/gpt-neo-2.7B"
 
     cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
-    cfg_dict['watermark_args']['delta'] = 1.5
+    cfg_dict['watermark_args']['delta'] = 0.25
     cfg_dict['watermark_args']['delta_0'] = 1.0
-    cfg_dict['watermark_args']['alpha'] = 2.0
+    cfg_dict['watermark_args']['alpha'] = 4.0
     cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
     cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
     cfg_dict['watermark_args']['measure_threshold'] = 50
@@ -34,7 +34,11 @@ def test(cfg):
     cfg_dict['watermark_args']['device'] = 'auto'
 
     cfg = OmegaConf.create(cfg_dict)
-    
+
+    delta = cfg_dict['watermark_args']['delta']
+    alpha = cfg_dict['watermark_args']['alpha']
+    m_threshold = cfg_dict['watermark_args']['measure_threshold']
+
     import time
     import textwrap
     
@@ -43,13 +47,13 @@ def test(cfg):
     log.info(cfg)
     log.info(f"Got the watermarker. Generating watermarked text...")
 
-    dir_name = f"adaptive_dev_neo_{cfg.partition}"
+    dir_name = f"param_adaptive_nosecret_d{delta}_a{alpha}_mthres{m_threshold}_{cfg.partition}"
     base_folder_name = f'./inputs/{dir_name}'
     os.makedirs(os.path.dirname(base_folder_name), exist_ok=True)
 
     watermarked_text_file_path=f'{base_folder_name}/watermarked_texts.csv'
 
-    partition_size = 200
+    partition_size = 60
     start = 1 + (cfg.partition - 1) * partition_size
     end = 1 + cfg.partition * partition_size
 
@@ -64,6 +68,8 @@ def test(cfg):
             for _ in range(1):
                 start = time.time()
                 watermarked_text = watermarker.generate_watermarked_outputs(prompt)
+                watermarked_text = watermarked_text.rstrip('<|eot_id|>') if watermarked_text.endswith('<|eot_id|>') else watermarked_text
+
                 is_detected, score = watermarker.detect(watermarked_text)
                 delta = time.time() - start
                 
@@ -72,7 +78,7 @@ def test(cfg):
                 log.info(f"Score: {score}")
                 log.info(f"Time taken: {delta}")
 
-                stats = [{'id': id, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
+                stats = [{'id': id, 'prompt': prompt, 'text': watermarked_text, 'zscore' : score, 'watermarking_scheme': cfg.watermark_args.name, 'model': cfg.generator_args.model_name_or_path, 'time': delta}]
                 save_to_csv(stats, watermarked_text_file_path, rewrite=False)
         except Exception as e:
             log.info(f"Exception with Prompt {prompt_num}.")

@@ -213,6 +213,8 @@ class AdaptiveWatermarker(Watermarker):
         elif len(ids[0]) > measure_threshold:
             measure_text = self.tokenizer.decode(ids[-1])
             measure_entropy = self._next_token_entropy(measure_text, self.measure_model, self.measure_tokenizer, self.device)
+            log.info(f"Text: {measure_text}")
+            log.info(f"Epntropy: {measure_entropy}")
             if measure_entropy >= self.cfg.watermark_args.alpha:
                 embedding = self.embedding_model.encode(measure_text, convert_to_tensor=True)
                 t_embedding = self.transform_model(embedding).tolist()   # torch([])

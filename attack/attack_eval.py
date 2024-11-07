@@ -6,7 +6,7 @@ import pandas as pd
 from guidance import models 
 from watermarker_factory import get_default_watermarker
 from mutators import (
-    SentenceMutator, SpanMutator, WordMutator, 
+    SentenceMutator, SpanMutator, WordMutator, EntropyWordMutator, 
     DocumentMutator, Document1StepMutator, Document2StepMutator
 )
 from oracles import DiffOracle
@@ -31,15 +31,17 @@ def main(cfg):
         # "unigram",
         # "semstamp", 
         "adaptive",
+        # "adaptive_delta0.25_alpha4.0_no_secret",
     ]
 
     mutators = [
+        EntropyWordMutator, 
         # WordMutator,
         # SpanMutator,
         # SentenceMutator,
         # Document1StepMutator,
         # Document2StepMutator,
-        DocumentMutator,
+        # DocumentMutator,
     ]
 
     # Step 1: Initialize Quality Oracle
@@ -57,6 +59,9 @@ def main(cfg):
         # Step 2: Load data for that particular watermarkerp
         # data = pd.read_csv('/data2/borito1907/impossibility-watermark/10_03_less_high_semstamp_good_embedder.csv')
         data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
+        # data = pd.read_csv('/data2/borito1907/impossibility-watermark/data/WQE_adaptive/adaptive_delta0.5.csv')
+        # data = pd.read_csv('/data2/borito1907/impossibility-watermark/data/WQE_adaptive_delta0.25_alpha4.0_nosecret/dev.csv')
+
         # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv").sample(n=10, random_state=42)
 
         # Step 3: Initialize watermark detector
@@ -75,7 +80,9 @@ def main(cfg):
             cfg.attack.compare_against_original = True
 
             if m_str == "WordMutator":
-                cfg.attack.max_steps = 1000
+                cfg.attack.max_steps = 200
+            if m_str == "EntropyWordMutator":
+                cfg.attack.max_steps = 200
             if m_str == "SpanMutator":
                 cfg.attack.max_steps = 200
             if m_str == "SentenceMutator":

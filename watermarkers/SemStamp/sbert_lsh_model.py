@@ -82,6 +82,7 @@ class SBERTLSHModel(LSHModel):
     def __init__(self, device, batch_size, lsh_dim, sbert_type='roberta', lsh_model_path=None, embedder=None, **kwargs):
         super(SBERTLSHModel, self).__init__(device, batch_size, lsh_dim)
         self.sbert_type = sbert_type
+
         self.dimension = 1024 if 'large' in self.sbert_type else 768
         # self.dimension = 1024
 

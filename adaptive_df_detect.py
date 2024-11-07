@@ -13,6 +13,25 @@ log = logging.getLogger(__name__)
 def test(cfg):
     cfg.prompt_file='./data/WQE/dev.csv'
 
+    # cfg_dict = OmegaConf.to_container(cfg, resolve=True)
+    # cfg_dict['generator_args']['top_k'] = 50
+    # cfg_dict['generator_args']['top_p'] = 0.9
+    # cfg_dict['generator_args']['max_new_tokens'] = 1024 # 285
+    # cfg_dict['generator_args']['min_new_tokens'] = 128 # 215
+    # cfg_dict['generator_args']['repetition_penalty'] = 1.1
+    
+    # cfg_dict['watermark_args']['name'] = "adaptive"
+    # cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
+    # cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
+    # cfg_dict['watermark_args']['delta'] = 1.5
+    # cfg_dict['watermark_args']['delta_0'] = 1.0
+    # cfg_dict['watermark_args']['alpha'] = 2.0
+    # cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
+    # cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
+    # cfg_dict['watermark_args']['measure_threshold'] = 50
+    # cfg_dict['watermark_args']['detection_threshold'] = 95.0
+    # cfg_dict['watermark_args']['device'] = 'auto'
+
     cfg_dict = OmegaConf.to_container(cfg, resolve=True)
     cfg_dict['generator_args']['top_k'] = 50
     cfg_dict['generator_args']['top_p'] = 0.9
@@ -21,14 +40,16 @@ def test(cfg):
     cfg_dict['generator_args']['repetition_penalty'] = 1.1
     
     cfg_dict['watermark_args']['name'] = "adaptive"
-    cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
+    # cfg_dict['watermark_args']['measure_model_name'] = "gpt2-large"
+    cfg_dict['watermark_args']['measure_model_name'] = "EleutherAI/gpt-neo-2.7B"
+
     cfg_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
-    cfg_dict['watermark_args']['delta'] = 1.5
-    cfg_dict['watermark_args']['delta_0'] = 1.0
-    cfg_dict['watermark_args']['alpha'] = 2.0
+    cfg_dict['watermark_args']['delta'] = 0.25
+    cfg_dict['watermark_args']['delta_0'] = 0.0
+    cfg_dict['watermark_args']['alpha'] = 4.0
     cfg_dict['watermark_args']['no_repeat_ngram_size'] = 0
     cfg_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
-    cfg_dict['watermark_args']['measure_threshold'] = 50
+    cfg_dict['watermark_args']['measure_threshold'] = 0
     cfg_dict['watermark_args']['detection_threshold'] = 95.0
     cfg_dict['watermark_args']['device'] = 'auto'
 
@@ -62,7 +83,7 @@ def test(cfg):
         log.info(f"Watermark Detected: {is_detected}")
         log.info(f"Watermark Score: {score}")
 
-    df.to_csv("./unwatermarked_scores/adaptive_detect_unwatermarked.csv")
+    df.to_csv("./unwatermarked_scores/adaptive_detect_unwatermarked_new_params.csv")
 
 if __name__ == "__main__":
     test()
