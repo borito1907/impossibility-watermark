@@ -27,9 +27,9 @@ def main(cfg):
 
     watermarkers = [
         # "umd",
-        # "umd_new",
+        "umd_new",
         # "unigram",
-        # "semstamp", 
+        "semstamp", 
         "adaptive",
         # "adaptive_delta0.25_alpha4.0_no_secret",
     ]
