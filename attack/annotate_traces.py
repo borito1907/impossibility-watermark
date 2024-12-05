@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 
 def assign_unique_group_ids(df):
     df['new_group'] = (df['step_num'] == 0).astype(int)
@@ -18,20 +19,30 @@ if __name__ == "__main__":
     import os
     import glob
     import traceback
-    from extractors import FluencyMetric, GrammarMetric, QualityMetric, EditsMetric
+    from extractors import FluencyMetric, GrammarMetric, QualityMetric, EditsMetric, InternLMQualityMetric
         
     # Initialize metric extractors
     fluency = FluencyMetric()
     grammar = GrammarMetric()
-    quality = QualityMetric()
+    quality = InternLMQualityMetric()
     edits   = EditsMetric()
 
-    traces = glob.glob("./attack_traces/*attack_results_annotated.csv")
+    #                                   o  w  m  s
+    traces = glob.glob("./attack_traces/InternLMOracle_adaptive?*_?*_attack_results*.csv")
 
     for trace in traces:
-
         print(trace)
 
+        # want to be able to create results_annotated.csv file from results.csv
+        # if results_annotated already exists, just work on that
+        output_file = trace
+        if "annotated" not in output_file:
+            suffix = re.search(r"results(.*)\.csv", output_file).group(1)
+            output_file = output_file.replace(f"results{suffix}.csv", f"results_annotated{suffix}.csv")
+        
+            if output_file in traces:
+                print(f"\tWould-be output file {output_file} already exists")
+                continue
         o, w, m, s = os.path.basename(trace).split("_")[:4]
         s = int(s.replace("n-steps=", ""))
         
@@ -67,5 +78,5 @@ if __name__ == "__main__":
                 print(traceback.format_exc())
 
         print(df)
-        print(trace)
-        df.to_csv(trace, index=False)
+        print(output_file)
+        df.to_csv(output_file, index=False)

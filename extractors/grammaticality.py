@@ -11,15 +11,18 @@ class GrammarMetric:
         """
         self.language_tool = language_tool_python.LanguageTool('en-US')
 
-    def find_grammar_issues(self, text):
+    def find_grammar_issues(self, text, early=False):
+        if early:
+            text = ' '.join(text.split()[:50])
         return self.language_tool.check(text)
+    
 
     def evaluate(self, texts, return_mean=True):
         scores = [len(self.find_grammar_issues(t)) for t in texts]
         scores = np.array(scores)
         return scores.mean() if return_mean else scores
 
-    def evaluate_dataframe(self, df, text_column, new_column):
+    def evaluate_dataframe(self, df, text_column, new_column, early=False):
         """
         Evaluate a pandas DataFrame, adding a new column with grammar issue counts.
         
@@ -28,8 +31,9 @@ class GrammarMetric:
         :param new_column: the name of the new column to store the results.
         :return: DataFrame with new column containing grammar issue counts.
         """
-        df[new_column] = df[text_column].apply(lambda text: len(self.find_grammar_issues(text)))
+        df[new_column] = df[text_column].apply(lambda text: len(self.find_grammar_issues(text, early=early)))
         return df
+    
 
 if __name__ == '__main__':
     

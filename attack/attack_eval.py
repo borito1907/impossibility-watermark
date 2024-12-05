@@ -6,10 +6,10 @@ import pandas as pd
 from guidance import models 
 from watermarker_factory import get_default_watermarker
 from mutators import (
-    SentenceMutator, SpanMutator, WordMutator, 
+    SentenceMutator, SpanMutator, WordMutator, EntropyWordMutator, 
     DocumentMutator, Document1StepMutator, Document2StepMutator
 )
-from oracles import DiffOracle
+from oracles import DiffOracle, InternLMOracle
 from attack.attack import Attack
 
 import hydra
@@ -30,43 +30,53 @@ def main(cfg):
         "umd_new",
         # "unigram",
         # "semstamp", 
-        # "adaptive",
+        "adaptive",
+        # "adaptive_delta0.25_alpha4.0_no_secret",
     ]
 
     mutators = [
+        # EntropyWordMutator, 
         # WordMutator,
         # SpanMutator,
         # SentenceMutator,
         # Document1StepMutator,
-        # Document2StepMutator,
-        DocumentMutator,
+        Document2StepMutator,
+        # DocumentMutator,
     ]
 
     # Step 1: Initialize Quality Oracle
-    model_path = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf"
-    llm = models.LlamaCpp(
-        model=model_path,
-        echo=False,
-        n_gpu_layers=-1,
-        n_ctx=8192
-    )
-    oracle = DiffOracle(llm=llm, explain=False)
+    # model_path = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf"
+    # llm = models.LlamaCpp(
+    #     model=model_path,
+    #     echo=False,
+    #     n_gpu_layers=-1,
+    #     n_ctx=8192
+    # )
+    # NOTE: Make sure in attack.yaml we are using compare_against_original=True
+    oracle = InternLMOracle(do_step_decrements=True)
+    #oracle = DiffOracle(llm=llm, explain=False)
 
     for watermarker in watermarkers:
 
         # Step 2: Load data for that particular watermarkerp
         # data = pd.read_csv('/data2/borito1907/impossibility-watermark/10_03_less_high_semstamp_good_embedder.csv')
         data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv")
+        # data = pd.read_csv('/data2/borito1907/impossibility-watermark/data/WQE_adaptive/adaptive_delta0.5.csv')
+        # data = pd.read_csv('/data2/borito1907/impossibility-watermark/data/WQE_adaptive_delta0.25_alpha4.0_nosecret/dev.csv')
+
         # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv").sample(n=10, random_state=42)
 
         # Step 3: Initialize watermark detector
-        # watermarker = get_default_watermarker(watermarker)
-        watermarker_obj = None
+        log.info("Initializing watermarker...")
+        watermarker_obj = get_default_watermarker(watermarker)
+        #watermarker_obj = None
+        log.info("Watermarker initialized.")
 
         for mutator in mutators:
             log.info("Initializing mutator...")
             # Step 4: Initialize Mutator
             mutator = mutator()
+            log.info("Mutator initialized.")
 
             # Step 5: Initialize Attacker
             o_str = oracle.__class__.__name__
@@ -74,9 +84,11 @@ def main(cfg):
             m_str = mutator.__class__.__name__
             cfg.attack.compare_against_original = True
 
-            if "Word" in m_str:
-                cfg.attack.max_steps = 1000
-            if "Span" in m_str:
+            if m_str == "WordMutator":
+                cfg.attack.max_steps = 200
+            if m_str == "EntropyWordMutator":
+                cfg.attack.max_steps = 200
+            if m_str == "SpanMutator":
                 cfg.attack.max_steps = 200
             if "Sentence" in m_str:
                 cfg.attack.max_steps = 100
@@ -95,7 +107,8 @@ def main(cfg):
 
             # Step 6: Attack each row in dataset
             for benchmark_id, row in data.iterrows():
-
+                if isinstance(oracle, InternLMOracle):
+                  oracle.set_max_steps(cfg.attack.max_steps)
                 try:
                     log.info(f"Attacking Row: {row}")
                     attacked_text = attacker.attack(row['prompt'], row['text'])

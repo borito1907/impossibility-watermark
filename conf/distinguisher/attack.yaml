@@ -6,15 +6,16 @@ is_completion: False
 
 attack:
   compare_against_original: True
-  use_max_steps: False
-  max_steps: 100
-  target_mutations: 200
+  use_max_steps: True
+  max_steps: 1000
+  target_mutations: 300
   use_backtrack: True
-  backtrack_patience: 10
-  patience: 50
+  backtrack_patience: 50
+  patience: 150
   length_variance: 0.25
   check_length: True
   check_quality: True
   check_watermark: False
   log_csv_path: "./attack_traces/${oracle_type}_${watermarker}_${mutator_type}_attack_results.csv"
   verbose: False
+  mutator_retries: 5

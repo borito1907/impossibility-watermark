@@ -96,11 +96,15 @@ class SemStampWatermarker(Watermarker):
             self.embedder = CustomSentenceTransformer(model_name="AbeHou/SemStamp-c4-sbert", device=self.device)
         else:
             log.info(f"Using the generic SentenceTransformer...")
-            self.embedder = SentenceTransformer("sentence-transformers/all-mpnet-base-v1")
 
-            # self.embedder = SentenceTransformer("nvidia/NV-Embed-v2", trust_remote_code=True)
-            # self.embedder.max_seq_length = 32768
-            # self.embedder.tokenizer.padding_side="right"
+            # self.embedder_name = "nvidia/NV-Embed-v2"
+            self.embedder_name = "sentence-transformers/all-mpnet-base-v1"
+            if self.embedder_name == "nvidia/NV-Embed-v2":
+                self.embedder = SentenceTransformer("nvidia/NV-Embed-v2", trust_remote_code=True)
+                self.embedder.max_seq_length = 32768
+                self.embedder.tokenizer.padding_side="right"
+            elif self.embedder_name == "sentence-transformers/all-mpnet-base-v1":
+                self.embedder = SentenceTransformer("sentence-transformers/all-mpnet-base-v1")
 
             # self.embedder = SentenceTransformer("dunzhang/stella_en_1.5B_v5", trust_remote_code=True)
 
@@ -110,7 +114,7 @@ class SemStampWatermarker(Watermarker):
         
         if self.cfg.watermark_args.sp_mode == "lsh":
             self.lsh_model = SBERTLSHModel(lsh_model_path=None,
-                                  device=self.cfg.watermark_args.device, batch_size=1, lsh_dim=self.cfg.watermark_args.sp_dim, sbert_type='base', embedder=self.embedder)
+                                  device=self.cfg.watermark_args.device, batch_size=1, lsh_dim=self.cfg.watermark_args.sp_dim, sbert_type='base', embedder=self.embedder, embedder_name = self.embedder_name)
         
     def generate_sentence(self, text, text_ids, stopping_criteria):
         if "opt" in self.model.config._name_or_path:

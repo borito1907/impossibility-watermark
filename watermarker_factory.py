@@ -5,6 +5,7 @@ from omegaconf import OmegaConf
 from hydra import initialize, compose
 
 def get_watermarker(cfg, **kwargs):
+    print(f"cfg: {cfg}")
     if "umd" in cfg.watermark_args.name:
         return UMDWatermarker(cfg, **kwargs)
     elif "unigram" in cfg.watermark_args.name:
@@ -74,11 +75,38 @@ adaptive_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps ov
 adaptive_dict['watermark_args']['measure_threshold'] = 50
 adaptive_cfg = OmegaConf.create(adaptive_dict)
 
+adaptive_neo_dict = {}
+
+
+adaptive_neo_dict['generator_args'] = {}
+adaptive_neo_dict['generator_args']['model_name_or_path'] = "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+adaptive_neo_dict['generator_args']['top_k'] = 50
+adaptive_neo_dict['generator_args']['top_p'] = 0.9
+adaptive_neo_dict['generator_args']['max_new_tokens'] = 1024 # 285
+adaptive_neo_dict['generator_args']['min_new_tokens'] = 128 # 215
+
+
+adaptive_neo_dict['watermark_args'] = {}
+adaptive_neo_dict['watermark_args']['name'] = "adaptive"
+adaptive_neo_dict['watermark_args']['measure_model_name'] = "EleutherAI/gpt-neo-2.7B"
+adaptive_neo_dict['watermark_args']['embedding_model_name'] = "sentence-transformers/all-mpnet-base-v2"
+adaptive_neo_dict['watermark_args']['delta'] = 1.5
+adaptive_neo_dict['watermark_args']['delta_0'] = 1.0
+adaptive_neo_dict['watermark_args']['alpha'] = 2.0
+adaptive_neo_dict['watermark_args']['only_detect'] = True
+adaptive_neo_dict['watermark_args']['device'] = 'auto'
+adaptive_neo_dict['watermark_args']['detection_threshold'] = 50.0
+adaptive_neo_dict['watermark_args']['secret_string'] = 'The quick brown fox jumps over the lazy dog'
+adaptive_neo_dict['watermark_args']['measure_threshold'] = 50
+adaptive_neo_cfg = OmegaConf.create(adaptive_neo_dict)
+
 def get_default_watermarker(watermarker_name):
     if "umd" in watermarker_name:
         return UMDWatermarker(umd_cfg)
     elif "semstamp" in watermarker_name:
         return SemStampWatermarker(semstamp_cfg)
+    elif "adaptive_neo" in watermarker_name:
+        return AdaptiveWatermarker(adaptive_neo_cfg)
     elif "adaptive" in watermarker_name:
         return AdaptiveWatermarker(adaptive_cfg)
     else:

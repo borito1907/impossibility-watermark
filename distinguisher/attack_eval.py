@@ -22,16 +22,17 @@ logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
 def main(cfg):
 
     watermarkers = [
-        "semstamp", 
+        "adaptive",
+        "umd"
     ]
 
     mutators = [
         WordMutator,
         SpanMutator,
         SentenceMutator,
-        DocumentMutator,
-        Document1StepMutator,
-        Document2StepMutator
+        # DocumentMutator,
+        # Document1StepMutator,
+        # Document2StepMutator
     ]
 
     # Step 1: Initialize Quality Oracle
@@ -47,14 +48,14 @@ def main(cfg):
     for watermarker in watermarkers:
 
         # Step 2: Load data for that particular watermarker
-        data = pd.read_csv(f"./distinguisher/{watermarker}_responses.csv")
+        data = pd.read_csv(f"./distinguisher/responses/{watermarker}_responses.csv")
 
         for mutator in mutators:
             log.info("Initializing mutator...")
             # Step 4: Initialize Mutator
             mutator = mutator()
 
-            for compare_against_original in [False, True]:
+            for compare_against_original in [True]:
 
                 # Step 5: Initialize Attacker
                 o_str = oracle.__class__.__name__
@@ -68,7 +69,6 @@ def main(cfg):
 
                 # Step 6: Attack each row in dataset
                 for benchmark_id, row in data.iterrows():
-
                     try:
                         log.info(f"Attacking Row: {row}")
                         attacked_text = attacker.attack(row['prompt'], row['text'])
