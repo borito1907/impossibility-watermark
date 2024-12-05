@@ -27,10 +27,10 @@ def main(cfg):
 
     watermarkers = [
         # "umd",
-        # "umd_new",
+        "umd_new",
         # "unigram",
         # "semstamp", 
-        "adaptive",
+        # "adaptive",
     ]
 
     mutators = [
@@ -74,13 +74,13 @@ def main(cfg):
             m_str = mutator.__class__.__name__
             cfg.attack.compare_against_original = True
 
-            if m_str == "WordMutator":
+            if "Word" in m_str:
                 cfg.attack.max_steps = 1000
-            if m_str == "SpanMutator":
+            if "Span" in m_str:
                 cfg.attack.max_steps = 200
-            if m_str == "SentenceMutator":
+            if "Sentence" in m_str:
                 cfg.attack.max_steps = 100
-            if m_str == "DocumentMutator":
+            if "Document" in m_str:
                 cfg.attack.max_steps = 50
 
             cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
