@@ -15,10 +15,9 @@ if __name__ == "__main__":
         domains[orig['prompt'][i]] = {"high": orig["high_domain"][i], "mid": orig["mid_domain"][i], "low": orig["low_domain"][i], "entropy": orig["entropy_level"][i], "id": orig["id"][i]}
     for trace in tqdm(traces1):
         print(trace)
-        if "annotatedmerged" not in trace and "Document" in trace:
-            continue
         o, w, m, compare_against_original = os.path.basename(trace).split("_")[:4]
-        
+        if "Sem" in trace and "annotated.csv" not in trace:
+            continue
         compare_against_original = "True" in compare_against_original
         try:
             cur = pd.read_csv(trace)
@@ -34,7 +33,7 @@ if __name__ == "__main__":
                 t = row['prompt']
                 step = -1
             # print(row)
-            if not pd.notna(row['watermark_score']) or row['watermark_score'] == None or row['watermark_score'] == -1:
+            if not pd.notna(row['watermark_score']) or row['watermark_score'] == None or int(row['watermark_score']) == -1:
                 # break
                 continue
             result = {
@@ -43,7 +42,7 @@ if __name__ == "__main__":
                 "step_num": step,
                 "domain": domains[row['prompt']]['high'],
                 "entropy": domains[row['prompt']]['entropy'],
-                "watermark_detected": row['watermark_detected'],
+                "watermark_detected": int(row['watermark_detected']),
                 "watermark_score": row['watermark_score'],
                 # "group_id": row['group_id']
                 }
