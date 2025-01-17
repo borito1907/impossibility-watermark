@@ -8,7 +8,7 @@ from oracles import (
     SoloOracle, RankOracle, JointOracle, RelativeOracle,
     # PrometheusAbsoluteOracle, PrometheusRelativeOracle, 
     BinaryOracle, MutationOracle, Mutation1Oracle, ExampleOracle, DiffOracle,
-    ArmoRMOracle, InternLMOracle, OffsetBiasOracle
+    ArmoRMOracle, InternLMOracle, OffsetBiasOracle, NicolAIOracle
 )
 from guidance import models 
 from oracles.base import ResponseQuality
@@ -91,9 +91,9 @@ def run_eval():
         # {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": False},
         # {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": False},
         # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": True},
-        {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": True},
-        {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": True},
+        # {"type": "guidance", "class": BinaryOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": True},
+        # {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": True},
+        # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP3-0.1-q8_0.gguf", "explain": True},
 
         # Llama-3.1-70B + DiffOracle SFT
         # {"type": "guidance", "class": DiffOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-0.1-q8_0.gguf", "explain": False},
@@ -101,7 +101,7 @@ def run_eval():
 
         # Llama-3.1-70B + MutationOracle SFT
         # {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-MutationOracle-0.1-q8_0.gguf", "explain": False},
-        {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-MutationOracle-0.1-q8_0.gguf", "explain": True},
+        # {"type": "guidance", "class": MutationOracle, "llm_path": "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-MutationOracle-0.1-q8_0.gguf", "explain": True},
         
         # GPT-4o fine-tuned on IMP
         # {"type": "guidance", "class": MutationOracle, "llm_path": "ft:gpt-4o-2024-08-06:ucla-pluslab:imp-binary-diff-mutation:A0kklWac", "explain": False},
@@ -115,13 +115,15 @@ def run_eval():
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "gpt-4o", "explain": True}, 
         # {"type": "prometheus", "class": PrometheusAbsoluteOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
         # {"type": "prometheus", "class": PrometheusRelativeOracle, "llm_path": "prometheus-eval/prometheus-8x7b-v2.0", "explain": True},
+
+        {"type": "rewardbench", "class": NicolAIOracle, "llm_path": "nicolinho/QRM-Llama3.1-8B-v2", "explain": False}
     ]
     
 
     tests_df = pd.read_csv("./data/IMP/test.csv")
     print(tests_df)
 
-    save_path = "./oracles/results/IMP_oracle_eval_sfts.csv"
+    save_path = "./oracles/results/IMP_oracle_eval_nicol2.csv"
 
     # Check if the save file already exists and load it
     try:

@@ -1,13 +1,12 @@
-# RUN: python -m oracles.eval_oracles_metrics
-
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-def calculate_weighted_metrics(TP, FP, FN):
+def calculate_weighted_metrics(TP, FP, FN, TN):
     precision = TP / (TP + FP) if (TP + FP) > 0 else 0
     recall = TP / (TP + FN) if (TP + FN) > 0 else 0
     f1_score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
-    return precision, recall, f1_score
+    accuracy = (TP + TN) / (TP + FP + FN + TN) if (TP + FP + FN + TN) > 0 else 0
+    return precision, recall, f1_score, accuracy
 
 def analyze_response_quality(file_paths, penalty_weights=None):
     if penalty_weights is None:
@@ -63,9 +62,10 @@ def analyze_response_quality(file_paths, penalty_weights=None):
         weighted_precision_sum = 0
         weighted_recall_sum = 0
         weighted_f1_sum = 0
+        weighted_accuracy_sum = 0
         
         for i, class_label in reverse_mapping.items():
-            # Apply weights to TP, FP, FN
+            # Apply weights to TP, FP, FN, TN
             weight = penalty_weights[class_label]
             TP = cm[i, i] * weight
             FP = (cm[:, i].sum() - cm[i, i]) * weight
@@ -74,8 +74,8 @@ def analyze_response_quality(file_paths, penalty_weights=None):
             # True Negatives (TN) = Total samples - (TP + FP + FN)
             TN = (cm.sum() - (TP + FP + FN)) * weight
             
-            # Calculate weighted precision, recall, and f1-score
-            precision, recall, f1_score = calculate_weighted_metrics(TP, FP, FN)
+            # Calculate weighted precision, recall, f1-score, and accuracy
+            precision, recall, f1_score, accuracy = calculate_weighted_metrics(TP, FP, FN, TN)
             
             # Support is the total number of true instances of the class
             support = cm[i, :].sum()
@@ -84,6 +84,7 @@ def analyze_response_quality(file_paths, penalty_weights=None):
             weighted_precision_sum += precision * support
             weighted_recall_sum += recall * support
             weighted_f1_sum += f1_score * support
+            weighted_accuracy_sum += accuracy * support
             total_support += support
             
             # Store TP, TN, FP, FN
@@ -97,6 +98,7 @@ def analyze_response_quality(file_paths, penalty_weights=None):
             class_metrics[f'precision_{class_label}'] = precision
             class_metrics[f'recall_{class_label}'] = recall
             class_metrics[f'f1_score_{class_label}'] = f1_score
+            class_metrics[f'accuracy_{class_label}'] = accuracy
         
         # Calculate overall weighted average metrics
         avg_metrics = {
@@ -104,6 +106,7 @@ def analyze_response_quality(file_paths, penalty_weights=None):
             'average_precision': weighted_precision_sum / total_support if total_support > 0 else 0,
             'average_recall': weighted_recall_sum / total_support if total_support > 0 else 0,
             'average_f1_score': weighted_f1_sum / total_support if total_support > 0 else 0,
+            'average_accuracy': weighted_accuracy_sum / total_support if total_support > 0 else 0,
         }
         
         return pd.Series({**avg_metrics, **class_metrics})
@@ -117,7 +120,8 @@ file_paths = [
     "./oracles/results/IMP_oracle_eval_gpt-4o-ft.csv",
     './oracles/results/IMP_oracle_eval_v3.csv',
     './oracles/results/IMP_oracle_eval_DiffOracle-IMP-sft.csv',
-    './oracles/results/IMP_oracle_eval_sfts.csv'
+    './oracles/results/IMP_oracle_eval_sfts.csv',
+    './oracles/results/IMP_oracle_eval_nicol2.csv'
 ]
 
 # Example usage with different penalty weights for each class
@@ -129,4 +133,4 @@ penalty_weights = {
 
 results = analyze_response_quality(file_paths, penalty_weights=penalty_weights)
 print(results)
-results.to_csv('./oracles/results/IMP_oracle_eval_all_metrics.csv', index=False)
+results.to_csv('./oracles/results/IMP_oracle_eval_all_metrics2.csv', index=False)
