@@ -9,7 +9,7 @@ from mutators import (
     SentenceMutator, SpanMutator, WordMutator, EntropyWordMutator, 
     DocumentMutator, Document1StepMutator, Document2StepMutator
 )
-from oracles import DiffOracle
+from oracles import DiffOracle, InternLMOracle
 from attack.attack import Attack
 
 import hydra
@@ -27,7 +27,7 @@ def main(cfg):
 
     watermarkers = [
         # "umd",
-        # "umd_new",
+        "umd_new",
         # "unigram",
         # "semstamp", 
         "adaptive",
@@ -35,24 +35,26 @@ def main(cfg):
     ]
 
     mutators = [
-        EntropyWordMutator, 
+        # EntropyWordMutator, 
         # WordMutator,
         # SpanMutator,
         # SentenceMutator,
         # Document1StepMutator,
-        # Document2StepMutator,
+        Document2StepMutator,
         # DocumentMutator,
     ]
 
     # Step 1: Initialize Quality Oracle
-    model_path = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf"
-    llm = models.LlamaCpp(
-        model=model_path,
-        echo=False,
-        n_gpu_layers=-1,
-        n_ctx=8192
-    )
-    oracle = DiffOracle(llm=llm, explain=False)
+    # model_path = "/data2/.shared_models/llama.cpp_models/Meta-Llama-3.1-70B-Instruct-IMP-DiffOracle-0.1-q8_0.gguf"
+    # llm = models.LlamaCpp(
+    #     model=model_path,
+    #     echo=False,
+    #     n_gpu_layers=-1,
+    #     n_ctx=8192
+    # )
+    # NOTE: Make sure in attack.yaml we are using compare_against_original=True
+    oracle = InternLMOracle(do_step_decrements=True)
+    #oracle = DiffOracle(llm=llm, explain=False)
 
     for watermarker in watermarkers:
 
@@ -65,13 +67,16 @@ def main(cfg):
         # data = pd.read_csv(f"./data/WQE_{watermarker}/dev.csv").sample(n=10, random_state=42)
 
         # Step 3: Initialize watermark detector
-        # watermarker = get_default_watermarker(watermarker)
-        watermarker_obj = None
+        log.info("Initializing watermarker...")
+        watermarker_obj = get_default_watermarker(watermarker)
+        #watermarker_obj = None
+        log.info("Watermarker initialized.")
 
         for mutator in mutators:
             log.info("Initializing mutator...")
             # Step 4: Initialize Mutator
             mutator = mutator()
+            log.info("Mutator initialized.")
 
             # Step 5: Initialize Attacker
             o_str = oracle.__class__.__name__
@@ -85,9 +90,9 @@ def main(cfg):
                 cfg.attack.max_steps = 200
             if m_str == "SpanMutator":
                 cfg.attack.max_steps = 200
-            if m_str == "SentenceMutator":
+            if "Sentence" in m_str:
                 cfg.attack.max_steps = 100
-            if m_str == "DocumentMutator":
+            if "Document" in m_str:
                 cfg.attack.max_steps = 50
 
             cfg.attack.log_csv_path = f"./attack_traces/{o_str}_{watermarker}_{m_str}_n-steps={cfg.attack.max_steps}_attack_results.csv"
@@ -102,7 +107,8 @@ def main(cfg):
 
             # Step 6: Attack each row in dataset
             for benchmark_id, row in data.iterrows():
-
+                if isinstance(oracle, InternLMOracle):
+                  oracle.set_max_steps(cfg.attack.max_steps)
                 try:
                     log.info(f"Attacking Row: {row}")
                     attacked_text = attacker.attack(row['prompt'], row['text'])

@@ -11,6 +11,10 @@ def graph_data(annotated_file):
   data_df = pd.read_csv(annotated_file)
   data_df = data_df[(data_df["quality_preserved"] == True) & (data_df["length_issue"] == False) & (data_df["mutation_num"] != -1)]
 
+  
+  if "internlm_quality" not in data_df.columns:
+    print(f"QUALITY_METRICS: {annotated_file} has no column 'internlm_quality'")
+    return
   # Graphs:
 
   # Quality score vs nth successful step
@@ -37,9 +41,13 @@ def graph_data(annotated_file):
     try:
       color_trace = group[group['normalized_watermark_score'] != -1.]['normalized_watermark_score'].min() < 0
     except:
-      print(f"QUALITY_METRICS: No column 'normalized_watermark_score'")
-      return
-
+      # No column 'normalized_watermark_score'
+      if 'Adaptive' in annotated_file:
+        color_trace = group[group['watermark_score'] != -1.]['watermark_score'].min() < 60
+      elif 'SemStamp' in annotated_file:
+        color_trace = group[group['watermark_score'] != -1.]['watermark_score'].min() < 0
+      
+    color_trace = True
     if color_trace:
       ax1.plot(group['mutation_num'], group['internlm_quality'], linewidth=1.2, label=name[:8])
       #ax2.plot(group['mutation_num'], group['skywork_quality'], linewidth=1.2, label=name[:8])
@@ -92,7 +100,8 @@ def graph_data(annotated_file):
 
 
 if __name__ == "__main__":
-  traces = glob.glob("./attack_traces/*attack_results_annotated*.csv")
+  #traces = glob.glob("./attack_traces/*WeakAdaptive*attack_results_annotated*.csv")
+  traces = glob.glob("./attack_traces/InternLMOracle_Adaptive?*_?*_attack_results*.csv")
 
   for file in traces:
     graph_data(file)
