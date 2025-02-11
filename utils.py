@@ -7,7 +7,9 @@ import textwrap
 import string
 from openai import OpenAI
 import difflib
-
+import matplotlib.pyplot as plt
+from ipywidgets import interact, IntSlider, widgets
+from IPython.display import display, clear_output
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
@@ -397,3 +399,158 @@ def strip_punct(word):
     stripped_word = word[i:j+1]
 
     return (left_punctuation, stripped_word, right_punctuation)
+
+
+def extract_last_mutated_text(df: pd.DataFrame) -> str:
+    # Filter the rows where quality_preserved is True
+    filtered_df = df[df['quality_preserved'] == True]
+    
+    # Check if any row exists
+    if len(filtered_df) > 2:
+        # Extract the mutated_text from the last valid row
+        return filtered_df.iloc[-2]['mutated_text']
+    else:
+        return None  # Return None if no row matches
+    
+
+# Helper function to separate attacks based on step_num reset
+def separate_attacks(df):
+    attacks = []
+    current_attack = []
+    
+    for idx, row in df.iterrows():
+        # Start a new attack if the step_num resets
+        if idx > 0 and row['step_num'] < df.loc[idx - 1, 'step_num']:
+            attacks.append(pd.DataFrame(current_attack))
+            current_attack = []
+        
+        current_attack.append(row)
+    
+    # Append the last attack
+    if current_attack:
+        attacks.append(pd.DataFrame(current_attack))
+    
+    return attacks
+
+
+def breakup_attacks_sandpaper(df):
+    # Break the DF up into smaller DFs
+    dfs = []
+    current_df = None
+
+    # Iterate over the rows and split on step_num resets
+    for i, row in df.iterrows():
+        # Check if the step_num resets to -1, indicating a new sequence
+        if i < len(df) - 1 and df.iloc[i + 1]['step_num'] == 0:
+            if current_df is not None and not current_df.empty:
+                dfs.append(current_df.reset_index(drop=True))  # Save the current increasing DF
+            current_df = pd.DataFrame([row])  # Start a new DataFrame with the reset row
+        else:
+            # Append the row to the current DataFrame
+            current_df = pd.concat([current_df, pd.DataFrame([row])])
+
+    # Add the last DataFrame if it exists and is non-empty
+    if current_df is not None and not current_df.empty:
+        dfs.append(current_df.reset_index(drop=True))
+    
+    return dfs
+# Function to plot a specific column from a DataFrame
+def plot_column(df, column_name, title_suffix=""):
+    """
+    Plots a specified column from a DataFrame.
+    
+    Parameters:
+    - df (pd.DataFrame): The input DataFrame.
+    - column_name (str): The name of the column to plot.
+    - title_suffix (str): Extra text for the plot title.
+    """
+    if column_name not in df.columns:
+        print(f"Error: '{column_name}' not found in DataFrame.")
+        return
+
+    # Drop NaN values in the column
+    clean_data = df[column_name].dropna()
+
+    # Create the plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(clean_data, marker='o', linestyle='-', label=column_name)
+    plt.title(f"{column_name} Plot {title_suffix}")
+    plt.xlabel("Index")
+    plt.ylabel(column_name)
+    plt.grid(True)
+    plt.legend()
+    plt.show()
+
+# Function to use slider to plot multiple DataFrames
+def interactive_plots(dfs, column_name):
+    """
+    Creates an interactive slider to plot a column from multiple DataFrames.
+    
+    Parameters:
+    - dfs (list): A list of DataFrames.
+    - column_name (str): The name of the column to plot.
+    """
+    def slider_plot(index):
+        plot_column(dfs[index], column_name, title_suffix=f" (DF {index})")
+    
+    # Interactive slider setup
+    interact(slider_plot, index=IntSlider(min=0, max=len(dfs)-1, step=1, description="DataFrame Index"))
+
+
+def navigate_text_in_dfs(dfs, column_name):
+    """
+    Creates a widget to navigate through a list of DataFrames and display text from a specified column.
+    
+    Parameters:
+    - dfs (list): A list of pandas DataFrames.
+    - column_name (str): The name of the column containing the text to display.
+    
+    Returns:
+    - An interactive widget for navigation.
+    """
+    
+    # Check if all DataFrames contain the specified column
+    for idx, df in enumerate(dfs):
+        if column_name not in df.columns:
+            raise ValueError(f"Column '{column_name}' not found in DataFrame {idx}")
+    
+    # Widgets
+    df_slider = widgets.IntSlider(
+        value=0, min=0, max=len(dfs)-1, step=1, description='DataFrame Index:'
+    )
+    row_slider = widgets.IntSlider(
+        value=0, min=0, max=0, step=1, description='Row Index:'
+    )
+    output = widgets.Textarea(
+        value="",
+        description="Text:",
+        layout=widgets.Layout(width="100%", height="200px"),
+        disabled=True
+    )
+    
+    # Function to update the row slider based on the current DataFrame
+    def update_row_slider(*args):
+        current_df = dfs[df_slider.value]
+        row_slider.max = len(current_df) - 1 if len(current_df) > 0 else 0
+        row_slider.value = 0  # Reset row slider to the first row
+    
+    # Function to display the text from the selected DataFrame and row
+    def display_text(*args):
+        current_df = dfs[df_slider.value]
+        if len(current_df) > 0:
+            text = current_df.at[row_slider.value, column_name]
+            output.value = f"DataFrame {df_slider.value}, Row {row_slider.value}:\n\n{text}"
+        else:
+            output.value = f"DataFrame {df_slider.value} is empty."
+    
+    # Link the widgets
+    df_slider.observe(update_row_slider, names='value')  # Update row slider when DataFrame changes
+    row_slider.observe(display_text, names='value')      # Update text when row changes
+    df_slider.observe(display_text, names='value')       # Update text when DataFrame changes
+    
+    # Initialize row slider range and display initial text
+    update_row_slider()
+    display_text()
+    
+    # Display widgets
+    display(widgets.VBox([df_slider, row_slider, output]))
