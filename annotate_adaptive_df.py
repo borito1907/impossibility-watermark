@@ -84,7 +84,7 @@ def diff_analysis(response1, response2):
 def main(cfg):
     log.info(f"Single command-line argument provided: {cfg.single_arg}")
 
-    dir_path = "/data2/borito1907/sandcastles/attack/traces/annotated"
+    dir_path = "/data2/borito1907/sandcastles/attack/traces"
 
     files = os.listdir(dir_path)
     filenames = [f for f in files if "Adaptive" in f and cfg.single_arg in f]
