@@ -1,5 +1,7 @@
 # CUDA_VISIBLE_DEVICES=6,7 python -m annotate_adaptive_df single_arg="Sentence"
 
+# CUDA_VISIBLE_DEVICES=5,6 python -m annotate_adaptive_df  +single_arg="Document2" &> 02_11_doc2step.log
+
 import hydra
 import logging
 import re
@@ -123,7 +125,7 @@ def main(cfg):
             
             for idx, row in df.iterrows():
                 step_num = row['step_num']
-                if (step_num % old_step_size == 0) and row['watermark_score'] and not pd.isna(row['watermark_score']):  # Check if not NaN
+                if (step_num % old_step_size == 0) and row['watermark_score'] and pd.isna(row['watermark_score']):
                     log.info(f"Detecting at index {idx}.")
                     log.info(f"Step num is {step_num}.")
                     is_detected, zscore = watermarker.detect(row['mutated_text'])
