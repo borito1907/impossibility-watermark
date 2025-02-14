@@ -87,7 +87,7 @@ def main(cfg):
     dir_path = "/data2/borito1907/sandcastles/attack/traces"
 
     files = os.listdir(dir_path)
-    filenames = [f for f in files if "Adaptive" in f and cfg.single_arg in f]
+    filenames = [f for f in files if "Adaptive" in f and cfg.single_arg in f and "temp" not in f]
 
     log.info(f"Files with no annotated versions: {filenames}")
 
@@ -102,13 +102,22 @@ def main(cfg):
         log.info(f"Processing file: {df_path}")
 
         # Set new_df_path by annotating the filename before .csv
-        new_df_path = os.path.join(dir_path, filename.replace('.csv', '_temp.csv'))
+        new_df_path = os.path.join(dir_path, filename.replace('.csv', f'_temp{cfg.second_arg}.csv'))
     
         df = pd.read_csv(df_path) 
 
         log.info(f"Length of the original big DF: {len(df)}")
 
         dfs = separate_attacks(df)
+
+        log.info(f"Second Arg: {cfg.second_arg}")
+        
+        if cfg.second_arg == 1:
+            dfs = dfs[:30]
+        elif cfg.second_arg == 2:
+            dfs = dfs[30:60]
+        elif cfg.second_arg == 3:
+            dfs = dfs[60:]
 
         modified_dfs = []
 
@@ -119,19 +128,30 @@ def main(cfg):
             log.info(f"Prompt: {prompt}")
             log.info(f"Original Text: {original_text}")
 
-            df['watermark_score'] = np.nan
-            df['watermark_detected'] = np.nan
+            # df['watermark_score'] = np.nan
+            # df['watermark_detected'] = np.nan
             df['watermark_score'] = df['watermark_score'].astype(float)
             
             for idx, row in df.iterrows():
                 step_num = row['step_num']
-                if (step_num % old_step_size == 0) and row['watermark_score'] and pd.isna(row['watermark_score']):
-                    log.info(f"Detecting at index {idx}.")
-                    log.info(f"Step num is {step_num}.")
-                    is_detected, zscore = watermarker.detect(row['mutated_text'])
-                    # df.at[idx, 'watermark_detected'] = is_detected
-                    df.at[idx, 'watermark_score'] = zscore
-                    log.info(f"Watermark Score: {zscore}")
+                if (step_num % old_step_size == 0):
+                    if step_num == 0:
+                        text = row['current_text']
+                    else:
+                        text = row['mutated_text']
+                    log.info(f"Initial Watermarked Score of the Row: {row['watermark_score']}")
+                    if row['watermark_score'] and pd.isna(row['watermark_score']):
+                        log.info(f"Detecting at index {idx}.")
+                        log.info(f"Step num is {step_num}.")
+                        try:
+                            is_detected, zscore = watermarker.detect(text)
+                            df.at[idx,'watermark_score'] = zscore
+                            log.info(f"Zscore: {zscore}")
+                        except Exception as e:
+                            log.error(f"Error detecting watermark at index {idx} (step {step_num}): {e}")
+                            # Assign default values in case of error
+                            is_detected = False
+                            zscore = np.nan
 
             modified_dfs.append(df)
 
