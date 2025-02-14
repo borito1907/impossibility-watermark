@@ -131,9 +131,9 @@ def main(cfg):
             # df['watermark_score'] = np.nan
             # df['watermark_detected'] = np.nan
             df['watermark_score'] = df['watermark_score'].astype(float)
-            
+
             for idx, row in df.iterrows():
-                step_num = row['step_num']
+                step_num = int(row['step_num'])
                 if (step_num % old_step_size == 0):
                     if step_num == 0:
                         text = row['current_text']
